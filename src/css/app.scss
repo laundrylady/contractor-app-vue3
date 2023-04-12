@@ -1,0 +1,131 @@
+// app global css in SCSS form
+body {
+  background-image: url(assets/images/backgrounds/bubbles.png);
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-color: #f4f5fd;
+}
+
+.text-h1,
+.text-h2,
+.text-h3,
+.text-h4,
+.text-h5,
+.text-h6 {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.text-h4 {
+  font-weight: 700
+}
+
+.text-h5 {
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.text-h6 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.text-h7 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+a.link,
+.link {
+  color: $primary;
+  text-decoration: none
+}
+
+a.link-contractor,
+.link-contrator {
+  color: $dark;
+  text-decoration: none
+}
+
+a.link-customer,
+.link-customer {
+  color: $secondary;
+  text-decoration: none
+}
+
+a.link {
+  cursor: pointer;
+}
+
+.layout-height {
+  height: calc(100vh - 66px);
+}
+
+.q-card.modal {
+  min-width: 50vw;
+  max-width: 50vw;
+}
+
+.q-card.modal-order {
+  min-width: 400px;
+  max-width: 400px;
+}
+
+.q-card.modal-lg {
+  min-width: 70vw;
+  max-width: 70vw;
+}
+
+.q-card.modal-sm {
+  min-width: 40vw;
+  max-width: 40vw;
+}
+
+.border-white {
+  border: 2px solid white;
+}
+
+.soft-shadow {
+  box-shadow: 0 0 50px #ccc;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.q-card.shadow-xl {
+  box-shadow: 0 .18rem .3rem rgba(166, 166, 185, .5), 0 .326rem 3rem rgba(122, 123, 151, .3);
+}
+
+.q-card {
+  box-shadow: 0 0.46875rem 2.1875rem rgb(59 62 102 / 3%), 0 0.9375rem 1.40625rem rgb(59 62 102 / 3%), 0 0.25rem 0.53125rem rgb(59 62 102 / 5%), 0 0.125rem 0.1875rem rgb(59 62 102 / 3%);
+}
+
+.q-card.bg-seamless {
+  background-color: #f8f9ff;
+}
+
+.q-card.flat {
+  box-shadow: none;
+}
+
+.q-header.shadow {
+  box-shadow: 0 0.46875rem 2.1875rem rgb(59 62 102 / 3%), 0 0.9375rem 1.40625rem rgb(59 62 102 / 3%), 0 0.25rem 0.53125rem rgb(59 62 102 / 5%), 0 0.125rem 0.1875rem rgb(59 62 102 / 3%);
+}
+
+.page-title {
+  background: #fdfcfe;
+}
+
+.address-search-shrink {
+  width: 200px;
+}
+
+.form-field-padding-dense {
+  height: 40px;
+}
+
+.q-calendar-scheduler__head--day.q-current-day.q-active-date {
+  background-color: $accent;
+}

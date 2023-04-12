@@ -1,0 +1,1 @@
+import{A as a,m as o,n as r,s}from"./index.7da93179.js";var t="/manager/assets/logo.c4b3b21d.webp";const c=a({__name:"AppLogo",props:{header:{type:Boolean}},setup(e){return(n,p)=>(o(),r("img",{src:t,style:s(`max-height:${e.header?"65":"126"}px;`)},null,4))}});export{c as _};
