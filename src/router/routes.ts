@@ -26,6 +26,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('src/pages/contractor/ApplyNow.vue'),
     meta: { title: 'Join the team' }
   },
+  {
+    name: 'application',
+    path: '/application/:id',
+    component: () => import('src/pages/contractor/ApplicationForm.vue'),
+    meta: { title: 'Contractor Application' }
+  },
   // App
   {
     path: '/',
