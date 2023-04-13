@@ -20,6 +20,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('src/pages/auth/PasswordResetProcess.vue'),
     meta: { title: 'Password Reset Request' }
   },
+  {
+    name: 'applyNow',
+    path: '/apply-now',
+    component: () => import('src/pages/contractor/ApplyNow.vue'),
+    meta: { title: 'Join the team' }
+  },
   // App
   {
     path: '/',

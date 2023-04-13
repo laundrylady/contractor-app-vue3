@@ -203,6 +203,19 @@ export interface ContractorForm {
   contractor_insurance_expiry:string
 }
 
+export interface ContractorApplyNowForm {
+  email:string|null,
+  first_name:string,
+  last_name:string,
+  timezone:string,
+  suburb_postcode_region_id:number,
+  // contractor
+  contractor_car_licence: boolean,
+  contractor_equipment: boolean,
+  contractor_why_join:string,
+  contractor_referral_type:string,
+}
+
 export interface TeamUser {
   id:number,
   user:User,
