@@ -46,7 +46,11 @@
               <q-item v-for="(a, index) in d.data" :key="index">
                 <q-item-section side>
                   <a @click="view(a)" class="cursor"><img :src="a.file_file_uri.thumb.uri"
-                      style="max-height:64px;max-width:100%;" class="shadow-1" /></a>
+                      style="max-height:64px;max-width:100%;" class="shadow-1" v-if="isImage(a.file_file_name)" />
+                    <div v-if="!isImage(a.file_file_name)" style="width:64px;" class="text-center"><q-icon
+                        name="description" size="40px" />
+                    </div>
+                  </a>
                 </q-item-section>
                 <q-item-section>
                   <q-item-label><a @click="view(a)"><a @click="view(a)" class="link">{{ a.type }}</a> -
@@ -225,6 +229,11 @@ const emitGet = () => {
   if (props.attachable_type === 'Team') {
     bus.emit('getTeam', {})
   }
+}
+
+const isImage = (filename: string) => {
+  const ext = filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename
+  return ext !== 'pdf'
 }
 
 const addNew = () => {
