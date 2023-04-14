@@ -1,8 +1,4 @@
 <template>
-  <q-uploader color="primary" :url="uploadConfig.url" :headers="uploadConfig.headers" @uploaded="successUpload"
-    label="Upload document" auto-expand auto-upload :accept="uploadConfig.documents" :field-name="uploadConfig.fieldName"
-    class="q-mb-sm" ref="tmpUploader" :max-file-size="uploadConfig['max-file-size']" />
-  <p class="text-caption">Accepted file types: jpg, gif, png, pdf, Max. file size: 5 MB, Max. files: 2.</p>
   <q-list v-if="!attachments || !attachments.length" separator bordered>
     <q-item>
       <q-item-section>No documents uploaded</q-item-section>
@@ -18,6 +14,10 @@
       </q-item-section>
     </q-item>
   </q-list>
+  <q-uploader color="primary" :url="uploadConfig.url" :headers="uploadConfig.headers" @uploaded="successUpload"
+    label="Upload document" auto-expand auto-upload :accept="uploadConfig.documents" :field-name="uploadConfig.fieldName"
+    class="q-mb-sm q-mt-sm" ref="tmpUploader" :max-file-size="uploadConfig['max-file-size']" />
+  <p class="text-caption">Accepted file types: jpg, gif, png, pdf, Max. file size: 5 MB, Max. files: 2.</p>
 </template>
 <script setup lang="ts">
 import { Attachment } from 'src/components/models'

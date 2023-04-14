@@ -31,7 +31,7 @@
             <p>Please complete form below to proceed to the next steps.</p>
             <q-stepper v-model="step" ref="stepper" color="primary" animated header-nav vertical v-if="!success">
               <q-step :name="1" title="Applicant Details" icon="account_circle" prefix="1" :error="!stepsValid.step1"
-                :done="stepsValid.step1">
+                :done="stepsValid.step1" done-color="positive">
                 <div class="row q-col-gutter-md q-mt-sm">
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.first_name" label="Applicant One First Name"
@@ -61,8 +61,8 @@
                 </div>
                 <q-btn @click="step = 2" label="Next" color="primary" class="q-mt-lg" />
               </q-step>
-              <q-step :name="2" title="Your Contact Details" icon="contact" prefix="2" :error="!stepsValid.step2"
-                :done="stepsValid.step2">
+              <q-step :name="2" title="Your Contact Details" prefix="2" :error="!stepsValid.step2"
+                :done="stepsValid.step2" done-color="positive">
                 <p>Please enter your current home / business address</p>
                 <AddressSearch :model="model" :outlined="true"
                   :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
@@ -79,8 +79,8 @@
                 <DateField v-model="model.dateofbirth" :invalid="$v.dateofbirth.$invalid" label="Date of Birth" />
                 <q-btn @click="step = 3" label="Next" color="primary" class="q-mt-lg" />
               </q-step>
-              <q-step :name="3" title="Emergency Contact Details" icon="contact" prefix="3" :error="!stepsValid.step3"
-                :done="stepsValid.step3">
+              <q-step :name="3" title="Emergency Contact Details" prefix="3" :error="!stepsValid.step3"
+                :done="stepsValid.step3" done-color="positive">
                 <p class="q-mt-sm">Please ensure if these change in future you let us know</p>
                 <div class="row q-col-gutter-md">
                   <div class="col-xs-12 col-sm-6">
@@ -104,8 +104,8 @@
                 </div>
                 <q-btn @click="step = 4" label="Next" color="primary" class="q-mt-lg" />
               </q-step>
-              <q-step :name="4" title="Your References" icon="contact" prefix="4" :error="!stepsValid.step4"
-                :done="stepsValid.step4">
+              <q-step :name="4" title="Your References" prefix="4" :error="!stepsValid.step4" :done="stepsValid.step4"
+                done-color="positive">
                 <p class="q-mt-sm">Please include contact details of 2 referees. These can be personal or work referees.
                   By
                   including their
@@ -154,11 +154,11 @@
                 </div>
                 <q-btn @click="step = 5" label="Next" color="primary" class="q-mt-lg" />
               </q-step>
-              <q-step :name="5" title="Your business details" icon="contact" prefix="5" :error="!stepsValid.step5"
-                :done="stepsValid.step5">
+              <q-step :name="5" title="Your business details" prefix="5" :error="!stepsValid.step5"
+                :done="stepsValid.step5" done-color="positive">
                 <p class="q-mt-sm">If you do not have an ABN, you can register at: <a href="https://www.abr.gov.au/"
                     target="_blank" class="link">Australian Government Australian Business Register</a></p>
-                <q-input v-model="model.contractor_abn" label="ABN" bottom-slots />
+                <q-input v-model="model.contractor_abn" label="ABN" bottom-slots :error="$v.contractor_abn.$invalid" />
                 <div class="text-bold">Are you registered for GST?</div>
                 <q-toggle v-model="model.contractor_gst_registered" label="I am registered for GST"
                   class="q-mt-sm q-mb-sm" />
@@ -169,8 +169,8 @@
                     class="link">Click here for ATO Registering for GST</a></p>
                 <q-btn @click="step = 6" label="Next" color="primary" class="q-mt-lg" />
               </q-step>
-              <q-step :name="6" title="Your Commission Payments" icon="contact" prefix="6" :error="!stepsValid.step6"
-                :done="stepsValid.step6">
+              <q-step :name="6" title="Your Commission Payments" prefix="6" :error="!stepsValid.step6"
+                :done="stepsValid.step6" done-color="positive">
                 <p class="q-mt-sm">Commission will be paid to your nominated account. Please ensure this is completed or
                   advised prior to
                   any
@@ -197,8 +197,8 @@
                 </div>
                 <q-btn @click="step = 7" label="Next" color="primary" class="q-mt-lg" />
               </q-step>
-              <q-step :name="7" title="Documents Upload" icon="contact" prefix="7" :error="!stepsValid.step7"
-                :done="stepsValid.step7">
+              <q-step :name="7" title="Documents Upload" prefix="7" :error="!stepsValid.step7" :done="stepsValid.step7"
+                done-color="positive">
                 <div class="q-mt-sm">
                   <p>Please upload copies of the following documents.</p>
                   <div class="text-h6 q-mb-xs">Copy of current Drivers Licence (front and back)</div>
@@ -255,8 +255,8 @@
                 </div>
                 <q-btn @click="step = 8" label="Next" color="primary" class="q-mt-lg" />
               </q-step>
-              <q-step :name="8" title="Requirements Checklist" icon="contact" prefix="8" :error="!stepsValid.step8"
-                :done="stepsValid.step8">
+              <q-step :name="8" title="Requirements Checklist" prefix="8" :error="!stepsValid.step8"
+                :done="stepsValid.step8" done-color="positive">
                 <div class="text-bold q-mb-sm q-mt-sm">Your Equipment</div>
                 <div>
                   <q-checkbox v-model="model.contractor_clothing_rack"
@@ -280,8 +280,8 @@
                 </div>
                 <q-btn @click="step = 9" label="Next" color="primary" class="q-mt-lg" />
               </q-step>
-              <q-step :name="9" title="Contractor Declaration" icon="contact" prefix="9" :error="!stepsValid.step9"
-                :done="stepsValid.step9">
+              <q-step :name="9" title="Contractor Declaration" prefix="9" :error="!stepsValid.step9"
+                :done="stepsValid.step9" done-color="positive">
                 <div class="text-bold q-mb-sm">Please check the following</div>
                 <div>
                   <q-checkbox v-model="model.contractor_declaration_agreement"
@@ -437,6 +437,7 @@ const rules = {
   contractor_ref2_last_name: { required },
   contractor_ref2_email: { required, email },
   contractor_ref2_phone: { required },
+  contractor_abn: { required },
   contractor_gst_registered: { required },
   contractor_bd_name: { required },
   contractor_bd_bank: { required },
@@ -473,7 +474,7 @@ const stepsValid = computed(() => {
     step9: true
   }
   // step 1
-  if (!model.first_name || !model.last_name) {
+  if (!model.first_name || !model.last_name || !model.contractor_badge_name || !model.contractor_start_date) {
     valid.step1 = false
   }
   // step 2
@@ -489,7 +490,7 @@ const stepsValid = computed(() => {
     valid.step4 = false
   }
   // step 5
-  if (!model.contractor_ref2_first_name || !model.contractor_ref2_last_name || !model.contractor_ref2_email || !model.contractor_ref2_phone) {
+  if (!model.contractor_abn) {
     valid.step5 = false
   }
   // step 6
@@ -497,10 +498,25 @@ const stepsValid = computed(() => {
     valid.step6 = false
   }
   // step 7
-  if (!model.documents.length) {
+  // drivers licence
+  const dl = model.documents.filter(o => o.type === 'Drivers Licence')
+  if (dl.length < 2) {
+    valid.step7 = false
+  }
+  // medicare card
+  const mc = model.documents.filter(o => o.type === 'Medicare Card')
+  if (!mc.length) {
+    valid.step7 = false
+  }
+  // certificate of currency for public liability insurance
+  const pl = model.documents.filter(o => o.type === 'Certificate of Currency for Public Liability Insurance')
+  if (!pl.length) {
     valid.step7 = false
   }
   // step 8
+  if (model.contractor_clothing_rack === 'No' && model.contractor_smartphone_type === 'No' && model.contractor_computer_type === 'No' && model.contractor_ironing_steam_station === 'No' && model.contractor_washing_machine_dryer === 'No') {
+    valid.step8 = false
+  }
   // step 9
   if (!model.contractor_declaration_agreement || !model.contractor_declaration_training || !model.contractor_declaration_abn || !model.contractor_declaration_pl || !model.contractor_declaration_inform || !model.contractor_declaration_kit || !model.contractor_declaration_information) {
     valid.step9 = false
