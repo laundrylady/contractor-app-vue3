@@ -26,11 +26,12 @@ const rowsPerPageOptions = [5, 10, 15, 25, 50]
 const stateOptions = ['ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA']
 
 const uploadConfig = {
-  url: '/api/upload',
+  url: '/api/public/upload',
   headers: [{ name: 'X-XSRF-TOKEN', value: getCookie('XSRF-TOKEN') }],
   images: 'image/jpeg,image/png,image/webp',
   documents: 'image/jpeg,.pdf',
-  fieldName: 'file'
+  fieldName: 'file',
+  'max-file-size': 5000000
 }
 
 const dayOptions = [

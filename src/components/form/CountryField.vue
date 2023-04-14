@@ -1,9 +1,9 @@
 <template>
   <q-select :label="label" :model-value="modelValue" @update:model-value="handleChange" :options="postcodes"
-    @filter="filterCountries" use-input emit-value map-options :dark="dark" :color="dark ? 'white' : ''"
-    :error="invalid" hide-dropdown-icon input-debounce="350" autocomplete="country-filter" :outlined="outlined"
-    :disable="disabled" use-chips ref="qSelectCountry" :borderless="borderless" :dense="dense" class="q-pb-none"
-    :filled="filled" :loading="loading" :multiple="multiple" :placeholder="placeholder">
+    @filter="filterCountries" use-input emit-value map-options :dark="dark" :color="dark ? 'white' : ''" :error="invalid"
+    hide-dropdown-icon input-debounce="350" autocomplete="country-filter" :outlined="outlined" :disable="disabled"
+    ref="qSelectCountry" :borderless="borderless" :dense="dense" class="q-pb-none" :filled="filled" :loading="loading"
+    :multiple="multiple" :placeholder="placeholder">
     <template v-slot:prepend>
       <q-icon name="language" color="info" />
     </template>

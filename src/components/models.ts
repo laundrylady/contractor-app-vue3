@@ -12,7 +12,8 @@ export interface Attachment {
   attachable_type:string,
   attachment_id:number
   file_file_name:string,
-  type:string
+  type:string,
+  name:string
 }
 
 export interface Notification {
@@ -240,7 +241,7 @@ export interface ContractorApplicationForm {
   contractor_ref2_last_name: string|null,
   contractor_ref2_email: string|null,
   contractor_ref2_phone: string|null,
-  abn: string|null,
+  contractor_abn: string|null,
   contractor_gst_registered: boolean,
   contractor_bd_name: string|null,
   contractor_bd_bank: string|null,
@@ -257,7 +258,11 @@ export interface ContractorApplicationForm {
   contractor_declaration_pl: boolean,
   contractor_declaration_inform: boolean,
   contractor_declaration_kit: boolean,
-  contractor_declaration_information: boolean
+  contractor_declaration_information: boolean,
+  contractor_applicant_1_sig:string|null,
+  contractor_applicant_2_sig:string|null,
+  documents:Attachment[],
+  avatar:string|null
 }
 
 export interface TeamUser {
