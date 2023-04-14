@@ -357,6 +357,8 @@ import { useMixinDebug } from 'src/mixins/debug'
 import { uploadConfig } from 'src/mixins/help'
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
+// eslint-disable-next-line
+// @ts-ignore
 import { VueSignaturePad } from 'vue-signature-pad'
 
 const $q = useQuasar()
