@@ -1,0 +1,1 @@
+import{b as r,a as s,c as e}from"./index.fbd59a76.js";import{u as c,a as u}from"./axios.b71dd2ad.js";var m=r(async({store:t})=>{const o=c(t);try{const a=await u.get("/auth/check");o.setUserData(a.data),s()}catch{e()}});export{m as default};
