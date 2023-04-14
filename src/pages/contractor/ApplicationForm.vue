@@ -331,7 +331,6 @@
                 </div>
                 <q-btn @click="update()" :disable="loading || $v.$invalid" label="Submit" color="primary"
                   class="q-mt-lg" />
-                <pre>{{ $v }}</pre>
               </q-step>
             </q-stepper>
           </div>
