@@ -1,8 +1,8 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" v-if="model && model.first_name">
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn" padding>
-        <div class="col-xs-12 col-sm-8 col-md-5">
+        <div class="col-xs-12 col-sm-10 col-md-5">
           <AppLogo />
           <q-card v-if="success">
             <q-card-section class="text-left">

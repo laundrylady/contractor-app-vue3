@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn" padding>
-        <q-card class="col-xs-12 col-sm-6 col-md-3 text-center">
+        <q-card class="col-xs-12 col-sm-9 col-md-5 col-lg-4 text-center">
           <q-card-section>
             <AppLogo />
           </q-card-section>
