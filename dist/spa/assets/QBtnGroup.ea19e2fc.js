@@ -1,1 +1,23 @@
-import{V as r,g as l,h as s,X as u}from"./index.e647c85a.js";var d=r({name:"QBtnGroup",props:{unelevated:Boolean,outline:Boolean,flat:Boolean,rounded:Boolean,square:Boolean,push:Boolean,stretch:Boolean,glossy:Boolean,spread:Boolean},setup(o,{slots:a}){const t=l(()=>{const n=["unelevated","outline","flat","rounded","square","push","stretch","glossy"].filter(e=>o[e]===!0).map(e=>`q-btn-group--${e}`).join(" ");return`q-btn-group row no-wrap${n.length>0?" "+n:""}`+(o.spread===!0?" q-btn-group--spread":" inline")});return()=>s("div",{class:t.value},u(a.default))}});export{d as Q};
+import { V as createComponent, g as computed, h, X as hSlot } from "./index.e647c85a.js";
+var QBtnGroup = createComponent({
+  name: "QBtnGroup",
+  props: {
+    unelevated: Boolean,
+    outline: Boolean,
+    flat: Boolean,
+    rounded: Boolean,
+    square: Boolean,
+    push: Boolean,
+    stretch: Boolean,
+    glossy: Boolean,
+    spread: Boolean
+  },
+  setup(props, { slots }) {
+    const classes = computed(() => {
+      const cls = ["unelevated", "outline", "flat", "rounded", "square", "push", "stretch", "glossy"].filter((t) => props[t] === true).map((t) => `q-btn-group--${t}`).join(" ");
+      return `q-btn-group row no-wrap${cls.length > 0 ? " " + cls : ""}` + (props.spread === true ? " q-btn-group--spread" : " inline");
+    });
+    return () => h("div", { class: classes.value }, hSlot(slots.default));
+  }
+});
+export { QBtnGroup as Q };

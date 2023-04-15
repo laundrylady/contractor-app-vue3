@@ -1,1 +1,26 @@
-import{V as s,g as r,h as t,X as l}from"./index.e647c85a.js";var i=s({name:"QToolbar",props:{inset:Boolean},setup(o,{slots:e}){const a=r(()=>"q-toolbar row no-wrap items-center"+(o.inset===!0?" q-toolbar--inset":""));return()=>t("div",{class:a.value,role:"toolbar"},l(e.default))}}),p=s({name:"QToolbarTitle",props:{shrink:Boolean},setup(o,{slots:e}){const a=r(()=>"q-toolbar__title ellipsis"+(o.shrink===!0?" col-shrink":""));return()=>t("div",{class:a.value},l(e.default))}});export{i as Q,p as a};
+import { V as createComponent, g as computed, h, X as hSlot } from "./index.e647c85a.js";
+var QToolbar = createComponent({
+  name: "QToolbar",
+  props: {
+    inset: Boolean
+  },
+  setup(props, { slots }) {
+    const classes = computed(
+      () => "q-toolbar row no-wrap items-center" + (props.inset === true ? " q-toolbar--inset" : "")
+    );
+    return () => h("div", { class: classes.value, role: "toolbar" }, hSlot(slots.default));
+  }
+});
+var QToolbarTitle = createComponent({
+  name: "QToolbarTitle",
+  props: {
+    shrink: Boolean
+  },
+  setup(props, { slots }) {
+    const classes = computed(
+      () => "q-toolbar__title ellipsis" + (props.shrink === true ? " col-shrink" : "")
+    );
+    return () => h("div", { class: classes.value }, hSlot(slots.default));
+  }
+});
+export { QToolbar as Q, QToolbarTitle as a };

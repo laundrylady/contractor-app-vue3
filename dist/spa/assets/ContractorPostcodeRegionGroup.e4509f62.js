@@ -1,1 +1,932 @@
-import{Q as K}from"./QSpace.7d6f905e.js";import{A as z,r as c,g as we,w as ee,o as j,J as le,m as p,n as Q,q as V,l,L as s,O as D,K as P,aE as _e,y as L,U as S,R,F as I,b7 as E,S as C,b8 as T,B as Z,i as H,E as W,Q as X,G as O,bp as ie,M as de,N as Y,ae as re,aD as ue}from"./index.e647c85a.js";import{a as $e,Q as oe}from"./QTable.64a81add.js";import{Q as te,a as ae}from"./QItemSection.99659658.js";import{Q as Pe}from"./QList.2f0afc60.js";import{Q as Ce}from"./format.8e90d58d.js";import{C as q}from"./ClosePopup.ef2f7039.js";import{a as B}from"./axios.ccd3a804.js";import{_ as Le}from"./PostcodeRegionDisplay.24757491.js";import{u as U}from"./debug.805a8aef.js";import{B as xe,b as ce,x as se,y as Ge,z as Qe,c as Me}from"./help.c0f85e41.js";import{Q as me,a as pe}from"./QToolbarTitle.1a75cd00.js";import{u as ge,r as J}from"./index.esm.4557c89b.js";import{a as Be}from"./geolocation.172e3971.js";import{Q as ne}from"./QSelect.853d535e.js";import{Q as Ue}from"./QBadge.5efaf9f7.js";import"./QMarkupTable.981d9979.js";import"./QLinearProgress.c48fac34.js";import"./rtl.4f5e13e8.js";const Se={key:0},Fe={class:"row q-col-gutter-md"},Ne={class:"col-xs-12 col-sm-8"},Re={class:"row q-col-gutter-md"},Oe={class:"col-xs-12 col-sm-6"},qe={class:"col-xs-12 col-sm-6"},Te={key:0,class:"q-pt-sm q-pb-sm"},ze=V("span",{class:"text-bold"},"Suggestions:",-1),De={key:2},Ie={class:"q-mt-md"},Je={class:"col-xs-12 col-sm-4"},je={key:0},Ae={key:1,style:{"max-height":"600px","overflow-x":"none","overflow-y":"auto"},class:"bg-grey-1 q-pa-sm"},Ee={class:"text-bold"},fe=z({__name:"PostcodeRegionMapField",props:{modelValue:null,invalid:{type:Boolean},label:null,dark:{type:Boolean},outlined:{type:Boolean},disabled:{type:Boolean},multiple:{type:Boolean},dense:{type:Boolean},borderless:{type:Boolean},filled:{type:Boolean},placeholder:null,nowatch:{type:Boolean},state:null,latLng:null,zoom:null,showMap:{type:Boolean},suggestionId:null},emits:["update:modelValue"],setup(n,{emit:g}){const o=n,f=c(!1),r=c(),k=c(),_=c(),y=c(),i=c([]),$=c(),u=c(!1),d=c(),a=c(),b=c(),m=c(),M=e=>{if(y.value&&!u.value){const t=new y.value.maps.Geocoder;u.value=!0,t.geocode({latLng:e.latLng},function(h,G){if(G==="OK"&&h[0]){const v=h[0].address_components.find(w=>w.types.indexOf("locality")!==-1).long_name,F=h[0].address_components.find(w=>w.types.indexOf("administrative_area_level_1")!==-1).short_name;v&&F&&B.get(`/public/postcoderegion/index?keyword=${v}&state=${F}`).then(w=>{w.data.length&&(!o.modelValue||!o.modelValue.find(Ve=>Ve.id===w.data[0].id))&&(i.value.push({latLng:{lat:e.latLng.lat(),lng:e.latLng.lng()},id:w.data[0].id}),x({id:w.data[0].id,locality:w.data[0].locality,state:w.data[0].state,postcode:w.data[0].postcode,lat:e.latLng.lat(),lng:e.latLng.lng()})),u.value=!1}).catch(w=>{U(w),u.value=!1})}})}},x=e=>{let t=JSON.parse(JSON.stringify(o.modelValue));t?t.push({id:e.id,locality:e.locality,state:e.state,postcode:e.postcode,meta:{pivot_lat:e.lat,pivot_lng:e.lng}}):t=[{id:e.id,locality:e.locality,state:e.state,postcode:e.postcode,meta:{pivot_lat:e.lat,pivot_lng:e.lng}}],g("update:modelValue",t)},N=e=>{let t=JSON.parse(JSON.stringify(o.modelValue));t=t.filter(h=>h.id!==e.id),i.value=i.value.filter(h=>h.id!==e.id),g("update:modelValue",t)},ve=()=>{if(!r.value)return!1;for(const e of r.value.postcoderegions)(!o.modelValue||!o.modelValue.find(t=>t.id===e.id))&&setTimeout(()=>{x({id:e.id,locality:e.locality,state:e.state,postcode:e.postcode,lat:e.meta.pivot_lat,lng:e.meta.pivot_lng}),i.value.push({latLng:{lat:parseFloat(e.meta.pivot_lat),lng:parseFloat(e.meta.pivot_lng)},id:e.id})},1);setTimeout(()=>{i.value&&($.value=i.value[0].latLng)},1),k.value=12},A=we(()=>{if(!a.value||!a.value.length||!o.modelValue)return[];const t=JSON.parse(JSON.stringify(o.modelValue)).map(h=>h.id);return a.value.filter(h=>t.indexOf(h.id)===-1)}),be=e=>{(!o.modelValue||!o.modelValue.find(t=>t.id===e.id))&&setTimeout(()=>{x({id:e.id,locality:e.locality,state:e.state,postcode:e.postcode,lat:e.lat,lng:e.long}),i.value.push({latLng:{lat:parseFloat(e.lat),lng:parseFloat(e.long)},id:e.id})},1)},ye=()=>{for(const e of A.value)(!o.modelValue||!o.modelValue.find(t=>t.id===e.id))&&setTimeout(()=>{x({id:e.id,locality:e.locality,state:e.state,postcode:e.postcode,lat:e.lat,lng:e.long}),i.value.push({latLng:{lat:parseFloat(e.lat),lng:parseFloat(e.long)},id:e.id})},1)};ee(_,e=>{e&&e.$mapPromise.then(()=>{y.value=window.google})}),ee(()=>o.modelValue,e=>{(!e||!e.length)&&!i.value&&(i.value=[])});const he=(e,t)=>{e.length<2||(u.value=!0,B.get(`/public/postcoderegion/index?keyword=${e}${o.state?`&state=${o.state}`:""}`).then(h=>{t(()=>{m.value=h.data.map(G=>(G.label=`${G.locality} (${G.state} ${G.postcode} - ${G.sa4})`,G)),u.value=!1})}).catch(h=>{u.value=!1,U(h)}))},ke=e=>{(!o.modelValue||!o.modelValue.find(t=>t.id===e.id))&&setTimeout(()=>{x({id:e.id,locality:e.locality,state:e.state,postcode:e.postcode,lat:e.lat,lng:e.long}),i.value.push({latLng:{lat:parseFloat(e.lat),lng:parseFloat(e.long)},id:e.id}),$.value={lat:parseFloat(e.lat),lng:parseFloat(e.long)}},1),b.value=null};return j(()=>{if(f.value=o.showMap||!1,k.value=o.zoom||11,$.value=o.latLng,B.get(`/postcoderegiongroup/index?state=${o.state||""}`).then(e=>{d.value=e.data}).catch(e=>{U(e)}),o.modelValue)for(const e of o.modelValue)i.value.push({latLng:{lat:parseFloat(e.meta.pivot_lat),lng:parseFloat(e.meta.pivot_lng)},id:e.id}),i.value&&i.value.length&&($.value=i.value[0].latLng,k.value=11);o.suggestionId&&B.get(`/public/postcoderegion/localitiesbydc/${o.suggestionId}`).then(e=>{a.value=e.data}).catch(e=>{U(e)})}),(e,t)=>{const h=le("GMapMarker"),G=le("GMapMap");return n.latLng?(p(),Q("div",Se,[V("div",Fe,[V("div",Ne,[V("div",Re,[V("div",Oe,[l(ne,{modelValue:r.value,"onUpdate:modelValue":[t[0]||(t[0]=v=>r.value=v),ve],options:d.value,"option-label":"name",label:"Load from group",outlined:"",clearable:""},{prepend:s(()=>[l(D,{name:"place"})]),_:1},8,["modelValue","options"])]),V("div",qe,[l(ne,{label:"Search for a suburb",modelValue:b.value,"onUpdate:modelValue":[t[1]||(t[1]=v=>b.value=v),ke],options:m.value,onFilter:he,"use-input":"","emit-value":"","map-options":"",dark:n.dark,color:n.dark?"white":"",error:n.invalid,"hide-dropdown-icon":"","input-debounce":"350",autocomplete:"postcode-filter",outlined:"",disable:n.disabled,"use-chips":"",ref:"qSelectPostcodeRegion",borderless:n.borderless,dense:n.dense,class:"q-pb-none",filled:n.filled,loading:u.value,multiple:n.multiple,placeholder:n.placeholder,"option-label":"label"},{prepend:s(()=>[l(D,{name:"place",color:"info"})]),loading:s(()=>[u.value?(p(),P(_e,{key:0})):L("",!0)]),_:1},8,["modelValue","options","dark","color","error","disable","borderless","dense","filled","loading","multiple","placeholder"])])]),S(A).length?(p(),Q("div",Te,[ze,R(),(p(!0),Q(I,null,E(S(A),(v,F)=>(p(),P(C,{outline:"",size:"sm",key:F,label:`${v.locality} (${v.state})`,onClick:w=>be(v),class:"cursor-pointer q-mr-sm q-mb-sm",color:"grey"},null,8,["label","onClick"]))),128)),l(C,{onClick:t[2]||(t[2]=v=>ye()),color:"primary",label:"Add all",icon:"add_circle",size:"sm",class:"q-mb-sm"})])):L("",!0),n.modelValue&&n.modelValue.length?(p(),P(C,{key:1,onClick:t[3]||(t[3]=v=>f.value=!f.value),label:"Show map",color:"primary",flat:"",icon:"public"})):L("",!0),f.value?(p(),Q("div",De,[V("p",Ie,[l(D,{name:"info"}),R(" Click a suburb on the map to add it to the selected suburbs.")]),l(G,{center:$.value,zoom:k.value,"map-type-id":"terrain",style:{width:"100%",height:"450px"},ref_key:"mapRefMarker",ref:_,onClick:M},{default:s(()=>[(p(!0),Q(I,null,E(i.value,(v,F)=>(p(),P(h,{position:v.latLng,key:F,clickable:!0,draggable:!1,onClick:t[4]||(t[4]=w=>$.value=n.latLng)},null,8,["position"]))),128))]),_:1},8,["center","zoom"])])):L("",!0)]),V("div",Je,[!n.modelValue||!n.modelValue.length?(p(),Q("div",je,"No suburbs selected.")):L("",!0),n.modelValue&&n.modelValue.length?(p(),Q("div",Ae,[V("div",Ee,"Selected ("+T(n.modelValue.length)+"):",1),V("div",null,[(p(!0),Q(I,null,E(S(xe)(n.modelValue,"locality","asc"),v=>(p(),P(Ue,{label:`${v.locality} (${v.state} ${v.postcode})`,key:v.id,class:"q-mr-sm q-mb-sm",color:"grey-2","text-color":"black"},{default:s(()=>[l(C,{icon:"close",onClick:F=>N(v),size:"sm",round:"",dense:"",flat:"",class:"q-ml-xs"},null,8,["onClick"])]),_:2},1032,["label"]))),128))])])):L("",!0)])])])):L("",!0)}}}),Ke=z({__name:"UserPostcodeRegionGroupCreate",setup(n){const g=c(!1),o=c(),f=Z({name:null,postcoderegions:null,user_id:null,approved:!0}),r=c(!1),k=c(),_=H("bus"),i=ge({name:{required:J},postcoderegions:{required:J}},f),$=()=>{B.post("/userpostcoderegiongroup",f).then(()=>{ce("positive","Group created"),_.emit("userPostcodeRegionGroupLoadMore"),Object.assign(f,{id:null,name:null,user_id:null}),g.value=!1,r.value=!1}).catch(u=>{U(u)})};return j(async()=>{_.on("newUserPostcodeRegionGroup",async u=>{k.value=await Be(),Object.assign(f,{name:null,postcoderegions:null,user_id:u.user_id}),o.value=u.state,g.value=!0})}),W(()=>{_.off("newUserPostcodeRegionGroup")}),(u,d)=>(p(),P(ue,{modelValue:g.value,"onUpdate:modelValue":d[3]||(d[3]=a=>g.value=a)},{default:s(()=>[l(X,{class:"modal-lg"},{default:s(()=>[l(me,null,{default:s(()=>[l(pe,null,{default:s(()=>[R("New "+T(u.$t("postcodeRegionGroup.name")),1)]),_:1}),l(K),O(l(C,{icon:"close",flat:"",round:"",dense:""},null,512),[[q]])]),_:1}),l(ie),l(de,null,{default:s(()=>[l(Y,{modelValue:f.name,"onUpdate:modelValue":d[0]||(d[0]=a=>f.name=a),label:"Name of the group",error:S(i).name.$invalid},null,8,["modelValue","error"]),k.value?(p(),P(fe,{key:0,"lat-lng":k.value,modelValue:f.postcoderegions,"onUpdate:modelValue":d[1]||(d[1]=a=>f.postcoderegions=a),"show-map":!0,state:o.value},null,8,["lat-lng","modelValue","state"])):L("",!0)]),_:1}),l(re,{align:"right"},{default:s(()=>[O(l(C,{label:"Cancel",flat:"",color:"secondary"},null,512),[[q]]),l(C,{disable:r.value||S(i).$invalid,label:"Save",color:"primary",onClick:d[2]||(d[2]=a=>$())},null,8,["disable"])]),_:1})]),_:1})]),_:1},8,["modelValue"]))}}),Ze=z({__name:"UserPostcodeRegionGroupEdit",setup(n){const g=c(!1),o=c(),f=c(),r=Z({id:null,name:null,postcoderegions:null,approved:!0}),k=c(!1),_=H("bus"),i=ge({name:{required:J},postcoderegions:{required:J}},r),$=()=>{B.put(`/userpostcoderegiongroup/${r.id}`,r).then(()=>{ce("positive","Group updated"),_.emit("userPostcodeRegionGroupLoadMore"),g.value=!1,k.value=!1}).catch(u=>{U(u)})};return j(()=>{_.on("editUserPostcodeRegionGroup",async u=>{o.value=u.state,B.get(`/userpostcoderegiongroup/${u.id}`).then(d=>{Object.assign(r,d.data),r.postcoderegions&&r.postcoderegions[0]&&(f.value={lat:parseFloat(r.postcoderegions[0].meta.pivot_lat),lng:parseFloat(r.postcoderegions[0].meta.pivot_lng)}),g.value=!0}).catch(d=>{U(d)})})}),W(()=>{_.off("editUserPostcodeRegionGroup")}),(u,d)=>(p(),P(ue,{modelValue:g.value,"onUpdate:modelValue":d[3]||(d[3]=a=>g.value=a)},{default:s(()=>[r.name?(p(),P(X,{key:0,class:"modal-lg"},{default:s(()=>[l(me,null,{default:s(()=>[l(pe,null,{default:s(()=>[R(T(r.name),1)]),_:1}),l(K),O(l(C,{icon:"close",flat:"",round:"",dense:""},null,512),[[q]])]),_:1}),l(ie),l(de,null,{default:s(()=>[l(Y,{modelValue:r.name,"onUpdate:modelValue":d[0]||(d[0]=a=>r.name=a),label:"Name of the group",error:S(i).name.$invalid},null,8,["modelValue","error"]),f.value?(p(),P(fe,{key:0,"lat-lng":f.value,modelValue:r.postcoderegions,"onUpdate:modelValue":d[1]||(d[1]=a=>r.postcoderegions=a),zoom:12,"show-map":!0},null,8,["lat-lng","modelValue"])):L("",!0)]),_:1}),l(re,{align:"right"},{default:s(()=>[O(l(C,{label:"Cancel",flat:"",color:"secondary"},null,512),[[q]]),l(C,{disable:k.value||S(i).$invalid,label:"Update",color:"primary",onClick:d[2]||(d[2]=a=>$())},null,8,["disable"])]),_:1})]),_:1})):L("",!0)]),_:1},8,["modelValue"]))}}),He={class:"flex items-center q-mb-sm"},We=V("div",{class:"text-h5"},"Pickup Locations",-1),Xe=["onClick"],Ye={class:"q-mt-sm"},el=z({__name:"UserPostcodeRegionGroupManagement",props:{user:null},setup(n){const g=n,o=H("bus"),f=c(),r=c(!1),k=Z({keyword:null}),_=[{name:"name",label:"Name",align:"left",field:"name",sortable:!0},{label:"Actions",name:"actions",sortable:!1,field:"actions"}],y=c({page:1,rowsNumber:se(),rowsPerPage:se(),sortBy:"name",descending:!1}),i=(a=null)=>{let b,m,M,x;a&&a.pagination?(b=a.pagination.page,m=a.pagination.rowsPerPage,M=a.pagination.sortBy,x=a.pagination.descending):(b=y.value.page,m=y.value.rowsPerPage,M=y.value.sortBy,x=y.value.descending),r.value=!0,B.post(`/userpostcoderegiongroup/datatable/${b}/${g.user.id}`,{sortBy:M,sort_order:x?"desc":"asc",skip:b,rowsPerPage:m,keyword:k.keyword}).then(N=>{f.value=N.data.rows,r.value=!1,Qe(m),y.value.rowsNumber=N.data.total,y.value.page=b,y.value.rowsPerPage=m,y.value.sortBy=M,y.value.descending=x}).catch(N=>{U(N)})},$=a=>{Me("This will remove the postcode region group").onOk(()=>{B.delete(`/userpostcoderegiongroup/${a}`).then(()=>{i()}).catch(b=>{U(b)})})},u=()=>{o.emit("newUserPostcodeRegionGroup",{user_id:g.user.id,state:g.user.postcoderegionsuburb?g.user.postcoderegionsuburb.state:null})},d=a=>{o.emit("editUserPostcodeRegionGroup",{id:a,state:g.user.postcoderegionsuburb?g.user.postcoderegionsuburb.state:null})};return j(()=>{o.on("userPostcodeRegionGroupLoadMore",()=>{i()}),i()}),W(()=>{o.off("userPostcodeRegionGroupLoadMore")}),(a,b)=>(p(),Q(I,null,[l(Ke),l(Ze),V("div",He,[V("div",null,[We,V("p",null,"Configure the pickup locations for this "+T(a.$t("contractor.name").toLowerCase())+".",1)]),l(K),l(C,{onClick:b[0]||(b[0]=m=>u()),icon:"add",color:"primary",round:""})]),l(X,null,{default:s(()=>[l($e,{rows:f.value,columns:_,"row-key":"id",filter:k.keyword,loading:r.value,pagination:y.value,"onUpdate:pagination":b[2]||(b[2]=m=>y.value=m),onRequest:i,flat:"","wrap-cells":"","rows-per-page-options":S(Ge)},{"top-left":s(()=>[l(Y,{modelValue:k.keyword,"onUpdate:modelValue":b[1]||(b[1]=m=>k.keyword=m),debounce:500,placeholder:"Keyword"},{append:s(()=>[l(D,{name:"search"})]),_:1},8,["modelValue"])]),"body-cell-name":s(m=>[l(oe,{props:m},{default:s(()=>[V("a",{onClick:M=>d(m.row.id),class:"link text-h6"},T(m.row.name),9,Xe),V("div",Ye,[l(Le,{postcoderegions:m.row.postcoderegions},null,8,["postcoderegions"])])]),_:2},1032,["props"])]),"body-cell-actions":s(m=>[l(oe,{props:m},{default:s(()=>[l(C,{flat:"",icon:"more_vert"},{default:s(()=>[l(Ce,null,{default:s(()=>[l(Pe,null,{default:s(()=>[O((p(),P(ae,{clickable:"",onClick:M=>d(m.row.id)},{default:s(()=>[l(te,null,{default:s(()=>[R("Edit record")]),_:1})]),_:2},1032,["onClick"])),[[q]]),O((p(),P(ae,{clickable:"",onClick:M=>$(m.row.id)},{default:s(()=>[l(te,null,{default:s(()=>[R("Delete")]),_:1})]),_:2},1032,["onClick"])),[[q]])]),_:2},1024)]),_:2},1024)]),_:2},1024)]),_:2},1032,["props"])]),_:1},8,["rows","filter","loading","pagination","rows-per-page-options"])]),_:1})],64))}}),ll={key:0},Vl=z({__name:"ContractorPostcodeRegionGroup",props:{model:null},setup(n){return(g,o)=>n.model.id?(p(),Q("div",ll,[l(el,{user:n.model},null,8,["user"])])):L("",!0)}});export{Vl as default};
+import { Q as QSpace } from "./QSpace.7d6f905e.js";
+import { A as defineComponent, r as ref, g as computed, w as watch, o as onMounted, J as resolveComponent, m as openBlock, n as createElementBlock, q as createBaseVNode, l as createVNode, L as withCtx, O as QIcon, K as createBlock, aE as QSpinner, y as createCommentVNode, U as unref, R as createTextVNode, F as Fragment, b7 as renderList, S as QBtn, b8 as toDisplayString, B as reactive, i as inject, E as onBeforeUnmount, Q as QCard, G as withDirectives, bp as QSeparator, M as QCardSection, N as QInput, ae as QCardActions, aD as QDialog } from "./index.e647c85a.js";
+import { a as QTable, Q as QTd } from "./QTable.64a81add.js";
+import { Q as QItemSection, a as QItem } from "./QItemSection.99659658.js";
+import { Q as QList } from "./QList.2f0afc60.js";
+import { Q as QMenu } from "./format.8e90d58d.js";
+import { C as ClosePopup } from "./ClosePopup.ef2f7039.js";
+import { a as api } from "./axios.ccd3a804.js";
+import { _ as _sfc_main$5 } from "./PostcodeRegionDisplay.24757491.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { B as sortByKey, b as doNotify, x as getRowsPerPage, y as rowsPerPageOptions, z as setRowsPerPage, c as confirmDelete } from "./help.c0f85e41.js";
+import { Q as QToolbar, a as QToolbarTitle } from "./QToolbarTitle.1a75cd00.js";
+import { u as useVuelidate, r as required } from "./index.esm.4557c89b.js";
+import { a as getCurrentLocation } from "./geolocation.172e3971.js";
+import { Q as QSelect } from "./QSelect.853d535e.js";
+import { Q as QBadge } from "./QBadge.5efaf9f7.js";
+import "./QMarkupTable.981d9979.js";
+import "./QLinearProgress.c48fac34.js";
+import "./rtl.4f5e13e8.js";
+const _hoisted_1$2 = { key: 0 };
+const _hoisted_2$1 = { class: "row q-col-gutter-md" };
+const _hoisted_3$1 = { class: "col-xs-12 col-sm-8" };
+const _hoisted_4$1 = { class: "row q-col-gutter-md" };
+const _hoisted_5 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_6 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_7 = {
+  key: 0,
+  class: "q-pt-sm q-pb-sm"
+};
+const _hoisted_8 = /* @__PURE__ */ createBaseVNode("span", { class: "text-bold" }, "Suggestions:", -1);
+const _hoisted_9 = { key: 2 };
+const _hoisted_10 = { class: "q-mt-md" };
+const _hoisted_11 = { class: "col-xs-12 col-sm-4" };
+const _hoisted_12 = { key: 0 };
+const _hoisted_13 = {
+  key: 1,
+  style: { "max-height": "600px", "overflow-x": "none", "overflow-y": "auto" },
+  class: "bg-grey-1 q-pa-sm"
+};
+const _hoisted_14 = { class: "text-bold" };
+const _sfc_main$4 = /* @__PURE__ */ defineComponent({
+  __name: "PostcodeRegionMapField",
+  props: {
+    modelValue: null,
+    invalid: { type: Boolean },
+    label: null,
+    dark: { type: Boolean },
+    outlined: { type: Boolean },
+    disabled: { type: Boolean },
+    multiple: { type: Boolean },
+    dense: { type: Boolean },
+    borderless: { type: Boolean },
+    filled: { type: Boolean },
+    placeholder: null,
+    nowatch: { type: Boolean },
+    state: null,
+    latLng: null,
+    zoom: null,
+    showMap: { type: Boolean },
+    suggestionId: null
+  },
+  emits: ["update:modelValue"],
+  setup(__props, { emit: emits }) {
+    const props = __props;
+    const showMap = ref(false);
+    const selectedPostcodeRegionGroup = ref();
+    const realZoom = ref();
+    const mapRefMarker = ref();
+    const googleObject = ref();
+    const markers = ref([]);
+    const center = ref();
+    const loading = ref(false);
+    const postcodeRegionGroups = ref();
+    const suggestions = ref();
+    const keyword = ref();
+    const postcodes = ref();
+    const logMap = (event) => {
+      if (googleObject.value && !loading.value) {
+        const geoCoder = new googleObject.value.maps.Geocoder();
+        loading.value = true;
+        geoCoder.geocode({
+          latLng: event.latLng
+        }, function(results, status) {
+          if (status === "OK") {
+            if (results[0]) {
+              const suburb = results[0].address_components.find((o) => o.types.indexOf("locality") !== -1).long_name;
+              const state = results[0].address_components.find((o) => o.types.indexOf("administrative_area_level_1") !== -1).short_name;
+              if (suburb && state) {
+                api.get(`/public/postcoderegion/index?keyword=${suburb}&state=${state}`).then((response) => {
+                  if (response.data.length && (!props.modelValue || !props.modelValue.find((o) => o.id === response.data[0].id))) {
+                    markers.value.push({ latLng: { lat: event.latLng.lat(), lng: event.latLng.lng() }, id: response.data[0].id });
+                    updateModelValue({
+                      id: response.data[0].id,
+                      locality: response.data[0].locality,
+                      state: response.data[0].state,
+                      postcode: response.data[0].postcode,
+                      lat: event.latLng.lat(),
+                      lng: event.latLng.lng()
+                    });
+                  }
+                  loading.value = false;
+                }).catch((error) => {
+                  useMixinDebug(error);
+                  loading.value = false;
+                });
+              }
+            }
+          }
+        });
+      }
+    };
+    const updateModelValue = (postcodeRegion) => {
+      let currentModelValue = JSON.parse(JSON.stringify(props.modelValue));
+      if (currentModelValue) {
+        currentModelValue.push({
+          id: postcodeRegion.id,
+          locality: postcodeRegion.locality,
+          state: postcodeRegion.state,
+          postcode: postcodeRegion.postcode,
+          meta: {
+            pivot_lat: postcodeRegion.lat,
+            pivot_lng: postcodeRegion.lng
+          }
+        });
+      } else {
+        currentModelValue = [{
+          id: postcodeRegion.id,
+          locality: postcodeRegion.locality,
+          state: postcodeRegion.state,
+          postcode: postcodeRegion.postcode,
+          meta: {
+            pivot_lat: postcodeRegion.lat,
+            pivot_lng: postcodeRegion.lng
+          }
+        }];
+      }
+      emits("update:modelValue", currentModelValue);
+    };
+    const removePostcodeRegion = (p) => {
+      let currentModelValue = JSON.parse(JSON.stringify(props.modelValue));
+      currentModelValue = currentModelValue.filter((o) => o.id !== p.id);
+      markers.value = markers.value.filter((o) => o.id !== p.id);
+      emits("update:modelValue", currentModelValue);
+    };
+    const loadFromGroup = () => {
+      if (!selectedPostcodeRegionGroup.value) {
+        return false;
+      }
+      for (const p of selectedPostcodeRegionGroup.value.postcoderegions) {
+        if (!props.modelValue || !props.modelValue.find((o) => o.id === p.id)) {
+          setTimeout(() => {
+            updateModelValue({
+              id: p.id,
+              locality: p.locality,
+              state: p.state,
+              postcode: p.postcode,
+              lat: p.meta.pivot_lat,
+              lng: p.meta.pivot_lng
+            });
+            markers.value.push({ latLng: { lat: parseFloat(p.meta.pivot_lat), lng: parseFloat(p.meta.pivot_lng) }, id: p.id });
+          }, 1);
+        }
+      }
+      setTimeout(() => {
+        if (markers.value) {
+          center.value = markers.value[0].latLng;
+        }
+      }, 1);
+      realZoom.value = 12;
+    };
+    const currentSuggestions = computed(() => {
+      if (!suggestions.value || !suggestions.value.length || !props.modelValue) {
+        return [];
+      }
+      const currentModelValue = JSON.parse(JSON.stringify(props.modelValue));
+      const cmv = currentModelValue.map((o) => o.id);
+      return suggestions.value.filter((o) => cmv.indexOf(o.id) === -1);
+    });
+    const addFromSuggestion = (p) => {
+      if (!props.modelValue || !props.modelValue.find((o) => o.id === p.id)) {
+        setTimeout(() => {
+          updateModelValue({
+            id: p.id,
+            locality: p.locality,
+            state: p.state,
+            postcode: p.postcode,
+            lat: p.lat,
+            lng: p.long
+          });
+          markers.value.push({ latLng: { lat: parseFloat(p.lat), lng: parseFloat(p.long) }, id: p.id });
+        }, 1);
+      }
+    };
+    const addAllSuggestions = () => {
+      for (const p of currentSuggestions.value) {
+        if (!props.modelValue || !props.modelValue.find((o) => o.id === p.id)) {
+          setTimeout(() => {
+            updateModelValue({
+              id: p.id,
+              locality: p.locality,
+              state: p.state,
+              postcode: p.postcode,
+              lat: p.lat,
+              lng: p.long
+            });
+            markers.value.push({ latLng: { lat: parseFloat(p.lat), lng: parseFloat(p.long) }, id: p.id });
+          }, 1);
+        }
+      }
+    };
+    watch(mapRefMarker, (googleMap) => {
+      if (googleMap) {
+        googleMap.$mapPromise.then(() => {
+          googleObject.value = window.google;
+        });
+      }
+    });
+    watch(() => props.modelValue, (newVal) => {
+      if ((!newVal || !newVal.length) && !markers.value) {
+        markers.value = [];
+      }
+    });
+    const filterPostcodes = (val, update) => {
+      if (val.length < 2) {
+        return;
+      }
+      loading.value = true;
+      api.get(`/public/postcoderegion/index?keyword=${val}${props.state ? `&state=${props.state}` : ""}`).then((response) => {
+        update(() => {
+          postcodes.value = response.data.map((o) => {
+            o.label = `${o.locality} (${o.state} ${o.postcode} - ${o.sa4})`;
+            return o;
+          });
+          loading.value = false;
+        });
+      }).catch((error) => {
+        loading.value = false;
+        useMixinDebug(error);
+      });
+    };
+    const selectKeywordPostcode = (p) => {
+      if (!props.modelValue || !props.modelValue.find((o) => o.id === p.id)) {
+        setTimeout(() => {
+          updateModelValue({
+            id: p.id,
+            locality: p.locality,
+            state: p.state,
+            postcode: p.postcode,
+            lat: p.lat,
+            lng: p.long
+          });
+          markers.value.push({ latLng: { lat: parseFloat(p.lat), lng: parseFloat(p.long) }, id: p.id });
+          center.value = { lat: parseFloat(p.lat), lng: parseFloat(p.long) };
+        }, 1);
+      }
+      keyword.value = null;
+    };
+    onMounted(() => {
+      showMap.value = props.showMap || false;
+      realZoom.value = props.zoom || 11;
+      center.value = props.latLng;
+      api.get(`/postcoderegiongroup/index?state=${props.state || ""}`).then((response) => {
+        postcodeRegionGroups.value = response.data;
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+      if (props.modelValue) {
+        for (const p of props.modelValue) {
+          markers.value.push({
+            latLng: { lat: parseFloat(p.meta.pivot_lat), lng: parseFloat(p.meta.pivot_lng) },
+            id: p.id
+          });
+          if (markers.value && markers.value.length) {
+            center.value = markers.value[0].latLng;
+            realZoom.value = 11;
+          }
+        }
+      }
+      if (props.suggestionId) {
+        api.get(`/public/postcoderegion/localitiesbydc/${props.suggestionId}`).then((response) => {
+          suggestions.value = response.data;
+        }).catch((error) => {
+          useMixinDebug(error);
+        });
+      }
+    });
+    return (_ctx, _cache) => {
+      const _component_GMapMarker = resolveComponent("GMapMarker");
+      const _component_GMapMap = resolveComponent("GMapMap");
+      return __props.latLng ? (openBlock(), createElementBlock("div", _hoisted_1$2, [
+        createBaseVNode("div", _hoisted_2$1, [
+          createBaseVNode("div", _hoisted_3$1, [
+            createBaseVNode("div", _hoisted_4$1, [
+              createBaseVNode("div", _hoisted_5, [
+                createVNode(QSelect, {
+                  modelValue: selectedPostcodeRegionGroup.value,
+                  "onUpdate:modelValue": [
+                    _cache[0] || (_cache[0] = ($event) => selectedPostcodeRegionGroup.value = $event),
+                    loadFromGroup
+                  ],
+                  options: postcodeRegionGroups.value,
+                  "option-label": "name",
+                  label: "Load from group",
+                  outlined: "",
+                  clearable: ""
+                }, {
+                  prepend: withCtx(() => [
+                    createVNode(QIcon, { name: "place" })
+                  ]),
+                  _: 1
+                }, 8, ["modelValue", "options"])
+              ]),
+              createBaseVNode("div", _hoisted_6, [
+                createVNode(QSelect, {
+                  label: "Search for a suburb",
+                  modelValue: keyword.value,
+                  "onUpdate:modelValue": [
+                    _cache[1] || (_cache[1] = ($event) => keyword.value = $event),
+                    selectKeywordPostcode
+                  ],
+                  options: postcodes.value,
+                  onFilter: filterPostcodes,
+                  "use-input": "",
+                  "emit-value": "",
+                  "map-options": "",
+                  dark: __props.dark,
+                  color: __props.dark ? "white" : "",
+                  error: __props.invalid,
+                  "hide-dropdown-icon": "",
+                  "input-debounce": "350",
+                  autocomplete: "postcode-filter",
+                  outlined: "",
+                  disable: __props.disabled,
+                  "use-chips": "",
+                  ref: "qSelectPostcodeRegion",
+                  borderless: __props.borderless,
+                  dense: __props.dense,
+                  class: "q-pb-none",
+                  filled: __props.filled,
+                  loading: loading.value,
+                  multiple: __props.multiple,
+                  placeholder: __props.placeholder,
+                  "option-label": "label"
+                }, {
+                  prepend: withCtx(() => [
+                    createVNode(QIcon, {
+                      name: "place",
+                      color: "info"
+                    })
+                  ]),
+                  loading: withCtx(() => [
+                    loading.value ? (openBlock(), createBlock(QSpinner, { key: 0 })) : createCommentVNode("", true)
+                  ]),
+                  _: 1
+                }, 8, ["modelValue", "options", "dark", "color", "error", "disable", "borderless", "dense", "filled", "loading", "multiple", "placeholder"])
+              ])
+            ]),
+            unref(currentSuggestions).length ? (openBlock(), createElementBlock("div", _hoisted_7, [
+              _hoisted_8,
+              createTextVNode(),
+              (openBlock(true), createElementBlock(Fragment, null, renderList(unref(currentSuggestions), (c, ci) => {
+                return openBlock(), createBlock(QBtn, {
+                  outline: "",
+                  size: "sm",
+                  key: ci,
+                  label: `${c.locality} (${c.state})`,
+                  onClick: ($event) => addFromSuggestion(c),
+                  class: "cursor-pointer q-mr-sm q-mb-sm",
+                  color: "grey"
+                }, null, 8, ["label", "onClick"]);
+              }), 128)),
+              createVNode(QBtn, {
+                onClick: _cache[2] || (_cache[2] = ($event) => addAllSuggestions()),
+                color: "primary",
+                label: "Add all",
+                icon: "add_circle",
+                size: "sm",
+                class: "q-mb-sm"
+              })
+            ])) : createCommentVNode("", true),
+            __props.modelValue && __props.modelValue.length ? (openBlock(), createBlock(QBtn, {
+              key: 1,
+              onClick: _cache[3] || (_cache[3] = ($event) => showMap.value = !showMap.value),
+              label: "Show map",
+              color: "primary",
+              flat: "",
+              icon: "public"
+            })) : createCommentVNode("", true),
+            showMap.value ? (openBlock(), createElementBlock("div", _hoisted_9, [
+              createBaseVNode("p", _hoisted_10, [
+                createVNode(QIcon, { name: "info" }),
+                createTextVNode(" Click a suburb on the map to add it to the selected suburbs.")
+              ]),
+              createVNode(_component_GMapMap, {
+                center: center.value,
+                zoom: realZoom.value,
+                "map-type-id": "terrain",
+                style: { "width": "100%", "height": "450px" },
+                ref_key: "mapRefMarker",
+                ref: mapRefMarker,
+                onClick: logMap
+              }, {
+                default: withCtx(() => [
+                  (openBlock(true), createElementBlock(Fragment, null, renderList(markers.value, (m, index) => {
+                    return openBlock(), createBlock(_component_GMapMarker, {
+                      position: m.latLng,
+                      key: index,
+                      clickable: true,
+                      draggable: false,
+                      onClick: _cache[4] || (_cache[4] = ($event) => center.value = __props.latLng)
+                    }, null, 8, ["position"]);
+                  }), 128))
+                ]),
+                _: 1
+              }, 8, ["center", "zoom"])
+            ])) : createCommentVNode("", true)
+          ]),
+          createBaseVNode("div", _hoisted_11, [
+            !__props.modelValue || !__props.modelValue.length ? (openBlock(), createElementBlock("div", _hoisted_12, "No suburbs selected.")) : createCommentVNode("", true),
+            __props.modelValue && __props.modelValue.length ? (openBlock(), createElementBlock("div", _hoisted_13, [
+              createBaseVNode("div", _hoisted_14, "Selected (" + toDisplayString(__props.modelValue.length) + "):", 1),
+              createBaseVNode("div", null, [
+                (openBlock(true), createElementBlock(Fragment, null, renderList(unref(sortByKey)(__props.modelValue, "locality", "asc"), (p) => {
+                  return openBlock(), createBlock(QBadge, {
+                    label: `${p.locality} (${p.state} ${p.postcode})`,
+                    key: p.id,
+                    class: "q-mr-sm q-mb-sm",
+                    color: "grey-2",
+                    "text-color": "black"
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QBtn, {
+                        icon: "close",
+                        onClick: ($event) => removePostcodeRegion(p),
+                        size: "sm",
+                        round: "",
+                        dense: "",
+                        flat: "",
+                        class: "q-ml-xs"
+                      }, null, 8, ["onClick"])
+                    ]),
+                    _: 2
+                  }, 1032, ["label"]);
+                }), 128))
+              ])
+            ])) : createCommentVNode("", true)
+          ])
+        ])
+      ])) : createCommentVNode("", true);
+    };
+  }
+});
+const _sfc_main$3 = /* @__PURE__ */ defineComponent({
+  __name: "UserPostcodeRegionGroupCreate",
+  setup(__props) {
+    const show = ref(false);
+    const state = ref();
+    const model = reactive({
+      name: null,
+      postcoderegions: null,
+      user_id: null,
+      approved: true
+    });
+    const loading = ref(false);
+    const latLng = ref();
+    const bus = inject("bus");
+    const rules = {
+      name: { required },
+      postcoderegions: { required }
+    };
+    const $v = useVuelidate(rules, model);
+    const save = () => {
+      api.post("/userpostcoderegiongroup", model).then(() => {
+        doNotify("positive", "Group created");
+        bus.emit("userPostcodeRegionGroupLoadMore");
+        Object.assign(model, {
+          id: null,
+          name: null,
+          user_id: null
+        });
+        show.value = false;
+        loading.value = false;
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+    };
+    onMounted(async () => {
+      bus.on("newUserPostcodeRegionGroup", async (data) => {
+        latLng.value = await getCurrentLocation();
+        Object.assign(model, { name: null, postcoderegions: null, user_id: data.user_id });
+        state.value = data.state;
+        show.value = true;
+      });
+    });
+    onBeforeUnmount(() => {
+      bus.off("newUserPostcodeRegionGroup");
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QDialog, {
+        modelValue: show.value,
+        "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => show.value = $event)
+      }, {
+        default: withCtx(() => [
+          createVNode(QCard, { class: "modal-lg" }, {
+            default: withCtx(() => [
+              createVNode(QToolbar, null, {
+                default: withCtx(() => [
+                  createVNode(QToolbarTitle, null, {
+                    default: withCtx(() => [
+                      createTextVNode("New " + toDisplayString(_ctx.$t("postcodeRegionGroup.name")), 1)
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QSpace),
+                  withDirectives(createVNode(QBtn, {
+                    icon: "close",
+                    flat: "",
+                    round: "",
+                    dense: ""
+                  }, null, 512), [
+                    [ClosePopup]
+                  ])
+                ]),
+                _: 1
+              }),
+              createVNode(QSeparator),
+              createVNode(QCardSection, null, {
+                default: withCtx(() => [
+                  createVNode(QInput, {
+                    modelValue: model.name,
+                    "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => model.name = $event),
+                    label: "Name of the group",
+                    error: unref($v).name.$invalid
+                  }, null, 8, ["modelValue", "error"]),
+                  latLng.value ? (openBlock(), createBlock(_sfc_main$4, {
+                    key: 0,
+                    "lat-lng": latLng.value,
+                    modelValue: model.postcoderegions,
+                    "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => model.postcoderegions = $event),
+                    "show-map": true,
+                    state: state.value
+                  }, null, 8, ["lat-lng", "modelValue", "state"])) : createCommentVNode("", true)
+                ]),
+                _: 1
+              }),
+              createVNode(QCardActions, { align: "right" }, {
+                default: withCtx(() => [
+                  withDirectives(createVNode(QBtn, {
+                    label: "Cancel",
+                    flat: "",
+                    color: "secondary"
+                  }, null, 512), [
+                    [ClosePopup]
+                  ]),
+                  createVNode(QBtn, {
+                    disable: loading.value || unref($v).$invalid,
+                    label: "Save",
+                    color: "primary",
+                    onClick: _cache[2] || (_cache[2] = ($event) => save())
+                  }, null, 8, ["disable"])
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      }, 8, ["modelValue"]);
+    };
+  }
+});
+const _sfc_main$2 = /* @__PURE__ */ defineComponent({
+  __name: "UserPostcodeRegionGroupEdit",
+  setup(__props) {
+    const show = ref(false);
+    const state = ref();
+    const latLng = ref();
+    const model = reactive({
+      id: null,
+      name: null,
+      postcoderegions: null,
+      approved: true
+    });
+    const loading = ref(false);
+    const bus = inject("bus");
+    const rules = {
+      name: { required },
+      postcoderegions: { required }
+    };
+    const $v = useVuelidate(rules, model);
+    const save = () => {
+      api.put(`/userpostcoderegiongroup/${model.id}`, model).then(() => {
+        doNotify("positive", "Group updated");
+        bus.emit("userPostcodeRegionGroupLoadMore");
+        show.value = false;
+        loading.value = false;
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+    };
+    onMounted(() => {
+      bus.on("editUserPostcodeRegionGroup", async (data) => {
+        state.value = data.state;
+        api.get(`/userpostcoderegiongroup/${data.id}`).then((response) => {
+          Object.assign(model, response.data);
+          if (model.postcoderegions && model.postcoderegions[0]) {
+            latLng.value = { lat: parseFloat(model.postcoderegions[0].meta.pivot_lat), lng: parseFloat(model.postcoderegions[0].meta.pivot_lng) };
+          }
+          show.value = true;
+        }).catch((error) => {
+          useMixinDebug(error);
+        });
+      });
+    });
+    onBeforeUnmount(() => {
+      bus.off("editUserPostcodeRegionGroup");
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QDialog, {
+        modelValue: show.value,
+        "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => show.value = $event)
+      }, {
+        default: withCtx(() => [
+          model.name ? (openBlock(), createBlock(QCard, {
+            key: 0,
+            class: "modal-lg"
+          }, {
+            default: withCtx(() => [
+              createVNode(QToolbar, null, {
+                default: withCtx(() => [
+                  createVNode(QToolbarTitle, null, {
+                    default: withCtx(() => [
+                      createTextVNode(toDisplayString(model.name), 1)
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QSpace),
+                  withDirectives(createVNode(QBtn, {
+                    icon: "close",
+                    flat: "",
+                    round: "",
+                    dense: ""
+                  }, null, 512), [
+                    [ClosePopup]
+                  ])
+                ]),
+                _: 1
+              }),
+              createVNode(QSeparator),
+              createVNode(QCardSection, null, {
+                default: withCtx(() => [
+                  createVNode(QInput, {
+                    modelValue: model.name,
+                    "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => model.name = $event),
+                    label: "Name of the group",
+                    error: unref($v).name.$invalid
+                  }, null, 8, ["modelValue", "error"]),
+                  latLng.value ? (openBlock(), createBlock(_sfc_main$4, {
+                    key: 0,
+                    "lat-lng": latLng.value,
+                    modelValue: model.postcoderegions,
+                    "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => model.postcoderegions = $event),
+                    zoom: 12,
+                    "show-map": true
+                  }, null, 8, ["lat-lng", "modelValue"])) : createCommentVNode("", true)
+                ]),
+                _: 1
+              }),
+              createVNode(QCardActions, { align: "right" }, {
+                default: withCtx(() => [
+                  withDirectives(createVNode(QBtn, {
+                    label: "Cancel",
+                    flat: "",
+                    color: "secondary"
+                  }, null, 512), [
+                    [ClosePopup]
+                  ]),
+                  createVNode(QBtn, {
+                    disable: loading.value || unref($v).$invalid,
+                    label: "Update",
+                    color: "primary",
+                    onClick: _cache[2] || (_cache[2] = ($event) => save())
+                  }, null, 8, ["disable"])
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })) : createCommentVNode("", true)
+        ]),
+        _: 1
+      }, 8, ["modelValue"]);
+    };
+  }
+});
+const _hoisted_1$1 = { class: "flex items-center q-mb-sm" };
+const _hoisted_2 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h5" }, "Pickup Locations", -1);
+const _hoisted_3 = ["onClick"];
+const _hoisted_4 = { class: "q-mt-sm" };
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "UserPostcodeRegionGroupManagement",
+  props: {
+    user: null
+  },
+  setup(__props) {
+    const props = __props;
+    const bus = inject("bus");
+    const data = ref();
+    const loading = ref(false);
+    const search = reactive({ keyword: null });
+    const columns = [{
+      name: "name",
+      label: "Name",
+      align: "left",
+      field: "name",
+      sortable: true
+    }, {
+      label: "Actions",
+      name: "actions",
+      sortable: false,
+      field: "actions"
+    }];
+    const serverPagination = ref({
+      page: 1,
+      rowsNumber: getRowsPerPage(),
+      rowsPerPage: getRowsPerPage(),
+      sortBy: "name",
+      descending: false
+    });
+    const request = (qtProps = null) => {
+      let page;
+      let rowsPerPage;
+      let sortBy;
+      let descending;
+      if (qtProps && qtProps.pagination) {
+        page = qtProps.pagination.page;
+        rowsPerPage = qtProps.pagination.rowsPerPage;
+        sortBy = qtProps.pagination.sortBy;
+        descending = qtProps.pagination.descending;
+      } else {
+        page = serverPagination.value.page;
+        rowsPerPage = serverPagination.value.rowsPerPage;
+        sortBy = serverPagination.value.sortBy;
+        descending = serverPagination.value.descending;
+      }
+      loading.value = true;
+      api.post(`/userpostcoderegiongroup/datatable/${page}/${props.user.id}`, {
+        sortBy,
+        sort_order: descending ? "desc" : "asc",
+        skip: page,
+        rowsPerPage,
+        keyword: search.keyword
+      }).then((response) => {
+        data.value = response.data.rows;
+        loading.value = false;
+        setRowsPerPage(rowsPerPage);
+        serverPagination.value.rowsNumber = response.data.total;
+        serverPagination.value.page = page;
+        serverPagination.value.rowsPerPage = rowsPerPage;
+        serverPagination.value.sortBy = sortBy;
+        serverPagination.value.descending = descending;
+      }).catch((response) => {
+        useMixinDebug(response);
+      });
+    };
+    const deleteUserPostcodeRegionGroup = (id) => {
+      confirmDelete("This will remove the postcode region group").onOk(() => {
+        api.delete(`/userpostcoderegiongroup/${id}`).then(() => {
+          request();
+        }).catch((error) => {
+          useMixinDebug(error);
+        });
+      });
+    };
+    const newUserPostcodeRegionGroup = () => {
+      bus.emit("newUserPostcodeRegionGroup", { user_id: props.user.id, state: props.user.postcoderegionsuburb ? props.user.postcoderegionsuburb.state : null });
+    };
+    const editUserPostcodeRegionGroup = (id) => {
+      bus.emit("editUserPostcodeRegionGroup", { id, state: props.user.postcoderegionsuburb ? props.user.postcoderegionsuburb.state : null });
+    };
+    onMounted(() => {
+      bus.on("userPostcodeRegionGroupLoadMore", () => {
+        request();
+      });
+      request();
+    });
+    onBeforeUnmount(() => {
+      bus.off("userPostcodeRegionGroupLoadMore");
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock(Fragment, null, [
+        createVNode(_sfc_main$3),
+        createVNode(_sfc_main$2),
+        createBaseVNode("div", _hoisted_1$1, [
+          createBaseVNode("div", null, [
+            _hoisted_2,
+            createBaseVNode("p", null, "Configure the pickup locations for this " + toDisplayString(_ctx.$t("contractor.name").toLowerCase()) + ".", 1)
+          ]),
+          createVNode(QSpace),
+          createVNode(QBtn, {
+            onClick: _cache[0] || (_cache[0] = ($event) => newUserPostcodeRegionGroup()),
+            icon: "add",
+            color: "primary",
+            round: ""
+          })
+        ]),
+        createVNode(QCard, null, {
+          default: withCtx(() => [
+            createVNode(QTable, {
+              rows: data.value,
+              columns,
+              "row-key": "id",
+              filter: search.keyword,
+              loading: loading.value,
+              pagination: serverPagination.value,
+              "onUpdate:pagination": _cache[2] || (_cache[2] = ($event) => serverPagination.value = $event),
+              onRequest: request,
+              flat: "",
+              "wrap-cells": "",
+              "rows-per-page-options": unref(rowsPerPageOptions)
+            }, {
+              "top-left": withCtx(() => [
+                createVNode(QInput, {
+                  modelValue: search.keyword,
+                  "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => search.keyword = $event),
+                  debounce: 500,
+                  placeholder: "Keyword"
+                }, {
+                  append: withCtx(() => [
+                    createVNode(QIcon, { name: "search" })
+                  ]),
+                  _: 1
+                }, 8, ["modelValue"])
+              ]),
+              "body-cell-name": withCtx((props2) => [
+                createVNode(QTd, { props: props2 }, {
+                  default: withCtx(() => [
+                    createBaseVNode("a", {
+                      onClick: ($event) => editUserPostcodeRegionGroup(props2.row.id),
+                      class: "link text-h6"
+                    }, toDisplayString(props2.row.name), 9, _hoisted_3),
+                    createBaseVNode("div", _hoisted_4, [
+                      createVNode(_sfc_main$5, {
+                        postcoderegions: props2.row.postcoderegions
+                      }, null, 8, ["postcoderegions"])
+                    ])
+                  ]),
+                  _: 2
+                }, 1032, ["props"])
+              ]),
+              "body-cell-actions": withCtx((props2) => [
+                createVNode(QTd, { props: props2 }, {
+                  default: withCtx(() => [
+                    createVNode(QBtn, {
+                      flat: "",
+                      icon: "more_vert"
+                    }, {
+                      default: withCtx(() => [
+                        createVNode(QMenu, null, {
+                          default: withCtx(() => [
+                            createVNode(QList, null, {
+                              default: withCtx(() => [
+                                withDirectives((openBlock(), createBlock(QItem, {
+                                  clickable: "",
+                                  onClick: ($event) => editUserPostcodeRegionGroup(props2.row.id)
+                                }, {
+                                  default: withCtx(() => [
+                                    createVNode(QItemSection, null, {
+                                      default: withCtx(() => [
+                                        createTextVNode("Edit record")
+                                      ]),
+                                      _: 1
+                                    })
+                                  ]),
+                                  _: 2
+                                }, 1032, ["onClick"])), [
+                                  [ClosePopup]
+                                ]),
+                                withDirectives((openBlock(), createBlock(QItem, {
+                                  clickable: "",
+                                  onClick: ($event) => deleteUserPostcodeRegionGroup(props2.row.id)
+                                }, {
+                                  default: withCtx(() => [
+                                    createVNode(QItemSection, null, {
+                                      default: withCtx(() => [
+                                        createTextVNode("Delete")
+                                      ]),
+                                      _: 1
+                                    })
+                                  ]),
+                                  _: 2
+                                }, 1032, ["onClick"])), [
+                                  [ClosePopup]
+                                ])
+                              ]),
+                              _: 2
+                            }, 1024)
+                          ]),
+                          _: 2
+                        }, 1024)
+                      ]),
+                      _: 2
+                    }, 1024)
+                  ]),
+                  _: 2
+                }, 1032, ["props"])
+              ]),
+              _: 1
+            }, 8, ["rows", "filter", "loading", "pagination", "rows-per-page-options"])
+          ]),
+          _: 1
+        })
+      ], 64);
+    };
+  }
+});
+const _hoisted_1 = { key: 0 };
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "ContractorPostcodeRegionGroup",
+  props: {
+    model: null
+  },
+  setup(__props) {
+    return (_ctx, _cache) => {
+      return __props.model.id ? (openBlock(), createElementBlock("div", _hoisted_1, [
+        createVNode(_sfc_main$1, { user: __props.model }, null, 8, ["user"])
+      ])) : createCommentVNode("", true);
+    };
+  }
+});
+export { _sfc_main as default };

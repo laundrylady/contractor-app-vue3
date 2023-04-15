@@ -1,21 +1,1920 @@
-import{h as Xe,e as wt,i as Wt,o as Ut,f as Vt,r as Q,g as q,w as ce,F as xt,j as Ye,k as jt,l as Gt,T as $t}from"./index.e647c85a.js";/*!
+import { h, e as effectScope, i as inject, o as onMounted, f as onUnmounted, r as ref, g as computed, w as watch, F as Fragment, j as getCurrentInstance, k as isRef, l as createVNode, T as Text } from "./index.e647c85a.js";
+/*!
   * shared v9.2.2
   * (c) 2022 kazuya kawaguchi
   * Released under the MIT License.
-  */const ie=typeof window!="undefined",Ht=typeof Symbol=="function"&&typeof Symbol.toStringTag=="symbol",j=e=>Ht?Symbol(e):e,Bt=(e,t,n)=>Kt({l:e,k:t,s:n}),Kt=e=>JSON.stringify(e).replace(/\u2028/g,"\\u2028").replace(/\u2029/g,"\\u2029").replace(/\u0027/g,"\\u0027"),S=e=>typeof e=="number"&&isFinite(e),Xt=e=>Ne(e)==="[object Date]",ae=e=>Ne(e)==="[object RegExp]",re=e=>I(e)&&Object.keys(e).length===0;function Yt(e,t){typeof console!="undefined"&&(console.warn("[intlify] "+e),t&&console.warn(t.stack))}const w=Object.assign;function he(e){return e.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;")}const zt=Object.prototype.hasOwnProperty;function be(e,t){return zt.call(e,t)}const A=Array.isArray,M=e=>typeof e=="function",_=e=>typeof e=="string",C=e=>typeof e=="boolean",y=e=>e!==null&&typeof e=="object",ze=Object.prototype.toString,Ne=e=>ze.call(e),I=e=>Ne(e)==="[object Object]",Jt=e=>e==null?"":A(e)||I(e)&&e.toString===ze?JSON.stringify(e,null,2):String(e);/*!
+  */
+const inBrowser = typeof window !== "undefined";
+const hasSymbol = typeof Symbol === "function" && typeof Symbol.toStringTag === "symbol";
+const makeSymbol = (name) => hasSymbol ? Symbol(name) : name;
+const generateFormatCacheKey = (locale, key, source) => friendlyJSONstringify({ l: locale, k: key, s: source });
+const friendlyJSONstringify = (json) => JSON.stringify(json).replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029").replace(/\u0027/g, "\\u0027");
+const isNumber = (val) => typeof val === "number" && isFinite(val);
+const isDate = (val) => toTypeString(val) === "[object Date]";
+const isRegExp = (val) => toTypeString(val) === "[object RegExp]";
+const isEmptyObject = (val) => isPlainObject(val) && Object.keys(val).length === 0;
+function warn(msg, err) {
+  if (typeof console !== "undefined") {
+    console.warn(`[intlify] ` + msg);
+    if (err) {
+      console.warn(err.stack);
+    }
+  }
+}
+const assign = Object.assign;
+function escapeHtml(rawText) {
+  return rawText.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+}
+const hasOwnProperty = Object.prototype.hasOwnProperty;
+function hasOwn(obj, key) {
+  return hasOwnProperty.call(obj, key);
+}
+const isArray = Array.isArray;
+const isFunction = (val) => typeof val === "function";
+const isString = (val) => typeof val === "string";
+const isBoolean = (val) => typeof val === "boolean";
+const isObject = (val) => val !== null && typeof val === "object";
+const objectToString = Object.prototype.toString;
+const toTypeString = (value) => objectToString.call(value);
+const isPlainObject = (val) => toTypeString(val) === "[object Object]";
+const toDisplayString = (val) => {
+  return val == null ? "" : isArray(val) || isPlainObject(val) && val.toString === objectToString ? JSON.stringify(val, null, 2) : String(val);
+};
+/*!
   * message-compiler v9.2.2
   * (c) 2022 kazuya kawaguchi
   * Released under the MIT License.
-  */const Je={EXPECTED_TOKEN:1,INVALID_TOKEN_IN_PLACEHOLDER:2,UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER:3,UNKNOWN_ESCAPE_SEQUENCE:4,INVALID_UNICODE_ESCAPE_SEQUENCE:5,UNBALANCED_CLOSING_BRACE:6,UNTERMINATED_CLOSING_BRACE:7,EMPTY_PLACEHOLDER:8,NOT_ALLOW_NEST_PLACEHOLDER:9,INVALID_LINKED_FORMAT:10,MUST_HAVE_MESSAGES_IN_PLURAL:11,UNEXPECTED_EMPTY_LINKED_MODIFIER:12,UNEXPECTED_EMPTY_LINKED_KEY:13,UNEXPECTED_LEXICAL_ANALYSIS:14,__EXTEND_POINT__:15};function Qe(e,t,n={}){const{domain:a,messages:r,args:s}=n,l=e,i=new SyntaxError(String(l));return i.code=e,t&&(i.location=t),i.domain=a,i}/*!
+  */
+const CompileErrorCodes = {
+  EXPECTED_TOKEN: 1,
+  INVALID_TOKEN_IN_PLACEHOLDER: 2,
+  UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER: 3,
+  UNKNOWN_ESCAPE_SEQUENCE: 4,
+  INVALID_UNICODE_ESCAPE_SEQUENCE: 5,
+  UNBALANCED_CLOSING_BRACE: 6,
+  UNTERMINATED_CLOSING_BRACE: 7,
+  EMPTY_PLACEHOLDER: 8,
+  NOT_ALLOW_NEST_PLACEHOLDER: 9,
+  INVALID_LINKED_FORMAT: 10,
+  MUST_HAVE_MESSAGES_IN_PLURAL: 11,
+  UNEXPECTED_EMPTY_LINKED_MODIFIER: 12,
+  UNEXPECTED_EMPTY_LINKED_KEY: 13,
+  UNEXPECTED_LEXICAL_ANALYSIS: 14,
+  __EXTEND_POINT__: 15
+};
+function createCompileError(code2, loc, options = {}) {
+  const { domain, messages, args } = options;
+  const msg = code2;
+  const error = new SyntaxError(String(msg));
+  error.code = code2;
+  if (loc) {
+    error.location = loc;
+  }
+  error.domain = domain;
+  return error;
+}
+/*!
   * devtools-if v9.2.2
   * (c) 2022 kazuya kawaguchi
   * Released under the MIT License.
-  */const Qt={I18nInit:"i18n:init",FunctionTranslate:"function:translate"};/*!
+  */
+const IntlifyDevToolsHooks = {
+  I18nInit: "i18n:init",
+  FunctionTranslate: "function:translate"
+};
+/*!
   * core-base v9.2.2
   * (c) 2022 kazuya kawaguchi
   * Released under the MIT License.
-  */const G=[];G[0]={w:[0],i:[3,0],["["]:[4],o:[7]};G[1]={w:[1],["."]:[2],["["]:[4],o:[7]};G[2]={w:[2],i:[3,0],[0]:[3,0]};G[3]={i:[3,0],[0]:[3,0],w:[1,1],["."]:[2,1],["["]:[4,1],o:[7,1]};G[4]={["'"]:[5,0],['"']:[6,0],["["]:[4,2],["]"]:[1,3],o:8,l:[4,0]};G[5]={["'"]:[4,0],o:8,l:[5,0]};G[6]={['"']:[4,0],o:8,l:[6,0]};const qt=/^\s?(?:true|false|-?[\d.]+|'[^']*'|"[^"]*")\s?$/;function Zt(e){return qt.test(e)}function en(e){const t=e.charCodeAt(0),n=e.charCodeAt(e.length-1);return t===n&&(t===34||t===39)?e.slice(1,-1):e}function tn(e){if(e==null)return"o";switch(e.charCodeAt(0)){case 91:case 93:case 46:case 34:case 39:return e;case 95:case 36:case 45:return"i";case 9:case 10:case 13:case 160:case 65279:case 8232:case 8233:return"w"}return"i"}function nn(e){const t=e.trim();return e.charAt(0)==="0"&&isNaN(parseInt(e))?!1:Zt(t)?en(t):"*"+t}function an(e){const t=[];let n=-1,a=0,r=0,s,l,i,c,m,d,E;const g=[];g[0]=()=>{l===void 0?l=i:l+=i},g[1]=()=>{l!==void 0&&(t.push(l),l=void 0)},g[2]=()=>{g[0](),r++},g[3]=()=>{if(r>0)r--,a=4,g[0]();else{if(r=0,l===void 0||(l=nn(l),l===!1))return!1;g[1]()}};function b(){const T=e[n+1];if(a===5&&T==="'"||a===6&&T==='"')return n++,i="\\"+T,g[0](),!0}for(;a!==null;)if(n++,s=e[n],!(s==="\\"&&b())){if(c=tn(s),E=G[a],m=E[c]||E.l||8,m===8||(a=m[0],m[1]!==void 0&&(d=g[m[1]],d&&(i=s,d()===!1))))return;if(a===7)return t}}const Ce=new Map;function rn(e,t){return y(e)?e[t]:null}function ln(e,t){if(!y(e))return null;let n=Ce.get(t);if(n||(n=an(t),n&&Ce.set(t,n)),!n)return null;const a=n.length;let r=e,s=0;for(;s<a;){const l=r[n[s]];if(l===void 0)return null;r=l,s++}return r}const sn=e=>e,on=e=>"",cn="text",un=e=>e.length===0?"":e.join(""),mn=Jt;function Ae(e,t){return e=Math.abs(e),t===2?e?e>1?1:0:1:e?Math.min(e,2):0}function fn(e){const t=S(e.pluralIndex)?e.pluralIndex:-1;return e.named&&(S(e.named.count)||S(e.named.n))?S(e.named.count)?e.named.count:S(e.named.n)?e.named.n:t:t}function _n(e,t){t.count||(t.count=e),t.n||(t.n=e)}function gn(e={}){const t=e.locale,n=fn(e),a=y(e.pluralRules)&&_(t)&&M(e.pluralRules[t])?e.pluralRules[t]:Ae,r=y(e.pluralRules)&&_(t)&&M(e.pluralRules[t])?Ae:void 0,s=N=>N[a(n,N.length,r)],l=e.list||[],i=N=>l[N],c=e.named||{};S(e.pluralIndex)&&_n(n,c);const m=N=>c[N];function d(N){const p=M(e.messages)?e.messages(N):y(e.messages)?e.messages[N]:!1;return p||(e.parent?e.parent.message(N):on)}const E=N=>e.modifiers?e.modifiers[N]:sn,g=I(e.processor)&&M(e.processor.normalize)?e.processor.normalize:un,b=I(e.processor)&&M(e.processor.interpolate)?e.processor.interpolate:mn,T=I(e.processor)&&_(e.processor.type)?e.processor.type:cn,F={list:i,named:m,plural:s,linked:(N,...p)=>{const[R,L]=p;let f="text",h="";p.length===1?y(R)?(h=R.modifier||h,f=R.type||f):_(R)&&(h=R||h):p.length===2&&(_(R)&&(h=R||h),_(L)&&(f=L||f));let k=d(N)(F);return f==="vnode"&&A(k)&&h&&(k=k[0]),h?E(h)(k,f):k},message:d,type:T,interpolate:b,normalize:g};return F}let dn=null;Qt.FunctionTranslate;function En(e){return t=>dn}const bn={NOT_FOUND_KEY:1,FALLBACK_TO_TRANSLATE:2,CANNOT_FORMAT_NUMBER:3,FALLBACK_TO_NUMBER_FORMAT:4,CANNOT_FORMAT_DATE:5,FALLBACK_TO_DATE_FORMAT:6,__EXTEND_POINT__:7};function Nn(e,t,n){return[...new Set([n,...A(t)?t:y(t)?Object.keys(t):_(t)?[t]:[n]])]}function qe(e,t,n){const a=_(n)?n:Te,r=e;r.__localeChainCache||(r.__localeChainCache=new Map);let s=r.__localeChainCache.get(a);if(!s){s=[];let l=[n];for(;A(l);)l=Re(s,l,t);const i=A(t)||!I(t)?t:t.default?t.default:null;l=_(i)?[i]:i,A(l)&&Re(s,l,!1),r.__localeChainCache.set(a,s)}return s}function Re(e,t,n){let a=!0;for(let r=0;r<t.length&&C(a);r++){const s=t[r];_(s)&&(a=Tn(e,t[r],n))}return a}function Tn(e,t,n){let a;const r=t.split("-");do{const s=r.join("-");a=In(e,s,n),r.splice(-1,1)}while(r.length&&a===!0);return a}function In(e,t,n){let a=!1;if(!e.includes(t)&&(a=!0,t)){a=t[t.length-1]!=="!";const r=t.replace(/!/g,"");e.push(r),(A(n)||I(n))&&n[r]&&(a=n[r])}return a}const Ln="9.2.2",le=-1,Te="en-US",De="",Se=e=>`${e.charAt(0).toLocaleUpperCase()}${e.substr(1)}`;function On(){return{upper:(e,t)=>t==="text"&&_(e)?e.toUpperCase():t==="vnode"&&y(e)&&"__v_isVNode"in e?e.children.toUpperCase():e,lower:(e,t)=>t==="text"&&_(e)?e.toLowerCase():t==="vnode"&&y(e)&&"__v_isVNode"in e?e.children.toLowerCase():e,capitalize:(e,t)=>t==="text"&&_(e)?Se(e):t==="vnode"&&y(e)&&"__v_isVNode"in e?Se(e.children):e}}let pn,Ze;function yn(e){Ze=e}let et;function Fn(e){et=e}let Me=0;function hn(e={}){const t=_(e.version)?e.version:Ln,n=_(e.locale)?e.locale:Te,a=A(e.fallbackLocale)||I(e.fallbackLocale)||_(e.fallbackLocale)||e.fallbackLocale===!1?e.fallbackLocale:n,r=I(e.messages)?e.messages:{[n]:{}},s=I(e.datetimeFormats)?e.datetimeFormats:{[n]:{}},l=I(e.numberFormats)?e.numberFormats:{[n]:{}},i=w({},e.modifiers||{},On()),c=e.pluralRules||{},m=M(e.missing)?e.missing:null,d=C(e.missingWarn)||ae(e.missingWarn)?e.missingWarn:!0,E=C(e.fallbackWarn)||ae(e.fallbackWarn)?e.fallbackWarn:!0,g=!!e.fallbackFormat,b=!!e.unresolving,T=M(e.postTranslation)?e.postTranslation:null,O=I(e.processor)?e.processor:null,F=C(e.warnHtmlMessage)?e.warnHtmlMessage:!0,N=!!e.escapeParameter,p=M(e.messageCompiler)?e.messageCompiler:pn,R=M(e.messageResolver)?e.messageResolver:Ze||rn,L=M(e.localeFallbacker)?e.localeFallbacker:et||Nn,f=y(e.fallbackContext)?e.fallbackContext:void 0,h=M(e.onWarn)?e.onWarn:Yt,k=e,X=y(k.__datetimeFormatters)?k.__datetimeFormatters:new Map,Y=y(k.__numberFormatters)?k.__numberFormatters:new Map,z=y(k.__meta)?k.__meta:{};Me++;const V={version:t,cid:Me,locale:n,fallbackLocale:a,messages:r,modifiers:i,pluralRules:c,missing:m,missingWarn:d,fallbackWarn:E,fallbackFormat:g,unresolving:b,postTranslation:T,processor:O,warnHtmlMessage:F,escapeParameter:N,messageCompiler:p,messageResolver:R,localeFallbacker:L,fallbackContext:f,onWarn:h,__meta:z};return V.datetimeFormats=s,V.numberFormats=l,V.__datetimeFormatters=X,V.__numberFormatters=Y,V}function Ie(e,t,n,a,r){const{missing:s,onWarn:l}=e;if(s!==null){const i=s(e,n,t,r);return _(i)?i:t}else return t}function Z(e,t,n){const a=e;a.__localeChainCache=new Map,e.localeFallbacker(e,n,t)}let tt=Je.__EXTEND_POINT__;const oe=()=>++tt,B={INVALID_ARGUMENT:tt,INVALID_DATE_ARGUMENT:oe(),INVALID_ISO_DATE_ARGUMENT:oe(),__EXTEND_POINT__:oe()};function K(e){return Qe(e,null,void 0)}const ke=()=>"",$=e=>M(e);function ve(e,...t){const{fallbackFormat:n,postTranslation:a,unresolving:r,messageCompiler:s,fallbackLocale:l,messages:i}=e,[c,m]=ue(...t),d=C(m.missingWarn)?m.missingWarn:e.missingWarn,E=C(m.fallbackWarn)?m.fallbackWarn:e.fallbackWarn,g=C(m.escapeParameter)?m.escapeParameter:e.escapeParameter,b=!!m.resolvedMessage,T=_(m.default)||C(m.default)?C(m.default)?s?c:()=>c:m.default:n?s?c:()=>c:"",O=n||T!=="",F=_(m.locale)?m.locale:e.locale;g&&Cn(m);let[N,p,R]=b?[c,F,i[F]||{}]:nt(e,c,F,l,E,d),L=N,f=c;if(!b&&!(_(L)||$(L))&&O&&(L=T,f=L),!b&&(!(_(L)||$(L))||!_(p)))return r?le:c;let h=!1;const k=()=>{h=!0},X=$(L)?L:at(e,c,p,L,f,k);if(h)return L;const Y=Dn(e,p,R,m),z=gn(Y),V=An(e,X,z);return a?a(V,c):V}function Cn(e){A(e.list)?e.list=e.list.map(t=>_(t)?he(t):t):y(e.named)&&Object.keys(e.named).forEach(t=>{_(e.named[t])&&(e.named[t]=he(e.named[t]))})}function nt(e,t,n,a,r,s){const{messages:l,onWarn:i,messageResolver:c,localeFallbacker:m}=e,d=m(e,a,n);let E={},g,b=null;const T="translate";for(let O=0;O<d.length&&(g=d[O],E=l[g]||{},(b=c(E,t))===null&&(b=E[t]),!(_(b)||M(b)));O++){const F=Ie(e,t,g,s,T);F!==t&&(b=F)}return[b,g,E]}function at(e,t,n,a,r,s){const{messageCompiler:l,warnHtmlMessage:i}=e;if($(a)){const m=a;return m.locale=m.locale||n,m.key=m.key||t,m}if(l==null){const m=()=>a;return m.locale=n,m.key=t,m}const c=l(a,Rn(e,n,r,a,i,s));return c.locale=n,c.key=t,c.source=a,c}function An(e,t,n){return t(n)}function ue(...e){const[t,n,a]=e,r={};if(!_(t)&&!S(t)&&!$(t))throw K(B.INVALID_ARGUMENT);const s=S(t)?String(t):($(t),t);return S(n)?r.plural=n:_(n)?r.default=n:I(n)&&!re(n)?r.named=n:A(n)&&(r.list=n),S(a)?r.plural=a:_(a)?r.default=a:I(a)&&w(r,a),[s,r]}function Rn(e,t,n,a,r,s){return{warnHtmlMessage:r,onError:l=>{throw s&&s(l),l},onCacheKey:l=>Bt(t,n,l)}}function Dn(e,t,n,a){const{modifiers:r,pluralRules:s,messageResolver:l,fallbackLocale:i,fallbackWarn:c,missingWarn:m,fallbackContext:d}=e,g={locale:t,modifiers:r,pluralRules:s,messages:b=>{let T=l(n,b);if(T==null&&d){const[,,O]=nt(d,b,t,i,c,m);T=l(O,b)}if(_(T)){let O=!1;const N=at(e,b,t,T,b,()=>{O=!0});return O?ke:N}else return $(T)?T:ke}};return e.processor&&(g.processor=e.processor),a.list&&(g.list=a.list),a.named&&(g.named=a.named),S(a.plural)&&(g.pluralIndex=a.plural),g}function Pe(e,...t){const{datetimeFormats:n,unresolving:a,fallbackLocale:r,onWarn:s,localeFallbacker:l}=e,{__datetimeFormatters:i}=e,[c,m,d,E]=me(...t),g=C(d.missingWarn)?d.missingWarn:e.missingWarn;C(d.fallbackWarn)?d.fallbackWarn:e.fallbackWarn;const b=!!d.part,T=_(d.locale)?d.locale:e.locale,O=l(e,r,T);if(!_(c)||c==="")return new Intl.DateTimeFormat(T,E).format(m);let F={},N,p=null;const R="datetime format";for(let h=0;h<O.length&&(N=O[h],F=n[N]||{},p=F[c],!I(p));h++)Ie(e,c,N,g,R);if(!I(p)||!_(N))return a?le:c;let L=`${N}__${c}`;re(E)||(L=`${L}__${JSON.stringify(E)}`);let f=i.get(L);return f||(f=new Intl.DateTimeFormat(N,w({},p,E)),i.set(L,f)),b?f.formatToParts(m):f.format(m)}const rt=["localeMatcher","weekday","era","year","month","day","hour","minute","second","timeZoneName","formatMatcher","hour12","timeZone","dateStyle","timeStyle","calendar","dayPeriod","numberingSystem","hourCycle","fractionalSecondDigits"];function me(...e){const[t,n,a,r]=e,s={};let l={},i;if(_(t)){const c=t.match(/(\d{4}-\d{2}-\d{2})(T|\s)?(.*)/);if(!c)throw K(B.INVALID_ISO_DATE_ARGUMENT);const m=c[3]?c[3].trim().startsWith("T")?`${c[1].trim()}${c[3].trim()}`:`${c[1].trim()}T${c[3].trim()}`:c[1].trim();i=new Date(m);try{i.toISOString()}catch{throw K(B.INVALID_ISO_DATE_ARGUMENT)}}else if(Xt(t)){if(isNaN(t.getTime()))throw K(B.INVALID_DATE_ARGUMENT);i=t}else if(S(t))i=t;else throw K(B.INVALID_ARGUMENT);return _(n)?s.key=n:I(n)&&Object.keys(n).forEach(c=>{rt.includes(c)?l[c]=n[c]:s[c]=n[c]}),_(a)?s.locale=a:I(a)&&(l=a),I(r)&&(l=r),[s.key||"",i,s,l]}function we(e,t,n){const a=e;for(const r in n){const s=`${t}__${r}`;!a.__datetimeFormatters.has(s)||a.__datetimeFormatters.delete(s)}}function We(e,...t){const{numberFormats:n,unresolving:a,fallbackLocale:r,onWarn:s,localeFallbacker:l}=e,{__numberFormatters:i}=e,[c,m,d,E]=fe(...t),g=C(d.missingWarn)?d.missingWarn:e.missingWarn;C(d.fallbackWarn)?d.fallbackWarn:e.fallbackWarn;const b=!!d.part,T=_(d.locale)?d.locale:e.locale,O=l(e,r,T);if(!_(c)||c==="")return new Intl.NumberFormat(T,E).format(m);let F={},N,p=null;const R="number format";for(let h=0;h<O.length&&(N=O[h],F=n[N]||{},p=F[c],!I(p));h++)Ie(e,c,N,g,R);if(!I(p)||!_(N))return a?le:c;let L=`${N}__${c}`;re(E)||(L=`${L}__${JSON.stringify(E)}`);let f=i.get(L);return f||(f=new Intl.NumberFormat(N,w({},p,E)),i.set(L,f)),b?f.formatToParts(m):f.format(m)}const lt=["localeMatcher","style","currency","currencyDisplay","currencySign","useGrouping","minimumIntegerDigits","minimumFractionDigits","maximumFractionDigits","minimumSignificantDigits","maximumSignificantDigits","compactDisplay","notation","signDisplay","unit","unitDisplay","roundingMode","roundingPriority","roundingIncrement","trailingZeroDisplay"];function fe(...e){const[t,n,a,r]=e,s={};let l={};if(!S(t))throw K(B.INVALID_ARGUMENT);const i=t;return _(n)?s.key=n:I(n)&&Object.keys(n).forEach(c=>{lt.includes(c)?l[c]=n[c]:s[c]=n[c]}),_(a)?s.locale=a:I(a)&&(l=a),I(r)&&(l=r),[s.key||"",i,s,l]}function Ue(e,t,n){const a=e;for(const r in n){const s=`${t}__${r}`;!a.__numberFormatters.has(s)||a.__numberFormatters.delete(s)}}/*!
+  */
+const pathStateMachine = [];
+pathStateMachine[0] = {
+  ["w"]: [0],
+  ["i"]: [3, 0],
+  ["["]: [4],
+  ["o"]: [7]
+};
+pathStateMachine[1] = {
+  ["w"]: [1],
+  ["."]: [2],
+  ["["]: [4],
+  ["o"]: [7]
+};
+pathStateMachine[2] = {
+  ["w"]: [2],
+  ["i"]: [3, 0],
+  ["0"]: [3, 0]
+};
+pathStateMachine[3] = {
+  ["i"]: [3, 0],
+  ["0"]: [3, 0],
+  ["w"]: [1, 1],
+  ["."]: [2, 1],
+  ["["]: [4, 1],
+  ["o"]: [7, 1]
+};
+pathStateMachine[4] = {
+  ["'"]: [5, 0],
+  ['"']: [6, 0],
+  ["["]: [
+    4,
+    2
+  ],
+  ["]"]: [1, 3],
+  ["o"]: 8,
+  ["l"]: [4, 0]
+};
+pathStateMachine[5] = {
+  ["'"]: [4, 0],
+  ["o"]: 8,
+  ["l"]: [5, 0]
+};
+pathStateMachine[6] = {
+  ['"']: [4, 0],
+  ["o"]: 8,
+  ["l"]: [6, 0]
+};
+const literalValueRE = /^\s?(?:true|false|-?[\d.]+|'[^']*'|"[^"]*")\s?$/;
+function isLiteral(exp) {
+  return literalValueRE.test(exp);
+}
+function stripQuotes(str) {
+  const a = str.charCodeAt(0);
+  const b = str.charCodeAt(str.length - 1);
+  return a === b && (a === 34 || a === 39) ? str.slice(1, -1) : str;
+}
+function getPathCharType(ch) {
+  if (ch === void 0 || ch === null) {
+    return "o";
+  }
+  const code2 = ch.charCodeAt(0);
+  switch (code2) {
+    case 91:
+    case 93:
+    case 46:
+    case 34:
+    case 39:
+      return ch;
+    case 95:
+    case 36:
+    case 45:
+      return "i";
+    case 9:
+    case 10:
+    case 13:
+    case 160:
+    case 65279:
+    case 8232:
+    case 8233:
+      return "w";
+  }
+  return "i";
+}
+function formatSubPath(path) {
+  const trimmed = path.trim();
+  if (path.charAt(0) === "0" && isNaN(parseInt(path))) {
+    return false;
+  }
+  return isLiteral(trimmed) ? stripQuotes(trimmed) : "*" + trimmed;
+}
+function parse(path) {
+  const keys = [];
+  let index = -1;
+  let mode = 0;
+  let subPathDepth = 0;
+  let c;
+  let key;
+  let newChar;
+  let type;
+  let transition;
+  let action;
+  let typeMap;
+  const actions = [];
+  actions[0] = () => {
+    if (key === void 0) {
+      key = newChar;
+    } else {
+      key += newChar;
+    }
+  };
+  actions[1] = () => {
+    if (key !== void 0) {
+      keys.push(key);
+      key = void 0;
+    }
+  };
+  actions[2] = () => {
+    actions[0]();
+    subPathDepth++;
+  };
+  actions[3] = () => {
+    if (subPathDepth > 0) {
+      subPathDepth--;
+      mode = 4;
+      actions[0]();
+    } else {
+      subPathDepth = 0;
+      if (key === void 0) {
+        return false;
+      }
+      key = formatSubPath(key);
+      if (key === false) {
+        return false;
+      } else {
+        actions[1]();
+      }
+    }
+  };
+  function maybeUnescapeQuote() {
+    const nextChar = path[index + 1];
+    if (mode === 5 && nextChar === "'" || mode === 6 && nextChar === '"') {
+      index++;
+      newChar = "\\" + nextChar;
+      actions[0]();
+      return true;
+    }
+  }
+  while (mode !== null) {
+    index++;
+    c = path[index];
+    if (c === "\\" && maybeUnescapeQuote()) {
+      continue;
+    }
+    type = getPathCharType(c);
+    typeMap = pathStateMachine[mode];
+    transition = typeMap[type] || typeMap["l"] || 8;
+    if (transition === 8) {
+      return;
+    }
+    mode = transition[0];
+    if (transition[1] !== void 0) {
+      action = actions[transition[1]];
+      if (action) {
+        newChar = c;
+        if (action() === false) {
+          return;
+        }
+      }
+    }
+    if (mode === 7) {
+      return keys;
+    }
+  }
+}
+const cache = /* @__PURE__ */ new Map();
+function resolveWithKeyValue(obj, path) {
+  return isObject(obj) ? obj[path] : null;
+}
+function resolveValue(obj, path) {
+  if (!isObject(obj)) {
+    return null;
+  }
+  let hit = cache.get(path);
+  if (!hit) {
+    hit = parse(path);
+    if (hit) {
+      cache.set(path, hit);
+    }
+  }
+  if (!hit) {
+    return null;
+  }
+  const len = hit.length;
+  let last = obj;
+  let i = 0;
+  while (i < len) {
+    const val = last[hit[i]];
+    if (val === void 0) {
+      return null;
+    }
+    last = val;
+    i++;
+  }
+  return last;
+}
+const DEFAULT_MODIFIER = (str) => str;
+const DEFAULT_MESSAGE = (ctx) => "";
+const DEFAULT_MESSAGE_DATA_TYPE = "text";
+const DEFAULT_NORMALIZE = (values) => values.length === 0 ? "" : values.join("");
+const DEFAULT_INTERPOLATE = toDisplayString;
+function pluralDefault(choice, choicesLength) {
+  choice = Math.abs(choice);
+  if (choicesLength === 2) {
+    return choice ? choice > 1 ? 1 : 0 : 1;
+  }
+  return choice ? Math.min(choice, 2) : 0;
+}
+function getPluralIndex(options) {
+  const index = isNumber(options.pluralIndex) ? options.pluralIndex : -1;
+  return options.named && (isNumber(options.named.count) || isNumber(options.named.n)) ? isNumber(options.named.count) ? options.named.count : isNumber(options.named.n) ? options.named.n : index : index;
+}
+function normalizeNamed(pluralIndex, props) {
+  if (!props.count) {
+    props.count = pluralIndex;
+  }
+  if (!props.n) {
+    props.n = pluralIndex;
+  }
+}
+function createMessageContext(options = {}) {
+  const locale = options.locale;
+  const pluralIndex = getPluralIndex(options);
+  const pluralRule = isObject(options.pluralRules) && isString(locale) && isFunction(options.pluralRules[locale]) ? options.pluralRules[locale] : pluralDefault;
+  const orgPluralRule = isObject(options.pluralRules) && isString(locale) && isFunction(options.pluralRules[locale]) ? pluralDefault : void 0;
+  const plural = (messages) => {
+    return messages[pluralRule(pluralIndex, messages.length, orgPluralRule)];
+  };
+  const _list = options.list || [];
+  const list = (index) => _list[index];
+  const _named = options.named || {};
+  isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named);
+  const named = (key) => _named[key];
+  function message(key) {
+    const msg = isFunction(options.messages) ? options.messages(key) : isObject(options.messages) ? options.messages[key] : false;
+    return !msg ? options.parent ? options.parent.message(key) : DEFAULT_MESSAGE : msg;
+  }
+  const _modifier = (name) => options.modifiers ? options.modifiers[name] : DEFAULT_MODIFIER;
+  const normalize = isPlainObject(options.processor) && isFunction(options.processor.normalize) ? options.processor.normalize : DEFAULT_NORMALIZE;
+  const interpolate = isPlainObject(options.processor) && isFunction(options.processor.interpolate) ? options.processor.interpolate : DEFAULT_INTERPOLATE;
+  const type = isPlainObject(options.processor) && isString(options.processor.type) ? options.processor.type : DEFAULT_MESSAGE_DATA_TYPE;
+  const linked = (key, ...args) => {
+    const [arg1, arg2] = args;
+    let type2 = "text";
+    let modifier = "";
+    if (args.length === 1) {
+      if (isObject(arg1)) {
+        modifier = arg1.modifier || modifier;
+        type2 = arg1.type || type2;
+      } else if (isString(arg1)) {
+        modifier = arg1 || modifier;
+      }
+    } else if (args.length === 2) {
+      if (isString(arg1)) {
+        modifier = arg1 || modifier;
+      }
+      if (isString(arg2)) {
+        type2 = arg2 || type2;
+      }
+    }
+    let msg = message(key)(ctx);
+    if (type2 === "vnode" && isArray(msg) && modifier) {
+      msg = msg[0];
+    }
+    return modifier ? _modifier(modifier)(msg, type2) : msg;
+  };
+  const ctx = {
+    ["list"]: list,
+    ["named"]: named,
+    ["plural"]: plural,
+    ["linked"]: linked,
+    ["message"]: message,
+    ["type"]: type,
+    ["interpolate"]: interpolate,
+    ["normalize"]: normalize
+  };
+  return ctx;
+}
+let devtools = null;
+/* @__PURE__ */ createDevToolsHook(IntlifyDevToolsHooks.FunctionTranslate);
+function createDevToolsHook(hook) {
+  return (payloads) => devtools;
+}
+const CoreWarnCodes = {
+  NOT_FOUND_KEY: 1,
+  FALLBACK_TO_TRANSLATE: 2,
+  CANNOT_FORMAT_NUMBER: 3,
+  FALLBACK_TO_NUMBER_FORMAT: 4,
+  CANNOT_FORMAT_DATE: 5,
+  FALLBACK_TO_DATE_FORMAT: 6,
+  __EXTEND_POINT__: 7
+};
+function fallbackWithSimple(ctx, fallback, start) {
+  return [.../* @__PURE__ */ new Set([
+    start,
+    ...isArray(fallback) ? fallback : isObject(fallback) ? Object.keys(fallback) : isString(fallback) ? [fallback] : [start]
+  ])];
+}
+function fallbackWithLocaleChain(ctx, fallback, start) {
+  const startLocale = isString(start) ? start : DEFAULT_LOCALE;
+  const context = ctx;
+  if (!context.__localeChainCache) {
+    context.__localeChainCache = /* @__PURE__ */ new Map();
+  }
+  let chain = context.__localeChainCache.get(startLocale);
+  if (!chain) {
+    chain = [];
+    let block = [start];
+    while (isArray(block)) {
+      block = appendBlockToChain(chain, block, fallback);
+    }
+    const defaults = isArray(fallback) || !isPlainObject(fallback) ? fallback : fallback["default"] ? fallback["default"] : null;
+    block = isString(defaults) ? [defaults] : defaults;
+    if (isArray(block)) {
+      appendBlockToChain(chain, block, false);
+    }
+    context.__localeChainCache.set(startLocale, chain);
+  }
+  return chain;
+}
+function appendBlockToChain(chain, block, blocks) {
+  let follow = true;
+  for (let i = 0; i < block.length && isBoolean(follow); i++) {
+    const locale = block[i];
+    if (isString(locale)) {
+      follow = appendLocaleToChain(chain, block[i], blocks);
+    }
+  }
+  return follow;
+}
+function appendLocaleToChain(chain, locale, blocks) {
+  let follow;
+  const tokens = locale.split("-");
+  do {
+    const target = tokens.join("-");
+    follow = appendItemToChain(chain, target, blocks);
+    tokens.splice(-1, 1);
+  } while (tokens.length && follow === true);
+  return follow;
+}
+function appendItemToChain(chain, target, blocks) {
+  let follow = false;
+  if (!chain.includes(target)) {
+    follow = true;
+    if (target) {
+      follow = target[target.length - 1] !== "!";
+      const locale = target.replace(/!/g, "");
+      chain.push(locale);
+      if ((isArray(blocks) || isPlainObject(blocks)) && blocks[locale]) {
+        follow = blocks[locale];
+      }
+    }
+  }
+  return follow;
+}
+const VERSION$1 = "9.2.2";
+const NOT_REOSLVED = -1;
+const DEFAULT_LOCALE = "en-US";
+const MISSING_RESOLVE_VALUE = "";
+const capitalize = (str) => `${str.charAt(0).toLocaleUpperCase()}${str.substr(1)}`;
+function getDefaultLinkedModifiers() {
+  return {
+    upper: (val, type) => {
+      return type === "text" && isString(val) ? val.toUpperCase() : type === "vnode" && isObject(val) && "__v_isVNode" in val ? val.children.toUpperCase() : val;
+    },
+    lower: (val, type) => {
+      return type === "text" && isString(val) ? val.toLowerCase() : type === "vnode" && isObject(val) && "__v_isVNode" in val ? val.children.toLowerCase() : val;
+    },
+    capitalize: (val, type) => {
+      return type === "text" && isString(val) ? capitalize(val) : type === "vnode" && isObject(val) && "__v_isVNode" in val ? capitalize(val.children) : val;
+    }
+  };
+}
+let _compiler;
+let _resolver;
+function registerMessageResolver(resolver) {
+  _resolver = resolver;
+}
+let _fallbacker;
+function registerLocaleFallbacker(fallbacker) {
+  _fallbacker = fallbacker;
+}
+let _cid = 0;
+function createCoreContext(options = {}) {
+  const version = isString(options.version) ? options.version : VERSION$1;
+  const locale = isString(options.locale) ? options.locale : DEFAULT_LOCALE;
+  const fallbackLocale = isArray(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || isString(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : locale;
+  const messages = isPlainObject(options.messages) ? options.messages : { [locale]: {} };
+  const datetimeFormats = isPlainObject(options.datetimeFormats) ? options.datetimeFormats : { [locale]: {} };
+  const numberFormats = isPlainObject(options.numberFormats) ? options.numberFormats : { [locale]: {} };
+  const modifiers = assign({}, options.modifiers || {}, getDefaultLinkedModifiers());
+  const pluralRules = options.pluralRules || {};
+  const missing = isFunction(options.missing) ? options.missing : null;
+  const missingWarn = isBoolean(options.missingWarn) || isRegExp(options.missingWarn) ? options.missingWarn : true;
+  const fallbackWarn = isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn) ? options.fallbackWarn : true;
+  const fallbackFormat = !!options.fallbackFormat;
+  const unresolving = !!options.unresolving;
+  const postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null;
+  const processor = isPlainObject(options.processor) ? options.processor : null;
+  const warnHtmlMessage = isBoolean(options.warnHtmlMessage) ? options.warnHtmlMessage : true;
+  const escapeParameter = !!options.escapeParameter;
+  const messageCompiler = isFunction(options.messageCompiler) ? options.messageCompiler : _compiler;
+  const messageResolver = isFunction(options.messageResolver) ? options.messageResolver : _resolver || resolveWithKeyValue;
+  const localeFallbacker = isFunction(options.localeFallbacker) ? options.localeFallbacker : _fallbacker || fallbackWithSimple;
+  const fallbackContext = isObject(options.fallbackContext) ? options.fallbackContext : void 0;
+  const onWarn = isFunction(options.onWarn) ? options.onWarn : warn;
+  const internalOptions = options;
+  const __datetimeFormatters = isObject(internalOptions.__datetimeFormatters) ? internalOptions.__datetimeFormatters : /* @__PURE__ */ new Map();
+  const __numberFormatters = isObject(internalOptions.__numberFormatters) ? internalOptions.__numberFormatters : /* @__PURE__ */ new Map();
+  const __meta = isObject(internalOptions.__meta) ? internalOptions.__meta : {};
+  _cid++;
+  const context = {
+    version,
+    cid: _cid,
+    locale,
+    fallbackLocale,
+    messages,
+    modifiers,
+    pluralRules,
+    missing,
+    missingWarn,
+    fallbackWarn,
+    fallbackFormat,
+    unresolving,
+    postTranslation,
+    processor,
+    warnHtmlMessage,
+    escapeParameter,
+    messageCompiler,
+    messageResolver,
+    localeFallbacker,
+    fallbackContext,
+    onWarn,
+    __meta
+  };
+  {
+    context.datetimeFormats = datetimeFormats;
+    context.numberFormats = numberFormats;
+    context.__datetimeFormatters = __datetimeFormatters;
+    context.__numberFormatters = __numberFormatters;
+  }
+  return context;
+}
+function handleMissing(context, key, locale, missingWarn, type) {
+  const { missing, onWarn } = context;
+  if (missing !== null) {
+    const ret = missing(context, locale, key, type);
+    return isString(ret) ? ret : key;
+  } else {
+    return key;
+  }
+}
+function updateFallbackLocale(ctx, locale, fallback) {
+  const context = ctx;
+  context.__localeChainCache = /* @__PURE__ */ new Map();
+  ctx.localeFallbacker(ctx, fallback, locale);
+}
+let code$1 = CompileErrorCodes.__EXTEND_POINT__;
+const inc$1 = () => ++code$1;
+const CoreErrorCodes = {
+  INVALID_ARGUMENT: code$1,
+  INVALID_DATE_ARGUMENT: inc$1(),
+  INVALID_ISO_DATE_ARGUMENT: inc$1(),
+  __EXTEND_POINT__: inc$1()
+};
+function createCoreError(code2) {
+  return createCompileError(code2, null, void 0);
+}
+const NOOP_MESSAGE_FUNCTION = () => "";
+const isMessageFunction = (val) => isFunction(val);
+function translate(context, ...args) {
+  const { fallbackFormat, postTranslation, unresolving, messageCompiler, fallbackLocale, messages } = context;
+  const [key, options] = parseTranslateArgs(...args);
+  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn;
+  const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn;
+  const escapeParameter = isBoolean(options.escapeParameter) ? options.escapeParameter : context.escapeParameter;
+  const resolvedMessage = !!options.resolvedMessage;
+  const defaultMsgOrKey = isString(options.default) || isBoolean(options.default) ? !isBoolean(options.default) ? options.default : !messageCompiler ? () => key : key : fallbackFormat ? !messageCompiler ? () => key : key : "";
+  const enableDefaultMsg = fallbackFormat || defaultMsgOrKey !== "";
+  const locale = isString(options.locale) ? options.locale : context.locale;
+  escapeParameter && escapeParams(options);
+  let [formatScope, targetLocale, message] = !resolvedMessage ? resolveMessageFormat(context, key, locale, fallbackLocale, fallbackWarn, missingWarn) : [
+    key,
+    locale,
+    messages[locale] || {}
+  ];
+  let format = formatScope;
+  let cacheBaseKey = key;
+  if (!resolvedMessage && !(isString(format) || isMessageFunction(format))) {
+    if (enableDefaultMsg) {
+      format = defaultMsgOrKey;
+      cacheBaseKey = format;
+    }
+  }
+  if (!resolvedMessage && (!(isString(format) || isMessageFunction(format)) || !isString(targetLocale))) {
+    return unresolving ? NOT_REOSLVED : key;
+  }
+  let occurred = false;
+  const errorDetector = () => {
+    occurred = true;
+  };
+  const msg = !isMessageFunction(format) ? compileMessageFormat(context, key, targetLocale, format, cacheBaseKey, errorDetector) : format;
+  if (occurred) {
+    return format;
+  }
+  const ctxOptions = getMessageContextOptions(context, targetLocale, message, options);
+  const msgContext = createMessageContext(ctxOptions);
+  const messaged = evaluateMessage(context, msg, msgContext);
+  const ret = postTranslation ? postTranslation(messaged, key) : messaged;
+  return ret;
+}
+function escapeParams(options) {
+  if (isArray(options.list)) {
+    options.list = options.list.map((item) => isString(item) ? escapeHtml(item) : item);
+  } else if (isObject(options.named)) {
+    Object.keys(options.named).forEach((key) => {
+      if (isString(options.named[key])) {
+        options.named[key] = escapeHtml(options.named[key]);
+      }
+    });
+  }
+}
+function resolveMessageFormat(context, key, locale, fallbackLocale, fallbackWarn, missingWarn) {
+  const { messages, onWarn, messageResolver: resolveValue2, localeFallbacker } = context;
+  const locales = localeFallbacker(context, fallbackLocale, locale);
+  let message = {};
+  let targetLocale;
+  let format = null;
+  const type = "translate";
+  for (let i = 0; i < locales.length; i++) {
+    targetLocale = locales[i];
+    message = messages[targetLocale] || {};
+    if ((format = resolveValue2(message, key)) === null) {
+      format = message[key];
+    }
+    if (isString(format) || isFunction(format))
+      break;
+    const missingRet = handleMissing(
+      context,
+      key,
+      targetLocale,
+      missingWarn,
+      type
+    );
+    if (missingRet !== key) {
+      format = missingRet;
+    }
+  }
+  return [format, targetLocale, message];
+}
+function compileMessageFormat(context, key, targetLocale, format, cacheBaseKey, errorDetector) {
+  const { messageCompiler, warnHtmlMessage } = context;
+  if (isMessageFunction(format)) {
+    const msg2 = format;
+    msg2.locale = msg2.locale || targetLocale;
+    msg2.key = msg2.key || key;
+    return msg2;
+  }
+  if (messageCompiler == null) {
+    const msg2 = () => format;
+    msg2.locale = targetLocale;
+    msg2.key = key;
+    return msg2;
+  }
+  const msg = messageCompiler(format, getCompileOptions(context, targetLocale, cacheBaseKey, format, warnHtmlMessage, errorDetector));
+  msg.locale = targetLocale;
+  msg.key = key;
+  msg.source = format;
+  return msg;
+}
+function evaluateMessage(context, msg, msgCtx) {
+  const messaged = msg(msgCtx);
+  return messaged;
+}
+function parseTranslateArgs(...args) {
+  const [arg1, arg2, arg3] = args;
+  const options = {};
+  if (!isString(arg1) && !isNumber(arg1) && !isMessageFunction(arg1)) {
+    throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT);
+  }
+  const key = isNumber(arg1) ? String(arg1) : isMessageFunction(arg1) ? arg1 : arg1;
+  if (isNumber(arg2)) {
+    options.plural = arg2;
+  } else if (isString(arg2)) {
+    options.default = arg2;
+  } else if (isPlainObject(arg2) && !isEmptyObject(arg2)) {
+    options.named = arg2;
+  } else if (isArray(arg2)) {
+    options.list = arg2;
+  }
+  if (isNumber(arg3)) {
+    options.plural = arg3;
+  } else if (isString(arg3)) {
+    options.default = arg3;
+  } else if (isPlainObject(arg3)) {
+    assign(options, arg3);
+  }
+  return [key, options];
+}
+function getCompileOptions(context, locale, key, source, warnHtmlMessage, errorDetector) {
+  return {
+    warnHtmlMessage,
+    onError: (err) => {
+      errorDetector && errorDetector(err);
+      {
+        throw err;
+      }
+    },
+    onCacheKey: (source2) => generateFormatCacheKey(locale, key, source2)
+  };
+}
+function getMessageContextOptions(context, locale, message, options) {
+  const { modifiers, pluralRules, messageResolver: resolveValue2, fallbackLocale, fallbackWarn, missingWarn, fallbackContext } = context;
+  const resolveMessage = (key) => {
+    let val = resolveValue2(message, key);
+    if (val == null && fallbackContext) {
+      const [, , message2] = resolveMessageFormat(fallbackContext, key, locale, fallbackLocale, fallbackWarn, missingWarn);
+      val = resolveValue2(message2, key);
+    }
+    if (isString(val)) {
+      let occurred = false;
+      const errorDetector = () => {
+        occurred = true;
+      };
+      const msg = compileMessageFormat(context, key, locale, val, key, errorDetector);
+      return !occurred ? msg : NOOP_MESSAGE_FUNCTION;
+    } else if (isMessageFunction(val)) {
+      return val;
+    } else {
+      return NOOP_MESSAGE_FUNCTION;
+    }
+  };
+  const ctxOptions = {
+    locale,
+    modifiers,
+    pluralRules,
+    messages: resolveMessage
+  };
+  if (context.processor) {
+    ctxOptions.processor = context.processor;
+  }
+  if (options.list) {
+    ctxOptions.list = options.list;
+  }
+  if (options.named) {
+    ctxOptions.named = options.named;
+  }
+  if (isNumber(options.plural)) {
+    ctxOptions.pluralIndex = options.plural;
+  }
+  return ctxOptions;
+}
+function datetime(context, ...args) {
+  const { datetimeFormats, unresolving, fallbackLocale, onWarn, localeFallbacker } = context;
+  const { __datetimeFormatters } = context;
+  const [key, value, options, overrides] = parseDateTimeArgs(...args);
+  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn;
+  isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn;
+  const part = !!options.part;
+  const locale = isString(options.locale) ? options.locale : context.locale;
+  const locales = localeFallbacker(
+    context,
+    fallbackLocale,
+    locale
+  );
+  if (!isString(key) || key === "") {
+    return new Intl.DateTimeFormat(locale, overrides).format(value);
+  }
+  let datetimeFormat = {};
+  let targetLocale;
+  let format = null;
+  const type = "datetime format";
+  for (let i = 0; i < locales.length; i++) {
+    targetLocale = locales[i];
+    datetimeFormat = datetimeFormats[targetLocale] || {};
+    format = datetimeFormat[key];
+    if (isPlainObject(format))
+      break;
+    handleMissing(context, key, targetLocale, missingWarn, type);
+  }
+  if (!isPlainObject(format) || !isString(targetLocale)) {
+    return unresolving ? NOT_REOSLVED : key;
+  }
+  let id = `${targetLocale}__${key}`;
+  if (!isEmptyObject(overrides)) {
+    id = `${id}__${JSON.stringify(overrides)}`;
+  }
+  let formatter = __datetimeFormatters.get(id);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat(targetLocale, assign({}, format, overrides));
+    __datetimeFormatters.set(id, formatter);
+  }
+  return !part ? formatter.format(value) : formatter.formatToParts(value);
+}
+const DATETIME_FORMAT_OPTIONS_KEYS = [
+  "localeMatcher",
+  "weekday",
+  "era",
+  "year",
+  "month",
+  "day",
+  "hour",
+  "minute",
+  "second",
+  "timeZoneName",
+  "formatMatcher",
+  "hour12",
+  "timeZone",
+  "dateStyle",
+  "timeStyle",
+  "calendar",
+  "dayPeriod",
+  "numberingSystem",
+  "hourCycle",
+  "fractionalSecondDigits"
+];
+function parseDateTimeArgs(...args) {
+  const [arg1, arg2, arg3, arg4] = args;
+  const options = {};
+  let overrides = {};
+  let value;
+  if (isString(arg1)) {
+    const matches = arg1.match(/(\d{4}-\d{2}-\d{2})(T|\s)?(.*)/);
+    if (!matches) {
+      throw createCoreError(CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT);
+    }
+    const dateTime = matches[3] ? matches[3].trim().startsWith("T") ? `${matches[1].trim()}${matches[3].trim()}` : `${matches[1].trim()}T${matches[3].trim()}` : matches[1].trim();
+    value = new Date(dateTime);
+    try {
+      value.toISOString();
+    } catch (e) {
+      throw createCoreError(CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT);
+    }
+  } else if (isDate(arg1)) {
+    if (isNaN(arg1.getTime())) {
+      throw createCoreError(CoreErrorCodes.INVALID_DATE_ARGUMENT);
+    }
+    value = arg1;
+  } else if (isNumber(arg1)) {
+    value = arg1;
+  } else {
+    throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT);
+  }
+  if (isString(arg2)) {
+    options.key = arg2;
+  } else if (isPlainObject(arg2)) {
+    Object.keys(arg2).forEach((key) => {
+      if (DATETIME_FORMAT_OPTIONS_KEYS.includes(key)) {
+        overrides[key] = arg2[key];
+      } else {
+        options[key] = arg2[key];
+      }
+    });
+  }
+  if (isString(arg3)) {
+    options.locale = arg3;
+  } else if (isPlainObject(arg3)) {
+    overrides = arg3;
+  }
+  if (isPlainObject(arg4)) {
+    overrides = arg4;
+  }
+  return [options.key || "", value, options, overrides];
+}
+function clearDateTimeFormat(ctx, locale, format) {
+  const context = ctx;
+  for (const key in format) {
+    const id = `${locale}__${key}`;
+    if (!context.__datetimeFormatters.has(id)) {
+      continue;
+    }
+    context.__datetimeFormatters.delete(id);
+  }
+}
+function number(context, ...args) {
+  const { numberFormats, unresolving, fallbackLocale, onWarn, localeFallbacker } = context;
+  const { __numberFormatters } = context;
+  const [key, value, options, overrides] = parseNumberArgs(...args);
+  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn;
+  isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn;
+  const part = !!options.part;
+  const locale = isString(options.locale) ? options.locale : context.locale;
+  const locales = localeFallbacker(
+    context,
+    fallbackLocale,
+    locale
+  );
+  if (!isString(key) || key === "") {
+    return new Intl.NumberFormat(locale, overrides).format(value);
+  }
+  let numberFormat = {};
+  let targetLocale;
+  let format = null;
+  const type = "number format";
+  for (let i = 0; i < locales.length; i++) {
+    targetLocale = locales[i];
+    numberFormat = numberFormats[targetLocale] || {};
+    format = numberFormat[key];
+    if (isPlainObject(format))
+      break;
+    handleMissing(context, key, targetLocale, missingWarn, type);
+  }
+  if (!isPlainObject(format) || !isString(targetLocale)) {
+    return unresolving ? NOT_REOSLVED : key;
+  }
+  let id = `${targetLocale}__${key}`;
+  if (!isEmptyObject(overrides)) {
+    id = `${id}__${JSON.stringify(overrides)}`;
+  }
+  let formatter = __numberFormatters.get(id);
+  if (!formatter) {
+    formatter = new Intl.NumberFormat(targetLocale, assign({}, format, overrides));
+    __numberFormatters.set(id, formatter);
+  }
+  return !part ? formatter.format(value) : formatter.formatToParts(value);
+}
+const NUMBER_FORMAT_OPTIONS_KEYS = [
+  "localeMatcher",
+  "style",
+  "currency",
+  "currencyDisplay",
+  "currencySign",
+  "useGrouping",
+  "minimumIntegerDigits",
+  "minimumFractionDigits",
+  "maximumFractionDigits",
+  "minimumSignificantDigits",
+  "maximumSignificantDigits",
+  "compactDisplay",
+  "notation",
+  "signDisplay",
+  "unit",
+  "unitDisplay",
+  "roundingMode",
+  "roundingPriority",
+  "roundingIncrement",
+  "trailingZeroDisplay"
+];
+function parseNumberArgs(...args) {
+  const [arg1, arg2, arg3, arg4] = args;
+  const options = {};
+  let overrides = {};
+  if (!isNumber(arg1)) {
+    throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT);
+  }
+  const value = arg1;
+  if (isString(arg2)) {
+    options.key = arg2;
+  } else if (isPlainObject(arg2)) {
+    Object.keys(arg2).forEach((key) => {
+      if (NUMBER_FORMAT_OPTIONS_KEYS.includes(key)) {
+        overrides[key] = arg2[key];
+      } else {
+        options[key] = arg2[key];
+      }
+    });
+  }
+  if (isString(arg3)) {
+    options.locale = arg3;
+  } else if (isPlainObject(arg3)) {
+    overrides = arg3;
+  }
+  if (isPlainObject(arg4)) {
+    overrides = arg4;
+  }
+  return [options.key || "", value, options, overrides];
+}
+function clearNumberFormat(ctx, locale, format) {
+  const context = ctx;
+  for (const key in format) {
+    const id = `${locale}__${key}`;
+    if (!context.__numberFormatters.has(id)) {
+      continue;
+    }
+    context.__numberFormatters.delete(id);
+  }
+}
+/*!
   * vue-i18n v9.2.2
   * (c) 2022 kazuya kawaguchi
   * Released under the MIT License.
-  */const Sn="9.2.2";bn.__EXTEND_POINT__;let st=Je.__EXTEND_POINT__;const P=()=>++st,W={UNEXPECTED_RETURN_TYPE:st,INVALID_ARGUMENT:P(),MUST_BE_CALL_SETUP_TOP:P(),NOT_INSLALLED:P(),NOT_AVAILABLE_IN_LEGACY_MODE:P(),REQUIRED_VALUE:P(),INVALID_VALUE:P(),CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN:P(),NOT_INSLALLED_WITH_PROVIDE:P(),UNEXPECTED_ERROR:P(),NOT_COMPATIBLE_LEGACY_VUE_I18N:P(),BRIDGE_SUPPORT_VUE_2_ONLY:P(),MUST_DEFINE_I18N_OPTION_IN_ALLOW_COMPOSITION:P(),NOT_AVAILABLE_COMPOSITION_IN_LEGACY:P(),__EXTEND_POINT__:P()};function U(e,...t){return Qe(e,null,void 0)}const _e=j("__transrateVNode"),ge=j("__datetimeParts"),de=j("__numberParts"),Mn=j("__setPluralRules");j("__intlifyMeta");const kn=j("__injectWithOption");function Ee(e){if(!y(e))return e;for(const t in e)if(!!be(e,t))if(!t.includes("."))y(e[t])&&Ee(e[t]);else{const n=t.split("."),a=n.length-1;let r=e;for(let s=0;s<a;s++)n[s]in r||(r[n[s]]={}),r=r[n[s]];r[n[a]]=e[t],delete e[t],y(r[n[a]])&&Ee(r[n[a]])}return e}function ot(e,t){const{messages:n,__i18n:a,messageResolver:r,flatJson:s}=t,l=I(n)?n:A(a)?{}:{[e]:{}};if(A(a)&&a.forEach(i=>{if("locale"in i&&"resource"in i){const{locale:c,resource:m}=i;c?(l[c]=l[c]||{},ee(m,l[c])):ee(m,l)}else _(i)&&ee(JSON.parse(i),l)}),r==null&&s)for(const i in l)be(l,i)&&Ee(l[i]);return l}const ne=e=>!y(e)||A(e);function ee(e,t){if(ne(e)||ne(t))throw U(W.INVALID_VALUE);for(const n in e)be(e,n)&&(ne(e[n])||ne(t[n])?t[n]=e[n]:ee(e[n],t[n]))}function vn(e){return e.type}function Pn(e,t,n){let a=y(t.messages)?t.messages:{};"__i18nGlobal"in n&&(a=ot(e.locale.value,{messages:a,__i18n:n.__i18nGlobal}));const r=Object.keys(a);r.length&&r.forEach(s=>{e.mergeLocaleMessage(s,a[s])});{if(y(t.datetimeFormats)){const s=Object.keys(t.datetimeFormats);s.length&&s.forEach(l=>{e.mergeDateTimeFormat(l,t.datetimeFormats[l])})}if(y(t.numberFormats)){const s=Object.keys(t.numberFormats);s.length&&s.forEach(l=>{e.mergeNumberFormat(l,t.numberFormats[l])})}}}function Ve(e){return Gt($t,null,e,0)}let xe=0;function je(e){return(t,n,a,r)=>e(n,a,Ye()||void 0,r)}function ct(e={},t){const{__root:n}=e,a=n===void 0;let r=C(e.inheritLocale)?e.inheritLocale:!0;const s=Q(n&&r?n.locale.value:_(e.locale)?e.locale:Te),l=Q(n&&r?n.fallbackLocale.value:_(e.fallbackLocale)||A(e.fallbackLocale)||I(e.fallbackLocale)||e.fallbackLocale===!1?e.fallbackLocale:s.value),i=Q(ot(s.value,e)),c=Q(I(e.datetimeFormats)?e.datetimeFormats:{[s.value]:{}}),m=Q(I(e.numberFormats)?e.numberFormats:{[s.value]:{}});let d=n?n.missingWarn:C(e.missingWarn)||ae(e.missingWarn)?e.missingWarn:!0,E=n?n.fallbackWarn:C(e.fallbackWarn)||ae(e.fallbackWarn)?e.fallbackWarn:!0,g=n?n.fallbackRoot:C(e.fallbackRoot)?e.fallbackRoot:!0,b=!!e.fallbackFormat,T=M(e.missing)?e.missing:null,O=M(e.missing)?je(e.missing):null,F=M(e.postTranslation)?e.postTranslation:null,N=n?n.warnHtmlMessage:C(e.warnHtmlMessage)?e.warnHtmlMessage:!0,p=!!e.escapeParameter;const R=n?n.modifiers:I(e.modifiers)?e.modifiers:{};let L=e.pluralRules||n&&n.pluralRules,f;f=(()=>{const o={version:Sn,locale:s.value,fallbackLocale:l.value,messages:i.value,modifiers:R,pluralRules:L,missing:O===null?void 0:O,missingWarn:d,fallbackWarn:E,fallbackFormat:b,unresolving:!0,postTranslation:F===null?void 0:F,warnHtmlMessage:N,escapeParameter:p,messageResolver:e.messageResolver,__meta:{framework:"vue"}};return o.datetimeFormats=c.value,o.numberFormats=m.value,o.__datetimeFormatters=I(f)?f.__datetimeFormatters:void 0,o.__numberFormatters=I(f)?f.__numberFormatters:void 0,hn(o)})(),Z(f,s.value,l.value);function k(){return[s.value,l.value,i.value,c.value,m.value]}const X=q({get:()=>s.value,set:o=>{s.value=o,f.locale=s.value}}),Y=q({get:()=>l.value,set:o=>{l.value=o,f.fallbackLocale=l.value,Z(f,s.value,o)}}),z=q(()=>i.value),V=q(()=>c.value),pe=q(()=>m.value);function mt(){return M(F)?F:null}function ft(o){F=o,f.postTranslation=o}function _t(){return T}function gt(o){o!==null&&(O=je(o)),T=o,f.missing=O}const H=(o,u,x,v,se,te)=>{k();let J;if(J=o(f),S(J)&&J===le){const[Pt,qn]=u();return n&&g?v(n):se(Pt)}else{if(te(J))return J;throw U(W.UNEXPECTED_RETURN_TYPE)}};function ye(...o){return H(u=>Reflect.apply(ve,null,[u,...o]),()=>ue(...o),"translate",u=>Reflect.apply(u.t,u,[...o]),u=>u,u=>_(u))}function dt(...o){const[u,x,v]=o;if(v&&!y(v))throw U(W.INVALID_ARGUMENT);return ye(u,x,w({resolvedMessage:!0},v||{}))}function Et(...o){return H(u=>Reflect.apply(Pe,null,[u,...o]),()=>me(...o),"datetime format",u=>Reflect.apply(u.d,u,[...o]),()=>De,u=>_(u))}function bt(...o){return H(u=>Reflect.apply(We,null,[u,...o]),()=>fe(...o),"number format",u=>Reflect.apply(u.n,u,[...o]),()=>De,u=>_(u))}function Nt(o){return o.map(u=>_(u)||S(u)||C(u)?Ve(String(u)):u)}const Tt={normalize:Nt,interpolate:o=>o,type:"vnode"};function It(...o){return H(u=>{let x;const v=u;try{v.processor=Tt,x=Reflect.apply(ve,null,[v,...o])}finally{v.processor=null}return x},()=>ue(...o),"translate",u=>u[_e](...o),u=>[Ve(u)],u=>A(u))}function Lt(...o){return H(u=>Reflect.apply(We,null,[u,...o]),()=>fe(...o),"number format",u=>u[de](...o),()=>[],u=>_(u)||A(u))}function Ot(...o){return H(u=>Reflect.apply(Pe,null,[u,...o]),()=>me(...o),"datetime format",u=>u[ge](...o),()=>[],u=>_(u)||A(u))}function pt(o){L=o,f.pluralRules=L}function yt(o,u){const x=_(u)?u:s.value,v=Fe(x);return f.messageResolver(v,o)!==null}function Ft(o){let u=null;const x=qe(f,l.value,s.value);for(let v=0;v<x.length;v++){const se=i.value[x[v]]||{},te=f.messageResolver(se,o);if(te!=null){u=te;break}}return u}function ht(o){const u=Ft(o);return u!=null?u:n?n.tm(o)||{}:{}}function Fe(o){return i.value[o]||{}}function Ct(o,u){i.value[o]=u,f.messages=i.value}function At(o,u){i.value[o]=i.value[o]||{},ee(u,i.value[o]),f.messages=i.value}function Rt(o){return c.value[o]||{}}function Dt(o,u){c.value[o]=u,f.datetimeFormats=c.value,we(f,o,u)}function St(o,u){c.value[o]=w(c.value[o]||{},u),f.datetimeFormats=c.value,we(f,o,u)}function Mt(o){return m.value[o]||{}}function kt(o,u){m.value[o]=u,f.numberFormats=m.value,Ue(f,o,u)}function vt(o,u){m.value[o]=w(m.value[o]||{},u),f.numberFormats=m.value,Ue(f,o,u)}xe++,n&&ie&&(ce(n.locale,o=>{r&&(s.value=o,f.locale=o,Z(f,s.value,l.value))}),ce(n.fallbackLocale,o=>{r&&(l.value=o,f.fallbackLocale=o,Z(f,s.value,l.value))}));const D={id:xe,locale:X,fallbackLocale:Y,get inheritLocale(){return r},set inheritLocale(o){r=o,o&&n&&(s.value=n.locale.value,l.value=n.fallbackLocale.value,Z(f,s.value,l.value))},get availableLocales(){return Object.keys(i.value).sort()},messages:z,get modifiers(){return R},get pluralRules(){return L||{}},get isGlobal(){return a},get missingWarn(){return d},set missingWarn(o){d=o,f.missingWarn=d},get fallbackWarn(){return E},set fallbackWarn(o){E=o,f.fallbackWarn=E},get fallbackRoot(){return g},set fallbackRoot(o){g=o},get fallbackFormat(){return b},set fallbackFormat(o){b=o,f.fallbackFormat=b},get warnHtmlMessage(){return N},set warnHtmlMessage(o){N=o,f.warnHtmlMessage=o},get escapeParameter(){return p},set escapeParameter(o){p=o,f.escapeParameter=o},t:ye,getLocaleMessage:Fe,setLocaleMessage:Ct,mergeLocaleMessage:At,getPostTranslationHandler:mt,setPostTranslationHandler:ft,getMissingHandler:_t,setMissingHandler:gt,[Mn]:pt};return D.datetimeFormats=V,D.numberFormats=pe,D.rt=dt,D.te=yt,D.tm=ht,D.d=Et,D.n=bt,D.getDateTimeFormat=Rt,D.setDateTimeFormat=Dt,D.mergeDateTimeFormat=St,D.getNumberFormat=Mt,D.setNumberFormat=kt,D.mergeNumberFormat=vt,D[kn]=e.__injectWithOption,D[_e]=It,D[ge]=Ot,D[de]=Lt,D}const Le={tag:{type:[String,Object]},locale:{type:String},scope:{type:String,validator:e=>e==="parent"||e==="global",default:"parent"},i18n:{type:Object}};function wn({slots:e},t){return t.length===1&&t[0]==="default"?(e.default?e.default():[]).reduce((a,r)=>a=[...a,...A(r.children)?r.children:[r]],[]):t.reduce((n,a)=>{const r=e[a];return r&&(n[a]=r()),n},{})}function it(e){return xt}const Ge={name:"i18n-t",props:w({keypath:{type:String,required:!0},plural:{type:[Number,String],validator:e=>S(e)||!isNaN(e)}},Le),setup(e,t){const{slots:n,attrs:a}=t,r=e.i18n||Oe({useScope:e.scope,__useComponent:!0});return()=>{const s=Object.keys(n).filter(E=>E!=="_"),l={};e.locale&&(l.locale=e.locale),e.plural!==void 0&&(l.plural=_(e.plural)?+e.plural:e.plural);const i=wn(t,s),c=r[_e](e.keypath,i,l),m=w({},a),d=_(e.tag)||y(e.tag)?e.tag:it();return Xe(d,m,c)}}};function Wn(e){return A(e)&&!_(e[0])}function ut(e,t,n,a){const{slots:r,attrs:s}=t;return()=>{const l={part:!0};let i={};e.locale&&(l.locale=e.locale),_(e.format)?l.key=e.format:y(e.format)&&(_(e.format.key)&&(l.key=e.format.key),i=Object.keys(e.format).reduce((g,b)=>n.includes(b)?w({},g,{[b]:e.format[b]}):g,{}));const c=a(e.value,l,i);let m=[l.key];A(c)?m=c.map((g,b)=>{const T=r[g.type],O=T?T({[g.type]:g.value,index:b,parts:c}):[g.value];return Wn(O)&&(O[0].key=`${g.type}-${b}`),O}):_(c)&&(m=[c]);const d=w({},s),E=_(e.tag)||y(e.tag)?e.tag:it();return Xe(E,d,m)}}const $e={name:"i18n-n",props:w({value:{type:Number,required:!0},format:{type:[String,Object]}},Le),setup(e,t){const n=e.i18n||Oe({useScope:"parent",__useComponent:!0});return ut(e,t,lt,(...a)=>n[de](...a))}},He={name:"i18n-d",props:w({value:{type:[Number,Date],required:!0},format:{type:[String,Object]}},Le),setup(e,t){const n=e.i18n||Oe({useScope:"parent",__useComponent:!0});return ut(e,t,rt,(...a)=>n[ge](...a))}};function Un(e,t){const n=e;if(e.mode==="composition")return n.__getInstance(t)||e.global;{const a=n.__getInstance(t);return a!=null?a.__composer:e.global.__composer}}function Vn(e){const t=l=>{const{instance:i,modifiers:c,value:m}=l;if(!i||!i.$)throw U(W.UNEXPECTED_ERROR);const d=Un(e,i.$),E=Be(m);return[Reflect.apply(d.t,d,[...Ke(E)]),d]};return{created:(l,i)=>{const[c,m]=t(i);ie&&e.global===m&&(l.__i18nWatcher=ce(m.locale,()=>{i.instance&&i.instance.$forceUpdate()})),l.__composer=m,l.textContent=c},unmounted:l=>{ie&&l.__i18nWatcher&&(l.__i18nWatcher(),l.__i18nWatcher=void 0,delete l.__i18nWatcher),l.__composer&&(l.__composer=void 0,delete l.__composer)},beforeUpdate:(l,{value:i})=>{if(l.__composer){const c=l.__composer,m=Be(i);l.textContent=Reflect.apply(c.t,c,[...Ke(m)])}},getSSRProps:l=>{const[i]=t(l);return{textContent:i}}}}function Be(e){if(_(e))return{path:e};if(I(e)){if(!("path"in e))throw U(W.REQUIRED_VALUE,"path");return e}else throw U(W.INVALID_VALUE)}function Ke(e){const{path:t,locale:n,args:a,choice:r,plural:s}=e,l={},i=a||{};return _(n)&&(l.locale=n),S(r)&&(l.plural=r),S(s)&&(l.plural=s),[t,i,l]}function xn(e,t,...n){const a=I(n[0])?n[0]:{},r=!!a.useI18nComponentName;(C(a.globalInstall)?a.globalInstall:!0)&&(e.component(r?"i18n":Ge.name,Ge),e.component($e.name,$e),e.component(He.name,He)),e.directive("t",Vn(t))}const jn=j("global-vue-i18n");function ea(e={},t){const n=C(e.globalInjection)?e.globalInjection:!0,a=!0,r=new Map,[s,l]=Gn(e),i=j("");function c(E){return r.get(E)||null}function m(E,g){r.set(E,g)}function d(E){r.delete(E)}{const E={get mode(){return"composition"},get allowComposition(){return a},async install(g,...b){g.__VUE_I18N_SYMBOL__=i,g.provide(g.__VUE_I18N_SYMBOL__,E),n&&Jn(g,E.global),xn(g,E,...b);const T=g.unmount;g.unmount=()=>{E.dispose(),T()}},get global(){return l},dispose(){s.stop()},__instances:r,__getInstance:c,__setInstance:m,__deleteInstance:d};return E}}function Oe(e={}){const t=Ye();if(t==null)throw U(W.MUST_BE_CALL_SETUP_TOP);if(!t.isCE&&t.appContext.app!=null&&!t.appContext.app.__VUE_I18N_SYMBOL__)throw U(W.NOT_INSLALLED);const n=$n(t),a=Bn(n),r=vn(t),s=Hn(e,r);if(s==="global")return Pn(a,e,r),a;if(s==="parent"){let c=Kn(n,t,e.__useComponent);return c==null&&(c=a),c}const l=n;let i=l.__getInstance(t);if(i==null){const c=w({},e);"__i18n"in r&&(c.__i18n=r.__i18n),a&&(c.__root=a),i=ct(c),Xn(l,t),l.__setInstance(t,i)}return i}function Gn(e,t,n){const a=wt();{const r=a.run(()=>ct(e));if(r==null)throw U(W.UNEXPECTED_ERROR);return[a,r]}}function $n(e){{const t=Wt(e.isCE?jn:e.appContext.app.__VUE_I18N_SYMBOL__);if(!t)throw U(e.isCE?W.NOT_INSLALLED_WITH_PROVIDE:W.UNEXPECTED_ERROR);return t}}function Hn(e,t){return re(e)?"__i18n"in t?"local":"global":e.useScope?e.useScope:"local"}function Bn(e){return e.mode==="composition"?e.global:e.global.__composer}function Kn(e,t,n=!1){let a=null;const r=t.root;let s=t.parent;for(;s!=null;){const l=e;if(e.mode==="composition"&&(a=l.__getInstance(s)),a!=null||r===s)break;s=s.parent}return a}function Xn(e,t,n){Ut(()=>{},t),Vt(()=>{e.__deleteInstance(t)},t)}const Yn=["locale","fallbackLocale","availableLocales"],zn=["t","rt","d","n","tm"];function Jn(e,t){const n=Object.create(null);Yn.forEach(a=>{const r=Object.getOwnPropertyDescriptor(t,a);if(!r)throw U(W.UNEXPECTED_ERROR);const s=jt(r.value)?{get(){return r.value.value},set(l){r.value.value=l}}:{get(){return r.get&&r.get()}};Object.defineProperty(n,a,s)}),e.config.globalProperties.$i18n=n,zn.forEach(a=>{const r=Object.getOwnPropertyDescriptor(t,a);if(!r||!r.value)throw U(W.UNEXPECTED_ERROR);Object.defineProperty(e.config.globalProperties,`$${a}`,r)})}yn(ln);Fn(qe);export{ea as c,Oe as u};
+  */
+const VERSION = "9.2.2";
+CoreWarnCodes.__EXTEND_POINT__;
+let code = CompileErrorCodes.__EXTEND_POINT__;
+const inc = () => ++code;
+const I18nErrorCodes = {
+  UNEXPECTED_RETURN_TYPE: code,
+  INVALID_ARGUMENT: inc(),
+  MUST_BE_CALL_SETUP_TOP: inc(),
+  NOT_INSLALLED: inc(),
+  NOT_AVAILABLE_IN_LEGACY_MODE: inc(),
+  REQUIRED_VALUE: inc(),
+  INVALID_VALUE: inc(),
+  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: inc(),
+  NOT_INSLALLED_WITH_PROVIDE: inc(),
+  UNEXPECTED_ERROR: inc(),
+  NOT_COMPATIBLE_LEGACY_VUE_I18N: inc(),
+  BRIDGE_SUPPORT_VUE_2_ONLY: inc(),
+  MUST_DEFINE_I18N_OPTION_IN_ALLOW_COMPOSITION: inc(),
+  NOT_AVAILABLE_COMPOSITION_IN_LEGACY: inc(),
+  __EXTEND_POINT__: inc()
+};
+function createI18nError(code2, ...args) {
+  return createCompileError(code2, null, void 0);
+}
+const TransrateVNodeSymbol = /* @__PURE__ */ makeSymbol("__transrateVNode");
+const DatetimePartsSymbol = /* @__PURE__ */ makeSymbol("__datetimeParts");
+const NumberPartsSymbol = /* @__PURE__ */ makeSymbol("__numberParts");
+const SetPluralRulesSymbol = makeSymbol("__setPluralRules");
+makeSymbol("__intlifyMeta");
+const InejctWithOption = /* @__PURE__ */ makeSymbol("__injectWithOption");
+function handleFlatJson(obj) {
+  if (!isObject(obj)) {
+    return obj;
+  }
+  for (const key in obj) {
+    if (!hasOwn(obj, key)) {
+      continue;
+    }
+    if (!key.includes(".")) {
+      if (isObject(obj[key])) {
+        handleFlatJson(obj[key]);
+      }
+    } else {
+      const subKeys = key.split(".");
+      const lastIndex = subKeys.length - 1;
+      let currentObj = obj;
+      for (let i = 0; i < lastIndex; i++) {
+        if (!(subKeys[i] in currentObj)) {
+          currentObj[subKeys[i]] = {};
+        }
+        currentObj = currentObj[subKeys[i]];
+      }
+      currentObj[subKeys[lastIndex]] = obj[key];
+      delete obj[key];
+      if (isObject(currentObj[subKeys[lastIndex]])) {
+        handleFlatJson(currentObj[subKeys[lastIndex]]);
+      }
+    }
+  }
+  return obj;
+}
+function getLocaleMessages(locale, options) {
+  const { messages, __i18n, messageResolver, flatJson } = options;
+  const ret = isPlainObject(messages) ? messages : isArray(__i18n) ? {} : { [locale]: {} };
+  if (isArray(__i18n)) {
+    __i18n.forEach((custom) => {
+      if ("locale" in custom && "resource" in custom) {
+        const { locale: locale2, resource } = custom;
+        if (locale2) {
+          ret[locale2] = ret[locale2] || {};
+          deepCopy(resource, ret[locale2]);
+        } else {
+          deepCopy(resource, ret);
+        }
+      } else {
+        isString(custom) && deepCopy(JSON.parse(custom), ret);
+      }
+    });
+  }
+  if (messageResolver == null && flatJson) {
+    for (const key in ret) {
+      if (hasOwn(ret, key)) {
+        handleFlatJson(ret[key]);
+      }
+    }
+  }
+  return ret;
+}
+const isNotObjectOrIsArray = (val) => !isObject(val) || isArray(val);
+function deepCopy(src, des) {
+  if (isNotObjectOrIsArray(src) || isNotObjectOrIsArray(des)) {
+    throw createI18nError(I18nErrorCodes.INVALID_VALUE);
+  }
+  for (const key in src) {
+    if (hasOwn(src, key)) {
+      if (isNotObjectOrIsArray(src[key]) || isNotObjectOrIsArray(des[key])) {
+        des[key] = src[key];
+      } else {
+        deepCopy(src[key], des[key]);
+      }
+    }
+  }
+}
+function getComponentOptions(instance) {
+  return instance.type;
+}
+function adjustI18nResources(global, options, componentOptions) {
+  let messages = isObject(options.messages) ? options.messages : {};
+  if ("__i18nGlobal" in componentOptions) {
+    messages = getLocaleMessages(global.locale.value, {
+      messages,
+      __i18n: componentOptions.__i18nGlobal
+    });
+  }
+  const locales = Object.keys(messages);
+  if (locales.length) {
+    locales.forEach((locale) => {
+      global.mergeLocaleMessage(locale, messages[locale]);
+    });
+  }
+  {
+    if (isObject(options.datetimeFormats)) {
+      const locales2 = Object.keys(options.datetimeFormats);
+      if (locales2.length) {
+        locales2.forEach((locale) => {
+          global.mergeDateTimeFormat(locale, options.datetimeFormats[locale]);
+        });
+      }
+    }
+    if (isObject(options.numberFormats)) {
+      const locales2 = Object.keys(options.numberFormats);
+      if (locales2.length) {
+        locales2.forEach((locale) => {
+          global.mergeNumberFormat(locale, options.numberFormats[locale]);
+        });
+      }
+    }
+  }
+}
+function createTextNode(key) {
+  return createVNode(Text, null, key, 0);
+}
+let composerID = 0;
+function defineCoreMissingHandler(missing) {
+  return (ctx, locale, key, type) => {
+    return missing(locale, key, getCurrentInstance() || void 0, type);
+  };
+}
+function createComposer(options = {}, VueI18nLegacy) {
+  const { __root } = options;
+  const _isGlobal = __root === void 0;
+  let _inheritLocale = isBoolean(options.inheritLocale) ? options.inheritLocale : true;
+  const _locale = ref(
+    __root && _inheritLocale ? __root.locale.value : isString(options.locale) ? options.locale : DEFAULT_LOCALE
+  );
+  const _fallbackLocale = ref(
+    __root && _inheritLocale ? __root.fallbackLocale.value : isString(options.fallbackLocale) || isArray(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : _locale.value
+  );
+  const _messages = ref(getLocaleMessages(_locale.value, options));
+  const _datetimeFormats = ref(isPlainObject(options.datetimeFormats) ? options.datetimeFormats : { [_locale.value]: {} });
+  const _numberFormats = ref(isPlainObject(options.numberFormats) ? options.numberFormats : { [_locale.value]: {} });
+  let _missingWarn = __root ? __root.missingWarn : isBoolean(options.missingWarn) || isRegExp(options.missingWarn) ? options.missingWarn : true;
+  let _fallbackWarn = __root ? __root.fallbackWarn : isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn) ? options.fallbackWarn : true;
+  let _fallbackRoot = __root ? __root.fallbackRoot : isBoolean(options.fallbackRoot) ? options.fallbackRoot : true;
+  let _fallbackFormat = !!options.fallbackFormat;
+  let _missing = isFunction(options.missing) ? options.missing : null;
+  let _runtimeMissing = isFunction(options.missing) ? defineCoreMissingHandler(options.missing) : null;
+  let _postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null;
+  let _warnHtmlMessage = __root ? __root.warnHtmlMessage : isBoolean(options.warnHtmlMessage) ? options.warnHtmlMessage : true;
+  let _escapeParameter = !!options.escapeParameter;
+  const _modifiers = __root ? __root.modifiers : isPlainObject(options.modifiers) ? options.modifiers : {};
+  let _pluralRules = options.pluralRules || __root && __root.pluralRules;
+  let _context;
+  const getCoreContext = () => {
+    const ctxOptions = {
+      version: VERSION,
+      locale: _locale.value,
+      fallbackLocale: _fallbackLocale.value,
+      messages: _messages.value,
+      modifiers: _modifiers,
+      pluralRules: _pluralRules,
+      missing: _runtimeMissing === null ? void 0 : _runtimeMissing,
+      missingWarn: _missingWarn,
+      fallbackWarn: _fallbackWarn,
+      fallbackFormat: _fallbackFormat,
+      unresolving: true,
+      postTranslation: _postTranslation === null ? void 0 : _postTranslation,
+      warnHtmlMessage: _warnHtmlMessage,
+      escapeParameter: _escapeParameter,
+      messageResolver: options.messageResolver,
+      __meta: { framework: "vue" }
+    };
+    {
+      ctxOptions.datetimeFormats = _datetimeFormats.value;
+      ctxOptions.numberFormats = _numberFormats.value;
+      ctxOptions.__datetimeFormatters = isPlainObject(_context) ? _context.__datetimeFormatters : void 0;
+      ctxOptions.__numberFormatters = isPlainObject(_context) ? _context.__numberFormatters : void 0;
+    }
+    const ctx = createCoreContext(ctxOptions);
+    return ctx;
+  };
+  _context = getCoreContext();
+  updateFallbackLocale(_context, _locale.value, _fallbackLocale.value);
+  function trackReactivityValues() {
+    return [
+      _locale.value,
+      _fallbackLocale.value,
+      _messages.value,
+      _datetimeFormats.value,
+      _numberFormats.value
+    ];
+  }
+  const locale = computed({
+    get: () => _locale.value,
+    set: (val) => {
+      _locale.value = val;
+      _context.locale = _locale.value;
+    }
+  });
+  const fallbackLocale = computed({
+    get: () => _fallbackLocale.value,
+    set: (val) => {
+      _fallbackLocale.value = val;
+      _context.fallbackLocale = _fallbackLocale.value;
+      updateFallbackLocale(_context, _locale.value, val);
+    }
+  });
+  const messages = computed(() => _messages.value);
+  const datetimeFormats = /* @__PURE__ */ computed(() => _datetimeFormats.value);
+  const numberFormats = /* @__PURE__ */ computed(() => _numberFormats.value);
+  function getPostTranslationHandler() {
+    return isFunction(_postTranslation) ? _postTranslation : null;
+  }
+  function setPostTranslationHandler(handler) {
+    _postTranslation = handler;
+    _context.postTranslation = handler;
+  }
+  function getMissingHandler() {
+    return _missing;
+  }
+  function setMissingHandler(handler) {
+    if (handler !== null) {
+      _runtimeMissing = defineCoreMissingHandler(handler);
+    }
+    _missing = handler;
+    _context.missing = _runtimeMissing;
+  }
+  const wrapWithDeps = (fn, argumentParser, warnType, fallbackSuccess, fallbackFail, successCondition) => {
+    trackReactivityValues();
+    let ret;
+    {
+      ret = fn(_context);
+    }
+    if (isNumber(ret) && ret === NOT_REOSLVED) {
+      const [key, arg2] = argumentParser();
+      return __root && _fallbackRoot ? fallbackSuccess(__root) : fallbackFail(key);
+    } else if (successCondition(ret)) {
+      return ret;
+    } else {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_RETURN_TYPE);
+    }
+  };
+  function t(...args) {
+    return wrapWithDeps((context) => Reflect.apply(translate, null, [context, ...args]), () => parseTranslateArgs(...args), "translate", (root) => Reflect.apply(root.t, root, [...args]), (key) => key, (val) => isString(val));
+  }
+  function rt(...args) {
+    const [arg1, arg2, arg3] = args;
+    if (arg3 && !isObject(arg3)) {
+      throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT);
+    }
+    return t(...[arg1, arg2, assign({ resolvedMessage: true }, arg3 || {})]);
+  }
+  function d(...args) {
+    return wrapWithDeps((context) => Reflect.apply(datetime, null, [context, ...args]), () => parseDateTimeArgs(...args), "datetime format", (root) => Reflect.apply(root.d, root, [...args]), () => MISSING_RESOLVE_VALUE, (val) => isString(val));
+  }
+  function n(...args) {
+    return wrapWithDeps((context) => Reflect.apply(number, null, [context, ...args]), () => parseNumberArgs(...args), "number format", (root) => Reflect.apply(root.n, root, [...args]), () => MISSING_RESOLVE_VALUE, (val) => isString(val));
+  }
+  function normalize(values) {
+    return values.map((val) => isString(val) || isNumber(val) || isBoolean(val) ? createTextNode(String(val)) : val);
+  }
+  const interpolate = (val) => val;
+  const processor = {
+    normalize,
+    interpolate,
+    type: "vnode"
+  };
+  function transrateVNode(...args) {
+    return wrapWithDeps(
+      (context) => {
+        let ret;
+        const _context2 = context;
+        try {
+          _context2.processor = processor;
+          ret = Reflect.apply(translate, null, [_context2, ...args]);
+        } finally {
+          _context2.processor = null;
+        }
+        return ret;
+      },
+      () => parseTranslateArgs(...args),
+      "translate",
+      (root) => root[TransrateVNodeSymbol](...args),
+      (key) => [createTextNode(key)],
+      (val) => isArray(val)
+    );
+  }
+  function numberParts(...args) {
+    return wrapWithDeps(
+      (context) => Reflect.apply(number, null, [context, ...args]),
+      () => parseNumberArgs(...args),
+      "number format",
+      (root) => root[NumberPartsSymbol](...args),
+      () => [],
+      (val) => isString(val) || isArray(val)
+    );
+  }
+  function datetimeParts(...args) {
+    return wrapWithDeps(
+      (context) => Reflect.apply(datetime, null, [context, ...args]),
+      () => parseDateTimeArgs(...args),
+      "datetime format",
+      (root) => root[DatetimePartsSymbol](...args),
+      () => [],
+      (val) => isString(val) || isArray(val)
+    );
+  }
+  function setPluralRules(rules) {
+    _pluralRules = rules;
+    _context.pluralRules = _pluralRules;
+  }
+  function te(key, locale2) {
+    const targetLocale = isString(locale2) ? locale2 : _locale.value;
+    const message = getLocaleMessage(targetLocale);
+    return _context.messageResolver(message, key) !== null;
+  }
+  function resolveMessages(key) {
+    let messages2 = null;
+    const locales = fallbackWithLocaleChain(_context, _fallbackLocale.value, _locale.value);
+    for (let i = 0; i < locales.length; i++) {
+      const targetLocaleMessages = _messages.value[locales[i]] || {};
+      const messageValue = _context.messageResolver(targetLocaleMessages, key);
+      if (messageValue != null) {
+        messages2 = messageValue;
+        break;
+      }
+    }
+    return messages2;
+  }
+  function tm(key) {
+    const messages2 = resolveMessages(key);
+    return messages2 != null ? messages2 : __root ? __root.tm(key) || {} : {};
+  }
+  function getLocaleMessage(locale2) {
+    return _messages.value[locale2] || {};
+  }
+  function setLocaleMessage(locale2, message) {
+    _messages.value[locale2] = message;
+    _context.messages = _messages.value;
+  }
+  function mergeLocaleMessage(locale2, message) {
+    _messages.value[locale2] = _messages.value[locale2] || {};
+    deepCopy(message, _messages.value[locale2]);
+    _context.messages = _messages.value;
+  }
+  function getDateTimeFormat(locale2) {
+    return _datetimeFormats.value[locale2] || {};
+  }
+  function setDateTimeFormat(locale2, format) {
+    _datetimeFormats.value[locale2] = format;
+    _context.datetimeFormats = _datetimeFormats.value;
+    clearDateTimeFormat(_context, locale2, format);
+  }
+  function mergeDateTimeFormat(locale2, format) {
+    _datetimeFormats.value[locale2] = assign(_datetimeFormats.value[locale2] || {}, format);
+    _context.datetimeFormats = _datetimeFormats.value;
+    clearDateTimeFormat(_context, locale2, format);
+  }
+  function getNumberFormat(locale2) {
+    return _numberFormats.value[locale2] || {};
+  }
+  function setNumberFormat(locale2, format) {
+    _numberFormats.value[locale2] = format;
+    _context.numberFormats = _numberFormats.value;
+    clearNumberFormat(_context, locale2, format);
+  }
+  function mergeNumberFormat(locale2, format) {
+    _numberFormats.value[locale2] = assign(_numberFormats.value[locale2] || {}, format);
+    _context.numberFormats = _numberFormats.value;
+    clearNumberFormat(_context, locale2, format);
+  }
+  composerID++;
+  if (__root && inBrowser) {
+    watch(__root.locale, (val) => {
+      if (_inheritLocale) {
+        _locale.value = val;
+        _context.locale = val;
+        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value);
+      }
+    });
+    watch(__root.fallbackLocale, (val) => {
+      if (_inheritLocale) {
+        _fallbackLocale.value = val;
+        _context.fallbackLocale = val;
+        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value);
+      }
+    });
+  }
+  const composer = {
+    id: composerID,
+    locale,
+    fallbackLocale,
+    get inheritLocale() {
+      return _inheritLocale;
+    },
+    set inheritLocale(val) {
+      _inheritLocale = val;
+      if (val && __root) {
+        _locale.value = __root.locale.value;
+        _fallbackLocale.value = __root.fallbackLocale.value;
+        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value);
+      }
+    },
+    get availableLocales() {
+      return Object.keys(_messages.value).sort();
+    },
+    messages,
+    get modifiers() {
+      return _modifiers;
+    },
+    get pluralRules() {
+      return _pluralRules || {};
+    },
+    get isGlobal() {
+      return _isGlobal;
+    },
+    get missingWarn() {
+      return _missingWarn;
+    },
+    set missingWarn(val) {
+      _missingWarn = val;
+      _context.missingWarn = _missingWarn;
+    },
+    get fallbackWarn() {
+      return _fallbackWarn;
+    },
+    set fallbackWarn(val) {
+      _fallbackWarn = val;
+      _context.fallbackWarn = _fallbackWarn;
+    },
+    get fallbackRoot() {
+      return _fallbackRoot;
+    },
+    set fallbackRoot(val) {
+      _fallbackRoot = val;
+    },
+    get fallbackFormat() {
+      return _fallbackFormat;
+    },
+    set fallbackFormat(val) {
+      _fallbackFormat = val;
+      _context.fallbackFormat = _fallbackFormat;
+    },
+    get warnHtmlMessage() {
+      return _warnHtmlMessage;
+    },
+    set warnHtmlMessage(val) {
+      _warnHtmlMessage = val;
+      _context.warnHtmlMessage = val;
+    },
+    get escapeParameter() {
+      return _escapeParameter;
+    },
+    set escapeParameter(val) {
+      _escapeParameter = val;
+      _context.escapeParameter = val;
+    },
+    t,
+    getLocaleMessage,
+    setLocaleMessage,
+    mergeLocaleMessage,
+    getPostTranslationHandler,
+    setPostTranslationHandler,
+    getMissingHandler,
+    setMissingHandler,
+    [SetPluralRulesSymbol]: setPluralRules
+  };
+  {
+    composer.datetimeFormats = datetimeFormats;
+    composer.numberFormats = numberFormats;
+    composer.rt = rt;
+    composer.te = te;
+    composer.tm = tm;
+    composer.d = d;
+    composer.n = n;
+    composer.getDateTimeFormat = getDateTimeFormat;
+    composer.setDateTimeFormat = setDateTimeFormat;
+    composer.mergeDateTimeFormat = mergeDateTimeFormat;
+    composer.getNumberFormat = getNumberFormat;
+    composer.setNumberFormat = setNumberFormat;
+    composer.mergeNumberFormat = mergeNumberFormat;
+    composer[InejctWithOption] = options.__injectWithOption;
+    composer[TransrateVNodeSymbol] = transrateVNode;
+    composer[DatetimePartsSymbol] = datetimeParts;
+    composer[NumberPartsSymbol] = numberParts;
+  }
+  return composer;
+}
+const baseFormatProps = {
+  tag: {
+    type: [String, Object]
+  },
+  locale: {
+    type: String
+  },
+  scope: {
+    type: String,
+    validator: (val) => val === "parent" || val === "global",
+    default: "parent"
+  },
+  i18n: {
+    type: Object
+  }
+};
+function getInterpolateArg({ slots }, keys) {
+  if (keys.length === 1 && keys[0] === "default") {
+    const ret = slots.default ? slots.default() : [];
+    return ret.reduce((slot, current) => {
+      return slot = [
+        ...slot,
+        ...isArray(current.children) ? current.children : [current]
+      ];
+    }, []);
+  } else {
+    return keys.reduce((arg, key) => {
+      const slot = slots[key];
+      if (slot) {
+        arg[key] = slot();
+      }
+      return arg;
+    }, {});
+  }
+}
+function getFragmentableTag(tag) {
+  return Fragment;
+}
+const Translation = {
+  name: "i18n-t",
+  props: assign({
+    keypath: {
+      type: String,
+      required: true
+    },
+    plural: {
+      type: [Number, String],
+      validator: (val) => isNumber(val) || !isNaN(val)
+    }
+  }, baseFormatProps),
+  setup(props, context) {
+    const { slots, attrs } = context;
+    const i18n = props.i18n || useI18n({
+      useScope: props.scope,
+      __useComponent: true
+    });
+    return () => {
+      const keys = Object.keys(slots).filter((key) => key !== "_");
+      const options = {};
+      if (props.locale) {
+        options.locale = props.locale;
+      }
+      if (props.plural !== void 0) {
+        options.plural = isString(props.plural) ? +props.plural : props.plural;
+      }
+      const arg = getInterpolateArg(context, keys);
+      const children = i18n[TransrateVNodeSymbol](props.keypath, arg, options);
+      const assignedAttrs = assign({}, attrs);
+      const tag = isString(props.tag) || isObject(props.tag) ? props.tag : getFragmentableTag();
+      return h(tag, assignedAttrs, children);
+    };
+  }
+};
+function isVNode(target) {
+  return isArray(target) && !isString(target[0]);
+}
+function renderFormatter(props, context, slotKeys, partFormatter) {
+  const { slots, attrs } = context;
+  return () => {
+    const options = { part: true };
+    let overrides = {};
+    if (props.locale) {
+      options.locale = props.locale;
+    }
+    if (isString(props.format)) {
+      options.key = props.format;
+    } else if (isObject(props.format)) {
+      if (isString(props.format.key)) {
+        options.key = props.format.key;
+      }
+      overrides = Object.keys(props.format).reduce((options2, prop) => {
+        return slotKeys.includes(prop) ? assign({}, options2, { [prop]: props.format[prop] }) : options2;
+      }, {});
+    }
+    const parts = partFormatter(...[props.value, options, overrides]);
+    let children = [options.key];
+    if (isArray(parts)) {
+      children = parts.map((part, index) => {
+        const slot = slots[part.type];
+        const node = slot ? slot({ [part.type]: part.value, index, parts }) : [part.value];
+        if (isVNode(node)) {
+          node[0].key = `${part.type}-${index}`;
+        }
+        return node;
+      });
+    } else if (isString(parts)) {
+      children = [parts];
+    }
+    const assignedAttrs = assign({}, attrs);
+    const tag = isString(props.tag) || isObject(props.tag) ? props.tag : getFragmentableTag();
+    return h(tag, assignedAttrs, children);
+  };
+}
+const NumberFormat = {
+  name: "i18n-n",
+  props: assign({
+    value: {
+      type: Number,
+      required: true
+    },
+    format: {
+      type: [String, Object]
+    }
+  }, baseFormatProps),
+  setup(props, context) {
+    const i18n = props.i18n || useI18n({ useScope: "parent", __useComponent: true });
+    return renderFormatter(props, context, NUMBER_FORMAT_OPTIONS_KEYS, (...args) => i18n[NumberPartsSymbol](...args));
+  }
+};
+const DatetimeFormat = {
+  name: "i18n-d",
+  props: assign({
+    value: {
+      type: [Number, Date],
+      required: true
+    },
+    format: {
+      type: [String, Object]
+    }
+  }, baseFormatProps),
+  setup(props, context) {
+    const i18n = props.i18n || useI18n({ useScope: "parent", __useComponent: true });
+    return renderFormatter(props, context, DATETIME_FORMAT_OPTIONS_KEYS, (...args) => i18n[DatetimePartsSymbol](...args));
+  }
+};
+function getComposer$2(i18n, instance) {
+  const i18nInternal = i18n;
+  if (i18n.mode === "composition") {
+    return i18nInternal.__getInstance(instance) || i18n.global;
+  } else {
+    const vueI18n = i18nInternal.__getInstance(instance);
+    return vueI18n != null ? vueI18n.__composer : i18n.global.__composer;
+  }
+}
+function vTDirective(i18n) {
+  const _process = (binding) => {
+    const { instance, modifiers, value } = binding;
+    if (!instance || !instance.$) {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
+    }
+    const composer = getComposer$2(i18n, instance.$);
+    const parsedValue = parseValue(value);
+    return [
+      Reflect.apply(composer.t, composer, [...makeParams(parsedValue)]),
+      composer
+    ];
+  };
+  const register = (el, binding) => {
+    const [textContent, composer] = _process(binding);
+    if (inBrowser && i18n.global === composer) {
+      el.__i18nWatcher = watch(composer.locale, () => {
+        binding.instance && binding.instance.$forceUpdate();
+      });
+    }
+    el.__composer = composer;
+    el.textContent = textContent;
+  };
+  const unregister = (el) => {
+    if (inBrowser && el.__i18nWatcher) {
+      el.__i18nWatcher();
+      el.__i18nWatcher = void 0;
+      delete el.__i18nWatcher;
+    }
+    if (el.__composer) {
+      el.__composer = void 0;
+      delete el.__composer;
+    }
+  };
+  const update = (el, { value }) => {
+    if (el.__composer) {
+      const composer = el.__composer;
+      const parsedValue = parseValue(value);
+      el.textContent = Reflect.apply(composer.t, composer, [
+        ...makeParams(parsedValue)
+      ]);
+    }
+  };
+  const getSSRProps = (binding) => {
+    const [textContent] = _process(binding);
+    return { textContent };
+  };
+  return {
+    created: register,
+    unmounted: unregister,
+    beforeUpdate: update,
+    getSSRProps
+  };
+}
+function parseValue(value) {
+  if (isString(value)) {
+    return { path: value };
+  } else if (isPlainObject(value)) {
+    if (!("path" in value)) {
+      throw createI18nError(I18nErrorCodes.REQUIRED_VALUE, "path");
+    }
+    return value;
+  } else {
+    throw createI18nError(I18nErrorCodes.INVALID_VALUE);
+  }
+}
+function makeParams(value) {
+  const { path, locale, args, choice, plural } = value;
+  const options = {};
+  const named = args || {};
+  if (isString(locale)) {
+    options.locale = locale;
+  }
+  if (isNumber(choice)) {
+    options.plural = choice;
+  }
+  if (isNumber(plural)) {
+    options.plural = plural;
+  }
+  return [path, named, options];
+}
+function apply(app, i18n, ...options) {
+  const pluginOptions = isPlainObject(options[0]) ? options[0] : {};
+  const useI18nComponentName = !!pluginOptions.useI18nComponentName;
+  const globalInstall = isBoolean(pluginOptions.globalInstall) ? pluginOptions.globalInstall : true;
+  if (globalInstall) {
+    app.component(!useI18nComponentName ? Translation.name : "i18n", Translation);
+    app.component(NumberFormat.name, NumberFormat);
+    app.component(DatetimeFormat.name, DatetimeFormat);
+  }
+  {
+    app.directive("t", vTDirective(i18n));
+  }
+}
+const I18nInjectionKey = /* @__PURE__ */ makeSymbol("global-vue-i18n");
+function createI18n(options = {}, VueI18nLegacy) {
+  const __globalInjection = isBoolean(options.globalInjection) ? options.globalInjection : true;
+  const __allowComposition = true;
+  const __instances = /* @__PURE__ */ new Map();
+  const [globalScope, __global] = createGlobal(options);
+  const symbol = makeSymbol("");
+  function __getInstance(component) {
+    return __instances.get(component) || null;
+  }
+  function __setInstance(component, instance) {
+    __instances.set(component, instance);
+  }
+  function __deleteInstance(component) {
+    __instances.delete(component);
+  }
+  {
+    const i18n = {
+      get mode() {
+        return "composition";
+      },
+      get allowComposition() {
+        return __allowComposition;
+      },
+      async install(app, ...options2) {
+        app.__VUE_I18N_SYMBOL__ = symbol;
+        app.provide(app.__VUE_I18N_SYMBOL__, i18n);
+        if (__globalInjection) {
+          injectGlobalFields(app, i18n.global);
+        }
+        {
+          apply(app, i18n, ...options2);
+        }
+        const unmountApp = app.unmount;
+        app.unmount = () => {
+          i18n.dispose();
+          unmountApp();
+        };
+      },
+      get global() {
+        return __global;
+      },
+      dispose() {
+        globalScope.stop();
+      },
+      __instances,
+      __getInstance,
+      __setInstance,
+      __deleteInstance
+    };
+    return i18n;
+  }
+}
+function useI18n(options = {}) {
+  const instance = getCurrentInstance();
+  if (instance == null) {
+    throw createI18nError(I18nErrorCodes.MUST_BE_CALL_SETUP_TOP);
+  }
+  if (!instance.isCE && instance.appContext.app != null && !instance.appContext.app.__VUE_I18N_SYMBOL__) {
+    throw createI18nError(I18nErrorCodes.NOT_INSLALLED);
+  }
+  const i18n = getI18nInstance(instance);
+  const global = getGlobalComposer(i18n);
+  const componentOptions = getComponentOptions(instance);
+  const scope = getScope(options, componentOptions);
+  if (scope === "global") {
+    adjustI18nResources(global, options, componentOptions);
+    return global;
+  }
+  if (scope === "parent") {
+    let composer2 = getComposer(i18n, instance, options.__useComponent);
+    if (composer2 == null) {
+      composer2 = global;
+    }
+    return composer2;
+  }
+  const i18nInternal = i18n;
+  let composer = i18nInternal.__getInstance(instance);
+  if (composer == null) {
+    const composerOptions = assign({}, options);
+    if ("__i18n" in componentOptions) {
+      composerOptions.__i18n = componentOptions.__i18n;
+    }
+    if (global) {
+      composerOptions.__root = global;
+    }
+    composer = createComposer(composerOptions);
+    setupLifeCycle(i18nInternal, instance);
+    i18nInternal.__setInstance(instance, composer);
+  }
+  return composer;
+}
+function createGlobal(options, legacyMode, VueI18nLegacy) {
+  const scope = effectScope();
+  {
+    const obj = scope.run(() => createComposer(options));
+    if (obj == null) {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
+    }
+    return [scope, obj];
+  }
+}
+function getI18nInstance(instance) {
+  {
+    const i18n = inject(!instance.isCE ? instance.appContext.app.__VUE_I18N_SYMBOL__ : I18nInjectionKey);
+    if (!i18n) {
+      throw createI18nError(!instance.isCE ? I18nErrorCodes.UNEXPECTED_ERROR : I18nErrorCodes.NOT_INSLALLED_WITH_PROVIDE);
+    }
+    return i18n;
+  }
+}
+function getScope(options, componentOptions) {
+  return isEmptyObject(options) ? "__i18n" in componentOptions ? "local" : "global" : !options.useScope ? "local" : options.useScope;
+}
+function getGlobalComposer(i18n) {
+  return i18n.mode === "composition" ? i18n.global : i18n.global.__composer;
+}
+function getComposer(i18n, target, useComponent = false) {
+  let composer = null;
+  const root = target.root;
+  let current = target.parent;
+  while (current != null) {
+    const i18nInternal = i18n;
+    if (i18n.mode === "composition") {
+      composer = i18nInternal.__getInstance(current);
+    }
+    if (composer != null) {
+      break;
+    }
+    if (root === current) {
+      break;
+    }
+    current = current.parent;
+  }
+  return composer;
+}
+function setupLifeCycle(i18n, target, composer) {
+  {
+    onMounted(() => {
+    }, target);
+    onUnmounted(() => {
+      i18n.__deleteInstance(target);
+    }, target);
+  }
+}
+const globalExportProps = [
+  "locale",
+  "fallbackLocale",
+  "availableLocales"
+];
+const globalExportMethods = ["t", "rt", "d", "n", "tm"];
+function injectGlobalFields(app, composer) {
+  const i18n = /* @__PURE__ */ Object.create(null);
+  globalExportProps.forEach((prop) => {
+    const desc = Object.getOwnPropertyDescriptor(composer, prop);
+    if (!desc) {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
+    }
+    const wrap = isRef(desc.value) ? {
+      get() {
+        return desc.value.value;
+      },
+      set(val) {
+        desc.value.value = val;
+      }
+    } : {
+      get() {
+        return desc.get && desc.get();
+      }
+    };
+    Object.defineProperty(i18n, prop, wrap);
+  });
+  app.config.globalProperties.$i18n = i18n;
+  globalExportMethods.forEach((method) => {
+    const desc = Object.getOwnPropertyDescriptor(composer, method);
+    if (!desc || !desc.value) {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
+    }
+    Object.defineProperty(app.config.globalProperties, `$${method}`, desc);
+  });
+}
+registerMessageResolver(resolveValue);
+registerLocaleFallbacker(fallbackWithLocaleChain);
+export { createI18n as c, useI18n as u };

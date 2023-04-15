@@ -1,1 +1,224 @@
-import{A as T,r as f,B as C,ad as $,J as P,m as i,K as u,L as a,l as e,Q as N,M as w,H as g,O as v,S as k,y as p,R as Q,n as S,N as x,U as h,ae as A,q as b}from"./index.e647c85a.js";import{Q as V}from"./QBanner.3fd01969.js";import{Q as E}from"./QSpace.7d6f905e.js";import{Q as R}from"./QPage.660fce82.js";import{Q as L,a as O}from"./QLayout.2e2ab899.js";import{u as U}from"./debug.805a8aef.js";import{u as H,r as _}from"./index.esm.4557c89b.js";import{a as M}from"./axios.ccd3a804.js";import{_ as Y}from"./AppLogo.885260bb.js";import"./QResizeObserver.97b49885.js";const Z=b("h1",{class:"text-h3 q-mt-none q-mb-none"},"Password Reset",-1),j=b("p",null,"Your password has been updated!",-1),z={key:0},D=b("p",null,"Enter and confirm your new password below:",-1),ne=T({__name:"PasswordResetProcess",setup(F){const d=f(!1),m=f(!1),n=f(!1),r=C({pwc:!0,pw:!0}),I=$(),s=C({code:I.params.code,password:void 0,passwordConfirm:void 0}),y=H({code:{required:_},password:{required:_},passwordConfirm:{required:_}},s),B=()=>{const l=s.password?s.password:void 0,o=[/[0-9]/,/[a-z]/,/[A-Z]/,/[^A-Z-0-9]/i];if(l===void 0)return-1;let c=0;if(l.length<6)return 0;for(const t in o)o[t].test(l)&&(c+=1);return c},q=()=>{d.value=!0,M.post("/auth/password/reset/process",s).then(()=>{m.value=!1,n.value=!0,d.value=!1}).catch(l=>{U(l),m.value=!0,n.value=!1,d.value=!1})};return(l,o)=>{const c=P("router-link");return i(),u(L,{view:"lHh Lpr lFf"},{default:a(()=>[e(O,null,{default:a(()=>[e(R,{class:"row justify-center items-center animated fadeIn q-pa-md"},{default:a(()=>[e(N,{class:"col-xs-12 col-sm-6 col-md-4 text-center"},{default:a(()=>[e(w,{class:"row",style:{"min-height":"92px"}},{default:a(()=>[e(Y)]),_:1}),e(w,null,{default:a(()=>[Z]),_:1}),e(w,null,{default:a(()=>[e(g,{"enter-active-class":"animated bounceIn","leave-active-class":"animated bounceOutTop",appear:""},{default:a(()=>[n.value?(i(),u(V,{key:0,class:"text-positive q-mb-md"},{avatar:a(()=>[e(v,{name:"check",color:"white"})]),default:a(()=>[j,e(k,{to:{name:"signIn"},color:"secondary",label:"Go To Sign In",class:"full-width"})]),_:1})):p("",!0)]),_:1}),e(g,{"enter-active-class":"animated bounceIn","leave-active-class":"animated bounceOutTop",appear:""},{default:a(()=>[m.value?(i(),u(V,{key:0,class:"bg-negative text-white"},{default:a(()=>[Q("Error reseting your password")]),_:1})):p("",!0)]),_:1}),n.value?p("",!0):(i(),S("div",z,[D,e(x,{modelValue:s.password,"onUpdate:modelValue":o[1]||(o[1]=t=>s.password=t),label:"Please enter a strong password",type:r.pw?"password":"text",error:h(y).password.$error||s.password&&B()<4,"bottom-slots":"","error-message":"Your password must contain at least 1 number, 1 uppercase character and 1 special character","aria-label":"Enter new password"},{append:a(()=>[e(v,{name:r.pw?"visibility_off":"visibility",class:"cursor-pointer",onClick:o[0]||(o[0]=t=>r.pw=!r.pw)},null,8,["name"])]),_:1},8,["modelValue","type","error"]),e(x,{modelValue:s.passwordConfirm,"onUpdate:modelValue":o[3]||(o[3]=t=>s.passwordConfirm=t),label:"Confirm password",type:r.pwc?"password":"text",error:s.password&&s.passwordConfirm!==s.password,class:"q-mt-md","aria-label":"Confirm new password"},{append:a(()=>[e(v,{name:r.pwc?"visibility_off":"visibility",class:"cursor-pointer",onClick:o[2]||(o[2]=t=>r.pwc=!r.pwc)},null,8,["name"])]),_:1},8,["modelValue","type","error"])]))]),_:1}),n.value?p("",!0):(i(),u(A,{key:0,class:"row"},{default:a(()=>[e(c,{to:{name:"signIn"},class:"link"},{default:a(()=>[Q("Back to Sign In")]),_:1}),e(E),n.value?p("",!0):(i(),u(k,{key:0,onClick:o[4]||(o[4]=t=>q()),disabled:d.value||h(y).$invalid||s.password&&s.passwordConfirm!==s.password,loading:d.value,color:"secondary",label:"Confirm","aria-label":"Confirm"},null,8,["disabled","loading"]))]),_:1}))]),_:1})]),_:1})]),_:1})]),_:1})}}});export{ne as default};
+import { A as defineComponent, r as ref, B as reactive, ad as useRoute, J as resolveComponent, m as openBlock, K as createBlock, L as withCtx, l as createVNode, Q as QCard, M as QCardSection, H as Transition, O as QIcon, S as QBtn, y as createCommentVNode, R as createTextVNode, n as createElementBlock, N as QInput, U as unref, ae as QCardActions, q as createBaseVNode } from "./index.e647c85a.js";
+import { Q as QBanner } from "./QBanner.3fd01969.js";
+import { Q as QSpace } from "./QSpace.7d6f905e.js";
+import { Q as QPage } from "./QPage.660fce82.js";
+import { Q as QLayout, a as QPageContainer } from "./QLayout.2e2ab899.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { u as useVuelidate, r as required } from "./index.esm.4557c89b.js";
+import { a as api } from "./axios.ccd3a804.js";
+import { _ as _sfc_main$1 } from "./AppLogo.885260bb.js";
+import "./QResizeObserver.97b49885.js";
+const _hoisted_1 = /* @__PURE__ */ createBaseVNode("h1", { class: "text-h3 q-mt-none q-mb-none" }, "Password Reset", -1);
+const _hoisted_2 = /* @__PURE__ */ createBaseVNode("p", null, "Your password has been updated!", -1);
+const _hoisted_3 = { key: 0 };
+const _hoisted_4 = /* @__PURE__ */ createBaseVNode("p", null, "Enter and confirm your new password below:", -1);
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "PasswordResetProcess",
+  setup(__props) {
+    const loading = ref(false);
+    const error = ref(false);
+    const success = ref(false);
+    const pwdToggle = reactive({ pwc: true, pw: true });
+    const route = useRoute();
+    const model = reactive({
+      code: route.params.code,
+      password: void 0,
+      passwordConfirm: void 0
+    });
+    const rules = {
+      code: { required },
+      password: { required },
+      passwordConfirm: { required }
+    };
+    const $v = useVuelidate(rules, model);
+    const passwordTest = () => {
+      const pass = model.password ? model.password : void 0;
+      const tests = [/[0-9]/, /[a-z]/, /[A-Z]/, /[^A-Z-0-9]/i];
+      if (pass === void 0) {
+        return -1;
+      }
+      let s = 0;
+      if (pass.length < 6) {
+        return 0;
+      }
+      for (const i in tests) {
+        if (tests[i].test(pass)) {
+          s += 1;
+        }
+      }
+      return s;
+    };
+    const confirm = () => {
+      loading.value = true;
+      api.post("/auth/password/reset/process", model).then(() => {
+        error.value = false;
+        success.value = true;
+        loading.value = false;
+      }).catch((response) => {
+        useMixinDebug(response);
+        error.value = true;
+        success.value = false;
+        loading.value = false;
+      });
+    };
+    return (_ctx, _cache) => {
+      const _component_router_link = resolveComponent("router-link");
+      return openBlock(), createBlock(QLayout, { view: "lHh Lpr lFf" }, {
+        default: withCtx(() => [
+          createVNode(QPageContainer, null, {
+            default: withCtx(() => [
+              createVNode(QPage, { class: "row justify-center items-center animated fadeIn q-pa-md" }, {
+                default: withCtx(() => [
+                  createVNode(QCard, { class: "col-xs-12 col-sm-6 col-md-4 text-center" }, {
+                    default: withCtx(() => [
+                      createVNode(QCardSection, {
+                        class: "row",
+                        style: { "min-height": "92px" }
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(_sfc_main$1)
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QCardSection, null, {
+                        default: withCtx(() => [
+                          _hoisted_1
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QCardSection, null, {
+                        default: withCtx(() => [
+                          createVNode(Transition, {
+                            "enter-active-class": "animated bounceIn",
+                            "leave-active-class": "animated bounceOutTop",
+                            appear: ""
+                          }, {
+                            default: withCtx(() => [
+                              success.value ? (openBlock(), createBlock(QBanner, {
+                                key: 0,
+                                class: "text-positive q-mb-md"
+                              }, {
+                                avatar: withCtx(() => [
+                                  createVNode(QIcon, {
+                                    name: "check",
+                                    color: "white"
+                                  })
+                                ]),
+                                default: withCtx(() => [
+                                  _hoisted_2,
+                                  createVNode(QBtn, {
+                                    to: { name: "signIn" },
+                                    color: "secondary",
+                                    label: "Go To Sign In",
+                                    class: "full-width"
+                                  })
+                                ]),
+                                _: 1
+                              })) : createCommentVNode("", true)
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(Transition, {
+                            "enter-active-class": "animated bounceIn",
+                            "leave-active-class": "animated bounceOutTop",
+                            appear: ""
+                          }, {
+                            default: withCtx(() => [
+                              error.value ? (openBlock(), createBlock(QBanner, {
+                                key: 0,
+                                class: "bg-negative text-white"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Error reseting your password")
+                                ]),
+                                _: 1
+                              })) : createCommentVNode("", true)
+                            ]),
+                            _: 1
+                          }),
+                          !success.value ? (openBlock(), createElementBlock("div", _hoisted_3, [
+                            _hoisted_4,
+                            createVNode(QInput, {
+                              modelValue: model.password,
+                              "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => model.password = $event),
+                              label: "Please enter a strong password",
+                              type: pwdToggle.pw ? "password" : "text",
+                              error: unref($v).password.$error || model.password && passwordTest() < 4,
+                              "bottom-slots": "",
+                              "error-message": "Your password must contain at least 1 number, 1 uppercase character and 1 special character",
+                              "aria-label": "Enter new password"
+                            }, {
+                              append: withCtx(() => [
+                                createVNode(QIcon, {
+                                  name: pwdToggle.pw ? "visibility_off" : "visibility",
+                                  class: "cursor-pointer",
+                                  onClick: _cache[0] || (_cache[0] = ($event) => pwdToggle.pw = !pwdToggle.pw)
+                                }, null, 8, ["name"])
+                              ]),
+                              _: 1
+                            }, 8, ["modelValue", "type", "error"]),
+                            createVNode(QInput, {
+                              modelValue: model.passwordConfirm,
+                              "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => model.passwordConfirm = $event),
+                              label: "Confirm password",
+                              type: pwdToggle.pwc ? "password" : "text",
+                              error: model.password && model.passwordConfirm !== model.password,
+                              class: "q-mt-md",
+                              "aria-label": "Confirm new password"
+                            }, {
+                              append: withCtx(() => [
+                                createVNode(QIcon, {
+                                  name: pwdToggle.pwc ? "visibility_off" : "visibility",
+                                  class: "cursor-pointer",
+                                  onClick: _cache[2] || (_cache[2] = ($event) => pwdToggle.pwc = !pwdToggle.pwc)
+                                }, null, 8, ["name"])
+                              ]),
+                              _: 1
+                            }, 8, ["modelValue", "type", "error"])
+                          ])) : createCommentVNode("", true)
+                        ]),
+                        _: 1
+                      }),
+                      !success.value ? (openBlock(), createBlock(QCardActions, {
+                        key: 0,
+                        class: "row"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(_component_router_link, {
+                            to: { name: "signIn" },
+                            class: "link"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode("Back to Sign In")
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(QSpace),
+                          !success.value ? (openBlock(), createBlock(QBtn, {
+                            key: 0,
+                            onClick: _cache[4] || (_cache[4] = ($event) => confirm()),
+                            disabled: loading.value || unref($v).$invalid || model.password && model.passwordConfirm !== model.password,
+                            loading: loading.value,
+                            color: "secondary",
+                            label: "Confirm",
+                            "aria-label": "Confirm"
+                          }, null, 8, ["disabled", "loading"])) : createCommentVNode("", true)
+                        ]),
+                        _: 1
+                      })) : createCommentVNode("", true)
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      });
+    };
+  }
+});
+export { _sfc_main as default };

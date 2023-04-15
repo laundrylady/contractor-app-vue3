@@ -1,4 +1,1162 @@
-import{_ as O,m as k,n as P,p as b,q as H,s as me,t as fe,u as ge,v as q,x as ye,y as $e,z as K,b as be}from"./index.e647c85a.js";var J=t=>{let e=!1,s;return()=>(e||(e=!0,s=t()),s)};class Z{static isServer(){return typeof document=="undefined"}}function we(t){const e=document.createElement("SCRIPT");if(typeof t!="object")throw new Error("options should  be an object");Array.prototype.isPrototypeOf(t.libraries)&&(t.libraries=t.libraries.join(",")),t.callback="vueGoogleMapsInit";let r="https://maps.googleapis.com/maps/api/js?"+Object.keys(t).map(n=>encodeURIComponent(n)+"="+encodeURIComponent(t[n])).join("&");return e.setAttribute("src",r),e.setAttribute("async",""),e.setAttribute("defer",""),e}let X=!1;function ve(t){if(!Z.isServer()){if(X)throw new Error("You already started the loading of google maps");{X=!0;const e=we(t);document.head.appendChild(e)}}}var ie=(t,e,s)=>{for(let r of s){const n=`on${r.charAt(0).toUpperCase()}${r.slice(1)}`.replace(/[-_]+(.)?/g,(o,a)=>a?a.toUpperCase():"");t.$props[n]||t.$attrs[n]?e.addListener(r,o=>{t.$emit(r,o)}):(t.$gmapOptions.autobindAllEvents||t.$attrs[r])&&e.addListener(r,o=>{t.$emit(r,o)})}};function ae(t,e,s,r=!1){let n=!1;function o(){n||(n=!0,t.$nextTick(()=>{n=!1,s()}))}for(let a of e)t.$watch(a,o,{immediate:r})}class Q{static capitalizeFirstLetter(e){return e.charAt(0).toUpperCase()+e.slice(1)}}function L(t,e){return Object.keys(e).reduce((s,r)=>(t[r]!==void 0&&(s[r]=t[r]),s),{})}function F(t,e,s){for(let r in s){let{twoWay:n,type:o,trackProperties:a,noBind:c}=s[r];if(c)continue;const i="set"+Q.capitalizeFirstLetter(r),l="get"+Q.capitalizeFirstLetter(r),p=r.toLowerCase()+"_changed",u=t[r];if(typeof e[i]=="undefined")throw new Error(`${i} is not a method of (the Maps object corresponding to) ${t.$options._componentTag}`);o!==Object||!a?t.$watch(r,()=>{const d=t[r];e[i](d)},{immediate:typeof u!="undefined",deep:o===Object}):ae(t,a.map(d=>`${r}.${d}`),()=>{e[i](t[r])},t[r]!==void 0),n&&(t.$gmapOptions.autobindAllEvents||t.$attrs[p])&&e.addListener(p,()=>{t.$emit(p,e[l]())})}}var _e={inject:{$mapPromise:{default:"abcdef"}},provide(){return this.$mapPromise.then(t=>{this.$map=t}),{}}};function y(t){const{mappedProps:e,name:s,ctr:r,ctrArgs:n,events:o,beforeCreate:a,afterCreate:c,props:i,...l}=t,p=`$${s}Promise`,u=`$${s}Object`;return Oe(!(l.props instanceof Array),"`props` should be an object, not Array"),{...typeof GENERATE_DOC!="undefined"?{$vgmOptions:t}:{},mixins:[_e],props:{...i,...T(e)},render(){return""},provide(){const d=this.$mapPromise.then(m=>{this.$map=m;const h={...this.options,map:m,...L(this,e)};if(delete h.options,a){const f=a.bind(this)(h);if(f instanceof Promise)return f.then(()=>({options:h}))}return{options:h}}).then(({options:m})=>{const h=r();return this[u]=n?new(Function.prototype.bind.call(h,null,...n(m,L(this,i||{})))):new h(m),F(this,this[u],e),ie(this,this[u],o),c&&c.bind(this)(this[u]),this[u]});return this[p]=d,{[p]:d}},unmounted(){this[u]&&this[u].setMap&&this[u].setMap(null)},...l}}function Oe(t,e){if(!t)throw new Error(e)}function T(t){return Object.entries(t).map(([e,s])=>{const r={};return"type"in s&&(r.type=s.type),"default"in s&&(r.default=s.default),"required"in s&&(r.required=s.required),[e,r]}).reduce((e,[s,r])=>(e[s]=r,e),{})}const ke={draggable:{type:Boolean},editable:{type:Boolean},options:{twoWay:!1,type:Object},path:{type:Array,twoWay:!0}},E=["click","dblclick","drag","dragend","dragstart","mousedown","mousemove","mouseout","mouseover","mouseup","rightclick"];var Pe=y({mappedProps:ke,props:{deepWatch:{type:Boolean,default:!1}},events:E,name:"polyline",ctr:()=>google.maps.Polyline,emits:E,afterCreate(t){let e=()=>{};E.forEach(s=>{t.addListener(s,r=>{this.$emit(s,r)})}),this.$watch("path",s=>{if(s){e(),this.$polylineObject.setPath(s);const r=this.$polylineObject.getPath(),n=[],o=()=>{this.$emit("path_changed",this.$polylineObject.getPath())};n.push([r,r.addListener("insert_at",o)]),n.push([r,r.addListener("remove_at",o)]),n.push([r,r.addListener("set_at",o)]),e=()=>{n.map(([a,c])=>google.maps.event.removeListener(c))}}},{deep:this.deepWatch,immediate:!0})}});const Me={draggable:{type:Boolean},editable:{type:Boolean},options:{type:Object},path:{type:Array,twoWay:!0,noBind:!0},paths:{type:Array,twoWay:!0,noBind:!0}},A=["click","dblclick","drag","dragend","dragstart","mousedown","mousemove","mouseout","mouseover","mouseup","rightclick"];var je=y({props:{deepWatch:{type:Boolean,default:!1}},events:A,mappedProps:Me,name:"polygon",ctr:()=>google.maps.Polygon,emits:A,beforeCreate(t){t.path||delete t.path,t.paths||delete t.paths},afterCreate(t){let e=()=>{};A.forEach(s=>{t.addListener(s,r=>{this.$emit(s,r)})}),this.$watch("paths",s=>{if(s){e(),t.setPaths(s);const r=()=>{this.$emit("paths_changed",t.getPaths())},n=[],o=t.getPaths();for(let a=0;a<o.getLength();a++){let c=o.getAt(a);n.push([c,c.addListener("insert_at",r)]),n.push([c,c.addListener("remove_at",r)]),n.push([c,c.addListener("set_at",r)])}n.push([o,o.addListener("insert_at",r)]),n.push([o,o.addListener("remove_at",r)]),n.push([o,o.addListener("set_at",r)]),e=()=>{n.map(([a,c])=>google.maps.event.removeListener(c))}}},{deep:this.deepWatch,immediate:!0}),this.$watch("path",s=>{if(s){e(),t.setPaths(s);const r=t.getPath(),n=[],o=()=>{this.$emit("path_changed",t.getPath())};n.push([r,r.addListener("insert_at",o)]),n.push([r,r.addListener("remove_at",o)]),n.push([r,r.addListener("set_at",o)]),e=()=>{n.map(([a,c])=>google.maps.event.removeListener(c))}}},{deep:this.deepWatch,immediate:!0})}});const Ce={center:{type:Object,twoWay:!0,required:!0},radius:{type:Number,twoWay:!0},draggable:{type:Boolean,default:!1},editable:{type:Boolean,default:!1},options:{type:Object,twoWay:!1}},Le=["click","dblclick","drag","dragend","dragstart","mousedown","mousemove","mouseout","mouseover","mouseup","rightclick"];var xe=y({mappedProps:Ce,name:"circle",ctr:()=>google.maps.Circle,events:Le});const ze={bounds:{type:Object,twoWay:!0},draggable:{type:Boolean,default:!1},editable:{type:Boolean,default:!1},options:{type:Object,twoWay:!1}},Ee=["click","dblclick","drag","dragend","dragstart","mousedown","mousemove","mouseout","mouseover","mouseup","rightclick"];var Ae=y({mappedProps:ze,name:"rectangle",ctr:()=>google.maps.Rectangle,events:Ee});const Be={animation:{twoWay:!0,type:Number},attribution:{type:Object},clickable:{type:Boolean,twoWay:!0,default:!0},cursor:{type:String,twoWay:!0},draggable:{type:Boolean,twoWay:!0,default:!1},icon:{twoWay:!0},label:{},opacity:{type:Number,default:1},options:{type:Object},place:{type:Object},position:{type:Object,twoWay:!0},shape:{type:Object,twoWay:!0},title:{type:String,twoWay:!0},zIndex:{type:Number,twoWay:!0},visible:{twoWay:!0,default:!0}},B=["click","rightclick","dblclick","drag","dragstart","dragend","mouseup","mousedown","mouseover","mouseout"],We=y({mappedProps:Be,events:B,name:"marker",ctr:()=>google.maps.Marker,inject:{$clusterPromise:{default:null}},emits:B,unmounted(){!this.$markerObject||(this.$clusterObject?this.$clusterObject.removeMarker(this.$markerObject,!0):this.$markerObject.setMap(null))},beforeCreate(t){return this.$clusterPromise&&(t.map=null),this.$clusterPromise},afterCreate(t){B.forEach(e=>{t.addListener(e,s=>{this.$emit(e,s)})}),this.$clusterPromise&&this.$clusterPromise.then(e=>{this.$clusterObject=e,e.addMarker(t)})}});function Se(t,e,s,r,n,o){return k(),P("div",{onClick:e[0]||(e[0]=()=>{t.console.log("sdfsd")})},[b(t.$slots,"default")])}var Re=O(We,[["render",Se]]),Y=function t(e,s){if(e===s)return!0;if(e&&s&&typeof e=="object"&&typeof s=="object"){if(e.constructor!==s.constructor)return!1;var r,n,o;if(Array.isArray(e)){if(r=e.length,r!=s.length)return!1;for(n=r;n--!==0;)if(!t(e[n],s[n]))return!1;return!0}if(e.constructor===RegExp)return e.source===s.source&&e.flags===s.flags;if(e.valueOf!==Object.prototype.valueOf)return e.valueOf()===s.valueOf();if(e.toString!==Object.prototype.toString)return e.toString()===s.toString();if(o=Object.keys(e),r=o.length,r!==Object.keys(s).length)return!1;for(n=r;n--!==0;)if(!Object.prototype.hasOwnProperty.call(s,o[n]))return!1;for(n=r;n--!==0;){var a=o[n];if(!t(e[a],s[a]))return!1}return!0}return e!==e&&s!==s};function I(t,e,s,r,n,o){if(n-r<=s)return;const a=r+n>>1;ce(t,e,a,r,n,o%2),I(t,e,s,r,a-1,o+1),I(t,e,s,a+1,n,o+1)}function ce(t,e,s,r,n,o){for(;n>r;){if(n-r>600){const l=n-r+1,p=s-r+1,u=Math.log(l),d=.5*Math.exp(2*u/3),m=.5*Math.sqrt(u*d*(l-d)/l)*(p-l/2<0?-1:1),h=Math.max(r,Math.floor(s-p*d/l+m)),f=Math.min(n,Math.floor(s+(l-p)*d/l+m));ce(t,e,s,h,f,o)}const a=e[2*s+o];let c=r,i=n;for(w(t,e,r,s),e[2*n+o]>a&&w(t,e,r,n);c<i;){for(w(t,e,c,i),c++,i--;e[2*c+o]<a;)c++;for(;e[2*i+o]>a;)i--}e[2*r+o]===a?w(t,e,r,i):(i++,w(t,e,i,n)),i<=s&&(r=i+1),s<=i&&(n=i-1)}}function w(t,e,s,r){W(t,s,r),W(e,2*s,2*r),W(e,2*s+1,2*r+1)}function W(t,e,s){const r=t[e];t[e]=t[s],t[s]=r}function Ne(t,e,s,r,n,o,a){const c=[0,t.length-1,0],i=[];let l,p;for(;c.length;){const u=c.pop(),d=c.pop(),m=c.pop();if(d-m<=a){for(let g=m;g<=d;g++)l=e[2*g],p=e[2*g+1],l>=s&&l<=n&&p>=r&&p<=o&&i.push(t[g]);continue}const h=Math.floor((m+d)/2);l=e[2*h],p=e[2*h+1],l>=s&&l<=n&&p>=r&&p<=o&&i.push(t[h]);const f=(u+1)%2;(u===0?s<=l:r<=p)&&(c.push(m),c.push(h-1),c.push(f)),(u===0?n>=l:o>=p)&&(c.push(h+1),c.push(d),c.push(f))}return i}function Ze(t,e,s,r,n,o){const a=[0,t.length-1,0],c=[],i=n*n;for(;a.length;){const l=a.pop(),p=a.pop(),u=a.pop();if(p-u<=o){for(let g=u;g<=p;g++)V(e[2*g],e[2*g+1],s,r)<=i&&c.push(t[g]);continue}const d=Math.floor((u+p)/2),m=e[2*d],h=e[2*d+1];V(m,h,s,r)<=i&&c.push(t[d]);const f=(l+1)%2;(l===0?s-n<=m:r-n<=h)&&(a.push(u),a.push(d-1),a.push(f)),(l===0?s+n>=m:r+n>=h)&&(a.push(d+1),a.push(p),a.push(f))}return c}function V(t,e,s,r){const n=t-s,o=e-r;return n*n+o*o}const Ie=t=>t[0],Ge=t=>t[1];class ee{constructor(e,s=Ie,r=Ge,n=64,o=Float64Array){this.nodeSize=n,this.points=e;const a=e.length<65536?Uint16Array:Uint32Array,c=this.ids=new a(e.length),i=this.coords=new o(e.length*2);for(let l=0;l<e.length;l++)c[l]=l,i[2*l]=s(e[l]),i[2*l+1]=r(e[l]);I(c,i,n,0,c.length-1,0)}range(e,s,r,n){return Ne(this.ids,this.coords,e,s,r,n,this.nodeSize)}within(e,s,r){return Ze(this.ids,this.coords,e,s,r,this.nodeSize)}}const Fe={minZoom:0,maxZoom:16,minPoints:2,radius:40,extent:512,nodeSize:64,log:!1,generateId:!1,reduce:null,map:t=>t},x=Math.fround||(t=>e=>(t[0]=+e,t[0]))(new Float32Array(1));class Te{constructor(e){this.options=v(Object.create(Fe),e),this.trees=new Array(this.options.maxZoom+1)}load(e){const{log:s,minZoom:r,maxZoom:n,nodeSize:o}=this.options;s&&console.time("total time");const a=`prepare ${e.length} points`;s&&console.time(a),this.points=e;let c=[];for(let i=0;i<e.length;i++)!e[i].geometry||c.push(De(e[i],i));this.trees[n+1]=new ee(c,se,re,o,Float32Array),s&&console.timeEnd(a);for(let i=n;i>=r;i--){const l=+Date.now();c=this._cluster(c,i),this.trees[i]=new ee(c,se,re,o,Float32Array),s&&console.log("z%d: %d clusters in %dms",i,c.length,+Date.now()-l)}return s&&console.timeEnd("total time"),this}getClusters(e,s){let r=((e[0]+180)%360+360)%360-180;const n=Math.max(-90,Math.min(90,e[1]));let o=e[2]===180?180:((e[2]+180)%360+360)%360-180;const a=Math.max(-90,Math.min(90,e[3]));if(e[2]-e[0]>=360)r=-180,o=180;else if(r>o){const p=this.getClusters([r,n,180,a],s),u=this.getClusters([-180,n,o,a],s);return p.concat(u)}const c=this.trees[this._limitZoom(s)],i=c.range(j(r),C(a),j(o),C(n)),l=[];for(const p of i){const u=c.points[p];l.push(u.numPoints?te(u):this.points[u.index])}return l}getChildren(e){const s=this._getOriginId(e),r=this._getOriginZoom(e),n="No cluster with the specified id.",o=this.trees[r];if(!o)throw new Error(n);const a=o.points[s];if(!a)throw new Error(n);const c=this.options.radius/(this.options.extent*Math.pow(2,r-1)),i=o.within(a.x,a.y,c),l=[];for(const p of i){const u=o.points[p];u.parentId===e&&l.push(u.numPoints?te(u):this.points[u.index])}if(l.length===0)throw new Error(n);return l}getLeaves(e,s,r){s=s||10,r=r||0;const n=[];return this._appendLeaves(n,e,s,r,0),n}getTile(e,s,r){const n=this.trees[this._limitZoom(e)],o=Math.pow(2,e),{extent:a,radius:c}=this.options,i=c/a,l=(r-i)/o,p=(r+1+i)/o,u={features:[]};return this._addTileFeatures(n.range((s-i)/o,l,(s+1+i)/o,p),n.points,s,r,o,u),s===0&&this._addTileFeatures(n.range(1-i/o,l,1,p),n.points,o,r,o,u),s===o-1&&this._addTileFeatures(n.range(0,l,i/o,p),n.points,-1,r,o,u),u.features.length?u:null}getClusterExpansionZoom(e){let s=this._getOriginZoom(e)-1;for(;s<=this.options.maxZoom;){const r=this.getChildren(e);if(s++,r.length!==1)break;e=r[0].properties.cluster_id}return s}_appendLeaves(e,s,r,n,o){const a=this.getChildren(s);for(const c of a){const i=c.properties;if(i&&i.cluster?o+i.point_count<=n?o+=i.point_count:o=this._appendLeaves(e,i.cluster_id,r,n,o):o<n?o++:e.push(c),e.length===r)break}return o}_addTileFeatures(e,s,r,n,o,a){for(const c of e){const i=s[c],l=i.numPoints;let p,u,d;if(l)p=le(i),u=i.x,d=i.y;else{const f=this.points[i.index];p=f.properties,u=j(f.geometry.coordinates[0]),d=C(f.geometry.coordinates[1])}const m={type:1,geometry:[[Math.round(this.options.extent*(u*o-r)),Math.round(this.options.extent*(d*o-n))]],tags:p};let h;l?h=i.id:this.options.generateId?h=i.index:this.points[i.index].id&&(h=this.points[i.index].id),h!==void 0&&(m.id=h),a.features.push(m)}}_limitZoom(e){return Math.max(this.options.minZoom,Math.min(Math.floor(+e),this.options.maxZoom+1))}_cluster(e,s){const r=[],{radius:n,extent:o,reduce:a,minPoints:c}=this.options,i=n/(o*Math.pow(2,s));for(let l=0;l<e.length;l++){const p=e[l];if(p.zoom<=s)continue;p.zoom=s;const u=this.trees[s+1],d=u.within(p.x,p.y,i),m=p.numPoints||1;let h=m;for(const f of d){const g=u.points[f];g.zoom>s&&(h+=g.numPoints||1)}if(h>m&&h>=c){let f=p.x*m,g=p.y*m,M=a&&m>1?this._map(p,!0):null;const z=(l<<5)+(s+1)+this.points.length;for(const de of d){const $=u.points[de];if($.zoom<=s)continue;$.zoom=s;const D=$.numPoints||1;f+=$.x*D,g+=$.y*D,$.parentId=z,a&&(M||(M=this._map(p,!0)),a(M,this._map($)))}p.parentId=z,r.push(Ue(f/h,g/h,z,h,M))}else if(r.push(p),h>1)for(const f of d){const g=u.points[f];g.zoom<=s||(g.zoom=s,r.push(g))}}return r}_getOriginId(e){return e-this.points.length>>5}_getOriginZoom(e){return(e-this.points.length)%32}_map(e,s){if(e.numPoints)return s?v({},e.properties):e.properties;const r=this.points[e.index].properties,n=this.options.map(r);return s&&n===r?v({},n):n}}function Ue(t,e,s,r,n){return{x:x(t),y:x(e),zoom:1/0,id:s,parentId:-1,numPoints:r,properties:n}}function De(t,e){const[s,r]=t.geometry.coordinates;return{x:x(j(s)),y:x(C(r)),zoom:1/0,index:e,parentId:-1}}function te(t){return{type:"Feature",id:t.id,properties:le(t),geometry:{type:"Point",coordinates:[He(t.x),qe(t.y)]}}}function le(t){const e=t.numPoints,s=e>=1e4?`${Math.round(e/1e3)}k`:e>=1e3?`${Math.round(e/100)/10}k`:e;return v(v({},t.properties),{cluster:!0,cluster_id:t.id,point_count:e,point_count_abbreviated:s})}function j(t){return t/360+.5}function C(t){const e=Math.sin(t*Math.PI/180),s=.5-.25*Math.log((1+e)/(1-e))/Math.PI;return s<0?0:s>1?1:s}function He(t){return(t-.5)*360}function qe(t){const e=(180-t*360)*Math.PI/180;return 360*Math.atan(Math.exp(e))/Math.PI-90}function v(t,e){for(const s in e)t[s]=e[s];return t}function se(t){return t.x}function re(t){return t.y}/*! *****************************************************************************
+import { _ as _export_sfc, m as openBlock, n as createElementBlock, p as renderSlot, q as createBaseVNode, s as normalizeStyle, t as normalizeClass, u as normalizeProps, v as mergeProps, x as toHandlers, y as createCommentVNode, z as createApp, b as boot } from "./index.e647c85a.js";
+var lazy = (fn) => {
+  let called = false;
+  let result;
+  return () => {
+    if (!called) {
+      called = true;
+      result = fn();
+    }
+    return result;
+  };
+};
+class Env {
+  static isServer() {
+    return typeof document === "undefined";
+  }
+}
+function createMapScript(options) {
+  const googleMapScript = document.createElement("SCRIPT");
+  if (typeof options !== "object") {
+    throw new Error("options should  be an object");
+  }
+  if (Array.prototype.isPrototypeOf(options.libraries)) {
+    options.libraries = options.libraries.join(",");
+  }
+  options["callback"] = "vueGoogleMapsInit";
+  let baseUrl = "https://maps.googleapis.com/maps/api/js?";
+  let url = baseUrl + Object.keys(options).map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(options[key])).join("&");
+  googleMapScript.setAttribute("src", url);
+  googleMapScript.setAttribute("async", "");
+  googleMapScript.setAttribute("defer", "");
+  return googleMapScript;
+}
+let isApiSetUp = false;
+function loadGMapApi(options) {
+  if (Env.isServer()) {
+    return;
+  }
+  if (!isApiSetUp) {
+    isApiSetUp = true;
+    const googleMapScript = createMapScript(options);
+    document.head.appendChild(googleMapScript);
+  } else {
+    throw new Error("You already started the loading of google maps");
+  }
+}
+var bindEvents = (vueInst, googleMapsInst, events2) => {
+  for (let eventName of events2) {
+    const propName = `on${eventName.charAt(0).toUpperCase()}${eventName.slice(1)}`.replace(
+      /[-_]+(.)?/g,
+      (_, c) => c ? c.toUpperCase() : ""
+    );
+    if (vueInst.$props[propName] || vueInst.$attrs[propName]) {
+      googleMapsInst.addListener(eventName, (ev) => {
+        vueInst.$emit(eventName, ev);
+      });
+    } else if (vueInst.$gmapOptions.autobindAllEvents || vueInst.$attrs[eventName]) {
+      googleMapsInst.addListener(eventName, (ev) => {
+        vueInst.$emit(eventName, ev);
+      });
+    }
+  }
+};
+function WatchPrimitiveProperties(vueInst, propertiesToTrack, handler, immediate = false) {
+  let isHandled = false;
+  function requestHandle() {
+    if (!isHandled) {
+      isHandled = true;
+      vueInst.$nextTick(() => {
+        isHandled = false;
+        handler();
+      });
+    }
+  }
+  for (let prop of propertiesToTrack) {
+    vueInst.$watch(prop, requestHandle, { immediate });
+  }
+}
+class Str {
+  static capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+}
+function getPropsValues(vueInst, props2) {
+  return Object.keys(props2).reduce((acc, prop) => {
+    if (vueInst[prop] !== void 0) {
+      acc[prop] = vueInst[prop];
+    }
+    return acc;
+  }, {});
+}
+function bindProps(vueInst, googleMapsInst, props2) {
+  for (let attribute in props2) {
+    let { twoWay, type, trackProperties, noBind } = props2[attribute];
+    if (noBind)
+      continue;
+    const setMethodName = "set" + Str.capitalizeFirstLetter(attribute);
+    const getMethodName = "get" + Str.capitalizeFirstLetter(attribute);
+    const eventName = attribute.toLowerCase() + "_changed";
+    const initialValue = vueInst[attribute];
+    if (typeof googleMapsInst[setMethodName] === "undefined") {
+      throw new Error(
+        `${setMethodName} is not a method of (the Maps object corresponding to) ${vueInst.$options._componentTag}`
+      );
+    }
+    if (type !== Object || !trackProperties) {
+      vueInst.$watch(
+        attribute,
+        () => {
+          const attributeValue = vueInst[attribute];
+          googleMapsInst[setMethodName](attributeValue);
+        },
+        {
+          immediate: typeof initialValue !== "undefined",
+          deep: type === Object
+        }
+      );
+    } else {
+      WatchPrimitiveProperties(
+        vueInst,
+        trackProperties.map((prop) => `${attribute}.${prop}`),
+        () => {
+          googleMapsInst[setMethodName](vueInst[attribute]);
+        },
+        vueInst[attribute] !== void 0
+      );
+    }
+    if (twoWay && (vueInst.$gmapOptions.autobindAllEvents || vueInst.$attrs[eventName])) {
+      googleMapsInst.addListener(eventName, () => {
+        vueInst.$emit(eventName, googleMapsInst[getMethodName]());
+      });
+    }
+  }
+}
+var MapElementMixin = {
+  inject: {
+    $mapPromise: { default: "abcdef" }
+  },
+  provide() {
+    this.$mapPromise.then((map) => {
+      this.$map = map;
+    });
+    return {};
+  }
+};
+function buildComponent(options) {
+  const { mappedProps: mappedProps2, name, ctr, ctrArgs, events: events2, beforeCreate, afterCreate, props: props2, ...rest } = options;
+  const promiseName = `$${name}Promise`;
+  const instanceName = `$${name}Object`;
+  assert(!(rest.props instanceof Array), "`props` should be an object, not Array");
+  return {
+    ...typeof GENERATE_DOC !== "undefined" ? { $vgmOptions: options } : {},
+    mixins: [MapElementMixin],
+    props: {
+      ...props2,
+      ...mappedPropsToVueProps(mappedProps2)
+    },
+    render() {
+      return "";
+    },
+    provide() {
+      const promise = this.$mapPromise.then((map) => {
+        this.$map = map;
+        const options2 = {
+          ...this.options,
+          map,
+          ...getPropsValues(this, mappedProps2)
+        };
+        delete options2.options;
+        if (beforeCreate) {
+          const result = beforeCreate.bind(this)(options2);
+          if (result instanceof Promise) {
+            return result.then(() => ({ options: options2 }));
+          }
+        }
+        return { options: options2 };
+      }).then(({ options: options2 }) => {
+        const ConstructorObject = ctr();
+        this[instanceName] = ctrArgs ? new (Function.prototype.bind.call(
+          ConstructorObject,
+          null,
+          ...ctrArgs(options2, getPropsValues(this, props2 || {}))
+        ))() : new ConstructorObject(options2);
+        bindProps(this, this[instanceName], mappedProps2);
+        bindEvents(this, this[instanceName], events2);
+        if (afterCreate) {
+          afterCreate.bind(this)(this[instanceName]);
+        }
+        return this[instanceName];
+      });
+      this[promiseName] = promise;
+      return { [promiseName]: promise };
+    },
+    unmounted() {
+      if (this[instanceName] && this[instanceName].setMap) {
+        this[instanceName].setMap(null);
+      }
+    },
+    ...rest
+  };
+}
+function assert(v, message) {
+  if (!v)
+    throw new Error(message);
+}
+function mappedPropsToVueProps(mappedProps2) {
+  return Object.entries(mappedProps2).map(([key, prop]) => {
+    const value = {};
+    if ("type" in prop)
+      value.type = prop.type;
+    if ("default" in prop)
+      value.default = prop.default;
+    if ("required" in prop)
+      value.required = prop.required;
+    return [key, value];
+  }).reduce((acc, [key, val]) => {
+    acc[key] = val;
+    return acc;
+  }, {});
+}
+const props$9 = {
+  draggable: {
+    type: Boolean
+  },
+  editable: {
+    type: Boolean
+  },
+  options: {
+    twoWay: false,
+    type: Object
+  },
+  path: {
+    type: Array,
+    twoWay: true
+  }
+};
+const events$8 = [
+  "click",
+  "dblclick",
+  "drag",
+  "dragend",
+  "dragstart",
+  "mousedown",
+  "mousemove",
+  "mouseout",
+  "mouseover",
+  "mouseup",
+  "rightclick"
+];
+var Polyline = buildComponent({
+  mappedProps: props$9,
+  props: {
+    deepWatch: {
+      type: Boolean,
+      default: false
+    }
+  },
+  events: events$8,
+  name: "polyline",
+  ctr: () => google.maps.Polyline,
+  emits: events$8,
+  afterCreate(inst) {
+    let clearEvents = () => {
+    };
+    events$8.forEach((event) => {
+      inst.addListener(event, (payload) => {
+        this.$emit(event, payload);
+      });
+    });
+    this.$watch(
+      "path",
+      (path) => {
+        if (path) {
+          clearEvents();
+          this.$polylineObject.setPath(path);
+          const mvcPath = this.$polylineObject.getPath();
+          const eventListeners = [];
+          const updatePaths = () => {
+            this.$emit("path_changed", this.$polylineObject.getPath());
+          };
+          eventListeners.push([mvcPath, mvcPath.addListener("insert_at", updatePaths)]);
+          eventListeners.push([mvcPath, mvcPath.addListener("remove_at", updatePaths)]);
+          eventListeners.push([mvcPath, mvcPath.addListener("set_at", updatePaths)]);
+          clearEvents = () => {
+            eventListeners.map(
+              ([obj, listenerHandle]) => google.maps.event.removeListener(listenerHandle)
+            );
+          };
+        }
+      },
+      {
+        deep: this.deepWatch,
+        immediate: true
+      }
+    );
+  }
+});
+const props$8 = {
+  draggable: {
+    type: Boolean
+  },
+  editable: {
+    type: Boolean
+  },
+  options: {
+    type: Object
+  },
+  path: {
+    type: Array,
+    twoWay: true,
+    noBind: true
+  },
+  paths: {
+    type: Array,
+    twoWay: true,
+    noBind: true
+  }
+};
+const events$7 = [
+  "click",
+  "dblclick",
+  "drag",
+  "dragend",
+  "dragstart",
+  "mousedown",
+  "mousemove",
+  "mouseout",
+  "mouseover",
+  "mouseup",
+  "rightclick"
+];
+var Polygon = buildComponent({
+  props: {
+    deepWatch: {
+      type: Boolean,
+      default: false
+    }
+  },
+  events: events$7,
+  mappedProps: props$8,
+  name: "polygon",
+  ctr: () => google.maps.Polygon,
+  emits: events$7,
+  beforeCreate(options) {
+    if (!options.path)
+      delete options.path;
+    if (!options.paths)
+      delete options.paths;
+  },
+  afterCreate(inst) {
+    let clearEvents = () => {
+    };
+    events$7.forEach((event) => {
+      inst.addListener(event, (payload) => {
+        this.$emit(event, payload);
+      });
+    });
+    this.$watch(
+      "paths",
+      (paths) => {
+        if (paths) {
+          clearEvents();
+          inst.setPaths(paths);
+          const updatePaths = () => {
+            this.$emit("paths_changed", inst.getPaths());
+          };
+          const eventListeners = [];
+          const mvcArray = inst.getPaths();
+          for (let i = 0; i < mvcArray.getLength(); i++) {
+            let mvcPath = mvcArray.getAt(i);
+            eventListeners.push([mvcPath, mvcPath.addListener("insert_at", updatePaths)]);
+            eventListeners.push([mvcPath, mvcPath.addListener("remove_at", updatePaths)]);
+            eventListeners.push([mvcPath, mvcPath.addListener("set_at", updatePaths)]);
+          }
+          eventListeners.push([mvcArray, mvcArray.addListener("insert_at", updatePaths)]);
+          eventListeners.push([mvcArray, mvcArray.addListener("remove_at", updatePaths)]);
+          eventListeners.push([mvcArray, mvcArray.addListener("set_at", updatePaths)]);
+          clearEvents = () => {
+            eventListeners.map(
+              ([obj, listenerHandle]) => google.maps.event.removeListener(listenerHandle)
+            );
+          };
+        }
+      },
+      {
+        deep: this.deepWatch,
+        immediate: true
+      }
+    );
+    this.$watch(
+      "path",
+      (path) => {
+        if (path) {
+          clearEvents();
+          inst.setPaths(path);
+          const mvcPath = inst.getPath();
+          const eventListeners = [];
+          const updatePaths = () => {
+            this.$emit("path_changed", inst.getPath());
+          };
+          eventListeners.push([mvcPath, mvcPath.addListener("insert_at", updatePaths)]);
+          eventListeners.push([mvcPath, mvcPath.addListener("remove_at", updatePaths)]);
+          eventListeners.push([mvcPath, mvcPath.addListener("set_at", updatePaths)]);
+          clearEvents = () => {
+            eventListeners.map(
+              ([obj, listenerHandle]) => google.maps.event.removeListener(listenerHandle)
+            );
+          };
+        }
+      },
+      {
+        deep: this.deepWatch,
+        immediate: true
+      }
+    );
+  }
+});
+const props$7 = {
+  center: {
+    type: Object,
+    twoWay: true,
+    required: true
+  },
+  radius: {
+    type: Number,
+    twoWay: true
+  },
+  draggable: {
+    type: Boolean,
+    default: false
+  },
+  editable: {
+    type: Boolean,
+    default: false
+  },
+  options: {
+    type: Object,
+    twoWay: false
+  }
+};
+const events$6 = [
+  "click",
+  "dblclick",
+  "drag",
+  "dragend",
+  "dragstart",
+  "mousedown",
+  "mousemove",
+  "mouseout",
+  "mouseover",
+  "mouseup",
+  "rightclick"
+];
+var Circle = buildComponent({
+  mappedProps: props$7,
+  name: "circle",
+  ctr: () => google.maps.Circle,
+  events: events$6
+});
+const props$6 = {
+  bounds: {
+    type: Object,
+    twoWay: true
+  },
+  draggable: {
+    type: Boolean,
+    default: false
+  },
+  editable: {
+    type: Boolean,
+    default: false
+  },
+  options: {
+    type: Object,
+    twoWay: false
+  }
+};
+const events$5 = [
+  "click",
+  "dblclick",
+  "drag",
+  "dragend",
+  "dragstart",
+  "mousedown",
+  "mousemove",
+  "mouseout",
+  "mouseover",
+  "mouseup",
+  "rightclick"
+];
+var Rectangle = buildComponent({
+  mappedProps: props$6,
+  name: "rectangle",
+  ctr: () => google.maps.Rectangle,
+  events: events$5
+});
+const props$5 = {
+  animation: {
+    twoWay: true,
+    type: Number
+  },
+  attribution: {
+    type: Object
+  },
+  clickable: {
+    type: Boolean,
+    twoWay: true,
+    default: true
+  },
+  cursor: {
+    type: String,
+    twoWay: true
+  },
+  draggable: {
+    type: Boolean,
+    twoWay: true,
+    default: false
+  },
+  icon: {
+    twoWay: true
+  },
+  label: {},
+  opacity: {
+    type: Number,
+    default: 1
+  },
+  options: {
+    type: Object
+  },
+  place: {
+    type: Object
+  },
+  position: {
+    type: Object,
+    twoWay: true
+  },
+  shape: {
+    type: Object,
+    twoWay: true
+  },
+  title: {
+    type: String,
+    twoWay: true
+  },
+  zIndex: {
+    type: Number,
+    twoWay: true
+  },
+  visible: {
+    twoWay: true,
+    default: true
+  }
+};
+const events$4 = [
+  "click",
+  "rightclick",
+  "dblclick",
+  "drag",
+  "dragstart",
+  "dragend",
+  "mouseup",
+  "mousedown",
+  "mouseover",
+  "mouseout"
+];
+const _sfc_main$4 = buildComponent({
+  mappedProps: props$5,
+  events: events$4,
+  name: "marker",
+  ctr: () => google.maps.Marker,
+  inject: {
+    $clusterPromise: {
+      default: null
+    }
+  },
+  emits: events$4,
+  unmounted() {
+    if (!this.$markerObject) {
+      return;
+    }
+    if (this.$clusterObject) {
+      this.$clusterObject.removeMarker(this.$markerObject, true);
+    } else {
+      this.$markerObject.setMap(null);
+    }
+  },
+  beforeCreate(options) {
+    if (this.$clusterPromise) {
+      options.map = null;
+    }
+    return this.$clusterPromise;
+  },
+  afterCreate(inst) {
+    events$4.forEach((event) => {
+      inst.addListener(event, (payload) => {
+        this.$emit(event, payload);
+      });
+    });
+    if (this.$clusterPromise) {
+      this.$clusterPromise.then((co) => {
+        this.$clusterObject = co;
+        co.addMarker(inst);
+      });
+    }
+  }
+});
+function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", {
+    onClick: _cache[0] || (_cache[0] = () => {
+      _ctx.console.log("sdfsd");
+    })
+  }, [
+    renderSlot(_ctx.$slots, "default")
+  ]);
+}
+var Marker = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4]]);
+var fastDeepEqual = function equal(a, b) {
+  if (a === b)
+    return true;
+  if (a && b && typeof a == "object" && typeof b == "object") {
+    if (a.constructor !== b.constructor)
+      return false;
+    var length, i, keys;
+    if (Array.isArray(a)) {
+      length = a.length;
+      if (length != b.length)
+        return false;
+      for (i = length; i-- !== 0; )
+        if (!equal(a[i], b[i]))
+          return false;
+      return true;
+    }
+    if (a.constructor === RegExp)
+      return a.source === b.source && a.flags === b.flags;
+    if (a.valueOf !== Object.prototype.valueOf)
+      return a.valueOf() === b.valueOf();
+    if (a.toString !== Object.prototype.toString)
+      return a.toString() === b.toString();
+    keys = Object.keys(a);
+    length = keys.length;
+    if (length !== Object.keys(b).length)
+      return false;
+    for (i = length; i-- !== 0; )
+      if (!Object.prototype.hasOwnProperty.call(b, keys[i]))
+        return false;
+    for (i = length; i-- !== 0; ) {
+      var key = keys[i];
+      if (!equal(a[key], b[key]))
+        return false;
+    }
+    return true;
+  }
+  return a !== a && b !== b;
+};
+function sortKD(ids, coords, nodeSize, left, right, depth) {
+  if (right - left <= nodeSize)
+    return;
+  const m = left + right >> 1;
+  select(ids, coords, m, left, right, depth % 2);
+  sortKD(ids, coords, nodeSize, left, m - 1, depth + 1);
+  sortKD(ids, coords, nodeSize, m + 1, right, depth + 1);
+}
+function select(ids, coords, k, left, right, inc) {
+  while (right > left) {
+    if (right - left > 600) {
+      const n = right - left + 1;
+      const m = k - left + 1;
+      const z = Math.log(n);
+      const s = 0.5 * Math.exp(2 * z / 3);
+      const sd = 0.5 * Math.sqrt(z * s * (n - s) / n) * (m - n / 2 < 0 ? -1 : 1);
+      const newLeft = Math.max(left, Math.floor(k - m * s / n + sd));
+      const newRight = Math.min(right, Math.floor(k + (n - m) * s / n + sd));
+      select(ids, coords, k, newLeft, newRight, inc);
+    }
+    const t = coords[2 * k + inc];
+    let i = left;
+    let j = right;
+    swapItem(ids, coords, left, k);
+    if (coords[2 * right + inc] > t)
+      swapItem(ids, coords, left, right);
+    while (i < j) {
+      swapItem(ids, coords, i, j);
+      i++;
+      j--;
+      while (coords[2 * i + inc] < t)
+        i++;
+      while (coords[2 * j + inc] > t)
+        j--;
+    }
+    if (coords[2 * left + inc] === t)
+      swapItem(ids, coords, left, j);
+    else {
+      j++;
+      swapItem(ids, coords, j, right);
+    }
+    if (j <= k)
+      left = j + 1;
+    if (k <= j)
+      right = j - 1;
+  }
+}
+function swapItem(ids, coords, i, j) {
+  swap(ids, i, j);
+  swap(coords, 2 * i, 2 * j);
+  swap(coords, 2 * i + 1, 2 * j + 1);
+}
+function swap(arr, i, j) {
+  const tmp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = tmp;
+}
+function range(ids, coords, minX, minY, maxX, maxY, nodeSize) {
+  const stack = [0, ids.length - 1, 0];
+  const result = [];
+  let x, y;
+  while (stack.length) {
+    const axis = stack.pop();
+    const right = stack.pop();
+    const left = stack.pop();
+    if (right - left <= nodeSize) {
+      for (let i = left; i <= right; i++) {
+        x = coords[2 * i];
+        y = coords[2 * i + 1];
+        if (x >= minX && x <= maxX && y >= minY && y <= maxY)
+          result.push(ids[i]);
+      }
+      continue;
+    }
+    const m = Math.floor((left + right) / 2);
+    x = coords[2 * m];
+    y = coords[2 * m + 1];
+    if (x >= minX && x <= maxX && y >= minY && y <= maxY)
+      result.push(ids[m]);
+    const nextAxis = (axis + 1) % 2;
+    if (axis === 0 ? minX <= x : minY <= y) {
+      stack.push(left);
+      stack.push(m - 1);
+      stack.push(nextAxis);
+    }
+    if (axis === 0 ? maxX >= x : maxY >= y) {
+      stack.push(m + 1);
+      stack.push(right);
+      stack.push(nextAxis);
+    }
+  }
+  return result;
+}
+function within(ids, coords, qx, qy, r, nodeSize) {
+  const stack = [0, ids.length - 1, 0];
+  const result = [];
+  const r2 = r * r;
+  while (stack.length) {
+    const axis = stack.pop();
+    const right = stack.pop();
+    const left = stack.pop();
+    if (right - left <= nodeSize) {
+      for (let i = left; i <= right; i++) {
+        if (sqDist(coords[2 * i], coords[2 * i + 1], qx, qy) <= r2)
+          result.push(ids[i]);
+      }
+      continue;
+    }
+    const m = Math.floor((left + right) / 2);
+    const x = coords[2 * m];
+    const y = coords[2 * m + 1];
+    if (sqDist(x, y, qx, qy) <= r2)
+      result.push(ids[m]);
+    const nextAxis = (axis + 1) % 2;
+    if (axis === 0 ? qx - r <= x : qy - r <= y) {
+      stack.push(left);
+      stack.push(m - 1);
+      stack.push(nextAxis);
+    }
+    if (axis === 0 ? qx + r >= x : qy + r >= y) {
+      stack.push(m + 1);
+      stack.push(right);
+      stack.push(nextAxis);
+    }
+  }
+  return result;
+}
+function sqDist(ax, ay, bx, by) {
+  const dx = ax - bx;
+  const dy = ay - by;
+  return dx * dx + dy * dy;
+}
+const defaultGetX = (p) => p[0];
+const defaultGetY = (p) => p[1];
+class KDBush {
+  constructor(points, getX2 = defaultGetX, getY2 = defaultGetY, nodeSize = 64, ArrayType = Float64Array) {
+    this.nodeSize = nodeSize;
+    this.points = points;
+    const IndexArrayType = points.length < 65536 ? Uint16Array : Uint32Array;
+    const ids = this.ids = new IndexArrayType(points.length);
+    const coords = this.coords = new ArrayType(points.length * 2);
+    for (let i = 0; i < points.length; i++) {
+      ids[i] = i;
+      coords[2 * i] = getX2(points[i]);
+      coords[2 * i + 1] = getY2(points[i]);
+    }
+    sortKD(ids, coords, nodeSize, 0, ids.length - 1, 0);
+  }
+  range(minX, minY, maxX, maxY) {
+    return range(this.ids, this.coords, minX, minY, maxX, maxY, this.nodeSize);
+  }
+  within(x, y, r) {
+    return within(this.ids, this.coords, x, y, r, this.nodeSize);
+  }
+}
+const defaultOptions = {
+  minZoom: 0,
+  maxZoom: 16,
+  minPoints: 2,
+  radius: 40,
+  extent: 512,
+  nodeSize: 64,
+  log: false,
+  generateId: false,
+  reduce: null,
+  map: (props2) => props2
+};
+const fround = Math.fround || ((tmp) => (x) => {
+  tmp[0] = +x;
+  return tmp[0];
+})(new Float32Array(1));
+class Supercluster {
+  constructor(options) {
+    this.options = extend$1(Object.create(defaultOptions), options);
+    this.trees = new Array(this.options.maxZoom + 1);
+  }
+  load(points) {
+    const { log, minZoom, maxZoom, nodeSize } = this.options;
+    if (log)
+      console.time("total time");
+    const timerId = `prepare ${points.length} points`;
+    if (log)
+      console.time(timerId);
+    this.points = points;
+    let clusters = [];
+    for (let i = 0; i < points.length; i++) {
+      if (!points[i].geometry)
+        continue;
+      clusters.push(createPointCluster(points[i], i));
+    }
+    this.trees[maxZoom + 1] = new KDBush(clusters, getX, getY, nodeSize, Float32Array);
+    if (log)
+      console.timeEnd(timerId);
+    for (let z = maxZoom; z >= minZoom; z--) {
+      const now = +Date.now();
+      clusters = this._cluster(clusters, z);
+      this.trees[z] = new KDBush(clusters, getX, getY, nodeSize, Float32Array);
+      if (log)
+        console.log("z%d: %d clusters in %dms", z, clusters.length, +Date.now() - now);
+    }
+    if (log)
+      console.timeEnd("total time");
+    return this;
+  }
+  getClusters(bbox, zoom) {
+    let minLng = ((bbox[0] + 180) % 360 + 360) % 360 - 180;
+    const minLat = Math.max(-90, Math.min(90, bbox[1]));
+    let maxLng = bbox[2] === 180 ? 180 : ((bbox[2] + 180) % 360 + 360) % 360 - 180;
+    const maxLat = Math.max(-90, Math.min(90, bbox[3]));
+    if (bbox[2] - bbox[0] >= 360) {
+      minLng = -180;
+      maxLng = 180;
+    } else if (minLng > maxLng) {
+      const easternHem = this.getClusters([minLng, minLat, 180, maxLat], zoom);
+      const westernHem = this.getClusters([-180, minLat, maxLng, maxLat], zoom);
+      return easternHem.concat(westernHem);
+    }
+    const tree = this.trees[this._limitZoom(zoom)];
+    const ids = tree.range(lngX(minLng), latY(maxLat), lngX(maxLng), latY(minLat));
+    const clusters = [];
+    for (const id of ids) {
+      const c = tree.points[id];
+      clusters.push(c.numPoints ? getClusterJSON(c) : this.points[c.index]);
+    }
+    return clusters;
+  }
+  getChildren(clusterId) {
+    const originId = this._getOriginId(clusterId);
+    const originZoom = this._getOriginZoom(clusterId);
+    const errorMsg = "No cluster with the specified id.";
+    const index = this.trees[originZoom];
+    if (!index)
+      throw new Error(errorMsg);
+    const origin = index.points[originId];
+    if (!origin)
+      throw new Error(errorMsg);
+    const r = this.options.radius / (this.options.extent * Math.pow(2, originZoom - 1));
+    const ids = index.within(origin.x, origin.y, r);
+    const children = [];
+    for (const id of ids) {
+      const c = index.points[id];
+      if (c.parentId === clusterId) {
+        children.push(c.numPoints ? getClusterJSON(c) : this.points[c.index]);
+      }
+    }
+    if (children.length === 0)
+      throw new Error(errorMsg);
+    return children;
+  }
+  getLeaves(clusterId, limit, offset) {
+    limit = limit || 10;
+    offset = offset || 0;
+    const leaves = [];
+    this._appendLeaves(leaves, clusterId, limit, offset, 0);
+    return leaves;
+  }
+  getTile(z, x, y) {
+    const tree = this.trees[this._limitZoom(z)];
+    const z2 = Math.pow(2, z);
+    const { extent, radius } = this.options;
+    const p = radius / extent;
+    const top = (y - p) / z2;
+    const bottom = (y + 1 + p) / z2;
+    const tile = {
+      features: []
+    };
+    this._addTileFeatures(
+      tree.range((x - p) / z2, top, (x + 1 + p) / z2, bottom),
+      tree.points,
+      x,
+      y,
+      z2,
+      tile
+    );
+    if (x === 0) {
+      this._addTileFeatures(
+        tree.range(1 - p / z2, top, 1, bottom),
+        tree.points,
+        z2,
+        y,
+        z2,
+        tile
+      );
+    }
+    if (x === z2 - 1) {
+      this._addTileFeatures(
+        tree.range(0, top, p / z2, bottom),
+        tree.points,
+        -1,
+        y,
+        z2,
+        tile
+      );
+    }
+    return tile.features.length ? tile : null;
+  }
+  getClusterExpansionZoom(clusterId) {
+    let expansionZoom = this._getOriginZoom(clusterId) - 1;
+    while (expansionZoom <= this.options.maxZoom) {
+      const children = this.getChildren(clusterId);
+      expansionZoom++;
+      if (children.length !== 1)
+        break;
+      clusterId = children[0].properties.cluster_id;
+    }
+    return expansionZoom;
+  }
+  _appendLeaves(result, clusterId, limit, offset, skipped) {
+    const children = this.getChildren(clusterId);
+    for (const child of children) {
+      const props2 = child.properties;
+      if (props2 && props2.cluster) {
+        if (skipped + props2.point_count <= offset) {
+          skipped += props2.point_count;
+        } else {
+          skipped = this._appendLeaves(result, props2.cluster_id, limit, offset, skipped);
+        }
+      } else if (skipped < offset) {
+        skipped++;
+      } else {
+        result.push(child);
+      }
+      if (result.length === limit)
+        break;
+    }
+    return skipped;
+  }
+  _addTileFeatures(ids, points, x, y, z2, tile) {
+    for (const i of ids) {
+      const c = points[i];
+      const isCluster = c.numPoints;
+      let tags, px, py;
+      if (isCluster) {
+        tags = getClusterProperties(c);
+        px = c.x;
+        py = c.y;
+      } else {
+        const p = this.points[c.index];
+        tags = p.properties;
+        px = lngX(p.geometry.coordinates[0]);
+        py = latY(p.geometry.coordinates[1]);
+      }
+      const f = {
+        type: 1,
+        geometry: [[
+          Math.round(this.options.extent * (px * z2 - x)),
+          Math.round(this.options.extent * (py * z2 - y))
+        ]],
+        tags
+      };
+      let id;
+      if (isCluster) {
+        id = c.id;
+      } else if (this.options.generateId) {
+        id = c.index;
+      } else if (this.points[c.index].id) {
+        id = this.points[c.index].id;
+      }
+      if (id !== void 0)
+        f.id = id;
+      tile.features.push(f);
+    }
+  }
+  _limitZoom(z) {
+    return Math.max(this.options.minZoom, Math.min(Math.floor(+z), this.options.maxZoom + 1));
+  }
+  _cluster(points, zoom) {
+    const clusters = [];
+    const { radius, extent, reduce, minPoints } = this.options;
+    const r = radius / (extent * Math.pow(2, zoom));
+    for (let i = 0; i < points.length; i++) {
+      const p = points[i];
+      if (p.zoom <= zoom)
+        continue;
+      p.zoom = zoom;
+      const tree = this.trees[zoom + 1];
+      const neighborIds = tree.within(p.x, p.y, r);
+      const numPointsOrigin = p.numPoints || 1;
+      let numPoints = numPointsOrigin;
+      for (const neighborId of neighborIds) {
+        const b = tree.points[neighborId];
+        if (b.zoom > zoom)
+          numPoints += b.numPoints || 1;
+      }
+      if (numPoints > numPointsOrigin && numPoints >= minPoints) {
+        let wx = p.x * numPointsOrigin;
+        let wy = p.y * numPointsOrigin;
+        let clusterProperties = reduce && numPointsOrigin > 1 ? this._map(p, true) : null;
+        const id = (i << 5) + (zoom + 1) + this.points.length;
+        for (const neighborId of neighborIds) {
+          const b = tree.points[neighborId];
+          if (b.zoom <= zoom)
+            continue;
+          b.zoom = zoom;
+          const numPoints2 = b.numPoints || 1;
+          wx += b.x * numPoints2;
+          wy += b.y * numPoints2;
+          b.parentId = id;
+          if (reduce) {
+            if (!clusterProperties)
+              clusterProperties = this._map(p, true);
+            reduce(clusterProperties, this._map(b));
+          }
+        }
+        p.parentId = id;
+        clusters.push(createCluster(wx / numPoints, wy / numPoints, id, numPoints, clusterProperties));
+      } else {
+        clusters.push(p);
+        if (numPoints > 1) {
+          for (const neighborId of neighborIds) {
+            const b = tree.points[neighborId];
+            if (b.zoom <= zoom)
+              continue;
+            b.zoom = zoom;
+            clusters.push(b);
+          }
+        }
+      }
+    }
+    return clusters;
+  }
+  _getOriginId(clusterId) {
+    return clusterId - this.points.length >> 5;
+  }
+  _getOriginZoom(clusterId) {
+    return (clusterId - this.points.length) % 32;
+  }
+  _map(point, clone) {
+    if (point.numPoints) {
+      return clone ? extend$1({}, point.properties) : point.properties;
+    }
+    const original = this.points[point.index].properties;
+    const result = this.options.map(original);
+    return clone && result === original ? extend$1({}, result) : result;
+  }
+}
+function createCluster(x, y, id, numPoints, properties) {
+  return {
+    x: fround(x),
+    y: fround(y),
+    zoom: Infinity,
+    id,
+    parentId: -1,
+    numPoints,
+    properties
+  };
+}
+function createPointCluster(p, id) {
+  const [x, y] = p.geometry.coordinates;
+  return {
+    x: fround(lngX(x)),
+    y: fround(latY(y)),
+    zoom: Infinity,
+    index: id,
+    parentId: -1
+  };
+}
+function getClusterJSON(cluster) {
+  return {
+    type: "Feature",
+    id: cluster.id,
+    properties: getClusterProperties(cluster),
+    geometry: {
+      type: "Point",
+      coordinates: [xLng(cluster.x), yLat(cluster.y)]
+    }
+  };
+}
+function getClusterProperties(cluster) {
+  const count = cluster.numPoints;
+  const abbrev = count >= 1e4 ? `${Math.round(count / 1e3)}k` : count >= 1e3 ? `${Math.round(count / 100) / 10}k` : count;
+  return extend$1(extend$1({}, cluster.properties), {
+    cluster: true,
+    cluster_id: cluster.id,
+    point_count: count,
+    point_count_abbreviated: abbrev
+  });
+}
+function lngX(lng) {
+  return lng / 360 + 0.5;
+}
+function latY(lat) {
+  const sin = Math.sin(lat * Math.PI / 180);
+  const y = 0.5 - 0.25 * Math.log((1 + sin) / (1 - sin)) / Math.PI;
+  return y < 0 ? 0 : y > 1 ? 1 : y;
+}
+function xLng(x) {
+  return (x - 0.5) * 360;
+}
+function yLat(y) {
+  const y2 = (180 - y * 360) * Math.PI / 180;
+  return 360 * Math.atan(Math.exp(y2)) / Math.PI - 90;
+}
+function extend$1(dest, src) {
+  for (const id in src)
+    dest[id] = src[id];
+  return dest;
+}
+function getX(p) {
+  return p.x;
+}
+function getY(p) {
+  return p.y;
+}
+/*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
 
 Permission to use, copy, modify, and/or distribute this software for any
@@ -11,9 +1169,852 @@ INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
 LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */function Ke(t,e){var s={};for(var r in t)Object.prototype.hasOwnProperty.call(t,r)&&e.indexOf(r)<0&&(s[r]=t[r]);if(t!=null&&typeof Object.getOwnPropertySymbols=="function")for(var n=0,r=Object.getOwnPropertySymbols(t);n<r.length;n++)e.indexOf(r[n])<0&&Object.prototype.propertyIsEnumerable.call(t,r[n])&&(s[r[n]]=t[r[n]]);return s}class G{constructor({markers:e,position:s}){this.markers=e,s&&(s instanceof google.maps.LatLng?this._position=s:this._position=new google.maps.LatLng(s))}get bounds(){if(!(this.markers.length===0&&!this._position))return this.markers.reduce((e,s)=>e.extend(s.getPosition()),new google.maps.LatLngBounds(this._position,this._position))}get position(){return this._position||this.bounds.getCenter()}get count(){return this.markers.filter(e=>e.getVisible()).length}push(e){this.markers.push(e)}delete(){this.marker&&(this.marker.setMap(null),delete this.marker),this.markers.length=0}}class Je{constructor({maxZoom:e=16}){this.maxZoom=e}noop({markers:e}){return Xe(e)}}const Xe=t=>t.map(s=>new G({position:s.getPosition(),markers:[s]}));class pe extends Je{constructor(e){var{maxZoom:s,radius:r=60}=e,n=Ke(e,["maxZoom","radius"]);super({maxZoom:s}),this.superCluster=new Te(Object.assign({maxZoom:this.maxZoom,radius:r},n)),this.state={zoom:null}}calculate(e){let s=!1;if(!Y(e.markers,this.markers)){s=!0,this.markers=[...e.markers];const n=this.markers.map(o=>({type:"Feature",geometry:{type:"Point",coordinates:[o.getPosition().lng(),o.getPosition().lat()]},properties:{marker:o}}));this.superCluster.load(n)}const r={zoom:e.map.getZoom()};return s||this.state.zoom>this.maxZoom&&r.zoom>this.maxZoom||(s=s||!Y(this.state,r)),this.state=r,s&&(this.clusters=this.cluster(e)),{clusters:this.clusters,changed:s}}cluster({map:e}){return this.superCluster.getClusters([-180,-90,180,90],Math.round(e.getZoom())).map(this.transformCluster.bind(this))}transformCluster({geometry:{coordinates:[e,s]},properties:r}){if(r.cluster)return new G({markers:this.superCluster.getLeaves(r.cluster_id,1/0).map(n=>n.properties.marker),position:new google.maps.LatLng({lat:s,lng:e})});{const n=r.marker;return new G({markers:[n],position:n.getPosition()})}}}class Qe{constructor(e,s){this.markers={sum:e.length};const r=s.map(o=>o.count),n=r.reduce((o,a)=>o+a,0);this.clusters={count:s.length,markers:{mean:n/s.length,sum:n,min:Math.min(...r),max:Math.max(...r)}}}}class ue{render({count:e,position:s},r){const n=e>Math.max(10,r.clusters.markers.mean)?"#ff0000":"#0000ff",o=window.btoa(`
-  <svg fill="${n}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+***************************************************************************** */
+function __rest(s, e) {
+  var t = {};
+  for (var p in s)
+    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+      t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+        t[p[i]] = s[p[i]];
+    }
+  return t;
+}
+class Cluster {
+  constructor({ markers, position }) {
+    this.markers = markers;
+    if (position) {
+      if (position instanceof google.maps.LatLng) {
+        this._position = position;
+      } else {
+        this._position = new google.maps.LatLng(position);
+      }
+    }
+  }
+  get bounds() {
+    if (this.markers.length === 0 && !this._position) {
+      return void 0;
+    }
+    return this.markers.reduce((bounds, marker) => {
+      return bounds.extend(marker.getPosition());
+    }, new google.maps.LatLngBounds(this._position, this._position));
+  }
+  get position() {
+    return this._position || this.bounds.getCenter();
+  }
+  get count() {
+    return this.markers.filter((m) => m.getVisible()).length;
+  }
+  push(marker) {
+    this.markers.push(marker);
+  }
+  delete() {
+    if (this.marker) {
+      this.marker.setMap(null);
+      delete this.marker;
+    }
+    this.markers.length = 0;
+  }
+}
+class AbstractAlgorithm {
+  constructor({ maxZoom = 16 }) {
+    this.maxZoom = maxZoom;
+  }
+  noop({ markers }) {
+    return noop(markers);
+  }
+}
+const noop = (markers) => {
+  const clusters = markers.map((marker) => new Cluster({
+    position: marker.getPosition(),
+    markers: [marker]
+  }));
+  return clusters;
+};
+class SuperClusterAlgorithm extends AbstractAlgorithm {
+  constructor(_a) {
+    var { maxZoom, radius = 60 } = _a, options = __rest(_a, ["maxZoom", "radius"]);
+    super({ maxZoom });
+    this.superCluster = new Supercluster(Object.assign({ maxZoom: this.maxZoom, radius }, options));
+    this.state = { zoom: null };
+  }
+  calculate(input) {
+    let changed = false;
+    if (!fastDeepEqual(input.markers, this.markers)) {
+      changed = true;
+      this.markers = [...input.markers];
+      const points = this.markers.map((marker) => {
+        return {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [
+              marker.getPosition().lng(),
+              marker.getPosition().lat()
+            ]
+          },
+          properties: { marker }
+        };
+      });
+      this.superCluster.load(points);
+    }
+    const state = { zoom: input.map.getZoom() };
+    if (!changed) {
+      if (this.state.zoom > this.maxZoom && state.zoom > this.maxZoom)
+        ;
+      else {
+        changed = changed || !fastDeepEqual(this.state, state);
+      }
+    }
+    this.state = state;
+    if (changed) {
+      this.clusters = this.cluster(input);
+    }
+    return { clusters: this.clusters, changed };
+  }
+  cluster({ map }) {
+    return this.superCluster.getClusters([-180, -90, 180, 90], Math.round(map.getZoom())).map(this.transformCluster.bind(this));
+  }
+  transformCluster({ geometry: { coordinates: [lng, lat] }, properties }) {
+    if (properties.cluster) {
+      return new Cluster({
+        markers: this.superCluster.getLeaves(properties.cluster_id, Infinity).map((leaf) => leaf.properties.marker),
+        position: new google.maps.LatLng({ lat, lng })
+      });
+    } else {
+      const marker = properties.marker;
+      return new Cluster({
+        markers: [marker],
+        position: marker.getPosition()
+      });
+    }
+  }
+}
+class ClusterStats {
+  constructor(markers, clusters) {
+    this.markers = { sum: markers.length };
+    const clusterMarkerCounts = clusters.map((a) => a.count);
+    const clusterMarkerSum = clusterMarkerCounts.reduce((a, b) => a + b, 0);
+    this.clusters = {
+      count: clusters.length,
+      markers: {
+        mean: clusterMarkerSum / clusters.length,
+        sum: clusterMarkerSum,
+        min: Math.min(...clusterMarkerCounts),
+        max: Math.max(...clusterMarkerCounts)
+      }
+    };
+  }
+}
+class DefaultRenderer {
+  render({ count, position }, stats) {
+    const color = count > Math.max(10, stats.clusters.markers.mean) ? "#ff0000" : "#0000ff";
+    const svg = window.btoa(`
+  <svg fill="${color}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
     <circle cx="120" cy="120" opacity=".6" r="70" />
     <circle cx="120" cy="120" opacity=".3" r="90" />
     <circle cx="120" cy="120" opacity=".2" r="110" />
-  </svg>`);return new google.maps.Marker({position:s,icon:{url:`data:image/svg+xml;base64,${o}`,scaledSize:new google.maps.Size(45,45)},label:{text:String(e),color:"rgba(255,255,255,0.9)",fontSize:"12px"},title:`Cluster of ${e} markers`,zIndex:Number(google.maps.Marker.MAX_ZINDEX)+e})}}function Ye(t,e){for(let s in e.prototype)t.prototype[s]=e.prototype[s]}class U{constructor(){Ye(U,google.maps.OverlayView)}}var _;(function(t){t.CLUSTERING_BEGIN="clusteringbegin",t.CLUSTERING_END="clusteringend",t.CLUSTER_CLICK="click"})(_||(_={}));const Ve=(t,e,s)=>{s.fitBounds(e.bounds)};class ne extends U{constructor({map:e,markers:s=[],algorithm:r=new pe({}),renderer:n=new ue,onClusterClick:o=Ve}){super(),this.markers=[...s],this.clusters=[],this.algorithm=r,this.renderer=n,this.onClusterClick=o,e&&this.setMap(e)}addMarker(e,s){this.markers.includes(e)||(this.markers.push(e),s||this.render())}addMarkers(e,s){e.forEach(r=>{this.addMarker(r,!0)}),s||this.render()}removeMarker(e,s){const r=this.markers.indexOf(e);return r===-1?!1:(e.setMap(null),this.markers.splice(r,1),s||this.render(),!0)}removeMarkers(e,s){let r=!1;return e.forEach(n=>{r=this.removeMarker(n,!0)||r}),r&&!s&&this.render(),r}clearMarkers(e){this.markers.length=0,e||this.render()}render(){const e=this.getMap();if(e instanceof google.maps.Map&&this.getProjection()){google.maps.event.trigger(this,_.CLUSTERING_BEGIN,this);const{clusters:s,changed:r}=this.algorithm.calculate({markers:this.markers,map:e,mapCanvasProjection:this.getProjection()});(r||r==null)&&(this.reset(),this.clusters=s,this.renderClusters()),google.maps.event.trigger(this,_.CLUSTERING_END,this)}}onAdd(){this.idleListener=this.getMap().addListener("idle",this.render.bind(this)),this.render()}onRemove(){google.maps.event.removeListener(this.idleListener),this.reset()}reset(){this.markers.forEach(e=>e.setMap(null)),this.clusters.forEach(e=>e.delete()),this.clusters=[]}renderClusters(){const e=new Qe(this.markers,this.clusters),s=this.getMap();this.clusters.forEach(r=>{r.markers.length===1?r.marker=r.markers[0]:(r.marker=this.renderer.render(r,e),this.onClusterClick&&r.marker.addListener("click",n=>{google.maps.event.trigger(this,_.CLUSTER_CLICK,r),this.onClusterClick(n,r,s)})),r.marker.setMap(s)})}}const S={algorithm:{type:Object,default:new pe({}),noBind:!0},renderer:{type:Object,default:new ue,noBind:!0}},et=["clusteringbegin","clusteringend"],tt=y({mappedProps:S,events:et,name:"cluster",ctr:()=>{if(typeof ne=="undefined"){const t="MarkerClusterer is not installed!";throw console.error(t),new Error(t)}return ne},ctrArgs:({map:t,...e})=>[{map:t,...e}],afterCreate(t){const e=()=>{const s=t.getMarkers();t.clearMarkers(),t.addMarkers(s)};for(let s in S)S[s].twoWay&&this.$on(s.toLowerCase()+"_changed",e)},updated(){this.$clusterObject&&this.$clusterObject.render()},beforeUnmount(){this.$children&&this.$children.length&&this.$children.forEach(t=>{t.$clusterObject===this.$clusterObject&&(t.$clusterObject=null)}),this.$clusterObject&&this.$clusterObject.clearMarkers()}});function st(t,e,s,r,n,o){return k(),P("div",null,[b(t.$slots,"default")])}var rt=O(tt,[["render",st]]);const nt={options:{type:Object,required:!1,default(){return{}}},position:{type:Object,twoWay:!0},zIndex:{type:Number,twoWay:!0}},ot=["domready","click","closeclick","content_changed"],it=y({mappedProps:nt,events:ot,name:"infoWindow",ctr:()=>google.maps.InfoWindow,props:{opened:{type:Boolean,default:!0}},inject:{$markerPromise:{default:null}},mounted(){const t=this.$refs.infoWindow;t.parentNode.removeChild(t)},beforeCreate(t){if(t.content=this.$refs.infoWindow,this.$markerPromise)return delete t.position,this.$markerPromise.then(e=>(this.$markerObject=e,e))},emits:["closeclick"],methods:{_openInfoWindow(){this.$infoWindowObject.close(),this.opened?this.$infoWindowObject.open(this.$map,this.$markerObject):this.$emit("closeclick")}},afterCreate(){this._openInfoWindow(),this.$watch("opened",()=>{this._openInfoWindow()})}}),at={ref:"infoWindow"};function ct(t,e,s,r,n,o){return k(),P("div",at,[b(t.$slots,"default")],512)}var lt=O(it,[["render",ct]]),pt={props:["resizeBus"],data(){return{_actualResizeBus:null}},created(){typeof this.resizeBus=="undefined"?this.$data._actualResizeBus=this.$gmapDefaultResizeBus:this.$data._actualResizeBus=this.resizeBus},methods:{_resizeCallback(){this.resize()},isFunction(t){return t&&{}.toString.call(t)==="[object Function]"},_delayedResizeCallback(){this.$nextTick(()=>this._resizeCallback())}},watch:{resizeBus(t){this.$data._actualResizeBus=t},"$data._actualResizeBus"(t,e){e&&e.$off("resize",this._delayedResizeCallback)}},unmounted(){this.$data._actualResizeBus&&this.isFunction(this.$data._actualResizeBus.$off)&&this.$data._actualResizeBus.$off("resize",this._delayedResizeCallback)}};function ut(t){let e=0;t(()=>{e+=1},()=>{e=Math.max(0,e-1)},()=>e===0)}const R={center:{default:{lat:0,lng:0},twoWay:!0,type:Object,noBind:!0},zoom:{required:!1,twoWay:!0,type:Number,noBind:!0},maxZoom:{required:!1,twoWay:!0,type:Number,noBind:!0},heading:{type:Number,twoWay:!0},mapTypeId:{twoWay:!0,type:String},tilt:{twoWay:!0,type:Number},options:{type:Object,default(){return{}}}},oe=["bounds_changed","click","dblclick","drag","dragend","dragstart","idle","mousemove","mouseout","mouseover","resize","rightclick","tilesloaded"],ht=["panBy","panTo","panToBounds","fitBounds"].reduce((t,e)=>(t[e]=function(){this.$mapObject&&this.$mapObject[e].apply(this.$mapObject,arguments)},t),{}),dt={resize(){this.$mapObject&&google.maps.event.trigger(this.$mapObject,"resize")},resizePreserveCenter(){if(!this.$mapObject)return;const t=this.$mapObject.getCenter();google.maps.event.trigger(this.$mapObject,"resize"),this.$mapObject.setCenter(t)},_resizeCallback(){this.resizePreserveCenter()}},mt={mixins:[pt],props:T({...R,...oe.reduce((t,e)=>({...t,[`on${e.charAt(0).toUpperCase()}${e.slice(1)}`.replace(/[-_]+(.)?/g,(s,r)=>r?r.toUpperCase():"")]:Function}),{})}),inheritAttrs:!1,provide(){return this.$mapPromise=new Promise((t,e)=>{this.$mapPromiseDeferred={resolve:t,reject:e}}),{$mapPromise:this.$mapPromise}},emits:["center_changed","zoom_changed","bounds_changed"],computed:{finalLat(){return this.center&&typeof this.center.lat=="function"?this.center.lat():this.center.lat},finalLng(){return this.center&&typeof this.center.lng=="function"?this.center.lng():this.center.lng},finalLatLng(){return{lat:this.finalLat,lng:this.finalLng}}},watch:{zoom(t){this.$mapObject&&this.$mapObject.setZoom(t)}},mounted(){return this.$gmapApiPromiseLazy().then(()=>{const t=this.$refs["vue-map"],e={...this.options,...L(this,R)};return delete e.options,this.$mapObject=new google.maps.Map(t,e),F(this,this.$mapObject,R),ie(this,this.$mapObject,oe),ut((s,r,n)=>{this.$mapObject.addListener("center_changed",()=>{n()&&this.$emit("center_changed",this.$mapObject.getCenter()),r()}),ae(this,["finalLat","finalLng"],()=>{s(),this.$mapObject.setCenter(this.finalLatLng)})}),this.$mapObject.addListener("zoom_changed",()=>{this.$emit("zoom_changed",this.$mapObject.getZoom())}),this.$mapObject.addListener("bounds_changed",()=>{this.$emit("bounds_changed",this.$mapObject.getBounds())}),this.$mapPromiseDeferred.resolve(this.$mapObject),this.$mapObject}).catch(t=>{throw t})},methods:{...dt,...ht}},ft={class:"vue-map-hidden"};function gt(t,e,s,r,n,o){return k(),P("div",{class:fe(["vue-map-container",t.$attrs.class])},[H("div",{ref:"vue-map",class:"vue-map",style:me(t.$attrs.style?t.$attrs.style:"")},null,4),H("div",ft,[b(t.$slots,"default")]),b(t.$slots,"visible")],2)}var yt=O(mt,[["render",gt]]);const $t={options:{type:Object,twoWay:!1,default:()=>{}},data:{type:Array,twoWay:!0}},bt=[];var wt=y({mappedProps:$t,name:"heatmap",ctr:()=>google.maps.visualization.HeatmapLayer,events:bt}),vt=t=>{const e=t.addEventListener?t.addEventListener:t.attachEvent;function s(r,n){if(r==="keydown"){const o=n;n=function(a){const c=document.getElementsByClassName("pac-item-selected").length>0;if(a.which===13&&!c){const i=document.createEvent("Event");i.keyCode=40,i.which=40,o.apply(t,[i])}o.apply(t,[a])}}e.apply(t,[r,n])}t.addEventListener=s,t.attachEvent=s};const N={bounds:{type:Object},componentRestrictions:{type:Object,noBind:!0},types:{type:Array,default:function(){return[]}}},_t={selectFirstOnEnter:{required:!1,type:Boolean,default:!1},options:{type:Object}},Ot={mounted(){const t=this;this.$gmapApiPromiseLazy().then(()=>{let e=t.$refs.input;if(t.$slots.input){const r=t.$slots.input()[0].props.ref,n=t.$slots.input()[0].ref.i.ctx.$refs[r];n&&(e=n.$el.getElementsByTagName("input")[0])}if(this.selectFirstOnEnter&&vt(e),typeof google.maps.places.Autocomplete!="function")throw new Error("google.maps.places.Autocomplete is undefined. Did you add 'places' to libraries when loading Google Maps?");const s={...L(this,N),...this.options};this.$autocomplete=new google.maps.places.Autocomplete(e,s),F(this,this.$autocomplete,N),this.$watch("componentRestrictions",r=>{r!==void 0&&this.$autocomplete.setComponentRestrictions(r)}),this.$autocomplete.addListener("place_changed",()=>{this.$emit("place_changed",this.$autocomplete.getPlace())})})},props:{...T(N),..._t}};function kt(t,e,s,r,n,o){return t.$slots.input?b(t.$slots,"input",ge(q({key:0},t.$attrs))):t.$slots.input?$e("",!0):(k(),P("input",q({key:1,ref:"input"},t.$attrs,ye(t.$attrs,!0)),null,16))}var Pt=O(Ot,[["render",kt]]);let he=null;function Mt(t,e){e={installComponents:!0,autobindAllEvents:!1,...e},he=K({data:function(){return{gmapApi:null}}});const s=K();let r=jt(e);t.mixin({created(){this.$gmapDefaultResizeBus=s,this.$gmapOptions=e,this.$gmapApiPromiseLazy=r}}),t.$gmapDefaultResizeBus=s,t.$gmapApiPromiseLazy=r,e.installComponents&&(t.component("GMapMap",yt),t.component("GMapMarker",Re),t.component("GMapInfoWindow",lt),t.component("GMapCluster",rt),t.component("GMapPolyline",Pe),t.component("GMapPolygon",je),t.component("GMapCircle",xe),t.component("GMapRectangle",Ae),t.component("GMapAutocomplete",Pt),t.component("GMapHeatmap",wt))}function jt(t){function e(){return he.gmapApi={},window.google}if(t.load)return J(()=>Z.isServer()?new Promise(()=>{}).then(e):new Promise((s,r)=>{try{window.vueGoogleMapsInit=s,ve(t.load)}catch(n){r(n)}}).then(e));{const s=new Promise(r=>{Z.isServer()||(window.vueGoogleMapsInit=r)}).then(e);return J(()=>s)}}var Lt=be(async({app:t})=>{t.use(Mt,{load:{key:"AIzaSyBUK5yMK5Zdz9MOUbzam56ORuFexFBMk-g"}})});export{Lt as default};
+  </svg>`);
+    return new google.maps.Marker({
+      position,
+      icon: {
+        url: `data:image/svg+xml;base64,${svg}`,
+        scaledSize: new google.maps.Size(45, 45)
+      },
+      label: {
+        text: String(count),
+        color: "rgba(255,255,255,0.9)",
+        fontSize: "12px"
+      },
+      title: `Cluster of ${count} markers`,
+      zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count
+    });
+  }
+}
+function extend(type1, type2) {
+  for (let property in type2.prototype) {
+    type1.prototype[property] = type2.prototype[property];
+  }
+}
+class OverlayViewSafe {
+  constructor() {
+    extend(OverlayViewSafe, google.maps.OverlayView);
+  }
+}
+var MarkerClustererEvents;
+(function(MarkerClustererEvents2) {
+  MarkerClustererEvents2["CLUSTERING_BEGIN"] = "clusteringbegin";
+  MarkerClustererEvents2["CLUSTERING_END"] = "clusteringend";
+  MarkerClustererEvents2["CLUSTER_CLICK"] = "click";
+})(MarkerClustererEvents || (MarkerClustererEvents = {}));
+const defaultOnClusterClickHandler = (_, cluster, map) => {
+  map.fitBounds(cluster.bounds);
+};
+class MarkerClusterer extends OverlayViewSafe {
+  constructor({ map, markers = [], algorithm = new SuperClusterAlgorithm({}), renderer = new DefaultRenderer(), onClusterClick = defaultOnClusterClickHandler }) {
+    super();
+    this.markers = [...markers];
+    this.clusters = [];
+    this.algorithm = algorithm;
+    this.renderer = renderer;
+    this.onClusterClick = onClusterClick;
+    if (map) {
+      this.setMap(map);
+    }
+  }
+  addMarker(marker, noDraw) {
+    if (this.markers.includes(marker)) {
+      return;
+    }
+    this.markers.push(marker);
+    if (!noDraw) {
+      this.render();
+    }
+  }
+  addMarkers(markers, noDraw) {
+    markers.forEach((marker) => {
+      this.addMarker(marker, true);
+    });
+    if (!noDraw) {
+      this.render();
+    }
+  }
+  removeMarker(marker, noDraw) {
+    const index = this.markers.indexOf(marker);
+    if (index === -1) {
+      return false;
+    }
+    marker.setMap(null);
+    this.markers.splice(index, 1);
+    if (!noDraw) {
+      this.render();
+    }
+    return true;
+  }
+  removeMarkers(markers, noDraw) {
+    let removed = false;
+    markers.forEach((marker) => {
+      removed = this.removeMarker(marker, true) || removed;
+    });
+    if (removed && !noDraw) {
+      this.render();
+    }
+    return removed;
+  }
+  clearMarkers(noDraw) {
+    this.markers.length = 0;
+    if (!noDraw) {
+      this.render();
+    }
+  }
+  render() {
+    const map = this.getMap();
+    if (map instanceof google.maps.Map && this.getProjection()) {
+      google.maps.event.trigger(this, MarkerClustererEvents.CLUSTERING_BEGIN, this);
+      const { clusters, changed } = this.algorithm.calculate({
+        markers: this.markers,
+        map,
+        mapCanvasProjection: this.getProjection()
+      });
+      if (changed || changed == void 0) {
+        this.reset();
+        this.clusters = clusters;
+        this.renderClusters();
+      }
+      google.maps.event.trigger(this, MarkerClustererEvents.CLUSTERING_END, this);
+    }
+  }
+  onAdd() {
+    this.idleListener = this.getMap().addListener("idle", this.render.bind(this));
+    this.render();
+  }
+  onRemove() {
+    google.maps.event.removeListener(this.idleListener);
+    this.reset();
+  }
+  reset() {
+    this.markers.forEach((marker) => marker.setMap(null));
+    this.clusters.forEach((cluster) => cluster.delete());
+    this.clusters = [];
+  }
+  renderClusters() {
+    const stats = new ClusterStats(this.markers, this.clusters);
+    const map = this.getMap();
+    this.clusters.forEach((cluster) => {
+      if (cluster.markers.length === 1) {
+        cluster.marker = cluster.markers[0];
+      } else {
+        cluster.marker = this.renderer.render(cluster, stats);
+        if (this.onClusterClick) {
+          cluster.marker.addListener(
+            "click",
+            (event) => {
+              google.maps.event.trigger(this, MarkerClustererEvents.CLUSTER_CLICK, cluster);
+              this.onClusterClick(event, cluster, map);
+            }
+          );
+        }
+      }
+      cluster.marker.setMap(map);
+    });
+  }
+}
+const props$4 = {
+  algorithm: {
+    type: Object,
+    default: new SuperClusterAlgorithm({}),
+    noBind: true
+  },
+  renderer: {
+    type: Object,
+    default: new DefaultRenderer(),
+    noBind: true
+  }
+};
+const events$3 = ["clusteringbegin", "clusteringend"];
+const _sfc_main$3 = buildComponent({
+  mappedProps: props$4,
+  events: events$3,
+  name: "cluster",
+  ctr: () => {
+    if (typeof MarkerClusterer === "undefined") {
+      const errorMessage = "MarkerClusterer is not installed!";
+      console.error(errorMessage);
+      throw new Error(errorMessage);
+    }
+    return MarkerClusterer;
+  },
+  ctrArgs: ({ map, ...otherOptions }) => [{ map, ...otherOptions }],
+  afterCreate(inst) {
+    const reinsertMarkers = () => {
+      const oldMarkers = inst.getMarkers();
+      inst.clearMarkers();
+      inst.addMarkers(oldMarkers);
+    };
+    for (let prop in props$4) {
+      if (props$4[prop].twoWay) {
+        this.$on(prop.toLowerCase() + "_changed", reinsertMarkers);
+      }
+    }
+  },
+  updated() {
+    if (this.$clusterObject) {
+      this.$clusterObject.render();
+    }
+  },
+  beforeUnmount() {
+    if (this.$children && this.$children.length) {
+      this.$children.forEach((marker) => {
+        if (marker.$clusterObject === this.$clusterObject) {
+          marker.$clusterObject = null;
+        }
+      });
+    }
+    if (this.$clusterObject) {
+      this.$clusterObject.clearMarkers();
+    }
+  }
+});
+function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", null, [
+    renderSlot(_ctx.$slots, "default")
+  ]);
+}
+var GMapCluster = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
+const props$3 = {
+  options: {
+    type: Object,
+    required: false,
+    default() {
+      return {};
+    }
+  },
+  position: {
+    type: Object,
+    twoWay: true
+  },
+  zIndex: {
+    type: Number,
+    twoWay: true
+  }
+};
+const events$2 = ["domready", "click", "closeclick", "content_changed"];
+const _sfc_main$2 = buildComponent({
+  mappedProps: props$3,
+  events: events$2,
+  name: "infoWindow",
+  ctr: () => google.maps.InfoWindow,
+  props: {
+    opened: {
+      type: Boolean,
+      default: true
+    }
+  },
+  inject: {
+    $markerPromise: {
+      default: null
+    }
+  },
+  mounted() {
+    const el = this.$refs.infoWindow;
+    el.parentNode.removeChild(el);
+  },
+  beforeCreate(options) {
+    options.content = this.$refs.infoWindow;
+    if (this.$markerPromise) {
+      delete options.position;
+      return this.$markerPromise.then((mo) => {
+        this.$markerObject = mo;
+        return mo;
+      });
+    }
+  },
+  emits: ["closeclick"],
+  methods: {
+    _openInfoWindow() {
+      this.$infoWindowObject.close();
+      if (this.opened) {
+        this.$infoWindowObject.open(this.$map, this.$markerObject);
+      } else {
+        this.$emit("closeclick");
+      }
+    }
+  },
+  afterCreate() {
+    this._openInfoWindow();
+    this.$watch("opened", () => {
+      this._openInfoWindow();
+    });
+  }
+});
+const _hoisted_1$1 = { ref: "infoWindow" };
+function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$1, [
+    renderSlot(_ctx.$slots, "default")
+  ], 512);
+}
+var InfoWindow = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
+var mountableMixin = {
+  props: ["resizeBus"],
+  data() {
+    return {
+      _actualResizeBus: null
+    };
+  },
+  created() {
+    if (typeof this.resizeBus === "undefined") {
+      this.$data._actualResizeBus = this.$gmapDefaultResizeBus;
+    } else {
+      this.$data._actualResizeBus = this.resizeBus;
+    }
+  },
+  methods: {
+    _resizeCallback() {
+      this.resize();
+    },
+    isFunction(functionToCheck) {
+      return functionToCheck && {}.toString.call(functionToCheck) === "[object Function]";
+    },
+    _delayedResizeCallback() {
+      this.$nextTick(() => this._resizeCallback());
+    }
+  },
+  watch: {
+    resizeBus(newVal) {
+      this.$data._actualResizeBus = newVal;
+    },
+    "$data._actualResizeBus"(newVal, oldVal) {
+      if (oldVal) {
+        oldVal.$off("resize", this._delayedResizeCallback);
+      }
+    }
+  },
+  unmounted() {
+    if (this.$data._actualResizeBus && this.isFunction(this.$data._actualResizeBus.$off)) {
+      this.$data._actualResizeBus.$off("resize", this._delayedResizeCallback);
+    }
+  }
+};
+function TwoWayBindingWrapper(fn) {
+  let counter = 0;
+  fn(
+    () => {
+      counter += 1;
+    },
+    () => {
+      counter = Math.max(0, counter - 1);
+    },
+    () => counter === 0
+  );
+}
+var map_vue_vue_type_style_index_0_lang = "";
+const props$2 = {
+  center: {
+    default: { lat: 0, lng: 0 },
+    twoWay: true,
+    type: Object,
+    noBind: true
+  },
+  zoom: {
+    required: false,
+    twoWay: true,
+    type: Number,
+    noBind: true
+  },
+  maxZoom: {
+    required: false,
+    twoWay: true,
+    type: Number,
+    noBind: true
+  },
+  heading: {
+    type: Number,
+    twoWay: true
+  },
+  mapTypeId: {
+    twoWay: true,
+    type: String
+  },
+  tilt: {
+    twoWay: true,
+    type: Number
+  },
+  options: {
+    type: Object,
+    default() {
+      return {};
+    }
+  }
+};
+const events$1 = [
+  "bounds_changed",
+  "click",
+  "dblclick",
+  "drag",
+  "dragend",
+  "dragstart",
+  "idle",
+  "mousemove",
+  "mouseout",
+  "mouseover",
+  "resize",
+  "rightclick",
+  "tilesloaded"
+];
+const linkedMethods = ["panBy", "panTo", "panToBounds", "fitBounds"].reduce((all, methodName) => {
+  all[methodName] = function() {
+    if (this.$mapObject) {
+      this.$mapObject[methodName].apply(this.$mapObject, arguments);
+    }
+  };
+  return all;
+}, {});
+const customMethods = {
+  resize() {
+    if (this.$mapObject) {
+      google.maps.event.trigger(this.$mapObject, "resize");
+    }
+  },
+  resizePreserveCenter() {
+    if (!this.$mapObject) {
+      return;
+    }
+    const oldCenter = this.$mapObject.getCenter();
+    google.maps.event.trigger(this.$mapObject, "resize");
+    this.$mapObject.setCenter(oldCenter);
+  },
+  _resizeCallback() {
+    this.resizePreserveCenter();
+  }
+};
+const _sfc_main$1 = {
+  mixins: [mountableMixin],
+  props: mappedPropsToVueProps({
+    ...props$2,
+    ...events$1.reduce(
+      (obj, eventName) => ({
+        ...obj,
+        [`on${eventName.charAt(0).toUpperCase()}${eventName.slice(1)}`.replace(
+          /[-_]+(.)?/g,
+          (_, c) => c ? c.toUpperCase() : ""
+        )]: Function
+      }),
+      {}
+    )
+  }),
+  inheritAttrs: false,
+  provide() {
+    this.$mapPromise = new Promise((resolve, reject) => {
+      this.$mapPromiseDeferred = { resolve, reject };
+    });
+    return {
+      $mapPromise: this.$mapPromise
+    };
+  },
+  emits: ["center_changed", "zoom_changed", "bounds_changed"],
+  computed: {
+    finalLat() {
+      return this.center && typeof this.center.lat === "function" ? this.center.lat() : this.center.lat;
+    },
+    finalLng() {
+      return this.center && typeof this.center.lng === "function" ? this.center.lng() : this.center.lng;
+    },
+    finalLatLng() {
+      return { lat: this.finalLat, lng: this.finalLng };
+    }
+  },
+  watch: {
+    zoom(zoom) {
+      if (this.$mapObject) {
+        this.$mapObject.setZoom(zoom);
+      }
+    }
+  },
+  mounted() {
+    return this.$gmapApiPromiseLazy().then(() => {
+      const element = this.$refs["vue-map"];
+      const options = {
+        ...this.options,
+        ...getPropsValues(this, props$2)
+      };
+      delete options.options;
+      this.$mapObject = new google.maps.Map(element, options);
+      bindProps(this, this.$mapObject, props$2);
+      bindEvents(this, this.$mapObject, events$1);
+      TwoWayBindingWrapper((increment, decrement, shouldUpdate) => {
+        this.$mapObject.addListener("center_changed", () => {
+          if (shouldUpdate()) {
+            this.$emit("center_changed", this.$mapObject.getCenter());
+          }
+          decrement();
+        });
+        const updateCenter = () => {
+          increment();
+          this.$mapObject.setCenter(this.finalLatLng);
+        };
+        WatchPrimitiveProperties(this, ["finalLat", "finalLng"], updateCenter);
+      });
+      this.$mapObject.addListener("zoom_changed", () => {
+        this.$emit("zoom_changed", this.$mapObject.getZoom());
+      });
+      this.$mapObject.addListener("bounds_changed", () => {
+        this.$emit("bounds_changed", this.$mapObject.getBounds());
+      });
+      this.$mapPromiseDeferred.resolve(this.$mapObject);
+      return this.$mapObject;
+    }).catch((error) => {
+      throw error;
+    });
+  },
+  methods: {
+    ...customMethods,
+    ...linkedMethods
+  }
+};
+const _hoisted_1 = { class: "vue-map-hidden" };
+function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", {
+    class: normalizeClass(["vue-map-container", _ctx.$attrs.class])
+  }, [
+    createBaseVNode("div", {
+      ref: "vue-map",
+      class: "vue-map",
+      style: normalizeStyle(_ctx.$attrs.style ? _ctx.$attrs.style : "")
+    }, null, 4),
+    createBaseVNode("div", _hoisted_1, [
+      renderSlot(_ctx.$slots, "default")
+    ]),
+    renderSlot(_ctx.$slots, "visible")
+  ], 2);
+}
+var Map = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
+const props$1 = {
+  options: {
+    type: Object,
+    twoWay: false,
+    default: () => {
+    }
+  },
+  data: {
+    type: Array,
+    twoWay: true
+  }
+};
+const events = [];
+var Heatmap = buildComponent({
+  mappedProps: props$1,
+  name: "heatmap",
+  ctr: () => google.maps.visualization.HeatmapLayer,
+  events
+});
+var downArrowSimulator = (input) => {
+  const _addEventListener = input.addEventListener ? input.addEventListener : input.attachEvent;
+  function addEventListenerWrapper(type, listener) {
+    if (type === "keydown") {
+      const origListener = listener;
+      listener = function(event) {
+        const suggestionSelected = document.getElementsByClassName("pac-item-selected").length > 0;
+        if (event.which === 13 && !suggestionSelected) {
+          const simulatedEvent = document.createEvent("Event");
+          simulatedEvent.keyCode = 40;
+          simulatedEvent.which = 40;
+          origListener.apply(input, [simulatedEvent]);
+        }
+        origListener.apply(input, [event]);
+      };
+    }
+    _addEventListener.apply(input, [type, listener]);
+  }
+  input.addEventListener = addEventListenerWrapper;
+  input.attachEvent = addEventListenerWrapper;
+};
+const mappedProps = {
+  bounds: {
+    type: Object
+  },
+  componentRestrictions: {
+    type: Object,
+    noBind: true
+  },
+  types: {
+    type: Array,
+    default: function() {
+      return [];
+    }
+  }
+};
+const props = {
+  selectFirstOnEnter: {
+    required: false,
+    type: Boolean,
+    default: false
+  },
+  options: {
+    type: Object
+  }
+};
+const _sfc_main = {
+  mounted() {
+    const _this = this;
+    this.$gmapApiPromiseLazy().then(() => {
+      let refInput = _this.$refs.input;
+      if (_this.$slots.input) {
+        const refName = _this.$slots.input()[0].props.ref;
+        const scopedInput = _this.$slots.input()[0].ref.i.ctx.$refs[refName];
+        if (scopedInput) {
+          refInput = scopedInput.$el.getElementsByTagName("input")[0];
+        }
+      }
+      if (this.selectFirstOnEnter) {
+        downArrowSimulator(refInput);
+      }
+      if (typeof google.maps.places.Autocomplete !== "function") {
+        throw new Error(
+          "google.maps.places.Autocomplete is undefined. Did you add 'places' to libraries when loading Google Maps?"
+        );
+      }
+      const finalOptions = {
+        ...getPropsValues(this, mappedProps),
+        ...this.options
+      };
+      this.$autocomplete = new google.maps.places.Autocomplete(refInput, finalOptions);
+      bindProps(this, this.$autocomplete, mappedProps);
+      this.$watch("componentRestrictions", (v) => {
+        if (v !== void 0) {
+          this.$autocomplete.setComponentRestrictions(v);
+        }
+      });
+      this.$autocomplete.addListener("place_changed", () => {
+        this.$emit("place_changed", this.$autocomplete.getPlace());
+      });
+    });
+  },
+  props: {
+    ...mappedPropsToVueProps(mappedProps),
+    ...props
+  }
+};
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return _ctx.$slots["input"] ? renderSlot(_ctx.$slots, "input", normalizeProps(mergeProps({ key: 0 }, _ctx.$attrs))) : !_ctx.$slots["input"] ? (openBlock(), createElementBlock("input", mergeProps({
+    key: 1,
+    ref: "input"
+  }, _ctx.$attrs, toHandlers(_ctx.$attrs, true)), null, 16)) : createCommentVNode("", true);
+}
+var Autocomplete = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
+let GMapApi = null;
+function install(Vue, options) {
+  options = {
+    installComponents: true,
+    autobindAllEvents: false,
+    ...options
+  };
+  GMapApi = createApp({
+    data: function() {
+      return { gmapApi: null };
+    }
+  });
+  const defaultResizeBus = createApp();
+  let gmapApiPromiseLazy = makeGMapApiPromiseLazy(options);
+  Vue.mixin({
+    created() {
+      this.$gmapDefaultResizeBus = defaultResizeBus;
+      this.$gmapOptions = options;
+      this.$gmapApiPromiseLazy = gmapApiPromiseLazy;
+    }
+  });
+  Vue.$gmapDefaultResizeBus = defaultResizeBus;
+  Vue.$gmapApiPromiseLazy = gmapApiPromiseLazy;
+  if (options.installComponents) {
+    Vue.component("GMapMap", Map);
+    Vue.component("GMapMarker", Marker);
+    Vue.component("GMapInfoWindow", InfoWindow);
+    Vue.component("GMapCluster", GMapCluster);
+    Vue.component("GMapPolyline", Polyline);
+    Vue.component("GMapPolygon", Polygon);
+    Vue.component("GMapCircle", Circle);
+    Vue.component("GMapRectangle", Rectangle);
+    Vue.component("GMapAutocomplete", Autocomplete);
+    Vue.component("GMapHeatmap", Heatmap);
+  }
+}
+function makeGMapApiPromiseLazy(options) {
+  function onApiLoaded() {
+    GMapApi.gmapApi = {};
+    return window.google;
+  }
+  if (options.load) {
+    return lazy(() => {
+      if (Env.isServer()) {
+        return new Promise(() => {
+        }).then(onApiLoaded);
+      } else {
+        return new Promise((resolve, reject) => {
+          try {
+            window["vueGoogleMapsInit"] = resolve;
+            loadGMapApi(options.load);
+          } catch (err) {
+            reject(err);
+          }
+        }).then(onApiLoaded);
+      }
+    });
+  } else {
+    const promise = new Promise((resolve) => {
+      if (Env.isServer()) {
+        return;
+      }
+      window["vueGoogleMapsInit"] = resolve;
+    }).then(onApiLoaded);
+    return lazy(() => promise);
+  }
+}
+var gmap = boot(async ({ app }) => {
+  app.use(install, {
+    load: {
+      key: "AIzaSyBUK5yMK5Zdz9MOUbzam56ORuFexFBMk-g"
+    }
+  });
+});
+export { gmap as default };

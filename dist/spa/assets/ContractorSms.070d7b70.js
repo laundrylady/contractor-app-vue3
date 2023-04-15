@@ -1,1 +1,144 @@
-import{Q as _}from"./QSelect.853d535e.js";import{A as $,i as y,r as m,B as M,o as Q,m as h,K as k,L as u,l,N as B,U as v,q as i,b8 as d,M as q,S as b,ae as w,Q as N,n as A,y as T}from"./index.e647c85a.js";import{u as j,r as D}from"./index.esm.4557c89b.js";import{a as S}from"./axios.ccd3a804.js";import{u as g}from"./debug.805a8aef.js";import{b as L}from"./help.c0f85e41.js";import{_ as E}from"./SmsLogComponent.e2a77b83.js";import"./QItemSection.99659658.js";import"./rtl.4f5e13e8.js";import"./format.8e90d58d.js";import"./QTable.64a81add.js";import"./QList.2f0afc60.js";import"./QMarkupTable.981d9979.js";import"./QLinearProgress.c48fac34.js";const I=i("div",{class:"text-h6 q-mb-md"},"Send SMS",-1),K=$({__name:"SendSmsUser",props:{smsUser:null},setup(a){const n=a,c=y("bus"),x=m([]),r=m(!1),V=m(!1),p=m(),t=M({content:null,template:null,user_id:null}),f=j({content:{required:D}},t),C=()=>{t.content=t.template},U=()=>{r.value=!0,S.post("/sms/senduser",t).then(s=>{L("positive",`SMS sent to ${n.smsUser.mobile}`),r.value=!1,V.value=!1,x.value=s.data,c.emit("getSmsLog",{})}).catch(s=>{g(s),r.value=!1})};return Q(()=>{Object.assign(t,{content:null,template:null,user_id:n.smsUser.id}),S.get("/smstemplate/index").then(s=>{p.value=s.data.map(e=>({value:e.content,label:e.name}))}).catch(s=>{g(s)})}),(s,e)=>(h(),k(N,null,{default:u(()=>[l(q,null,{default:u(()=>[I,l(_,{modelValue:t.template,"onUpdate:modelValue":[e[0]||(e[0]=o=>t.template=o),e[1]||(e[1]=o=>C())],options:p.value,label:"Template","map-options":"","emit-value":"",class:"q-mb-md",outlined:""},null,8,["modelValue","options"]),l(B,{modelValue:t.content,"onUpdate:modelValue":e[2]||(e[2]=o=>t.content=o),type:"textarea",maxlength:"160",label:"Message to send",error:v(f).content.$error,autogrow:"",counter:"","max-length":"160"},null,8,["modelValue","error"]),i("div",null,"The above message will be sent to "+d(a.smsUser.fullname)+" ("+d(a.smsUser.mobile)+") ",1)]),_:1}),l(w,{align:"right"},{default:u(()=>[l(b,{color:"secondary",onClick:e[3]||(e[3]=o=>[t.content=null]),label:"Reset",flat:""}),l(b,{color:"primary",disabled:v(f).$invalid,loading:r.value,onClick:e[4]||(e[4]=o=>U()),label:"Send"},null,8,["disabled","loading"])]),_:1})]),_:1}))}}),O={key:0},R=i("div",{class:"text-h5"},"SMS Activities",-1),oe=$({__name:"ContractorSms",props:{model:null},setup(a){return(n,c)=>a.model.id?(h(),A("div",O,[R,i("p",null,"Send an SMS or view the history for this "+d(n.$t("contractor.name"))+".",1),l(K,{"sms-user":a.model,class:"q-mb-lg"},null,8,["sms-user"]),l(E,{user_id:a.model.id},null,8,["user_id"])])):T("",!0)}});export{oe as default};
+import { Q as QSelect } from "./QSelect.853d535e.js";
+import { A as defineComponent, i as inject, r as ref, B as reactive, o as onMounted, m as openBlock, K as createBlock, L as withCtx, l as createVNode, N as QInput, U as unref, q as createBaseVNode, b8 as toDisplayString, M as QCardSection, S as QBtn, ae as QCardActions, Q as QCard, n as createElementBlock, y as createCommentVNode } from "./index.e647c85a.js";
+import { u as useVuelidate, r as required } from "./index.esm.4557c89b.js";
+import { a as api } from "./axios.ccd3a804.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { b as doNotify } from "./help.c0f85e41.js";
+import { _ as _sfc_main$2 } from "./SmsLogComponent.e2a77b83.js";
+import "./QItemSection.99659658.js";
+import "./rtl.4f5e13e8.js";
+import "./format.8e90d58d.js";
+import "./QTable.64a81add.js";
+import "./QList.2f0afc60.js";
+import "./QMarkupTable.981d9979.js";
+import "./QLinearProgress.c48fac34.js";
+const _hoisted_1$1 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-md" }, "Send SMS", -1);
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "SendSmsUser",
+  props: {
+    smsUser: null
+  },
+  setup(__props) {
+    const props = __props;
+    const bus = inject("bus");
+    const sent = ref([]);
+    const loading = ref(false);
+    const show = ref(false);
+    const templates = ref();
+    const sms = reactive({
+      content: null,
+      template: null,
+      user_id: null
+    });
+    const rules = {
+      content: { required }
+    };
+    const $v = useVuelidate(rules, sms);
+    const useTemplate = () => {
+      sms.content = sms.template;
+    };
+    const save = () => {
+      loading.value = true;
+      api.post("/sms/senduser", sms).then((response) => {
+        doNotify("positive", `SMS sent to ${props.smsUser.mobile}`);
+        loading.value = false;
+        show.value = false;
+        sent.value = response.data;
+        bus.emit("getSmsLog", {});
+      }).catch((response) => {
+        useMixinDebug(response);
+        loading.value = false;
+      });
+    };
+    onMounted(() => {
+      Object.assign(sms, { content: null, template: null, user_id: props.smsUser.id });
+      api.get("/smstemplate/index").then((response) => {
+        templates.value = response.data.map((o) => {
+          return { value: o.content, label: o.name };
+        });
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QCard, null, {
+        default: withCtx(() => [
+          createVNode(QCardSection, null, {
+            default: withCtx(() => [
+              _hoisted_1$1,
+              createVNode(QSelect, {
+                modelValue: sms.template,
+                "onUpdate:modelValue": [
+                  _cache[0] || (_cache[0] = ($event) => sms.template = $event),
+                  _cache[1] || (_cache[1] = ($event) => useTemplate())
+                ],
+                options: templates.value,
+                label: "Template",
+                "map-options": "",
+                "emit-value": "",
+                class: "q-mb-md",
+                outlined: ""
+              }, null, 8, ["modelValue", "options"]),
+              createVNode(QInput, {
+                modelValue: sms.content,
+                "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => sms.content = $event),
+                type: "textarea",
+                maxlength: "160",
+                label: "Message to send",
+                error: unref($v).content.$error,
+                autogrow: "",
+                counter: "",
+                "max-length": "160"
+              }, null, 8, ["modelValue", "error"]),
+              createBaseVNode("div", null, "The above message will be sent to " + toDisplayString(__props.smsUser.fullname) + " (" + toDisplayString(__props.smsUser.mobile) + ") ", 1)
+            ]),
+            _: 1
+          }),
+          createVNode(QCardActions, { align: "right" }, {
+            default: withCtx(() => [
+              createVNode(QBtn, {
+                color: "secondary",
+                onClick: _cache[3] || (_cache[3] = ($event) => [sms.content = null]),
+                label: "Reset",
+                flat: ""
+              }),
+              createVNode(QBtn, {
+                color: "primary",
+                disabled: unref($v).$invalid,
+                loading: loading.value,
+                onClick: _cache[4] || (_cache[4] = ($event) => save()),
+                label: "Send"
+              }, null, 8, ["disabled", "loading"])
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      });
+    };
+  }
+});
+const _hoisted_1 = { key: 0 };
+const _hoisted_2 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h5" }, "SMS Activities", -1);
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "ContractorSms",
+  props: {
+    model: null
+  },
+  setup(__props) {
+    return (_ctx, _cache) => {
+      return __props.model.id ? (openBlock(), createElementBlock("div", _hoisted_1, [
+        _hoisted_2,
+        createBaseVNode("p", null, "Send an SMS or view the history for this " + toDisplayString(_ctx.$t("contractor.name")) + ".", 1),
+        createVNode(_sfc_main$1, {
+          "sms-user": __props.model,
+          class: "q-mb-lg"
+        }, null, 8, ["sms-user"]),
+        createVNode(_sfc_main$2, {
+          user_id: __props.model.id
+        }, null, 8, ["user_id"])
+      ])) : createCommentVNode("", true);
+    };
+  }
+});
+export { _sfc_main as default };

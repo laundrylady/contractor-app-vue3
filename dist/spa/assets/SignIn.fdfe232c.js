@@ -1,1 +1,136 @@
-import{A as x,I as y,B as V,r as u,J as k,m as C,K as I,L as s,l as e,Q as h,M as p,N as c,O as i,P as q,q as S,R as $,S as B,U as P,a as R}from"./index.e647c85a.js";import{Q as U}from"./QPage.660fce82.js";import{Q as L,a as N}from"./QLayout.2e2ab899.js";import{u as D,r as f,e as K}from"./index.esm.4557c89b.js";import{u as F,a as v}from"./axios.ccd3a804.js";import{_ as M}from"./AppLogo.885260bb.js";import{u as g}from"./debug.805a8aef.js";import"./QResizeObserver.97b49885.js";const j={class:"text-right q-mt-md q-mb-md"},Y=x({__name:"SignIn",setup(A){const _=y(),t=V({username:void 0,password:void 0}),w=D({username:{required:f,email:K},password:{required:f}},t),l=u(!1),n=u(!0),d=u(!1),b=F(),m=()=>{l.value=!0,t.username&&t.password&&v.post("/auth/signin",t).then(()=>{v.get("/auth/check").then(o=>{b.setUserData(o.data),R(),_.push({name:"appDashboard"})}).catch(o=>{g(o)})}).catch(o=>{g(o),l.value=!1,d.value=!0})};return(o,a)=>{const Q=k("router-link");return C(),I(L,{view:"lHh Lpr lFf"},{default:s(()=>[e(N,null,{default:s(()=>[e(U,{class:"row justify-center items-center animated fadeIn",padding:""},{default:s(()=>[e(h,{class:"col-xs-12 col-sm-6 col-md-3 text-center"},{default:s(()=>[e(p,{class:"text-center"},{default:s(()=>[e(M)]),_:1}),e(p,null,{default:s(()=>[e(c,{modelValue:t.username,"onUpdate:modelValue":a[0]||(a[0]=r=>t.username=r),label:"Registered Email","bottom-slots":"",autofocus:""},{prepend:s(()=>[e(i,{name:"account_circle"})]),_:1},8,["modelValue"]),e(c,{modelValue:t.password,"onUpdate:modelValue":a[2]||(a[2]=r=>t.password=r),type:n.value?"password":"text",label:"Password",onKeydown:a[3]||(a[3]=q(r=>m(),["enter"])),error:d.value,"error-message":"Invalid credentials"},{prepend:s(()=>[e(i,{name:"lock"})]),append:s(()=>[e(i,{name:n.value?"visibility_off":"visibility",class:"cursor-pointer",onClick:a[1]||(a[1]=r=>n.value=!n.value)},null,8,["name"])]),_:1},8,["modelValue","type","error"]),S("div",j,[e(Q,{to:{name:"passwordResetRequest"},class:"link"},{default:s(()=>[$("Forgot your password?")]),_:1})]),e(B,{loading:l.value,onClick:a[4]||(a[4]=r=>m()),disabled:P(w).$invalid,color:"primary",label:"Sign In",class:"full-width q-mt-md"},null,8,["loading","disabled"])]),_:1})]),_:1})]),_:1})]),_:1})]),_:1})}}});export{Y as default};
+import { A as defineComponent, I as useRouter, B as reactive, r as ref, J as resolveComponent, m as openBlock, K as createBlock, L as withCtx, l as createVNode, Q as QCard, M as QCardSection, N as QInput, O as QIcon, P as withKeys, q as createBaseVNode, R as createTextVNode, S as QBtn, U as unref, a as authLogin } from "./index.e647c85a.js";
+import { Q as QPage } from "./QPage.660fce82.js";
+import { Q as QLayout, a as QPageContainer } from "./QLayout.2e2ab899.js";
+import { u as useVuelidate, r as required, e as email } from "./index.esm.4557c89b.js";
+import { u as useUserStore, a as api } from "./axios.ccd3a804.js";
+import { _ as _sfc_main$1 } from "./AppLogo.885260bb.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import "./QResizeObserver.97b49885.js";
+const _hoisted_1 = { class: "text-right q-mt-md q-mb-md" };
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "SignIn",
+  setup(__props) {
+    const router = useRouter();
+    const login = reactive({
+      username: void 0,
+      password: void 0
+    });
+    const rules = {
+      username: { required, email },
+      password: { required }
+    };
+    const $v = useVuelidate(rules, login);
+    const loading = ref(false);
+    const isPwd = ref(true);
+    const error = ref(false);
+    const userStore = useUserStore();
+    const signIn = () => {
+      loading.value = true;
+      if (login.username && login.password) {
+        api.post("/auth/signin", login).then(() => {
+          api.get("/auth/check").then((res) => {
+            userStore.setUserData(res.data);
+            authLogin();
+            router.push({ name: "appDashboard" });
+          }).catch((es) => {
+            useMixinDebug(es);
+          });
+        }).catch((response) => {
+          useMixinDebug(response);
+          loading.value = false;
+          error.value = true;
+        });
+      }
+    };
+    return (_ctx, _cache) => {
+      const _component_router_link = resolveComponent("router-link");
+      return openBlock(), createBlock(QLayout, { view: "lHh Lpr lFf" }, {
+        default: withCtx(() => [
+          createVNode(QPageContainer, null, {
+            default: withCtx(() => [
+              createVNode(QPage, {
+                class: "row justify-center items-center animated fadeIn",
+                padding: ""
+              }, {
+                default: withCtx(() => [
+                  createVNode(QCard, { class: "col-xs-12 col-sm-6 col-md-3 text-center" }, {
+                    default: withCtx(() => [
+                      createVNode(QCardSection, { class: "text-center" }, {
+                        default: withCtx(() => [
+                          createVNode(_sfc_main$1)
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QCardSection, null, {
+                        default: withCtx(() => [
+                          createVNode(QInput, {
+                            modelValue: login.username,
+                            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => login.username = $event),
+                            label: "Registered Email",
+                            "bottom-slots": "",
+                            autofocus: ""
+                          }, {
+                            prepend: withCtx(() => [
+                              createVNode(QIcon, { name: "account_circle" })
+                            ]),
+                            _: 1
+                          }, 8, ["modelValue"]),
+                          createVNode(QInput, {
+                            modelValue: login.password,
+                            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => login.password = $event),
+                            type: isPwd.value ? "password" : "text",
+                            label: "Password",
+                            onKeydown: _cache[3] || (_cache[3] = withKeys(($event) => signIn(), ["enter"])),
+                            error: error.value,
+                            "error-message": "Invalid credentials"
+                          }, {
+                            prepend: withCtx(() => [
+                              createVNode(QIcon, { name: "lock" })
+                            ]),
+                            append: withCtx(() => [
+                              createVNode(QIcon, {
+                                name: isPwd.value ? "visibility_off" : "visibility",
+                                class: "cursor-pointer",
+                                onClick: _cache[1] || (_cache[1] = ($event) => isPwd.value = !isPwd.value)
+                              }, null, 8, ["name"])
+                            ]),
+                            _: 1
+                          }, 8, ["modelValue", "type", "error"]),
+                          createBaseVNode("div", _hoisted_1, [
+                            createVNode(_component_router_link, {
+                              to: { name: "passwordResetRequest" },
+                              class: "link"
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode("Forgot your password?")
+                              ]),
+                              _: 1
+                            })
+                          ]),
+                          createVNode(QBtn, {
+                            loading: loading.value,
+                            onClick: _cache[4] || (_cache[4] = ($event) => signIn()),
+                            disabled: unref($v).$invalid,
+                            color: "primary",
+                            label: "Sign In",
+                            class: "full-width q-mt-md"
+                          }, null, 8, ["loading", "disabled"])
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      });
+    };
+  }
+});
+export { _sfc_main as default };

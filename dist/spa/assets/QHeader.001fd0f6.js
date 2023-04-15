@@ -1,1 +1,137 @@
-import{Q}from"./QResizeObserver.97b49885.js";import{V as B,i as O,W as c,r as b,g as n,w as s,E as _,aH as $,h as v,j as p,Y as C}from"./index.e647c85a.js";var R=B({name:"QHeader",props:{modelValue:{type:Boolean,default:!0},reveal:Boolean,revealOffset:{type:Number,default:250},bordered:Boolean,elevated:Boolean,heightHint:{type:[String,Number],default:50}},emits:["reveal","focusin"],setup(t,{slots:V,emit:h}){const{proxy:{$q:d}}=p(),a=O(C,c);if(a===c)return console.error("QHeader needs to be child of QLayout"),c;const i=b(parseInt(t.heightHint,10)),l=b(!0),f=n(()=>t.reveal===!0||a.view.value.indexOf("H")>-1||d.platform.is.ios&&a.isContainer.value===!0),m=n(()=>{if(t.modelValue!==!0)return 0;if(f.value===!0)return l.value===!0?i.value:0;const e=i.value-a.scroll.value.position;return e>0?e:0}),y=n(()=>t.modelValue!==!0||f.value===!0&&l.value!==!0),q=n(()=>t.modelValue===!0&&y.value===!0&&t.reveal===!0),z=n(()=>"q-header q-layout__section--marginal "+(f.value===!0?"fixed":"absolute")+"-top"+(t.bordered===!0?" q-header--bordered":"")+(y.value===!0?" q-header--hidden":"")+(t.modelValue!==!0?" q-layout--prevent-focus":"")),w=n(()=>{const e=a.rows.value.top,r={};return e[0]==="l"&&a.left.space===!0&&(r[d.lang.rtl===!0?"right":"left"]=`${a.left.size}px`),e[2]==="r"&&a.right.space===!0&&(r[d.lang.rtl===!0?"left":"right"]=`${a.right.size}px`),r});function u(e,r){a.update("header",e,r)}function o(e,r){e.value!==r&&(e.value=r)}function x({height:e}){o(i,e),u("size",e)}function H(e){q.value===!0&&o(l,!0),h("focusin",e)}s(()=>t.modelValue,e=>{u("space",e),o(l,!0),a.animate()}),s(m,e=>{u("offset",e)}),s(()=>t.reveal,e=>{e===!1&&o(l,t.modelValue)}),s(l,e=>{a.animate(),h("reveal",e)}),s(a.scroll,e=>{t.reveal===!0&&o(l,e.direction==="up"||e.position<=t.revealOffset||e.position-e.inflectionPoint<100)});const g={};return a.instances.header=g,t.modelValue===!0&&u("size",i.value),u("space",t.modelValue),u("offset",m.value),_(()=>{a.instances.header===g&&(a.instances.header=void 0,u("size",0),u("offset",0),u("space",!1))}),()=>{const e=$(V.default,[]);return t.elevated===!0&&e.push(v("div",{class:"q-layout__shadow absolute-full overflow-hidden no-pointer-events"})),e.push(v(Q,{debounce:0,onResize:x})),v("header",{class:z.value,style:w.value,onFocusin:H},e)}}});export{R as Q};
+import { Q as QResizeObserver } from "./QResizeObserver.97b49885.js";
+import { V as createComponent, i as inject, W as emptyRenderFn, r as ref, g as computed, w as watch, E as onBeforeUnmount, aH as hUniqueSlot, h, j as getCurrentInstance, Y as layoutKey } from "./index.e647c85a.js";
+var QHeader = createComponent({
+  name: "QHeader",
+  props: {
+    modelValue: {
+      type: Boolean,
+      default: true
+    },
+    reveal: Boolean,
+    revealOffset: {
+      type: Number,
+      default: 250
+    },
+    bordered: Boolean,
+    elevated: Boolean,
+    heightHint: {
+      type: [String, Number],
+      default: 50
+    }
+  },
+  emits: ["reveal", "focusin"],
+  setup(props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance();
+    const $layout = inject(layoutKey, emptyRenderFn);
+    if ($layout === emptyRenderFn) {
+      console.error("QHeader needs to be child of QLayout");
+      return emptyRenderFn;
+    }
+    const size = ref(parseInt(props.heightHint, 10));
+    const revealed = ref(true);
+    const fixed = computed(
+      () => props.reveal === true || $layout.view.value.indexOf("H") > -1 || $q.platform.is.ios && $layout.isContainer.value === true
+    );
+    const offset = computed(() => {
+      if (props.modelValue !== true) {
+        return 0;
+      }
+      if (fixed.value === true) {
+        return revealed.value === true ? size.value : 0;
+      }
+      const offset2 = size.value - $layout.scroll.value.position;
+      return offset2 > 0 ? offset2 : 0;
+    });
+    const hidden = computed(
+      () => props.modelValue !== true || fixed.value === true && revealed.value !== true
+    );
+    const revealOnFocus = computed(
+      () => props.modelValue === true && hidden.value === true && props.reveal === true
+    );
+    const classes = computed(
+      () => "q-header q-layout__section--marginal " + (fixed.value === true ? "fixed" : "absolute") + "-top" + (props.bordered === true ? " q-header--bordered" : "") + (hidden.value === true ? " q-header--hidden" : "") + (props.modelValue !== true ? " q-layout--prevent-focus" : "")
+    );
+    const style = computed(() => {
+      const view = $layout.rows.value.top, css = {};
+      if (view[0] === "l" && $layout.left.space === true) {
+        css[$q.lang.rtl === true ? "right" : "left"] = `${$layout.left.size}px`;
+      }
+      if (view[2] === "r" && $layout.right.space === true) {
+        css[$q.lang.rtl === true ? "left" : "right"] = `${$layout.right.size}px`;
+      }
+      return css;
+    });
+    function updateLayout(prop, val) {
+      $layout.update("header", prop, val);
+    }
+    function updateLocal(prop, val) {
+      if (prop.value !== val) {
+        prop.value = val;
+      }
+    }
+    function onResize({ height }) {
+      updateLocal(size, height);
+      updateLayout("size", height);
+    }
+    function onFocusin(evt) {
+      if (revealOnFocus.value === true) {
+        updateLocal(revealed, true);
+      }
+      emit("focusin", evt);
+    }
+    watch(() => props.modelValue, (val) => {
+      updateLayout("space", val);
+      updateLocal(revealed, true);
+      $layout.animate();
+    });
+    watch(offset, (val) => {
+      updateLayout("offset", val);
+    });
+    watch(() => props.reveal, (val) => {
+      val === false && updateLocal(revealed, props.modelValue);
+    });
+    watch(revealed, (val) => {
+      $layout.animate();
+      emit("reveal", val);
+    });
+    watch($layout.scroll, (scroll) => {
+      props.reveal === true && updateLocal(
+        revealed,
+        scroll.direction === "up" || scroll.position <= props.revealOffset || scroll.position - scroll.inflectionPoint < 100
+      );
+    });
+    const instance = {};
+    $layout.instances.header = instance;
+    props.modelValue === true && updateLayout("size", size.value);
+    updateLayout("space", props.modelValue);
+    updateLayout("offset", offset.value);
+    onBeforeUnmount(() => {
+      if ($layout.instances.header === instance) {
+        $layout.instances.header = void 0;
+        updateLayout("size", 0);
+        updateLayout("offset", 0);
+        updateLayout("space", false);
+      }
+    });
+    return () => {
+      const child = hUniqueSlot(slots.default, []);
+      props.elevated === true && child.push(
+        h("div", {
+          class: "q-layout__shadow absolute-full overflow-hidden no-pointer-events"
+        })
+      );
+      child.push(
+        h(QResizeObserver, {
+          debounce: 0,
+          onResize
+        })
+      );
+      return h("header", {
+        class: classes.value,
+        style: style.value,
+        onFocusin
+      }, child);
+    };
+  }
+});
+export { QHeader as Q };

@@ -1,1 +1,154 @@
-import{_ as u,J as f,m as p,K as v,L as t,l as e,O as h,q as a,M as i,b8 as m,R as s,Q as d}from"./index.e647c85a.js";import{Q as c,a as g}from"./QBreadcrumbs.14144362.js";import{a as l,Q as r}from"./QItemSection.99659658.js";import{Q as _}from"./QList.2f0afc60.js";import{Q}from"./QPage.660fce82.js";const b={},q=a("div",{class:"text-h4 q-mb-md"}," Reporting ",-1),k={class:"row q-col-gutter-md"},w={class:"col-xs-12 col-sm-6 q-mb-md"},x={class:"text-h6 q-mb-md"},C={class:"col-xs-12 col-sm-6 q-mb-md"},B={class:"text-h6 q-mb-md"};function O(n,P){const o=f("router-link");return p(),v(Q,{padding:""},{default:t(()=>[e(g,{class:"q-mb-md q-mt-md"},{separator:t(()=>[e(h,{size:"1.5em",name:"chevron_right"})]),default:t(()=>[e(c,{label:"Home",icon:"home",to:{name:"appDashboard"}}),e(c,{label:"Reporting"})]),_:1}),q,a("div",k,[a("div",w,[e(d,null,{default:t(()=>[e(i,null,{default:t(()=>[a("div",x,m(n.$t("contractor.namePlural")),1),e(_,{separator:""},{default:t(()=>[e(l,null,{default:t(()=>[e(r,null,{default:t(()=>[e(o,{to:{name:"reporting-contractor-commissions-overview"},class:"link"},{default:t(()=>[s("Commissions Overview")]),_:1})]),_:1})]),_:1}),e(l,null,{default:t(()=>[e(r,null,{default:t(()=>[e(o,{to:{name:"reporting-contractor-commissions-owing"},class:"link"},{default:t(()=>[s("Commissions Owing")]),_:1})]),_:1})]),_:1}),e(l,null,{default:t(()=>[e(r,null,{default:t(()=>[e(o,{to:{name:"reporting-contractor-commissions-paid"},class:"link"},{default:t(()=>[s("Commissions Paid")]),_:1})]),_:1})]),_:1})]),_:1})]),_:1})]),_:1})]),a("div",C,[e(d,null,{default:t(()=>[e(i,null,{default:t(()=>[a("div",B,m(n.$t("order.namePlural")),1),e(_,{separator:""},{default:t(()=>[e(l,null,{default:t(()=>[e(r,null,{default:t(()=>[e(o,{to:{name:"reporting-order-overview"},class:"link"},{default:t(()=>[s("Overview")]),_:1})]),_:1})]),_:1})]),_:1})]),_:1})]),_:1})])])]),_:1})}var D=u(b,[["render",O]]);export{D as default};
+import { _ as _export_sfc, J as resolveComponent, m as openBlock, K as createBlock, L as withCtx, l as createVNode, O as QIcon, q as createBaseVNode, M as QCardSection, b8 as toDisplayString, R as createTextVNode, Q as QCard } from "./index.e647c85a.js";
+import { Q as QBreadcrumbsEl, a as QBreadcrumbs } from "./QBreadcrumbs.14144362.js";
+import { a as QItem, Q as QItemSection } from "./QItemSection.99659658.js";
+import { Q as QList } from "./QList.2f0afc60.js";
+import { Q as QPage } from "./QPage.660fce82.js";
+const _sfc_main = {};
+const _hoisted_1 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h4 q-mb-md" }, " Reporting ", -1);
+const _hoisted_2 = { class: "row q-col-gutter-md" };
+const _hoisted_3 = { class: "col-xs-12 col-sm-6 q-mb-md" };
+const _hoisted_4 = { class: "text-h6 q-mb-md" };
+const _hoisted_5 = { class: "col-xs-12 col-sm-6 q-mb-md" };
+const _hoisted_6 = { class: "text-h6 q-mb-md" };
+function _sfc_render(_ctx, _cache) {
+  const _component_router_link = resolveComponent("router-link");
+  return openBlock(), createBlock(QPage, { padding: "" }, {
+    default: withCtx(() => [
+      createVNode(QBreadcrumbs, { class: "q-mb-md q-mt-md" }, {
+        separator: withCtx(() => [
+          createVNode(QIcon, {
+            size: "1.5em",
+            name: "chevron_right"
+          })
+        ]),
+        default: withCtx(() => [
+          createVNode(QBreadcrumbsEl, {
+            label: "Home",
+            icon: "home",
+            to: { name: "appDashboard" }
+          }),
+          createVNode(QBreadcrumbsEl, { label: "Reporting" })
+        ]),
+        _: 1
+      }),
+      _hoisted_1,
+      createBaseVNode("div", _hoisted_2, [
+        createBaseVNode("div", _hoisted_3, [
+          createVNode(QCard, null, {
+            default: withCtx(() => [
+              createVNode(QCardSection, null, {
+                default: withCtx(() => [
+                  createBaseVNode("div", _hoisted_4, toDisplayString(_ctx.$t("contractor.namePlural")), 1),
+                  createVNode(QList, { separator: "" }, {
+                    default: withCtx(() => [
+                      createVNode(QItem, null, {
+                        default: withCtx(() => [
+                          createVNode(QItemSection, null, {
+                            default: withCtx(() => [
+                              createVNode(_component_router_link, {
+                                to: { name: "reporting-contractor-commissions-overview" },
+                                class: "link"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Commissions Overview")
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QItem, null, {
+                        default: withCtx(() => [
+                          createVNode(QItemSection, null, {
+                            default: withCtx(() => [
+                              createVNode(_component_router_link, {
+                                to: { name: "reporting-contractor-commissions-owing" },
+                                class: "link"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Commissions Owing")
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QItem, null, {
+                        default: withCtx(() => [
+                          createVNode(QItemSection, null, {
+                            default: withCtx(() => [
+                              createVNode(_component_router_link, {
+                                to: { name: "reporting-contractor-commissions-paid" },
+                                class: "link"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Commissions Paid")
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })
+        ]),
+        createBaseVNode("div", _hoisted_5, [
+          createVNode(QCard, null, {
+            default: withCtx(() => [
+              createVNode(QCardSection, null, {
+                default: withCtx(() => [
+                  createBaseVNode("div", _hoisted_6, toDisplayString(_ctx.$t("order.namePlural")), 1),
+                  createVNode(QList, { separator: "" }, {
+                    default: withCtx(() => [
+                      createVNode(QItem, null, {
+                        default: withCtx(() => [
+                          createVNode(QItemSection, null, {
+                            default: withCtx(() => [
+                              createVNode(_component_router_link, {
+                                to: { name: "reporting-order-overview" },
+                                class: "link"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode("Overview")
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })
+        ])
+      ])
+    ]),
+    _: 1
+  });
+}
+var AppReporting = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
+export { AppReporting as default };

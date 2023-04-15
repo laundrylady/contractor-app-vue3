@@ -1,1 +1,47 @@
-import{b1 as s,bn as d,bo as a,aB as c}from"./index.e647c85a.js";function p(e){if(e===!1)return 0;if(e===!0||e===void 0)return 1;const t=parseInt(e,10);return isNaN(t)?0:t}var u=s({name:"close-popup",beforeMount(e,{value:t}){const o={depth:p(t),handler(r){o.depth!==0&&setTimeout(()=>{const n=d(e);n!==void 0&&a(n,r,o.depth)})},handlerKey(r){c(r,13)===!0&&o.handler(r)}};e.__qclosepopup=o,e.addEventListener("click",o.handler),e.addEventListener("keyup",o.handlerKey)},updated(e,{value:t,oldValue:o}){t!==o&&(e.__qclosepopup.depth=p(t))},beforeUnmount(e){const t=e.__qclosepopup;e.removeEventListener("click",t.handler),e.removeEventListener("keyup",t.handlerKey),delete e.__qclosepopup}});export{u as C};
+import { b1 as createDirective, bn as getPortalProxy, bo as closePortals, aB as isKeyCode } from "./index.e647c85a.js";
+function getDepth(value) {
+  if (value === false) {
+    return 0;
+  }
+  if (value === true || value === void 0) {
+    return 1;
+  }
+  const depth = parseInt(value, 10);
+  return isNaN(depth) ? 0 : depth;
+}
+var ClosePopup = createDirective(
+  {
+    name: "close-popup",
+    beforeMount(el, { value }) {
+      const ctx = {
+        depth: getDepth(value),
+        handler(evt) {
+          ctx.depth !== 0 && setTimeout(() => {
+            const proxy = getPortalProxy(el);
+            if (proxy !== void 0) {
+              closePortals(proxy, evt, ctx.depth);
+            }
+          });
+        },
+        handlerKey(evt) {
+          isKeyCode(evt, 13) === true && ctx.handler(evt);
+        }
+      };
+      el.__qclosepopup = ctx;
+      el.addEventListener("click", ctx.handler);
+      el.addEventListener("keyup", ctx.handlerKey);
+    },
+    updated(el, { value, oldValue }) {
+      if (value !== oldValue) {
+        el.__qclosepopup.depth = getDepth(value);
+      }
+    },
+    beforeUnmount(el) {
+      const ctx = el.__qclosepopup;
+      el.removeEventListener("click", ctx.handler);
+      el.removeEventListener("keyup", ctx.handlerKey);
+      delete el.__qclosepopup;
+    }
+  }
+);
+export { ClosePopup as C };

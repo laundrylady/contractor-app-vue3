@@ -1,1 +1,257 @@
-import{V as S,g as U,h as R,X as A,A as D,r as C,B as T,o as H,m as s,n as r,y as u,l as a,L as o,U as k,N as L,O as x,F as y,b7 as Q,G as O,bv as E,Q as F,K as B,b8 as n,R as h,q as m,S as K}from"./index.e647c85a.js";import{a as M,Q as V}from"./QTable.64a81add.js";import{a as N,Q as v}from"./QItemSection.99659658.js";import{Q as $}from"./QList.2f0afc60.js";import{a as j}from"./axios.ccd3a804.js";import{u as G}from"./debug.805a8aef.js";import{x as q,y as W,z as X,l as J,f as Y}from"./help.c0f85e41.js";var z=S({name:"QTr",props:{props:Object,noHover:Boolean},setup(c,{slots:g}){const p=U(()=>"q-tr"+(c.props===void 0||c.props.header===!0?"":" "+c.props.__trClass)+(c.noHover===!0?" q-tr--no-hover":""));return()=>R("tr",{class:p.value},A(g.default))}});const Z={key:0},ee=m("div",{class:"text-h5"},"Audit History",-1),te=m("p",null,"Below is the audit trail for the module.",-1),ae=[ee,te],oe={key:0},se={key:1},ne={key:2},re={class:"text-grey"},le={key:3,class:"text-bold"},ie={key:4},de={class:"text-capitalize text-grey-6"},ue={class:"text-capitalize text-grey-6"},ye=D({__name:"AuditTimeline",props:{auditable_id:null,auditable_type:null,nobox:{type:Boolean}},setup(c){const g=c,p=C(),b=C(!1),f=T({keyword:null,user_id:null}),I=[{name:"event",sortable:!0,label:"Event",field:"event",align:"left",format:l=>l.toUpperCase()},{name:"created_at",sortable:!0,label:"When",field:"created_at",align:"left"},{name:"user_id",sortable:!0,label:"User",field:"user_id",align:"left"},{name:"ip",sortable:!0,label:"IP",field:"ip",align:"left"}],_=T({page:1,rowsNumber:q(),rowsPerPage:q(),sortBy:"id",descending:!0}),P=(l=null)=>{let i,e,t,d;l&&l.pagination?(i=l.pagination.page,e=l.pagination.rowsPerPage,t=l.pagination.sortBy,d=l.pagination.descending):(i=_.page,e=_.rowsPerPage,t=_.sortBy,d=_.descending),b.value=!0,j.post(`/audit/datatable/${i}`,{sortBy:t,sort_order:d?"desc":"asc",skip:i,rowsPerPage:e,keyword:f.keyword,user_id:f.user_id,auditable_id:g.auditable_id,auditable:g.auditable_type}).then(w=>{_.rowsNumber=w.data.total,p.value=w.data.rows,b.value=!1,X(e)}).catch(w=>{G(w)})};return H(()=>{P()}),(l,i)=>(s(),r(y,null,[c.nobox?u("",!0):(s(),r("div",Z,ae)),a(F,null,{default:o(()=>[a(M,{rows:p.value,columns:I,"row-key":"id",filter:f.keyword,loading:b.value,pagination:_,"onUpdate:pagination":i[1]||(i[1]=e=>_=e),onRequest:P,"rows-per-page-options":k(W)},{"top-left":o(()=>[a(L,{modelValue:f.keyword,"onUpdate:modelValue":i[0]||(i[0]=e=>f.keyword=e),debounce:500,placeholder:"Keyword"},{append:o(()=>[a(x,{name:"search"})]),_:1},8,["modelValue"])]),body:o(e=>[a(z,{props:e},{default:o(()=>[(s(!0),r(y,null,Q(e.cols,t=>(s(),B(V,{key:t.name,props:e},{default:o(()=>[t.name==="user_id"&&e.row.user?(s(),r("span",oe,n(e.row.user.fullname),1)):u("",!0),t.name==="auditable"?(s(),r("span",se,n(e.row.auditable),1)):u("",!0),t.name==="created_at"?(s(),r("span",ne,[h(n(k(J)(e.row.created_at))+" - ",1),m("span",re,n(k(Y)(e.row.created_at)),1)])):u("",!0),t.name==="event"?(s(),r("span",le,[a(K,{size:"sm",color:"primary",round:"",dense:"",onClick:d=>e.expand=!e.expand,icon:e.expand?"remove":"add",class:"q-mr-xs"},null,8,["onClick","icon"]),h(" "+n(t.value)+" ("+n(e.row.changes.length)+")",1)])):u("",!0),t.name==="ip"?(s(),r("span",ie,n(t.value),1)):u("",!0)]),_:2},1032,["props"]))),128))]),_:2},1032,["props"]),O(a(z,{props:e},{default:o(()=>[a(V,{colspan:"100%"},{default:o(()=>[a($,{dense:""},{default:o(()=>[e.row.event==="update"?(s(!0),r(y,{key:0},Q(e.row.changes,(t,d)=>(s(),B(N,{key:d},{default:o(()=>[a(v,{side:""},{default:o(()=>[a(x,{name:"chevron_right"})]),_:1}),a(v,null,{default:o(()=>[m("div",null,[m("strong",de,n(t.field),1),h(' changed from "'+n(t.oldValue)+'" to "'+n(t.value)+'" ',1)])]),_:2},1024)]),_:2},1024))),128)):u("",!0),e.row.event==="create"?(s(!0),r(y,{key:1},Q(e.row.changes,(t,d)=>(s(),B(N,{key:d},{default:o(()=>[a(v,{side:""},{default:o(()=>[a(x,{name:"chevron_right"})]),_:1}),a(v,null,{default:o(()=>[m("div",null,[m("strong",ue,n(t.field),1),h(' set to "'+n(t.value)+'"',1)])]),_:2},1024)]),_:2},1024))),128)):u("",!0)]),_:2},1024)]),_:2},1024)]),_:2},1032,["props"]),[[E,e.expand]])]),_:1},8,["rows","filter","loading","pagination","rows-per-page-options"])]),_:1})],64))}});export{ye as _};
+import { V as createComponent, g as computed, h, X as hSlot, A as defineComponent, r as ref, B as reactive, o as onMounted, m as openBlock, n as createElementBlock, y as createCommentVNode, l as createVNode, L as withCtx, U as unref, N as QInput, O as QIcon, F as Fragment, b7 as renderList, G as withDirectives, bv as vShow, Q as QCard, K as createBlock, b8 as toDisplayString, R as createTextVNode, q as createBaseVNode, S as QBtn } from "./index.e647c85a.js";
+import { a as QTable, Q as QTd } from "./QTable.64a81add.js";
+import { a as QItem, Q as QItemSection } from "./QItemSection.99659658.js";
+import { Q as QList } from "./QList.2f0afc60.js";
+import { a as api } from "./axios.ccd3a804.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { x as getRowsPerPage, y as rowsPerPageOptions, z as setRowsPerPage, l as fromNowTz, f as dateTimeTz } from "./help.c0f85e41.js";
+var QTr = createComponent({
+  name: "QTr",
+  props: {
+    props: Object,
+    noHover: Boolean
+  },
+  setup(props, { slots }) {
+    const classes = computed(
+      () => "q-tr" + (props.props === void 0 || props.props.header === true ? "" : " " + props.props.__trClass) + (props.noHover === true ? " q-tr--no-hover" : "")
+    );
+    return () => h("tr", { class: classes.value }, hSlot(slots.default));
+  }
+});
+const _hoisted_1 = { key: 0 };
+const _hoisted_2 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h5" }, "Audit History", -1);
+const _hoisted_3 = /* @__PURE__ */ createBaseVNode("p", null, "Below is the audit trail for the module.", -1);
+const _hoisted_4 = [
+  _hoisted_2,
+  _hoisted_3
+];
+const _hoisted_5 = { key: 0 };
+const _hoisted_6 = { key: 1 };
+const _hoisted_7 = { key: 2 };
+const _hoisted_8 = { class: "text-grey" };
+const _hoisted_9 = {
+  key: 3,
+  class: "text-bold"
+};
+const _hoisted_10 = { key: 4 };
+const _hoisted_11 = { class: "text-capitalize text-grey-6" };
+const _hoisted_12 = { class: "text-capitalize text-grey-6" };
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "AuditTimeline",
+  props: {
+    auditable_id: null,
+    auditable_type: null,
+    nobox: { type: Boolean }
+  },
+  setup(__props) {
+    const props = __props;
+    const data = ref();
+    const loading = ref(false);
+    const search = reactive({ keyword: null, user_id: null });
+    const columns = [{
+      name: "event",
+      sortable: true,
+      label: "Event",
+      field: "event",
+      align: "left",
+      format: (val) => val.toUpperCase()
+    }, {
+      name: "created_at",
+      sortable: true,
+      label: "When",
+      field: "created_at",
+      align: "left"
+    }, {
+      name: "user_id",
+      sortable: true,
+      label: "User",
+      field: "user_id",
+      align: "left"
+    }, {
+      name: "ip",
+      sortable: true,
+      label: "IP",
+      field: "ip",
+      align: "left"
+    }];
+    const serverPagination = reactive({
+      page: 1,
+      rowsNumber: getRowsPerPage(),
+      rowsPerPage: getRowsPerPage(),
+      sortBy: "id",
+      descending: true
+    });
+    const request = (pageProps = null) => {
+      let page;
+      let rowsPerPage;
+      let sortBy;
+      let descending;
+      if (pageProps && pageProps.pagination) {
+        page = pageProps.pagination.page;
+        rowsPerPage = pageProps.pagination.rowsPerPage;
+        sortBy = pageProps.pagination.sortBy;
+        descending = pageProps.pagination.descending;
+      } else {
+        page = serverPagination.page;
+        rowsPerPage = serverPagination.rowsPerPage;
+        sortBy = serverPagination.sortBy;
+        descending = serverPagination.descending;
+      }
+      loading.value = true;
+      api.post(`/audit/datatable/${page}`, {
+        sortBy,
+        sort_order: descending ? "desc" : "asc",
+        skip: page,
+        rowsPerPage,
+        keyword: search.keyword,
+        user_id: search.user_id,
+        auditable_id: props.auditable_id,
+        auditable: props.auditable_type
+      }).then((response) => {
+        serverPagination.rowsNumber = response.data.total;
+        data.value = response.data.rows;
+        loading.value = false;
+        setRowsPerPage(rowsPerPage);
+      }).catch((response) => {
+        useMixinDebug(response);
+      });
+    };
+    onMounted(() => {
+      request();
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock(Fragment, null, [
+        !__props.nobox ? (openBlock(), createElementBlock("div", _hoisted_1, _hoisted_4)) : createCommentVNode("", true),
+        createVNode(QCard, null, {
+          default: withCtx(() => [
+            createVNode(QTable, {
+              rows: data.value,
+              columns,
+              "row-key": "id",
+              filter: search.keyword,
+              loading: loading.value,
+              pagination: serverPagination,
+              "onUpdate:pagination": _cache[1] || (_cache[1] = ($event) => serverPagination = $event),
+              onRequest: request,
+              "rows-per-page-options": unref(rowsPerPageOptions)
+            }, {
+              "top-left": withCtx(() => [
+                createVNode(QInput, {
+                  modelValue: search.keyword,
+                  "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => search.keyword = $event),
+                  debounce: 500,
+                  placeholder: "Keyword"
+                }, {
+                  append: withCtx(() => [
+                    createVNode(QIcon, { name: "search" })
+                  ]),
+                  _: 1
+                }, 8, ["modelValue"])
+              ]),
+              body: withCtx((props2) => [
+                createVNode(QTr, { props: props2 }, {
+                  default: withCtx(() => [
+                    (openBlock(true), createElementBlock(Fragment, null, renderList(props2.cols, (col) => {
+                      return openBlock(), createBlock(QTd, {
+                        key: col.name,
+                        props: props2
+                      }, {
+                        default: withCtx(() => [
+                          col.name === "user_id" && props2.row.user ? (openBlock(), createElementBlock("span", _hoisted_5, toDisplayString(props2.row.user.fullname), 1)) : createCommentVNode("", true),
+                          col.name === "auditable" ? (openBlock(), createElementBlock("span", _hoisted_6, toDisplayString(props2.row.auditable), 1)) : createCommentVNode("", true),
+                          col.name === "created_at" ? (openBlock(), createElementBlock("span", _hoisted_7, [
+                            createTextVNode(toDisplayString(unref(fromNowTz)(props2.row.created_at)) + " - ", 1),
+                            createBaseVNode("span", _hoisted_8, toDisplayString(unref(dateTimeTz)(props2.row.created_at)), 1)
+                          ])) : createCommentVNode("", true),
+                          col.name === "event" ? (openBlock(), createElementBlock("span", _hoisted_9, [
+                            createVNode(QBtn, {
+                              size: "sm",
+                              color: "primary",
+                              round: "",
+                              dense: "",
+                              onClick: ($event) => props2.expand = !props2.expand,
+                              icon: props2.expand ? "remove" : "add",
+                              class: "q-mr-xs"
+                            }, null, 8, ["onClick", "icon"]),
+                            createTextVNode(" " + toDisplayString(col.value) + " (" + toDisplayString(props2.row.changes.length) + ")", 1)
+                          ])) : createCommentVNode("", true),
+                          col.name === "ip" ? (openBlock(), createElementBlock("span", _hoisted_10, toDisplayString(col.value), 1)) : createCommentVNode("", true)
+                        ]),
+                        _: 2
+                      }, 1032, ["props"]);
+                    }), 128))
+                  ]),
+                  _: 2
+                }, 1032, ["props"]),
+                withDirectives(createVNode(QTr, { props: props2 }, {
+                  default: withCtx(() => [
+                    createVNode(QTd, { colspan: "100%" }, {
+                      default: withCtx(() => [
+                        createVNode(QList, { dense: "" }, {
+                          default: withCtx(() => [
+                            props2.row.event === "update" ? (openBlock(true), createElementBlock(Fragment, { key: 0 }, renderList(props2.row.changes, (n, index) => {
+                              return openBlock(), createBlock(QItem, { key: index }, {
+                                default: withCtx(() => [
+                                  createVNode(QItemSection, { side: "" }, {
+                                    default: withCtx(() => [
+                                      createVNode(QIcon, { name: "chevron_right" })
+                                    ]),
+                                    _: 1
+                                  }),
+                                  createVNode(QItemSection, null, {
+                                    default: withCtx(() => [
+                                      createBaseVNode("div", null, [
+                                        createBaseVNode("strong", _hoisted_11, toDisplayString(n.field), 1),
+                                        createTextVNode(' changed from "' + toDisplayString(n.oldValue) + '" to "' + toDisplayString(n.value) + '" ', 1)
+                                      ])
+                                    ]),
+                                    _: 2
+                                  }, 1024)
+                                ]),
+                                _: 2
+                              }, 1024);
+                            }), 128)) : createCommentVNode("", true),
+                            props2.row.event === "create" ? (openBlock(true), createElementBlock(Fragment, { key: 1 }, renderList(props2.row.changes, (n, index) => {
+                              return openBlock(), createBlock(QItem, { key: index }, {
+                                default: withCtx(() => [
+                                  createVNode(QItemSection, { side: "" }, {
+                                    default: withCtx(() => [
+                                      createVNode(QIcon, { name: "chevron_right" })
+                                    ]),
+                                    _: 1
+                                  }),
+                                  createVNode(QItemSection, null, {
+                                    default: withCtx(() => [
+                                      createBaseVNode("div", null, [
+                                        createBaseVNode("strong", _hoisted_12, toDisplayString(n.field), 1),
+                                        createTextVNode(' set to "' + toDisplayString(n.value) + '"', 1)
+                                      ])
+                                    ]),
+                                    _: 2
+                                  }, 1024)
+                                ]),
+                                _: 2
+                              }, 1024);
+                            }), 128)) : createCommentVNode("", true)
+                          ]),
+                          _: 2
+                        }, 1024)
+                      ]),
+                      _: 2
+                    }, 1024)
+                  ]),
+                  _: 2
+                }, 1032, ["props"]), [
+                  [vShow, props2.expand]
+                ])
+              ]),
+              _: 1
+            }, 8, ["rows", "filter", "loading", "pagination", "rows-per-page-options"])
+          ]),
+          _: 1
+        })
+      ], 64);
+    };
+  }
+});
+export { _sfc_main as _ };

@@ -1,1 +1,20 @@
-const t=s=>{if(s.response&&s.response.status&&s.response.status===404){document.location="/portal/error404";return}if(s.response&&s.response.status&&s.response.status===401){document.location="/portal/auth/signin";return}if(s.response&&s.response.status&&s.response.status===500){if(s.response.data&&s.response.data.name==="AuthenticationException"){document.location="/portal/auth/signin";return}console.log(s)}};export{t as u};
+const useMixinDebug = (error) => {
+  if (error.response && error.response.status && error.response.status === 404) {
+    document.location = "/portal/error404";
+    return;
+  }
+  if (error.response && error.response.status && error.response.status === 401) {
+    document.location = "/portal/auth/signin";
+    return;
+  }
+  if (error.response && error.response.status && error.response.status === 500) {
+    if (error.response.data) {
+      if (error.response.data.name === "AuthenticationException") {
+        document.location = "/portal/auth/signin";
+        return;
+      }
+    }
+    console.log(error);
+  }
+};
+export { useMixinDebug as u };

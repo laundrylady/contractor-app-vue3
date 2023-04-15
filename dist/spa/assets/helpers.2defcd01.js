@@ -1,1 +1,51 @@
-import{a as n}from"./axios.ccd3a804.js";const l=async()=>{const t=sessionStorage.getItem("productCategoriesVisibleBooking");return t?JSON.parse(t):n.get("/productcategory/index?visible_booking=true").then(i=>(sessionStorage.setItem("productCategoriesVisibleBooking",JSON.stringify(i.data.map(e=>({value:e.id,label:e.name,icon:e.icon})))),i.data.map(e=>({value:e.id,label:e.name,icon:e.icon}))))},u=async()=>{const t=sessionStorage.getItem("productCategoriesVisibleCapacity");return t?JSON.parse(t):n.get("/productcategory/index?visible_capacity=true").then(i=>(sessionStorage.setItem("productCategoriesVisibleCapacity",JSON.stringify(i.data.map(e=>({value:e.id,label:e.name,icon:e.icon})))),i.data.map(e=>({value:e.id,label:e.name,icon:e.icon}))))},d=t=>{const i=[{ids:[1,2],color:"primary"},{ids:[1],color:"info"},{ids:[2],color:"warning"}],e=t.filter(r=>r.meta&&r.meta.pivot_active).map(r=>r.id),a=i.find(r=>{let o=!0;for(const s of r.ids)e.indexOf(s)===-1&&(o=!1);return o});return a?a.color:"grey"};export{u as a,d as o,l as p};
+import { a as api } from "./axios.ccd3a804.js";
+const productCategoriesVisibleBooking = async () => {
+  const categories = sessionStorage.getItem("productCategoriesVisibleBooking");
+  if (categories) {
+    return JSON.parse(categories);
+  }
+  return api.get("/productcategory/index?visible_booking=true").then((response) => {
+    sessionStorage.setItem("productCategoriesVisibleBooking", JSON.stringify(response.data.map((o) => {
+      return { value: o.id, label: o.name, icon: o.icon };
+    })));
+    return response.data.map((o) => {
+      return { value: o.id, label: o.name, icon: o.icon };
+    });
+  });
+};
+const productCategoriesVisibleCapacity = async () => {
+  const categories = sessionStorage.getItem("productCategoriesVisibleCapacity");
+  if (categories) {
+    return JSON.parse(categories);
+  }
+  return api.get("/productcategory/index?visible_capacity=true").then((response) => {
+    sessionStorage.setItem("productCategoriesVisibleCapacity", JSON.stringify(response.data.map((o) => {
+      return { value: o.id, label: o.name, icon: o.icon };
+    })));
+    return response.data.map((o) => {
+      return { value: o.id, label: o.name, icon: o.icon };
+    });
+  });
+};
+const orderColor = (productCategories) => {
+  const colorMap = [
+    { ids: [1, 2], color: "primary" },
+    { ids: [1], color: "info" },
+    { ids: [2], color: "warning" }
+  ];
+  const activeCategories = productCategories.filter((o) => o.meta && o.meta.pivot_active).map((o) => o.id);
+  const found = colorMap.find((o) => {
+    let valid = true;
+    for (const i of o.ids) {
+      if (activeCategories.indexOf(i) === -1) {
+        valid = false;
+      }
+    }
+    return valid;
+  });
+  if (found) {
+    return found.color;
+  }
+  return "grey";
+};
+export { productCategoriesVisibleCapacity as a, orderColor as o, productCategoriesVisibleBooking as p };

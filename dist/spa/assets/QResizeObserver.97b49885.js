@@ -1,1 +1,121 @@
-import{r as g,a5 as z,o as d,V as y,E as f,a1 as w,D as v,h as R,j as O,a2 as b}from"./index.e647c85a.js";function x(){const r=g(!z.value);return r.value===!1&&d(()=>{r.value=!0}),r}const m=typeof ResizeObserver!="undefined",h=m===!0?{}:{style:"display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;",url:"about:blank"};var L=y({name:"QResizeObserver",props:{debounce:{type:[String,Number],default:100}},emits:["resize"],setup(r,{emit:p}){let i=null,t,o={width:-1,height:-1};function s(e){e===!0||r.debounce===0||r.debounce==="0"?u():i===null&&(i=setTimeout(u,r.debounce))}function u(){if(i!==null&&(clearTimeout(i),i=null),t){const{offsetWidth:e,offsetHeight:n}=t;(e!==o.width||n!==o.height)&&(o={width:e,height:n},p("resize",o))}}const{proxy:l}=O();if(m===!0){let e;const n=a=>{t=l.$el.parentNode,t?(e=new ResizeObserver(s),e.observe(t),u()):a!==!0&&v(()=>{n(!0)})};return d(()=>{n()}),f(()=>{i!==null&&clearTimeout(i),e!==void 0&&(e.disconnect!==void 0?e.disconnect():t&&e.unobserve(t))}),w}else{let a=function(){i!==null&&(clearTimeout(i),i=null),n!==void 0&&(n.removeEventListener!==void 0&&n.removeEventListener("resize",s,b.passive),n=void 0)},c=function(){a(),t&&t.contentDocument&&(n=t.contentDocument.defaultView,n.addEventListener("resize",s,b.passive),u())};const e=x();let n;return d(()=>{v(()=>{t=l.$el,t&&c()})}),f(a),l.trigger=s,()=>{if(e.value===!0)return R("object",{style:h.style,tabindex:-1,type:"text/html",data:h.url,"aria-hidden":"true",onLoad:c})}}}});export{L as Q};
+import { r as ref, a5 as isRuntimeSsrPreHydration, o as onMounted, V as createComponent, E as onBeforeUnmount, a1 as noop, D as nextTick, h, j as getCurrentInstance, a2 as listenOpts } from "./index.e647c85a.js";
+function useCanRender() {
+  const canRender = ref(!isRuntimeSsrPreHydration.value);
+  if (canRender.value === false) {
+    onMounted(() => {
+      canRender.value = true;
+    });
+  }
+  return canRender;
+}
+const hasObserver = typeof ResizeObserver !== "undefined";
+const resizeProps = hasObserver === true ? {} : {
+  style: "display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;",
+  url: "about:blank"
+};
+var QResizeObserver = createComponent({
+  name: "QResizeObserver",
+  props: {
+    debounce: {
+      type: [String, Number],
+      default: 100
+    }
+  },
+  emits: ["resize"],
+  setup(props, { emit }) {
+    let timer = null, targetEl, size = { width: -1, height: -1 };
+    function trigger(immediately) {
+      if (immediately === true || props.debounce === 0 || props.debounce === "0") {
+        emitEvent();
+      } else if (timer === null) {
+        timer = setTimeout(emitEvent, props.debounce);
+      }
+    }
+    function emitEvent() {
+      if (timer !== null) {
+        clearTimeout(timer);
+        timer = null;
+      }
+      if (targetEl) {
+        const { offsetWidth: width, offsetHeight: height } = targetEl;
+        if (width !== size.width || height !== size.height) {
+          size = { width, height };
+          emit("resize", size);
+        }
+      }
+    }
+    const { proxy } = getCurrentInstance();
+    if (hasObserver === true) {
+      let observer;
+      const init = (stop) => {
+        targetEl = proxy.$el.parentNode;
+        if (targetEl) {
+          observer = new ResizeObserver(trigger);
+          observer.observe(targetEl);
+          emitEvent();
+        } else if (stop !== true) {
+          nextTick(() => {
+            init(true);
+          });
+        }
+      };
+      onMounted(() => {
+        init();
+      });
+      onBeforeUnmount(() => {
+        timer !== null && clearTimeout(timer);
+        if (observer !== void 0) {
+          if (observer.disconnect !== void 0) {
+            observer.disconnect();
+          } else if (targetEl) {
+            observer.unobserve(targetEl);
+          }
+        }
+      });
+      return noop;
+    } else {
+      let cleanup = function() {
+        if (timer !== null) {
+          clearTimeout(timer);
+          timer = null;
+        }
+        if (curDocView !== void 0) {
+          if (curDocView.removeEventListener !== void 0) {
+            curDocView.removeEventListener("resize", trigger, listenOpts.passive);
+          }
+          curDocView = void 0;
+        }
+      }, onObjLoad = function() {
+        cleanup();
+        if (targetEl && targetEl.contentDocument) {
+          curDocView = targetEl.contentDocument.defaultView;
+          curDocView.addEventListener("resize", trigger, listenOpts.passive);
+          emitEvent();
+        }
+      };
+      const canRender = useCanRender();
+      let curDocView;
+      onMounted(() => {
+        nextTick(() => {
+          targetEl = proxy.$el;
+          targetEl && onObjLoad();
+        });
+      });
+      onBeforeUnmount(cleanup);
+      proxy.trigger = trigger;
+      return () => {
+        if (canRender.value === true) {
+          return h("object", {
+            style: resizeProps.style,
+            tabindex: -1,
+            type: "text/html",
+            data: resizeProps.url,
+            "aria-hidden": "true",
+            onLoad: onObjLoad
+          });
+        }
+      };
+    }
+  }
+});
+export { QResizeObserver as Q };

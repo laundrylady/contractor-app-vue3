@@ -1,1 +1,2043 @@
-import{g as b,bh as at,bi as Ot,V as nt,at as Vt,ab as pt,ac as It,bj as jt,r as j,be as $t,w as ae,D as Xe,h as g,H as oe,X as Tt,j as lt,bk as Ft,S as A,bc as Bt,aD as Pt,A as At,m as Nt,K as Et,L as me,l as he,O as Qt,U as Zt,q as Lt,G as Rt,N as zt}from"./index.e647c85a.js";import{p as x,u as Xt,a as Ut,Q as Wt}from"./format.8e90d58d.js";import{C as Jt}from"./ClosePopup.ef2f7039.js";import{m as ke}from"./axios.ccd3a804.js";import{u as Gt}from"./use-quasar.ae4f72e4.js";function Kt(){const e=new Map;return{getCache:function(l,o){return e[l]===void 0?e[l]=o:e[l]},getCacheWithFn:function(l,o){return e[l]===void 0?e[l]=o():e[l]}}}const R=[-61,9,38,199,426,686,756,818,1111,1181,1210,1635,2060,2097,2192,2262,2324,2394,2456,3178];function ea(e,l,o){return Object.prototype.toString.call(e)==="[object Date]"&&(o=e.getDate(),l=e.getMonth()+1,e=e.getFullYear()),la(Ie(e,l,o))}function Ue(e,l,o){return ot(na(e,l,o))}function ta(e){return aa(e)===0}function ye(e,l){return l<=6?31:l<=11||ta(e)?30:29}function aa(e){const l=R.length;let o=R[0],s,d,r,M,u;if(e<o||e>=R[l-1])throw new Error("Invalid Jalaali year "+e);for(u=1;u<l&&(s=R[u],d=s-o,!(e<s));u+=1)o=s;return M=e-o,d-M<6&&(M=M-d+C(d+4,33)*33),r=F(F(M+1,33)-1,4),r===-1&&(r=4),r}function rt(e,l){const o=R.length,s=e+621;let d=-14,r=R[0],M,u,m,D,v;if(e<r||e>=R[o-1])throw new Error("Invalid Jalaali year "+e);for(v=1;v<o&&(M=R[v],u=M-r,!(e<M));v+=1)d=d+C(u,33)*8+C(F(u,33),4),r=M;D=e-r,d=d+C(D,33)*8+C(F(D,33)+3,4),F(u,33)===4&&u-D===4&&(d+=1);const y=C(s,4)-C((C(s,100)+1)*3,4)-150,$=20+d-y;return l||(u-D<6&&(D=D-u+C(u+4,33)*33),m=F(F(D+1,33)-1,4),m===-1&&(m=4)),{leap:m,gy:s,march:$}}function na(e,l,o){const s=rt(e,!0);return Ie(s.gy,3,s.march)+(l-1)*31-C(l,7)*(l-7)+o-1}function la(e){const l=ot(e).gy;let o=l-621,s,d,r;const M=rt(o,!1),u=Ie(l,3,M.march);if(r=e-u,r>=0){if(r<=185)return d=1+C(r,31),s=F(r,31)+1,{jy:o,jm:d,jd:s};r-=186}else o-=1,r+=179,M.leap===1&&(r+=1);return d=7+C(r,30),s=F(r,30)+1,{jy:o,jm:d,jd:s}}function Ie(e,l,o){let s=C((e+C(l-8,6)+100100)*1461,4)+C(153*F(l+9,12)+2,5)+o-34840408;return s=s-C(C(e+100100+C(l-8,6),100)*3,4)+752,s}function ot(e){let l=4*e+139361631;l=l+C(C(4*e+183187720,146097)*3,4)*4-3908;const o=C(F(l,1461),4)*5+308,s=C(F(o,153),5)+1,d=F(C(o,153),12)+1;return{gy:C(l,1461)-100100+C(8-d,6),gm:d,gd:s}}function C(e,l){return~~(e/l)}function F(e,l){return e-~~(e/l)*l}const ra=["gregorian","persian"],oa={modelValue:{required:!0},mask:{type:String},locale:Object,calendar:{type:String,validator:e=>ra.includes(e),default:"gregorian"},landscape:Boolean,color:String,textColor:String,square:Boolean,flat:Boolean,bordered:Boolean,readonly:Boolean,disable:Boolean},ua=["update:modelValue"];function Z(e){return e.year+"/"+x(e.month)+"/"+x(e.day)}function sa(e,l){const o=b(()=>e.disable!==!0&&e.readonly!==!0),s=b(()=>o.value===!0?0:-1),d=b(()=>{const u=[];return e.color!==void 0&&u.push(`bg-${e.color}`),e.textColor!==void 0&&u.push(`text-${e.textColor}`),u.join(" ")});function r(){return e.locale!==void 0?{...l.lang.date,...e.locale}:l.lang.date}function M(u){const m=new Date,D=u===!0?null:0;if(e.calendar==="persian"){const v=ea(m);return{year:v.jy,month:v.jm,day:v.jd}}return{year:m.getFullYear(),month:m.getMonth()+1,day:m.getDate(),hour:D,minute:D,second:D,millisecond:D}}return{editable:o,tabindex:s,headerClass:d,getLocale:r,getCurrentDate:M}}const ut=864e5,ia=36e5,pe=6e4,st="YYYY-MM-DDTHH:mm:ss.SSSZ",da=/\[((?:[^\]\\]|\\]|\\)*)\]|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g,ca=/(\[[^\]]*\])|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]|([.*+:?^,\s${}()|\\]+)/g,Oe={};function va(e,l){const o="("+l.days.join("|")+")",s=e+o;if(Oe[s]!==void 0)return Oe[s];const d="("+l.daysShort.join("|")+")",r="("+l.months.join("|")+")",M="("+l.monthsShort.join("|")+")",u={};let m=0;const D=e.replace(ca,y=>{switch(m++,y){case"YY":return u.YY=m,"(-?\\d{1,2})";case"YYYY":return u.YYYY=m,"(-?\\d{1,4})";case"M":return u.M=m,"(\\d{1,2})";case"MM":return u.M=m,"(\\d{2})";case"MMM":return u.MMM=m,M;case"MMMM":return u.MMMM=m,r;case"D":return u.D=m,"(\\d{1,2})";case"Do":return u.D=m++,"(\\d{1,2}(st|nd|rd|th))";case"DD":return u.D=m,"(\\d{2})";case"H":return u.H=m,"(\\d{1,2})";case"HH":return u.H=m,"(\\d{2})";case"h":return u.h=m,"(\\d{1,2})";case"hh":return u.h=m,"(\\d{2})";case"m":return u.m=m,"(\\d{1,2})";case"mm":return u.m=m,"(\\d{2})";case"s":return u.s=m,"(\\d{1,2})";case"ss":return u.s=m,"(\\d{2})";case"S":return u.S=m,"(\\d{1})";case"SS":return u.S=m,"(\\d{2})";case"SSS":return u.S=m,"(\\d{3})";case"A":return u.A=m,"(AM|PM)";case"a":return u.a=m,"(am|pm)";case"aa":return u.aa=m,"(a\\.m\\.|p\\.m\\.)";case"ddd":return d;case"dddd":return o;case"Q":case"d":case"E":return"(\\d{1})";case"Qo":return"(1st|2nd|3rd|4th)";case"DDD":case"DDDD":return"(\\d{1,3})";case"w":return"(\\d{1,2})";case"ww":return"(\\d{2})";case"Z":return u.Z=m,"(Z|[+-]\\d{2}:\\d{2})";case"ZZ":return u.ZZ=m,"(Z|[+-]\\d{2}\\d{2})";case"X":return u.X=m,"(-?\\d+)";case"x":return u.x=m,"(-?\\d{4,})";default:return m--,y[0]==="["&&(y=y.substring(1,y.length-1)),y.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}}),v={map:u,regex:new RegExp("^"+D)};return Oe[s]=v,v}function it(e,l){return e!==void 0?e:l!==void 0?l.date:Ot.date}function We(e,l=""){const o=e>0?"-":"+",s=Math.abs(e),d=Math.floor(s/60),r=s%60;return o+x(d)+l+x(r)}function fa(e,l,o,s,d){const r={year:null,month:null,day:null,hour:null,minute:null,second:null,millisecond:null,timezoneOffset:null,dateHash:null,timeHash:null};if(d!==void 0&&Object.assign(r,d),e==null||e===""||typeof e!="string")return r;l===void 0&&(l=st);const M=it(o,at.props),u=M.months,m=M.monthsShort,{regex:D,map:v}=va(l,M),y=e.match(D);if(y===null)return r;let $="";if(v.X!==void 0||v.x!==void 0){const q=parseInt(y[v.X!==void 0?v.X:v.x],10);if(isNaN(q)===!0||q<0)return r;const k=new Date(q*(v.X!==void 0?1e3:1));r.year=k.getFullYear(),r.month=k.getMonth()+1,r.day=k.getDate(),r.hour=k.getHours(),r.minute=k.getMinutes(),r.second=k.getSeconds(),r.millisecond=k.getMilliseconds()}else{if(v.YYYY!==void 0)r.year=parseInt(y[v.YYYY],10);else if(v.YY!==void 0){const q=parseInt(y[v.YY],10);r.year=q<0?q:2e3+q}if(v.M!==void 0){if(r.month=parseInt(y[v.M],10),r.month<1||r.month>12)return r}else v.MMM!==void 0?r.month=m.indexOf(y[v.MMM])+1:v.MMMM!==void 0&&(r.month=u.indexOf(y[v.MMMM])+1);if(v.D!==void 0){if(r.day=parseInt(y[v.D],10),r.year===null||r.month===null||r.day<1)return r;const q=s!=="persian"?new Date(r.year,r.month,0).getDate():ye(r.year,r.month);if(r.day>q)return r}v.H!==void 0?r.hour=parseInt(y[v.H],10)%24:v.h!==void 0&&(r.hour=parseInt(y[v.h],10)%12,(v.A&&y[v.A]==="PM"||v.a&&y[v.a]==="pm"||v.aa&&y[v.aa]==="p.m.")&&(r.hour+=12),r.hour=r.hour%24),v.m!==void 0&&(r.minute=parseInt(y[v.m],10)%60),v.s!==void 0&&(r.second=parseInt(y[v.s],10)%60),v.S!==void 0&&(r.millisecond=parseInt(y[v.S],10)*10**(3-y[v.S].length)),(v.Z!==void 0||v.ZZ!==void 0)&&($=v.Z!==void 0?y[v.Z].replace(":",""):y[v.ZZ],r.timezoneOffset=($[0]==="+"?-1:1)*(60*$.slice(1,3)+1*$.slice(3,5)))}return r.dateHash=x(r.year,6)+"/"+x(r.month)+"/"+x(r.day),r.timeHash=x(r.hour)+":"+x(r.minute)+":"+x(r.second)+$,r}function Je(e){const l=new Date(e.getFullYear(),e.getMonth(),e.getDate());l.setDate(l.getDate()-(l.getDay()+6)%7+3);const o=new Date(l.getFullYear(),0,4);o.setDate(o.getDate()-(o.getDay()+6)%7+3);const s=l.getTimezoneOffset()-o.getTimezoneOffset();l.setHours(l.getHours()-s);const d=(l-o)/(ut*7);return 1+Math.floor(d)}function N(e,l,o){const s=new Date(e),d=`set${o===!0?"UTC":""}`;switch(l){case"year":case"years":s[`${d}Month`](0);case"month":case"months":s[`${d}Date`](1);case"day":case"days":case"date":s[`${d}Hours`](0);case"hour":case"hours":s[`${d}Minutes`](0);case"minute":case"minutes":s[`${d}Seconds`](0);case"second":case"seconds":s[`${d}Milliseconds`](0)}return s}function ge(e,l,o){return(e.getTime()-e.getTimezoneOffset()*pe-(l.getTime()-l.getTimezoneOffset()*pe))/o}function dt(e,l,o="days"){const s=new Date(e),d=new Date(l);switch(o){case"years":case"year":return s.getFullYear()-d.getFullYear();case"months":case"month":return(s.getFullYear()-d.getFullYear())*12+s.getMonth()-d.getMonth();case"days":case"day":case"date":return ge(N(s,"day"),N(d,"day"),ut);case"hours":case"hour":return ge(N(s,"hour"),N(d,"hour"),ia);case"minutes":case"minute":return ge(N(s,"minute"),N(d,"minute"),pe);case"seconds":case"second":return ge(N(s,"second"),N(d,"second"),1e3)}}function Ge(e){return dt(e,N(e,"year"),"days")+1}function Ke(e){if(e>=11&&e<=13)return`${e}th`;switch(e%10){case 1:return`${e}st`;case 2:return`${e}nd`;case 3:return`${e}rd`}return`${e}th`}const et={YY(e,l,o){const s=this.YYYY(e,l,o)%100;return s>=0?x(s):"-"+x(Math.abs(s))},YYYY(e,l,o){return o!=null?o:e.getFullYear()},M(e){return e.getMonth()+1},MM(e){return x(e.getMonth()+1)},MMM(e,l){return l.monthsShort[e.getMonth()]},MMMM(e,l){return l.months[e.getMonth()]},Q(e){return Math.ceil((e.getMonth()+1)/3)},Qo(e){return Ke(this.Q(e))},D(e){return e.getDate()},Do(e){return Ke(e.getDate())},DD(e){return x(e.getDate())},DDD(e){return Ge(e)},DDDD(e){return x(Ge(e),3)},d(e){return e.getDay()},dd(e,l){return this.dddd(e,l).slice(0,2)},ddd(e,l){return l.daysShort[e.getDay()]},dddd(e,l){return l.days[e.getDay()]},E(e){return e.getDay()||7},w(e){return Je(e)},ww(e){return x(Je(e))},H(e){return e.getHours()},HH(e){return x(e.getHours())},h(e){const l=e.getHours();return l===0?12:l>12?l%12:l},hh(e){return x(this.h(e))},m(e){return e.getMinutes()},mm(e){return x(e.getMinutes())},s(e){return e.getSeconds()},ss(e){return x(e.getSeconds())},S(e){return Math.floor(e.getMilliseconds()/100)},SS(e){return x(Math.floor(e.getMilliseconds()/10))},SSS(e){return x(e.getMilliseconds(),3)},A(e){return this.H(e)<12?"AM":"PM"},a(e){return this.H(e)<12?"am":"pm"},aa(e){return this.H(e)<12?"a.m.":"p.m."},Z(e,l,o,s){const d=s==null?e.getTimezoneOffset():s;return We(d,":")},ZZ(e,l,o,s){const d=s==null?e.getTimezoneOffset():s;return We(d)},X(e){return Math.floor(e.getTime()/1e3)},x(e){return e.getTime()}};function ma(e,l,o,s,d){if(e!==0&&!e||e===1/0||e===-1/0)return;const r=new Date(e);if(isNaN(r))return;l===void 0&&(l=st);const M=it(o,at.props);return l.replace(da,(u,m)=>u in et?et[u](r,M,s,d):m===void 0?u:m.split("\\]").join("]"))}const W=20,ha=["Calendar","Years","Months"],tt=e=>ha.includes(e),Ve=e=>/^-?[\d]+\/[0-1]\d$/.test(e),te=" \u2014 ";function L(e){return e.year+"/"+x(e.month)}var ga=nt({name:"QDate",props:{...oa,...Vt,...pt,multiple:Boolean,range:Boolean,title:String,subtitle:String,mask:{default:"YYYY/MM/DD"},defaultYearMonth:{type:String,validator:Ve},yearsInMonthView:Boolean,events:[Array,Function],eventColor:[String,Function],emitImmediately:Boolean,options:[Array,Function],navigationMinYearMonth:{type:String,validator:Ve},navigationMaxYearMonth:{type:String,validator:Ve},noUnset:Boolean,firstDayOfWeek:[String,Number],todayBtn:Boolean,minimal:Boolean,defaultView:{type:String,default:"Calendar",validator:tt}},emits:[...ua,"rangeStart","rangeEnd","navigation"],setup(e,{slots:l,emit:o}){const{proxy:s}=lt(),{$q:d}=s,r=It(e,d),{getCache:M}=Kt(),{tabindex:u,headerClass:m,getLocale:D,getCurrentDate:v}=sa(e,d);let y;const $=jt(e),q=Ft($),k=j(null),w=j(Ne()),_=j(D()),E=b(()=>Ne()),z=b(()=>D()),O=b(()=>v()),h=j(Ee(w.value,_.value)),T=j(e.defaultView),je=d.lang.rtl===!0?"right":"left",ue=j(je.value),Me=j(je.value),De=h.value.year,se=j(De-De%W-(De<0?W:0)),V=j(null),ct=b(()=>{const t=e.landscape===!0?"landscape":"portrait";return`q-date q-date--${t} q-date--${t}-${e.minimal===!0?"minimal":"standard"}`+(r.value===!0?" q-date--dark q-dark":"")+(e.bordered===!0?" q-date--bordered":"")+(e.square===!0?" q-date--square no-border-radius":"")+(e.flat===!0?" q-date--flat no-shadow":"")+(e.disable===!0?" disabled":e.readonly===!0?" q-date--readonly":"")}),X=b(()=>e.color||"primary"),J=b(()=>e.textColor||"white"),ie=b(()=>e.emitImmediately===!0&&e.multiple!==!0&&e.range!==!0),Ye=b(()=>Array.isArray(e.modelValue)===!0?e.modelValue:e.modelValue!==null&&e.modelValue!==void 0?[e.modelValue]:[]),P=b(()=>Ye.value.filter(t=>typeof t=="string").map(t=>_e(t,w.value,_.value)).filter(t=>t.dateHash!==null&&t.day!==null&&t.month!==null&&t.year!==null)),G=b(()=>{const t=a=>_e(a,w.value,_.value);return Ye.value.filter(a=>$t(a)===!0&&a.from!==void 0&&a.to!==void 0).map(a=>({from:t(a.from),to:t(a.to)})).filter(a=>a.from.dateHash!==null&&a.to.dateHash!==null&&a.from.dateHash<a.to.dateHash)}),de=b(()=>e.calendar!=="persian"?t=>new Date(t.year,t.month-1,t.day):t=>{const a=Ue(t.year,t.month,t.day);return new Date(a.gy,a.gm-1,a.gd)}),be=b(()=>e.calendar==="persian"?Z:(t,a,n)=>ma(new Date(t.year,t.month-1,t.day,t.hour,t.minute,t.second,t.millisecond),a===void 0?w.value:a,n===void 0?_.value:n,t.year,t.timezoneOffset)),ne=b(()=>P.value.length+G.value.reduce((t,a)=>t+1+dt(de.value(a.to),de.value(a.from)),0)),$e=b(()=>{if(e.title!==void 0&&e.title!==null&&e.title.length>0)return e.title;if(V.value!==null){const n=V.value.init,c=de.value(n);return _.value.daysShort[c.getDay()]+", "+_.value.monthsShort[n.month-1]+" "+n.day+te+"?"}if(ne.value===0)return te;if(ne.value>1)return`${ne.value} ${_.value.pluralDay}`;const t=P.value[0],a=de.value(t);return isNaN(a.valueOf())===!0?te:_.value.headerTitle!==void 0?_.value.headerTitle(a,t):_.value.daysShort[a.getDay()]+", "+_.value.monthsShort[t.month-1]+" "+t.day}),vt=b(()=>P.value.concat(G.value.map(a=>a.from)).sort((a,n)=>a.year-n.year||a.month-n.month)[0]),ft=b(()=>P.value.concat(G.value.map(a=>a.to)).sort((a,n)=>n.year-a.year||n.month-a.month)[0]),Te=b(()=>{if(e.subtitle!==void 0&&e.subtitle!==null&&e.subtitle.length>0)return e.subtitle;if(ne.value===0)return te;if(ne.value>1){const t=vt.value,a=ft.value,n=_.value.monthsShort;return n[t.month-1]+(t.year!==a.year?" "+t.year+te+n[a.month-1]+" ":t.month!==a.month?te+n[a.month-1]:"")+" "+a.year}return P.value[0].year}),ce=b(()=>{const t=[d.iconSet.datetime.arrowLeft,d.iconSet.datetime.arrowRight];return d.lang.rtl===!0?t.reverse():t}),Fe=b(()=>e.firstDayOfWeek!==void 0?Number(e.firstDayOfWeek):_.value.firstDayOfWeek),mt=b(()=>{const t=_.value.daysShort,a=Fe.value;return a>0?t.slice(a,7).concat(t.slice(0,a)):t}),Q=b(()=>{const t=h.value;return e.calendar!=="persian"?new Date(t.year,t.month,0).getDate():ye(t.year,t.month)}),ht=b(()=>typeof e.eventColor=="function"?e.eventColor:()=>e.eventColor),p=b(()=>{if(e.navigationMinYearMonth===void 0)return null;const t=e.navigationMinYearMonth.split("/");return{year:parseInt(t[0],10),month:parseInt(t[1],10)}}),I=b(()=>{if(e.navigationMaxYearMonth===void 0)return null;const t=e.navigationMaxYearMonth.split("/");return{year:parseInt(t[0],10),month:parseInt(t[1],10)}}),we=b(()=>{const t={month:{prev:!0,next:!0},year:{prev:!0,next:!0}};return p.value!==null&&p.value.year>=h.value.year&&(t.year.prev=!1,p.value.year===h.value.year&&p.value.month>=h.value.month&&(t.month.prev=!1)),I.value!==null&&I.value.year<=h.value.year&&(t.year.next=!1,I.value.year===h.value.year&&I.value.month<=h.value.month&&(t.month.next=!1)),t}),ve=b(()=>{const t={};return P.value.forEach(a=>{const n=L(a);t[n]===void 0&&(t[n]=[]),t[n].push(a.day)}),t}),Be=b(()=>{const t={};return G.value.forEach(a=>{const n=L(a.from),c=L(a.to);if(t[n]===void 0&&(t[n]=[]),t[n].push({from:a.from.day,to:n===c?a.to.day:void 0,range:a}),n<c){let i;const{year:S,month:f}=a.from,Y=f<12?{year:S,month:f+1}:{year:S+1,month:1};for(;(i=L(Y))<=c;)t[i]===void 0&&(t[i]=[]),t[i].push({from:void 0,to:i===c?a.to.day:void 0,range:a}),Y.month++,Y.month>12&&(Y.year++,Y.month=1)}}),t}),le=b(()=>{if(V.value===null)return;const{init:t,initHash:a,final:n,finalHash:c}=V.value,[i,S]=a<=c?[t,n]:[n,t],f=L(i),Y=L(S);if(f!==B.value&&Y!==B.value)return;const H={};return f===B.value?(H.from=i.day,H.includeFrom=!0):H.from=1,Y===B.value?(H.to=S.day,H.includeTo=!0):H.to=Q.value,H}),B=b(()=>L(h.value)),gt=b(()=>{const t={};if(e.options===void 0){for(let n=1;n<=Q.value;n++)t[n]=!0;return t}const a=typeof e.options=="function"?e.options:n=>e.options.includes(n);for(let n=1;n<=Q.value;n++){const c=B.value+"/"+x(n);t[n]=a(c)}return t}),yt=b(()=>{const t={};if(e.events===void 0)for(let a=1;a<=Q.value;a++)t[a]=!1;else{const a=typeof e.events=="function"?e.events:n=>e.events.includes(n);for(let n=1;n<=Q.value;n++){const c=B.value+"/"+x(n);t[n]=a(c)===!0&&ht.value(c)}}return t}),Mt=b(()=>{let t,a;const{year:n,month:c}=h.value;if(e.calendar!=="persian")t=new Date(n,c-1,1),a=new Date(n,c-1,0).getDate();else{const i=Ue(n,c,1);t=new Date(i.gy,i.gm-1,i.gd);let S=c-1,f=n;S===0&&(S=12,f--),a=ye(f,S)}return{days:t.getDay()-Fe.value-1,endDay:a}}),Pe=b(()=>{const t=[],{days:a,endDay:n}=Mt.value,c=a<0?a+7:a;if(c<6)for(let f=n-c;f<=n;f++)t.push({i:f,fill:!0});const i=t.length;for(let f=1;f<=Q.value;f++){const Y={i:f,event:yt.value[f],classes:[]};gt.value[f]===!0&&(Y.in=!0,Y.flat=!0),t.push(Y)}if(ve.value[B.value]!==void 0&&ve.value[B.value].forEach(f=>{const Y=i+f-1;Object.assign(t[Y],{selected:!0,unelevated:!0,flat:!1,color:X.value,textColor:J.value})}),Be.value[B.value]!==void 0&&Be.value[B.value].forEach(f=>{if(f.from!==void 0){const Y=i+f.from-1,H=i+(f.to||Q.value)-1;for(let re=Y;re<=H;re++)Object.assign(t[re],{range:f.range,unelevated:!0,color:X.value,textColor:J.value});Object.assign(t[Y],{rangeFrom:!0,flat:!1}),f.to!==void 0&&Object.assign(t[H],{rangeTo:!0,flat:!1})}else if(f.to!==void 0){const Y=i+f.to-1;for(let H=i;H<=Y;H++)Object.assign(t[H],{range:f.range,unelevated:!0,color:X.value,textColor:J.value});Object.assign(t[Y],{flat:!1,rangeTo:!0})}else{const Y=i+Q.value-1;for(let H=i;H<=Y;H++)Object.assign(t[H],{range:f.range,unelevated:!0,color:X.value,textColor:J.value})}}),le.value!==void 0){const f=i+le.value.from-1,Y=i+le.value.to-1;for(let H=f;H<=Y;H++)t[H].color=X.value,t[H].editRange=!0;le.value.includeFrom===!0&&(t[f].editRangeFrom=!0),le.value.includeTo===!0&&(t[Y].editRangeTo=!0)}h.value.year===O.value.year&&h.value.month===O.value.month&&(t[i+O.value.day-1].today=!0);const S=t.length%7;if(S>0){const f=7-S;for(let Y=1;Y<=f;Y++)t.push({i:Y,fill:!0})}return t.forEach(f=>{let Y="q-date__calendar-item ";f.fill===!0?Y+="q-date__calendar-item--fill":(Y+=`q-date__calendar-item--${f.in===!0?"in":"out"}`,f.range!==void 0&&(Y+=` q-date__range${f.rangeTo===!0?"-to":f.rangeFrom===!0?"-from":""}`),f.editRange===!0&&(Y+=` q-date__edit-range${f.editRangeFrom===!0?"-from":""}${f.editRangeTo===!0?"-to":""}`),(f.range!==void 0||f.editRange===!0)&&(Y+=` text-${f.color}`)),f.classes=Y}),t}),Dt=b(()=>e.disable===!0?{"aria-disabled":"true"}:e.readonly===!0?{"aria-readonly":"true"}:{});ae(()=>e.modelValue,t=>{if(y===t)y=0;else{const a=Ee(w.value,_.value);K(a.year,a.month,a)}}),ae(T,()=>{k.value!==null&&s.$el.contains(document.activeElement)===!0&&k.value.focus()}),ae(()=>h.value.year+"|"+h.value.month,()=>{o("navigation",{year:h.value.year,month:h.value.month})}),ae(E,t=>{ze(t,_.value,"mask"),w.value=t}),ae(z,t=>{ze(w.value,t,"locale"),_.value=t});function Ae(){const t=O.value,a=ve.value[L(t)];(a===void 0||a.includes(t.day)===!1)&&He(t),Se(t.year,t.month)}function Yt(t){tt(t)===!0&&(T.value=t)}function bt(t,a){["month","year"].includes(t)&&(t==="month"?Ze:xe)(a===!0?-1:1)}function Se(t,a){T.value="Calendar",K(t,a)}function wt(t,a){if(e.range===!1||!t){V.value=null;return}const n=Object.assign({...h.value},t),c=a!==void 0?Object.assign({...h.value},a):n;V.value={init:n,initHash:Z(n),final:c,finalHash:Z(c)},Se(n.year,n.month)}function Ne(){return e.calendar==="persian"?"YYYY/MM/DD":e.mask}function _e(t,a,n){return fa(t,a,n,e.calendar,{hour:0,minute:0,second:0,millisecond:0})}function Ee(t,a){const n=Array.isArray(e.modelValue)===!0?e.modelValue:e.modelValue?[e.modelValue]:[];if(n.length===0)return Qe();const c=n[n.length-1],i=_e(c.from!==void 0?c.from:c,t,a);return i.dateHash===null?Qe():i}function Qe(){let t,a;if(e.defaultYearMonth!==void 0){const n=e.defaultYearMonth.split("/");t=parseInt(n[0],10),a=parseInt(n[1],10)}else{const n=O.value!==void 0?O.value:v();t=n.year,a=n.month}return{year:t,month:a,day:1,hour:0,minute:0,second:0,millisecond:0,dateHash:t+"/"+x(a)+"/01"}}function Ze(t){let a=h.value.year,n=Number(h.value.month)+t;n===13?(n=1,a++):n===0&&(n=12,a--),K(a,n),ie.value===!0&&fe("month")}function xe(t){const a=Number(h.value.year)+t;K(a,h.value.month),ie.value===!0&&fe("year")}function St(t){K(t,h.value.month),T.value=e.defaultView==="Years"?"Months":"Calendar",ie.value===!0&&fe("year")}function _t(t){K(h.value.year,t),T.value="Calendar",ie.value===!0&&fe("month")}function xt(t,a){const n=ve.value[a];(n!==void 0&&n.includes(t.day)===!0?Ce:He)(t)}function U(t){return{year:t.year,month:t.month,day:t.day}}function K(t,a,n){if(p.value!==null&&t<=p.value.year&&(t=p.value.year,a<p.value.month&&(a=p.value.month)),I.value!==null&&t>=I.value.year&&(t=I.value.year,a>I.value.month&&(a=I.value.month)),n!==void 0){const{hour:i,minute:S,second:f,millisecond:Y,timezoneOffset:H,timeHash:re}=n;Object.assign(h.value,{hour:i,minute:S,second:f,millisecond:Y,timezoneOffset:H,timeHash:re})}const c=t+"/"+x(a)+"/01";c!==h.value.dateHash&&(ue.value=h.value.dateHash<c==(d.lang.rtl!==!0)?"left":"right",t!==h.value.year&&(Me.value=ue.value),Xe(()=>{se.value=t-t%W-(t<0?W:0),Object.assign(h.value,{year:t,month:a,day:1,dateHash:c})}))}function Le(t,a,n){const c=t!==null&&t.length===1&&e.multiple===!1?t[0]:t;y=c;const{reason:i,details:S}=Re(a,n);o("update:modelValue",c,i,S)}function fe(t){const a=P.value[0]!==void 0&&P.value[0].dateHash!==null?{...P.value[0]}:{...h.value};Xe(()=>{a.year=h.value.year,a.month=h.value.month;const n=e.calendar!=="persian"?new Date(a.year,a.month,0).getDate():ye(a.year,a.month);a.day=Math.min(Math.max(1,a.day),n);const c=ee(a);y=c;const{details:i}=Re("",a);o("update:modelValue",c,t,i)})}function Re(t,a){return a.from!==void 0?{reason:`${t}-range`,details:{...U(a.target),from:U(a.from),to:U(a.to)}}:{reason:`${t}-day`,details:U(a)}}function ee(t,a,n){return t.from!==void 0?{from:be.value(t.from,a,n),to:be.value(t.to,a,n)}:be.value(t,a,n)}function He(t){let a;if(e.multiple===!0)if(t.from!==void 0){const n=Z(t.from),c=Z(t.to),i=P.value.filter(f=>f.dateHash<n||f.dateHash>c),S=G.value.filter(({from:f,to:Y})=>Y.dateHash<n||f.dateHash>c);a=i.concat(S).concat(t).map(f=>ee(f))}else{const n=Ye.value.slice();n.push(ee(t)),a=n}else a=ee(t);Le(a,"add",t)}function Ce(t){if(e.noUnset===!0)return;let a=null;if(e.multiple===!0&&Array.isArray(e.modelValue)===!0){const n=ee(t);t.from!==void 0?a=e.modelValue.filter(c=>c.from!==void 0?c.from!==n.from&&c.to!==n.to:!0):a=e.modelValue.filter(c=>c!==n),a.length===0&&(a=null)}Le(a,"remove",t)}function ze(t,a,n){const c=P.value.concat(G.value).map(i=>ee(i,t,a)).filter(i=>i.from!==void 0?i.from.dateHash!==null&&i.to.dateHash!==null:i.dateHash!==null);o("update:modelValue",(e.multiple===!0?c:c[0])||null,n)}function Ht(){if(e.minimal!==!0)return g("div",{class:"q-date__header "+m.value},[g("div",{class:"relative-position"},[g(oe,{name:"q-transition--fade"},()=>g("div",{key:"h-yr-"+Te.value,class:"q-date__header-subtitle q-date__header-link "+(T.value==="Years"?"q-date__header-link--active":"cursor-pointer"),tabindex:u.value,...M("vY",{onClick(){T.value="Years"},onKeyup(t){t.keyCode===13&&(T.value="Years")}})},[Te.value]))]),g("div",{class:"q-date__header-title relative-position flex no-wrap"},[g("div",{class:"relative-position col"},[g(oe,{name:"q-transition--fade"},()=>g("div",{key:"h-sub"+$e.value,class:"q-date__header-title-label q-date__header-link "+(T.value==="Calendar"?"q-date__header-link--active":"cursor-pointer"),tabindex:u.value,...M("vC",{onClick(){T.value="Calendar"},onKeyup(t){t.keyCode===13&&(T.value="Calendar")}})},[$e.value]))]),e.todayBtn===!0?g(A,{class:"q-date__header-today self-start",icon:d.iconSet.datetime.today,flat:!0,size:"sm",round:!0,tabindex:u.value,onClick:Ae}):null])])}function qe({label:t,type:a,key:n,dir:c,goTo:i,boundaries:S,cls:f}){return[g("div",{class:"row items-center q-date__arrow"},[g(A,{round:!0,dense:!0,size:"sm",flat:!0,icon:ce.value[0],tabindex:u.value,disable:S.prev===!1,...M("go-#"+a,{onClick(){i(-1)}})})]),g("div",{class:"relative-position overflow-hidden flex flex-center"+f},[g(oe,{name:"q-transition--jump-"+c},()=>g("div",{key:n},[g(A,{flat:!0,dense:!0,noCaps:!0,label:t,tabindex:u.value,...M("view#"+a,{onClick:()=>{T.value=a}})})]))]),g("div",{class:"row items-center q-date__arrow"},[g(A,{round:!0,dense:!0,size:"sm",flat:!0,icon:ce.value[1],tabindex:u.value,disable:S.next===!1,...M("go+#"+a,{onClick(){i(1)}})})])]}const Ct={Calendar:()=>[g("div",{key:"calendar-view",class:"q-date__view q-date__calendar"},[g("div",{class:"q-date__navigation row items-center no-wrap"},qe({label:_.value.months[h.value.month-1],type:"Months",key:h.value.month,dir:ue.value,goTo:Ze,boundaries:we.value.month,cls:" col"}).concat(qe({label:h.value.year,type:"Years",key:h.value.year,dir:Me.value,goTo:xe,boundaries:we.value.year,cls:""}))),g("div",{class:"q-date__calendar-weekdays row items-center no-wrap"},mt.value.map(t=>g("div",{class:"q-date__calendar-item"},[g("div",t)]))),g("div",{class:"q-date__calendar-days-container relative-position overflow-hidden"},[g(oe,{name:"q-transition--slide-"+ue.value},()=>g("div",{key:B.value,class:"q-date__calendar-days fit"},Pe.value.map(t=>g("div",{class:t.classes},[t.in===!0?g(A,{class:t.today===!0?"q-date__today":"",dense:!0,flat:t.flat,unelevated:t.unelevated,color:t.color,textColor:t.textColor,label:t.i,tabindex:u.value,...M("day#"+t.i,{onClick:()=>{qt(t.i)},onMouseover:()=>{kt(t.i)}})},t.event!==!1?()=>g("div",{class:"q-date__event bg-"+t.event}):null):g("div",""+t.i)]))))])])],Months(){const t=h.value.year===O.value.year,a=c=>p.value!==null&&h.value.year===p.value.year&&p.value.month>c||I.value!==null&&h.value.year===I.value.year&&I.value.month<c,n=_.value.monthsShort.map((c,i)=>{const S=h.value.month===i+1;return g("div",{class:"q-date__months-item flex flex-center"},[g(A,{class:t===!0&&O.value.month===i+1?"q-date__today":null,flat:S!==!0,label:c,unelevated:S,color:S===!0?X.value:null,textColor:S===!0?J.value:null,tabindex:u.value,disable:a(i+1),...M("month#"+i,{onClick:()=>{_t(i+1)}})})])});return e.yearsInMonthView===!0&&n.unshift(g("div",{class:"row no-wrap full-width"},[qe({label:h.value.year,type:"Years",key:h.value.year,dir:Me.value,goTo:xe,boundaries:we.value.year,cls:" col"})])),g("div",{key:"months-view",class:"q-date__view q-date__months flex flex-center"},n)},Years(){const t=se.value,a=t+W,n=[],c=i=>p.value!==null&&p.value.year>i||I.value!==null&&I.value.year<i;for(let i=t;i<=a;i++){const S=h.value.year===i;n.push(g("div",{class:"q-date__years-item flex flex-center"},[g(A,{key:"yr"+i,class:O.value.year===i?"q-date__today":null,flat:!S,label:i,dense:!0,unelevated:S,color:S===!0?X.value:null,textColor:S===!0?J.value:null,tabindex:u.value,disable:c(i),...M("yr#"+i,{onClick:()=>{St(i)}})})]))}return g("div",{class:"q-date__view q-date__years flex flex-center"},[g("div",{class:"col-auto"},[g(A,{round:!0,dense:!0,flat:!0,icon:ce.value[0],tabindex:u.value,disable:c(t),...M("y-",{onClick:()=>{se.value-=W}})})]),g("div",{class:"q-date__years-content col self-stretch row items-center"},n),g("div",{class:"col-auto"},[g(A,{round:!0,dense:!0,flat:!0,icon:ce.value[1],tabindex:u.value,disable:c(a),...M("y+",{onClick:()=>{se.value+=W}})})])])}};function qt(t){const a={...h.value,day:t};if(e.range===!1){xt(a,B.value);return}if(V.value===null){const n=Pe.value.find(i=>i.fill!==!0&&i.i===t);if(e.noUnset!==!0&&n.range!==void 0){Ce({target:a,from:n.range.from,to:n.range.to});return}if(n.selected===!0){Ce(a);return}const c=Z(a);V.value={init:a,initHash:c,final:a,finalHash:c},o("rangeStart",U(a))}else{const n=V.value.initHash,c=Z(a),i=n<=c?{from:V.value.init,to:a}:{from:a,to:V.value.init};V.value=null,He(n===c?a:{target:a,...i}),o("rangeEnd",{from:U(i.from),to:U(i.to)})}}function kt(t){if(V.value!==null){const a={...h.value,day:t};Object.assign(V.value,{final:a,finalHash:Z(a)})}}return Object.assign(s,{setToday:Ae,setView:Yt,offsetCalendar:bt,setCalendarTo:Se,setEditingRange:wt}),()=>{const t=[g("div",{class:"q-date__content col relative-position"},[g(oe,{name:"q-transition--fade"},Ct[T.value])])],a=Tt(l.default);return a!==void 0&&t.push(g("div",{class:"q-date__actions"},a)),e.name!==void 0&&e.disable!==!0&&q(t,"push"),g("div",{class:ct.value,...Dt.value},[Ht(),g("div",{ref:k,class:"q-date__main col column",tabindex:-1},t)])}}}),ya=nt({name:"QPopupProxy",props:{...Xt,breakpoint:{type:[String,Number],default:450}},emits:["show","hide"],setup(e,{slots:l,emit:o,attrs:s}){const{proxy:d}=lt(),{$q:r}=d,M=j(!1),u=j(null),m=b(()=>parseInt(e.breakpoint,10)),{canShow:D}=Ut({showing:M});function v(){return r.screen.width<m.value||r.screen.height<m.value?"dialog":"menu"}const y=j(v()),$=b(()=>y.value==="menu"?{maxHeight:"99vh"}:{});ae(()=>v(),w=>{M.value!==!0&&(y.value=w)});function q(w){M.value=!0,o("show",w)}function k(w){M.value=!1,y.value=v(),o("hide",w)}return Object.assign(d,{show(w){D(w)===!0&&u.value.show(w)},hide(w){u.value.hide(w)},toggle(w){u.value.toggle(w)}}),Bt(d,"currentComponent",()=>({type:y.value,ref:u.value})),()=>{const w={ref:u,...$.value,...s,onShow:q,onHide:k};let _;return y.value==="dialog"?_=Pt:(_=Wt,Object.assign(w,{target:e.target,contextMenu:e.contextMenu,noParentEvent:!0,separateClosePopup:!0})),g(_,w,l.default)}}});const Ma={class:"row items-center justify-end"},_a=At({__name:"DateField",props:{label:null,placeholder:null,invalid:{type:Boolean},modelValue:null,fdc:{type:Boolean},disabled:{type:Boolean},dark:{type:Boolean},previous:null,after:null,samePrevious:null,borderless:{type:Boolean},outlined:{type:Boolean},hint:null,year:null,filled:{type:Boolean}},emits:["update:modelValue"],setup(e,{emit:l}){const o=e,s=Gt(),d=j(),r=j(),M=D=>{r.value&&r.value.hide(),l("update:modelValue",D)},u=D=>{l("update:modelValue",D)},m=()=>{if(d.value=!1,o.modelValue){let D=o.modelValue;if(D=D.replace("/",""),D=D.replace("/",""),D=D.replace(/\D/g,""),D=D.replace(" ",""),D.length<6)l("update:modelValue",null),d.value="Please enter a valid date";else{const v=D,y=D,$=D;let q=y.slice(0,2);q+="/";let k=v.slice(2,4);k+="/";let w=$.slice(4,8);w.length!==4&&(w=w.slice(0,2),o.year?w=o.year+w:w=`20${w}`);const _=q+k+w;if(_&&!_.match("undefined")){const E=ke(_,"DD/MM/YYYY"),z=new Date;if(z.setHours(0,0,0,0),E.isValid()){let O=!0,h=null;o.fdc&&!E.isAfter(z)&&!E.isSame(z)&&(O=!1,s.dialog({title:"Invalid date",message:`Please enter a date on or after ${o.after}`})),o.after&&(E.isSameOrAfter(ke(o.after,"DD/MM/YYYY"))||(O=!1,h=`Please enter a date on or after ${o.after}`)),o.previous&&E.isAfter(z)&&(O=!1,h="Please enter a previous date"),o.samePrevious&&(E.endOf("day").isSameOrBefore(ke(z).endOf("day"))||(O=!1,h="Please enter a previous date")),d.value=h,O?l("update:modelValue",_):l("update:modelValue",null)}else l("update:modelValue",null),d.value="Please enter a valid date"}}}};return(D,v)=>(Nt(),Et(zt,{filled:e.filled,outlined:e.outlined,"model-value":e.modelValue,mask:"##/##/####",error:e.invalid,label:e.label,"error-message":"DD/MM/YYYY",hint:"DD/MM/YYYY","onUpdate:modelValue":u,onBlur:v[0]||(v[0]=y=>m())},{append:me(()=>[he(Qt,{name:"event",class:"cursor-pointer"},{default:me(()=>[he(Zt(ya),{cover:"","transition-show":"scale","transition-hide":"scale",ref_key:"qDateProxy",ref:r},{default:me(()=>[he(ga,{"model-value":e.modelValue,"onUpdate:modelValue":M,mask:"DD/MM/YYYY",color:"secondary"},{default:me(()=>[Lt("div",Ma,[Rt(he(A,{label:"Close",color:"primary",flat:""},null,512),[[Jt]])])]),_:1},8,["model-value"])]),_:1},512)]),_:1})]),_:1},8,["filled","outlined","model-value","error","label"]))}});export{ya as Q,_a as _,oa as a,ua as b,sa as c,fa as d,ga as e,ma as f,Z as g,Kt as u};
+import { g as computed, bh as Plugin, bi as defaultLang, V as createComponent, at as useFormProps, ab as useDarkProps, ac as useDark, bj as useFormAttrs, r as ref, be as isObject, w as watch, D as nextTick, h, H as Transition, X as hSlot, j as getCurrentInstance, bk as useFormInject, S as QBtn, bc as injectProp, aD as QDialog, A as defineComponent, m as openBlock, K as createBlock, L as withCtx, l as createVNode, O as QIcon, U as unref, q as createBaseVNode, G as withDirectives, N as QInput } from "./index.e647c85a.js";
+import { p as pad, u as useAnchorProps, a as useAnchor, Q as QMenu } from "./format.8e90d58d.js";
+import { C as ClosePopup } from "./ClosePopup.ef2f7039.js";
+import { m as moment } from "./axios.ccd3a804.js";
+import { u as useQuasar } from "./use-quasar.ae4f72e4.js";
+function useCache() {
+  const cache = /* @__PURE__ */ new Map();
+  return {
+    getCache: function(key, obj) {
+      return cache[key] === void 0 ? cache[key] = obj : cache[key];
+    },
+    getCacheWithFn: function(key, fn) {
+      return cache[key] === void 0 ? cache[key] = fn() : cache[key];
+    }
+  };
+}
+const breaks = [
+  -61,
+  9,
+  38,
+  199,
+  426,
+  686,
+  756,
+  818,
+  1111,
+  1181,
+  1210,
+  1635,
+  2060,
+  2097,
+  2192,
+  2262,
+  2324,
+  2394,
+  2456,
+  3178
+];
+function toJalaali(gy, gm, gd) {
+  if (Object.prototype.toString.call(gy) === "[object Date]") {
+    gd = gy.getDate();
+    gm = gy.getMonth() + 1;
+    gy = gy.getFullYear();
+  }
+  return d2j(g2d(gy, gm, gd));
+}
+function toGregorian(jy, jm, jd) {
+  return d2g(j2d(jy, jm, jd));
+}
+function isLeapJalaaliYear(jy) {
+  return jalCalLeap(jy) === 0;
+}
+function jalaaliMonthLength(jy, jm) {
+  if (jm <= 6)
+    return 31;
+  if (jm <= 11)
+    return 30;
+  if (isLeapJalaaliYear(jy))
+    return 30;
+  return 29;
+}
+function jalCalLeap(jy) {
+  const bl = breaks.length;
+  let jp = breaks[0], jm, jump, leap, n, i;
+  if (jy < jp || jy >= breaks[bl - 1]) {
+    throw new Error("Invalid Jalaali year " + jy);
+  }
+  for (i = 1; i < bl; i += 1) {
+    jm = breaks[i];
+    jump = jm - jp;
+    if (jy < jm) {
+      break;
+    }
+    jp = jm;
+  }
+  n = jy - jp;
+  if (jump - n < 6) {
+    n = n - jump + div(jump + 4, 33) * 33;
+  }
+  leap = mod(mod(n + 1, 33) - 1, 4);
+  if (leap === -1) {
+    leap = 4;
+  }
+  return leap;
+}
+function jalCal(jy, withoutLeap) {
+  const bl = breaks.length, gy = jy + 621;
+  let leapJ = -14, jp = breaks[0], jm, jump, leap, n, i;
+  if (jy < jp || jy >= breaks[bl - 1]) {
+    throw new Error("Invalid Jalaali year " + jy);
+  }
+  for (i = 1; i < bl; i += 1) {
+    jm = breaks[i];
+    jump = jm - jp;
+    if (jy < jm) {
+      break;
+    }
+    leapJ = leapJ + div(jump, 33) * 8 + div(mod(jump, 33), 4);
+    jp = jm;
+  }
+  n = jy - jp;
+  leapJ = leapJ + div(n, 33) * 8 + div(mod(n, 33) + 3, 4);
+  if (mod(jump, 33) === 4 && jump - n === 4) {
+    leapJ += 1;
+  }
+  const leapG = div(gy, 4) - div((div(gy, 100) + 1) * 3, 4) - 150;
+  const march = 20 + leapJ - leapG;
+  if (!withoutLeap) {
+    if (jump - n < 6) {
+      n = n - jump + div(jump + 4, 33) * 33;
+    }
+    leap = mod(mod(n + 1, 33) - 1, 4);
+    if (leap === -1) {
+      leap = 4;
+    }
+  }
+  return {
+    leap,
+    gy,
+    march
+  };
+}
+function j2d(jy, jm, jd) {
+  const r = jalCal(jy, true);
+  return g2d(r.gy, 3, r.march) + (jm - 1) * 31 - div(jm, 7) * (jm - 7) + jd - 1;
+}
+function d2j(jdn) {
+  const gy = d2g(jdn).gy;
+  let jy = gy - 621, jd, jm, k;
+  const r = jalCal(jy, false), jdn1f = g2d(gy, 3, r.march);
+  k = jdn - jdn1f;
+  if (k >= 0) {
+    if (k <= 185) {
+      jm = 1 + div(k, 31);
+      jd = mod(k, 31) + 1;
+      return {
+        jy,
+        jm,
+        jd
+      };
+    } else {
+      k -= 186;
+    }
+  } else {
+    jy -= 1;
+    k += 179;
+    if (r.leap === 1) {
+      k += 1;
+    }
+  }
+  jm = 7 + div(k, 30);
+  jd = mod(k, 30) + 1;
+  return {
+    jy,
+    jm,
+    jd
+  };
+}
+function g2d(gy, gm, gd) {
+  let d = div((gy + div(gm - 8, 6) + 100100) * 1461, 4) + div(153 * mod(gm + 9, 12) + 2, 5) + gd - 34840408;
+  d = d - div(div(gy + 100100 + div(gm - 8, 6), 100) * 3, 4) + 752;
+  return d;
+}
+function d2g(jdn) {
+  let j = 4 * jdn + 139361631;
+  j = j + div(div(4 * jdn + 183187720, 146097) * 3, 4) * 4 - 3908;
+  const i = div(mod(j, 1461), 4) * 5 + 308, gd = div(mod(i, 153), 5) + 1, gm = mod(div(i, 153), 12) + 1, gy = div(j, 1461) - 100100 + div(8 - gm, 6);
+  return {
+    gy,
+    gm,
+    gd
+  };
+}
+function div(a, b) {
+  return ~~(a / b);
+}
+function mod(a, b) {
+  return a - ~~(a / b) * b;
+}
+const calendars = ["gregorian", "persian"];
+const useDatetimeProps = {
+  modelValue: {
+    required: true
+  },
+  mask: {
+    type: String
+  },
+  locale: Object,
+  calendar: {
+    type: String,
+    validator: (v) => calendars.includes(v),
+    default: "gregorian"
+  },
+  landscape: Boolean,
+  color: String,
+  textColor: String,
+  square: Boolean,
+  flat: Boolean,
+  bordered: Boolean,
+  readonly: Boolean,
+  disable: Boolean
+};
+const useDatetimeEmits = ["update:modelValue"];
+function getDayHash(date) {
+  return date.year + "/" + pad(date.month) + "/" + pad(date.day);
+}
+function useDatetime(props, $q) {
+  const editable = computed(() => {
+    return props.disable !== true && props.readonly !== true;
+  });
+  const tabindex = computed(() => {
+    return editable.value === true ? 0 : -1;
+  });
+  const headerClass = computed(() => {
+    const cls = [];
+    props.color !== void 0 && cls.push(`bg-${props.color}`);
+    props.textColor !== void 0 && cls.push(`text-${props.textColor}`);
+    return cls.join(" ");
+  });
+  function getLocale() {
+    return props.locale !== void 0 ? { ...$q.lang.date, ...props.locale } : $q.lang.date;
+  }
+  function getCurrentDate(dateOnly) {
+    const d = new Date();
+    const timeFill = dateOnly === true ? null : 0;
+    if (props.calendar === "persian") {
+      const jDate = toJalaali(d);
+      return {
+        year: jDate.jy,
+        month: jDate.jm,
+        day: jDate.jd
+      };
+    }
+    return {
+      year: d.getFullYear(),
+      month: d.getMonth() + 1,
+      day: d.getDate(),
+      hour: timeFill,
+      minute: timeFill,
+      second: timeFill,
+      millisecond: timeFill
+    };
+  }
+  return {
+    editable,
+    tabindex,
+    headerClass,
+    getLocale,
+    getCurrentDate
+  };
+}
+const MILLISECONDS_IN_DAY = 864e5, MILLISECONDS_IN_HOUR = 36e5, MILLISECONDS_IN_MINUTE = 6e4, defaultMask = "YYYY-MM-DDTHH:mm:ss.SSSZ", token = /\[((?:[^\]\\]|\\]|\\)*)\]|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g, reverseToken = /(\[[^\]]*\])|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]|([.*+:?^,\s${}()|\\]+)/g, regexStore = {};
+function getRegexData(mask, dateLocale) {
+  const days = "(" + dateLocale.days.join("|") + ")", key = mask + days;
+  if (regexStore[key] !== void 0) {
+    return regexStore[key];
+  }
+  const daysShort = "(" + dateLocale.daysShort.join("|") + ")", months = "(" + dateLocale.months.join("|") + ")", monthsShort = "(" + dateLocale.monthsShort.join("|") + ")";
+  const map = {};
+  let index = 0;
+  const regexText = mask.replace(reverseToken, (match) => {
+    index++;
+    switch (match) {
+      case "YY":
+        map.YY = index;
+        return "(-?\\d{1,2})";
+      case "YYYY":
+        map.YYYY = index;
+        return "(-?\\d{1,4})";
+      case "M":
+        map.M = index;
+        return "(\\d{1,2})";
+      case "MM":
+        map.M = index;
+        return "(\\d{2})";
+      case "MMM":
+        map.MMM = index;
+        return monthsShort;
+      case "MMMM":
+        map.MMMM = index;
+        return months;
+      case "D":
+        map.D = index;
+        return "(\\d{1,2})";
+      case "Do":
+        map.D = index++;
+        return "(\\d{1,2}(st|nd|rd|th))";
+      case "DD":
+        map.D = index;
+        return "(\\d{2})";
+      case "H":
+        map.H = index;
+        return "(\\d{1,2})";
+      case "HH":
+        map.H = index;
+        return "(\\d{2})";
+      case "h":
+        map.h = index;
+        return "(\\d{1,2})";
+      case "hh":
+        map.h = index;
+        return "(\\d{2})";
+      case "m":
+        map.m = index;
+        return "(\\d{1,2})";
+      case "mm":
+        map.m = index;
+        return "(\\d{2})";
+      case "s":
+        map.s = index;
+        return "(\\d{1,2})";
+      case "ss":
+        map.s = index;
+        return "(\\d{2})";
+      case "S":
+        map.S = index;
+        return "(\\d{1})";
+      case "SS":
+        map.S = index;
+        return "(\\d{2})";
+      case "SSS":
+        map.S = index;
+        return "(\\d{3})";
+      case "A":
+        map.A = index;
+        return "(AM|PM)";
+      case "a":
+        map.a = index;
+        return "(am|pm)";
+      case "aa":
+        map.aa = index;
+        return "(a\\.m\\.|p\\.m\\.)";
+      case "ddd":
+        return daysShort;
+      case "dddd":
+        return days;
+      case "Q":
+      case "d":
+      case "E":
+        return "(\\d{1})";
+      case "Qo":
+        return "(1st|2nd|3rd|4th)";
+      case "DDD":
+      case "DDDD":
+        return "(\\d{1,3})";
+      case "w":
+        return "(\\d{1,2})";
+      case "ww":
+        return "(\\d{2})";
+      case "Z":
+        map.Z = index;
+        return "(Z|[+-]\\d{2}:\\d{2})";
+      case "ZZ":
+        map.ZZ = index;
+        return "(Z|[+-]\\d{2}\\d{2})";
+      case "X":
+        map.X = index;
+        return "(-?\\d+)";
+      case "x":
+        map.x = index;
+        return "(-?\\d{4,})";
+      default:
+        index--;
+        if (match[0] === "[") {
+          match = match.substring(1, match.length - 1);
+        }
+        return match.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+  });
+  const res = { map, regex: new RegExp("^" + regexText) };
+  regexStore[key] = res;
+  return res;
+}
+function getDateLocale(paramDateLocale, langProps) {
+  return paramDateLocale !== void 0 ? paramDateLocale : langProps !== void 0 ? langProps.date : defaultLang.date;
+}
+function formatTimezone(offset, delimeter = "") {
+  const sign = offset > 0 ? "-" : "+", absOffset = Math.abs(offset), hours = Math.floor(absOffset / 60), minutes = absOffset % 60;
+  return sign + pad(hours) + delimeter + pad(minutes);
+}
+function __splitDate(str, mask, dateLocale, calendar, defaultModel) {
+  const date = {
+    year: null,
+    month: null,
+    day: null,
+    hour: null,
+    minute: null,
+    second: null,
+    millisecond: null,
+    timezoneOffset: null,
+    dateHash: null,
+    timeHash: null
+  };
+  defaultModel !== void 0 && Object.assign(date, defaultModel);
+  if (str === void 0 || str === null || str === "" || typeof str !== "string") {
+    return date;
+  }
+  if (mask === void 0) {
+    mask = defaultMask;
+  }
+  const langOpts = getDateLocale(dateLocale, Plugin.props), months = langOpts.months, monthsShort = langOpts.monthsShort;
+  const { regex, map } = getRegexData(mask, langOpts);
+  const match = str.match(regex);
+  if (match === null) {
+    return date;
+  }
+  let tzString = "";
+  if (map.X !== void 0 || map.x !== void 0) {
+    const stamp = parseInt(match[map.X !== void 0 ? map.X : map.x], 10);
+    if (isNaN(stamp) === true || stamp < 0) {
+      return date;
+    }
+    const d = new Date(stamp * (map.X !== void 0 ? 1e3 : 1));
+    date.year = d.getFullYear();
+    date.month = d.getMonth() + 1;
+    date.day = d.getDate();
+    date.hour = d.getHours();
+    date.minute = d.getMinutes();
+    date.second = d.getSeconds();
+    date.millisecond = d.getMilliseconds();
+  } else {
+    if (map.YYYY !== void 0) {
+      date.year = parseInt(match[map.YYYY], 10);
+    } else if (map.YY !== void 0) {
+      const y = parseInt(match[map.YY], 10);
+      date.year = y < 0 ? y : 2e3 + y;
+    }
+    if (map.M !== void 0) {
+      date.month = parseInt(match[map.M], 10);
+      if (date.month < 1 || date.month > 12) {
+        return date;
+      }
+    } else if (map.MMM !== void 0) {
+      date.month = monthsShort.indexOf(match[map.MMM]) + 1;
+    } else if (map.MMMM !== void 0) {
+      date.month = months.indexOf(match[map.MMMM]) + 1;
+    }
+    if (map.D !== void 0) {
+      date.day = parseInt(match[map.D], 10);
+      if (date.year === null || date.month === null || date.day < 1) {
+        return date;
+      }
+      const maxDay = calendar !== "persian" ? new Date(date.year, date.month, 0).getDate() : jalaaliMonthLength(date.year, date.month);
+      if (date.day > maxDay) {
+        return date;
+      }
+    }
+    if (map.H !== void 0) {
+      date.hour = parseInt(match[map.H], 10) % 24;
+    } else if (map.h !== void 0) {
+      date.hour = parseInt(match[map.h], 10) % 12;
+      if (map.A && match[map.A] === "PM" || map.a && match[map.a] === "pm" || map.aa && match[map.aa] === "p.m.") {
+        date.hour += 12;
+      }
+      date.hour = date.hour % 24;
+    }
+    if (map.m !== void 0) {
+      date.minute = parseInt(match[map.m], 10) % 60;
+    }
+    if (map.s !== void 0) {
+      date.second = parseInt(match[map.s], 10) % 60;
+    }
+    if (map.S !== void 0) {
+      date.millisecond = parseInt(match[map.S], 10) * 10 ** (3 - match[map.S].length);
+    }
+    if (map.Z !== void 0 || map.ZZ !== void 0) {
+      tzString = map.Z !== void 0 ? match[map.Z].replace(":", "") : match[map.ZZ];
+      date.timezoneOffset = (tzString[0] === "+" ? -1 : 1) * (60 * tzString.slice(1, 3) + 1 * tzString.slice(3, 5));
+    }
+  }
+  date.dateHash = pad(date.year, 6) + "/" + pad(date.month) + "/" + pad(date.day);
+  date.timeHash = pad(date.hour) + ":" + pad(date.minute) + ":" + pad(date.second) + tzString;
+  return date;
+}
+function getWeekOfYear(date) {
+  const thursday = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  thursday.setDate(thursday.getDate() - (thursday.getDay() + 6) % 7 + 3);
+  const firstThursday = new Date(thursday.getFullYear(), 0, 4);
+  firstThursday.setDate(firstThursday.getDate() - (firstThursday.getDay() + 6) % 7 + 3);
+  const ds = thursday.getTimezoneOffset() - firstThursday.getTimezoneOffset();
+  thursday.setHours(thursday.getHours() - ds);
+  const weekDiff = (thursday - firstThursday) / (MILLISECONDS_IN_DAY * 7);
+  return 1 + Math.floor(weekDiff);
+}
+function startOfDate(date, unit, utc) {
+  const t = new Date(date), prefix = `set${utc === true ? "UTC" : ""}`;
+  switch (unit) {
+    case "year":
+    case "years":
+      t[`${prefix}Month`](0);
+    case "month":
+    case "months":
+      t[`${prefix}Date`](1);
+    case "day":
+    case "days":
+    case "date":
+      t[`${prefix}Hours`](0);
+    case "hour":
+    case "hours":
+      t[`${prefix}Minutes`](0);
+    case "minute":
+    case "minutes":
+      t[`${prefix}Seconds`](0);
+    case "second":
+    case "seconds":
+      t[`${prefix}Milliseconds`](0);
+  }
+  return t;
+}
+function getDiff(t, sub, interval) {
+  return (t.getTime() - t.getTimezoneOffset() * MILLISECONDS_IN_MINUTE - (sub.getTime() - sub.getTimezoneOffset() * MILLISECONDS_IN_MINUTE)) / interval;
+}
+function getDateDiff(date, subtract, unit = "days") {
+  const t = new Date(date), sub = new Date(subtract);
+  switch (unit) {
+    case "years":
+    case "year":
+      return t.getFullYear() - sub.getFullYear();
+    case "months":
+    case "month":
+      return (t.getFullYear() - sub.getFullYear()) * 12 + t.getMonth() - sub.getMonth();
+    case "days":
+    case "day":
+    case "date":
+      return getDiff(startOfDate(t, "day"), startOfDate(sub, "day"), MILLISECONDS_IN_DAY);
+    case "hours":
+    case "hour":
+      return getDiff(startOfDate(t, "hour"), startOfDate(sub, "hour"), MILLISECONDS_IN_HOUR);
+    case "minutes":
+    case "minute":
+      return getDiff(startOfDate(t, "minute"), startOfDate(sub, "minute"), MILLISECONDS_IN_MINUTE);
+    case "seconds":
+    case "second":
+      return getDiff(startOfDate(t, "second"), startOfDate(sub, "second"), 1e3);
+  }
+}
+function getDayOfYear(date) {
+  return getDateDiff(date, startOfDate(date, "year"), "days") + 1;
+}
+function getOrdinal(n) {
+  if (n >= 11 && n <= 13) {
+    return `${n}th`;
+  }
+  switch (n % 10) {
+    case 1:
+      return `${n}st`;
+    case 2:
+      return `${n}nd`;
+    case 3:
+      return `${n}rd`;
+  }
+  return `${n}th`;
+}
+const formatter = {
+  YY(date, dateLocale, forcedYear) {
+    const y = this.YYYY(date, dateLocale, forcedYear) % 100;
+    return y >= 0 ? pad(y) : "-" + pad(Math.abs(y));
+  },
+  YYYY(date, _dateLocale, forcedYear) {
+    return forcedYear !== void 0 && forcedYear !== null ? forcedYear : date.getFullYear();
+  },
+  M(date) {
+    return date.getMonth() + 1;
+  },
+  MM(date) {
+    return pad(date.getMonth() + 1);
+  },
+  MMM(date, dateLocale) {
+    return dateLocale.monthsShort[date.getMonth()];
+  },
+  MMMM(date, dateLocale) {
+    return dateLocale.months[date.getMonth()];
+  },
+  Q(date) {
+    return Math.ceil((date.getMonth() + 1) / 3);
+  },
+  Qo(date) {
+    return getOrdinal(this.Q(date));
+  },
+  D(date) {
+    return date.getDate();
+  },
+  Do(date) {
+    return getOrdinal(date.getDate());
+  },
+  DD(date) {
+    return pad(date.getDate());
+  },
+  DDD(date) {
+    return getDayOfYear(date);
+  },
+  DDDD(date) {
+    return pad(getDayOfYear(date), 3);
+  },
+  d(date) {
+    return date.getDay();
+  },
+  dd(date, dateLocale) {
+    return this.dddd(date, dateLocale).slice(0, 2);
+  },
+  ddd(date, dateLocale) {
+    return dateLocale.daysShort[date.getDay()];
+  },
+  dddd(date, dateLocale) {
+    return dateLocale.days[date.getDay()];
+  },
+  E(date) {
+    return date.getDay() || 7;
+  },
+  w(date) {
+    return getWeekOfYear(date);
+  },
+  ww(date) {
+    return pad(getWeekOfYear(date));
+  },
+  H(date) {
+    return date.getHours();
+  },
+  HH(date) {
+    return pad(date.getHours());
+  },
+  h(date) {
+    const hours = date.getHours();
+    return hours === 0 ? 12 : hours > 12 ? hours % 12 : hours;
+  },
+  hh(date) {
+    return pad(this.h(date));
+  },
+  m(date) {
+    return date.getMinutes();
+  },
+  mm(date) {
+    return pad(date.getMinutes());
+  },
+  s(date) {
+    return date.getSeconds();
+  },
+  ss(date) {
+    return pad(date.getSeconds());
+  },
+  S(date) {
+    return Math.floor(date.getMilliseconds() / 100);
+  },
+  SS(date) {
+    return pad(Math.floor(date.getMilliseconds() / 10));
+  },
+  SSS(date) {
+    return pad(date.getMilliseconds(), 3);
+  },
+  A(date) {
+    return this.H(date) < 12 ? "AM" : "PM";
+  },
+  a(date) {
+    return this.H(date) < 12 ? "am" : "pm";
+  },
+  aa(date) {
+    return this.H(date) < 12 ? "a.m." : "p.m.";
+  },
+  Z(date, _dateLocale, _forcedYear, forcedTimezoneOffset) {
+    const tzOffset = forcedTimezoneOffset === void 0 || forcedTimezoneOffset === null ? date.getTimezoneOffset() : forcedTimezoneOffset;
+    return formatTimezone(tzOffset, ":");
+  },
+  ZZ(date, _dateLocale, _forcedYear, forcedTimezoneOffset) {
+    const tzOffset = forcedTimezoneOffset === void 0 || forcedTimezoneOffset === null ? date.getTimezoneOffset() : forcedTimezoneOffset;
+    return formatTimezone(tzOffset);
+  },
+  X(date) {
+    return Math.floor(date.getTime() / 1e3);
+  },
+  x(date) {
+    return date.getTime();
+  }
+};
+function formatDate(val, mask, dateLocale, __forcedYear, __forcedTimezoneOffset) {
+  if (val !== 0 && !val || val === Infinity || val === -Infinity) {
+    return;
+  }
+  const date = new Date(val);
+  if (isNaN(date)) {
+    return;
+  }
+  if (mask === void 0) {
+    mask = defaultMask;
+  }
+  const locale = getDateLocale(dateLocale, Plugin.props);
+  return mask.replace(
+    token,
+    (match, text) => match in formatter ? formatter[match](date, locale, __forcedYear, __forcedTimezoneOffset) : text === void 0 ? match : text.split("\\]").join("]")
+  );
+}
+const yearsInterval = 20;
+const views = ["Calendar", "Years", "Months"];
+const viewIsValid = (v) => views.includes(v);
+const yearMonthValidator = (v) => /^-?[\d]+\/[0-1]\d$/.test(v);
+const lineStr = " \u2014 ";
+function getMonthHash(date) {
+  return date.year + "/" + pad(date.month);
+}
+var QDate = createComponent({
+  name: "QDate",
+  props: {
+    ...useDatetimeProps,
+    ...useFormProps,
+    ...useDarkProps,
+    multiple: Boolean,
+    range: Boolean,
+    title: String,
+    subtitle: String,
+    mask: {
+      default: "YYYY/MM/DD"
+    },
+    defaultYearMonth: {
+      type: String,
+      validator: yearMonthValidator
+    },
+    yearsInMonthView: Boolean,
+    events: [Array, Function],
+    eventColor: [String, Function],
+    emitImmediately: Boolean,
+    options: [Array, Function],
+    navigationMinYearMonth: {
+      type: String,
+      validator: yearMonthValidator
+    },
+    navigationMaxYearMonth: {
+      type: String,
+      validator: yearMonthValidator
+    },
+    noUnset: Boolean,
+    firstDayOfWeek: [String, Number],
+    todayBtn: Boolean,
+    minimal: Boolean,
+    defaultView: {
+      type: String,
+      default: "Calendar",
+      validator: viewIsValid
+    }
+  },
+  emits: [
+    ...useDatetimeEmits,
+    "rangeStart",
+    "rangeEnd",
+    "navigation"
+  ],
+  setup(props, { slots, emit }) {
+    const { proxy } = getCurrentInstance();
+    const { $q } = proxy;
+    const isDark = useDark(props, $q);
+    const { getCache } = useCache();
+    const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q);
+    let lastEmitValue;
+    const formAttrs = useFormAttrs(props);
+    const injectFormInput = useFormInject(formAttrs);
+    const blurTargetRef = ref(null);
+    const innerMask = ref(getMask());
+    const innerLocale = ref(getLocale());
+    const mask = computed(() => getMask());
+    const locale = computed(() => getLocale());
+    const today = computed(() => getCurrentDate());
+    const viewModel = ref(getViewModel(innerMask.value, innerLocale.value));
+    const view = ref(props.defaultView);
+    const direction = $q.lang.rtl === true ? "right" : "left";
+    const monthDirection = ref(direction.value);
+    const yearDirection = ref(direction.value);
+    const year = viewModel.value.year;
+    const startYear = ref(year - year % yearsInterval - (year < 0 ? yearsInterval : 0));
+    const editRange = ref(null);
+    const classes = computed(() => {
+      const type = props.landscape === true ? "landscape" : "portrait";
+      return `q-date q-date--${type} q-date--${type}-${props.minimal === true ? "minimal" : "standard"}` + (isDark.value === true ? " q-date--dark q-dark" : "") + (props.bordered === true ? " q-date--bordered" : "") + (props.square === true ? " q-date--square no-border-radius" : "") + (props.flat === true ? " q-date--flat no-shadow" : "") + (props.disable === true ? " disabled" : props.readonly === true ? " q-date--readonly" : "");
+    });
+    const computedColor = computed(() => {
+      return props.color || "primary";
+    });
+    const computedTextColor = computed(() => {
+      return props.textColor || "white";
+    });
+    const isImmediate = computed(
+      () => props.emitImmediately === true && props.multiple !== true && props.range !== true
+    );
+    const normalizedModel = computed(() => Array.isArray(props.modelValue) === true ? props.modelValue : props.modelValue !== null && props.modelValue !== void 0 ? [props.modelValue] : []);
+    const daysModel = computed(
+      () => normalizedModel.value.filter((date) => typeof date === "string").map((date) => decodeString(date, innerMask.value, innerLocale.value)).filter(
+        (date) => date.dateHash !== null && date.day !== null && date.month !== null && date.year !== null
+      )
+    );
+    const rangeModel = computed(() => {
+      const fn = (date) => decodeString(date, innerMask.value, innerLocale.value);
+      return normalizedModel.value.filter((date) => isObject(date) === true && date.from !== void 0 && date.to !== void 0).map((range) => ({ from: fn(range.from), to: fn(range.to) })).filter((range) => range.from.dateHash !== null && range.to.dateHash !== null && range.from.dateHash < range.to.dateHash);
+    });
+    const getNativeDateFn = computed(() => props.calendar !== "persian" ? (model) => new Date(model.year, model.month - 1, model.day) : (model) => {
+      const gDate = toGregorian(model.year, model.month, model.day);
+      return new Date(gDate.gy, gDate.gm - 1, gDate.gd);
+    });
+    const encodeObjectFn = computed(() => props.calendar === "persian" ? getDayHash : (date, mask2, locale2) => formatDate(
+      new Date(
+        date.year,
+        date.month - 1,
+        date.day,
+        date.hour,
+        date.minute,
+        date.second,
+        date.millisecond
+      ),
+      mask2 === void 0 ? innerMask.value : mask2,
+      locale2 === void 0 ? innerLocale.value : locale2,
+      date.year,
+      date.timezoneOffset
+    ));
+    const daysInModel = computed(
+      () => daysModel.value.length + rangeModel.value.reduce(
+        (acc, range) => acc + 1 + getDateDiff(
+          getNativeDateFn.value(range.to),
+          getNativeDateFn.value(range.from)
+        ),
+        0
+      )
+    );
+    const headerTitle = computed(() => {
+      if (props.title !== void 0 && props.title !== null && props.title.length > 0) {
+        return props.title;
+      }
+      if (editRange.value !== null) {
+        const model2 = editRange.value.init;
+        const date2 = getNativeDateFn.value(model2);
+        return innerLocale.value.daysShort[date2.getDay()] + ", " + innerLocale.value.monthsShort[model2.month - 1] + " " + model2.day + lineStr + "?";
+      }
+      if (daysInModel.value === 0) {
+        return lineStr;
+      }
+      if (daysInModel.value > 1) {
+        return `${daysInModel.value} ${innerLocale.value.pluralDay}`;
+      }
+      const model = daysModel.value[0];
+      const date = getNativeDateFn.value(model);
+      if (isNaN(date.valueOf()) === true) {
+        return lineStr;
+      }
+      if (innerLocale.value.headerTitle !== void 0) {
+        return innerLocale.value.headerTitle(date, model);
+      }
+      return innerLocale.value.daysShort[date.getDay()] + ", " + innerLocale.value.monthsShort[model.month - 1] + " " + model.day;
+    });
+    const minSelectedModel = computed(() => {
+      const model = daysModel.value.concat(rangeModel.value.map((range) => range.from)).sort((a, b) => a.year - b.year || a.month - b.month);
+      return model[0];
+    });
+    const maxSelectedModel = computed(() => {
+      const model = daysModel.value.concat(rangeModel.value.map((range) => range.to)).sort((a, b) => b.year - a.year || b.month - a.month);
+      return model[0];
+    });
+    const headerSubtitle = computed(() => {
+      if (props.subtitle !== void 0 && props.subtitle !== null && props.subtitle.length > 0) {
+        return props.subtitle;
+      }
+      if (daysInModel.value === 0) {
+        return lineStr;
+      }
+      if (daysInModel.value > 1) {
+        const from = minSelectedModel.value;
+        const to = maxSelectedModel.value;
+        const month = innerLocale.value.monthsShort;
+        return month[from.month - 1] + (from.year !== to.year ? " " + from.year + lineStr + month[to.month - 1] + " " : from.month !== to.month ? lineStr + month[to.month - 1] : "") + " " + to.year;
+      }
+      return daysModel.value[0].year;
+    });
+    const dateArrow = computed(() => {
+      const val = [$q.iconSet.datetime.arrowLeft, $q.iconSet.datetime.arrowRight];
+      return $q.lang.rtl === true ? val.reverse() : val;
+    });
+    const computedFirstDayOfWeek = computed(() => props.firstDayOfWeek !== void 0 ? Number(props.firstDayOfWeek) : innerLocale.value.firstDayOfWeek);
+    const daysOfWeek = computed(() => {
+      const days2 = innerLocale.value.daysShort, first = computedFirstDayOfWeek.value;
+      return first > 0 ? days2.slice(first, 7).concat(days2.slice(0, first)) : days2;
+    });
+    const daysInMonth = computed(() => {
+      const date = viewModel.value;
+      return props.calendar !== "persian" ? new Date(date.year, date.month, 0).getDate() : jalaaliMonthLength(date.year, date.month);
+    });
+    const evtColor = computed(() => typeof props.eventColor === "function" ? props.eventColor : () => props.eventColor);
+    const minNav = computed(() => {
+      if (props.navigationMinYearMonth === void 0) {
+        return null;
+      }
+      const data = props.navigationMinYearMonth.split("/");
+      return { year: parseInt(data[0], 10), month: parseInt(data[1], 10) };
+    });
+    const maxNav = computed(() => {
+      if (props.navigationMaxYearMonth === void 0) {
+        return null;
+      }
+      const data = props.navigationMaxYearMonth.split("/");
+      return { year: parseInt(data[0], 10), month: parseInt(data[1], 10) };
+    });
+    const navBoundaries = computed(() => {
+      const data = {
+        month: { prev: true, next: true },
+        year: { prev: true, next: true }
+      };
+      if (minNav.value !== null && minNav.value.year >= viewModel.value.year) {
+        data.year.prev = false;
+        if (minNav.value.year === viewModel.value.year && minNav.value.month >= viewModel.value.month) {
+          data.month.prev = false;
+        }
+      }
+      if (maxNav.value !== null && maxNav.value.year <= viewModel.value.year) {
+        data.year.next = false;
+        if (maxNav.value.year === viewModel.value.year && maxNav.value.month <= viewModel.value.month) {
+          data.month.next = false;
+        }
+      }
+      return data;
+    });
+    const daysMap = computed(() => {
+      const map = {};
+      daysModel.value.forEach((entry) => {
+        const hash = getMonthHash(entry);
+        if (map[hash] === void 0) {
+          map[hash] = [];
+        }
+        map[hash].push(entry.day);
+      });
+      return map;
+    });
+    const rangeMap = computed(() => {
+      const map = {};
+      rangeModel.value.forEach((entry) => {
+        const hashFrom = getMonthHash(entry.from);
+        const hashTo = getMonthHash(entry.to);
+        if (map[hashFrom] === void 0) {
+          map[hashFrom] = [];
+        }
+        map[hashFrom].push({
+          from: entry.from.day,
+          to: hashFrom === hashTo ? entry.to.day : void 0,
+          range: entry
+        });
+        if (hashFrom < hashTo) {
+          let hash;
+          const { year: year2, month } = entry.from;
+          const cur = month < 12 ? { year: year2, month: month + 1 } : { year: year2 + 1, month: 1 };
+          while ((hash = getMonthHash(cur)) <= hashTo) {
+            if (map[hash] === void 0) {
+              map[hash] = [];
+            }
+            map[hash].push({
+              from: void 0,
+              to: hash === hashTo ? entry.to.day : void 0,
+              range: entry
+            });
+            cur.month++;
+            if (cur.month > 12) {
+              cur.year++;
+              cur.month = 1;
+            }
+          }
+        }
+      });
+      return map;
+    });
+    const rangeView = computed(() => {
+      if (editRange.value === null) {
+        return;
+      }
+      const { init, initHash, final, finalHash } = editRange.value;
+      const [from, to] = initHash <= finalHash ? [init, final] : [final, init];
+      const fromHash = getMonthHash(from);
+      const toHash = getMonthHash(to);
+      if (fromHash !== viewMonthHash.value && toHash !== viewMonthHash.value) {
+        return;
+      }
+      const view2 = {};
+      if (fromHash === viewMonthHash.value) {
+        view2.from = from.day;
+        view2.includeFrom = true;
+      } else {
+        view2.from = 1;
+      }
+      if (toHash === viewMonthHash.value) {
+        view2.to = to.day;
+        view2.includeTo = true;
+      } else {
+        view2.to = daysInMonth.value;
+      }
+      return view2;
+    });
+    const viewMonthHash = computed(() => getMonthHash(viewModel.value));
+    const selectionDaysMap = computed(() => {
+      const map = {};
+      if (props.options === void 0) {
+        for (let i = 1; i <= daysInMonth.value; i++) {
+          map[i] = true;
+        }
+        return map;
+      }
+      const fn = typeof props.options === "function" ? props.options : (date) => props.options.includes(date);
+      for (let i = 1; i <= daysInMonth.value; i++) {
+        const dayHash = viewMonthHash.value + "/" + pad(i);
+        map[i] = fn(dayHash);
+      }
+      return map;
+    });
+    const eventDaysMap = computed(() => {
+      const map = {};
+      if (props.events === void 0) {
+        for (let i = 1; i <= daysInMonth.value; i++) {
+          map[i] = false;
+        }
+      } else {
+        const fn = typeof props.events === "function" ? props.events : (date) => props.events.includes(date);
+        for (let i = 1; i <= daysInMonth.value; i++) {
+          const dayHash = viewMonthHash.value + "/" + pad(i);
+          map[i] = fn(dayHash) === true && evtColor.value(dayHash);
+        }
+      }
+      return map;
+    });
+    const viewDays = computed(() => {
+      let date, endDay;
+      const { year: year2, month } = viewModel.value;
+      if (props.calendar !== "persian") {
+        date = new Date(year2, month - 1, 1);
+        endDay = new Date(year2, month - 1, 0).getDate();
+      } else {
+        const gDate = toGregorian(year2, month, 1);
+        date = new Date(gDate.gy, gDate.gm - 1, gDate.gd);
+        let prevJM = month - 1;
+        let prevJY = year2;
+        if (prevJM === 0) {
+          prevJM = 12;
+          prevJY--;
+        }
+        endDay = jalaaliMonthLength(prevJY, prevJM);
+      }
+      return {
+        days: date.getDay() - computedFirstDayOfWeek.value - 1,
+        endDay
+      };
+    });
+    const days = computed(() => {
+      const res = [];
+      const { days: days2, endDay } = viewDays.value;
+      const len = days2 < 0 ? days2 + 7 : days2;
+      if (len < 6) {
+        for (let i = endDay - len; i <= endDay; i++) {
+          res.push({ i, fill: true });
+        }
+      }
+      const index = res.length;
+      for (let i = 1; i <= daysInMonth.value; i++) {
+        const day = { i, event: eventDaysMap.value[i], classes: [] };
+        if (selectionDaysMap.value[i] === true) {
+          day.in = true;
+          day.flat = true;
+        }
+        res.push(day);
+      }
+      if (daysMap.value[viewMonthHash.value] !== void 0) {
+        daysMap.value[viewMonthHash.value].forEach((day) => {
+          const i = index + day - 1;
+          Object.assign(res[i], {
+            selected: true,
+            unelevated: true,
+            flat: false,
+            color: computedColor.value,
+            textColor: computedTextColor.value
+          });
+        });
+      }
+      if (rangeMap.value[viewMonthHash.value] !== void 0) {
+        rangeMap.value[viewMonthHash.value].forEach((entry) => {
+          if (entry.from !== void 0) {
+            const from = index + entry.from - 1;
+            const to = index + (entry.to || daysInMonth.value) - 1;
+            for (let day = from; day <= to; day++) {
+              Object.assign(res[day], {
+                range: entry.range,
+                unelevated: true,
+                color: computedColor.value,
+                textColor: computedTextColor.value
+              });
+            }
+            Object.assign(res[from], {
+              rangeFrom: true,
+              flat: false
+            });
+            entry.to !== void 0 && Object.assign(res[to], {
+              rangeTo: true,
+              flat: false
+            });
+          } else if (entry.to !== void 0) {
+            const to = index + entry.to - 1;
+            for (let day = index; day <= to; day++) {
+              Object.assign(res[day], {
+                range: entry.range,
+                unelevated: true,
+                color: computedColor.value,
+                textColor: computedTextColor.value
+              });
+            }
+            Object.assign(res[to], {
+              flat: false,
+              rangeTo: true
+            });
+          } else {
+            const to = index + daysInMonth.value - 1;
+            for (let day = index; day <= to; day++) {
+              Object.assign(res[day], {
+                range: entry.range,
+                unelevated: true,
+                color: computedColor.value,
+                textColor: computedTextColor.value
+              });
+            }
+          }
+        });
+      }
+      if (rangeView.value !== void 0) {
+        const from = index + rangeView.value.from - 1;
+        const to = index + rangeView.value.to - 1;
+        for (let day = from; day <= to; day++) {
+          res[day].color = computedColor.value;
+          res[day].editRange = true;
+        }
+        if (rangeView.value.includeFrom === true) {
+          res[from].editRangeFrom = true;
+        }
+        if (rangeView.value.includeTo === true) {
+          res[to].editRangeTo = true;
+        }
+      }
+      if (viewModel.value.year === today.value.year && viewModel.value.month === today.value.month) {
+        res[index + today.value.day - 1].today = true;
+      }
+      const left = res.length % 7;
+      if (left > 0) {
+        const afterDays = 7 - left;
+        for (let i = 1; i <= afterDays; i++) {
+          res.push({ i, fill: true });
+        }
+      }
+      res.forEach((day) => {
+        let cls = "q-date__calendar-item ";
+        if (day.fill === true) {
+          cls += "q-date__calendar-item--fill";
+        } else {
+          cls += `q-date__calendar-item--${day.in === true ? "in" : "out"}`;
+          if (day.range !== void 0) {
+            cls += ` q-date__range${day.rangeTo === true ? "-to" : day.rangeFrom === true ? "-from" : ""}`;
+          }
+          if (day.editRange === true) {
+            cls += ` q-date__edit-range${day.editRangeFrom === true ? "-from" : ""}${day.editRangeTo === true ? "-to" : ""}`;
+          }
+          if (day.range !== void 0 || day.editRange === true) {
+            cls += ` text-${day.color}`;
+          }
+        }
+        day.classes = cls;
+      });
+      return res;
+    });
+    const attributes = computed(() => props.disable === true ? { "aria-disabled": "true" } : props.readonly === true ? { "aria-readonly": "true" } : {});
+    watch(() => props.modelValue, (v) => {
+      if (lastEmitValue === v) {
+        lastEmitValue = 0;
+      } else {
+        const model = getViewModel(innerMask.value, innerLocale.value);
+        updateViewModel(model.year, model.month, model);
+      }
+    });
+    watch(view, () => {
+      if (blurTargetRef.value !== null && proxy.$el.contains(document.activeElement) === true) {
+        blurTargetRef.value.focus();
+      }
+    });
+    watch(() => viewModel.value.year + "|" + viewModel.value.month, () => {
+      emit("navigation", { year: viewModel.value.year, month: viewModel.value.month });
+    });
+    watch(mask, (val) => {
+      updateValue(val, innerLocale.value, "mask");
+      innerMask.value = val;
+    });
+    watch(locale, (val) => {
+      updateValue(innerMask.value, val, "locale");
+      innerLocale.value = val;
+    });
+    function setToday() {
+      const date = today.value;
+      const month = daysMap.value[getMonthHash(date)];
+      if (month === void 0 || month.includes(date.day) === false) {
+        addToModel(date);
+      }
+      setCalendarTo(date.year, date.month);
+    }
+    function setView(viewMode) {
+      if (viewIsValid(viewMode) === true) {
+        view.value = viewMode;
+      }
+    }
+    function offsetCalendar(type, descending) {
+      if (["month", "year"].includes(type)) {
+        const fn = type === "month" ? goToMonth : goToYear;
+        fn(descending === true ? -1 : 1);
+      }
+    }
+    function setCalendarTo(year2, month) {
+      view.value = "Calendar";
+      updateViewModel(year2, month);
+    }
+    function setEditingRange(from, to) {
+      if (props.range === false || !from) {
+        editRange.value = null;
+        return;
+      }
+      const init = Object.assign({ ...viewModel.value }, from);
+      const final = to !== void 0 ? Object.assign({ ...viewModel.value }, to) : init;
+      editRange.value = {
+        init,
+        initHash: getDayHash(init),
+        final,
+        finalHash: getDayHash(final)
+      };
+      setCalendarTo(init.year, init.month);
+    }
+    function getMask() {
+      return props.calendar === "persian" ? "YYYY/MM/DD" : props.mask;
+    }
+    function decodeString(date, mask2, locale2) {
+      return __splitDate(
+        date,
+        mask2,
+        locale2,
+        props.calendar,
+        {
+          hour: 0,
+          minute: 0,
+          second: 0,
+          millisecond: 0
+        }
+      );
+    }
+    function getViewModel(mask2, locale2) {
+      const model = Array.isArray(props.modelValue) === true ? props.modelValue : props.modelValue ? [props.modelValue] : [];
+      if (model.length === 0) {
+        return getDefaultViewModel();
+      }
+      const target = model[model.length - 1];
+      const decoded = decodeString(
+        target.from !== void 0 ? target.from : target,
+        mask2,
+        locale2
+      );
+      return decoded.dateHash === null ? getDefaultViewModel() : decoded;
+    }
+    function getDefaultViewModel() {
+      let year2, month;
+      if (props.defaultYearMonth !== void 0) {
+        const d = props.defaultYearMonth.split("/");
+        year2 = parseInt(d[0], 10);
+        month = parseInt(d[1], 10);
+      } else {
+        const d = today.value !== void 0 ? today.value : getCurrentDate();
+        year2 = d.year;
+        month = d.month;
+      }
+      return {
+        year: year2,
+        month,
+        day: 1,
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+        dateHash: year2 + "/" + pad(month) + "/01"
+      };
+    }
+    function goToMonth(offset) {
+      let year2 = viewModel.value.year;
+      let month = Number(viewModel.value.month) + offset;
+      if (month === 13) {
+        month = 1;
+        year2++;
+      } else if (month === 0) {
+        month = 12;
+        year2--;
+      }
+      updateViewModel(year2, month);
+      isImmediate.value === true && emitImmediately("month");
+    }
+    function goToYear(offset) {
+      const year2 = Number(viewModel.value.year) + offset;
+      updateViewModel(year2, viewModel.value.month);
+      isImmediate.value === true && emitImmediately("year");
+    }
+    function setYear(year2) {
+      updateViewModel(year2, viewModel.value.month);
+      view.value = props.defaultView === "Years" ? "Months" : "Calendar";
+      isImmediate.value === true && emitImmediately("year");
+    }
+    function setMonth(month) {
+      updateViewModel(viewModel.value.year, month);
+      view.value = "Calendar";
+      isImmediate.value === true && emitImmediately("month");
+    }
+    function toggleDate(date, monthHash) {
+      const month = daysMap.value[monthHash];
+      const fn = month !== void 0 && month.includes(date.day) === true ? removeFromModel : addToModel;
+      fn(date);
+    }
+    function getShortDate(date) {
+      return { year: date.year, month: date.month, day: date.day };
+    }
+    function updateViewModel(year2, month, time) {
+      if (minNav.value !== null && year2 <= minNav.value.year) {
+        year2 = minNav.value.year;
+        if (month < minNav.value.month) {
+          month = minNav.value.month;
+        }
+      }
+      if (maxNav.value !== null && year2 >= maxNav.value.year) {
+        year2 = maxNav.value.year;
+        if (month > maxNav.value.month) {
+          month = maxNav.value.month;
+        }
+      }
+      if (time !== void 0) {
+        const { hour, minute, second, millisecond, timezoneOffset, timeHash } = time;
+        Object.assign(viewModel.value, { hour, minute, second, millisecond, timezoneOffset, timeHash });
+      }
+      const newHash = year2 + "/" + pad(month) + "/01";
+      if (newHash !== viewModel.value.dateHash) {
+        monthDirection.value = viewModel.value.dateHash < newHash === ($q.lang.rtl !== true) ? "left" : "right";
+        if (year2 !== viewModel.value.year) {
+          yearDirection.value = monthDirection.value;
+        }
+        nextTick(() => {
+          startYear.value = year2 - year2 % yearsInterval - (year2 < 0 ? yearsInterval : 0);
+          Object.assign(viewModel.value, {
+            year: year2,
+            month,
+            day: 1,
+            dateHash: newHash
+          });
+        });
+      }
+    }
+    function emitValue(val, action, date) {
+      const value = val !== null && val.length === 1 && props.multiple === false ? val[0] : val;
+      lastEmitValue = value;
+      const { reason, details } = getEmitParams(action, date);
+      emit("update:modelValue", value, reason, details);
+    }
+    function emitImmediately(reason) {
+      const date = daysModel.value[0] !== void 0 && daysModel.value[0].dateHash !== null ? { ...daysModel.value[0] } : { ...viewModel.value };
+      nextTick(() => {
+        date.year = viewModel.value.year;
+        date.month = viewModel.value.month;
+        const maxDay = props.calendar !== "persian" ? new Date(date.year, date.month, 0).getDate() : jalaaliMonthLength(date.year, date.month);
+        date.day = Math.min(Math.max(1, date.day), maxDay);
+        const value = encodeEntry(date);
+        lastEmitValue = value;
+        const { details } = getEmitParams("", date);
+        emit("update:modelValue", value, reason, details);
+      });
+    }
+    function getEmitParams(action, date) {
+      return date.from !== void 0 ? {
+        reason: `${action}-range`,
+        details: {
+          ...getShortDate(date.target),
+          from: getShortDate(date.from),
+          to: getShortDate(date.to)
+        }
+      } : {
+        reason: `${action}-day`,
+        details: getShortDate(date)
+      };
+    }
+    function encodeEntry(date, mask2, locale2) {
+      return date.from !== void 0 ? { from: encodeObjectFn.value(date.from, mask2, locale2), to: encodeObjectFn.value(date.to, mask2, locale2) } : encodeObjectFn.value(date, mask2, locale2);
+    }
+    function addToModel(date) {
+      let value;
+      if (props.multiple === true) {
+        if (date.from !== void 0) {
+          const fromHash = getDayHash(date.from);
+          const toHash = getDayHash(date.to);
+          const days2 = daysModel.value.filter((day) => day.dateHash < fromHash || day.dateHash > toHash);
+          const ranges = rangeModel.value.filter(({ from, to }) => to.dateHash < fromHash || from.dateHash > toHash);
+          value = days2.concat(ranges).concat(date).map((entry) => encodeEntry(entry));
+        } else {
+          const model = normalizedModel.value.slice();
+          model.push(encodeEntry(date));
+          value = model;
+        }
+      } else {
+        value = encodeEntry(date);
+      }
+      emitValue(value, "add", date);
+    }
+    function removeFromModel(date) {
+      if (props.noUnset === true) {
+        return;
+      }
+      let model = null;
+      if (props.multiple === true && Array.isArray(props.modelValue) === true) {
+        const val = encodeEntry(date);
+        if (date.from !== void 0) {
+          model = props.modelValue.filter(
+            (date2) => date2.from !== void 0 ? date2.from !== val.from && date2.to !== val.to : true
+          );
+        } else {
+          model = props.modelValue.filter((date2) => date2 !== val);
+        }
+        if (model.length === 0) {
+          model = null;
+        }
+      }
+      emitValue(model, "remove", date);
+    }
+    function updateValue(mask2, locale2, reason) {
+      const model = daysModel.value.concat(rangeModel.value).map((entry) => encodeEntry(entry, mask2, locale2)).filter((entry) => {
+        return entry.from !== void 0 ? entry.from.dateHash !== null && entry.to.dateHash !== null : entry.dateHash !== null;
+      });
+      emit("update:modelValue", (props.multiple === true ? model : model[0]) || null, reason);
+    }
+    function getHeader() {
+      if (props.minimal === true) {
+        return;
+      }
+      return h("div", {
+        class: "q-date__header " + headerClass.value
+      }, [
+        h("div", {
+          class: "relative-position"
+        }, [
+          h(Transition, {
+            name: "q-transition--fade"
+          }, () => h("div", {
+            key: "h-yr-" + headerSubtitle.value,
+            class: "q-date__header-subtitle q-date__header-link " + (view.value === "Years" ? "q-date__header-link--active" : "cursor-pointer"),
+            tabindex: tabindex.value,
+            ...getCache("vY", {
+              onClick() {
+                view.value = "Years";
+              },
+              onKeyup(e) {
+                e.keyCode === 13 && (view.value = "Years");
+              }
+            })
+          }, [headerSubtitle.value]))
+        ]),
+        h("div", {
+          class: "q-date__header-title relative-position flex no-wrap"
+        }, [
+          h("div", {
+            class: "relative-position col"
+          }, [
+            h(Transition, {
+              name: "q-transition--fade"
+            }, () => h("div", {
+              key: "h-sub" + headerTitle.value,
+              class: "q-date__header-title-label q-date__header-link " + (view.value === "Calendar" ? "q-date__header-link--active" : "cursor-pointer"),
+              tabindex: tabindex.value,
+              ...getCache("vC", {
+                onClick() {
+                  view.value = "Calendar";
+                },
+                onKeyup(e) {
+                  e.keyCode === 13 && (view.value = "Calendar");
+                }
+              })
+            }, [headerTitle.value]))
+          ]),
+          props.todayBtn === true ? h(QBtn, {
+            class: "q-date__header-today self-start",
+            icon: $q.iconSet.datetime.today,
+            flat: true,
+            size: "sm",
+            round: true,
+            tabindex: tabindex.value,
+            onClick: setToday
+          }) : null
+        ])
+      ]);
+    }
+    function getNavigation({ label, type, key, dir, goTo, boundaries, cls }) {
+      return [
+        h("div", {
+          class: "row items-center q-date__arrow"
+        }, [
+          h(QBtn, {
+            round: true,
+            dense: true,
+            size: "sm",
+            flat: true,
+            icon: dateArrow.value[0],
+            tabindex: tabindex.value,
+            disable: boundaries.prev === false,
+            ...getCache("go-#" + type, { onClick() {
+              goTo(-1);
+            } })
+          })
+        ]),
+        h("div", {
+          class: "relative-position overflow-hidden flex flex-center" + cls
+        }, [
+          h(Transition, {
+            name: "q-transition--jump-" + dir
+          }, () => h("div", { key }, [
+            h(QBtn, {
+              flat: true,
+              dense: true,
+              noCaps: true,
+              label,
+              tabindex: tabindex.value,
+              ...getCache("view#" + type, { onClick: () => {
+                view.value = type;
+              } })
+            })
+          ]))
+        ]),
+        h("div", {
+          class: "row items-center q-date__arrow"
+        }, [
+          h(QBtn, {
+            round: true,
+            dense: true,
+            size: "sm",
+            flat: true,
+            icon: dateArrow.value[1],
+            tabindex: tabindex.value,
+            disable: boundaries.next === false,
+            ...getCache("go+#" + type, { onClick() {
+              goTo(1);
+            } })
+          })
+        ])
+      ];
+    }
+    const renderViews = {
+      Calendar: () => [
+        h("div", {
+          key: "calendar-view",
+          class: "q-date__view q-date__calendar"
+        }, [
+          h("div", {
+            class: "q-date__navigation row items-center no-wrap"
+          }, getNavigation({
+            label: innerLocale.value.months[viewModel.value.month - 1],
+            type: "Months",
+            key: viewModel.value.month,
+            dir: monthDirection.value,
+            goTo: goToMonth,
+            boundaries: navBoundaries.value.month,
+            cls: " col"
+          }).concat(getNavigation({
+            label: viewModel.value.year,
+            type: "Years",
+            key: viewModel.value.year,
+            dir: yearDirection.value,
+            goTo: goToYear,
+            boundaries: navBoundaries.value.year,
+            cls: ""
+          }))),
+          h("div", {
+            class: "q-date__calendar-weekdays row items-center no-wrap"
+          }, daysOfWeek.value.map((day) => h("div", { class: "q-date__calendar-item" }, [h("div", day)]))),
+          h("div", {
+            class: "q-date__calendar-days-container relative-position overflow-hidden"
+          }, [
+            h(Transition, {
+              name: "q-transition--slide-" + monthDirection.value
+            }, () => h("div", {
+              key: viewMonthHash.value,
+              class: "q-date__calendar-days fit"
+            }, days.value.map((day) => h("div", { class: day.classes }, [
+              day.in === true ? h(
+                QBtn,
+                {
+                  class: day.today === true ? "q-date__today" : "",
+                  dense: true,
+                  flat: day.flat,
+                  unelevated: day.unelevated,
+                  color: day.color,
+                  textColor: day.textColor,
+                  label: day.i,
+                  tabindex: tabindex.value,
+                  ...getCache("day#" + day.i, {
+                    onClick: () => {
+                      onDayClick(day.i);
+                    },
+                    onMouseover: () => {
+                      onDayMouseover(day.i);
+                    }
+                  })
+                },
+                day.event !== false ? () => h("div", { class: "q-date__event bg-" + day.event }) : null
+              ) : h("div", "" + day.i)
+            ]))))
+          ])
+        ])
+      ],
+      Months() {
+        const currentYear = viewModel.value.year === today.value.year;
+        const isDisabled = (month) => {
+          return minNav.value !== null && viewModel.value.year === minNav.value.year && minNav.value.month > month || maxNav.value !== null && viewModel.value.year === maxNav.value.year && maxNav.value.month < month;
+        };
+        const content = innerLocale.value.monthsShort.map((month, i) => {
+          const active = viewModel.value.month === i + 1;
+          return h("div", {
+            class: "q-date__months-item flex flex-center"
+          }, [
+            h(QBtn, {
+              class: currentYear === true && today.value.month === i + 1 ? "q-date__today" : null,
+              flat: active !== true,
+              label: month,
+              unelevated: active,
+              color: active === true ? computedColor.value : null,
+              textColor: active === true ? computedTextColor.value : null,
+              tabindex: tabindex.value,
+              disable: isDisabled(i + 1),
+              ...getCache("month#" + i, { onClick: () => {
+                setMonth(i + 1);
+              } })
+            })
+          ]);
+        });
+        props.yearsInMonthView === true && content.unshift(
+          h("div", { class: "row no-wrap full-width" }, [
+            getNavigation({
+              label: viewModel.value.year,
+              type: "Years",
+              key: viewModel.value.year,
+              dir: yearDirection.value,
+              goTo: goToYear,
+              boundaries: navBoundaries.value.year,
+              cls: " col"
+            })
+          ])
+        );
+        return h("div", {
+          key: "months-view",
+          class: "q-date__view q-date__months flex flex-center"
+        }, content);
+      },
+      Years() {
+        const start = startYear.value, stop = start + yearsInterval, years = [];
+        const isDisabled = (year2) => {
+          return minNav.value !== null && minNav.value.year > year2 || maxNav.value !== null && maxNav.value.year < year2;
+        };
+        for (let i = start; i <= stop; i++) {
+          const active = viewModel.value.year === i;
+          years.push(
+            h("div", {
+              class: "q-date__years-item flex flex-center"
+            }, [
+              h(QBtn, {
+                key: "yr" + i,
+                class: today.value.year === i ? "q-date__today" : null,
+                flat: !active,
+                label: i,
+                dense: true,
+                unelevated: active,
+                color: active === true ? computedColor.value : null,
+                textColor: active === true ? computedTextColor.value : null,
+                tabindex: tabindex.value,
+                disable: isDisabled(i),
+                ...getCache("yr#" + i, { onClick: () => {
+                  setYear(i);
+                } })
+              })
+            ])
+          );
+        }
+        return h("div", {
+          class: "q-date__view q-date__years flex flex-center"
+        }, [
+          h("div", {
+            class: "col-auto"
+          }, [
+            h(QBtn, {
+              round: true,
+              dense: true,
+              flat: true,
+              icon: dateArrow.value[0],
+              tabindex: tabindex.value,
+              disable: isDisabled(start),
+              ...getCache("y-", { onClick: () => {
+                startYear.value -= yearsInterval;
+              } })
+            })
+          ]),
+          h("div", {
+            class: "q-date__years-content col self-stretch row items-center"
+          }, years),
+          h("div", {
+            class: "col-auto"
+          }, [
+            h(QBtn, {
+              round: true,
+              dense: true,
+              flat: true,
+              icon: dateArrow.value[1],
+              tabindex: tabindex.value,
+              disable: isDisabled(stop),
+              ...getCache("y+", { onClick: () => {
+                startYear.value += yearsInterval;
+              } })
+            })
+          ])
+        ]);
+      }
+    };
+    function onDayClick(dayIndex) {
+      const day = { ...viewModel.value, day: dayIndex };
+      if (props.range === false) {
+        toggleDate(day, viewMonthHash.value);
+        return;
+      }
+      if (editRange.value === null) {
+        const dayProps = days.value.find((day2) => day2.fill !== true && day2.i === dayIndex);
+        if (props.noUnset !== true && dayProps.range !== void 0) {
+          removeFromModel({ target: day, from: dayProps.range.from, to: dayProps.range.to });
+          return;
+        }
+        if (dayProps.selected === true) {
+          removeFromModel(day);
+          return;
+        }
+        const initHash = getDayHash(day);
+        editRange.value = {
+          init: day,
+          initHash,
+          final: day,
+          finalHash: initHash
+        };
+        emit("rangeStart", getShortDate(day));
+      } else {
+        const initHash = editRange.value.initHash, finalHash = getDayHash(day), payload = initHash <= finalHash ? { from: editRange.value.init, to: day } : { from: day, to: editRange.value.init };
+        editRange.value = null;
+        addToModel(initHash === finalHash ? day : { target: day, ...payload });
+        emit("rangeEnd", {
+          from: getShortDate(payload.from),
+          to: getShortDate(payload.to)
+        });
+      }
+    }
+    function onDayMouseover(dayIndex) {
+      if (editRange.value !== null) {
+        const final = { ...viewModel.value, day: dayIndex };
+        Object.assign(editRange.value, {
+          final,
+          finalHash: getDayHash(final)
+        });
+      }
+    }
+    Object.assign(proxy, {
+      setToday,
+      setView,
+      offsetCalendar,
+      setCalendarTo,
+      setEditingRange
+    });
+    return () => {
+      const content = [
+        h("div", {
+          class: "q-date__content col relative-position"
+        }, [
+          h(Transition, {
+            name: "q-transition--fade"
+          }, renderViews[view.value])
+        ])
+      ];
+      const def = hSlot(slots.default);
+      def !== void 0 && content.push(
+        h("div", { class: "q-date__actions" }, def)
+      );
+      if (props.name !== void 0 && props.disable !== true) {
+        injectFormInput(content, "push");
+      }
+      return h("div", {
+        class: classes.value,
+        ...attributes.value
+      }, [
+        getHeader(),
+        h("div", {
+          ref: blurTargetRef,
+          class: "q-date__main col column",
+          tabindex: -1
+        }, content)
+      ]);
+    };
+  }
+});
+var QPopupProxy = createComponent({
+  name: "QPopupProxy",
+  props: {
+    ...useAnchorProps,
+    breakpoint: {
+      type: [String, Number],
+      default: 450
+    }
+  },
+  emits: ["show", "hide"],
+  setup(props, { slots, emit, attrs }) {
+    const { proxy } = getCurrentInstance();
+    const { $q } = proxy;
+    const showing = ref(false);
+    const popupRef = ref(null);
+    const breakpoint = computed(() => parseInt(props.breakpoint, 10));
+    const { canShow } = useAnchor({ showing });
+    function getType() {
+      return $q.screen.width < breakpoint.value || $q.screen.height < breakpoint.value ? "dialog" : "menu";
+    }
+    const type = ref(getType());
+    const popupProps = computed(
+      () => type.value === "menu" ? { maxHeight: "99vh" } : {}
+    );
+    watch(() => getType(), (val) => {
+      if (showing.value !== true) {
+        type.value = val;
+      }
+    });
+    function onShow(evt) {
+      showing.value = true;
+      emit("show", evt);
+    }
+    function onHide(evt) {
+      showing.value = false;
+      type.value = getType();
+      emit("hide", evt);
+    }
+    Object.assign(proxy, {
+      show(evt) {
+        canShow(evt) === true && popupRef.value.show(evt);
+      },
+      hide(evt) {
+        popupRef.value.hide(evt);
+      },
+      toggle(evt) {
+        popupRef.value.toggle(evt);
+      }
+    });
+    injectProp(proxy, "currentComponent", () => ({
+      type: type.value,
+      ref: popupRef.value
+    }));
+    return () => {
+      const data = {
+        ref: popupRef,
+        ...popupProps.value,
+        ...attrs,
+        onShow,
+        onHide
+      };
+      let component;
+      if (type.value === "dialog") {
+        component = QDialog;
+      } else {
+        component = QMenu;
+        Object.assign(data, {
+          target: props.target,
+          contextMenu: props.contextMenu,
+          noParentEvent: true,
+          separateClosePopup: true
+        });
+      }
+      return h(component, data, slots.default);
+    };
+  }
+});
+const _hoisted_1 = { class: "row items-center justify-end" };
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "DateField",
+  props: {
+    label: null,
+    placeholder: null,
+    invalid: { type: Boolean },
+    modelValue: null,
+    fdc: { type: Boolean },
+    disabled: { type: Boolean },
+    dark: { type: Boolean },
+    previous: null,
+    after: null,
+    samePrevious: null,
+    borderless: { type: Boolean },
+    outlined: { type: Boolean },
+    hint: null,
+    year: null,
+    filled: { type: Boolean }
+  },
+  emits: ["update:modelValue"],
+  setup(__props, { emit: emits }) {
+    const props = __props;
+    const $q = useQuasar();
+    const hintCurrent = ref();
+    const qDateProxy = ref();
+    const fromCalendar = (val) => {
+      if (qDateProxy.value) {
+        qDateProxy.value.hide();
+      }
+      emits("update:modelValue", val);
+    };
+    const handleChange = (val) => {
+      emits("update:modelValue", val);
+    };
+    const checkDate = () => {
+      hintCurrent.value = false;
+      if (props.modelValue) {
+        let dateStr = props.modelValue;
+        dateStr = dateStr.replace("/", "");
+        dateStr = dateStr.replace("/", "");
+        dateStr = dateStr.replace(/\D/g, "");
+        dateStr = dateStr.replace(" ", "");
+        if (dateStr.length < 6) {
+          emits("update:modelValue", null);
+          hintCurrent.value = "Please enter a valid date";
+        } else {
+          const dFm = dateStr;
+          const dFd = dateStr;
+          const dFy = dateStr;
+          let dSday = dFd.slice(0, 2);
+          dSday += "/";
+          let dSmonth = dFm.slice(2, 4);
+          dSmonth += "/";
+          let dSyear = dFy.slice(4, 8);
+          if (dSyear.length !== 4) {
+            dSyear = dSyear.slice(0, 2);
+            if (props.year) {
+              dSyear = props.year + dSyear;
+            } else {
+              dSyear = `20${dSyear}`;
+            }
+          }
+          const newDateStr = dSday + dSmonth + dSyear;
+          if (newDateStr && !newDateStr.match("undefined")) {
+            const mNewDateStr = moment(newDateStr, "DD/MM/YYYY");
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            if (mNewDateStr.isValid()) {
+              let validDate = true;
+              let hint = null;
+              if (props.fdc) {
+                if (!mNewDateStr.isAfter(today) && !mNewDateStr.isSame(today)) {
+                  validDate = false;
+                  $q.dialog({
+                    title: "Invalid date",
+                    message: `Please enter a date on or after ${props.after}`
+                  });
+                }
+              }
+              if (props.after) {
+                if (!mNewDateStr.isSameOrAfter(moment(props.after, "DD/MM/YYYY"))) {
+                  validDate = false;
+                  hint = `Please enter a date on or after ${props.after}`;
+                }
+              }
+              if (props.previous) {
+                if (mNewDateStr.isAfter(today)) {
+                  validDate = false;
+                  hint = "Please enter a previous date";
+                }
+              }
+              if (props.samePrevious) {
+                if (!mNewDateStr.endOf("day").isSameOrBefore(moment(today).endOf("day"))) {
+                  validDate = false;
+                  hint = "Please enter a previous date";
+                }
+              }
+              hintCurrent.value = hint;
+              if (validDate) {
+                emits("update:modelValue", newDateStr);
+              } else {
+                emits("update:modelValue", null);
+              }
+            } else {
+              emits("update:modelValue", null);
+              hintCurrent.value = "Please enter a valid date";
+            }
+          }
+        }
+      }
+    };
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QInput, {
+        filled: __props.filled,
+        outlined: __props.outlined,
+        "model-value": __props.modelValue,
+        mask: "##/##/####",
+        error: __props.invalid,
+        label: __props.label,
+        "error-message": "DD/MM/YYYY",
+        hint: "DD/MM/YYYY",
+        "onUpdate:modelValue": handleChange,
+        onBlur: _cache[0] || (_cache[0] = ($event) => checkDate())
+      }, {
+        append: withCtx(() => [
+          createVNode(QIcon, {
+            name: "event",
+            class: "cursor-pointer"
+          }, {
+            default: withCtx(() => [
+              createVNode(unref(QPopupProxy), {
+                cover: "",
+                "transition-show": "scale",
+                "transition-hide": "scale",
+                ref_key: "qDateProxy",
+                ref: qDateProxy
+              }, {
+                default: withCtx(() => [
+                  createVNode(QDate, {
+                    "model-value": __props.modelValue,
+                    "onUpdate:modelValue": fromCalendar,
+                    mask: "DD/MM/YYYY",
+                    color: "secondary"
+                  }, {
+                    default: withCtx(() => [
+                      createBaseVNode("div", _hoisted_1, [
+                        withDirectives(createVNode(QBtn, {
+                          label: "Close",
+                          color: "primary",
+                          flat: ""
+                        }, null, 512), [
+                          [ClosePopup]
+                        ])
+                      ])
+                    ]),
+                    _: 1
+                  }, 8, ["model-value"])
+                ]),
+                _: 1
+              }, 512)
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      }, 8, ["filled", "outlined", "model-value", "error", "label"]);
+    };
+  }
+});
+export { QPopupProxy as Q, _sfc_main as _, useDatetimeProps as a, useDatetimeEmits as b, useDatetime as c, __splitDate as d, QDate as e, formatDate as f, getDayHash as g, useCache as u };

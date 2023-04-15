@@ -1,1 +1,174 @@
-import{Q as q}from"./QSelect.853d535e.js";import{A as C,i as B,r as p,B as O,o as A,m as l,K as T,L as f,l as m,N as J,U as y,n as o,R as x,q as d,F as V,b7 as $,y as v,M as L,S as U,ae as D,Q as E,b8 as u}from"./index.e647c85a.js";import{u as F,r as N}from"./index.esm.4557c89b.js";import{a as k}from"./axios.ccd3a804.js";import{u as w}from"./debug.805a8aef.js";import{b as j}from"./help.c0f85e41.js";import{_ as I}from"./SmsLogComponent.e2a77b83.js";import"./QItemSection.99659658.js";import"./rtl.4f5e13e8.js";import"./format.8e90d58d.js";import"./QTable.64a81add.js";import"./QList.2f0afc60.js";import"./QMarkupTable.981d9979.js";import"./QLinearProgress.c48fac34.js";const K=d("div",{class:"text-h6 q-mb-md"},"Send SMS",-1),R={key:0,class:"q-pa-md"},z={key:1,class:"q-pa-md bg-positive text-white"},G=C({__name:"SendSmsTeam",props:{team:null},setup(r){const s=r,g=B("bus"),i=p([]),c=p(!1),b=p(),S={content:null,template:null,number:null,team_id:s.team.id},a=O(JSON.parse(JSON.stringify(S))),_=F({content:{required:N},team_id:{required:N}},a),h=p(),M=()=>{a.content=a.template},Q=()=>{c.value=!0,k.post("/sms/sendteam",a).then(n=>{j("positive",`SMS sent to ${s.team.name}`),c.value=!1,i.value=n.data,g.emit("getSmsLog",{}),Object.assign(a,JSON.parse(JSON.stringify(S)))}).catch(n=>{w(n),c.value=!1})};return A(()=>{Object.assign(a,{content:null,template:null,number:null,team_id:s.team.id});const n=[];s.team&&s.team.users&&(s.team.users.forEach(e=>{e.user.mobile&&e.user.sms_notifications&&n.push(e.user)}),h.value=n),k.get("/smstemplate/index").then(e=>{b.value=e.data.map(t=>({value:t.content,label:t.name}))}).catch(e=>{w(e)})}),(n,e)=>(l(),T(E,null,{default:f(()=>[m(L,null,{default:f(()=>[K,m(q,{modelValue:a.template,"onUpdate:modelValue":[e[0]||(e[0]=t=>a.template=t),e[1]||(e[1]=t=>M())],options:b.value,label:"Choose a Template","map-options":"","emit-value":"",class:"q-mb-md"},null,8,["modelValue","options"]),m(J,{modelValue:a.content,"onUpdate:modelValue":e[2]||(e[2]=t=>a.content=t),type:"textarea",maxlength:"160",label:"Message to send",error:y(_).content.$error,autogrow:""},null,8,["modelValue","error"]),!i.value||!i.value.length?(l(),o("div",R,[x(" A message will be sent to the following members: "),d("ul",null,[(l(!0),o(V,null,$(h.value,t=>(l(),o("li",{key:t.id},u(t.fullname)+" ("+u(t.mobile)+") ",1))),128))])])):v("",!0),i.value&&i.value.length?(l(),o("div",z,[x(" A message was sent to the following members: "),d("ul",null,[(l(!0),o(V,null,$(i.value,t=>(l(),o("li",{key:t.id},u(t.user.fullname)+" ("+u(t.user.mobile)+") ",1))),128))])])):v("",!0)]),_:1}),m(D,{align:"right"},{default:f(()=>[m(U,{color:"primary",disabled:y(_).$invalid,loading:c.value,onClick:e[3]||(e[3]=t=>Q()),label:"Send"},null,8,["disabled","loading"])]),_:1})]),_:1}))}}),H={key:0},P=d("div",{class:"text-h5"},"SMS Activities",-1),de=C({__name:"TeamSms",props:{model:null},setup(r){return(s,g)=>r.model.id?(l(),o("div",H,[P,d("p",null,"Send an SMS or view the history for this "+u(s.$t("team.name"))+".",1),m(G,{team:r.model,class:"q-mb-lg"},null,8,["team"]),m(I,{team_id:r.model.id},null,8,["team_id"])])):v("",!0)}});export{de as default};
+import { Q as QSelect } from "./QSelect.853d535e.js";
+import { A as defineComponent, i as inject, r as ref, B as reactive, o as onMounted, m as openBlock, K as createBlock, L as withCtx, l as createVNode, N as QInput, U as unref, n as createElementBlock, R as createTextVNode, q as createBaseVNode, F as Fragment, b7 as renderList, y as createCommentVNode, M as QCardSection, S as QBtn, ae as QCardActions, Q as QCard, b8 as toDisplayString } from "./index.e647c85a.js";
+import { u as useVuelidate, r as required } from "./index.esm.4557c89b.js";
+import { a as api } from "./axios.ccd3a804.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { b as doNotify } from "./help.c0f85e41.js";
+import { _ as _sfc_main$2 } from "./SmsLogComponent.e2a77b83.js";
+import "./QItemSection.99659658.js";
+import "./rtl.4f5e13e8.js";
+import "./format.8e90d58d.js";
+import "./QTable.64a81add.js";
+import "./QList.2f0afc60.js";
+import "./QMarkupTable.981d9979.js";
+import "./QLinearProgress.c48fac34.js";
+const _hoisted_1$1 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-md" }, "Send SMS", -1);
+const _hoisted_2$1 = {
+  key: 0,
+  class: "q-pa-md"
+};
+const _hoisted_3 = {
+  key: 1,
+  class: "q-pa-md bg-positive text-white"
+};
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "SendSmsTeam",
+  props: {
+    team: null
+  },
+  setup(__props) {
+    const props = __props;
+    const bus = inject("bus");
+    const sent = ref([]);
+    const loading = ref(false);
+    const templates = ref();
+    const schema = {
+      content: null,
+      template: null,
+      number: null,
+      team_id: props.team.id
+    };
+    const sms = reactive(JSON.parse(JSON.stringify(schema)));
+    const rules = {
+      content: { required },
+      team_id: { required }
+    };
+    const $v = useVuelidate(rules, sms);
+    const recipients = ref();
+    const useTemplate = () => {
+      sms.content = sms.template;
+    };
+    const save = () => {
+      loading.value = true;
+      api.post("/sms/sendteam", sms).then((response) => {
+        doNotify("positive", `SMS sent to ${props.team.name}`);
+        loading.value = false;
+        sent.value = response.data;
+        bus.emit("getSmsLog", {});
+        Object.assign(sms, JSON.parse(JSON.stringify(schema)));
+      }).catch((response) => {
+        useMixinDebug(response);
+        loading.value = false;
+      });
+    };
+    onMounted(() => {
+      Object.assign(sms, { content: null, template: null, number: null, team_id: props.team.id });
+      const r = [];
+      if (props.team && props.team.users) {
+        props.team.users.forEach((obj) => {
+          if (obj.user.mobile && obj.user.sms_notifications) {
+            r.push(obj.user);
+          }
+        });
+        recipients.value = r;
+      }
+      api.get("/smstemplate/index").then((response) => {
+        templates.value = response.data.map((o) => {
+          return { value: o.content, label: o.name };
+        });
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QCard, null, {
+        default: withCtx(() => [
+          createVNode(QCardSection, null, {
+            default: withCtx(() => [
+              _hoisted_1$1,
+              createVNode(QSelect, {
+                modelValue: sms.template,
+                "onUpdate:modelValue": [
+                  _cache[0] || (_cache[0] = ($event) => sms.template = $event),
+                  _cache[1] || (_cache[1] = ($event) => useTemplate())
+                ],
+                options: templates.value,
+                label: "Choose a Template",
+                "map-options": "",
+                "emit-value": "",
+                class: "q-mb-md"
+              }, null, 8, ["modelValue", "options"]),
+              createVNode(QInput, {
+                modelValue: sms.content,
+                "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => sms.content = $event),
+                type: "textarea",
+                maxlength: "160",
+                label: "Message to send",
+                error: unref($v).content.$error,
+                autogrow: ""
+              }, null, 8, ["modelValue", "error"]),
+              !sent.value || !sent.value.length ? (openBlock(), createElementBlock("div", _hoisted_2$1, [
+                createTextVNode(" A message will be sent to the following members: "),
+                createBaseVNode("ul", null, [
+                  (openBlock(true), createElementBlock(Fragment, null, renderList(recipients.value, (u) => {
+                    return openBlock(), createElementBlock("li", {
+                      key: u.id
+                    }, toDisplayString(u.fullname) + " (" + toDisplayString(u.mobile) + ") ", 1);
+                  }), 128))
+                ])
+              ])) : createCommentVNode("", true),
+              sent.value && sent.value.length ? (openBlock(), createElementBlock("div", _hoisted_3, [
+                createTextVNode(" A message was sent to the following members: "),
+                createBaseVNode("ul", null, [
+                  (openBlock(true), createElementBlock(Fragment, null, renderList(sent.value, (u) => {
+                    return openBlock(), createElementBlock("li", {
+                      key: u.id
+                    }, toDisplayString(u.user.fullname) + " (" + toDisplayString(u.user.mobile) + ") ", 1);
+                  }), 128))
+                ])
+              ])) : createCommentVNode("", true)
+            ]),
+            _: 1
+          }),
+          createVNode(QCardActions, { align: "right" }, {
+            default: withCtx(() => [
+              createVNode(QBtn, {
+                color: "primary",
+                disabled: unref($v).$invalid,
+                loading: loading.value,
+                onClick: _cache[3] || (_cache[3] = ($event) => save()),
+                label: "Send"
+              }, null, 8, ["disabled", "loading"])
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      });
+    };
+  }
+});
+const _hoisted_1 = { key: 0 };
+const _hoisted_2 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h5" }, "SMS Activities", -1);
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "TeamSms",
+  props: {
+    model: null
+  },
+  setup(__props) {
+    return (_ctx, _cache) => {
+      return __props.model.id ? (openBlock(), createElementBlock("div", _hoisted_1, [
+        _hoisted_2,
+        createBaseVNode("p", null, "Send an SMS or view the history for this " + toDisplayString(_ctx.$t("team.name")) + ".", 1),
+        createVNode(_sfc_main$1, {
+          team: __props.model,
+          class: "q-mb-lg"
+        }, null, 8, ["team"]),
+        createVNode(_sfc_main$2, {
+          team_id: __props.model.id
+        }, null, 8, ["team_id"])
+      ])) : createCommentVNode("", true);
+    };
+  }
+});
+export { _sfc_main as default };

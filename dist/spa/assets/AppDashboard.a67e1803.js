@@ -1,1 +1,965 @@
-import{V as ne,A as U,r as p,B as P,o as J,J as M,m as r,n as g,q as s,l as e,L as o,O as H,S as V,P as re,N as ee,y as v,K as f,F as Y,b7 as W,i as te,E as oe,Q as C,R as w,b8 as d,U as R,G as X,M as q,ae as de,aD as ie}from"./index.e647c85a.js";import{Q as ue,a as ce}from"./QBreadcrumbs.14144362.js";import{a as F,Q as $}from"./QItemSection.99659658.js";import{Q as z}from"./QList.2f0afc60.js";import{u as me,a as pe,b as _e,Q as ve}from"./QTabs.4874b266.js";import{Q as E}from"./QCircularProgress.85dfe2db.js";import{Q as fe}from"./QPage.660fce82.js";import{a as O,h as ge}from"./axios.ccd3a804.js";import{u as he}from"./use-quasar.ae4f72e4.js";import{Q as be}from"./QBtnGroup.ea19e2fc.js";import{u as T}from"./debug.805a8aef.js";import{N as se}from"./NoRecords.4fdd5d80.js";import{_ as ke}from"./PostcodeRegionGroupField.6d96b938.js";import{_ as ye}from"./OrderListFormat.91ec2ce4.js";import{_ as Z}from"./UserAvatar.d3fe9aaa.js";import{Q as xe,a as we}from"./QToolbarTitle.1a75cd00.js";import{Q as $e}from"./QSpace.7d6f905e.js";import{C as j}from"./ClosePopup.ef2f7039.js";import{_ as Me,m as ae,n as A,b as Ce,l as qe}from"./help.c0f85e41.js";import{_ as K}from"./PostcodeRegionDisplay.24757491.js";import"./QResizeObserver.97b49885.js";import"./rtl.4f5e13e8.js";import"./format.8e90d58d.js";import"./QSelect.853d535e.js";import"./geolocation.172e3971.js";import"./StatusTag.c8d66888.js";import"./QBadge.5efaf9f7.js";var L=ne({name:"QTab",props:me,emits:pe,setup(B,{slots:m,emit:_}){const{renderTab:t}=_e(B,m,_);return()=>t("div")}});const Qe={class:"q-pb-sm"},De={key:0,class:"q-pa-md text-center"},Ye={style:{height:"400px"}},Re=U({__name:"ContractorsMap",setup(B){const m=p(!1),_=p(),t=p(),i=p(),k=P({lat:-26.6851157,lng:153.1074659}),b=p(),c=p(null),u=P({content:"",pixelOffset:{width:0,height:0}}),y=()=>{i.value=[],_.value.forEach(a=>{a.lat&&a.lng&&i.value.push({position:{lat:parseFloat(a.lat),lng:parseFloat(a.lng)},model:a,infoText:a.name})}),i.value.length===1&&Object.assign(k,i.value[0].position),m.value=!1},I=a=>`<div class="text-h5">${a.model.fullname}</div><p>${a.model.address2} ${a.model.postcoderegionsuburb.locality} ${a.model.postcoderegionsuburb.state} ${a.model.postcoderegionsuburb.postcode}</p>`,N=(a,n)=>{b.value=a.position,u.content=I(a),c.value=n},Q=()=>{m.value=!0,O.post("/user/contractor/map",{keyword:t.value}).then(a=>{_.value=a.data,y()}).catch(a=>{T(a),m.value=!1})};return J(()=>{Q()}),(a,n)=>{const x=M("GMapInfoWindow"),G=M("GMapMarker"),l=M("GMapCluster"),S=M("GMapMap");return r(),g("div",null,[s("div",Qe,[e(ee,{modelValue:t.value,"onUpdate:modelValue":n[1]||(n[1]=h=>t.value=h),placeholder:"Keyword search",outlined:"",onKeydown:n[2]||(n[2]=re(h=>Q(),["enter"])),dense:""},{prepend:o(()=>[e(H,{name:"search"})]),append:o(()=>[e(be,null,{default:o(()=>[e(V,{onClick:n[0]||(n[0]=h=>[t.value=null,Q()]),label:"Reset",size:"sm"})]),_:1})]),_:1},8,["modelValue"])]),(!_.value||!_.value.length)&&!m.value?(r(),g("div",De,[e(se)])):v("",!0),s("div",Ye,[i.value&&i.value.length?(r(),f(S,{key:0,center:k,zoom:4,"map-type-id":"terrain",style:{width:"100%",height:"650px"},ref:"mapRef"},{default:o(()=>[e(l,null,{default:o(()=>[(r(!0),g(Y,null,W(i.value,(h,D)=>(r(),f(G,{position:h.position,clickable:!0,draggable:!1,onClick:le=>N(h,D),key:D},{default:o(()=>[e(x,{options:u,position:b.value,opened:c.value===D},null,8,["options","position","opened"])]),_:2},1032,["position","onClick"]))),128))]),_:1})]),_:1},8,["center"])):v("",!0)])])}}}),Ve={class:"q-pb-sm row q-col-gutter-md"},Ge={class:"col-xs-12 col-sm-4"},We={class:"col-xs-12 col-sm-6"},Pe={class:"col-xs-12 col-sm-2"},Oe={key:0,class:"q-pa-md text-center"},Te={style:{height:"400px"}},Be=U({__name:"CustomersMap",setup(B){const m=p(!1),_=p(),t=P({keyword:null,postcode_region_group_id:null}),i=p(),k=P({lat:-26.6851157,lng:153.1074659}),b=p(),c=p(),u=P({content:"",pixelOffset:{width:0,height:0}}),y=()=>{i.value=[],_.value.forEach(a=>{a.lat&&a.lng&&i.value.push({position:{lat:parseFloat(a.lat),lng:parseFloat(a.lng)},model:a,infoText:a.name})}),i.value.length===1&&Object.assign(k,i.value[0].position),m.value=!1},I=a=>`<div class="text-h5">${a.model.name}</div><p>${a.model.address2} ${a.model.suburbpostcoderegion.locality} ${a.model.suburbpostcoderegion.state} ${a.model.suburbpostcoderegion.postcode}</p>`,N=(a,n)=>{b.value=a.position,u.content=I(a),c.value=n},Q=()=>{m.value=!0,O.post("/team/map",{keyword:t.keyword,postcode_region_group_id:t.postcode_region_group_id}).then(a=>{_.value=a.data,y()}).catch(a=>{T(a),m.value=!1})};return(a,n)=>{const x=M("GMapInfoWindow"),G=M("GMapMarker"),l=M("GMapCluster"),S=M("GMapMap");return r(),g("div",null,[s("div",Ve,[s("div",Ge,[e(ee,{modelValue:t.keyword,"onUpdate:modelValue":n[0]||(n[0]=h=>t.keyword=h),placeholder:"Keyword search",outlined:"",dense:"",clearable:""},{prepend:o(()=>[e(H,{name:"search"})]),_:1},8,["modelValue"])]),s("div",We,[e(ke,{modelValue:t.postcode_region_group_id,"onUpdate:modelValue":n[1]||(n[1]=h=>t.postcode_region_group_id=h),label:"Choose an area",outlined:!0,dense:!0,class:"q-mb-md"},null,8,["modelValue"])]),s("div",Pe,[e(V,{onClick:n[2]||(n[2]=h=>Q()),icon:"search",color:"primary",disable:m.value||!t.keyword&&!t.postcode_region_group_id},null,8,["disable"])])]),(!_.value||!_.value.length)&&!m.value?(r(),g("div",Oe,[e(se)])):v("",!0),s("div",Te,[i.value&&i.value.length?(r(),f(S,{key:0,center:k,zoom:4,"map-type-id":"terrain",style:{width:"100%",height:"650px"},ref:"mapRef"},{default:o(()=>[e(l,null,{default:o(()=>[(r(!0),g(Y,null,W(i.value,(h,D)=>(r(),f(G,{position:h.position,clickable:!0,draggable:!1,onClick:le=>N(h,D),key:D},{default:o(()=>[e(x,{options:u,position:b.value,opened:c.value===D},null,8,["options","position","opened"])]),_:2},1032,["position","onClick"]))),128))]),_:1})]),_:1},8,["center"])):v("",!0)])])}}}),Ie={class:"row q-col-gutter-md"},Ne={class:"col-xs-12 col-sm-6"},Se=s("div",{class:"text-bold q-mb-xs"},"Current Suburbs to pickup from:",-1),Fe={class:"col-xs-12 col-sm-6"},ze=s("div",{class:"text-bold q-mb-xs"},"New Suburbs to pickup from:",-1),Ae=s("div",{class:"text-bold q-mb-xs q-mt-md"},"Changes",-1),Ue=U({__name:"UserRosterApprove",setup(B){const m=p(!1),_=p(),t=P({id:null,day:null,start_time:null,end_time:null,active:!0,user_id:null,user:null,postcoderegions:[],capacity:{products:[]},approved:!1}),i=p(!1),k=te("bus"),b=c=>{i.value=!0,O.put(`/userroster/approve/${t.id}`,t).then(()=>{Ce("positive","Roster updated"),k.emit("getDashboardStats"),c&&(m.value=!1),i.value=!1}).catch(u=>{i.value=!1,T(u)})};return J(()=>{k.on("approveRoster",async c=>{O.get(`/userroster/${c}`).then(u=>{Object.assign(t,u.data),t.postcoderegions&&t.postcoderegions_old&&(_.value=Me.differenceBy(t.postcoderegions,t.postcoderegions_old,"id")),m.value=!0}).catch(u=>{T(u)})})}),oe(()=>{k.off("approveRoster")}),(c,u)=>(r(),f(ie,{modelValue:m.value,"onUpdate:modelValue":u[1]||(u[1]=y=>m.value=y)},{default:o(()=>[t.day&&t.user&&t.start_time&&t.end_time?(r(),f(C,{key:0,class:"modal"},{default:o(()=>[t.user?(r(),f(xe,{key:0},{default:o(()=>[e(we,null,{default:o(()=>[w(d(t.user.fullname)+" - "+d(R(ae)(t.day))+"s ("+d(R(A)(t.start_time))+" - "+d(R(A)(t.end_time))+")",1)]),_:1}),e($e),X(e(V,{icon:"close",flat:"",round:"",dense:""},null,512),[[j]])]),_:1})):v("",!0),e(q,null,{default:o(()=>[s("div",Ie,[s("div",Ne,[Se,t.postcoderegions_old?(r(),f(K,{key:0,postcoderegions:t.postcoderegions_old},null,8,["postcoderegions"])):v("",!0)]),s("div",Fe,[ze,e(K,{postcoderegions:t.postcoderegions},null,8,["postcoderegions"])])]),Ae,e(K,{postcoderegions:_.value},null,8,["postcoderegions"])]),_:1}),e(de,{align:"right"},{default:o(()=>[X(e(V,{label:"Cancel",flat:"",color:"secondary"},null,512),[[j]]),e(V,{disable:i.value,label:"Approve",color:"primary",onClick:u[0]||(u[0]=y=>b(!0)),loading:i.value},null,8,["disable","loading"])]),_:1})]),_:1})):v("",!0)]),_:1},8,["modelValue"]))}}),Ee=s("div",{class:"text-h4 q-mb-xs q-mt-md"}," Dashboard ",-1),Ke={class:"q-mt-lg"},Le=s("div",{class:"text-h6 q-mb-md"},"Roster Location Changes",-1),Je={class:"text-h7"},He={key:1,class:"row q-col-gutter-md"},Xe={class:"col-xs-12 col-sm-9"},Ze=s("div",{class:"text-h6 q-mb-md text-negative"},"Unassigned",-1),je={class:"row q-col-gutter-md"},et={class:"col-xs-12 col-sm-12"},tt=s("div",{class:"text-h6 q-mb-md"},"Recently Joined",-1),ot={key:0},st={class:"col-xs-12 col-sm-12"},at={class:"text-h6 q-mb-md"},lt={key:0},nt={class:"col-xs-12 col-sm-3"},rt={class:"text-bold q-mb-sm text-center",style:{"font-size":"15px"}},dt={key:0,class:"row q-col-gutter-md q-mb-lg"},it={key:0,class:"text-center col-xs-12"},ut={class:"text-h6"},ct={class:"row q-col-gutter-md"},mt={class:"col-xs-12 col-sm-4"},pt={class:"text-center"},_t={class:"text-h5 text-bold"},vt={class:"col-xs-12 col-sm-4"},ft={class:"text-center"},gt={class:"text-h5 text-bold"},ht={class:"col-xs-12 col-sm-4"},bt={class:"text-center"},kt={class:"text-h5 text-bold"},yt={class:"row q-col-gutter-md"},xt={class:"col-xs-12 col-sm-6"},wt={class:"text-center q-pt-md"},$t={class:"q-pa-sm text-caption"},Mt=s("div",{class:"q-mt-sm"},"Retained",-1),Ct={class:"col-xs-12 col-sm-6"},qt={class:"text-center q-pt-md"},Qt={class:"q-pa-sm text-caption"},Dt=s("div",{class:"q-mt-sm"},"Rebooked",-1),so=U({__name:"AppDashboard",setup(B){const m=te("bus"),_=he(),t=p(),i=p(),k=p(!1),b=p("orders"),c=p(),u=p({start:null,end:null}),y=()=>{_.loading.show({message:"Fetching data..."}),O.post("/user/dashboardstats?allFeed=true").then(n=>{t.value=n.data,k.value=!0,I()}).catch(n=>{T(n),k.value=!0,_.loading.hide()})},I=()=>{O.post("/user/contractor/landing",u.value).then(n=>{i.value=n.data,_.loading.hide()}).catch(n=>{T(n),_.loading.hide()})},N=()=>{c.value=c.value.add(1,"weeks"),u.value={start:c.value.startOf("isoWeek").format("DD/MM/YYYY"),end:c.value.endOf("isoWeek").format("DD/MM/YYYY")},y()},Q=()=>{c.value=c.value.subtract(1,"weeks"),u.value={start:c.value.startOf("isoWeek").format("DD/MM/YYYY"),end:c.value.endOf("isoWeek").format("DD/MM/YYYY")},y()},a=n=>{m.emit("approveRoster",n)};return J(()=>{c.value=ge(),u.value={start:c.value.startOf("isoWeek").format("DD/MM/YYYY"),end:c.value.endOf("isoWeek").format("DD/MM/YYYY")},y(),m.on("getDashboardStats",()=>{y()})}),oe(()=>{m.off("getDashboardStats")}),(n,x)=>{const G=M("router-link");return r(),g(Y,null,[e(Ue),t.value?(r(),f(fe,{key:0,padding:""},{default:o(()=>[e(ce,{class:"q-mt-md"},{separator:o(()=>[e(H,{size:"1.5em",name:"chevron_right"})]),default:o(()=>[e(ue,{label:"Home",icon:"home",to:{name:"dashboard"}})]),_:1}),Ee,s("div",Ke,[t.value.rosterApprovals.length?(r(),f(C,{key:0,class:"bg-primary text-white q-mb-lg"},{default:o(()=>[e(q,null,{default:o(()=>[Le,e(z,{separator:""},{default:o(()=>[(r(!0),g(Y,null,W(t.value.rosterApprovals,l=>(r(),f(F,{key:l.id,clickable:"",onClick:S=>a(l.id)},{default:o(()=>[e($,null,{default:o(()=>[s("div",Je,d(l.user.fullname),1),s("div",null,d(R(ae)(l.day))+"s ("+d(R(A)(l.start_time))+" - "+d(R(A)(l.end_time))+")",1)]),_:2},1024)]),_:2},1032,["onClick"]))),128))]),_:1})]),_:1})]),_:1})):v("",!0),e(ve,{modelValue:b.value,"onUpdate:modelValue":x[0]||(x[0]=l=>b.value=l),align:"left",class:"q-mb-md"},{default:o(()=>[e(L,{name:"orders",label:"Overview"}),e(L,{name:"contractors",label:`${n.$t("contractor.namePlural")} Map`},null,8,["label"]),e(L,{name:"customers",label:`${n.$t("team.namePlural")} Map`},null,8,["label"])]),_:1},8,["modelValue"]),b.value==="orders"?(r(),g("div",He,[s("div",Xe,[t.value.unAssigned.length?(r(),f(C,{key:0,class:"bg-seamless q-mb-lg"},{default:o(()=>[e(q,null,{default:o(()=>[Ze,e(ye,{orders:t.value.unAssigned},null,8,["orders"])]),_:1})]),_:1})):v("",!0),s("div",je,[s("div",et,[t.value.newContractors.length?(r(),f(C,{key:0,class:"bg-seamless q-mb-lg"},{default:o(()=>[e(q,null,{default:o(()=>[tt,e(z,{class:"bg-white",separator:""},{default:o(()=>[(r(!0),g(Y,null,W(t.value.newContractors,l=>(r(),f(F,{key:l.id},{default:o(()=>[e($,{avatar:""},{default:o(()=>[e(Z,{user:l},null,8,["user"])]),_:2},1024),e($,null,{default:o(()=>[s("div",null,[e(G,{to:{name:"contractor-dashboard",params:{id:l.id}},class:"link text-h6"},{default:o(()=>[w(d(l.fullname),1)]),_:2},1032,["to"]),l.postcoderegionsuburb?(r(),g("div",ot,d(l.postcoderegionsuburb.locality)+" "+d(l.postcoderegionsuburb.state),1)):v("",!0)])]),_:2},1024),e($,{side:""},{default:o(()=>[w(d(l.contractor_start_date),1)]),_:2},1024)]),_:2},1024))),128))]),_:1})]),_:1})]),_:1})):v("",!0)]),s("div",st,[t.value.newCustomers.length?(r(),f(C,{key:0,class:"bg-seamless q-mb-lg"},{default:o(()=>[e(q,null,{default:o(()=>[s("div",at,"New "+d(n.$t("team.namePlural")),1),e(z,{class:"bg-white",separator:""},{default:o(()=>[(r(!0),g(Y,null,W(t.value.newCustomers,l=>(r(),f(F,{key:l.id},{default:o(()=>[e($,{avatar:""},{default:o(()=>[e(Z,{user:l},null,8,["user"])]),_:2},1024),e($,null,{default:o(()=>[s("div",null,[e(G,{to:{name:"team-dashboard",params:{id:l.id}},class:"link text-h6"},{default:o(()=>[w(d(l.name),1)]),_:2},1032,["to"]),l.suburbpostcoderegion?(r(),g("div",lt,d(l.suburbpostcoderegion.locality)+" "+d(l.suburbpostcoderegion.state),1)):v("",!0)])]),_:2},1024),e($,{side:""},{default:o(()=>[w(d(R(qe)(l.created_at)),1)]),_:2},1024)]),_:2},1024))),128))]),_:1})]),_:1})]),_:1})):v("",!0)])])]),s("div",nt,[s("div",rt,[e(V,{onClick:x[1]||(x[1]=l=>Q()),flat:"",icon:"chevron_left",class:"q-mr-sm",round:""}),w(d(u.value.start)+" -> "+d(u.value.end),1),e(V,{onClick:x[2]||(x[2]=l=>N()),flat:"",icon:"chevron_right",class:"q-ml-sm",round:""})]),i.value?(r(),g("div",dt,[i.value.length?v("",!0):(r(),g("div",it,"No records found for this date range.")),(r(!0),g(Y,null,W(i.value,l=>(r(),g("div",{class:"col-xs-12",key:l.name},[e(C,null,{default:o(()=>[e(z,{class:"bg-white"},{default:o(()=>[e(F,null,{default:o(()=>[e($,{side:""},{default:o(()=>[e(E,{value:l.per,size:"40px",color:"primary","track-color":"grey-5",thickness:.3},null,8,["value","thickness"])]),_:2},1024),e($,null,{default:o(()=>[s("div",ut,d(l.name)+" Bookings",1),s("div",null,d(l.oc)+"/"+d(l.cc)+" - "+d(l.per)+"% ",1)]),_:2},1024)]),_:2},1024)]),_:2},1024)]),_:2},1024)]))),128))])):v("",!0),e(C,{class:"bg-secondary text-white"},{default:o(()=>[e(q,{class:"text-h6"},{default:o(()=>[w("Statistics")]),_:1}),e(q,null,{default:o(()=>[s("div",ct,[s("div",mt,[s("div",pt,[s("div",_t,d(t.value.totalOrdersCount[0].count),1),w(" "+d(n.$t("order.namePlural")),1)])]),s("div",vt,[s("div",ft,[s("div",gt,d(t.value.totalContractors[0].count),1),w(" "+d(n.$t("contractor.namePlural")),1)])]),s("div",ht,[s("div",bt,[s("div",kt,d(t.value.totalCustomers[0].count),1),w(" "+d(n.$t("team.namePlural")),1)])])])]),_:1})]),_:1}),e(C,{class:"bg-seamless q-mb-md q-mt-sm"},{default:o(()=>[e(q,null,{default:o(()=>[s("div",yt,[s("div",xt,[s("div",wt,[e(E,{value:parseFloat(t.value.retainedRebooked.retainedPercentage),color:"secondary",size:"64px","track-color":"grey-4","show-value":"",title:t.value.retainedRebooked.retained},{default:o(()=>[s("div",$t,d(t.value.retainedRebooked.retainedPercentage)+"%",1)]),_:1},8,["value","title"]),Mt])]),s("div",Ct,[s("div",qt,[e(E,{value:parseFloat(t.value.retainedRebooked.rebookedPercentage),color:"secondary",size:"64px","track-color":"grey-4","show-value":"",title:t.value.retainedRebooked.rebooked},{default:o(()=>[s("div",Qt,d(t.value.retainedRebooked.rebookedPercentage)+"%",1)]),_:1},8,["value","title"]),Dt])])])]),_:1})]),_:1})])])):v("",!0),b.value==="contractors"?(r(),f(Re,{key:2})):v("",!0),b.value==="customers"?(r(),f(Be,{key:3})):v("",!0)])]),_:1})):v("",!0)],64)}}});export{so as default};
+import { V as createComponent, A as defineComponent, r as ref, B as reactive, o as onMounted, J as resolveComponent, m as openBlock, n as createElementBlock, q as createBaseVNode, l as createVNode, L as withCtx, O as QIcon, S as QBtn, P as withKeys, N as QInput, y as createCommentVNode, K as createBlock, F as Fragment, b7 as renderList, i as inject, E as onBeforeUnmount, Q as QCard, R as createTextVNode, b8 as toDisplayString, U as unref, G as withDirectives, M as QCardSection, ae as QCardActions, aD as QDialog } from "./index.e647c85a.js";
+import { Q as QBreadcrumbsEl, a as QBreadcrumbs } from "./QBreadcrumbs.14144362.js";
+import { a as QItem, Q as QItemSection } from "./QItemSection.99659658.js";
+import { Q as QList } from "./QList.2f0afc60.js";
+import { u as useTabProps, a as useTabEmits, b as useTab, Q as QTabs } from "./QTabs.4874b266.js";
+import { Q as QCircularProgress } from "./QCircularProgress.85dfe2db.js";
+import { Q as QPage } from "./QPage.660fce82.js";
+import { a as api, h as hooks } from "./axios.ccd3a804.js";
+import { u as useQuasar } from "./use-quasar.ae4f72e4.js";
+import { Q as QBtnGroup } from "./QBtnGroup.ea19e2fc.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { N as NoRecords } from "./NoRecords.4fdd5d80.js";
+import { _ as _sfc_main$4 } from "./PostcodeRegionGroupField.6d96b938.js";
+import { _ as _sfc_main$6 } from "./OrderListFormat.91ec2ce4.js";
+import { _ as _sfc_main$7 } from "./UserAvatar.d3fe9aaa.js";
+import { Q as QToolbar, a as QToolbarTitle } from "./QToolbarTitle.1a75cd00.js";
+import { Q as QSpace } from "./QSpace.7d6f905e.js";
+import { C as ClosePopup } from "./ClosePopup.ef2f7039.js";
+import { _, m as dayDisplay, n as hourDisplay, b as doNotify, l as fromNowTz } from "./help.c0f85e41.js";
+import { _ as _sfc_main$5 } from "./PostcodeRegionDisplay.24757491.js";
+import "./QResizeObserver.97b49885.js";
+import "./rtl.4f5e13e8.js";
+import "./format.8e90d58d.js";
+import "./QSelect.853d535e.js";
+import "./geolocation.172e3971.js";
+import "./StatusTag.c8d66888.js";
+import "./QBadge.5efaf9f7.js";
+var QTab = createComponent({
+  name: "QTab",
+  props: useTabProps,
+  emits: useTabEmits,
+  setup(props, { slots, emit }) {
+    const { renderTab } = useTab(props, slots, emit);
+    return () => renderTab("div");
+  }
+});
+const _hoisted_1$3 = { class: "q-pb-sm" };
+const _hoisted_2$3 = {
+  key: 0,
+  class: "q-pa-md text-center"
+};
+const _hoisted_3$3 = { style: { "height": "400px" } };
+const _sfc_main$3 = /* @__PURE__ */ defineComponent({
+  __name: "ContractorsMap",
+  setup(__props) {
+    const loading = ref(false);
+    const data = ref();
+    const keyword = ref();
+    const markers = ref();
+    const center = reactive({
+      lat: -26.6851157,
+      lng: 153.1074659
+    });
+    const infoWindowPos = ref();
+    const currentMidx = ref(null);
+    const infoOptions = reactive({
+      content: "",
+      pixelOffset: {
+        width: 0,
+        height: 0
+      }
+    });
+    const getMarkers = () => {
+      markers.value = [];
+      data.value.forEach((obj) => {
+        if (obj.lat && obj.lng) {
+          markers.value.push({
+            position: {
+              lat: parseFloat(obj.lat),
+              lng: parseFloat(obj.lng)
+            },
+            model: obj,
+            infoText: obj.name
+          });
+        }
+      });
+      if (markers.value.length === 1) {
+        Object.assign(center, markers.value[0].position);
+      }
+      loading.value = false;
+    };
+    const getInfoWindowContent = (marker) => {
+      const html = `<div class="text-h5">${marker.model.fullname}</div><p>${marker.model.address2} ${marker.model.postcoderegionsuburb.locality} ${marker.model.postcoderegionsuburb.state} ${marker.model.postcoderegionsuburb.postcode}</p>`;
+      return html;
+    };
+    const toggleInfoWindow = (marker, idx) => {
+      infoWindowPos.value = marker.position;
+      infoOptions.content = getInfoWindowContent(marker);
+      currentMidx.value = idx;
+    };
+    const getContractors = () => {
+      loading.value = true;
+      api.post("/user/contractor/map", { keyword: keyword.value }).then((response) => {
+        data.value = response.data;
+        getMarkers();
+      }).catch((error) => {
+        useMixinDebug(error);
+        loading.value = false;
+      });
+    };
+    onMounted(() => {
+      getContractors();
+    });
+    return (_ctx, _cache) => {
+      const _component_GMapInfoWindow = resolveComponent("GMapInfoWindow");
+      const _component_GMapMarker = resolveComponent("GMapMarker");
+      const _component_GMapCluster = resolveComponent("GMapCluster");
+      const _component_GMapMap = resolveComponent("GMapMap");
+      return openBlock(), createElementBlock("div", null, [
+        createBaseVNode("div", _hoisted_1$3, [
+          createVNode(QInput, {
+            modelValue: keyword.value,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => keyword.value = $event),
+            placeholder: "Keyword search",
+            outlined: "",
+            onKeydown: _cache[2] || (_cache[2] = withKeys(($event) => getContractors(), ["enter"])),
+            dense: ""
+          }, {
+            prepend: withCtx(() => [
+              createVNode(QIcon, { name: "search" })
+            ]),
+            append: withCtx(() => [
+              createVNode(QBtnGroup, null, {
+                default: withCtx(() => [
+                  createVNode(QBtn, {
+                    onClick: _cache[0] || (_cache[0] = ($event) => [keyword.value = null, getContractors()]),
+                    label: "Reset",
+                    size: "sm"
+                  })
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          }, 8, ["modelValue"])
+        ]),
+        (!data.value || !data.value.length) && !loading.value ? (openBlock(), createElementBlock("div", _hoisted_2$3, [
+          createVNode(NoRecords)
+        ])) : createCommentVNode("", true),
+        createBaseVNode("div", _hoisted_3$3, [
+          markers.value && markers.value.length ? (openBlock(), createBlock(_component_GMapMap, {
+            key: 0,
+            center,
+            zoom: 4,
+            "map-type-id": "terrain",
+            style: { "width": "100%", "height": "650px" },
+            ref: "mapRef"
+          }, {
+            default: withCtx(() => [
+              createVNode(_component_GMapCluster, null, {
+                default: withCtx(() => [
+                  (openBlock(true), createElementBlock(Fragment, null, renderList(markers.value, (m, index) => {
+                    return openBlock(), createBlock(_component_GMapMarker, {
+                      position: m.position,
+                      clickable: true,
+                      draggable: false,
+                      onClick: ($event) => toggleInfoWindow(m, index),
+                      key: index
+                    }, {
+                      default: withCtx(() => [
+                        createVNode(_component_GMapInfoWindow, {
+                          options: infoOptions,
+                          position: infoWindowPos.value,
+                          opened: currentMidx.value === index
+                        }, null, 8, ["options", "position", "opened"])
+                      ]),
+                      _: 2
+                    }, 1032, ["position", "onClick"]);
+                  }), 128))
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          }, 8, ["center"])) : createCommentVNode("", true)
+        ])
+      ]);
+    };
+  }
+});
+const _hoisted_1$2 = { class: "q-pb-sm row q-col-gutter-md" };
+const _hoisted_2$2 = { class: "col-xs-12 col-sm-4" };
+const _hoisted_3$2 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_4$2 = { class: "col-xs-12 col-sm-2" };
+const _hoisted_5$2 = {
+  key: 0,
+  class: "q-pa-md text-center"
+};
+const _hoisted_6$2 = { style: { "height": "400px" } };
+const _sfc_main$2 = /* @__PURE__ */ defineComponent({
+  __name: "CustomersMap",
+  setup(__props) {
+    const loading = ref(false);
+    const data = ref();
+    const search = reactive({ keyword: null, postcode_region_group_id: null });
+    const markers = ref();
+    const center = reactive({
+      lat: -26.6851157,
+      lng: 153.1074659
+    });
+    const infoWindowPos = ref();
+    const currentMidx = ref();
+    const infoOptions = reactive({
+      content: "",
+      pixelOffset: {
+        width: 0,
+        height: 0
+      }
+    });
+    const getMarkers = () => {
+      markers.value = [];
+      data.value.forEach((obj) => {
+        if (obj.lat && obj.lng) {
+          markers.value.push({
+            position: {
+              lat: parseFloat(obj.lat),
+              lng: parseFloat(obj.lng)
+            },
+            model: obj,
+            infoText: obj.name
+          });
+        }
+      });
+      if (markers.value.length === 1) {
+        Object.assign(center, markers.value[0].position);
+      }
+      loading.value = false;
+    };
+    const getInfoWindowContent = (marker) => {
+      const html = `<div class="text-h5">${marker.model.name}</div><p>${marker.model.address2} ${marker.model.suburbpostcoderegion.locality} ${marker.model.suburbpostcoderegion.state} ${marker.model.suburbpostcoderegion.postcode}</p>`;
+      return html;
+    };
+    const toggleInfoWindow = (marker, idx) => {
+      infoWindowPos.value = marker.position;
+      infoOptions.content = getInfoWindowContent(marker);
+      currentMidx.value = idx;
+    };
+    const getCustomers = () => {
+      loading.value = true;
+      api.post("/team/map", { keyword: search.keyword, postcode_region_group_id: search.postcode_region_group_id }).then((response) => {
+        data.value = response.data;
+        getMarkers();
+      }).catch((error) => {
+        useMixinDebug(error);
+        loading.value = false;
+      });
+    };
+    return (_ctx, _cache) => {
+      const _component_GMapInfoWindow = resolveComponent("GMapInfoWindow");
+      const _component_GMapMarker = resolveComponent("GMapMarker");
+      const _component_GMapCluster = resolveComponent("GMapCluster");
+      const _component_GMapMap = resolveComponent("GMapMap");
+      return openBlock(), createElementBlock("div", null, [
+        createBaseVNode("div", _hoisted_1$2, [
+          createBaseVNode("div", _hoisted_2$2, [
+            createVNode(QInput, {
+              modelValue: search.keyword,
+              "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => search.keyword = $event),
+              placeholder: "Keyword search",
+              outlined: "",
+              dense: "",
+              clearable: ""
+            }, {
+              prepend: withCtx(() => [
+                createVNode(QIcon, { name: "search" })
+              ]),
+              _: 1
+            }, 8, ["modelValue"])
+          ]),
+          createBaseVNode("div", _hoisted_3$2, [
+            createVNode(_sfc_main$4, {
+              modelValue: search.postcode_region_group_id,
+              "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => search.postcode_region_group_id = $event),
+              label: "Choose an area",
+              outlined: true,
+              dense: true,
+              class: "q-mb-md"
+            }, null, 8, ["modelValue"])
+          ]),
+          createBaseVNode("div", _hoisted_4$2, [
+            createVNode(QBtn, {
+              onClick: _cache[2] || (_cache[2] = ($event) => getCustomers()),
+              icon: "search",
+              color: "primary",
+              disable: loading.value || !search.keyword && !search.postcode_region_group_id
+            }, null, 8, ["disable"])
+          ])
+        ]),
+        (!data.value || !data.value.length) && !loading.value ? (openBlock(), createElementBlock("div", _hoisted_5$2, [
+          createVNode(NoRecords)
+        ])) : createCommentVNode("", true),
+        createBaseVNode("div", _hoisted_6$2, [
+          markers.value && markers.value.length ? (openBlock(), createBlock(_component_GMapMap, {
+            key: 0,
+            center,
+            zoom: 4,
+            "map-type-id": "terrain",
+            style: { "width": "100%", "height": "650px" },
+            ref: "mapRef"
+          }, {
+            default: withCtx(() => [
+              createVNode(_component_GMapCluster, null, {
+                default: withCtx(() => [
+                  (openBlock(true), createElementBlock(Fragment, null, renderList(markers.value, (m, index) => {
+                    return openBlock(), createBlock(_component_GMapMarker, {
+                      position: m.position,
+                      clickable: true,
+                      draggable: false,
+                      onClick: ($event) => toggleInfoWindow(m, index),
+                      key: index
+                    }, {
+                      default: withCtx(() => [
+                        createVNode(_component_GMapInfoWindow, {
+                          options: infoOptions,
+                          position: infoWindowPos.value,
+                          opened: currentMidx.value === index
+                        }, null, 8, ["options", "position", "opened"])
+                      ]),
+                      _: 2
+                    }, 1032, ["position", "onClick"]);
+                  }), 128))
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          }, 8, ["center"])) : createCommentVNode("", true)
+        ])
+      ]);
+    };
+  }
+});
+const _hoisted_1$1 = { class: "row q-col-gutter-md" };
+const _hoisted_2$1 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_3$1 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold q-mb-xs" }, "Current Suburbs to pickup from:", -1);
+const _hoisted_4$1 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_5$1 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold q-mb-xs" }, "New Suburbs to pickup from:", -1);
+const _hoisted_6$1 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold q-mb-xs q-mt-md" }, "Changes", -1);
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "UserRosterApprove",
+  setup(__props) {
+    const show = ref(false);
+    const difference = ref();
+    const model = reactive({
+      id: null,
+      day: null,
+      start_time: null,
+      end_time: null,
+      active: true,
+      user_id: null,
+      user: null,
+      postcoderegions: [],
+      capacity: { products: [] },
+      approved: false
+    });
+    const loading = ref(false);
+    const bus = inject("bus");
+    const save = (close) => {
+      loading.value = true;
+      api.put(`/userroster/approve/${model.id}`, model).then(() => {
+        doNotify("positive", "Roster updated");
+        bus.emit("getDashboardStats");
+        if (close) {
+          show.value = false;
+        }
+        loading.value = false;
+      }).catch((error) => {
+        loading.value = false;
+        useMixinDebug(error);
+      });
+    };
+    onMounted(() => {
+      bus.on("approveRoster", async (id) => {
+        api.get(`/userroster/${id}`).then((response) => {
+          Object.assign(model, response.data);
+          if (model.postcoderegions && model.postcoderegions_old) {
+            difference.value = _.differenceBy(model.postcoderegions, model.postcoderegions_old, "id");
+          }
+          show.value = true;
+        }).catch((error) => {
+          useMixinDebug(error);
+        });
+      });
+    });
+    onBeforeUnmount(() => {
+      bus.off("approveRoster");
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QDialog, {
+        modelValue: show.value,
+        "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => show.value = $event)
+      }, {
+        default: withCtx(() => [
+          model.day && model.user && model.start_time && model.end_time ? (openBlock(), createBlock(QCard, {
+            key: 0,
+            class: "modal"
+          }, {
+            default: withCtx(() => [
+              model.user ? (openBlock(), createBlock(QToolbar, { key: 0 }, {
+                default: withCtx(() => [
+                  createVNode(QToolbarTitle, null, {
+                    default: withCtx(() => [
+                      createTextVNode(toDisplayString(model.user.fullname) + " - " + toDisplayString(unref(dayDisplay)(model.day)) + "s (" + toDisplayString(unref(hourDisplay)(model.start_time)) + " - " + toDisplayString(unref(hourDisplay)(model.end_time)) + ")", 1)
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QSpace),
+                  withDirectives(createVNode(QBtn, {
+                    icon: "close",
+                    flat: "",
+                    round: "",
+                    dense: ""
+                  }, null, 512), [
+                    [ClosePopup]
+                  ])
+                ]),
+                _: 1
+              })) : createCommentVNode("", true),
+              createVNode(QCardSection, null, {
+                default: withCtx(() => [
+                  createBaseVNode("div", _hoisted_1$1, [
+                    createBaseVNode("div", _hoisted_2$1, [
+                      _hoisted_3$1,
+                      model.postcoderegions_old ? (openBlock(), createBlock(_sfc_main$5, {
+                        key: 0,
+                        postcoderegions: model.postcoderegions_old
+                      }, null, 8, ["postcoderegions"])) : createCommentVNode("", true)
+                    ]),
+                    createBaseVNode("div", _hoisted_4$1, [
+                      _hoisted_5$1,
+                      createVNode(_sfc_main$5, {
+                        postcoderegions: model.postcoderegions
+                      }, null, 8, ["postcoderegions"])
+                    ])
+                  ]),
+                  _hoisted_6$1,
+                  createVNode(_sfc_main$5, { postcoderegions: difference.value }, null, 8, ["postcoderegions"])
+                ]),
+                _: 1
+              }),
+              createVNode(QCardActions, { align: "right" }, {
+                default: withCtx(() => [
+                  withDirectives(createVNode(QBtn, {
+                    label: "Cancel",
+                    flat: "",
+                    color: "secondary"
+                  }, null, 512), [
+                    [ClosePopup]
+                  ]),
+                  createVNode(QBtn, {
+                    disable: loading.value,
+                    label: "Approve",
+                    color: "primary",
+                    onClick: _cache[0] || (_cache[0] = ($event) => save(true)),
+                    loading: loading.value
+                  }, null, 8, ["disable", "loading"])
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })) : createCommentVNode("", true)
+        ]),
+        _: 1
+      }, 8, ["modelValue"]);
+    };
+  }
+});
+const _hoisted_1 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h4 q-mb-xs q-mt-md" }, " Dashboard ", -1);
+const _hoisted_2 = { class: "q-mt-lg" };
+const _hoisted_3 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-md" }, "Roster Location Changes", -1);
+const _hoisted_4 = { class: "text-h7" };
+const _hoisted_5 = {
+  key: 1,
+  class: "row q-col-gutter-md"
+};
+const _hoisted_6 = { class: "col-xs-12 col-sm-9" };
+const _hoisted_7 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-md text-negative" }, "Unassigned", -1);
+const _hoisted_8 = { class: "row q-col-gutter-md" };
+const _hoisted_9 = { class: "col-xs-12 col-sm-12" };
+const _hoisted_10 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-md" }, "Recently Joined", -1);
+const _hoisted_11 = { key: 0 };
+const _hoisted_12 = { class: "col-xs-12 col-sm-12" };
+const _hoisted_13 = { class: "text-h6 q-mb-md" };
+const _hoisted_14 = { key: 0 };
+const _hoisted_15 = { class: "col-xs-12 col-sm-3" };
+const _hoisted_16 = {
+  class: "text-bold q-mb-sm text-center",
+  style: { "font-size": "15px" }
+};
+const _hoisted_17 = {
+  key: 0,
+  class: "row q-col-gutter-md q-mb-lg"
+};
+const _hoisted_18 = {
+  key: 0,
+  class: "text-center col-xs-12"
+};
+const _hoisted_19 = { class: "text-h6" };
+const _hoisted_20 = { class: "row q-col-gutter-md" };
+const _hoisted_21 = { class: "col-xs-12 col-sm-4" };
+const _hoisted_22 = { class: "text-center" };
+const _hoisted_23 = { class: "text-h5 text-bold" };
+const _hoisted_24 = { class: "col-xs-12 col-sm-4" };
+const _hoisted_25 = { class: "text-center" };
+const _hoisted_26 = { class: "text-h5 text-bold" };
+const _hoisted_27 = { class: "col-xs-12 col-sm-4" };
+const _hoisted_28 = { class: "text-center" };
+const _hoisted_29 = { class: "text-h5 text-bold" };
+const _hoisted_30 = { class: "row q-col-gutter-md" };
+const _hoisted_31 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_32 = { class: "text-center q-pt-md" };
+const _hoisted_33 = { class: "q-pa-sm text-caption" };
+const _hoisted_34 = /* @__PURE__ */ createBaseVNode("div", { class: "q-mt-sm" }, "Retained", -1);
+const _hoisted_35 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_36 = { class: "text-center q-pt-md" };
+const _hoisted_37 = { class: "q-pa-sm text-caption" };
+const _hoisted_38 = /* @__PURE__ */ createBaseVNode("div", { class: "q-mt-sm" }, "Rebooked", -1);
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "AppDashboard",
+  setup(__props) {
+    const bus = inject("bus");
+    const $q = useQuasar();
+    const dashboard = ref();
+    const landingData = ref();
+    const loaded = ref(false);
+    const currentTab = ref("orders");
+    const currentDate = ref();
+    const search = ref({ start: null, end: null });
+    const getDashboardStats = () => {
+      $q.loading.show({ message: "Fetching data..." });
+      api.post("/user/dashboardstats?allFeed=true").then((response) => {
+        dashboard.value = response.data;
+        loaded.value = true;
+        getLandingData();
+      }).catch((response) => {
+        useMixinDebug(response);
+        loaded.value = true;
+        $q.loading.hide();
+      });
+    };
+    const getLandingData = () => {
+      api.post("/user/contractor/landing", search.value).then((response) => {
+        landingData.value = response.data;
+        $q.loading.hide();
+      }).catch((error) => {
+        useMixinDebug(error);
+        $q.loading.hide();
+      });
+    };
+    const increaseWeek = () => {
+      currentDate.value = currentDate.value.add(1, "weeks");
+      search.value = { start: currentDate.value.startOf("isoWeek").format("DD/MM/YYYY"), end: currentDate.value.endOf("isoWeek").format("DD/MM/YYYY") };
+      getDashboardStats();
+    };
+    const decreaseWeek = () => {
+      currentDate.value = currentDate.value.subtract(1, "weeks");
+      search.value = { start: currentDate.value.startOf("isoWeek").format("DD/MM/YYYY"), end: currentDate.value.endOf("isoWeek").format("DD/MM/YYYY") };
+      getDashboardStats();
+    };
+    const approveRoster = (id) => {
+      bus.emit("approveRoster", id);
+    };
+    onMounted(() => {
+      currentDate.value = hooks();
+      search.value = { start: currentDate.value.startOf("isoWeek").format("DD/MM/YYYY"), end: currentDate.value.endOf("isoWeek").format("DD/MM/YYYY") };
+      getDashboardStats();
+      bus.on("getDashboardStats", () => {
+        getDashboardStats();
+      });
+    });
+    onBeforeUnmount(() => {
+      bus.off("getDashboardStats");
+    });
+    return (_ctx, _cache) => {
+      const _component_router_link = resolveComponent("router-link");
+      return openBlock(), createElementBlock(Fragment, null, [
+        createVNode(_sfc_main$1),
+        dashboard.value ? (openBlock(), createBlock(QPage, {
+          key: 0,
+          padding: ""
+        }, {
+          default: withCtx(() => [
+            createVNode(QBreadcrumbs, { class: "q-mt-md" }, {
+              separator: withCtx(() => [
+                createVNode(QIcon, {
+                  size: "1.5em",
+                  name: "chevron_right"
+                })
+              ]),
+              default: withCtx(() => [
+                createVNode(QBreadcrumbsEl, {
+                  label: "Home",
+                  icon: "home",
+                  to: { name: "dashboard" }
+                })
+              ]),
+              _: 1
+            }),
+            _hoisted_1,
+            createBaseVNode("div", _hoisted_2, [
+              dashboard.value.rosterApprovals.length ? (openBlock(), createBlock(QCard, {
+                key: 0,
+                class: "bg-primary text-white q-mb-lg"
+              }, {
+                default: withCtx(() => [
+                  createVNode(QCardSection, null, {
+                    default: withCtx(() => [
+                      _hoisted_3,
+                      createVNode(QList, { separator: "" }, {
+                        default: withCtx(() => [
+                          (openBlock(true), createElementBlock(Fragment, null, renderList(dashboard.value.rosterApprovals, (r) => {
+                            return openBlock(), createBlock(QItem, {
+                              key: r.id,
+                              clickable: "",
+                              onClick: ($event) => approveRoster(r.id)
+                            }, {
+                              default: withCtx(() => [
+                                createVNode(QItemSection, null, {
+                                  default: withCtx(() => [
+                                    createBaseVNode("div", _hoisted_4, toDisplayString(r.user.fullname), 1),
+                                    createBaseVNode("div", null, toDisplayString(unref(dayDisplay)(r.day)) + "s (" + toDisplayString(unref(hourDisplay)(r.start_time)) + " - " + toDisplayString(unref(hourDisplay)(r.end_time)) + ")", 1)
+                                  ]),
+                                  _: 2
+                                }, 1024)
+                              ]),
+                              _: 2
+                            }, 1032, ["onClick"]);
+                          }), 128))
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              })) : createCommentVNode("", true),
+              createVNode(QTabs, {
+                modelValue: currentTab.value,
+                "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => currentTab.value = $event),
+                align: "left",
+                class: "q-mb-md"
+              }, {
+                default: withCtx(() => [
+                  createVNode(QTab, {
+                    name: "orders",
+                    label: "Overview"
+                  }),
+                  createVNode(QTab, {
+                    name: "contractors",
+                    label: `${_ctx.$t("contractor.namePlural")} Map`
+                  }, null, 8, ["label"]),
+                  createVNode(QTab, {
+                    name: "customers",
+                    label: `${_ctx.$t("team.namePlural")} Map`
+                  }, null, 8, ["label"])
+                ]),
+                _: 1
+              }, 8, ["modelValue"]),
+              currentTab.value === "orders" ? (openBlock(), createElementBlock("div", _hoisted_5, [
+                createBaseVNode("div", _hoisted_6, [
+                  dashboard.value.unAssigned.length ? (openBlock(), createBlock(QCard, {
+                    key: 0,
+                    class: "bg-seamless q-mb-lg"
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QCardSection, null, {
+                        default: withCtx(() => [
+                          _hoisted_7,
+                          createVNode(_sfc_main$6, {
+                            orders: dashboard.value.unAssigned
+                          }, null, 8, ["orders"])
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  })) : createCommentVNode("", true),
+                  createBaseVNode("div", _hoisted_8, [
+                    createBaseVNode("div", _hoisted_9, [
+                      dashboard.value.newContractors.length ? (openBlock(), createBlock(QCard, {
+                        key: 0,
+                        class: "bg-seamless q-mb-lg"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(QCardSection, null, {
+                            default: withCtx(() => [
+                              _hoisted_10,
+                              createVNode(QList, {
+                                class: "bg-white",
+                                separator: ""
+                              }, {
+                                default: withCtx(() => [
+                                  (openBlock(true), createElementBlock(Fragment, null, renderList(dashboard.value.newContractors, (c) => {
+                                    return openBlock(), createBlock(QItem, {
+                                      key: c.id
+                                    }, {
+                                      default: withCtx(() => [
+                                        createVNode(QItemSection, { avatar: "" }, {
+                                          default: withCtx(() => [
+                                            createVNode(_sfc_main$7, { user: c }, null, 8, ["user"])
+                                          ]),
+                                          _: 2
+                                        }, 1024),
+                                        createVNode(QItemSection, null, {
+                                          default: withCtx(() => [
+                                            createBaseVNode("div", null, [
+                                              createVNode(_component_router_link, {
+                                                to: { name: "contractor-dashboard", params: { id: c.id } },
+                                                class: "link text-h6"
+                                              }, {
+                                                default: withCtx(() => [
+                                                  createTextVNode(toDisplayString(c.fullname), 1)
+                                                ]),
+                                                _: 2
+                                              }, 1032, ["to"]),
+                                              c.postcoderegionsuburb ? (openBlock(), createElementBlock("div", _hoisted_11, toDisplayString(c.postcoderegionsuburb.locality) + " " + toDisplayString(c.postcoderegionsuburb.state), 1)) : createCommentVNode("", true)
+                                            ])
+                                          ]),
+                                          _: 2
+                                        }, 1024),
+                                        createVNode(QItemSection, { side: "" }, {
+                                          default: withCtx(() => [
+                                            createTextVNode(toDisplayString(c.contractor_start_date), 1)
+                                          ]),
+                                          _: 2
+                                        }, 1024)
+                                      ]),
+                                      _: 2
+                                    }, 1024);
+                                  }), 128))
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })) : createCommentVNode("", true)
+                    ]),
+                    createBaseVNode("div", _hoisted_12, [
+                      dashboard.value.newCustomers.length ? (openBlock(), createBlock(QCard, {
+                        key: 0,
+                        class: "bg-seamless q-mb-lg"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(QCardSection, null, {
+                            default: withCtx(() => [
+                              createBaseVNode("div", _hoisted_13, "New " + toDisplayString(_ctx.$t("team.namePlural")), 1),
+                              createVNode(QList, {
+                                class: "bg-white",
+                                separator: ""
+                              }, {
+                                default: withCtx(() => [
+                                  (openBlock(true), createElementBlock(Fragment, null, renderList(dashboard.value.newCustomers, (c) => {
+                                    return openBlock(), createBlock(QItem, {
+                                      key: c.id
+                                    }, {
+                                      default: withCtx(() => [
+                                        createVNode(QItemSection, { avatar: "" }, {
+                                          default: withCtx(() => [
+                                            createVNode(_sfc_main$7, { user: c }, null, 8, ["user"])
+                                          ]),
+                                          _: 2
+                                        }, 1024),
+                                        createVNode(QItemSection, null, {
+                                          default: withCtx(() => [
+                                            createBaseVNode("div", null, [
+                                              createVNode(_component_router_link, {
+                                                to: { name: "team-dashboard", params: { id: c.id } },
+                                                class: "link text-h6"
+                                              }, {
+                                                default: withCtx(() => [
+                                                  createTextVNode(toDisplayString(c.name), 1)
+                                                ]),
+                                                _: 2
+                                              }, 1032, ["to"]),
+                                              c.suburbpostcoderegion ? (openBlock(), createElementBlock("div", _hoisted_14, toDisplayString(c.suburbpostcoderegion.locality) + " " + toDisplayString(c.suburbpostcoderegion.state), 1)) : createCommentVNode("", true)
+                                            ])
+                                          ]),
+                                          _: 2
+                                        }, 1024),
+                                        createVNode(QItemSection, { side: "" }, {
+                                          default: withCtx(() => [
+                                            createTextVNode(toDisplayString(unref(fromNowTz)(c.created_at)), 1)
+                                          ]),
+                                          _: 2
+                                        }, 1024)
+                                      ]),
+                                      _: 2
+                                    }, 1024);
+                                  }), 128))
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })) : createCommentVNode("", true)
+                    ])
+                  ])
+                ]),
+                createBaseVNode("div", _hoisted_15, [
+                  createBaseVNode("div", _hoisted_16, [
+                    createVNode(QBtn, {
+                      onClick: _cache[1] || (_cache[1] = ($event) => decreaseWeek()),
+                      flat: "",
+                      icon: "chevron_left",
+                      class: "q-mr-sm",
+                      round: ""
+                    }),
+                    createTextVNode(toDisplayString(search.value.start) + " -> " + toDisplayString(search.value.end), 1),
+                    createVNode(QBtn, {
+                      onClick: _cache[2] || (_cache[2] = ($event) => increaseWeek()),
+                      flat: "",
+                      icon: "chevron_right",
+                      class: "q-ml-sm",
+                      round: ""
+                    })
+                  ]),
+                  landingData.value ? (openBlock(), createElementBlock("div", _hoisted_17, [
+                    !landingData.value.length ? (openBlock(), createElementBlock("div", _hoisted_18, "No records found for this date range.")) : createCommentVNode("", true),
+                    (openBlock(true), createElementBlock(Fragment, null, renderList(landingData.value, (l) => {
+                      return openBlock(), createElementBlock("div", {
+                        class: "col-xs-12",
+                        key: l.name
+                      }, [
+                        createVNode(QCard, null, {
+                          default: withCtx(() => [
+                            createVNode(QList, { class: "bg-white" }, {
+                              default: withCtx(() => [
+                                createVNode(QItem, null, {
+                                  default: withCtx(() => [
+                                    createVNode(QItemSection, { side: "" }, {
+                                      default: withCtx(() => [
+                                        createVNode(QCircularProgress, {
+                                          value: l.per,
+                                          size: "40px",
+                                          color: "primary",
+                                          "track-color": "grey-5",
+                                          thickness: 0.3
+                                        }, null, 8, ["value", "thickness"])
+                                      ]),
+                                      _: 2
+                                    }, 1024),
+                                    createVNode(QItemSection, null, {
+                                      default: withCtx(() => [
+                                        createBaseVNode("div", _hoisted_19, toDisplayString(l.name) + " Bookings", 1),
+                                        createBaseVNode("div", null, toDisplayString(l.oc) + "/" + toDisplayString(l.cc) + " - " + toDisplayString(l.per) + "% ", 1)
+                                      ]),
+                                      _: 2
+                                    }, 1024)
+                                  ]),
+                                  _: 2
+                                }, 1024)
+                              ]),
+                              _: 2
+                            }, 1024)
+                          ]),
+                          _: 2
+                        }, 1024)
+                      ]);
+                    }), 128))
+                  ])) : createCommentVNode("", true),
+                  createVNode(QCard, { class: "bg-secondary text-white" }, {
+                    default: withCtx(() => [
+                      createVNode(QCardSection, { class: "text-h6" }, {
+                        default: withCtx(() => [
+                          createTextVNode("Statistics")
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QCardSection, null, {
+                        default: withCtx(() => [
+                          createBaseVNode("div", _hoisted_20, [
+                            createBaseVNode("div", _hoisted_21, [
+                              createBaseVNode("div", _hoisted_22, [
+                                createBaseVNode("div", _hoisted_23, toDisplayString(dashboard.value.totalOrdersCount[0].count), 1),
+                                createTextVNode(" " + toDisplayString(_ctx.$t("order.namePlural")), 1)
+                              ])
+                            ]),
+                            createBaseVNode("div", _hoisted_24, [
+                              createBaseVNode("div", _hoisted_25, [
+                                createBaseVNode("div", _hoisted_26, toDisplayString(dashboard.value.totalContractors[0].count), 1),
+                                createTextVNode(" " + toDisplayString(_ctx.$t("contractor.namePlural")), 1)
+                              ])
+                            ]),
+                            createBaseVNode("div", _hoisted_27, [
+                              createBaseVNode("div", _hoisted_28, [
+                                createBaseVNode("div", _hoisted_29, toDisplayString(dashboard.value.totalCustomers[0].count), 1),
+                                createTextVNode(" " + toDisplayString(_ctx.$t("team.namePlural")), 1)
+                              ])
+                            ])
+                          ])
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QCard, { class: "bg-seamless q-mb-md q-mt-sm" }, {
+                    default: withCtx(() => [
+                      createVNode(QCardSection, null, {
+                        default: withCtx(() => [
+                          createBaseVNode("div", _hoisted_30, [
+                            createBaseVNode("div", _hoisted_31, [
+                              createBaseVNode("div", _hoisted_32, [
+                                createVNode(QCircularProgress, {
+                                  value: parseFloat(dashboard.value.retainedRebooked.retainedPercentage),
+                                  color: "secondary",
+                                  size: "64px",
+                                  "track-color": "grey-4",
+                                  "show-value": "",
+                                  title: dashboard.value.retainedRebooked.retained
+                                }, {
+                                  default: withCtx(() => [
+                                    createBaseVNode("div", _hoisted_33, toDisplayString(dashboard.value.retainedRebooked.retainedPercentage) + "%", 1)
+                                  ]),
+                                  _: 1
+                                }, 8, ["value", "title"]),
+                                _hoisted_34
+                              ])
+                            ]),
+                            createBaseVNode("div", _hoisted_35, [
+                              createBaseVNode("div", _hoisted_36, [
+                                createVNode(QCircularProgress, {
+                                  value: parseFloat(dashboard.value.retainedRebooked.rebookedPercentage),
+                                  color: "secondary",
+                                  size: "64px",
+                                  "track-color": "grey-4",
+                                  "show-value": "",
+                                  title: dashboard.value.retainedRebooked.rebooked
+                                }, {
+                                  default: withCtx(() => [
+                                    createBaseVNode("div", _hoisted_37, toDisplayString(dashboard.value.retainedRebooked.rebookedPercentage) + "%", 1)
+                                  ]),
+                                  _: 1
+                                }, 8, ["value", "title"]),
+                                _hoisted_38
+                              ])
+                            ])
+                          ])
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  })
+                ])
+              ])) : createCommentVNode("", true),
+              currentTab.value === "contractors" ? (openBlock(), createBlock(_sfc_main$3, { key: 2 })) : createCommentVNode("", true),
+              currentTab.value === "customers" ? (openBlock(), createBlock(_sfc_main$2, { key: 3 })) : createCommentVNode("", true)
+            ])
+          ]),
+          _: 1
+        })) : createCommentVNode("", true)
+      ], 64);
+    };
+  }
+});
+export { _sfc_main as default };

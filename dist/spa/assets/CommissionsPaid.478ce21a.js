@@ -1,1 +1,231 @@
-import{A as M,r as Q,B as S,g as Y,o as T,J as N,m as n,K as c,L as s,l as a,O as P,M as F,q as t,af as G,S as U,Q as $,n as b,b7 as y,U as i,F as x,b8 as o,y as _,R as f}from"./index.e647c85a.js";import{Q as v,a as E}from"./QBreadcrumbs.14144362.js";import{Q as I}from"./QBadge.5efaf9f7.js";import{a as C,Q as V}from"./QItemSection.99659658.js";import{Q as L}from"./QList.2f0afc60.js";import{Q as R}from"./QMarkupTable.981d9979.js";import{Q as W}from"./QPage.660fce82.js";import{m as w,a as z}from"./axios.ccd3a804.js";import{u as A}from"./use-quasar.ae4f72e4.js";import{_ as B}from"./DateField.75075dac.js";import{u as H}from"./debug.805a8aef.js";import{a as u}from"./help.c0f85e41.js";import"./format.8e90d58d.js";import"./ClosePopup.ef2f7039.js";const J=t("div",{class:"text-h6 q-mb-md"}," Commissions Paid",-1),K={class:"row q-col-gutter-md"},j={class:"col-xs-12 col-sm-5"},X={class:"col-xs-12 col-sm-5"},Z={class:"col-xs-12 col-sm-2"},tt=t("thead",null,[t("tr",null,[t("th",{class:"text-left"},"Contractor"),t("th",{style:{width:"100px"},class:"text-left"},"Total"),t("th",{style:{width:"100px"},class:"text-left"},"GST"),t("th",{style:{width:"100px"},class:"text-left"},"Grand")])],-1),et=["onClick"],at={class:"bg-grey-2 text-bold"},st=t("td",null,null,-1),vt=M({__name:"CommissionsPaid",setup(ot){const l=Q(),g=A(),h=Q(!0),p=S({start:w().startOf("isoWeek").format("DD/MM/YYYY"),end:w().endOf("isoWeek").format("DD/MM/YYYY")}),k=()=>{g.loading.show({message:"Fetching commission data..."}),z.post("/user/contractor/reporting/commissionspaid",p).then(r=>{l.value=r.data,g.loading.hide()}).catch(r=>{H(r),g.loading.hide()})},O=r=>{r.showOrders=!r.showOrders},q=Y(()=>l.value&&l.value?h.value?l.value.data.filter(r=>r.commission.total>0):l.value.data:[]);return T(()=>{k()}),(r,d)=>{const D=N("router-link");return n(),c(W,{padding:""},{default:s(()=>[a(E,{class:"q-mb-md q-mt-md"},{separator:s(()=>[a(P,{size:"1.5em",name:"chevron_right"})]),default:s(()=>[a(v,{label:"Home",icon:"home",to:{name:"appDashboard"}}),a(v,{label:"Reporting",to:{name:"reporting"}}),a(v,{label:"Commissions Paid"})]),_:1}),a($,{class:"bg-seamless q-mb-lg"},{default:s(()=>[a(F,null,{default:s(()=>[J,t("div",K,[t("div",j,[a(B,{modelValue:p.start,"onUpdate:modelValue":d[0]||(d[0]=e=>p.start=e),label:"Start",dense:!0,outlined:!0},null,8,["modelValue"])]),t("div",X,[a(B,{modelValue:p.end,"onUpdate:modelValue":d[1]||(d[1]=e=>p.end=e),label:"End",dense:!0,outlined:!0},null,8,["modelValue"])]),t("div",Z,[a(G,{modelValue:h.value,"onUpdate:modelValue":d[2]||(d[2]=e=>h.value=e),label:"Only paid",class:"q-mr-md"},null,8,["modelValue"]),a(U,{onClick:d[3]||(d[3]=e=>k()),label:"Submit",color:"primary"})])])]),_:1})]),_:1}),l.value?(n(),c(R,{key:0},{default:s(()=>[tt,t("tbody",null,[(n(!0),b(x,null,y(i(q),e=>(n(),b("tr",{key:e.id},[t("td",null,[t("a",{class:"link text-h6",onClick:m=>O(e)},[f(o(e.fullname)+" ",1),e.contractor_gst_registered?(n(),c(I,{key:0,label:"GST",color:"secondary"})):_("",!0)],8,et),e.showOrders?(n(),c(L,{key:0,dense:""},{default:s(()=>[e.commission.orders.length?_("",!0):(n(),c(C,{key:0},{default:s(()=>[a(V,null,{default:s(()=>[f("No orders found")]),_:1})]),_:1})),(n(!0),b(x,null,y(e.commission.orders,m=>(n(),c(C,{key:m.id},{default:s(()=>[a(V,null,{default:s(()=>[t("div",null,[a(D,{to:{name:"order-edit",params:{id:m.id}},class:"link",target:"_blank"},{default:s(()=>[f("#"+o(m.display_id),1)]),_:2},1032,["to"]),f(" - "+o(m.team.name)+" - "+o(m.scheduled_pickup_date)+" - "+o(i(u)(m.commission_paid_amount))+" / "+o(i(u)(m.commission_paid_amount_gst)),1)])]),_:2},1024)]),_:2},1024))),128))]),_:2},1024)):_("",!0)]),t("td",null,o(i(u)(e.commission.total)),1),t("td",null,o(i(u)(e.commission.totalGst)),1),t("td",null,o(i(u)(e.commission.grandTotal)),1)]))),128))]),t("tfoot",null,[t("tr",at,[st,t("td",null,o(i(u)(l.value.total.total)),1),t("td",null,o(i(u)(l.value.total.gst)),1),t("td",null,o(i(u)(l.value.total.grand)),1)])])]),_:1})):_("",!0)]),_:1})}}});export{vt as default};
+import { A as defineComponent, r as ref, B as reactive, g as computed, o as onMounted, J as resolveComponent, m as openBlock, K as createBlock, L as withCtx, l as createVNode, O as QIcon, M as QCardSection, q as createBaseVNode, af as QToggle, S as QBtn, Q as QCard, n as createElementBlock, b7 as renderList, U as unref, F as Fragment, b8 as toDisplayString, y as createCommentVNode, R as createTextVNode } from "./index.e647c85a.js";
+import { Q as QBreadcrumbsEl, a as QBreadcrumbs } from "./QBreadcrumbs.14144362.js";
+import { Q as QBadge } from "./QBadge.5efaf9f7.js";
+import { a as QItem, Q as QItemSection } from "./QItemSection.99659658.js";
+import { Q as QList } from "./QList.2f0afc60.js";
+import { Q as QMarkupTable } from "./QMarkupTable.981d9979.js";
+import { Q as QPage } from "./QPage.660fce82.js";
+import { m as moment, a as api } from "./axios.ccd3a804.js";
+import { u as useQuasar } from "./use-quasar.ae4f72e4.js";
+import { _ as _sfc_main$1 } from "./DateField.75075dac.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { a as currencyFormat } from "./help.c0f85e41.js";
+import "./format.8e90d58d.js";
+import "./ClosePopup.ef2f7039.js";
+const _hoisted_1 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-md" }, " Commissions Paid", -1);
+const _hoisted_2 = { class: "row q-col-gutter-md" };
+const _hoisted_3 = { class: "col-xs-12 col-sm-5" };
+const _hoisted_4 = { class: "col-xs-12 col-sm-5" };
+const _hoisted_5 = { class: "col-xs-12 col-sm-2" };
+const _hoisted_6 = /* @__PURE__ */ createBaseVNode("thead", null, [
+  /* @__PURE__ */ createBaseVNode("tr", null, [
+    /* @__PURE__ */ createBaseVNode("th", { class: "text-left" }, "Contractor"),
+    /* @__PURE__ */ createBaseVNode("th", {
+      style: { "width": "100px" },
+      class: "text-left"
+    }, "Total"),
+    /* @__PURE__ */ createBaseVNode("th", {
+      style: { "width": "100px" },
+      class: "text-left"
+    }, "GST"),
+    /* @__PURE__ */ createBaseVNode("th", {
+      style: { "width": "100px" },
+      class: "text-left"
+    }, "Grand")
+  ])
+], -1);
+const _hoisted_7 = ["onClick"];
+const _hoisted_8 = { class: "bg-grey-2 text-bold" };
+const _hoisted_9 = /* @__PURE__ */ createBaseVNode("td", null, null, -1);
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "CommissionsPaid",
+  setup(__props) {
+    const data = ref();
+    const $q = useQuasar();
+    const paidOnly = ref(true);
+    const search = reactive({ start: moment().startOf("isoWeek").format("DD/MM/YYYY"), end: moment().endOf("isoWeek").format("DD/MM/YYYY") });
+    const getCommissionsPaid = () => {
+      $q.loading.show({ message: "Fetching commission data..." });
+      api.post("/user/contractor/reporting/commissionspaid", search).then((response) => {
+        data.value = response.data;
+        $q.loading.hide();
+      }).catch((error) => {
+        useMixinDebug(error);
+        $q.loading.hide();
+      });
+    };
+    const showOrders = (o) => {
+      o.showOrders = !o.showOrders;
+    };
+    const commissionsData = computed(() => {
+      if (data.value && data.value) {
+        if (paidOnly.value) {
+          return data.value.data.filter((o) => o.commission.total > 0);
+        }
+        return data.value.data;
+      }
+      return [];
+    });
+    onMounted(() => {
+      getCommissionsPaid();
+    });
+    return (_ctx, _cache) => {
+      const _component_router_link = resolveComponent("router-link");
+      return openBlock(), createBlock(QPage, { padding: "" }, {
+        default: withCtx(() => [
+          createVNode(QBreadcrumbs, { class: "q-mb-md q-mt-md" }, {
+            separator: withCtx(() => [
+              createVNode(QIcon, {
+                size: "1.5em",
+                name: "chevron_right"
+              })
+            ]),
+            default: withCtx(() => [
+              createVNode(QBreadcrumbsEl, {
+                label: "Home",
+                icon: "home",
+                to: { name: "appDashboard" }
+              }),
+              createVNode(QBreadcrumbsEl, {
+                label: "Reporting",
+                to: { name: "reporting" }
+              }),
+              createVNode(QBreadcrumbsEl, { label: "Commissions Paid" })
+            ]),
+            _: 1
+          }),
+          createVNode(QCard, { class: "bg-seamless q-mb-lg" }, {
+            default: withCtx(() => [
+              createVNode(QCardSection, null, {
+                default: withCtx(() => [
+                  _hoisted_1,
+                  createBaseVNode("div", _hoisted_2, [
+                    createBaseVNode("div", _hoisted_3, [
+                      createVNode(_sfc_main$1, {
+                        modelValue: search.start,
+                        "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => search.start = $event),
+                        label: "Start",
+                        dense: true,
+                        outlined: true
+                      }, null, 8, ["modelValue"])
+                    ]),
+                    createBaseVNode("div", _hoisted_4, [
+                      createVNode(_sfc_main$1, {
+                        modelValue: search.end,
+                        "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => search.end = $event),
+                        label: "End",
+                        dense: true,
+                        outlined: true
+                      }, null, 8, ["modelValue"])
+                    ]),
+                    createBaseVNode("div", _hoisted_5, [
+                      createVNode(QToggle, {
+                        modelValue: paidOnly.value,
+                        "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => paidOnly.value = $event),
+                        label: "Only paid",
+                        class: "q-mr-md"
+                      }, null, 8, ["modelValue"]),
+                      createVNode(QBtn, {
+                        onClick: _cache[3] || (_cache[3] = ($event) => getCommissionsPaid()),
+                        label: "Submit",
+                        color: "primary"
+                      })
+                    ])
+                  ])
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          }),
+          data.value ? (openBlock(), createBlock(QMarkupTable, { key: 0 }, {
+            default: withCtx(() => [
+              _hoisted_6,
+              createBaseVNode("tbody", null, [
+                (openBlock(true), createElementBlock(Fragment, null, renderList(unref(commissionsData), (d) => {
+                  return openBlock(), createElementBlock("tr", {
+                    key: d.id
+                  }, [
+                    createBaseVNode("td", null, [
+                      createBaseVNode("a", {
+                        class: "link text-h6",
+                        onClick: ($event) => showOrders(d)
+                      }, [
+                        createTextVNode(toDisplayString(d.fullname) + " ", 1),
+                        d.contractor_gst_registered ? (openBlock(), createBlock(QBadge, {
+                          key: 0,
+                          label: "GST",
+                          color: "secondary"
+                        })) : createCommentVNode("", true)
+                      ], 8, _hoisted_7),
+                      d.showOrders ? (openBlock(), createBlock(QList, {
+                        key: 0,
+                        dense: ""
+                      }, {
+                        default: withCtx(() => [
+                          !d.commission.orders.length ? (openBlock(), createBlock(QItem, { key: 0 }, {
+                            default: withCtx(() => [
+                              createVNode(QItemSection, null, {
+                                default: withCtx(() => [
+                                  createTextVNode("No orders found")
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 1
+                          })) : createCommentVNode("", true),
+                          (openBlock(true), createElementBlock(Fragment, null, renderList(d.commission.orders, (o) => {
+                            return openBlock(), createBlock(QItem, {
+                              key: o.id
+                            }, {
+                              default: withCtx(() => [
+                                createVNode(QItemSection, null, {
+                                  default: withCtx(() => [
+                                    createBaseVNode("div", null, [
+                                      createVNode(_component_router_link, {
+                                        to: { name: "order-edit", params: { id: o.id } },
+                                        class: "link",
+                                        target: "_blank"
+                                      }, {
+                                        default: withCtx(() => [
+                                          createTextVNode("#" + toDisplayString(o.display_id), 1)
+                                        ]),
+                                        _: 2
+                                      }, 1032, ["to"]),
+                                      createTextVNode(" - " + toDisplayString(o.team.name) + " - " + toDisplayString(o.scheduled_pickup_date) + " - " + toDisplayString(unref(currencyFormat)(o.commission_paid_amount)) + " / " + toDisplayString(unref(currencyFormat)(o.commission_paid_amount_gst)), 1)
+                                    ])
+                                  ]),
+                                  _: 2
+                                }, 1024)
+                              ]),
+                              _: 2
+                            }, 1024);
+                          }), 128))
+                        ]),
+                        _: 2
+                      }, 1024)) : createCommentVNode("", true)
+                    ]),
+                    createBaseVNode("td", null, toDisplayString(unref(currencyFormat)(d.commission.total)), 1),
+                    createBaseVNode("td", null, toDisplayString(unref(currencyFormat)(d.commission.totalGst)), 1),
+                    createBaseVNode("td", null, toDisplayString(unref(currencyFormat)(d.commission.grandTotal)), 1)
+                  ]);
+                }), 128))
+              ]),
+              createBaseVNode("tfoot", null, [
+                createBaseVNode("tr", _hoisted_8, [
+                  _hoisted_9,
+                  createBaseVNode("td", null, toDisplayString(unref(currencyFormat)(data.value.total.total)), 1),
+                  createBaseVNode("td", null, toDisplayString(unref(currencyFormat)(data.value.total.gst)), 1),
+                  createBaseVNode("td", null, toDisplayString(unref(currencyFormat)(data.value.total.grand)), 1)
+                ])
+              ])
+            ]),
+            _: 1
+          })) : createCommentVNode("", true)
+        ]),
+        _: 1
+      });
+    };
+  }
+});
+export { _sfc_main as default };

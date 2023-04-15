@@ -1,1 +1,305 @@
-import{A as O,i as V,r as g,B as L,o as R,E as S,J as U,m as w,K as b,L as a,l as t,O as $,N as j,R as n,b8 as i,U as k,S as q,G as P}from"./index.e647c85a.js";import{Q as d,a as A}from"./QTable.64a81add.js";import{a as Q,Q as B}from"./QItemSection.99659658.js";import{Q as E}from"./QList.2f0afc60.js";import{Q as K}from"./format.8e90d58d.js";import{C as x}from"./ClosePopup.ef2f7039.js";import{a as C}from"./axios.ccd3a804.js";import{_ as z}from"./StatusTag.c8d66888.js";import{u as D}from"./debug.805a8aef.js";import{x as M,j as F,a as G,y as J,z as H,c as W}from"./help.c0f85e41.js";import{u as X}from"./vue-i18n.runtime.esm-bundler.bec1d6a0.js";const ie=O({__name:"OrderManagementTeamContractor",props:{team_id:null,contractor_user_id:null},setup(T){const y=T,v=V("bus"),h=g(),f=g(!1),c=X(),p=L({keyword:null}),I=[{name:"display_id",label:c.t("order.id"),align:"left",field:"display_id",sortable:!0,style:"width:100px"},{name:"scheduled_pickup_date",sortable:!0,label:c.t("order.scheduledPickupDate"),field:"scheduled_pickup_date",align:"left",style:"width:100px"},{name:"team_id",label:c.t("team.name"),align:"left",field:"team_id",sortable:!0},{name:"contractor_user_id",label:c.t("contractor.name"),align:"left",field:"contractor_user_id",sortable:!0},{name:"total_price",label:"Total",align:"left",field:"total_price",sortable:!0},{name:"status",label:"Status",align:"left",field:"status",sortable:!0},{name:"actions",label:"Actions",field:"actions",sortable:!1}],r=g({page:1,rowsNumber:M(),rowsPerPage:M(),sortBy:"display_id",descending:!0}),m=(s=null)=>{let o,l,e,u;s&&s.pagination?(o=s.pagination.page,l=s.pagination.rowsPerPage,e=s.pagination.sortBy,u=s.pagination.descending):(o=r.value.page,l=r.value.rowsPerPage,e=r.value.sortBy,u=r.value.descending),f.value=!0,C.post(`/order/datatable/${o}`,{sortBy:e,sort_order:u?"desc":"asc",skip:o,rowsPerPage:l,keyword:p.keyword,team_id:y.team_id,contractor_user_id:y.contractor_user_id}).then(_=>{h.value=_.data.rows,f.value=!1,H(l),r.value.rowsNumber=_.data.total,r.value.page=o,r.value.rowsPerPage=l,r.value.sortBy=e,r.value.descending=u}).catch(_=>{D(_)})},N=s=>{W("This action is not reversible").onOk(()=>{C.delete(`/order/${s}`).then(()=>{m()}).catch(o=>{D(o)})})};return R(()=>{m(),v.on("orderLoadMore",()=>{m()})}),S(()=>{v.off("orderLoadMore")}),(s,o)=>{const l=U("router-link");return w(),b(A,{rows:h.value,columns:I,"row-key":"id",filter:p.keyword,loading:f.value,pagination:r.value,"onUpdate:pagination":o[1]||(o[1]=e=>r.value=e),onRequest:m,"rows-per-page-options":k(J)},{"top-left":a(()=>[t(j,{modelValue:p.keyword,"onUpdate:modelValue":o[0]||(o[0]=e=>p.keyword=e),debounce:500,placeholder:"Keyword"},{append:a(()=>[t($,{name:"search"})]),_:1},8,["modelValue"])]),"body-cell-scheduled_pickup_date":a(e=>[t(d,{props:e},{default:a(()=>[t(l,{to:{name:"order-edit",params:{id:e.row.id}},class:"link"},{default:a(()=>[n(i(e.row.scheduled_pickup_date)+" ("+i(k(F)(e.row.scheduled_pickup_time))+") ",1)]),_:2},1032,["to"])]),_:2},1032,["props"])]),"body-cell-display_id":a(e=>[t(d,{props:e},{default:a(()=>[t(l,{to:{name:"order-edit",params:{id:e.row.id}},class:"link",target:"_blank"},{default:a(()=>[n(" #"+i(e.row.display_id),1)]),_:2},1032,["to"])]),_:2},1032,["props"])]),"body-cell-team_id":a(e=>[t(d,{props:e},{default:a(()=>[t(l,{to:{name:"team-dashboard",params:{id:e.row.team_id}},class:"link",target:"_blank"},{default:a(()=>[n(i(e.row.team.name),1)]),_:2},1032,["to"])]),_:2},1032,["props"])]),"body-cell-contractor_user_id":a(e=>[t(d,{props:e},{default:a(()=>[t(l,{to:{name:"contractor-dashboard",params:{id:e.row.contractor_user_id}},class:"link",target:"_blank"},{default:a(()=>[n(i(e.row.contractor.fullname),1)]),_:2},1032,["to"])]),_:2},1032,["props"])]),"body-cell-total_price":a(e=>[t(d,{props:e},{default:a(()=>[n(i(k(G)(e.row.grand_total_price)),1)]),_:2},1032,["props"])]),"body-cell-status":a(e=>[t(d,{props:e},{default:a(()=>[t(z,{status:e.row.status},null,8,["status"])]),_:2},1032,["props"])]),"body-cell-actions":a(e=>[t(d,{props:e},{default:a(()=>[t(q,{flat:"",icon:"more_vert"},{default:a(()=>[t(K,null,{default:a(()=>[t(E,null,{default:a(()=>[P((w(),b(Q,{clickable:"",to:{name:"order-edit",params:{id:e.row.id}}},{default:a(()=>[t(B,null,{default:a(()=>[n("Edit record")]),_:1})]),_:2},1032,["to"])),[[x]]),P((w(),b(Q,{clickable:"",onClick:u=>N(e.row.id)},{default:a(()=>[t(B,null,{default:a(()=>[n("Delete")]),_:1})]),_:2},1032,["onClick"])),[[x]])]),_:2},1024)]),_:2},1024)]),_:2},1024)]),_:2},1032,["props"])]),_:1},8,["rows","filter","loading","pagination","rows-per-page-options"])}}});export{ie as _};
+import { A as defineComponent, i as inject, r as ref, B as reactive, o as onMounted, E as onBeforeUnmount, J as resolveComponent, m as openBlock, K as createBlock, L as withCtx, l as createVNode, O as QIcon, N as QInput, R as createTextVNode, b8 as toDisplayString, U as unref, S as QBtn, G as withDirectives } from "./index.e647c85a.js";
+import { Q as QTd, a as QTable } from "./QTable.64a81add.js";
+import { a as QItem, Q as QItemSection } from "./QItemSection.99659658.js";
+import { Q as QList } from "./QList.2f0afc60.js";
+import { Q as QMenu } from "./format.8e90d58d.js";
+import { C as ClosePopup } from "./ClosePopup.ef2f7039.js";
+import { a as api } from "./axios.ccd3a804.js";
+import { _ as _sfc_main$1 } from "./StatusTag.c8d66888.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { x as getRowsPerPage, j as hourBookingDisplay, a as currencyFormat, y as rowsPerPageOptions, z as setRowsPerPage, c as confirmDelete } from "./help.c0f85e41.js";
+import { u as useI18n } from "./vue-i18n.runtime.esm-bundler.bec1d6a0.js";
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "OrderManagementTeamContractor",
+  props: {
+    team_id: null,
+    contractor_user_id: null
+  },
+  setup(__props) {
+    const props = __props;
+    const bus = inject("bus");
+    const data = ref();
+    const loading = ref(false);
+    const i8n = useI18n();
+    const search = reactive({ keyword: null });
+    const columns = [{
+      name: "display_id",
+      label: i8n.t("order.id"),
+      align: "left",
+      field: "display_id",
+      sortable: true,
+      style: "width:100px"
+    }, {
+      name: "scheduled_pickup_date",
+      sortable: true,
+      label: i8n.t("order.scheduledPickupDate"),
+      field: "scheduled_pickup_date",
+      align: "left",
+      style: "width:100px"
+    }, {
+      name: "team_id",
+      label: i8n.t("team.name"),
+      align: "left",
+      field: "team_id",
+      sortable: true
+    }, {
+      name: "contractor_user_id",
+      label: i8n.t("contractor.name"),
+      align: "left",
+      field: "contractor_user_id",
+      sortable: true
+    }, {
+      name: "total_price",
+      label: "Total",
+      align: "left",
+      field: "total_price",
+      sortable: true
+    }, {
+      name: "status",
+      label: "Status",
+      align: "left",
+      field: "status",
+      sortable: true
+    }, {
+      name: "actions",
+      label: "Actions",
+      field: "actions",
+      sortable: false
+    }];
+    const serverPagination = ref({
+      page: 1,
+      rowsNumber: getRowsPerPage(),
+      rowsPerPage: getRowsPerPage(),
+      sortBy: "display_id",
+      descending: true
+    });
+    const request = (tableProps = null) => {
+      let page;
+      let rowsPerPage;
+      let sortBy;
+      let descending;
+      if (tableProps && tableProps.pagination) {
+        page = tableProps.pagination.page;
+        rowsPerPage = tableProps.pagination.rowsPerPage;
+        sortBy = tableProps.pagination.sortBy;
+        descending = tableProps.pagination.descending;
+      } else {
+        page = serverPagination.value.page;
+        rowsPerPage = serverPagination.value.rowsPerPage;
+        sortBy = serverPagination.value.sortBy;
+        descending = serverPagination.value.descending;
+      }
+      loading.value = true;
+      api.post(`/order/datatable/${page}`, {
+        sortBy,
+        sort_order: descending ? "desc" : "asc",
+        skip: page,
+        rowsPerPage,
+        keyword: search.keyword,
+        team_id: props.team_id,
+        contractor_user_id: props.contractor_user_id
+      }).then((response) => {
+        data.value = response.data.rows;
+        loading.value = false;
+        setRowsPerPage(rowsPerPage);
+        serverPagination.value.rowsNumber = response.data.total;
+        serverPagination.value.page = page;
+        serverPagination.value.rowsPerPage = rowsPerPage;
+        serverPagination.value.sortBy = sortBy;
+        serverPagination.value.descending = descending;
+      }).catch((response) => {
+        useMixinDebug(response);
+      });
+    };
+    const deleteOrder = (id) => {
+      confirmDelete("This action is not reversible").onOk(() => {
+        api.delete(`/order/${id}`).then(() => {
+          request();
+        }).catch((error) => {
+          useMixinDebug(error);
+        });
+      });
+    };
+    onMounted(() => {
+      request();
+      bus.on("orderLoadMore", () => {
+        request();
+      });
+    });
+    onBeforeUnmount(() => {
+      bus.off("orderLoadMore");
+    });
+    return (_ctx, _cache) => {
+      const _component_router_link = resolveComponent("router-link");
+      return openBlock(), createBlock(QTable, {
+        rows: data.value,
+        columns,
+        "row-key": "id",
+        filter: search.keyword,
+        loading: loading.value,
+        pagination: serverPagination.value,
+        "onUpdate:pagination": _cache[1] || (_cache[1] = ($event) => serverPagination.value = $event),
+        onRequest: request,
+        "rows-per-page-options": unref(rowsPerPageOptions)
+      }, {
+        "top-left": withCtx(() => [
+          createVNode(QInput, {
+            modelValue: search.keyword,
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => search.keyword = $event),
+            debounce: 500,
+            placeholder: "Keyword"
+          }, {
+            append: withCtx(() => [
+              createVNode(QIcon, { name: "search" })
+            ]),
+            _: 1
+          }, 8, ["modelValue"])
+        ]),
+        "body-cell-scheduled_pickup_date": withCtx((props2) => [
+          createVNode(QTd, { props: props2 }, {
+            default: withCtx(() => [
+              createVNode(_component_router_link, {
+                to: { name: "order-edit", params: { id: props2.row.id } },
+                class: "link"
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(toDisplayString(props2.row.scheduled_pickup_date) + " (" + toDisplayString(unref(hourBookingDisplay)(props2.row.scheduled_pickup_time)) + ") ", 1)
+                ]),
+                _: 2
+              }, 1032, ["to"])
+            ]),
+            _: 2
+          }, 1032, ["props"])
+        ]),
+        "body-cell-display_id": withCtx((props2) => [
+          createVNode(QTd, { props: props2 }, {
+            default: withCtx(() => [
+              createVNode(_component_router_link, {
+                to: { name: "order-edit", params: { id: props2.row.id } },
+                class: "link",
+                target: "_blank"
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(" #" + toDisplayString(props2.row.display_id), 1)
+                ]),
+                _: 2
+              }, 1032, ["to"])
+            ]),
+            _: 2
+          }, 1032, ["props"])
+        ]),
+        "body-cell-team_id": withCtx((props2) => [
+          createVNode(QTd, { props: props2 }, {
+            default: withCtx(() => [
+              createVNode(_component_router_link, {
+                to: { name: "team-dashboard", params: { id: props2.row.team_id } },
+                class: "link",
+                target: "_blank"
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(toDisplayString(props2.row.team.name), 1)
+                ]),
+                _: 2
+              }, 1032, ["to"])
+            ]),
+            _: 2
+          }, 1032, ["props"])
+        ]),
+        "body-cell-contractor_user_id": withCtx((props2) => [
+          createVNode(QTd, { props: props2 }, {
+            default: withCtx(() => [
+              createVNode(_component_router_link, {
+                to: { name: "contractor-dashboard", params: { id: props2.row.contractor_user_id } },
+                class: "link",
+                target: "_blank"
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(toDisplayString(props2.row.contractor.fullname), 1)
+                ]),
+                _: 2
+              }, 1032, ["to"])
+            ]),
+            _: 2
+          }, 1032, ["props"])
+        ]),
+        "body-cell-total_price": withCtx((props2) => [
+          createVNode(QTd, { props: props2 }, {
+            default: withCtx(() => [
+              createTextVNode(toDisplayString(unref(currencyFormat)(props2.row.grand_total_price)), 1)
+            ]),
+            _: 2
+          }, 1032, ["props"])
+        ]),
+        "body-cell-status": withCtx((props2) => [
+          createVNode(QTd, { props: props2 }, {
+            default: withCtx(() => [
+              createVNode(_sfc_main$1, {
+                status: props2.row.status
+              }, null, 8, ["status"])
+            ]),
+            _: 2
+          }, 1032, ["props"])
+        ]),
+        "body-cell-actions": withCtx((props2) => [
+          createVNode(QTd, { props: props2 }, {
+            default: withCtx(() => [
+              createVNode(QBtn, {
+                flat: "",
+                icon: "more_vert"
+              }, {
+                default: withCtx(() => [
+                  createVNode(QMenu, null, {
+                    default: withCtx(() => [
+                      createVNode(QList, null, {
+                        default: withCtx(() => [
+                          withDirectives((openBlock(), createBlock(QItem, {
+                            clickable: "",
+                            to: { name: "order-edit", params: { id: props2.row.id } }
+                          }, {
+                            default: withCtx(() => [
+                              createVNode(QItemSection, null, {
+                                default: withCtx(() => [
+                                  createTextVNode("Edit record")
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 2
+                          }, 1032, ["to"])), [
+                            [ClosePopup]
+                          ]),
+                          withDirectives((openBlock(), createBlock(QItem, {
+                            clickable: "",
+                            onClick: ($event) => deleteOrder(props2.row.id)
+                          }, {
+                            default: withCtx(() => [
+                              createVNode(QItemSection, null, {
+                                default: withCtx(() => [
+                                  createTextVNode("Delete")
+                                ]),
+                                _: 1
+                              })
+                            ]),
+                            _: 2
+                          }, 1032, ["onClick"])), [
+                            [ClosePopup]
+                          ])
+                        ]),
+                        _: 2
+                      }, 1024)
+                    ]),
+                    _: 2
+                  }, 1024)
+                ]),
+                _: 2
+              }, 1024)
+            ]),
+            _: 2
+          }, 1032, ["props"])
+        ]),
+        _: 1
+      }, 8, ["rows", "filter", "loading", "pagination", "rows-per-page-options"]);
+    };
+  }
+});
+export { _sfc_main as _ };

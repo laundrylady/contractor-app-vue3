@@ -1,1 +1,109 @@
-import{V as v,aF as h,aG as C,g as n,h as s,O as k,a7 as q,bw as _,bx as x,b4 as y,X as S}from"./index.e647c85a.js";var $=v({name:"QBreadcrumbsEl",props:{...h,label:String,icon:String,tag:{type:String,default:"span"}},emits:["click"],setup(e,{slots:l}){const{linkTag:u,linkAttrs:o,linkClass:c,navigateOnClick:d}=C(),r=n(()=>({class:"q-breadcrumbs__el q-link flex inline items-center relative-position "+(e.disable!==!0?"q-link--focusable"+c.value:"q-breadcrumbs__el--disable"),...o.value,onClick:d})),i=n(()=>"q-breadcrumbs__el-icon"+(e.label!==void 0?" q-breadcrumbs__el-icon--with-label":""));return()=>{const t=[];return e.icon!==void 0&&t.push(s(k,{class:i.value,name:e.icon})),e.label!==void 0&&t.push(e.label),s(u.value,{...r.value},q(l.default,t))}}});const Q=["",!0];var E=v({name:"QBreadcrumbs",props:{..._,separator:{type:String,default:"/"},separatorColor:String,activeColor:{type:String,default:"primary"},gutter:{type:String,validator:e=>["none","xs","sm","md","lg","xl"].includes(e),default:"sm"}},setup(e,{slots:l}){const u=x(e),o=n(()=>`flex items-center ${u.value}${e.gutter==="none"?"":` q-gutter-${e.gutter}`}`),c=n(()=>e.separatorColor?` text-${e.separatorColor}`:""),d=n(()=>` text-${e.activeColor}`);return()=>{const r=y(S(l.default));if(r.length===0)return;let i=1;const t=[],m=r.filter(a=>a.type!==void 0&&a.type.name==="QBreadcrumbsEl").length,g=l.separator!==void 0?l.separator:()=>e.separator;return r.forEach(a=>{if(a.type!==void 0&&a.type.name==="QBreadcrumbsEl"){const b=i<m,f=a.props!==null&&Q.includes(a.props.disable),p=(b===!0?"":" q-breadcrumbs--last")+(f!==!0&&b===!0?d.value:"");i++,t.push(s("div",{class:`flex items-center${p}`},[a])),b===!0&&t.push(s("div",{class:"q-breadcrumbs__separator"+c.value},g()))}else t.push(a)}),s("div",{class:"q-breadcrumbs"},[s("div",{class:o.value},t)])}}});export{$ as Q,E as a};
+import { V as createComponent, aF as useRouterLinkProps, aG as useRouterLink, g as computed, h, O as QIcon, a7 as hMergeSlot, bw as useAlignProps, bx as useAlign, b4 as getNormalizedVNodes, X as hSlot } from "./index.e647c85a.js";
+var QBreadcrumbsEl = createComponent({
+  name: "QBreadcrumbsEl",
+  props: {
+    ...useRouterLinkProps,
+    label: String,
+    icon: String,
+    tag: {
+      type: String,
+      default: "span"
+    }
+  },
+  emits: ["click"],
+  setup(props, { slots }) {
+    const { linkTag, linkAttrs, linkClass, navigateOnClick } = useRouterLink();
+    const data = computed(() => {
+      return {
+        class: "q-breadcrumbs__el q-link flex inline items-center relative-position " + (props.disable !== true ? "q-link--focusable" + linkClass.value : "q-breadcrumbs__el--disable"),
+        ...linkAttrs.value,
+        onClick: navigateOnClick
+      };
+    });
+    const iconClass = computed(
+      () => "q-breadcrumbs__el-icon" + (props.label !== void 0 ? " q-breadcrumbs__el-icon--with-label" : "")
+    );
+    return () => {
+      const child = [];
+      props.icon !== void 0 && child.push(
+        h(QIcon, {
+          class: iconClass.value,
+          name: props.icon
+        })
+      );
+      props.label !== void 0 && child.push(props.label);
+      return h(
+        linkTag.value,
+        { ...data.value },
+        hMergeSlot(slots.default, child)
+      );
+    };
+  }
+});
+const disabledValues = ["", true];
+var QBreadcrumbs = createComponent({
+  name: "QBreadcrumbs",
+  props: {
+    ...useAlignProps,
+    separator: {
+      type: String,
+      default: "/"
+    },
+    separatorColor: String,
+    activeColor: {
+      type: String,
+      default: "primary"
+    },
+    gutter: {
+      type: String,
+      validator: (v) => ["none", "xs", "sm", "md", "lg", "xl"].includes(v),
+      default: "sm"
+    }
+  },
+  setup(props, { slots }) {
+    const alignClass = useAlign(props);
+    const classes = computed(
+      () => `flex items-center ${alignClass.value}${props.gutter === "none" ? "" : ` q-gutter-${props.gutter}`}`
+    );
+    const sepClass = computed(() => props.separatorColor ? ` text-${props.separatorColor}` : "");
+    const activeClass = computed(() => ` text-${props.activeColor}`);
+    return () => {
+      const vnodes = getNormalizedVNodes(
+        hSlot(slots.default)
+      );
+      if (vnodes.length === 0) {
+        return;
+      }
+      let els = 1;
+      const child = [], len = vnodes.filter((c) => c.type !== void 0 && c.type.name === "QBreadcrumbsEl").length, separator = slots.separator !== void 0 ? slots.separator : () => props.separator;
+      vnodes.forEach((comp) => {
+        if (comp.type !== void 0 && comp.type.name === "QBreadcrumbsEl") {
+          const middle = els < len;
+          const disabled = comp.props !== null && disabledValues.includes(comp.props.disable);
+          const cls = (middle === true ? "" : " q-breadcrumbs--last") + (disabled !== true && middle === true ? activeClass.value : "");
+          els++;
+          child.push(
+            h("div", {
+              class: `flex items-center${cls}`
+            }, [comp])
+          );
+          if (middle === true) {
+            child.push(
+              h("div", {
+                class: "q-breadcrumbs__separator" + sepClass.value
+              }, separator())
+            );
+          }
+        } else {
+          child.push(comp);
+        }
+      });
+      return h("div", {
+        class: "q-breadcrumbs"
+      }, [
+        h("div", { class: classes.value }, child)
+      ]);
+    };
+  }
+});
+export { QBreadcrumbsEl as Q, QBreadcrumbs as a };

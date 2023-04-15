@@ -1,1 +1,1499 @@
-import{V as ee,g,h as r,X as Z,j as te,aH as dt,O as pe,r as A,w as V,a0 as vt,a2 as Te,a8 as Le,o as Ve,as as ft,ar as gt,E as Me,a7 as bt,bz as mt,bA as xe,bB as be,bC as Oe,be as St,D as De,ab as yt,ac as ht,bd as wt,b9 as ge,bc as Q,S as J,bp as _t}from"./index.e647c85a.js";import{Q as Pt}from"./QList.2f0afc60.js";import{Q as Ct}from"./QMarkupTable.981d9979.js";import{u as qt,a as Rt,c as je,Q as kt}from"./QSelect.853d535e.js";import{Q as Tt}from"./QLinearProgress.c48fac34.js";var al=ee({name:"QTd",props:{props:Object,autoWidth:Boolean,noHover:Boolean},setup(e,{slots:l}){const o=te(),d=g(()=>"q-td"+(e.autoWidth===!0?" q-table--col-auto-width":"")+(e.noHover===!0?" q-td--no-hover":"")+" ");return()=>{if(e.props===void 0)return r("td",{class:d.value},Z(l.default));const i=o.vnode.key,f=(e.props.colsMap!==void 0?e.props.colsMap[i]:null)||e.props.col;if(f===void 0)return;const{row:u}=e.props;return r("td",{class:d.value+f.__tdClass(u),style:f.__tdStyle(u)},Z(l.default))}}}),xt=ee({name:"QTh",props:{props:Object,autoWidth:Boolean},emits:["click"],setup(e,{slots:l,emit:o}){const d=te(),{proxy:{$q:i}}=d,f=u=>{o("click",u)};return()=>{if(e.props===void 0)return r("th",{class:e.autoWidth===!0?"q-table--col-auto-width":"",onClick:f},Z(l.default));let u,s;const c=d.vnode.key;if(c){if(u=e.props.colsMap[c],u===void 0)return}else u=e.props.col;if(u.sortable===!0){const a=u.align==="right"?"unshift":"push";s=dt(l.default,[]),s[a](r(pe,{class:u.__iconClass,name:i.iconSet.table.arrowUp}))}else s=Z(l.default);const S={class:u.__thClass+(e.autoWidth===!0?" q-table--col-auto-width":""),style:u.headerStyle,onClick:a=>{u.sortable===!0&&e.props.sort(u),f(a)}};return r("th",S,s)}}});function Ee(e,l){return r("div",e,[r("table",{class:"q-table"},l)])}const Ot={list:Pt,table:Ct},Bt=["list","table","__qtable"];var Ft=ee({name:"QVirtualScroll",props:{...qt,type:{type:String,default:"list",validator:e=>Bt.includes(e)},items:{type:Array,default:()=>[]},itemsFn:Function,itemsSize:Number,scrollTarget:{default:void 0}},setup(e,{slots:l,attrs:o}){let d;const i=A(null),f=g(()=>e.itemsSize>=0&&e.itemsFn!==void 0?parseInt(e.itemsSize,10):Array.isArray(e.items)?e.items.length:0),{virtualScrollSliceRange:u,localResetVirtualScroll:s,padVirtualScroll:c,onVirtualScrollEvt:S}=Rt({virtualScrollLength:f,getVirtualScrollTarget:R,getVirtualScrollEl:P}),a=g(()=>{if(f.value===0)return[];const B=(F,k)=>({index:u.value.from+k,item:F});return e.itemsFn===void 0?e.items.slice(u.value.from,u.value.to).map(B):e.itemsFn(u.value.from,u.value.to-u.value.from).map(B)}),m=g(()=>"q-virtual-scroll q-virtual-scroll"+(e.virtualScrollHorizontal===!0?"--horizontal":"--vertical")+(e.scrollTarget!==void 0?"":" scroll")),_=g(()=>e.scrollTarget!==void 0?{}:{tabindex:0});V(f,()=>{s()}),V(()=>e.scrollTarget,()=>{h(),w()});function P(){return i.value.$el||i.value}function R(){return d}function w(){d=vt(P(),e.scrollTarget),d.addEventListener("scroll",S,Te.passive)}function h(){d!==void 0&&(d.removeEventListener("scroll",S,Te.passive),d=void 0)}function O(){let B=c(e.type==="list"?"div":"tbody",a.value.map(l.default));return l.before!==void 0&&(B=l.before().concat(B)),bt(l.after,B)}return Le(()=>{s()}),Ve(()=>{w()}),ft(()=>{w()}),gt(()=>{h()}),Me(()=>{h()}),()=>{if(l.default===void 0){console.error("QVirtualScroll: default scoped slot is required for rendering");return}return e.type==="__qtable"?Ee({ref:i,class:"q-table__middle "+m.value},O()):r(Ot[e.type],{...o,ref:i,class:[o.class,m.value],..._.value},O)}}});let H=0;const pt={fullscreen:Boolean,noRouteFullscreenExit:Boolean},Lt=["update:fullscreen","fullscreen"];function Vt(){const e=te(),{props:l,emit:o,proxy:d}=e;let i,f,u;const s=A(!1);mt(e)===!0&&V(()=>d.$route.fullPath,()=>{l.noRouteFullscreenExit!==!0&&a()}),V(()=>l.fullscreen,m=>{s.value!==m&&c()}),V(s,m=>{o("update:fullscreen",m),o("fullscreen",m)});function c(){s.value===!0?a():S()}function S(){s.value!==!0&&(s.value=!0,u=d.$el.parentNode,u.replaceChild(f,d.$el),document.body.appendChild(d.$el),H++,H===1&&document.body.classList.add("q-body--fullscreen-mixin"),i={handler:a},xe.add(i))}function a(){s.value===!0&&(i!==void 0&&(xe.remove(i),i=void 0),u.replaceChild(d.$el,f),s.value=!1,H=Math.max(0,H-1),H===0&&(document.body.classList.remove("q-body--fullscreen-mixin"),d.$el.scrollIntoView!==void 0&&setTimeout(()=>{d.$el.scrollIntoView()})))}return Le(()=>{f=document.createElement("span")}),Ve(()=>{l.fullscreen===!0&&S()}),Me(a),Object.assign(d,{toggleFullscreen:c,setFullscreen:S,exitFullscreen:a}),{inFullscreen:s,toggleFullscreen:c}}function Mt(e,l){return new Date(e)-new Date(l)}const Dt={sortMethod:Function,binaryStateSort:Boolean,columnSortOrder:{type:String,validator:e=>e==="ad"||e==="da",default:"ad"}};function jt(e,l,o,d){const i=g(()=>{const{sortBy:s}=l.value;return s&&o.value.find(c=>c.name===s)||null}),f=g(()=>e.sortMethod!==void 0?e.sortMethod:(s,c,S)=>{const a=o.value.find(P=>P.name===c);if(a===void 0||a.field===void 0)return s;const m=S===!0?-1:1,_=typeof a.field=="function"?P=>a.field(P):P=>P[a.field];return s.sort((P,R)=>{let w=_(P),h=_(R);return w==null?-1*m:h==null?1*m:a.sort!==void 0?a.sort(w,h,P,R)*m:be(w)===!0&&be(h)===!0?(w-h)*m:Oe(w)===!0&&Oe(h)===!0?Mt(w,h)*m:typeof w=="boolean"&&typeof h=="boolean"?(w-h)*m:([w,h]=[w,h].map(O=>(O+"").toLocaleString().toLowerCase()),w<h?-1*m:w===h?0:m)})});function u(s){let c=e.columnSortOrder;if(St(s)===!0)s.sortOrder&&(c=s.sortOrder),s=s.name;else{const m=o.value.find(_=>_.name===s);m!==void 0&&m.sortOrder&&(c=m.sortOrder)}let{sortBy:S,descending:a}=l.value;S!==s?(S=s,a=c==="da"):e.binaryStateSort===!0?a=!a:a===!0?c==="ad"?S=null:a=!1:c==="ad"?a=!0:S=null,d({sortBy:S,descending:a,page:1})}return{columnToSort:i,computedSortMethod:f,sort:u}}const Et={filter:[String,Object],filterMethod:Function};function At(e,l){const o=g(()=>e.filterMethod!==void 0?e.filterMethod:(d,i,f,u)=>{const s=i?i.toLowerCase():"";return d.filter(c=>f.some(S=>{const a=u(S,c)+"";return(a==="undefined"||a==="null"?"":a.toLowerCase()).indexOf(s)!==-1}))});return V(()=>e.filter,()=>{De(()=>{l({page:1},!0)})},{deep:!0}),{computedFilterMethod:o}}function Qt(e,l){for(const o in l)if(l[o]!==e[o])return!1;return!0}function Be(e){return e.page<1&&(e.page=1),e.rowsPerPage!==void 0&&e.rowsPerPage<1&&(e.rowsPerPage=0),e}const Ht={pagination:Object,rowsPerPageOptions:{type:Array,default:()=>[5,7,10,15,20,25,50,0]},"onUpdate:pagination":[Function,Array]};function Nt(e,l){const{props:o,emit:d}=e,i=A(Object.assign({sortBy:null,descending:!1,page:1,rowsPerPage:o.rowsPerPageOptions.length>0?o.rowsPerPageOptions[0]:5},o.pagination)),f=g(()=>{const a=o["onUpdate:pagination"]!==void 0?{...i.value,...o.pagination}:i.value;return Be(a)}),u=g(()=>f.value.rowsNumber!==void 0);function s(a){c({pagination:a,filter:o.filter})}function c(a={}){De(()=>{d("request",{pagination:a.pagination||f.value,filter:a.filter||o.filter,getCellValue:l})})}function S(a,m){const _=Be({...f.value,...a});if(Qt(f.value,_)===!0){u.value===!0&&m===!0&&s(_);return}if(u.value===!0){s(_);return}o.pagination!==void 0&&o["onUpdate:pagination"]!==void 0?d("update:pagination",_):i.value=_}return{innerPagination:i,computedPagination:f,isServerSide:u,requestServerInteraction:c,setPagination:S}}function $t(e,l,o,d,i,f){const{props:u,emit:s,proxy:{$q:c}}=e,S=g(()=>d.value===!0?o.value.rowsNumber||0:f.value),a=g(()=>{const{page:k,rowsPerPage:T}=o.value;return(k-1)*T}),m=g(()=>{const{page:k,rowsPerPage:T}=o.value;return k*T}),_=g(()=>o.value.page===1),P=g(()=>o.value.rowsPerPage===0?1:Math.max(1,Math.ceil(S.value/o.value.rowsPerPage))),R=g(()=>m.value===0?!0:o.value.page>=P.value),w=g(()=>(u.rowsPerPageOptions.includes(l.value.rowsPerPage)?u.rowsPerPageOptions:[l.value.rowsPerPage].concat(u.rowsPerPageOptions)).map(T=>({label:T===0?c.lang.table.allRows:""+T,value:T})));V(P,(k,T)=>{if(k===T)return;const N=o.value.page;k&&!N?i({page:1}):k<N&&i({page:k})});function h(){i({page:1})}function O(){const{page:k}=o.value;k>1&&i({page:k-1})}function B(){const{page:k,rowsPerPage:T}=o.value;m.value>0&&k*T<S.value&&i({page:k+1})}function F(){i({page:P.value})}return u["onUpdate:pagination"]!==void 0&&s("update:pagination",{...o.value}),{firstRowIndex:a,lastRowIndex:m,isFirstPage:_,isLastPage:R,pagesNumber:P,computedRowsPerPageOptions:w,computedRowsNumber:S,firstPage:h,prevPage:O,nextPage:B,lastPage:F}}const zt={selection:{type:String,default:"none",validator:e=>["single","multiple","none"].includes(e)},selected:{type:Array,default:()=>[]}},Ut=["update:selected","selection"];function It(e,l,o,d){const i=g(()=>{const R={};return e.selected.map(d.value).forEach(w=>{R[w]=!0}),R}),f=g(()=>e.selection!=="none"),u=g(()=>e.selection==="single"),s=g(()=>e.selection==="multiple"),c=g(()=>o.value.length>0&&o.value.every(R=>i.value[d.value(R)]===!0)),S=g(()=>c.value!==!0&&o.value.some(R=>i.value[d.value(R)]===!0)),a=g(()=>e.selected.length);function m(R){return i.value[R]===!0}function _(){l("update:selected",[])}function P(R,w,h,O){l("selection",{rows:w,added:h,keys:R,evt:O});const B=u.value===!0?h===!0?w:[]:h===!0?e.selected.concat(w):e.selected.filter(F=>R.includes(d.value(F))===!1);l("update:selected",B)}return{hasSelectionMode:f,singleSelection:u,multipleSelection:s,allRowsSelected:c,someRowsSelected:S,rowsSelectedNumber:a,isRowSelected:m,clearSelection:_,updateSelection:P}}function Fe(e){return Array.isArray(e)?e.slice():[]}const Wt={expanded:Array},Kt=["update:expanded"];function Gt(e,l){const o=A(Fe(e.expanded));V(()=>e.expanded,u=>{o.value=Fe(u)});function d(u){return o.value.includes(u)}function i(u){e.expanded!==void 0?l("update:expanded",u):o.value=u}function f(u,s){const c=o.value.slice(),S=c.indexOf(u);s===!0?S===-1&&(c.push(u),i(c)):S!==-1&&(c.splice(S,1),i(c))}return{isRowExpanded:d,setExpanded:i,updateExpanded:f}}const Xt={visibleColumns:Array};function Jt(e,l,o){const d=g(()=>{if(e.columns!==void 0)return e.columns;const s=e.rows[0];return s!==void 0?Object.keys(s).map(c=>({name:c,label:c.toUpperCase(),field:c,align:be(s[c])?"right":"left",sortable:!0})):[]}),i=g(()=>{const{sortBy:s,descending:c}=l.value;return(e.visibleColumns!==void 0?d.value.filter(a=>a.required===!0||e.visibleColumns.includes(a.name)===!0):d.value).map(a=>{const m=a.align||"right",_=`text-${m}`;return{...a,align:m,__iconClass:`q-table__sort-icon q-table__sort-icon--${m}`,__thClass:_+(a.headerClasses!==void 0?" "+a.headerClasses:"")+(a.sortable===!0?" sortable":"")+(a.name===s?` sorted ${c===!0?"sort-desc":""}`:""),__tdStyle:a.style!==void 0?typeof a.style!="function"?()=>a.style:a.style:()=>null,__tdClass:a.classes!==void 0?typeof a.classes!="function"?()=>_+" "+a.classes:P=>_+" "+a.classes(P):()=>_}})}),f=g(()=>{const s={};return i.value.forEach(c=>{s[c.name]=c}),s}),u=g(()=>e.tableColspan!==void 0?e.tableColspan:i.value.length+(o.value===!0?1:0));return{colList:d,computedCols:i,computedColsMap:f,computedColspan:u}}const Y="q-table__bottom row items-center",Ae={};je.forEach(e=>{Ae[e]={}});var nl=ee({name:"QTable",props:{rows:{type:Array,default:()=>[]},rowKey:{type:[String,Function],default:"id"},columns:Array,loading:Boolean,iconFirstPage:String,iconPrevPage:String,iconNextPage:String,iconLastPage:String,title:String,hideHeader:Boolean,grid:Boolean,gridHeader:Boolean,dense:Boolean,flat:Boolean,bordered:Boolean,square:Boolean,separator:{type:String,default:"horizontal",validator:e=>["horizontal","vertical","cell","none"].includes(e)},wrapCells:Boolean,virtualScroll:Boolean,virtualScrollTarget:{default:void 0},...Ae,noDataLabel:String,noResultsLabel:String,loadingLabel:String,selectedRowsLabel:Function,rowsPerPageLabel:String,paginationLabel:Function,color:{type:String,default:"grey-8"},titleClass:[String,Array,Object],tableStyle:[String,Array,Object],tableClass:[String,Array,Object],tableHeaderStyle:[String,Array,Object],tableHeaderClass:[String,Array,Object],cardContainerClass:[String,Array,Object],cardContainerStyle:[String,Array,Object],cardStyle:[String,Array,Object],cardClass:[String,Array,Object],hideBottom:Boolean,hideSelectedBanner:Boolean,hideNoData:Boolean,hidePagination:Boolean,onRowClick:Function,onRowDblclick:Function,onRowContextmenu:Function,...yt,...pt,...Xt,...Et,...Ht,...Wt,...zt,...Dt},emits:["request","virtualScroll",...Lt,...Kt,...Ut],setup(e,{slots:l,emit:o}){const d=te(),{proxy:{$q:i}}=d,f=ht(e,i),{inFullscreen:u,toggleFullscreen:s}=Vt(),c=g(()=>typeof e.rowKey=="function"?e.rowKey:t=>t[e.rowKey]),S=A(null),a=A(null),m=g(()=>e.grid!==!0&&e.virtualScroll===!0),_=g(()=>" q-table__card"+(f.value===!0?" q-table__card--dark q-dark":"")+(e.square===!0?" q-table--square":"")+(e.flat===!0?" q-table--flat":"")+(e.bordered===!0?" q-table--bordered":"")),P=g(()=>`q-table__container q-table--${e.separator}-separator column no-wrap`+(e.grid===!0?" q-table--grid":_.value)+(f.value===!0?" q-table--dark":"")+(e.dense===!0?" q-table--dense":"")+(e.wrapCells===!1?" q-table--no-wrap":"")+(u.value===!0?" fullscreen scroll":"")),R=g(()=>P.value+(e.loading===!0?" q-table--loading":""));V(()=>e.tableStyle+e.tableClass+e.tableHeaderStyle+e.tableHeaderClass+P.value,()=>{m.value===!0&&a.value!==null&&a.value.reset()});const{innerPagination:w,computedPagination:h,isServerSide:O,requestServerInteraction:B,setPagination:F}=Nt(d,j),{computedFilterMethod:k}=At(e,F),{isRowExpanded:T,setExpanded:N,updateExpanded:Qe}=Gt(e,o),le=g(()=>{let t=e.rows;if(O.value===!0||t.length===0)return t;const{sortBy:n,descending:v}=h.value;return e.filter&&(t=k.value(t,e.filter,p.value,j)),Ue.value!==null&&(t=Ie.value(e.rows===t?t.slice():t,n,v)),t}),me=g(()=>le.value.length),M=g(()=>{let t=le.value;if(O.value===!0)return t;const{rowsPerPage:n}=h.value;return n!==0&&(z.value===0&&e.rows!==t?t.length>U.value&&(t=t.slice(0,U.value)):t=t.slice(z.value,U.value)),t}),{hasSelectionMode:D,singleSelection:He,multipleSelection:Se,allRowsSelected:Ne,someRowsSelected:ye,rowsSelectedNumber:ae,isRowSelected:ne,clearSelection:$e,updateSelection:$}=It(e,o,M,c),{colList:ze,computedCols:p,computedColsMap:he,computedColspan:we}=Jt(e,h,D),{columnToSort:Ue,computedSortMethod:Ie,sort:oe}=jt(e,h,ze,F),{firstRowIndex:z,lastRowIndex:U,isFirstPage:re,isLastPage:ie,pagesNumber:I,computedRowsPerPageOptions:We,computedRowsNumber:W,firstPage:ue,prevPage:se,nextPage:ce,lastPage:de}=$t(d,w,h,O,F,me),Ke=g(()=>M.value.length===0),Ge=g(()=>{const t={};return je.forEach(n=>{t[n]=e[n]}),t.virtualScrollItemSize===void 0&&(t.virtualScrollItemSize=e.dense===!0?28:48),t});function Xe(){m.value===!0&&a.value.reset()}function Je(){if(e.grid===!0)return st();const t=e.hideHeader!==!0?Re:null;if(m.value===!0){const v=l["top-row"],b=l["bottom-row"],y={default:q=>Pe(q.item,l.body,q.index)};if(v!==void 0){const q=r("tbody",v({cols:p.value}));y.before=t===null?()=>q:()=>[t()].concat(q)}else t!==null&&(y.before=t);return b!==void 0&&(y.after=()=>r("tbody",b({cols:p.value}))),r(Ft,{ref:a,class:e.tableClass,style:e.tableStyle,...Ge.value,scrollTarget:e.virtualScrollTarget,items:M.value,type:"__qtable",tableColspan:we.value,onVirtualScroll:Ze},y)}const n=[et()];return t!==null&&n.unshift(t()),Ee({class:["q-table__middle scroll",e.tableClass],style:e.tableStyle},n)}function Ye(t,n){if(a.value!==null){a.value.scrollTo(t,n);return}t=parseInt(t,10);const v=S.value.querySelector(`tbody tr:nth-of-type(${t+1})`);if(v!==null){const b=S.value.querySelector(".q-table__middle.scroll"),y=v.offsetTop-e.virtualScrollStickySizeStart,q=y<b.scrollTop?"decrease":"increase";b.scrollTop=y,o("virtualScroll",{index:t,from:0,to:w.value.rowsPerPage-1,direction:q})}}function Ze(t){o("virtualScroll",t)}function _e(){return[r(Tt,{class:"q-table__linear-progress",color:e.color,dark:f.value,indeterminate:!0,trackColor:"transparent"})]}function Pe(t,n,v){const b=c.value(t),y=ne(b);if(n!==void 0)return n(Ce({key:b,row:t,pageIndex:v,__trClass:y?"selected":""}));const q=l["body-cell"],C=p.value.map(x=>{const G=l[`body-cell-${x.name}`],X=G!==void 0?G:q;return X!==void 0?X(tt({key:b,row:t,pageIndex:v,col:x})):r("td",{class:x.__tdClass(t),style:x.__tdStyle(t)},j(x,t))});if(D.value===!0){const x=l["body-selection"],G=x!==void 0?x(lt({key:b,row:t,pageIndex:v})):[r(ge,{modelValue:y,color:e.color,dark:f.value,dense:e.dense,"onUpdate:modelValue":(X,ct)=>{$([b],[t],X,ct)}})];C.unshift(r("td",{class:"q-table--col-auto-width"},G))}const L={key:b,class:{selected:y}};return e.onRowClick!==void 0&&(L.class["cursor-pointer"]=!0,L.onClick=x=>{o("RowClick",x,t,v)}),e.onRowDblclick!==void 0&&(L.class["cursor-pointer"]=!0,L.onDblclick=x=>{o("RowDblclick",x,t,v)}),e.onRowContextmenu!==void 0&&(L.class["cursor-pointer"]=!0,L.onContextmenu=x=>{o("RowContextmenu",x,t,v)}),r("tr",L,C)}function et(){const t=l.body,n=l["top-row"],v=l["bottom-row"];let b=M.value.map((y,q)=>Pe(y,t,q));return n!==void 0&&(b=n({cols:p.value}).concat(b)),v!==void 0&&(b=b.concat(v({cols:p.value}))),r("tbody",b)}function Ce(t){return ve(t),t.cols=t.cols.map(n=>Q({...n},"value",()=>j(n,t.row))),t}function tt(t){return ve(t),Q(t,"value",()=>j(t.col,t.row)),t}function lt(t){return ve(t),t}function ve(t){Object.assign(t,{cols:p.value,colsMap:he.value,sort:oe,rowIndex:z.value+t.pageIndex,color:e.color,dark:f.value,dense:e.dense}),D.value===!0&&Q(t,"selected",()=>ne(t.key),(n,v)=>{$([t.key],[t.row],n,v)}),Q(t,"expand",()=>T(t.key),n=>{Qe(t.key,n)})}function j(t,n){const v=typeof t.field=="function"?t.field(n):n[t.field];return t.format!==void 0?t.format(v,n):v}const E=g(()=>({pagination:h.value,pagesNumber:I.value,isFirstPage:re.value,isLastPage:ie.value,firstPage:ue,prevPage:se,nextPage:ce,lastPage:de,inFullscreen:u.value,toggleFullscreen:s}));function at(){const t=l.top,n=l["top-left"],v=l["top-right"],b=l["top-selection"],y=D.value===!0&&b!==void 0&&ae.value>0,q="q-table__top relative-position row items-center";if(t!==void 0)return r("div",{class:q},[t(E.value)]);let C;if(y===!0?C=b(E.value).slice():(C=[],n!==void 0?C.push(r("div",{class:"q-table__control"},[n(E.value)])):e.title&&C.push(r("div",{class:"q-table__control"},[r("div",{class:["q-table__title",e.titleClass]},e.title)]))),v!==void 0&&(C.push(r("div",{class:"q-table__separator col"})),C.push(r("div",{class:"q-table__control"},[v(E.value)]))),C.length!==0)return r("div",{class:q},C)}const qe=g(()=>ye.value===!0?null:Ne.value);function Re(){const t=nt();return e.loading===!0&&l.loading===void 0&&t.push(r("tr",{class:"q-table__progress"},[r("th",{class:"relative-position",colspan:we.value},_e())])),r("thead",t)}function nt(){const t=l.header,n=l["header-cell"];if(t!==void 0)return t(fe({header:!0})).slice();const v=p.value.map(b=>{const y=l[`header-cell-${b.name}`],q=y!==void 0?y:n,C=fe({col:b});return q!==void 0?q(C):r(xt,{key:b.name,props:C},()=>b.label)});if(He.value===!0&&e.grid!==!0)v.unshift(r("th",{class:"q-table--col-auto-width"}," "));else if(Se.value===!0){const b=l["header-selection"],y=b!==void 0?b(fe({})):[r(ge,{color:e.color,modelValue:qe.value,dark:f.value,dense:e.dense,"onUpdate:modelValue":ke})];v.unshift(r("th",{class:"q-table--col-auto-width"},y))}return[r("tr",{class:e.tableHeaderClass,style:e.tableHeaderStyle},v)]}function fe(t){return Object.assign(t,{cols:p.value,sort:oe,colsMap:he.value,color:e.color,dark:f.value,dense:e.dense}),Se.value===!0&&Q(t,"selected",()=>qe.value,ke),t}function ke(t){ye.value===!0&&(t=!1),$(M.value.map(c.value),M.value,t)}const K=g(()=>{const t=[e.iconFirstPage||i.iconSet.table.firstPage,e.iconPrevPage||i.iconSet.table.prevPage,e.iconNextPage||i.iconSet.table.nextPage,e.iconLastPage||i.iconSet.table.lastPage];return i.lang.rtl===!0?t.reverse():t});function ot(){if(e.hideBottom===!0)return;if(Ke.value===!0){if(e.hideNoData===!0)return;const v=e.loading===!0?e.loadingLabel||i.lang.table.loading:e.filter?e.noResultsLabel||i.lang.table.noResults:e.noDataLabel||i.lang.table.noData,b=l["no-data"],y=b!==void 0?[b({message:v,icon:i.iconSet.table.warning,filter:e.filter})]:[r(pe,{class:"q-table__bottom-nodata-icon",name:i.iconSet.table.warning}),v];return r("div",{class:Y+" q-table__bottom--nodata"},y)}const t=l.bottom;if(t!==void 0)return r("div",{class:Y},[t(E.value)]);const n=e.hideSelectedBanner!==!0&&D.value===!0&&ae.value>0?[r("div",{class:"q-table__control"},[r("div",[(e.selectedRowsLabel||i.lang.table.selectedRecords)(ae.value)])])]:[];if(e.hidePagination!==!0)return r("div",{class:Y+" justify-end"},it(n));if(n.length>0)return r("div",{class:Y},n)}function rt(t){F({page:1,rowsPerPage:t.value})}function it(t){let n;const{rowsPerPage:v}=h.value,b=e.paginationLabel||i.lang.table.pagination,y=l.pagination,q=e.rowsPerPageOptions.length>1;if(t.push(r("div",{class:"q-table__separator col"})),q===!0&&t.push(r("div",{class:"q-table__control"},[r("span",{class:"q-table__bottom-item"},[e.rowsPerPageLabel||i.lang.table.recordsPerPage]),r(kt,{class:"q-table__select inline q-table__bottom-item",color:e.color,modelValue:v,options:We.value,displayValue:v===0?i.lang.table.allRows:v,dark:f.value,borderless:!0,dense:!0,optionsDense:!0,optionsCover:!0,"onUpdate:modelValue":rt})])),y!==void 0)n=y(E.value);else if(n=[r("span",v!==0?{class:"q-table__bottom-item"}:{},[v?b(z.value+1,Math.min(U.value,W.value),W.value):b(1,me.value,W.value)])],v!==0&&I.value>1){const C={color:e.color,round:!0,dense:!0,flat:!0};e.dense===!0&&(C.size="sm"),I.value>2&&n.push(r(J,{key:"pgFirst",...C,icon:K.value[0],disable:re.value,onClick:ue})),n.push(r(J,{key:"pgPrev",...C,icon:K.value[1],disable:re.value,onClick:se}),r(J,{key:"pgNext",...C,icon:K.value[2],disable:ie.value,onClick:ce})),I.value>2&&n.push(r(J,{key:"pgLast",...C,icon:K.value[3],disable:ie.value,onClick:de}))}return t.push(r("div",{class:"q-table__control"},n)),t}function ut(){const t=e.gridHeader===!0?[r("table",{class:"q-table"},[Re()])]:e.loading===!0&&l.loading===void 0?_e():void 0;return r("div",{class:"q-table__middle"},t)}function st(){const t=l.item!==void 0?l.item:n=>{const v=n.cols.map(y=>r("div",{class:"q-table__grid-item-row"},[r("div",{class:"q-table__grid-item-title"},[y.label]),r("div",{class:"q-table__grid-item-value"},[y.value])]));if(D.value===!0){const y=l["body-selection"],q=y!==void 0?y(n):[r(ge,{modelValue:n.selected,color:e.color,dark:f.value,dense:e.dense,"onUpdate:modelValue":(C,L)=>{$([n.key],[n.row],C,L)}})];v.unshift(r("div",{class:"q-table__grid-item-row"},q),r(_t,{dark:f.value}))}const b={class:["q-table__grid-item-card"+_.value,e.cardClass],style:e.cardStyle};return(e.onRowClick!==void 0||e.onRowDblclick!==void 0)&&(b.class[0]+=" cursor-pointer",e.onRowClick!==void 0&&(b.onClick=y=>{o("RowClick",y,n.row,n.pageIndex)}),e.onRowDblclick!==void 0&&(b.onDblclick=y=>{o("RowDblclick",y,n.row,n.pageIndex)})),r("div",{class:"q-table__grid-item col-xs-12 col-sm-6 col-md-4 col-lg-3"+(n.selected===!0?" q-table__grid-item--selected":"")},[r("div",b,v)])};return r("div",{class:["q-table__grid-content row",e.cardContainerClass],style:e.cardContainerStyle},M.value.map((n,v)=>t(Ce({key:c.value(n),row:n,pageIndex:v}))))}return Object.assign(d.proxy,{requestServerInteraction:B,setPagination:F,firstPage:ue,prevPage:se,nextPage:ce,lastPage:de,isRowSelected:ne,clearSelection:$e,isRowExpanded:T,setExpanded:N,sort:oe,resetVirtualScroll:Xe,scrollTo:Ye,getCellValue:j}),wt(d.proxy,{filteredSortedRows:()=>le.value,computedRows:()=>M.value,computedRowsNumber:()=>W.value}),()=>{const t=[at()],n={ref:S,class:R.value};return e.grid===!0?t.push(ut()):Object.assign(n,{class:[n.class,e.cardClass],style:e.cardStyle}),t.push(Je(),ot()),e.loading===!0&&l.loading!==void 0&&t.push(l.loading()),r("div",n,t)}}});export{al as Q,nl as a,Lt as b,Vt as c,pt as u};
+import { V as createComponent, g as computed, h, X as hSlot, j as getCurrentInstance, aH as hUniqueSlot, O as QIcon, r as ref, w as watch, a0 as getScrollTarget, a2 as listenOpts, a8 as onBeforeMount, o as onMounted, as as onActivated, ar as onDeactivated, E as onBeforeUnmount, a7 as hMergeSlot, bz as vmHasRouter, bA as History, bB as isNumber, bC as isDate, be as isObject, D as nextTick, ab as useDarkProps, ac as useDark, bd as injectMultipleProps, b9 as QCheckbox, bc as injectProp, S as QBtn, bp as QSeparator } from "./index.e647c85a.js";
+import { Q as QList } from "./QList.2f0afc60.js";
+import { Q as QMarkupTable } from "./QMarkupTable.981d9979.js";
+import { u as useVirtualScrollProps, a as useVirtualScroll, c as commonVirtPropsList, Q as QSelect } from "./QSelect.853d535e.js";
+import { Q as QLinearProgress } from "./QLinearProgress.c48fac34.js";
+var QTd = createComponent({
+  name: "QTd",
+  props: {
+    props: Object,
+    autoWidth: Boolean,
+    noHover: Boolean
+  },
+  setup(props, { slots }) {
+    const vm = getCurrentInstance();
+    const classes = computed(
+      () => "q-td" + (props.autoWidth === true ? " q-table--col-auto-width" : "") + (props.noHover === true ? " q-td--no-hover" : "") + " "
+    );
+    return () => {
+      if (props.props === void 0) {
+        return h("td", { class: classes.value }, hSlot(slots.default));
+      }
+      const name = vm.vnode.key;
+      const col = (props.props.colsMap !== void 0 ? props.props.colsMap[name] : null) || props.props.col;
+      if (col === void 0) {
+        return;
+      }
+      const { row } = props.props;
+      return h("td", {
+        class: classes.value + col.__tdClass(row),
+        style: col.__tdStyle(row)
+      }, hSlot(slots.default));
+    };
+  }
+});
+var QTh = createComponent({
+  name: "QTh",
+  props: {
+    props: Object,
+    autoWidth: Boolean
+  },
+  emits: ["click"],
+  setup(props, { slots, emit }) {
+    const vm = getCurrentInstance();
+    const { proxy: { $q } } = vm;
+    const onClick = (evt) => {
+      emit("click", evt);
+    };
+    return () => {
+      if (props.props === void 0) {
+        return h("th", {
+          class: props.autoWidth === true ? "q-table--col-auto-width" : "",
+          onClick
+        }, hSlot(slots.default));
+      }
+      let col, child;
+      const name = vm.vnode.key;
+      if (name) {
+        col = props.props.colsMap[name];
+        if (col === void 0) {
+          return;
+        }
+      } else {
+        col = props.props.col;
+      }
+      if (col.sortable === true) {
+        const action = col.align === "right" ? "unshift" : "push";
+        child = hUniqueSlot(slots.default, []);
+        child[action](
+          h(QIcon, {
+            class: col.__iconClass,
+            name: $q.iconSet.table.arrowUp
+          })
+        );
+      } else {
+        child = hSlot(slots.default);
+      }
+      const data = {
+        class: col.__thClass + (props.autoWidth === true ? " q-table--col-auto-width" : ""),
+        style: col.headerStyle,
+        onClick: (evt) => {
+          col.sortable === true && props.props.sort(col);
+          onClick(evt);
+        }
+      };
+      return h("th", data, child);
+    };
+  }
+});
+function getTableMiddle(props, content) {
+  return h("div", props, [
+    h("table", { class: "q-table" }, content)
+  ]);
+}
+const comps = {
+  list: QList,
+  table: QMarkupTable
+};
+const typeOptions = ["list", "table", "__qtable"];
+var QVirtualScroll = createComponent({
+  name: "QVirtualScroll",
+  props: {
+    ...useVirtualScrollProps,
+    type: {
+      type: String,
+      default: "list",
+      validator: (v) => typeOptions.includes(v)
+    },
+    items: {
+      type: Array,
+      default: () => []
+    },
+    itemsFn: Function,
+    itemsSize: Number,
+    scrollTarget: {
+      default: void 0
+    }
+  },
+  setup(props, { slots, attrs }) {
+    let localScrollTarget;
+    const rootRef = ref(null);
+    const virtualScrollLength = computed(() => props.itemsSize >= 0 && props.itemsFn !== void 0 ? parseInt(props.itemsSize, 10) : Array.isArray(props.items) ? props.items.length : 0);
+    const {
+      virtualScrollSliceRange,
+      localResetVirtualScroll,
+      padVirtualScroll,
+      onVirtualScrollEvt
+    } = useVirtualScroll({
+      virtualScrollLength,
+      getVirtualScrollTarget,
+      getVirtualScrollEl
+    });
+    const virtualScrollScope = computed(() => {
+      if (virtualScrollLength.value === 0) {
+        return [];
+      }
+      const mapFn = (item, i) => ({
+        index: virtualScrollSliceRange.value.from + i,
+        item
+      });
+      return props.itemsFn === void 0 ? props.items.slice(virtualScrollSliceRange.value.from, virtualScrollSliceRange.value.to).map(mapFn) : props.itemsFn(virtualScrollSliceRange.value.from, virtualScrollSliceRange.value.to - virtualScrollSliceRange.value.from).map(mapFn);
+    });
+    const classes = computed(
+      () => "q-virtual-scroll q-virtual-scroll" + (props.virtualScrollHorizontal === true ? "--horizontal" : "--vertical") + (props.scrollTarget !== void 0 ? "" : " scroll")
+    );
+    const attributes = computed(() => props.scrollTarget !== void 0 ? {} : { tabindex: 0 });
+    watch(virtualScrollLength, () => {
+      localResetVirtualScroll();
+    });
+    watch(() => props.scrollTarget, () => {
+      unconfigureScrollTarget();
+      configureScrollTarget();
+    });
+    function getVirtualScrollEl() {
+      return rootRef.value.$el || rootRef.value;
+    }
+    function getVirtualScrollTarget() {
+      return localScrollTarget;
+    }
+    function configureScrollTarget() {
+      localScrollTarget = getScrollTarget(getVirtualScrollEl(), props.scrollTarget);
+      localScrollTarget.addEventListener("scroll", onVirtualScrollEvt, listenOpts.passive);
+    }
+    function unconfigureScrollTarget() {
+      if (localScrollTarget !== void 0) {
+        localScrollTarget.removeEventListener("scroll", onVirtualScrollEvt, listenOpts.passive);
+        localScrollTarget = void 0;
+      }
+    }
+    function __getVirtualChildren() {
+      let child = padVirtualScroll(
+        props.type === "list" ? "div" : "tbody",
+        virtualScrollScope.value.map(slots.default)
+      );
+      if (slots.before !== void 0) {
+        child = slots.before().concat(child);
+      }
+      return hMergeSlot(slots.after, child);
+    }
+    onBeforeMount(() => {
+      localResetVirtualScroll();
+    });
+    onMounted(() => {
+      configureScrollTarget();
+    });
+    onActivated(() => {
+      configureScrollTarget();
+    });
+    onDeactivated(() => {
+      unconfigureScrollTarget();
+    });
+    onBeforeUnmount(() => {
+      unconfigureScrollTarget();
+    });
+    return () => {
+      if (slots.default === void 0) {
+        console.error("QVirtualScroll: default scoped slot is required for rendering");
+        return;
+      }
+      return props.type === "__qtable" ? getTableMiddle(
+        { ref: rootRef, class: "q-table__middle " + classes.value },
+        __getVirtualChildren()
+      ) : h(comps[props.type], {
+        ...attrs,
+        ref: rootRef,
+        class: [attrs.class, classes.value],
+        ...attributes.value
+      }, __getVirtualChildren);
+    };
+  }
+});
+let counter = 0;
+const useFullscreenProps = {
+  fullscreen: Boolean,
+  noRouteFullscreenExit: Boolean
+};
+const useFullscreenEmits = ["update:fullscreen", "fullscreen"];
+function useFullscreen() {
+  const vm = getCurrentInstance();
+  const { props, emit, proxy } = vm;
+  let historyEntry, fullscreenFillerNode, container;
+  const inFullscreen = ref(false);
+  vmHasRouter(vm) === true && watch(() => proxy.$route.fullPath, () => {
+    props.noRouteFullscreenExit !== true && exitFullscreen();
+  });
+  watch(() => props.fullscreen, (v) => {
+    if (inFullscreen.value !== v) {
+      toggleFullscreen();
+    }
+  });
+  watch(inFullscreen, (v) => {
+    emit("update:fullscreen", v);
+    emit("fullscreen", v);
+  });
+  function toggleFullscreen() {
+    if (inFullscreen.value === true) {
+      exitFullscreen();
+    } else {
+      setFullscreen();
+    }
+  }
+  function setFullscreen() {
+    if (inFullscreen.value === true) {
+      return;
+    }
+    inFullscreen.value = true;
+    container = proxy.$el.parentNode;
+    container.replaceChild(fullscreenFillerNode, proxy.$el);
+    document.body.appendChild(proxy.$el);
+    counter++;
+    if (counter === 1) {
+      document.body.classList.add("q-body--fullscreen-mixin");
+    }
+    historyEntry = {
+      handler: exitFullscreen
+    };
+    History.add(historyEntry);
+  }
+  function exitFullscreen() {
+    if (inFullscreen.value !== true) {
+      return;
+    }
+    if (historyEntry !== void 0) {
+      History.remove(historyEntry);
+      historyEntry = void 0;
+    }
+    container.replaceChild(proxy.$el, fullscreenFillerNode);
+    inFullscreen.value = false;
+    counter = Math.max(0, counter - 1);
+    if (counter === 0) {
+      document.body.classList.remove("q-body--fullscreen-mixin");
+      if (proxy.$el.scrollIntoView !== void 0) {
+        setTimeout(() => {
+          proxy.$el.scrollIntoView();
+        });
+      }
+    }
+  }
+  onBeforeMount(() => {
+    fullscreenFillerNode = document.createElement("span");
+  });
+  onMounted(() => {
+    props.fullscreen === true && setFullscreen();
+  });
+  onBeforeUnmount(exitFullscreen);
+  Object.assign(proxy, {
+    toggleFullscreen,
+    setFullscreen,
+    exitFullscreen
+  });
+  return {
+    inFullscreen,
+    toggleFullscreen
+  };
+}
+function sortDate(a, b) {
+  return new Date(a) - new Date(b);
+}
+const useTableSortProps = {
+  sortMethod: Function,
+  binaryStateSort: Boolean,
+  columnSortOrder: {
+    type: String,
+    validator: (v) => v === "ad" || v === "da",
+    default: "ad"
+  }
+};
+function useTableSort(props, computedPagination, colList, setPagination) {
+  const columnToSort = computed(() => {
+    const { sortBy } = computedPagination.value;
+    return sortBy ? colList.value.find((def) => def.name === sortBy) || null : null;
+  });
+  const computedSortMethod = computed(() => props.sortMethod !== void 0 ? props.sortMethod : (data, sortBy, descending) => {
+    const col = colList.value.find((def) => def.name === sortBy);
+    if (col === void 0 || col.field === void 0) {
+      return data;
+    }
+    const dir = descending === true ? -1 : 1, val = typeof col.field === "function" ? (v) => col.field(v) : (v) => v[col.field];
+    return data.sort((a, b) => {
+      let A = val(a), B = val(b);
+      if (A === null || A === void 0) {
+        return -1 * dir;
+      }
+      if (B === null || B === void 0) {
+        return 1 * dir;
+      }
+      if (col.sort !== void 0) {
+        return col.sort(A, B, a, b) * dir;
+      }
+      if (isNumber(A) === true && isNumber(B) === true) {
+        return (A - B) * dir;
+      }
+      if (isDate(A) === true && isDate(B) === true) {
+        return sortDate(A, B) * dir;
+      }
+      if (typeof A === "boolean" && typeof B === "boolean") {
+        return (A - B) * dir;
+      }
+      [A, B] = [A, B].map((s) => (s + "").toLocaleString().toLowerCase());
+      return A < B ? -1 * dir : A === B ? 0 : dir;
+    });
+  });
+  function sort(col) {
+    let sortOrder = props.columnSortOrder;
+    if (isObject(col) === true) {
+      if (col.sortOrder) {
+        sortOrder = col.sortOrder;
+      }
+      col = col.name;
+    } else {
+      const def = colList.value.find((def2) => def2.name === col);
+      if (def !== void 0 && def.sortOrder) {
+        sortOrder = def.sortOrder;
+      }
+    }
+    let { sortBy, descending } = computedPagination.value;
+    if (sortBy !== col) {
+      sortBy = col;
+      descending = sortOrder === "da";
+    } else if (props.binaryStateSort === true) {
+      descending = !descending;
+    } else if (descending === true) {
+      if (sortOrder === "ad") {
+        sortBy = null;
+      } else {
+        descending = false;
+      }
+    } else {
+      if (sortOrder === "ad") {
+        descending = true;
+      } else {
+        sortBy = null;
+      }
+    }
+    setPagination({ sortBy, descending, page: 1 });
+  }
+  return {
+    columnToSort,
+    computedSortMethod,
+    sort
+  };
+}
+const useTableFilterProps = {
+  filter: [String, Object],
+  filterMethod: Function
+};
+function useTableFilter(props, setPagination) {
+  const computedFilterMethod = computed(() => props.filterMethod !== void 0 ? props.filterMethod : (rows, terms, cols, cellValue) => {
+    const lowerTerms = terms ? terms.toLowerCase() : "";
+    return rows.filter(
+      (row) => cols.some((col) => {
+        const val = cellValue(col, row) + "";
+        const haystack = val === "undefined" || val === "null" ? "" : val.toLowerCase();
+        return haystack.indexOf(lowerTerms) !== -1;
+      })
+    );
+  });
+  watch(
+    () => props.filter,
+    () => {
+      nextTick(() => {
+        setPagination({ page: 1 }, true);
+      });
+    },
+    { deep: true }
+  );
+  return { computedFilterMethod };
+}
+function samePagination(oldPag, newPag) {
+  for (const prop in newPag) {
+    if (newPag[prop] !== oldPag[prop]) {
+      return false;
+    }
+  }
+  return true;
+}
+function fixPagination(p) {
+  if (p.page < 1) {
+    p.page = 1;
+  }
+  if (p.rowsPerPage !== void 0 && p.rowsPerPage < 1) {
+    p.rowsPerPage = 0;
+  }
+  return p;
+}
+const useTablePaginationProps = {
+  pagination: Object,
+  rowsPerPageOptions: {
+    type: Array,
+    default: () => [5, 7, 10, 15, 20, 25, 50, 0]
+  },
+  "onUpdate:pagination": [Function, Array]
+};
+function useTablePaginationState(vm, getCellValue) {
+  const { props, emit } = vm;
+  const innerPagination = ref(
+    Object.assign({
+      sortBy: null,
+      descending: false,
+      page: 1,
+      rowsPerPage: props.rowsPerPageOptions.length > 0 ? props.rowsPerPageOptions[0] : 5
+    }, props.pagination)
+  );
+  const computedPagination = computed(() => {
+    const pag = props["onUpdate:pagination"] !== void 0 ? { ...innerPagination.value, ...props.pagination } : innerPagination.value;
+    return fixPagination(pag);
+  });
+  const isServerSide = computed(() => computedPagination.value.rowsNumber !== void 0);
+  function sendServerRequest(pagination) {
+    requestServerInteraction({
+      pagination,
+      filter: props.filter
+    });
+  }
+  function requestServerInteraction(prop = {}) {
+    nextTick(() => {
+      emit("request", {
+        pagination: prop.pagination || computedPagination.value,
+        filter: prop.filter || props.filter,
+        getCellValue
+      });
+    });
+  }
+  function setPagination(val, forceServerRequest) {
+    const newPagination = fixPagination({
+      ...computedPagination.value,
+      ...val
+    });
+    if (samePagination(computedPagination.value, newPagination) === true) {
+      if (isServerSide.value === true && forceServerRequest === true) {
+        sendServerRequest(newPagination);
+      }
+      return;
+    }
+    if (isServerSide.value === true) {
+      sendServerRequest(newPagination);
+      return;
+    }
+    if (props.pagination !== void 0 && props["onUpdate:pagination"] !== void 0) {
+      emit("update:pagination", newPagination);
+    } else {
+      innerPagination.value = newPagination;
+    }
+  }
+  return {
+    innerPagination,
+    computedPagination,
+    isServerSide,
+    requestServerInteraction,
+    setPagination
+  };
+}
+function useTablePagination(vm, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber) {
+  const { props, emit, proxy: { $q } } = vm;
+  const computedRowsNumber = computed(() => isServerSide.value === true ? computedPagination.value.rowsNumber || 0 : filteredSortedRowsNumber.value);
+  const firstRowIndex = computed(() => {
+    const { page, rowsPerPage } = computedPagination.value;
+    return (page - 1) * rowsPerPage;
+  });
+  const lastRowIndex = computed(() => {
+    const { page, rowsPerPage } = computedPagination.value;
+    return page * rowsPerPage;
+  });
+  const isFirstPage = computed(() => computedPagination.value.page === 1);
+  const pagesNumber = computed(() => computedPagination.value.rowsPerPage === 0 ? 1 : Math.max(
+    1,
+    Math.ceil(computedRowsNumber.value / computedPagination.value.rowsPerPage)
+  ));
+  const isLastPage = computed(() => lastRowIndex.value === 0 ? true : computedPagination.value.page >= pagesNumber.value);
+  const computedRowsPerPageOptions = computed(() => {
+    const opts = props.rowsPerPageOptions.includes(innerPagination.value.rowsPerPage) ? props.rowsPerPageOptions : [innerPagination.value.rowsPerPage].concat(props.rowsPerPageOptions);
+    return opts.map((count) => ({
+      label: count === 0 ? $q.lang.table.allRows : "" + count,
+      value: count
+    }));
+  });
+  watch(pagesNumber, (lastPage2, oldLastPage) => {
+    if (lastPage2 === oldLastPage) {
+      return;
+    }
+    const currentPage = computedPagination.value.page;
+    if (lastPage2 && !currentPage) {
+      setPagination({ page: 1 });
+    } else if (lastPage2 < currentPage) {
+      setPagination({ page: lastPage2 });
+    }
+  });
+  function firstPage() {
+    setPagination({ page: 1 });
+  }
+  function prevPage() {
+    const { page } = computedPagination.value;
+    if (page > 1) {
+      setPagination({ page: page - 1 });
+    }
+  }
+  function nextPage() {
+    const { page, rowsPerPage } = computedPagination.value;
+    if (lastRowIndex.value > 0 && page * rowsPerPage < computedRowsNumber.value) {
+      setPagination({ page: page + 1 });
+    }
+  }
+  function lastPage() {
+    setPagination({ page: pagesNumber.value });
+  }
+  if (props["onUpdate:pagination"] !== void 0) {
+    emit("update:pagination", { ...computedPagination.value });
+  }
+  return {
+    firstRowIndex,
+    lastRowIndex,
+    isFirstPage,
+    isLastPage,
+    pagesNumber,
+    computedRowsPerPageOptions,
+    computedRowsNumber,
+    firstPage,
+    prevPage,
+    nextPage,
+    lastPage
+  };
+}
+const useTableRowSelectionProps = {
+  selection: {
+    type: String,
+    default: "none",
+    validator: (v) => ["single", "multiple", "none"].includes(v)
+  },
+  selected: {
+    type: Array,
+    default: () => []
+  }
+};
+const useTableRowSelectionEmits = ["update:selected", "selection"];
+function useTableRowSelection(props, emit, computedRows, getRowKey) {
+  const selectedKeys = computed(() => {
+    const keys = {};
+    props.selected.map(getRowKey.value).forEach((key) => {
+      keys[key] = true;
+    });
+    return keys;
+  });
+  const hasSelectionMode = computed(() => {
+    return props.selection !== "none";
+  });
+  const singleSelection = computed(() => {
+    return props.selection === "single";
+  });
+  const multipleSelection = computed(() => {
+    return props.selection === "multiple";
+  });
+  const allRowsSelected = computed(
+    () => computedRows.value.length > 0 && computedRows.value.every(
+      (row) => selectedKeys.value[getRowKey.value(row)] === true
+    )
+  );
+  const someRowsSelected = computed(
+    () => allRowsSelected.value !== true && computedRows.value.some((row) => selectedKeys.value[getRowKey.value(row)] === true)
+  );
+  const rowsSelectedNumber = computed(() => props.selected.length);
+  function isRowSelected(key) {
+    return selectedKeys.value[key] === true;
+  }
+  function clearSelection() {
+    emit("update:selected", []);
+  }
+  function updateSelection(keys, rows, added, evt) {
+    emit("selection", { rows, added, keys, evt });
+    const payload = singleSelection.value === true ? added === true ? rows : [] : added === true ? props.selected.concat(rows) : props.selected.filter(
+      (row) => keys.includes(getRowKey.value(row)) === false
+    );
+    emit("update:selected", payload);
+  }
+  return {
+    hasSelectionMode,
+    singleSelection,
+    multipleSelection,
+    allRowsSelected,
+    someRowsSelected,
+    rowsSelectedNumber,
+    isRowSelected,
+    clearSelection,
+    updateSelection
+  };
+}
+function getVal(val) {
+  return Array.isArray(val) ? val.slice() : [];
+}
+const useTableRowExpandProps = {
+  expanded: Array
+};
+const useTableRowExpandEmits = ["update:expanded"];
+function useTableRowExpand(props, emit) {
+  const innerExpanded = ref(getVal(props.expanded));
+  watch(() => props.expanded, (val) => {
+    innerExpanded.value = getVal(val);
+  });
+  function isRowExpanded(key) {
+    return innerExpanded.value.includes(key);
+  }
+  function setExpanded(val) {
+    if (props.expanded !== void 0) {
+      emit("update:expanded", val);
+    } else {
+      innerExpanded.value = val;
+    }
+  }
+  function updateExpanded(key, add) {
+    const target = innerExpanded.value.slice();
+    const index = target.indexOf(key);
+    if (add === true) {
+      if (index === -1) {
+        target.push(key);
+        setExpanded(target);
+      }
+    } else if (index !== -1) {
+      target.splice(index, 1);
+      setExpanded(target);
+    }
+  }
+  return {
+    isRowExpanded,
+    setExpanded,
+    updateExpanded
+  };
+}
+const useTableColumnSelectionProps = {
+  visibleColumns: Array
+};
+function useTableColumnSelection(props, computedPagination, hasSelectionMode) {
+  const colList = computed(() => {
+    if (props.columns !== void 0) {
+      return props.columns;
+    }
+    const row = props.rows[0];
+    return row !== void 0 ? Object.keys(row).map((name) => ({
+      name,
+      label: name.toUpperCase(),
+      field: name,
+      align: isNumber(row[name]) ? "right" : "left",
+      sortable: true
+    })) : [];
+  });
+  const computedCols = computed(() => {
+    const { sortBy, descending } = computedPagination.value;
+    const cols = props.visibleColumns !== void 0 ? colList.value.filter((col) => col.required === true || props.visibleColumns.includes(col.name) === true) : colList.value;
+    return cols.map((col) => {
+      const align = col.align || "right";
+      const alignClass = `text-${align}`;
+      return {
+        ...col,
+        align,
+        __iconClass: `q-table__sort-icon q-table__sort-icon--${align}`,
+        __thClass: alignClass + (col.headerClasses !== void 0 ? " " + col.headerClasses : "") + (col.sortable === true ? " sortable" : "") + (col.name === sortBy ? ` sorted ${descending === true ? "sort-desc" : ""}` : ""),
+        __tdStyle: col.style !== void 0 ? typeof col.style !== "function" ? () => col.style : col.style : () => null,
+        __tdClass: col.classes !== void 0 ? typeof col.classes !== "function" ? () => alignClass + " " + col.classes : (row) => alignClass + " " + col.classes(row) : () => alignClass
+      };
+    });
+  });
+  const computedColsMap = computed(() => {
+    const names = {};
+    computedCols.value.forEach((col) => {
+      names[col.name] = col;
+    });
+    return names;
+  });
+  const computedColspan = computed(() => {
+    return props.tableColspan !== void 0 ? props.tableColspan : computedCols.value.length + (hasSelectionMode.value === true ? 1 : 0);
+  });
+  return {
+    colList,
+    computedCols,
+    computedColsMap,
+    computedColspan
+  };
+}
+const bottomClass = "q-table__bottom row items-center";
+const commonVirtPropsObj = {};
+commonVirtPropsList.forEach((p) => {
+  commonVirtPropsObj[p] = {};
+});
+var QTable = createComponent({
+  name: "QTable",
+  props: {
+    rows: {
+      type: Array,
+      default: () => []
+    },
+    rowKey: {
+      type: [String, Function],
+      default: "id"
+    },
+    columns: Array,
+    loading: Boolean,
+    iconFirstPage: String,
+    iconPrevPage: String,
+    iconNextPage: String,
+    iconLastPage: String,
+    title: String,
+    hideHeader: Boolean,
+    grid: Boolean,
+    gridHeader: Boolean,
+    dense: Boolean,
+    flat: Boolean,
+    bordered: Boolean,
+    square: Boolean,
+    separator: {
+      type: String,
+      default: "horizontal",
+      validator: (v) => ["horizontal", "vertical", "cell", "none"].includes(v)
+    },
+    wrapCells: Boolean,
+    virtualScroll: Boolean,
+    virtualScrollTarget: {
+      default: void 0
+    },
+    ...commonVirtPropsObj,
+    noDataLabel: String,
+    noResultsLabel: String,
+    loadingLabel: String,
+    selectedRowsLabel: Function,
+    rowsPerPageLabel: String,
+    paginationLabel: Function,
+    color: {
+      type: String,
+      default: "grey-8"
+    },
+    titleClass: [String, Array, Object],
+    tableStyle: [String, Array, Object],
+    tableClass: [String, Array, Object],
+    tableHeaderStyle: [String, Array, Object],
+    tableHeaderClass: [String, Array, Object],
+    cardContainerClass: [String, Array, Object],
+    cardContainerStyle: [String, Array, Object],
+    cardStyle: [String, Array, Object],
+    cardClass: [String, Array, Object],
+    hideBottom: Boolean,
+    hideSelectedBanner: Boolean,
+    hideNoData: Boolean,
+    hidePagination: Boolean,
+    onRowClick: Function,
+    onRowDblclick: Function,
+    onRowContextmenu: Function,
+    ...useDarkProps,
+    ...useFullscreenProps,
+    ...useTableColumnSelectionProps,
+    ...useTableFilterProps,
+    ...useTablePaginationProps,
+    ...useTableRowExpandProps,
+    ...useTableRowSelectionProps,
+    ...useTableSortProps
+  },
+  emits: [
+    "request",
+    "virtualScroll",
+    ...useFullscreenEmits,
+    ...useTableRowExpandEmits,
+    ...useTableRowSelectionEmits
+  ],
+  setup(props, { slots, emit }) {
+    const vm = getCurrentInstance();
+    const { proxy: { $q } } = vm;
+    const isDark = useDark(props, $q);
+    const { inFullscreen, toggleFullscreen } = useFullscreen();
+    const getRowKey = computed(() => typeof props.rowKey === "function" ? props.rowKey : (row) => row[props.rowKey]);
+    const rootRef = ref(null);
+    const virtScrollRef = ref(null);
+    const hasVirtScroll = computed(() => props.grid !== true && props.virtualScroll === true);
+    const cardDefaultClass = computed(
+      () => " q-table__card" + (isDark.value === true ? " q-table__card--dark q-dark" : "") + (props.square === true ? " q-table--square" : "") + (props.flat === true ? " q-table--flat" : "") + (props.bordered === true ? " q-table--bordered" : "")
+    );
+    const __containerClass = computed(
+      () => `q-table__container q-table--${props.separator}-separator column no-wrap` + (props.grid === true ? " q-table--grid" : cardDefaultClass.value) + (isDark.value === true ? " q-table--dark" : "") + (props.dense === true ? " q-table--dense" : "") + (props.wrapCells === false ? " q-table--no-wrap" : "") + (inFullscreen.value === true ? " fullscreen scroll" : "")
+    );
+    const containerClass = computed(
+      () => __containerClass.value + (props.loading === true ? " q-table--loading" : "")
+    );
+    watch(
+      () => props.tableStyle + props.tableClass + props.tableHeaderStyle + props.tableHeaderClass + __containerClass.value,
+      () => {
+        hasVirtScroll.value === true && virtScrollRef.value !== null && virtScrollRef.value.reset();
+      }
+    );
+    const {
+      innerPagination,
+      computedPagination,
+      isServerSide,
+      requestServerInteraction,
+      setPagination
+    } = useTablePaginationState(vm, getCellValue);
+    const { computedFilterMethod } = useTableFilter(props, setPagination);
+    const { isRowExpanded, setExpanded, updateExpanded } = useTableRowExpand(props, emit);
+    const filteredSortedRows = computed(() => {
+      let rows = props.rows;
+      if (isServerSide.value === true || rows.length === 0) {
+        return rows;
+      }
+      const { sortBy, descending } = computedPagination.value;
+      if (props.filter) {
+        rows = computedFilterMethod.value(rows, props.filter, computedCols.value, getCellValue);
+      }
+      if (columnToSort.value !== null) {
+        rows = computedSortMethod.value(
+          props.rows === rows ? rows.slice() : rows,
+          sortBy,
+          descending
+        );
+      }
+      return rows;
+    });
+    const filteredSortedRowsNumber = computed(() => filteredSortedRows.value.length);
+    const computedRows = computed(() => {
+      let rows = filteredSortedRows.value;
+      if (isServerSide.value === true) {
+        return rows;
+      }
+      const { rowsPerPage } = computedPagination.value;
+      if (rowsPerPage !== 0) {
+        if (firstRowIndex.value === 0 && props.rows !== rows) {
+          if (rows.length > lastRowIndex.value) {
+            rows = rows.slice(0, lastRowIndex.value);
+          }
+        } else {
+          rows = rows.slice(firstRowIndex.value, lastRowIndex.value);
+        }
+      }
+      return rows;
+    });
+    const {
+      hasSelectionMode,
+      singleSelection,
+      multipleSelection,
+      allRowsSelected,
+      someRowsSelected,
+      rowsSelectedNumber,
+      isRowSelected,
+      clearSelection,
+      updateSelection
+    } = useTableRowSelection(props, emit, computedRows, getRowKey);
+    const { colList, computedCols, computedColsMap, computedColspan } = useTableColumnSelection(props, computedPagination, hasSelectionMode);
+    const { columnToSort, computedSortMethod, sort } = useTableSort(props, computedPagination, colList, setPagination);
+    const {
+      firstRowIndex,
+      lastRowIndex,
+      isFirstPage,
+      isLastPage,
+      pagesNumber,
+      computedRowsPerPageOptions,
+      computedRowsNumber,
+      firstPage,
+      prevPage,
+      nextPage,
+      lastPage
+    } = useTablePagination(vm, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber);
+    const nothingToDisplay = computed(() => computedRows.value.length === 0);
+    const virtProps = computed(() => {
+      const acc = {};
+      commonVirtPropsList.forEach((p) => {
+        acc[p] = props[p];
+      });
+      if (acc.virtualScrollItemSize === void 0) {
+        acc.virtualScrollItemSize = props.dense === true ? 28 : 48;
+      }
+      return acc;
+    });
+    function resetVirtualScroll() {
+      hasVirtScroll.value === true && virtScrollRef.value.reset();
+    }
+    function getBody() {
+      if (props.grid === true) {
+        return getGridBody();
+      }
+      const header = props.hideHeader !== true ? getTHead : null;
+      if (hasVirtScroll.value === true) {
+        const topRow = slots["top-row"];
+        const bottomRow = slots["bottom-row"];
+        const virtSlots = {
+          default: (props2) => getTBodyTR(props2.item, slots.body, props2.index)
+        };
+        if (topRow !== void 0) {
+          const topContent = h("tbody", topRow({ cols: computedCols.value }));
+          virtSlots.before = header === null ? () => topContent : () => [header()].concat(topContent);
+        } else if (header !== null) {
+          virtSlots.before = header;
+        }
+        if (bottomRow !== void 0) {
+          virtSlots.after = () => h("tbody", bottomRow({ cols: computedCols.value }));
+        }
+        return h(QVirtualScroll, {
+          ref: virtScrollRef,
+          class: props.tableClass,
+          style: props.tableStyle,
+          ...virtProps.value,
+          scrollTarget: props.virtualScrollTarget,
+          items: computedRows.value,
+          type: "__qtable",
+          tableColspan: computedColspan.value,
+          onVirtualScroll: onVScroll
+        }, virtSlots);
+      }
+      const child = [
+        getTBody()
+      ];
+      if (header !== null) {
+        child.unshift(header());
+      }
+      return getTableMiddle({
+        class: ["q-table__middle scroll", props.tableClass],
+        style: props.tableStyle
+      }, child);
+    }
+    function scrollTo(toIndex, edge) {
+      if (virtScrollRef.value !== null) {
+        virtScrollRef.value.scrollTo(toIndex, edge);
+        return;
+      }
+      toIndex = parseInt(toIndex, 10);
+      const rowEl = rootRef.value.querySelector(`tbody tr:nth-of-type(${toIndex + 1})`);
+      if (rowEl !== null) {
+        const scrollTarget = rootRef.value.querySelector(".q-table__middle.scroll");
+        const offsetTop = rowEl.offsetTop - props.virtualScrollStickySizeStart;
+        const direction = offsetTop < scrollTarget.scrollTop ? "decrease" : "increase";
+        scrollTarget.scrollTop = offsetTop;
+        emit("virtualScroll", {
+          index: toIndex,
+          from: 0,
+          to: innerPagination.value.rowsPerPage - 1,
+          direction
+        });
+      }
+    }
+    function onVScroll(info) {
+      emit("virtualScroll", info);
+    }
+    function getProgress() {
+      return [
+        h(QLinearProgress, {
+          class: "q-table__linear-progress",
+          color: props.color,
+          dark: isDark.value,
+          indeterminate: true,
+          trackColor: "transparent"
+        })
+      ];
+    }
+    function getTBodyTR(row, bodySlot, pageIndex) {
+      const key = getRowKey.value(row), selected = isRowSelected(key);
+      if (bodySlot !== void 0) {
+        return bodySlot(
+          getBodyScope({
+            key,
+            row,
+            pageIndex,
+            __trClass: selected ? "selected" : ""
+          })
+        );
+      }
+      const bodyCell = slots["body-cell"], child = computedCols.value.map((col) => {
+        const bodyCellCol = slots[`body-cell-${col.name}`], slot = bodyCellCol !== void 0 ? bodyCellCol : bodyCell;
+        return slot !== void 0 ? slot(getBodyCellScope({ key, row, pageIndex, col })) : h("td", {
+          class: col.__tdClass(row),
+          style: col.__tdStyle(row)
+        }, getCellValue(col, row));
+      });
+      if (hasSelectionMode.value === true) {
+        const slot = slots["body-selection"];
+        const content = slot !== void 0 ? slot(getBodySelectionScope({ key, row, pageIndex })) : [
+          h(QCheckbox, {
+            modelValue: selected,
+            color: props.color,
+            dark: isDark.value,
+            dense: props.dense,
+            "onUpdate:modelValue": (adding, evt) => {
+              updateSelection([key], [row], adding, evt);
+            }
+          })
+        ];
+        child.unshift(
+          h("td", { class: "q-table--col-auto-width" }, content)
+        );
+      }
+      const data = { key, class: { selected } };
+      if (props.onRowClick !== void 0) {
+        data.class["cursor-pointer"] = true;
+        data.onClick = (evt) => {
+          emit("RowClick", evt, row, pageIndex);
+        };
+      }
+      if (props.onRowDblclick !== void 0) {
+        data.class["cursor-pointer"] = true;
+        data.onDblclick = (evt) => {
+          emit("RowDblclick", evt, row, pageIndex);
+        };
+      }
+      if (props.onRowContextmenu !== void 0) {
+        data.class["cursor-pointer"] = true;
+        data.onContextmenu = (evt) => {
+          emit("RowContextmenu", evt, row, pageIndex);
+        };
+      }
+      return h("tr", data, child);
+    }
+    function getTBody() {
+      const body = slots.body, topRow = slots["top-row"], bottomRow = slots["bottom-row"];
+      let child = computedRows.value.map(
+        (row, pageIndex) => getTBodyTR(row, body, pageIndex)
+      );
+      if (topRow !== void 0) {
+        child = topRow({ cols: computedCols.value }).concat(child);
+      }
+      if (bottomRow !== void 0) {
+        child = child.concat(bottomRow({ cols: computedCols.value }));
+      }
+      return h("tbody", child);
+    }
+    function getBodyScope(data) {
+      injectBodyCommonScope(data);
+      data.cols = data.cols.map(
+        (col) => injectProp({ ...col }, "value", () => getCellValue(col, data.row))
+      );
+      return data;
+    }
+    function getBodyCellScope(data) {
+      injectBodyCommonScope(data);
+      injectProp(data, "value", () => getCellValue(data.col, data.row));
+      return data;
+    }
+    function getBodySelectionScope(data) {
+      injectBodyCommonScope(data);
+      return data;
+    }
+    function injectBodyCommonScope(data) {
+      Object.assign(data, {
+        cols: computedCols.value,
+        colsMap: computedColsMap.value,
+        sort,
+        rowIndex: firstRowIndex.value + data.pageIndex,
+        color: props.color,
+        dark: isDark.value,
+        dense: props.dense
+      });
+      hasSelectionMode.value === true && injectProp(
+        data,
+        "selected",
+        () => isRowSelected(data.key),
+        (adding, evt) => {
+          updateSelection([data.key], [data.row], adding, evt);
+        }
+      );
+      injectProp(
+        data,
+        "expand",
+        () => isRowExpanded(data.key),
+        (adding) => {
+          updateExpanded(data.key, adding);
+        }
+      );
+    }
+    function getCellValue(col, row) {
+      const val = typeof col.field === "function" ? col.field(row) : row[col.field];
+      return col.format !== void 0 ? col.format(val, row) : val;
+    }
+    const marginalsScope = computed(() => ({
+      pagination: computedPagination.value,
+      pagesNumber: pagesNumber.value,
+      isFirstPage: isFirstPage.value,
+      isLastPage: isLastPage.value,
+      firstPage,
+      prevPage,
+      nextPage,
+      lastPage,
+      inFullscreen: inFullscreen.value,
+      toggleFullscreen
+    }));
+    function getTopDiv() {
+      const top = slots.top, topLeft = slots["top-left"], topRight = slots["top-right"], topSelection = slots["top-selection"], hasSelection = hasSelectionMode.value === true && topSelection !== void 0 && rowsSelectedNumber.value > 0, topClass = "q-table__top relative-position row items-center";
+      if (top !== void 0) {
+        return h("div", { class: topClass }, [top(marginalsScope.value)]);
+      }
+      let child;
+      if (hasSelection === true) {
+        child = topSelection(marginalsScope.value).slice();
+      } else {
+        child = [];
+        if (topLeft !== void 0) {
+          child.push(
+            h("div", { class: "q-table__control" }, [
+              topLeft(marginalsScope.value)
+            ])
+          );
+        } else if (props.title) {
+          child.push(
+            h("div", { class: "q-table__control" }, [
+              h("div", {
+                class: ["q-table__title", props.titleClass]
+              }, props.title)
+            ])
+          );
+        }
+      }
+      if (topRight !== void 0) {
+        child.push(
+          h("div", { class: "q-table__separator col" })
+        );
+        child.push(
+          h("div", { class: "q-table__control" }, [
+            topRight(marginalsScope.value)
+          ])
+        );
+      }
+      if (child.length === 0) {
+        return;
+      }
+      return h("div", { class: topClass }, child);
+    }
+    const headerSelectedValue = computed(() => someRowsSelected.value === true ? null : allRowsSelected.value);
+    function getTHead() {
+      const child = getTHeadTR();
+      if (props.loading === true && slots.loading === void 0) {
+        child.push(
+          h("tr", { class: "q-table__progress" }, [
+            h("th", {
+              class: "relative-position",
+              colspan: computedColspan.value
+            }, getProgress())
+          ])
+        );
+      }
+      return h("thead", child);
+    }
+    function getTHeadTR() {
+      const header = slots.header, headerCell = slots["header-cell"];
+      if (header !== void 0) {
+        return header(
+          getHeaderScope({ header: true })
+        ).slice();
+      }
+      const child = computedCols.value.map((col) => {
+        const headerCellCol = slots[`header-cell-${col.name}`], slot = headerCellCol !== void 0 ? headerCellCol : headerCell, props2 = getHeaderScope({ col });
+        return slot !== void 0 ? slot(props2) : h(QTh, {
+          key: col.name,
+          props: props2
+        }, () => col.label);
+      });
+      if (singleSelection.value === true && props.grid !== true) {
+        child.unshift(
+          h("th", { class: "q-table--col-auto-width" }, " ")
+        );
+      } else if (multipleSelection.value === true) {
+        const slot = slots["header-selection"];
+        const content = slot !== void 0 ? slot(getHeaderScope({})) : [
+          h(QCheckbox, {
+            color: props.color,
+            modelValue: headerSelectedValue.value,
+            dark: isDark.value,
+            dense: props.dense,
+            "onUpdate:modelValue": onMultipleSelectionSet
+          })
+        ];
+        child.unshift(
+          h("th", { class: "q-table--col-auto-width" }, content)
+        );
+      }
+      return [
+        h("tr", {
+          class: props.tableHeaderClass,
+          style: props.tableHeaderStyle
+        }, child)
+      ];
+    }
+    function getHeaderScope(data) {
+      Object.assign(data, {
+        cols: computedCols.value,
+        sort,
+        colsMap: computedColsMap.value,
+        color: props.color,
+        dark: isDark.value,
+        dense: props.dense
+      });
+      if (multipleSelection.value === true) {
+        injectProp(
+          data,
+          "selected",
+          () => headerSelectedValue.value,
+          onMultipleSelectionSet
+        );
+      }
+      return data;
+    }
+    function onMultipleSelectionSet(val) {
+      if (someRowsSelected.value === true) {
+        val = false;
+      }
+      updateSelection(
+        computedRows.value.map(getRowKey.value),
+        computedRows.value,
+        val
+      );
+    }
+    const navIcon = computed(() => {
+      const ico = [
+        props.iconFirstPage || $q.iconSet.table.firstPage,
+        props.iconPrevPage || $q.iconSet.table.prevPage,
+        props.iconNextPage || $q.iconSet.table.nextPage,
+        props.iconLastPage || $q.iconSet.table.lastPage
+      ];
+      return $q.lang.rtl === true ? ico.reverse() : ico;
+    });
+    function getBottomDiv() {
+      if (props.hideBottom === true) {
+        return;
+      }
+      if (nothingToDisplay.value === true) {
+        if (props.hideNoData === true) {
+          return;
+        }
+        const message = props.loading === true ? props.loadingLabel || $q.lang.table.loading : props.filter ? props.noResultsLabel || $q.lang.table.noResults : props.noDataLabel || $q.lang.table.noData;
+        const noData = slots["no-data"];
+        const children = noData !== void 0 ? [noData({ message, icon: $q.iconSet.table.warning, filter: props.filter })] : [
+          h(QIcon, {
+            class: "q-table__bottom-nodata-icon",
+            name: $q.iconSet.table.warning
+          }),
+          message
+        ];
+        return h("div", { class: bottomClass + " q-table__bottom--nodata" }, children);
+      }
+      const bottom = slots.bottom;
+      if (bottom !== void 0) {
+        return h("div", { class: bottomClass }, [bottom(marginalsScope.value)]);
+      }
+      const child = props.hideSelectedBanner !== true && hasSelectionMode.value === true && rowsSelectedNumber.value > 0 ? [
+        h("div", { class: "q-table__control" }, [
+          h("div", [
+            (props.selectedRowsLabel || $q.lang.table.selectedRecords)(rowsSelectedNumber.value)
+          ])
+        ])
+      ] : [];
+      if (props.hidePagination !== true) {
+        return h("div", {
+          class: bottomClass + " justify-end"
+        }, getPaginationDiv(child));
+      }
+      if (child.length > 0) {
+        return h("div", { class: bottomClass }, child);
+      }
+    }
+    function onPagSelection(pag) {
+      setPagination({
+        page: 1,
+        rowsPerPage: pag.value
+      });
+    }
+    function getPaginationDiv(child) {
+      let control;
+      const { rowsPerPage } = computedPagination.value, paginationLabel = props.paginationLabel || $q.lang.table.pagination, paginationSlot = slots.pagination, hasOpts = props.rowsPerPageOptions.length > 1;
+      child.push(
+        h("div", { class: "q-table__separator col" })
+      );
+      if (hasOpts === true) {
+        child.push(
+          h("div", { class: "q-table__control" }, [
+            h("span", { class: "q-table__bottom-item" }, [
+              props.rowsPerPageLabel || $q.lang.table.recordsPerPage
+            ]),
+            h(QSelect, {
+              class: "q-table__select inline q-table__bottom-item",
+              color: props.color,
+              modelValue: rowsPerPage,
+              options: computedRowsPerPageOptions.value,
+              displayValue: rowsPerPage === 0 ? $q.lang.table.allRows : rowsPerPage,
+              dark: isDark.value,
+              borderless: true,
+              dense: true,
+              optionsDense: true,
+              optionsCover: true,
+              "onUpdate:modelValue": onPagSelection
+            })
+          ])
+        );
+      }
+      if (paginationSlot !== void 0) {
+        control = paginationSlot(marginalsScope.value);
+      } else {
+        control = [
+          h("span", rowsPerPage !== 0 ? { class: "q-table__bottom-item" } : {}, [
+            rowsPerPage ? paginationLabel(firstRowIndex.value + 1, Math.min(lastRowIndex.value, computedRowsNumber.value), computedRowsNumber.value) : paginationLabel(1, filteredSortedRowsNumber.value, computedRowsNumber.value)
+          ])
+        ];
+        if (rowsPerPage !== 0 && pagesNumber.value > 1) {
+          const btnProps = {
+            color: props.color,
+            round: true,
+            dense: true,
+            flat: true
+          };
+          if (props.dense === true) {
+            btnProps.size = "sm";
+          }
+          pagesNumber.value > 2 && control.push(
+            h(QBtn, {
+              key: "pgFirst",
+              ...btnProps,
+              icon: navIcon.value[0],
+              disable: isFirstPage.value,
+              onClick: firstPage
+            })
+          );
+          control.push(
+            h(QBtn, {
+              key: "pgPrev",
+              ...btnProps,
+              icon: navIcon.value[1],
+              disable: isFirstPage.value,
+              onClick: prevPage
+            }),
+            h(QBtn, {
+              key: "pgNext",
+              ...btnProps,
+              icon: navIcon.value[2],
+              disable: isLastPage.value,
+              onClick: nextPage
+            })
+          );
+          pagesNumber.value > 2 && control.push(
+            h(QBtn, {
+              key: "pgLast",
+              ...btnProps,
+              icon: navIcon.value[3],
+              disable: isLastPage.value,
+              onClick: lastPage
+            })
+          );
+        }
+      }
+      child.push(
+        h("div", { class: "q-table__control" }, control)
+      );
+      return child;
+    }
+    function getGridHeader() {
+      const child = props.gridHeader === true ? [
+        h("table", { class: "q-table" }, [
+          getTHead()
+        ])
+      ] : props.loading === true && slots.loading === void 0 ? getProgress() : void 0;
+      return h("div", { class: "q-table__middle" }, child);
+    }
+    function getGridBody() {
+      const item = slots.item !== void 0 ? slots.item : (scope) => {
+        const child = scope.cols.map(
+          (col) => h("div", { class: "q-table__grid-item-row" }, [
+            h("div", { class: "q-table__grid-item-title" }, [col.label]),
+            h("div", { class: "q-table__grid-item-value" }, [col.value])
+          ])
+        );
+        if (hasSelectionMode.value === true) {
+          const slot = slots["body-selection"];
+          const content = slot !== void 0 ? slot(scope) : [
+            h(QCheckbox, {
+              modelValue: scope.selected,
+              color: props.color,
+              dark: isDark.value,
+              dense: props.dense,
+              "onUpdate:modelValue": (adding, evt) => {
+                updateSelection([scope.key], [scope.row], adding, evt);
+              }
+            })
+          ];
+          child.unshift(
+            h("div", { class: "q-table__grid-item-row" }, content),
+            h(QSeparator, { dark: isDark.value })
+          );
+        }
+        const data = {
+          class: [
+            "q-table__grid-item-card" + cardDefaultClass.value,
+            props.cardClass
+          ],
+          style: props.cardStyle
+        };
+        if (props.onRowClick !== void 0 || props.onRowDblclick !== void 0) {
+          data.class[0] += " cursor-pointer";
+          if (props.onRowClick !== void 0) {
+            data.onClick = (evt) => {
+              emit("RowClick", evt, scope.row, scope.pageIndex);
+            };
+          }
+          if (props.onRowDblclick !== void 0) {
+            data.onDblclick = (evt) => {
+              emit("RowDblclick", evt, scope.row, scope.pageIndex);
+            };
+          }
+        }
+        return h("div", {
+          class: "q-table__grid-item col-xs-12 col-sm-6 col-md-4 col-lg-3" + (scope.selected === true ? " q-table__grid-item--selected" : "")
+        }, [
+          h("div", data, child)
+        ]);
+      };
+      return h("div", {
+        class: [
+          "q-table__grid-content row",
+          props.cardContainerClass
+        ],
+        style: props.cardContainerStyle
+      }, computedRows.value.map((row, pageIndex) => {
+        return item(getBodyScope({
+          key: getRowKey.value(row),
+          row,
+          pageIndex
+        }));
+      }));
+    }
+    Object.assign(vm.proxy, {
+      requestServerInteraction,
+      setPagination,
+      firstPage,
+      prevPage,
+      nextPage,
+      lastPage,
+      isRowSelected,
+      clearSelection,
+      isRowExpanded,
+      setExpanded,
+      sort,
+      resetVirtualScroll,
+      scrollTo,
+      getCellValue
+    });
+    injectMultipleProps(vm.proxy, {
+      filteredSortedRows: () => filteredSortedRows.value,
+      computedRows: () => computedRows.value,
+      computedRowsNumber: () => computedRowsNumber.value
+    });
+    return () => {
+      const child = [getTopDiv()];
+      const data = { ref: rootRef, class: containerClass.value };
+      if (props.grid === true) {
+        child.push(getGridHeader());
+      } else {
+        Object.assign(data, {
+          class: [data.class, props.cardClass],
+          style: props.cardStyle
+        });
+      }
+      child.push(
+        getBody(),
+        getBottomDiv()
+      );
+      if (props.loading === true && slots.loading !== void 0) {
+        child.push(
+          slots.loading()
+        );
+      }
+      return h("div", data, child);
+    };
+  }
+});
+export { QTd as Q, QTable as a, useFullscreenEmits as b, useFullscreen as c, useFullscreenProps as u };

@@ -1,4 +1,464 @@
-import{Q as Me,a as Ue}from"./QToolbarTitle.1a75cd00.js";import{A as ze,g as k,m as F,K as Ie,L as q,R as Z,b8 as R,U as M,i as Ke,r as O,B as We,o as de,E as V,n as Y,l as x,Q as ve,G as Ge,S as E,M as Xe,q as ce,aD as Je,N as Ye,O as fe,y as ye,F as be,b7 as Ze,a1 as Ve,V as he,bD as Oe,aO as He,bu as et,bE as tt,w as Q,h as g,X as ge,j as me,aA as Le,aN as ot,aP as nt,aQ as at,aR as it,aS as lt,aT as rt,aU as st,aK as we,aJ as ke,a0 as ut,H as ct,ap as Ne,aC as Ee,ay as Se,ab as dt,ac as ft,bF as ht,D as gt,a$ as mt}from"./index.e647c85a.js";import{a as pt,Q as re,u as vt,b as yt,c as bt}from"./QTable.64a81add.js";import{C as wt}from"./ClosePopup.ef2f7039.js";import{a as kt}from"./axios.ccd3a804.js";import{u as St}from"./debug.805a8aef.js";import{A as Ct,x as Ce,y as Tt,l as Pt,f as _t,z as Bt}from"./help.c0f85e41.js";import{Q as xt}from"./QBadge.5efaf9f7.js";import{Q as qt}from"./QBtnGroup.ea19e2fc.js";import{Q as zt,u as Ot,v as Te,d as Ht,e as Pe,f as Lt,a as Nt,r as _e,s as Et,c as Be,g as $t}from"./format.8e90d58d.js";import{Q as xe,a as At}from"./QItemSection.99659658.js";const Dt=ze({__name:"AmazonSesStatus",props:{status:null},setup(e){const t=e,o=k(()=>t.status==="Send"?"primary":t.status==="Delivery"||t.status==="Open"?"positive":t.status==="Bounce"?"negative":t.status==="Click"?"positive":"grey");return(i,l)=>(F(),Ie(xt,{color:M(o)},{default:q(()=>[Z(R(M(Ct)(e.status)),1)]),_:1},8,["color"]))}}),Rt=["innerHTML"],Qt=ce("br",null,null,-1),jt={class:"text-grey"},Ft={key:0},ho=ze({__name:"GlobalNotifications",props:{notifiable_id:null,notifiable_type:null,bulk:{type:Boolean}},setup(e){const t=e,o=Ke("bus"),i=O(),l=O(!1),s=O(),r=O(!1),d=We({keyword:null}),y=[{name:"created_at",label:"Sent",align:"left",field:"created_at",sortable:!0},{name:"to",sortable:!0,label:"To",field:"to",align:"left"},{name:"subject",sortable:!0,label:"Subject",field:"subject",align:"left"},{name:"actions",sortable:!1,label:"",field:"actions",align:"right"}],v=O({page:1,rowsNumber:Ce(),rowsPerPage:Ce(),sortBy:"created_at",descending:!0}),m=(f=null)=>{let u,c,b,z;f&&f.pagination?(u=f.pagination.page,c=f.pagination.rowsPerPage,b=f.pagination.sortBy,z=f.pagination.descending):(u=v.value.page,c=v.value.rowsPerPage,b=v.value.sortBy,z=v.value.descending),l.value=!0,kt.post(`/notification/datatable/${u}`,{sortBy:b,sort_order:z?"desc":"asc",skip:u,rowsPerPage:c,keyword:d.keyword,notifiable_id:t.notifiable_id,notifiable_type:t.notifiable_type,bulk:t.bulk}).then(_=>{i.value=_.data.rows,l.value=!1,Bt(c),v.value.rowsNumber=_.data.total,v.value.page=u,v.value.rowsPerPage=c,v.value.sortBy=b,v.value.descending=z}).catch(_=>{St(_)})},P=f=>{s.value=f,r.value=!0};return de(()=>{m(),o.on("getNotifications",()=>{m()})}),V(()=>{o.off("getNotifications")}),(f,u)=>(F(),Y(be,null,[x(Je,{modelValue:r.value,"onUpdate:modelValue":u[0]||(u[0]=c=>r.value=c)},{default:q(()=>[x(ve,{class:"modal"},{default:q(()=>[x(Me,null,{default:q(()=>[x(Ue,null,{default:q(()=>[Z(R(s.value.subject),1)]),_:1}),Ge(x(E,{icon:"close",flat:"",round:"",dense:""},null,512),[[wt]])]),_:1}),x(Xe,null,{default:q(()=>[ce("div",{innerHTML:s.value.html_content},null,8,Rt)]),_:1})]),_:1})]),_:1},8,["modelValue"]),x(ve,null,{default:q(()=>[x(pt,{rows:i.value,columns:y,"row-key":"id",filter:d.keyword,loading:l.value,pagination:v.value,"onUpdate:pagination":u[2]||(u[2]=c=>v.value=c),onRequest:m,flat:"","rows-per-page-options":M(Tt)},{"top-left":q(()=>[x(Ye,{modelValue:d.keyword,"onUpdate:modelValue":u[1]||(u[1]=c=>d.keyword=c),debounce:500,placeholder:"Keyword"},{append:q(()=>[x(fe,{name:"search"})]),_:1},8,["modelValue"])]),"body-cell-created_at":q(c=>[x(re,{props:c},{default:q(()=>[Z(R(M(Pt)(c.row.created_at)),1),Qt,ce("small",jt,R(M(_t)(c.row.created_at)),1)]),_:2},1032,["props"])]),"body-cell-to":q(c=>[x(re,{props:c},{default:q(()=>[c.row.amazonemails.length?ye("",!0):(F(),Y("span",Ft,R(c.row.to),1)),c.row.amazonemails?(F(!0),Y(be,{key:1},Ze(c.row.amazonemails,b=>(F(),Y("span",{key:b.email},[Z(R(b.email)+" ",1),x(Dt,{status:c.row.amazon_ses_status},null,8,["status"])]))),128)):ye("",!0)]),_:2},1032,["props"])]),"body-cell-actions":q(c=>[x(re,{props:c},{default:q(()=>[x(E,{onClick:b=>P(c.row),icon:"visibility",flat:""},null,8,["onClick"])]),_:2},1032,["props"])]),_:1},8,["rows","filter","loading","pagination","rows-per-page-options"])]),_:1})],64))}});function $e(e,t){if(t&&e===t)return null;const o=e.nodeName.toLowerCase();if(["div","li","ul","ol","blockquote"].includes(o)===!0)return e;const i=window.getComputedStyle?window.getComputedStyle(e):e.currentStyle,l=i.display;return l==="block"||l==="table"?e:$e(e.parentNode)}function se(e,t,o){return!e||e===document.body?!1:o===!0&&e===t||(t===document?document.body:t).contains(e.parentNode)}function Ae(e,t,o){if(o||(o=document.createRange(),o.selectNode(e),o.setStart(e,0)),t.count===0)o.setEnd(e,t.count);else if(t.count>0)if(e.nodeType===Node.TEXT_NODE)e.textContent.length<t.count?t.count-=e.textContent.length:(o.setEnd(e,t.count),t.count=0);else for(let i=0;t.count!==0&&i<e.childNodes.length;i++)o=Ae(e.childNodes[i],t,o);return o}const Mt=/^https?:\/\//;class Ut{constructor(t,o){this.el=t,this.eVm=o,this._range=null}get selection(){if(this.el){const t=document.getSelection();if(se(t.anchorNode,this.el,!0)&&se(t.focusNode,this.el,!0))return t}return null}get hasSelection(){return this.selection!==null?this.selection.toString().length>0:!1}get range(){const t=this.selection;return t!==null&&t.rangeCount?t.getRangeAt(0):this._range}get parent(){const t=this.range;if(t!==null){const o=t.startContainer;return o.nodeType===document.ELEMENT_NODE?o:o.parentNode}return null}get blockParent(){const t=this.parent;return t!==null?$e(t,this.el):null}save(t=this.range){t!==null&&(this._range=t)}restore(t=this._range){const o=document.createRange(),i=document.getSelection();t!==null?(o.setStart(t.startContainer,t.startOffset),o.setEnd(t.endContainer,t.endOffset),i.removeAllRanges(),i.addRange(o)):(i.selectAllChildren(this.el),i.collapseToEnd())}savePosition(){let t=-1,o;const i=document.getSelection(),l=this.el.parentNode;if(i.focusNode&&se(i.focusNode,l))for(o=i.focusNode,t=i.focusOffset;o&&o!==l;)o!==this.el&&o.previousSibling?(o=o.previousSibling,t+=o.textContent.length):o=o.parentNode;this.savedPos=t}restorePosition(t=0){if(this.savedPos>0&&this.savedPos<t){const o=window.getSelection(),i=Ae(this.el,{count:this.savedPos});i&&(i.collapse(!1),o.removeAllRanges(),o.addRange(i))}}hasParent(t,o){const i=o?this.parent:this.blockParent;return i!==null?i.nodeName.toLowerCase()===t.toLowerCase():!1}hasParents(t,o,i=this.parent){return i===null?!1:t.includes(i.nodeName.toLowerCase())===!0?!0:o===!0?this.hasParents(t,o,i.parentNode):!1}is(t,o){if(this.selection===null)return!1;switch(t){case"formatBlock":return o==="DIV"&&this.parent===this.el||this.hasParent(o,o==="PRE");case"link":return this.hasParent("A",!0);case"fontSize":return document.queryCommandValue(t)===o;case"fontName":const i=document.queryCommandValue(t);return i===`"${o}"`||i===o;case"fullscreen":return this.eVm.inFullscreen.value;case"viewsource":return this.eVm.isViewingSource.value;case void 0:return!1;default:const l=document.queryCommandState(t);return o!==void 0?l===o:l}}getParentAttribute(t){return this.parent!==null?this.parent.getAttribute(t):null}can(t){if(t==="outdent")return this.hasParents(["blockquote","li"],!0);if(t==="indent")return this.hasParents(["li"],!0);if(t==="link")return this.selection!==null||this.is("link")}apply(t,o,i=Ve){if(t==="formatBlock")["BLOCKQUOTE","H1","H2","H3","H4","H5","H6"].includes(o)&&this.is(t,o)&&(t="outdent",o=null),o==="PRE"&&this.is(t,"PRE")&&(o="P");else if(t==="print"){i();const l=window.open();l.document.write(`
+import { Q as QToolbar, a as QToolbarTitle } from "./QToolbarTitle.1a75cd00.js";
+import { A as defineComponent, g as computed, m as openBlock, K as createBlock, L as withCtx, R as createTextVNode, b8 as toDisplayString, U as unref, i as inject, r as ref, B as reactive, o as onMounted, E as onBeforeUnmount, n as createElementBlock, l as createVNode, Q as QCard, G as withDirectives, S as QBtn, M as QCardSection, q as createBaseVNode, aD as QDialog, N as QInput, O as QIcon, y as createCommentVNode, F as Fragment, b7 as renderList, a1 as noop, V as createComponent, bD as useBtnProps, aO as useTransitionProps, bu as uid, bE as getBtnDesignAttr, w as watch, h, X as hSlot, j as getCurrentInstance, aA as stop, aN as useModelToggleProps, aP as useModelToggleEmits, aQ as useTick, aR as useTimeout, aS as useTransition, aT as useModelToggle, aU as usePortal, aK as cleanEvt, aJ as addEvt, a0 as getScrollTarget, H as Transition, ap as stopAndPrevent, aC as shouldIgnoreKey, ay as prevent, ab as useDarkProps, ac as useDark, bF as useSplitAttrs, D as nextTick, a$ as addFocusFn } from "./index.e647c85a.js";
+import { a as QTable, Q as QTd, u as useFullscreenProps, b as useFullscreenEmits, c as useFullscreen } from "./QTable.64a81add.js";
+import { C as ClosePopup } from "./ClosePopup.ef2f7039.js";
+import { a as api } from "./axios.ccd3a804.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { A as awsSesStatus, x as getRowsPerPage, y as rowsPerPageOptions, l as fromNowTz, f as dateTimeTz, z as setRowsPerPage } from "./help.c0f85e41.js";
+import { Q as QBadge } from "./QBadge.5efaf9f7.js";
+import { Q as QBtnGroup } from "./QBtnGroup.ea19e2fc.js";
+import { Q as QMenu, u as useAnchorProps, v as validatePosition, d as validateOffset, e as parsePosition, f as useScrollTarget, a as useAnchor, r as removeClickOutside, s as setPosition, c as clearSelection, g as addClickOutside } from "./format.8e90d58d.js";
+import { Q as QItemSection, a as QItem } from "./QItemSection.99659658.js";
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "AmazonSesStatus",
+  props: {
+    status: null
+  },
+  setup(__props) {
+    const props = __props;
+    const color = computed(() => {
+      if (props.status === "Send") {
+        return "primary";
+      }
+      if (props.status === "Delivery") {
+        return "positive";
+      }
+      if (props.status === "Open") {
+        return "positive";
+      }
+      if (props.status === "Bounce") {
+        return "negative";
+      }
+      if (props.status === "Click") {
+        return "positive";
+      }
+      return "grey";
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QBadge, { color: unref(color) }, {
+        default: withCtx(() => [
+          createTextVNode(toDisplayString(unref(awsSesStatus)(__props.status)), 1)
+        ]),
+        _: 1
+      }, 8, ["color"]);
+    };
+  }
+});
+const _hoisted_1 = ["innerHTML"];
+const _hoisted_2 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_3 = { class: "text-grey" };
+const _hoisted_4 = { key: 0 };
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "GlobalNotifications",
+  props: {
+    notifiable_id: null,
+    notifiable_type: null,
+    bulk: { type: Boolean }
+  },
+  setup(__props) {
+    const props = __props;
+    const bus = inject("bus");
+    const data = ref();
+    const loading = ref(false);
+    const shown = ref();
+    const showModal = ref(false);
+    const search = reactive({ keyword: null });
+    const columns = [{
+      name: "created_at",
+      label: "Sent",
+      align: "left",
+      field: "created_at",
+      sortable: true
+    }, {
+      name: "to",
+      sortable: true,
+      label: "To",
+      field: "to",
+      align: "left"
+    }, {
+      name: "subject",
+      sortable: true,
+      label: "Subject",
+      field: "subject",
+      align: "left"
+    }, {
+      name: "actions",
+      sortable: false,
+      label: "",
+      field: "actions",
+      align: "right"
+    }];
+    const serverPagination = ref({
+      page: 1,
+      rowsNumber: getRowsPerPage(),
+      rowsPerPage: getRowsPerPage(),
+      sortBy: "created_at",
+      descending: true
+    });
+    const request = (pageProps = null) => {
+      let page;
+      let rowsPerPage;
+      let sortBy;
+      let descending;
+      if (pageProps && pageProps.pagination) {
+        page = pageProps.pagination.page;
+        rowsPerPage = pageProps.pagination.rowsPerPage;
+        sortBy = pageProps.pagination.sortBy;
+        descending = pageProps.pagination.descending;
+      } else {
+        page = serverPagination.value.page;
+        rowsPerPage = serverPagination.value.rowsPerPage;
+        sortBy = serverPagination.value.sortBy;
+        descending = serverPagination.value.descending;
+      }
+      loading.value = true;
+      api.post(`/notification/datatable/${page}`, {
+        sortBy,
+        sort_order: descending ? "desc" : "asc",
+        skip: page,
+        rowsPerPage,
+        keyword: search.keyword,
+        notifiable_id: props.notifiable_id,
+        notifiable_type: props.notifiable_type,
+        bulk: props.bulk
+      }).then((response) => {
+        data.value = response.data.rows;
+        loading.value = false;
+        setRowsPerPage(rowsPerPage);
+        serverPagination.value.rowsNumber = response.data.total;
+        serverPagination.value.page = page;
+        serverPagination.value.rowsPerPage = rowsPerPage;
+        serverPagination.value.sortBy = sortBy;
+        serverPagination.value.descending = descending;
+      }).catch((response) => {
+        useMixinDebug(response);
+      });
+    };
+    const showNotification = (notification) => {
+      shown.value = notification;
+      showModal.value = true;
+    };
+    onMounted(() => {
+      request();
+      bus.on("getNotifications", () => {
+        request();
+      });
+    });
+    onBeforeUnmount(() => {
+      bus.off("getNotifications");
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock(Fragment, null, [
+        createVNode(QDialog, {
+          modelValue: showModal.value,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => showModal.value = $event)
+        }, {
+          default: withCtx(() => [
+            createVNode(QCard, { class: "modal" }, {
+              default: withCtx(() => [
+                createVNode(QToolbar, null, {
+                  default: withCtx(() => [
+                    createVNode(QToolbarTitle, null, {
+                      default: withCtx(() => [
+                        createTextVNode(toDisplayString(shown.value.subject), 1)
+                      ]),
+                      _: 1
+                    }),
+                    withDirectives(createVNode(QBtn, {
+                      icon: "close",
+                      flat: "",
+                      round: "",
+                      dense: ""
+                    }, null, 512), [
+                      [ClosePopup]
+                    ])
+                  ]),
+                  _: 1
+                }),
+                createVNode(QCardSection, null, {
+                  default: withCtx(() => [
+                    createBaseVNode("div", {
+                      innerHTML: shown.value.html_content
+                    }, null, 8, _hoisted_1)
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ]),
+          _: 1
+        }, 8, ["modelValue"]),
+        createVNode(QCard, null, {
+          default: withCtx(() => [
+            createVNode(QTable, {
+              rows: data.value,
+              columns,
+              "row-key": "id",
+              filter: search.keyword,
+              loading: loading.value,
+              pagination: serverPagination.value,
+              "onUpdate:pagination": _cache[2] || (_cache[2] = ($event) => serverPagination.value = $event),
+              onRequest: request,
+              flat: "",
+              "rows-per-page-options": unref(rowsPerPageOptions)
+            }, {
+              "top-left": withCtx(() => [
+                createVNode(QInput, {
+                  modelValue: search.keyword,
+                  "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => search.keyword = $event),
+                  debounce: 500,
+                  placeholder: "Keyword"
+                }, {
+                  append: withCtx(() => [
+                    createVNode(QIcon, { name: "search" })
+                  ]),
+                  _: 1
+                }, 8, ["modelValue"])
+              ]),
+              "body-cell-created_at": withCtx((props2) => [
+                createVNode(QTd, { props: props2 }, {
+                  default: withCtx(() => [
+                    createTextVNode(toDisplayString(unref(fromNowTz)(props2.row.created_at)), 1),
+                    _hoisted_2,
+                    createBaseVNode("small", _hoisted_3, toDisplayString(unref(dateTimeTz)(props2.row.created_at)), 1)
+                  ]),
+                  _: 2
+                }, 1032, ["props"])
+              ]),
+              "body-cell-to": withCtx((props2) => [
+                createVNode(QTd, { props: props2 }, {
+                  default: withCtx(() => [
+                    !props2.row.amazonemails.length ? (openBlock(), createElementBlock("span", _hoisted_4, toDisplayString(props2.row.to), 1)) : createCommentVNode("", true),
+                    props2.row.amazonemails ? (openBlock(true), createElementBlock(Fragment, { key: 1 }, renderList(props2.row.amazonemails, (a) => {
+                      return openBlock(), createElementBlock("span", {
+                        key: a.email
+                      }, [
+                        createTextVNode(toDisplayString(a.email) + " ", 1),
+                        createVNode(_sfc_main$1, {
+                          status: props2.row.amazon_ses_status
+                        }, null, 8, ["status"])
+                      ]);
+                    }), 128)) : createCommentVNode("", true)
+                  ]),
+                  _: 2
+                }, 1032, ["props"])
+              ]),
+              "body-cell-actions": withCtx((props2) => [
+                createVNode(QTd, { props: props2 }, {
+                  default: withCtx(() => [
+                    createVNode(QBtn, {
+                      onClick: ($event) => showNotification(props2.row),
+                      icon: "visibility",
+                      flat: ""
+                    }, null, 8, ["onClick"])
+                  ]),
+                  _: 2
+                }, 1032, ["props"])
+              ]),
+              _: 1
+            }, 8, ["rows", "filter", "loading", "pagination", "rows-per-page-options"])
+          ]),
+          _: 1
+        })
+      ], 64);
+    };
+  }
+});
+function getBlockElement(el, parent) {
+  if (parent && el === parent) {
+    return null;
+  }
+  const nodeName = el.nodeName.toLowerCase();
+  if (["div", "li", "ul", "ol", "blockquote"].includes(nodeName) === true) {
+    return el;
+  }
+  const style = window.getComputedStyle ? window.getComputedStyle(el) : el.currentStyle, display = style.display;
+  if (display === "block" || display === "table") {
+    return el;
+  }
+  return getBlockElement(el.parentNode);
+}
+function isChildOf(el, parent, orSame) {
+  return !el || el === document.body ? false : orSame === true && el === parent || (parent === document ? document.body : parent).contains(el.parentNode);
+}
+function createRange(node, chars, range) {
+  if (!range) {
+    range = document.createRange();
+    range.selectNode(node);
+    range.setStart(node, 0);
+  }
+  if (chars.count === 0) {
+    range.setEnd(node, chars.count);
+  } else if (chars.count > 0) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      if (node.textContent.length < chars.count) {
+        chars.count -= node.textContent.length;
+      } else {
+        range.setEnd(node, chars.count);
+        chars.count = 0;
+      }
+    } else {
+      for (let lp = 0; chars.count !== 0 && lp < node.childNodes.length; lp++) {
+        range = createRange(node.childNodes[lp], chars, range);
+      }
+    }
+  }
+  return range;
+}
+const urlRegex = /^https?:\/\//;
+class Caret {
+  constructor(el, eVm) {
+    this.el = el;
+    this.eVm = eVm;
+    this._range = null;
+  }
+  get selection() {
+    if (this.el) {
+      const sel = document.getSelection();
+      if (isChildOf(sel.anchorNode, this.el, true) && isChildOf(sel.focusNode, this.el, true)) {
+        return sel;
+      }
+    }
+    return null;
+  }
+  get hasSelection() {
+    return this.selection !== null ? this.selection.toString().length > 0 : false;
+  }
+  get range() {
+    const sel = this.selection;
+    if (sel !== null && sel.rangeCount) {
+      return sel.getRangeAt(0);
+    }
+    return this._range;
+  }
+  get parent() {
+    const range = this.range;
+    if (range !== null) {
+      const node = range.startContainer;
+      return node.nodeType === document.ELEMENT_NODE ? node : node.parentNode;
+    }
+    return null;
+  }
+  get blockParent() {
+    const parent = this.parent;
+    if (parent !== null) {
+      return getBlockElement(parent, this.el);
+    }
+    return null;
+  }
+  save(range = this.range) {
+    if (range !== null) {
+      this._range = range;
+    }
+  }
+  restore(range = this._range) {
+    const r = document.createRange(), sel = document.getSelection();
+    if (range !== null) {
+      r.setStart(range.startContainer, range.startOffset);
+      r.setEnd(range.endContainer, range.endOffset);
+      sel.removeAllRanges();
+      sel.addRange(r);
+    } else {
+      sel.selectAllChildren(this.el);
+      sel.collapseToEnd();
+    }
+  }
+  savePosition() {
+    let charCount = -1, node;
+    const selection = document.getSelection(), parentEl = this.el.parentNode;
+    if (selection.focusNode && isChildOf(selection.focusNode, parentEl)) {
+      node = selection.focusNode;
+      charCount = selection.focusOffset;
+      while (node && node !== parentEl) {
+        if (node !== this.el && node.previousSibling) {
+          node = node.previousSibling;
+          charCount += node.textContent.length;
+        } else {
+          node = node.parentNode;
+        }
+      }
+    }
+    this.savedPos = charCount;
+  }
+  restorePosition(length = 0) {
+    if (this.savedPos > 0 && this.savedPos < length) {
+      const selection = window.getSelection(), range = createRange(this.el, { count: this.savedPos });
+      if (range) {
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+    }
+  }
+  hasParent(name, spanLevel) {
+    const el = spanLevel ? this.parent : this.blockParent;
+    return el !== null ? el.nodeName.toLowerCase() === name.toLowerCase() : false;
+  }
+  hasParents(list, recursive, el = this.parent) {
+    if (el === null) {
+      return false;
+    }
+    if (list.includes(el.nodeName.toLowerCase()) === true) {
+      return true;
+    }
+    return recursive === true ? this.hasParents(list, recursive, el.parentNode) : false;
+  }
+  is(cmd, param) {
+    if (this.selection === null) {
+      return false;
+    }
+    switch (cmd) {
+      case "formatBlock":
+        return param === "DIV" && this.parent === this.el || this.hasParent(param, param === "PRE");
+      case "link":
+        return this.hasParent("A", true);
+      case "fontSize":
+        return document.queryCommandValue(cmd) === param;
+      case "fontName":
+        const res = document.queryCommandValue(cmd);
+        return res === `"${param}"` || res === param;
+      case "fullscreen":
+        return this.eVm.inFullscreen.value;
+      case "viewsource":
+        return this.eVm.isViewingSource.value;
+      case void 0:
+        return false;
+      default:
+        const state = document.queryCommandState(cmd);
+        return param !== void 0 ? state === param : state;
+    }
+  }
+  getParentAttribute(attrib) {
+    if (this.parent !== null) {
+      return this.parent.getAttribute(attrib);
+    }
+    return null;
+  }
+  can(name) {
+    if (name === "outdent") {
+      return this.hasParents(["blockquote", "li"], true);
+    }
+    if (name === "indent") {
+      return this.hasParents(["li"], true);
+    }
+    if (name === "link") {
+      return this.selection !== null || this.is("link");
+    }
+  }
+  apply(cmd, param, done = noop) {
+    if (cmd === "formatBlock") {
+      if (["BLOCKQUOTE", "H1", "H2", "H3", "H4", "H5", "H6"].includes(param) && this.is(cmd, param)) {
+        cmd = "outdent";
+        param = null;
+      }
+      if (param === "PRE" && this.is(cmd, "PRE")) {
+        param = "P";
+      }
+    } else if (cmd === "print") {
+      done();
+      const win = window.open();
+      win.document.write(`
         <!doctype html>
         <html>
           <head>
@@ -8,4 +468,1159 @@ import{Q as Me,a as Ue}from"./QToolbarTitle.1a75cd00.js";import{A as ze,g as k,m
             <div>${this.el.innerHTML}</div>
           </body>
         </html>
-      `),l.print(),l.close();return}else if(t==="link"){const l=this.getParentAttribute("href");if(l===null){const s=this.selectWord(this.selection),r=s?s.toString():"";if(!r.length&&(!this.range||!this.range.cloneContents().querySelector("img")))return;this.eVm.editLinkUrl.value=Mt.test(r)?r:"https://",document.execCommand("createLink",!1,this.eVm.editLinkUrl.value),this.save(s.getRangeAt(0))}else this.eVm.editLinkUrl.value=l,this.range.selectNodeContents(this.parent),this.save();return}else if(t==="fullscreen"){this.eVm.toggleFullscreen(),i();return}else if(t==="viewsource"){this.eVm.isViewingSource.value=this.eVm.isViewingSource.value===!1,this.eVm.setContent(this.eVm.props.modelValue),i();return}document.execCommand(t,!1,o),i()}selectWord(t){if(t===null||t.isCollapsed!==!0||t.modify===void 0)return t;const o=document.createRange();o.setStart(t.anchorNode,t.anchorOffset),o.setEnd(t.focusNode,t.focusOffset);const i=o.collapsed?["backward","forward"]:["forward","backward"];o.detach();const l=t.focusNode,s=t.focusOffset;return t.collapse(t.anchorNode,t.anchorOffset),t.modify("move",i[0],"character"),t.modify("move",i[1],"word"),t.extend(l,s),t.modify("extend",i[1],"character"),t.modify("extend",i[0],"word"),t}}const It=Object.keys(Oe),Kt=e=>It.reduce((t,o)=>{const i=e[o];return i!==void 0&&(t[o]=i),t},{});var Wt=he({name:"QBtnDropdown",props:{...Oe,...He,modelValue:Boolean,split:Boolean,dropdownIcon:String,contentClass:[Array,String,Object],contentStyle:[Array,String,Object],cover:Boolean,persistent:Boolean,noRouteDismiss:Boolean,autoClose:Boolean,menuAnchor:{type:String,default:"bottom end"},menuSelf:{type:String,default:"top end"},menuOffset:Array,disableMainBtn:Boolean,disableDropdown:Boolean,noIconAnimation:Boolean,toggleAriaLabel:String},emits:["update:modelValue","click","beforeShow","show","beforeHide","hide"],setup(e,{slots:t,emit:o}){const{proxy:i}=me(),l=O(e.modelValue),s=O(null),r=et(),d=k(()=>{const h={"aria-expanded":l.value===!0?"true":"false","aria-haspopup":"true","aria-controls":r,"aria-label":e.toggleAriaLabel||i.$q.lang.label[l.value===!0?"collapse":"expand"](e.label)};return(e.disable===!0||e.split===!1&&e.disableMainBtn===!0||e.disableDropdown===!0)&&(h["aria-disabled"]="true"),h}),y=k(()=>"q-btn-dropdown__arrow"+(l.value===!0&&e.noIconAnimation===!1?" rotate-180":"")+(e.split===!1?" q-btn-dropdown__arrow-container":"")),v=k(()=>tt(e)),m=k(()=>Kt(e));Q(()=>e.modelValue,h=>{s.value!==null&&s.value[h?"show":"hide"]()}),Q(()=>e.split,L);function P(h){l.value=!0,o("beforeShow",h)}function f(h){o("show",h),o("update:modelValue",!0)}function u(h){l.value=!1,o("beforeHide",h)}function c(h){o("hide",h),o("update:modelValue",!1)}function b(h){o("click",h)}function z(h){Le(h),L(),o("click",h)}function _(h){s.value!==null&&s.value.toggle(h)}function H(h){s.value!==null&&s.value.show(h)}function L(h){s.value!==null&&s.value.hide(h)}return Object.assign(i,{show:H,hide:L,toggle:_}),de(()=>{e.modelValue===!0&&H()}),()=>{const h=[g(fe,{class:y.value,name:e.dropdownIcon||i.$q.iconSet.arrow.dropdown})];return e.disableDropdown!==!0&&h.push(g(zt,{ref:s,id:r,class:e.contentClass,style:e.contentStyle,cover:e.cover,fit:!0,persistent:e.persistent,noRouteDismiss:e.noRouteDismiss,autoClose:e.autoClose,anchor:e.menuAnchor,self:e.menuSelf,offset:e.menuOffset,separateClosePopup:!0,transitionShow:e.transitionShow,transitionHide:e.transitionHide,transitionDuration:e.transitionDuration,onBeforeShow:P,onShow:f,onBeforeHide:u,onHide:c},t.default)),e.split===!1?g(E,{class:"q-btn-dropdown q-btn-dropdown--simple",...m.value,...d.value,disable:e.disable===!0||e.disableMainBtn===!0,noWrap:!0,round:!1,onClick:b},{default:()=>ge(t.label,[]).concat(h),loading:t.loading}):g(qt,{class:"q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item",rounded:e.rounded,square:e.square,...v.value,glossy:e.glossy,stretch:e.stretch},()=>[g(E,{class:"q-btn-dropdown--current",...m.value,disable:e.disable===!0||e.disableMainBtn===!0,noWrap:!0,round:!1,onClick:z},{default:t.label,loading:t.loading}),g(E,{class:"q-btn-dropdown__arrow-container q-anchor--skip",...d.value,...v.value,disable:e.disable===!0||e.disableDropdown===!0,rounded:e.rounded,color:e.color,textColor:e.textColor,dense:e.dense,size:e.size,padding:e.padding,ripple:e.ripple},()=>h)])}}}),Gt=he({name:"QTooltip",inheritAttrs:!1,props:{...Ot,...ot,...He,maxHeight:{type:String,default:null},maxWidth:{type:String,default:null},transitionShow:{default:"jump-down"},transitionHide:{default:"jump-up"},anchor:{type:String,default:"bottom middle",validator:Te},self:{type:String,default:"top middle",validator:Te},offset:{type:Array,default:()=>[14,14],validator:Ht},scrollTarget:{default:void 0},delay:{type:Number,default:0},hideDelay:{type:Number,default:0}},emits:[...nt],setup(e,{slots:t,emit:o,attrs:i}){let l,s;const r=me(),{proxy:{$q:d}}=r,y=O(null),v=O(!1),m=k(()=>Pe(e.anchor,d.lang.rtl)),P=k(()=>Pe(e.self,d.lang.rtl)),f=k(()=>e.persistent!==!0),{registerTick:u,removeTick:c}=at(),{registerTimeout:b}=it(),{transitionProps:z,transitionStyle:_}=lt(e),{localScrollTarget:H,changeScrollEvent:L,unconfigureScrollTarget:h}=Lt(e,G),{anchorEl:B,canShow:U,anchorEvents:S}=Nt({showing:v,configureAnchorEl:le}),{show:ee,hide:j}=rt({showing:v,canShow:U,handleShow:oe,handleHide:ne,hideOnRouteChange:f,processOnMount:!0});Object.assign(S,{delayShow:ae,delayHide:ie});const{showPortal:I,hidePortal:K,renderPortal:te}=st(r,y,J,"tooltip");if(d.platform.is.mobile===!0){const w={anchorEl:B,innerRef:y,onClickOutside(T){return j(T),T.target.classList.contains("q-dialog__backdrop")&&Ne(T),!0}},A=k(()=>e.modelValue===null&&e.persistent!==!0&&v.value===!0);Q(A,T=>{(T===!0?$t:_e)(w)}),V(()=>{_e(w)})}function oe(w){I(),u(()=>{s=new MutationObserver(()=>$()),s.observe(y.value,{attributes:!1,childList:!0,characterData:!0,subtree:!0}),$(),G()}),l===void 0&&(l=Q(()=>d.screen.width+"|"+d.screen.height+"|"+e.self+"|"+e.anchor+"|"+d.lang.rtl,$)),b(()=>{I(!0),o("show",w)},e.transitionDuration)}function ne(w){c(),K(),W(),b(()=>{K(!0),o("hide",w)},e.transitionDuration)}function W(){s!==void 0&&(s.disconnect(),s=void 0),l!==void 0&&(l(),l=void 0),h(),we(S,"tooltipTemp")}function $(){const w=y.value;B.value===null||!w||Et({el:w,offset:e.offset,anchorEl:B.value,anchorOrigin:m.value,selfOrigin:P.value,maxHeight:e.maxHeight,maxWidth:e.maxWidth})}function ae(w){if(d.platform.is.mobile===!0){Be(),document.body.classList.add("non-selectable");const A=B.value,T=["touchmove","touchcancel","touchend","click"].map(D=>[A,D,"delayHide","passiveCapture"]);ke(S,"tooltipTemp",T)}b(()=>{ee(w)},e.delay)}function ie(w){d.platform.is.mobile===!0&&(we(S,"tooltipTemp"),Be(),setTimeout(()=>{document.body.classList.remove("non-selectable")},10)),b(()=>{j(w)},e.hideDelay)}function le(){if(e.noParentEvent===!0||B.value===null)return;const w=d.platform.is.mobile===!0?[[B.value,"touchstart","delayShow","passive"]]:[[B.value,"mouseenter","delayShow","passive"],[B.value,"mouseleave","delayHide","passive"]];ke(S,"anchor",w)}function G(){if(B.value!==null||e.scrollTarget!==void 0){H.value=ut(B.value,e.scrollTarget);const w=e.noParentEvent===!0?$:j;L(H.value,w)}}function X(){return v.value===!0?g("div",{...i,ref:y,class:["q-tooltip q-tooltip--style q-position-engine no-pointer-events",i.class],style:[i.style,_.value],role:"tooltip"},ge(t.default)):null}function J(){return g(ct,z.value,X)}return V(W),Object.assign(r.proxy,{updatePosition:$}),te}});function De(e,t,o){t.handler?t.handler(e,o,o.caret):o.runCmd(t.cmd,t.param)}function pe(e){return g("div",{class:"q-editor__toolbar-group"},e)}function Re(e,t,o,i=!1){const l=i||(t.type==="toggle"?t.toggled?t.toggled(e):t.cmd&&e.caret.is(t.cmd,t.param):!1),s=[];if(t.tip&&e.$q.platform.is.desktop){const r=t.key?g("div",[g("small",`(CTRL + ${String.fromCharCode(t.key)})`)]):null;s.push(g(Gt,{delay:1e3},()=>[g("div",{innerHTML:t.tip}),r]))}return g(E,{...e.buttonProps.value,icon:t.icon!==null?t.icon:void 0,color:l?t.toggleColor||e.props.toolbarToggleColor:t.color||e.props.toolbarColor,textColor:l&&!e.props.toolbarPush?null:t.textColor||e.props.toolbarTextColor,label:t.label,disable:t.disable?typeof t.disable=="function"?t.disable(e):!0:!1,size:"sm",onClick(r){o&&o(),De(r,t,e)}},()=>s)}function Xt(e,t){const o=t.list==="only-icons";let i=t.label,l=t.icon!==null?t.icon:void 0,s,r;function d(){v.component.proxy.hide()}if(o)r=t.options.map(m=>{const P=m.type===void 0?e.caret.is(m.cmd,m.param):!1;return P&&(i=m.tip,l=m.icon!==null?m.icon:void 0),Re(e,m,d,P)}),s=e.toolbarBackgroundClass.value,r=[pe(r)];else{const m=e.props.toolbarToggleColor!==void 0?`text-${e.props.toolbarToggleColor}`:null,P=e.props.toolbarTextColor!==void 0?`text-${e.props.toolbarTextColor}`:null,f=t.list==="no-icons";r=t.options.map(u=>{const c=u.disable?u.disable(e):!1,b=u.type===void 0?e.caret.is(u.cmd,u.param):!1;b&&(i=u.tip,l=u.icon!==null?u.icon:void 0);const z=u.htmlTip;return g(At,{active:b,activeClass:m,clickable:!0,disable:c,dense:!0,onClick(_){d(),e.contentRef.value!==null&&e.contentRef.value.focus(),e.caret.restore(),De(_,u,e)}},()=>[f===!0?null:g(xe,{class:b?m:P,side:!0},()=>g(fe,{name:u.icon!==null?u.icon:void 0})),g(xe,z?()=>g("div",{class:"text-no-wrap",innerHTML:u.htmlTip}):u.tip?()=>g("div",{class:"text-no-wrap"},u.tip):void 0)])}),s=[e.toolbarBackgroundClass.value,P]}const y=t.highlight&&i!==t.label,v=g(Wt,{...e.buttonProps.value,noCaps:!0,noWrap:!0,color:y?e.props.toolbarToggleColor:e.props.toolbarColor,textColor:y&&!e.props.toolbarPush?null:e.props.toolbarTextColor,label:t.fixedLabel?t.label:i,icon:t.fixedIcon?t.icon!==null?t.icon:void 0:l,contentClass:s,onShow:m=>e.emit("dropdownShow",m),onHide:m=>e.emit("dropdownHide",m),onBeforeShow:m=>e.emit("dropdownBeforeShow",m),onBeforeHide:m=>e.emit("dropdownBeforeHide",m)},()=>r);return v}function Jt(e){if(e.caret)return e.buttons.value.filter(t=>!e.isViewingSource.value||t.find(o=>o.cmd==="viewsource")).map(t=>pe(t.map(o=>e.isViewingSource.value&&o.cmd!=="viewsource"?!1:o.type==="slot"?ge(e.slots[o.slot]):o.type==="dropdown"?Xt(e,o):Re(e,o))))}function Yt(e,t,o,i={}){const l=Object.keys(i);if(l.length===0)return{};const s={default_font:{cmd:"fontName",param:e,icon:o,tip:t}};return l.forEach(r=>{const d=i[r];s[r]={cmd:"fontName",param:d,icon:o,tip:d,htmlTip:`<font face="${d}">${d}</font>`}}),s}function Zt(e){if(e.caret){const t=e.props.toolbarColor||e.props.toolbarTextColor;let o=e.editLinkUrl.value;const i=()=>{e.caret.restore(),o!==e.editLinkUrl.value&&document.execCommand("createLink",!1,o===""?" ":o),e.editLinkUrl.value=null};return[g("div",{class:`q-mx-xs text-${t}`},`${e.$q.lang.editor.url}: `),g("input",{key:"qedt_btm_input",class:"col q-editor__link-input",value:o,onInput:l=>{Le(l),o=l.target.value},onKeydown:l=>{if(Ee(l)!==!0)switch(l.keyCode){case 13:return Se(l),i();case 27:Se(l),e.caret.restore(),(!e.editLinkUrl.value||e.editLinkUrl.value==="https://")&&document.execCommand("unlink"),e.editLinkUrl.value=null;break}}}),pe([g(E,{key:"qedt_btm_rem",tabindex:-1,...e.buttonProps.value,label:e.$q.lang.label.remove,noCaps:!0,onClick:()=>{e.caret.restore(),document.execCommand("unlink"),e.editLinkUrl.value=null}}),g(E,{key:"qedt_btm_upd",...e.buttonProps.value,label:e.$q.lang.label.update,noCaps:!0,onClick:i})])]}}const Vt=Object.prototype.toString,ue=Object.prototype.hasOwnProperty,eo=new Set(["Boolean","Number","String","Function","Array","Date","RegExp"].map(e=>"[object "+e+"]"));function qe(e){if(e!==Object(e)||eo.has(Vt.call(e))===!0||e.constructor&&ue.call(e,"constructor")===!1&&ue.call(e.constructor.prototype,"isPrototypeOf")===!1)return!1;let t;for(t in e);return t===void 0||ue.call(e,t)}function Qe(){let e,t,o,i,l,s,r=arguments[0]||{},d=1,y=!1;const v=arguments.length;for(typeof r=="boolean"&&(y=r,r=arguments[1]||{},d=2),Object(r)!==r&&typeof r!="function"&&(r={}),v===d&&(r=this,d--);d<v;d++)if((e=arguments[d])!==null)for(t in e)o=r[t],i=e[t],r!==i&&(y===!0&&i&&((l=Array.isArray(i))||qe(i)===!0)?(l===!0?s=Array.isArray(o)===!0?o:[]:s=qe(o)===!0?o:{},r[t]=Qe(y,s,i)):i!==void 0&&(r[t]=i));return r}var go=he({name:"QEditor",props:{...dt,...vt,modelValue:{type:String,required:!0},readonly:Boolean,disable:Boolean,minHeight:{type:String,default:"10rem"},maxHeight:String,height:String,definitions:Object,fonts:Object,placeholder:String,toolbar:{type:Array,validator:e=>e.length===0||e.every(t=>t.length),default(){return[["left","center","right","justify"],["bold","italic","underline","strike"],["undo","redo"]]}},toolbarColor:String,toolbarBg:String,toolbarTextColor:String,toolbarToggleColor:{type:String,default:"primary"},toolbarOutline:Boolean,toolbarPush:Boolean,toolbarRounded:Boolean,paragraphTag:{type:String,validator:e=>["div","p"].includes(e),default:"div"},contentStyle:Object,contentClass:[Object,Array,String],square:Boolean,flat:Boolean,dense:Boolean},emits:[...yt,"update:modelValue","keydown","click","mouseup","keyup","touchend","focus","blur","dropdownShow","dropdownHide","dropdownBeforeShow","dropdownBeforeHide","linkShow","linkHide"],setup(e,{slots:t,emit:o,attrs:i}){const{proxy:l,vnode:s}=me(),{$q:r}=l,d=ft(e,r),{inFullscreen:y,toggleFullscreen:v}=bt(),m=ht(i,s),P=O(null),f=O(null),u=O(null),c=O(!1),b=k(()=>!e.readonly&&!e.disable);let z,_,H=e.modelValue;document.execCommand("defaultParagraphSeparator",!1,e.paragraphTag),z=window.getComputedStyle(document.body).fontFamily;const L=k(()=>e.toolbarBg?` bg-${e.toolbarBg}`:""),h=k(()=>{const n=e.toolbarOutline!==!0&&e.toolbarPush!==!0;return{type:"a",flat:n,noWrap:!0,outline:e.toolbarOutline,push:e.toolbarPush,rounded:e.toolbarRounded,dense:!0,color:e.toolbarColor,disable:!b.value,size:"sm"}}),B=k(()=>{const n=r.lang.editor,a=r.iconSet.editor;return{bold:{cmd:"bold",icon:a.bold,tip:n.bold,key:66},italic:{cmd:"italic",icon:a.italic,tip:n.italic,key:73},strike:{cmd:"strikeThrough",icon:a.strikethrough,tip:n.strikethrough,key:83},underline:{cmd:"underline",icon:a.underline,tip:n.underline,key:85},unordered:{cmd:"insertUnorderedList",icon:a.unorderedList,tip:n.unorderedList},ordered:{cmd:"insertOrderedList",icon:a.orderedList,tip:n.orderedList},subscript:{cmd:"subscript",icon:a.subscript,tip:n.subscript,htmlTip:"x<subscript>2</subscript>"},superscript:{cmd:"superscript",icon:a.superscript,tip:n.superscript,htmlTip:"x<superscript>2</superscript>"},link:{cmd:"link",disable:p=>p.caret&&!p.caret.can("link"),icon:a.hyperlink,tip:n.hyperlink,key:76},fullscreen:{cmd:"fullscreen",icon:a.toggleFullscreen,tip:n.toggleFullscreen,key:70},viewsource:{cmd:"viewsource",icon:a.viewSource,tip:n.viewSource},quote:{cmd:"formatBlock",param:"BLOCKQUOTE",icon:a.quote,tip:n.quote,key:81},left:{cmd:"justifyLeft",icon:a.left,tip:n.left},center:{cmd:"justifyCenter",icon:a.center,tip:n.center},right:{cmd:"justifyRight",icon:a.right,tip:n.right},justify:{cmd:"justifyFull",icon:a.justify,tip:n.justify},print:{type:"no-state",cmd:"print",icon:a.print,tip:n.print,key:80},outdent:{type:"no-state",disable:p=>p.caret&&!p.caret.can("outdent"),cmd:"outdent",icon:a.outdent,tip:n.outdent},indent:{type:"no-state",disable:p=>p.caret&&!p.caret.can("indent"),cmd:"indent",icon:a.indent,tip:n.indent},removeFormat:{type:"no-state",cmd:"removeFormat",icon:a.removeFormat,tip:n.removeFormat},hr:{type:"no-state",cmd:"insertHorizontalRule",icon:a.hr,tip:n.hr},undo:{type:"no-state",cmd:"undo",icon:a.undo,tip:n.undo,key:90},redo:{type:"no-state",cmd:"redo",icon:a.redo,tip:n.redo,key:89},h1:{cmd:"formatBlock",param:"H1",icon:a.heading1||a.heading,tip:n.heading1,htmlTip:`<h1 class="q-ma-none">${n.heading1}</h1>`},h2:{cmd:"formatBlock",param:"H2",icon:a.heading2||a.heading,tip:n.heading2,htmlTip:`<h2 class="q-ma-none">${n.heading2}</h2>`},h3:{cmd:"formatBlock",param:"H3",icon:a.heading3||a.heading,tip:n.heading3,htmlTip:`<h3 class="q-ma-none">${n.heading3}</h3>`},h4:{cmd:"formatBlock",param:"H4",icon:a.heading4||a.heading,tip:n.heading4,htmlTip:`<h4 class="q-ma-none">${n.heading4}</h4>`},h5:{cmd:"formatBlock",param:"H5",icon:a.heading5||a.heading,tip:n.heading5,htmlTip:`<h5 class="q-ma-none">${n.heading5}</h5>`},h6:{cmd:"formatBlock",param:"H6",icon:a.heading6||a.heading,tip:n.heading6,htmlTip:`<h6 class="q-ma-none">${n.heading6}</h6>`},p:{cmd:"formatBlock",param:e.paragraphTag,icon:a.heading,tip:n.paragraph},code:{cmd:"formatBlock",param:"PRE",icon:a.code,htmlTip:`<code>${n.code}</code>`},"size-1":{cmd:"fontSize",param:"1",icon:a.size1||a.size,tip:n.size1,htmlTip:`<font size="1">${n.size1}</font>`},"size-2":{cmd:"fontSize",param:"2",icon:a.size2||a.size,tip:n.size2,htmlTip:`<font size="2">${n.size2}</font>`},"size-3":{cmd:"fontSize",param:"3",icon:a.size3||a.size,tip:n.size3,htmlTip:`<font size="3">${n.size3}</font>`},"size-4":{cmd:"fontSize",param:"4",icon:a.size4||a.size,tip:n.size4,htmlTip:`<font size="4">${n.size4}</font>`},"size-5":{cmd:"fontSize",param:"5",icon:a.size5||a.size,tip:n.size5,htmlTip:`<font size="5">${n.size5}</font>`},"size-6":{cmd:"fontSize",param:"6",icon:a.size6||a.size,tip:n.size6,htmlTip:`<font size="6">${n.size6}</font>`},"size-7":{cmd:"fontSize",param:"7",icon:a.size7||a.size,tip:n.size7,htmlTip:`<font size="7">${n.size7}</font>`}}}),U=k(()=>{const n=e.definitions||{},a=e.definitions||e.fonts?Qe(!0,{},B.value,n,Yt(z,r.lang.editor.defaultFont,r.iconSet.editor.font,e.fonts)):B.value;return e.toolbar.map(p=>p.map(C=>{if(C.options)return{type:"dropdown",icon:C.icon,label:C.label,size:"sm",dense:!0,fixedLabel:C.fixedLabel,fixedIcon:C.fixedIcon,highlight:C.highlight,list:C.list,options:C.options.map(Fe=>a[Fe])};const N=a[C];return N?N.type==="no-state"||n[C]&&(N.cmd===void 0||B.value[N.cmd]&&B.value[N.cmd].type==="no-state")?N:Object.assign({type:"toggle"},N):{type:"slot",slot:C}}))}),S={$q:r,props:e,slots:t,emit:o,inFullscreen:y,toggleFullscreen:v,runCmd:A,isViewingSource:c,editLinkUrl:u,toolbarBackgroundClass:L,buttonProps:h,contentRef:f,buttons:U,setContent:w};Q(()=>e.modelValue,n=>{H!==n&&(H=n,w(n,!0))}),Q(u,n=>{o(`link-${n?"Show":"Hide"}`)});const ee=k(()=>e.toolbar&&e.toolbar.length>0),j=k(()=>{const n={},a=p=>{p.key&&(n[p.key]={cmd:p.cmd,param:p.param})};return U.value.forEach(p=>{p.forEach(C=>{C.options?C.options.forEach(a):a(C)})}),n}),I=k(()=>y.value?e.contentStyle:[{minHeight:e.minHeight,height:e.height,maxHeight:e.maxHeight},e.contentStyle]),K=k(()=>`q-editor q-editor--${c.value===!0?"source":"default"}`+(e.disable===!0?" disabled":"")+(y.value===!0?" fullscreen column":"")+(e.square===!0?" q-editor--square no-border-radius":"")+(e.flat===!0?" q-editor--flat":"")+(e.dense===!0?" q-editor--dense":"")+(d.value===!0?" q-editor--dark q-dark":"")),te=k(()=>[e.contentClass,"q-editor__content",{col:y.value,"overflow-auto":y.value||e.maxHeight}]),oe=k(()=>e.disable===!0?{"aria-disabled":"true"}:e.readonly===!0?{"aria-readonly":"true"}:{});function ne(){if(f.value!==null){const n=`inner${c.value===!0?"Text":"HTML"}`,a=f.value[n];a!==e.modelValue&&(H=a,o("update:modelValue",a))}}function W(n){if(o("keydown",n),n.ctrlKey!==!0||Ee(n)===!0){T();return}const a=n.keyCode,p=j.value[a];if(p!==void 0){const{cmd:C,param:N}=p;Ne(n),A(C,N,!1)}}function $(n){T(),o("click",n)}function ae(n){if(f.value!==null){const{scrollTop:a,scrollHeight:p}=f.value;_=p-a}S.caret.save(),o("blur",n)}function ie(n){gt(()=>{f.value!==null&&_!==void 0&&(f.value.scrollTop=f.value.scrollHeight-_)}),o("focus",n)}function le(n){const a=P.value;if(a!==null&&a.contains(n.target)===!0&&(n.relatedTarget===null||a.contains(n.relatedTarget)!==!0)){const p=`inner${c.value===!0?"Text":"HTML"}`;S.caret.restorePosition(f.value[p].length),T()}}function G(n){const a=P.value;a!==null&&a.contains(n.target)===!0&&(n.relatedTarget===null||a.contains(n.relatedTarget)!==!0)&&(S.caret.savePosition(),T())}function X(){_=void 0}function J(n){S.caret.save()}function w(n,a){if(f.value!==null){a===!0&&S.caret.savePosition();const p=`inner${c.value===!0?"Text":"HTML"}`;f.value[p]=n,a===!0&&(S.caret.restorePosition(f.value[p].length),T())}}function A(n,a,p=!0){D(),S.caret.restore(),S.caret.apply(n,a,()=>{D(),S.caret.save(),p&&T()})}function T(){setTimeout(()=>{u.value=null,l.$forceUpdate()},1)}function D(){mt(()=>{f.value!==null&&f.value.focus({preventScroll:!0})})}function je(){return f.value}return de(()=>{S.caret=l.caret=new Ut(f.value,S),w(e.modelValue),T(),document.addEventListener("selectionchange",J)}),V(()=>{document.removeEventListener("selectionchange",J)}),Object.assign(l,{runCmd:A,refreshToolbar:T,focus:D,getContentEl:je}),()=>{let n;if(ee.value){const a=[g("div",{key:"qedt_top",class:"q-editor__toolbar row no-wrap scroll-x"+L.value},Jt(S))];u.value!==null&&a.push(g("div",{key:"qedt_btm",class:"q-editor__toolbar row no-wrap items-center scroll-x"+L.value},Zt(S))),n=g("div",{key:"toolbar_ctainer",class:"q-editor__toolbars-container"},a)}return g("div",{ref:P,class:K.value,style:{height:y.value===!0?"100%":null},...oe.value,onFocusin:le,onFocusout:G},[n,g("div",{ref:f,style:I.value,class:te.value,contenteditable:b.value,placeholder:e.placeholder,...m.listeners.value,onInput:ne,onKeydown:W,onClick:$,onBlur:ae,onFocus:ie,onMousedown:X,onTouchstartPassive:X})])}}});export{go as Q,ho as _};
+      `);
+      win.print();
+      win.close();
+      return;
+    } else if (cmd === "link") {
+      const link = this.getParentAttribute("href");
+      if (link === null) {
+        const selection = this.selectWord(this.selection);
+        const url = selection ? selection.toString() : "";
+        if (!url.length) {
+          if (!this.range || !this.range.cloneContents().querySelector("img")) {
+            return;
+          }
+        }
+        this.eVm.editLinkUrl.value = urlRegex.test(url) ? url : "https://";
+        document.execCommand("createLink", false, this.eVm.editLinkUrl.value);
+        this.save(selection.getRangeAt(0));
+      } else {
+        this.eVm.editLinkUrl.value = link;
+        this.range.selectNodeContents(this.parent);
+        this.save();
+      }
+      return;
+    } else if (cmd === "fullscreen") {
+      this.eVm.toggleFullscreen();
+      done();
+      return;
+    } else if (cmd === "viewsource") {
+      this.eVm.isViewingSource.value = this.eVm.isViewingSource.value === false;
+      this.eVm.setContent(this.eVm.props.modelValue);
+      done();
+      return;
+    }
+    document.execCommand(cmd, false, param);
+    done();
+  }
+  selectWord(sel) {
+    if (sel === null || sel.isCollapsed !== true || sel.modify === void 0) {
+      return sel;
+    }
+    const range = document.createRange();
+    range.setStart(sel.anchorNode, sel.anchorOffset);
+    range.setEnd(sel.focusNode, sel.focusOffset);
+    const direction = range.collapsed ? ["backward", "forward"] : ["forward", "backward"];
+    range.detach();
+    const endNode = sel.focusNode, endOffset = sel.focusOffset;
+    sel.collapse(sel.anchorNode, sel.anchorOffset);
+    sel.modify("move", direction[0], "character");
+    sel.modify("move", direction[1], "word");
+    sel.extend(endNode, endOffset);
+    sel.modify("extend", direction[1], "character");
+    sel.modify("extend", direction[0], "word");
+    return sel;
+  }
+}
+const btnPropsList = Object.keys(useBtnProps);
+const passBtnProps = (props) => btnPropsList.reduce(
+  (acc, key) => {
+    const val = props[key];
+    if (val !== void 0) {
+      acc[key] = val;
+    }
+    return acc;
+  },
+  {}
+);
+var QBtnDropdown = createComponent({
+  name: "QBtnDropdown",
+  props: {
+    ...useBtnProps,
+    ...useTransitionProps,
+    modelValue: Boolean,
+    split: Boolean,
+    dropdownIcon: String,
+    contentClass: [Array, String, Object],
+    contentStyle: [Array, String, Object],
+    cover: Boolean,
+    persistent: Boolean,
+    noRouteDismiss: Boolean,
+    autoClose: Boolean,
+    menuAnchor: {
+      type: String,
+      default: "bottom end"
+    },
+    menuSelf: {
+      type: String,
+      default: "top end"
+    },
+    menuOffset: Array,
+    disableMainBtn: Boolean,
+    disableDropdown: Boolean,
+    noIconAnimation: Boolean,
+    toggleAriaLabel: String
+  },
+  emits: ["update:modelValue", "click", "beforeShow", "show", "beforeHide", "hide"],
+  setup(props, { slots, emit }) {
+    const { proxy } = getCurrentInstance();
+    const showing = ref(props.modelValue);
+    const menuRef = ref(null);
+    const targetUid = uid();
+    const ariaAttrs = computed(() => {
+      const acc = {
+        "aria-expanded": showing.value === true ? "true" : "false",
+        "aria-haspopup": "true",
+        "aria-controls": targetUid,
+        "aria-label": props.toggleAriaLabel || proxy.$q.lang.label[showing.value === true ? "collapse" : "expand"](props.label)
+      };
+      if (props.disable === true || (props.split === false && props.disableMainBtn === true || props.disableDropdown === true)) {
+        acc["aria-disabled"] = "true";
+      }
+      return acc;
+    });
+    const iconClass = computed(
+      () => "q-btn-dropdown__arrow" + (showing.value === true && props.noIconAnimation === false ? " rotate-180" : "") + (props.split === false ? " q-btn-dropdown__arrow-container" : "")
+    );
+    const btnDesignAttr = computed(() => getBtnDesignAttr(props));
+    const btnProps = computed(() => passBtnProps(props));
+    watch(() => props.modelValue, (val) => {
+      menuRef.value !== null && menuRef.value[val ? "show" : "hide"]();
+    });
+    watch(() => props.split, hide);
+    function onBeforeShow(e) {
+      showing.value = true;
+      emit("beforeShow", e);
+    }
+    function onShow(e) {
+      emit("show", e);
+      emit("update:modelValue", true);
+    }
+    function onBeforeHide(e) {
+      showing.value = false;
+      emit("beforeHide", e);
+    }
+    function onHide(e) {
+      emit("hide", e);
+      emit("update:modelValue", false);
+    }
+    function onClick(e) {
+      emit("click", e);
+    }
+    function onClickHide(e) {
+      stop(e);
+      hide();
+      emit("click", e);
+    }
+    function toggle(evt) {
+      menuRef.value !== null && menuRef.value.toggle(evt);
+    }
+    function show(evt) {
+      menuRef.value !== null && menuRef.value.show(evt);
+    }
+    function hide(evt) {
+      menuRef.value !== null && menuRef.value.hide(evt);
+    }
+    Object.assign(proxy, {
+      show,
+      hide,
+      toggle
+    });
+    onMounted(() => {
+      props.modelValue === true && show();
+    });
+    return () => {
+      const Arrow = [
+        h(QIcon, {
+          class: iconClass.value,
+          name: props.dropdownIcon || proxy.$q.iconSet.arrow.dropdown
+        })
+      ];
+      props.disableDropdown !== true && Arrow.push(
+        h(QMenu, {
+          ref: menuRef,
+          id: targetUid,
+          class: props.contentClass,
+          style: props.contentStyle,
+          cover: props.cover,
+          fit: true,
+          persistent: props.persistent,
+          noRouteDismiss: props.noRouteDismiss,
+          autoClose: props.autoClose,
+          anchor: props.menuAnchor,
+          self: props.menuSelf,
+          offset: props.menuOffset,
+          separateClosePopup: true,
+          transitionShow: props.transitionShow,
+          transitionHide: props.transitionHide,
+          transitionDuration: props.transitionDuration,
+          onBeforeShow,
+          onShow,
+          onBeforeHide,
+          onHide
+        }, slots.default)
+      );
+      if (props.split === false) {
+        return h(QBtn, {
+          class: "q-btn-dropdown q-btn-dropdown--simple",
+          ...btnProps.value,
+          ...ariaAttrs.value,
+          disable: props.disable === true || props.disableMainBtn === true,
+          noWrap: true,
+          round: false,
+          onClick
+        }, {
+          default: () => hSlot(slots.label, []).concat(Arrow),
+          loading: slots.loading
+        });
+      }
+      return h(QBtnGroup, {
+        class: "q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item",
+        rounded: props.rounded,
+        square: props.square,
+        ...btnDesignAttr.value,
+        glossy: props.glossy,
+        stretch: props.stretch
+      }, () => [
+        h(QBtn, {
+          class: "q-btn-dropdown--current",
+          ...btnProps.value,
+          disable: props.disable === true || props.disableMainBtn === true,
+          noWrap: true,
+          round: false,
+          onClick: onClickHide
+        }, {
+          default: slots.label,
+          loading: slots.loading
+        }),
+        h(QBtn, {
+          class: "q-btn-dropdown__arrow-container q-anchor--skip",
+          ...ariaAttrs.value,
+          ...btnDesignAttr.value,
+          disable: props.disable === true || props.disableDropdown === true,
+          rounded: props.rounded,
+          color: props.color,
+          textColor: props.textColor,
+          dense: props.dense,
+          size: props.size,
+          padding: props.padding,
+          ripple: props.ripple
+        }, () => Arrow)
+      ]);
+    };
+  }
+});
+var QTooltip = createComponent({
+  name: "QTooltip",
+  inheritAttrs: false,
+  props: {
+    ...useAnchorProps,
+    ...useModelToggleProps,
+    ...useTransitionProps,
+    maxHeight: {
+      type: String,
+      default: null
+    },
+    maxWidth: {
+      type: String,
+      default: null
+    },
+    transitionShow: {
+      default: "jump-down"
+    },
+    transitionHide: {
+      default: "jump-up"
+    },
+    anchor: {
+      type: String,
+      default: "bottom middle",
+      validator: validatePosition
+    },
+    self: {
+      type: String,
+      default: "top middle",
+      validator: validatePosition
+    },
+    offset: {
+      type: Array,
+      default: () => [14, 14],
+      validator: validateOffset
+    },
+    scrollTarget: {
+      default: void 0
+    },
+    delay: {
+      type: Number,
+      default: 0
+    },
+    hideDelay: {
+      type: Number,
+      default: 0
+    }
+  },
+  emits: [
+    ...useModelToggleEmits
+  ],
+  setup(props, { slots, emit, attrs }) {
+    let unwatchPosition, observer;
+    const vm = getCurrentInstance();
+    const { proxy: { $q } } = vm;
+    const innerRef = ref(null);
+    const showing = ref(false);
+    const anchorOrigin = computed(() => parsePosition(props.anchor, $q.lang.rtl));
+    const selfOrigin = computed(() => parsePosition(props.self, $q.lang.rtl));
+    const hideOnRouteChange = computed(() => props.persistent !== true);
+    const { registerTick, removeTick } = useTick();
+    const { registerTimeout } = useTimeout();
+    const { transitionProps, transitionStyle } = useTransition(props);
+    const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget);
+    const { anchorEl, canShow, anchorEvents } = useAnchor({ showing, configureAnchorEl });
+    const { show, hide } = useModelToggle({
+      showing,
+      canShow,
+      handleShow,
+      handleHide,
+      hideOnRouteChange,
+      processOnMount: true
+    });
+    Object.assign(anchorEvents, { delayShow, delayHide });
+    const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent, "tooltip");
+    if ($q.platform.is.mobile === true) {
+      const clickOutsideProps = {
+        anchorEl,
+        innerRef,
+        onClickOutside(e) {
+          hide(e);
+          if (e.target.classList.contains("q-dialog__backdrop")) {
+            stopAndPrevent(e);
+          }
+          return true;
+        }
+      };
+      const hasClickOutside = computed(
+        () => props.modelValue === null && props.persistent !== true && showing.value === true
+      );
+      watch(hasClickOutside, (val) => {
+        const fn = val === true ? addClickOutside : removeClickOutside;
+        fn(clickOutsideProps);
+      });
+      onBeforeUnmount(() => {
+        removeClickOutside(clickOutsideProps);
+      });
+    }
+    function handleShow(evt) {
+      showPortal();
+      registerTick(() => {
+        observer = new MutationObserver(() => updatePosition());
+        observer.observe(innerRef.value, { attributes: false, childList: true, characterData: true, subtree: true });
+        updatePosition();
+        configureScrollTarget();
+      });
+      if (unwatchPosition === void 0) {
+        unwatchPosition = watch(
+          () => $q.screen.width + "|" + $q.screen.height + "|" + props.self + "|" + props.anchor + "|" + $q.lang.rtl,
+          updatePosition
+        );
+      }
+      registerTimeout(() => {
+        showPortal(true);
+        emit("show", evt);
+      }, props.transitionDuration);
+    }
+    function handleHide(evt) {
+      removeTick();
+      hidePortal();
+      anchorCleanup();
+      registerTimeout(() => {
+        hidePortal(true);
+        emit("hide", evt);
+      }, props.transitionDuration);
+    }
+    function anchorCleanup() {
+      if (observer !== void 0) {
+        observer.disconnect();
+        observer = void 0;
+      }
+      if (unwatchPosition !== void 0) {
+        unwatchPosition();
+        unwatchPosition = void 0;
+      }
+      unconfigureScrollTarget();
+      cleanEvt(anchorEvents, "tooltipTemp");
+    }
+    function updatePosition() {
+      const el = innerRef.value;
+      if (anchorEl.value === null || !el) {
+        return;
+      }
+      setPosition({
+        el,
+        offset: props.offset,
+        anchorEl: anchorEl.value,
+        anchorOrigin: anchorOrigin.value,
+        selfOrigin: selfOrigin.value,
+        maxHeight: props.maxHeight,
+        maxWidth: props.maxWidth
+      });
+    }
+    function delayShow(evt) {
+      if ($q.platform.is.mobile === true) {
+        clearSelection();
+        document.body.classList.add("non-selectable");
+        const target = anchorEl.value;
+        const evts = ["touchmove", "touchcancel", "touchend", "click"].map((e) => [target, e, "delayHide", "passiveCapture"]);
+        addEvt(anchorEvents, "tooltipTemp", evts);
+      }
+      registerTimeout(() => {
+        show(evt);
+      }, props.delay);
+    }
+    function delayHide(evt) {
+      if ($q.platform.is.mobile === true) {
+        cleanEvt(anchorEvents, "tooltipTemp");
+        clearSelection();
+        setTimeout(() => {
+          document.body.classList.remove("non-selectable");
+        }, 10);
+      }
+      registerTimeout(() => {
+        hide(evt);
+      }, props.hideDelay);
+    }
+    function configureAnchorEl() {
+      if (props.noParentEvent === true || anchorEl.value === null) {
+        return;
+      }
+      const evts = $q.platform.is.mobile === true ? [
+        [anchorEl.value, "touchstart", "delayShow", "passive"]
+      ] : [
+        [anchorEl.value, "mouseenter", "delayShow", "passive"],
+        [anchorEl.value, "mouseleave", "delayHide", "passive"]
+      ];
+      addEvt(anchorEvents, "anchor", evts);
+    }
+    function configureScrollTarget() {
+      if (anchorEl.value !== null || props.scrollTarget !== void 0) {
+        localScrollTarget.value = getScrollTarget(anchorEl.value, props.scrollTarget);
+        const fn = props.noParentEvent === true ? updatePosition : hide;
+        changeScrollEvent(localScrollTarget.value, fn);
+      }
+    }
+    function getTooltipContent() {
+      return showing.value === true ? h("div", {
+        ...attrs,
+        ref: innerRef,
+        class: [
+          "q-tooltip q-tooltip--style q-position-engine no-pointer-events",
+          attrs.class
+        ],
+        style: [
+          attrs.style,
+          transitionStyle.value
+        ],
+        role: "tooltip"
+      }, hSlot(slots.default)) : null;
+    }
+    function renderPortalContent() {
+      return h(Transition, transitionProps.value, getTooltipContent);
+    }
+    onBeforeUnmount(anchorCleanup);
+    Object.assign(vm.proxy, { updatePosition });
+    return renderPortal;
+  }
+});
+function run(e, btn, eVm) {
+  if (btn.handler) {
+    btn.handler(e, eVm, eVm.caret);
+  } else {
+    eVm.runCmd(btn.cmd, btn.param);
+  }
+}
+function getGroup(children) {
+  return h("div", { class: "q-editor__toolbar-group" }, children);
+}
+function getBtn(eVm, btn, clickHandler, active = false) {
+  const toggled = active || (btn.type === "toggle" ? btn.toggled ? btn.toggled(eVm) : btn.cmd && eVm.caret.is(btn.cmd, btn.param) : false), child = [];
+  if (btn.tip && eVm.$q.platform.is.desktop) {
+    const Key = btn.key ? h("div", [
+      h("small", `(CTRL + ${String.fromCharCode(btn.key)})`)
+    ]) : null;
+    child.push(
+      h(QTooltip, { delay: 1e3 }, () => [
+        h("div", { innerHTML: btn.tip }),
+        Key
+      ])
+    );
+  }
+  return h(QBtn, {
+    ...eVm.buttonProps.value,
+    icon: btn.icon !== null ? btn.icon : void 0,
+    color: toggled ? btn.toggleColor || eVm.props.toolbarToggleColor : btn.color || eVm.props.toolbarColor,
+    textColor: toggled && !eVm.props.toolbarPush ? null : btn.textColor || eVm.props.toolbarTextColor,
+    label: btn.label,
+    disable: btn.disable ? typeof btn.disable === "function" ? btn.disable(eVm) : true : false,
+    size: "sm",
+    onClick(e) {
+      clickHandler && clickHandler();
+      run(e, btn, eVm);
+    }
+  }, () => child);
+}
+function getDropdown(eVm, btn) {
+  const onlyIcons = btn.list === "only-icons";
+  let label = btn.label, icon = btn.icon !== null ? btn.icon : void 0, contentClass, Items;
+  function closeDropdown() {
+    Dropdown.component.proxy.hide();
+  }
+  if (onlyIcons) {
+    Items = btn.options.map((btn2) => {
+      const active = btn2.type === void 0 ? eVm.caret.is(btn2.cmd, btn2.param) : false;
+      if (active) {
+        label = btn2.tip;
+        icon = btn2.icon !== null ? btn2.icon : void 0;
+      }
+      return getBtn(eVm, btn2, closeDropdown, active);
+    });
+    contentClass = eVm.toolbarBackgroundClass.value;
+    Items = [
+      getGroup(Items)
+    ];
+  } else {
+    const activeClass = eVm.props.toolbarToggleColor !== void 0 ? `text-${eVm.props.toolbarToggleColor}` : null;
+    const inactiveClass = eVm.props.toolbarTextColor !== void 0 ? `text-${eVm.props.toolbarTextColor}` : null;
+    const noIcons = btn.list === "no-icons";
+    Items = btn.options.map((btn2) => {
+      const disable = btn2.disable ? btn2.disable(eVm) : false;
+      const active = btn2.type === void 0 ? eVm.caret.is(btn2.cmd, btn2.param) : false;
+      if (active) {
+        label = btn2.tip;
+        icon = btn2.icon !== null ? btn2.icon : void 0;
+      }
+      const htmlTip = btn2.htmlTip;
+      return h(QItem, {
+        active,
+        activeClass,
+        clickable: true,
+        disable,
+        dense: true,
+        onClick(e) {
+          closeDropdown();
+          eVm.contentRef.value !== null && eVm.contentRef.value.focus();
+          eVm.caret.restore();
+          run(e, btn2, eVm);
+        }
+      }, () => [
+        noIcons === true ? null : h(
+          QItemSection,
+          {
+            class: active ? activeClass : inactiveClass,
+            side: true
+          },
+          () => h(QIcon, { name: btn2.icon !== null ? btn2.icon : void 0 })
+        ),
+        h(
+          QItemSection,
+          htmlTip ? () => h("div", { class: "text-no-wrap", innerHTML: btn2.htmlTip }) : btn2.tip ? () => h("div", { class: "text-no-wrap" }, btn2.tip) : void 0
+        )
+      ]);
+    });
+    contentClass = [eVm.toolbarBackgroundClass.value, inactiveClass];
+  }
+  const highlight = btn.highlight && label !== btn.label;
+  const Dropdown = h(QBtnDropdown, {
+    ...eVm.buttonProps.value,
+    noCaps: true,
+    noWrap: true,
+    color: highlight ? eVm.props.toolbarToggleColor : eVm.props.toolbarColor,
+    textColor: highlight && !eVm.props.toolbarPush ? null : eVm.props.toolbarTextColor,
+    label: btn.fixedLabel ? btn.label : label,
+    icon: btn.fixedIcon ? btn.icon !== null ? btn.icon : void 0 : icon,
+    contentClass,
+    onShow: (evt) => eVm.emit("dropdownShow", evt),
+    onHide: (evt) => eVm.emit("dropdownHide", evt),
+    onBeforeShow: (evt) => eVm.emit("dropdownBeforeShow", evt),
+    onBeforeHide: (evt) => eVm.emit("dropdownBeforeHide", evt)
+  }, () => Items);
+  return Dropdown;
+}
+function getToolbar(eVm) {
+  if (eVm.caret) {
+    return eVm.buttons.value.filter((f) => {
+      return !eVm.isViewingSource.value || f.find((fb) => fb.cmd === "viewsource");
+    }).map((group) => getGroup(
+      group.map((btn) => {
+        if (eVm.isViewingSource.value && btn.cmd !== "viewsource") {
+          return false;
+        }
+        if (btn.type === "slot") {
+          return hSlot(eVm.slots[btn.slot]);
+        }
+        if (btn.type === "dropdown") {
+          return getDropdown(eVm, btn);
+        }
+        return getBtn(eVm, btn);
+      })
+    ));
+  }
+}
+function getFonts(defaultFont, defaultFontLabel, defaultFontIcon, fonts = {}) {
+  const aliases = Object.keys(fonts);
+  if (aliases.length === 0) {
+    return {};
+  }
+  const def = {
+    default_font: {
+      cmd: "fontName",
+      param: defaultFont,
+      icon: defaultFontIcon,
+      tip: defaultFontLabel
+    }
+  };
+  aliases.forEach((alias) => {
+    const name = fonts[alias];
+    def[alias] = {
+      cmd: "fontName",
+      param: name,
+      icon: defaultFontIcon,
+      tip: name,
+      htmlTip: `<font face="${name}">${name}</font>`
+    };
+  });
+  return def;
+}
+function getLinkEditor(eVm) {
+  if (eVm.caret) {
+    const color = eVm.props.toolbarColor || eVm.props.toolbarTextColor;
+    let link = eVm.editLinkUrl.value;
+    const updateLink = () => {
+      eVm.caret.restore();
+      if (link !== eVm.editLinkUrl.value) {
+        document.execCommand("createLink", false, link === "" ? " " : link);
+      }
+      eVm.editLinkUrl.value = null;
+    };
+    return [
+      h("div", { class: `q-mx-xs text-${color}` }, `${eVm.$q.lang.editor.url}: `),
+      h("input", {
+        key: "qedt_btm_input",
+        class: "col q-editor__link-input",
+        value: link,
+        onInput: (evt) => {
+          stop(evt);
+          link = evt.target.value;
+        },
+        onKeydown: (evt) => {
+          if (shouldIgnoreKey(evt) === true) {
+            return;
+          }
+          switch (evt.keyCode) {
+            case 13:
+              prevent(evt);
+              return updateLink();
+            case 27:
+              prevent(evt);
+              eVm.caret.restore();
+              if (!eVm.editLinkUrl.value || eVm.editLinkUrl.value === "https://") {
+                document.execCommand("unlink");
+              }
+              eVm.editLinkUrl.value = null;
+              break;
+          }
+        }
+      }),
+      getGroup([
+        h(QBtn, {
+          key: "qedt_btm_rem",
+          tabindex: -1,
+          ...eVm.buttonProps.value,
+          label: eVm.$q.lang.label.remove,
+          noCaps: true,
+          onClick: () => {
+            eVm.caret.restore();
+            document.execCommand("unlink");
+            eVm.editLinkUrl.value = null;
+          }
+        }),
+        h(QBtn, {
+          key: "qedt_btm_upd",
+          ...eVm.buttonProps.value,
+          label: eVm.$q.lang.label.update,
+          noCaps: true,
+          onClick: updateLink
+        })
+      ])
+    ];
+  }
+}
+const toString = Object.prototype.toString, hasOwn = Object.prototype.hasOwnProperty, notPlainObject = new Set(
+  ["Boolean", "Number", "String", "Function", "Array", "Date", "RegExp"].map((name) => "[object " + name + "]")
+);
+function isPlainObject(obj) {
+  if (obj !== Object(obj) || notPlainObject.has(toString.call(obj)) === true) {
+    return false;
+  }
+  if (obj.constructor && hasOwn.call(obj, "constructor") === false && hasOwn.call(obj.constructor.prototype, "isPrototypeOf") === false) {
+    return false;
+  }
+  let key;
+  for (key in obj) {
+  }
+  return key === void 0 || hasOwn.call(obj, key);
+}
+function extend() {
+  let options, name, src, copy, copyIsArray, clone, target = arguments[0] || {}, i = 1, deep = false;
+  const length = arguments.length;
+  if (typeof target === "boolean") {
+    deep = target;
+    target = arguments[1] || {};
+    i = 2;
+  }
+  if (Object(target) !== target && typeof target !== "function") {
+    target = {};
+  }
+  if (length === i) {
+    target = this;
+    i--;
+  }
+  for (; i < length; i++) {
+    if ((options = arguments[i]) !== null) {
+      for (name in options) {
+        src = target[name];
+        copy = options[name];
+        if (target === copy) {
+          continue;
+        }
+        if (deep === true && copy && ((copyIsArray = Array.isArray(copy)) || isPlainObject(copy) === true)) {
+          if (copyIsArray === true) {
+            clone = Array.isArray(src) === true ? src : [];
+          } else {
+            clone = isPlainObject(src) === true ? src : {};
+          }
+          target[name] = extend(deep, clone, copy);
+        } else if (copy !== void 0) {
+          target[name] = copy;
+        }
+      }
+    }
+  }
+  return target;
+}
+var QEditor = createComponent({
+  name: "QEditor",
+  props: {
+    ...useDarkProps,
+    ...useFullscreenProps,
+    modelValue: {
+      type: String,
+      required: true
+    },
+    readonly: Boolean,
+    disable: Boolean,
+    minHeight: {
+      type: String,
+      default: "10rem"
+    },
+    maxHeight: String,
+    height: String,
+    definitions: Object,
+    fonts: Object,
+    placeholder: String,
+    toolbar: {
+      type: Array,
+      validator: (v) => v.length === 0 || v.every((group) => group.length),
+      default() {
+        return [
+          ["left", "center", "right", "justify"],
+          ["bold", "italic", "underline", "strike"],
+          ["undo", "redo"]
+        ];
+      }
+    },
+    toolbarColor: String,
+    toolbarBg: String,
+    toolbarTextColor: String,
+    toolbarToggleColor: {
+      type: String,
+      default: "primary"
+    },
+    toolbarOutline: Boolean,
+    toolbarPush: Boolean,
+    toolbarRounded: Boolean,
+    paragraphTag: {
+      type: String,
+      validator: (v) => ["div", "p"].includes(v),
+      default: "div"
+    },
+    contentStyle: Object,
+    contentClass: [Object, Array, String],
+    square: Boolean,
+    flat: Boolean,
+    dense: Boolean
+  },
+  emits: [
+    ...useFullscreenEmits,
+    "update:modelValue",
+    "keydown",
+    "click",
+    "mouseup",
+    "keyup",
+    "touchend",
+    "focus",
+    "blur",
+    "dropdownShow",
+    "dropdownHide",
+    "dropdownBeforeShow",
+    "dropdownBeforeHide",
+    "linkShow",
+    "linkHide"
+  ],
+  setup(props, { slots, emit, attrs }) {
+    const { proxy, vnode } = getCurrentInstance();
+    const { $q } = proxy;
+    const isDark = useDark(props, $q);
+    const { inFullscreen, toggleFullscreen } = useFullscreen();
+    const splitAttrs = useSplitAttrs(attrs, vnode);
+    const rootRef = ref(null);
+    const contentRef = ref(null);
+    const editLinkUrl = ref(null);
+    const isViewingSource = ref(false);
+    const editable = computed(() => !props.readonly && !props.disable);
+    let defaultFont, offsetBottom;
+    let lastEmit = props.modelValue;
+    {
+      document.execCommand("defaultParagraphSeparator", false, props.paragraphTag);
+      defaultFont = window.getComputedStyle(document.body).fontFamily;
+    }
+    const toolbarBackgroundClass = computed(() => props.toolbarBg ? ` bg-${props.toolbarBg}` : "");
+    const buttonProps = computed(() => {
+      const flat = props.toolbarOutline !== true && props.toolbarPush !== true;
+      return {
+        type: "a",
+        flat,
+        noWrap: true,
+        outline: props.toolbarOutline,
+        push: props.toolbarPush,
+        rounded: props.toolbarRounded,
+        dense: true,
+        color: props.toolbarColor,
+        disable: !editable.value,
+        size: "sm"
+      };
+    });
+    const buttonDef = computed(() => {
+      const e = $q.lang.editor, i = $q.iconSet.editor;
+      return {
+        bold: { cmd: "bold", icon: i.bold, tip: e.bold, key: 66 },
+        italic: { cmd: "italic", icon: i.italic, tip: e.italic, key: 73 },
+        strike: { cmd: "strikeThrough", icon: i.strikethrough, tip: e.strikethrough, key: 83 },
+        underline: { cmd: "underline", icon: i.underline, tip: e.underline, key: 85 },
+        unordered: { cmd: "insertUnorderedList", icon: i.unorderedList, tip: e.unorderedList },
+        ordered: { cmd: "insertOrderedList", icon: i.orderedList, tip: e.orderedList },
+        subscript: { cmd: "subscript", icon: i.subscript, tip: e.subscript, htmlTip: "x<subscript>2</subscript>" },
+        superscript: { cmd: "superscript", icon: i.superscript, tip: e.superscript, htmlTip: "x<superscript>2</superscript>" },
+        link: { cmd: "link", disable: (eVm2) => eVm2.caret && !eVm2.caret.can("link"), icon: i.hyperlink, tip: e.hyperlink, key: 76 },
+        fullscreen: { cmd: "fullscreen", icon: i.toggleFullscreen, tip: e.toggleFullscreen, key: 70 },
+        viewsource: { cmd: "viewsource", icon: i.viewSource, tip: e.viewSource },
+        quote: { cmd: "formatBlock", param: "BLOCKQUOTE", icon: i.quote, tip: e.quote, key: 81 },
+        left: { cmd: "justifyLeft", icon: i.left, tip: e.left },
+        center: { cmd: "justifyCenter", icon: i.center, tip: e.center },
+        right: { cmd: "justifyRight", icon: i.right, tip: e.right },
+        justify: { cmd: "justifyFull", icon: i.justify, tip: e.justify },
+        print: { type: "no-state", cmd: "print", icon: i.print, tip: e.print, key: 80 },
+        outdent: { type: "no-state", disable: (eVm2) => eVm2.caret && !eVm2.caret.can("outdent"), cmd: "outdent", icon: i.outdent, tip: e.outdent },
+        indent: { type: "no-state", disable: (eVm2) => eVm2.caret && !eVm2.caret.can("indent"), cmd: "indent", icon: i.indent, tip: e.indent },
+        removeFormat: { type: "no-state", cmd: "removeFormat", icon: i.removeFormat, tip: e.removeFormat },
+        hr: { type: "no-state", cmd: "insertHorizontalRule", icon: i.hr, tip: e.hr },
+        undo: { type: "no-state", cmd: "undo", icon: i.undo, tip: e.undo, key: 90 },
+        redo: { type: "no-state", cmd: "redo", icon: i.redo, tip: e.redo, key: 89 },
+        h1: { cmd: "formatBlock", param: "H1", icon: i.heading1 || i.heading, tip: e.heading1, htmlTip: `<h1 class="q-ma-none">${e.heading1}</h1>` },
+        h2: { cmd: "formatBlock", param: "H2", icon: i.heading2 || i.heading, tip: e.heading2, htmlTip: `<h2 class="q-ma-none">${e.heading2}</h2>` },
+        h3: { cmd: "formatBlock", param: "H3", icon: i.heading3 || i.heading, tip: e.heading3, htmlTip: `<h3 class="q-ma-none">${e.heading3}</h3>` },
+        h4: { cmd: "formatBlock", param: "H4", icon: i.heading4 || i.heading, tip: e.heading4, htmlTip: `<h4 class="q-ma-none">${e.heading4}</h4>` },
+        h5: { cmd: "formatBlock", param: "H5", icon: i.heading5 || i.heading, tip: e.heading5, htmlTip: `<h5 class="q-ma-none">${e.heading5}</h5>` },
+        h6: { cmd: "formatBlock", param: "H6", icon: i.heading6 || i.heading, tip: e.heading6, htmlTip: `<h6 class="q-ma-none">${e.heading6}</h6>` },
+        p: { cmd: "formatBlock", param: props.paragraphTag, icon: i.heading, tip: e.paragraph },
+        code: { cmd: "formatBlock", param: "PRE", icon: i.code, htmlTip: `<code>${e.code}</code>` },
+        "size-1": { cmd: "fontSize", param: "1", icon: i.size1 || i.size, tip: e.size1, htmlTip: `<font size="1">${e.size1}</font>` },
+        "size-2": { cmd: "fontSize", param: "2", icon: i.size2 || i.size, tip: e.size2, htmlTip: `<font size="2">${e.size2}</font>` },
+        "size-3": { cmd: "fontSize", param: "3", icon: i.size3 || i.size, tip: e.size3, htmlTip: `<font size="3">${e.size3}</font>` },
+        "size-4": { cmd: "fontSize", param: "4", icon: i.size4 || i.size, tip: e.size4, htmlTip: `<font size="4">${e.size4}</font>` },
+        "size-5": { cmd: "fontSize", param: "5", icon: i.size5 || i.size, tip: e.size5, htmlTip: `<font size="5">${e.size5}</font>` },
+        "size-6": { cmd: "fontSize", param: "6", icon: i.size6 || i.size, tip: e.size6, htmlTip: `<font size="6">${e.size6}</font>` },
+        "size-7": { cmd: "fontSize", param: "7", icon: i.size7 || i.size, tip: e.size7, htmlTip: `<font size="7">${e.size7}</font>` }
+      };
+    });
+    const buttons = computed(() => {
+      const userDef = props.definitions || {};
+      const def = props.definitions || props.fonts ? extend(
+        true,
+        {},
+        buttonDef.value,
+        userDef,
+        getFonts(
+          defaultFont,
+          $q.lang.editor.defaultFont,
+          $q.iconSet.editor.font,
+          props.fonts
+        )
+      ) : buttonDef.value;
+      return props.toolbar.map(
+        (group) => group.map((token) => {
+          if (token.options) {
+            return {
+              type: "dropdown",
+              icon: token.icon,
+              label: token.label,
+              size: "sm",
+              dense: true,
+              fixedLabel: token.fixedLabel,
+              fixedIcon: token.fixedIcon,
+              highlight: token.highlight,
+              list: token.list,
+              options: token.options.map((item) => def[item])
+            };
+          }
+          const obj = def[token];
+          if (obj) {
+            return obj.type === "no-state" || userDef[token] && (obj.cmd === void 0 || buttonDef.value[obj.cmd] && buttonDef.value[obj.cmd].type === "no-state") ? obj : Object.assign({ type: "toggle" }, obj);
+          } else {
+            return {
+              type: "slot",
+              slot: token
+            };
+          }
+        })
+      );
+    });
+    const eVm = {
+      $q,
+      props,
+      slots,
+      emit,
+      inFullscreen,
+      toggleFullscreen,
+      runCmd,
+      isViewingSource,
+      editLinkUrl,
+      toolbarBackgroundClass,
+      buttonProps,
+      contentRef,
+      buttons,
+      setContent
+    };
+    watch(() => props.modelValue, (v) => {
+      if (lastEmit !== v) {
+        lastEmit = v;
+        setContent(v, true);
+      }
+    });
+    watch(editLinkUrl, (v) => {
+      emit(`link-${v ? "Show" : "Hide"}`);
+    });
+    const hasToolbar = computed(() => props.toolbar && props.toolbar.length > 0);
+    const keys = computed(() => {
+      const k = {}, add = (btn) => {
+        if (btn.key) {
+          k[btn.key] = {
+            cmd: btn.cmd,
+            param: btn.param
+          };
+        }
+      };
+      buttons.value.forEach((group) => {
+        group.forEach((token) => {
+          if (token.options) {
+            token.options.forEach(add);
+          } else {
+            add(token);
+          }
+        });
+      });
+      return k;
+    });
+    const innerStyle = computed(() => inFullscreen.value ? props.contentStyle : [
+      {
+        minHeight: props.minHeight,
+        height: props.height,
+        maxHeight: props.maxHeight
+      },
+      props.contentStyle
+    ]);
+    const classes = computed(
+      () => `q-editor q-editor--${isViewingSource.value === true ? "source" : "default"}` + (props.disable === true ? " disabled" : "") + (inFullscreen.value === true ? " fullscreen column" : "") + (props.square === true ? " q-editor--square no-border-radius" : "") + (props.flat === true ? " q-editor--flat" : "") + (props.dense === true ? " q-editor--dense" : "") + (isDark.value === true ? " q-editor--dark q-dark" : "")
+    );
+    const innerClass = computed(() => [
+      props.contentClass,
+      "q-editor__content",
+      { col: inFullscreen.value, "overflow-auto": inFullscreen.value || props.maxHeight }
+    ]);
+    const attributes = computed(() => props.disable === true ? { "aria-disabled": "true" } : props.readonly === true ? { "aria-readonly": "true" } : {});
+    function onInput() {
+      if (contentRef.value !== null) {
+        const prop = `inner${isViewingSource.value === true ? "Text" : "HTML"}`;
+        const val = contentRef.value[prop];
+        if (val !== props.modelValue) {
+          lastEmit = val;
+          emit("update:modelValue", val);
+        }
+      }
+    }
+    function onKeydown(e) {
+      emit("keydown", e);
+      if (e.ctrlKey !== true || shouldIgnoreKey(e) === true) {
+        refreshToolbar();
+        return;
+      }
+      const key = e.keyCode;
+      const target = keys.value[key];
+      if (target !== void 0) {
+        const { cmd, param } = target;
+        stopAndPrevent(e);
+        runCmd(cmd, param, false);
+      }
+    }
+    function onClick(e) {
+      refreshToolbar();
+      emit("click", e);
+    }
+    function onBlur(e) {
+      if (contentRef.value !== null) {
+        const { scrollTop, scrollHeight } = contentRef.value;
+        offsetBottom = scrollHeight - scrollTop;
+      }
+      eVm.caret.save();
+      emit("blur", e);
+    }
+    function onFocus(e) {
+      nextTick(() => {
+        if (contentRef.value !== null && offsetBottom !== void 0) {
+          contentRef.value.scrollTop = contentRef.value.scrollHeight - offsetBottom;
+        }
+      });
+      emit("focus", e);
+    }
+    function onFocusin(e) {
+      const root = rootRef.value;
+      if (root !== null && root.contains(e.target) === true && (e.relatedTarget === null || root.contains(e.relatedTarget) !== true)) {
+        const prop = `inner${isViewingSource.value === true ? "Text" : "HTML"}`;
+        eVm.caret.restorePosition(contentRef.value[prop].length);
+        refreshToolbar();
+      }
+    }
+    function onFocusout(e) {
+      const root = rootRef.value;
+      if (root !== null && root.contains(e.target) === true && (e.relatedTarget === null || root.contains(e.relatedTarget) !== true)) {
+        eVm.caret.savePosition();
+        refreshToolbar();
+      }
+    }
+    function onPointerStart() {
+      offsetBottom = void 0;
+    }
+    function onSelectionchange(e) {
+      eVm.caret.save();
+    }
+    function setContent(v, restorePosition) {
+      if (contentRef.value !== null) {
+        if (restorePosition === true) {
+          eVm.caret.savePosition();
+        }
+        const prop = `inner${isViewingSource.value === true ? "Text" : "HTML"}`;
+        contentRef.value[prop] = v;
+        if (restorePosition === true) {
+          eVm.caret.restorePosition(contentRef.value[prop].length);
+          refreshToolbar();
+        }
+      }
+    }
+    function runCmd(cmd, param, update = true) {
+      focus();
+      eVm.caret.restore();
+      eVm.caret.apply(cmd, param, () => {
+        focus();
+        eVm.caret.save();
+        if (update) {
+          refreshToolbar();
+        }
+      });
+    }
+    function refreshToolbar() {
+      setTimeout(() => {
+        editLinkUrl.value = null;
+        proxy.$forceUpdate();
+      }, 1);
+    }
+    function focus() {
+      addFocusFn(() => {
+        contentRef.value !== null && contentRef.value.focus({ preventScroll: true });
+      });
+    }
+    function getContentEl() {
+      return contentRef.value;
+    }
+    onMounted(() => {
+      eVm.caret = proxy.caret = new Caret(contentRef.value, eVm);
+      setContent(props.modelValue);
+      refreshToolbar();
+      document.addEventListener("selectionchange", onSelectionchange);
+    });
+    onBeforeUnmount(() => {
+      document.removeEventListener("selectionchange", onSelectionchange);
+    });
+    Object.assign(proxy, {
+      runCmd,
+      refreshToolbar,
+      focus,
+      getContentEl
+    });
+    return () => {
+      let toolbars;
+      if (hasToolbar.value) {
+        const bars = [
+          h("div", {
+            key: "qedt_top",
+            class: "q-editor__toolbar row no-wrap scroll-x" + toolbarBackgroundClass.value
+          }, getToolbar(eVm))
+        ];
+        editLinkUrl.value !== null && bars.push(
+          h("div", {
+            key: "qedt_btm",
+            class: "q-editor__toolbar row no-wrap items-center scroll-x" + toolbarBackgroundClass.value
+          }, getLinkEditor(eVm))
+        );
+        toolbars = h("div", {
+          key: "toolbar_ctainer",
+          class: "q-editor__toolbars-container"
+        }, bars);
+      }
+      return h("div", {
+        ref: rootRef,
+        class: classes.value,
+        style: { height: inFullscreen.value === true ? "100%" : null },
+        ...attributes.value,
+        onFocusin,
+        onFocusout
+      }, [
+        toolbars,
+        h("div", {
+          ref: contentRef,
+          style: innerStyle.value,
+          class: innerClass.value,
+          contenteditable: editable.value,
+          placeholder: props.placeholder,
+          ...{},
+          ...splitAttrs.listeners.value,
+          onInput,
+          onKeydown,
+          onClick,
+          onBlur,
+          onFocus,
+          onMousedown: onPointerStart,
+          onTouchstartPassive: onPointerStart
+        })
+      ]);
+    };
+  }
+});
+export { QEditor as Q, _sfc_main as _ };

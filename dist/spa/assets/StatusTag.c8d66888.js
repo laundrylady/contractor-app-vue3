@@ -1,1 +1,70 @@
-import{Q as n}from"./QBadge.5efaf9f7.js";import{A as u,g as a,m as l,K as f,U as r,t as c}from"./index.e647c85a.js";const g=u({__name:"StatusTag",props:{status:null,small:{type:Boolean},white:{type:Boolean}},setup(e){const t=e,o=a(()=>t.status?t.white?"white":t.status==="in_progress"?"info":t.status==="active"?"positive":t.status.toLowerCase()==="draft"?"grey":t.status==="confirmed"?"info":t.status==="DELETED"?"negative":"positive":"positive"),i=a(()=>{if(!t.status)return"";let s=t.status;return t.status==="in_progress"&&(s="In Progress"),t.status==="processed"&&(s="Processed"),t.status==="active"&&(s="Active"),t.status.toLowerCase()==="draft"&&(s="Draft"),t.status.toLowerCase()==="paid"&&(s="PAID"),t.status.toLowerCase()==="confirmed"&&(s="Confirmed"),s});return(s,p)=>(l(),f(n,{color:r(o),label:r(i),class:c({"q-pa-xs":e.small,"q-pa-sm":!e.small})},null,8,["color","label","class"]))}});export{g as _};
+import { Q as QBadge } from "./QBadge.5efaf9f7.js";
+import { A as defineComponent, g as computed, m as openBlock, K as createBlock, U as unref, t as normalizeClass } from "./index.e647c85a.js";
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "StatusTag",
+  props: {
+    status: null,
+    small: { type: Boolean },
+    white: { type: Boolean }
+  },
+  setup(__props) {
+    const props = __props;
+    const statusColor = computed(() => {
+      if (!props.status) {
+        return "positive";
+      }
+      if (props.white) {
+        return "white";
+      }
+      if (props.status === "in_progress") {
+        return "info";
+      }
+      if (props.status === "active") {
+        return "positive";
+      }
+      if (props.status.toLowerCase() === "draft") {
+        return "grey";
+      }
+      if (props.status === "confirmed") {
+        return "info";
+      }
+      if (props.status === "DELETED") {
+        return "negative";
+      }
+      return "positive";
+    });
+    const statusText = computed(() => {
+      if (!props.status) {
+        return "";
+      }
+      let label = props.status;
+      if (props.status === "in_progress") {
+        label = "In Progress";
+      }
+      if (props.status === "processed") {
+        label = "Processed";
+      }
+      if (props.status === "active") {
+        label = "Active";
+      }
+      if (props.status.toLowerCase() === "draft") {
+        label = "Draft";
+      }
+      if (props.status.toLowerCase() === "paid") {
+        label = "PAID";
+      }
+      if (props.status.toLowerCase() === "confirmed") {
+        label = "Confirmed";
+      }
+      return label;
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QBadge, {
+        color: unref(statusColor),
+        label: unref(statusText),
+        class: normalizeClass({ "q-pa-xs": __props.small, "q-pa-sm": !__props.small })
+      }, null, 8, ["color", "label", "class"]);
+    };
+  }
+});
+export { _sfc_main as _ };

@@ -1,1 +1,39 @@
-import{V as g,i as r,W as t,g as s,h,X as p,j as d,Y as y,Z as f}from"./index.e647c85a.js";var C=g({name:"QPage",props:{padding:Boolean,styleFn:Function},setup(a,{slots:i}){const{proxy:{$q:o}}=d(),e=r(y,t);if(e===t)return console.error("QPage needs to be a deep child of QLayout"),t;if(r(f,t)===t)return console.error("QPage needs to be child of QPageContainer"),t;const c=s(()=>{const n=(e.header.space===!0?e.header.size:0)+(e.footer.space===!0?e.footer.size:0);if(typeof a.styleFn=="function"){const l=e.isContainer.value===!0?e.containerHeight.value:o.screen.height;return a.styleFn(n,l)}return{minHeight:e.isContainer.value===!0?e.containerHeight.value-n+"px":o.screen.height===0?n!==0?`calc(100vh - ${n}px)`:"100vh":o.screen.height-n+"px"}}),u=s(()=>`q-page${a.padding===!0?" q-layout-padding":""}`);return()=>h("main",{class:u.value,style:c.value},p(i.default))}});export{C as Q};
+import { V as createComponent, i as inject, W as emptyRenderFn, g as computed, h, X as hSlot, j as getCurrentInstance, Y as layoutKey, Z as pageContainerKey } from "./index.e647c85a.js";
+var QPage = createComponent({
+  name: "QPage",
+  props: {
+    padding: Boolean,
+    styleFn: Function
+  },
+  setup(props, { slots }) {
+    const { proxy: { $q } } = getCurrentInstance();
+    const $layout = inject(layoutKey, emptyRenderFn);
+    if ($layout === emptyRenderFn) {
+      console.error("QPage needs to be a deep child of QLayout");
+      return emptyRenderFn;
+    }
+    const $pageContainer = inject(pageContainerKey, emptyRenderFn);
+    if ($pageContainer === emptyRenderFn) {
+      console.error("QPage needs to be child of QPageContainer");
+      return emptyRenderFn;
+    }
+    const style = computed(() => {
+      const offset = ($layout.header.space === true ? $layout.header.size : 0) + ($layout.footer.space === true ? $layout.footer.size : 0);
+      if (typeof props.styleFn === "function") {
+        const height = $layout.isContainer.value === true ? $layout.containerHeight.value : $q.screen.height;
+        return props.styleFn(offset, height);
+      }
+      return {
+        minHeight: $layout.isContainer.value === true ? $layout.containerHeight.value - offset + "px" : $q.screen.height === 0 ? offset !== 0 ? `calc(100vh - ${offset}px)` : "100vh" : $q.screen.height - offset + "px"
+      };
+    });
+    const classes = computed(
+      () => `q-page${props.padding === true ? " q-layout-padding" : ""}`
+    );
+    return () => h("main", {
+      class: classes.value,
+      style: style.value
+    }, hSlot(slots.default));
+  }
+});
+export { QPage as Q };

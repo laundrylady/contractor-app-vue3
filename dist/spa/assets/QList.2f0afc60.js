@@ -1,1 +1,24 @@
-import{V as o,ab as n,ac as d,g as l,h as i,X as u,j as c}from"./index.e647c85a.js";var q=o({name:"QList",props:{...n,bordered:Boolean,dense:Boolean,separator:Boolean,padding:Boolean,tag:{type:String,default:"div"}},setup(e,{slots:a}){const t=c(),s=d(e,t.proxy.$q),r=l(()=>"q-list"+(e.bordered===!0?" q-list--bordered":"")+(e.dense===!0?" q-list--dense":"")+(e.separator===!0?" q-list--separator":"")+(s.value===!0?" q-list--dark":"")+(e.padding===!0?" q-list--padding":""));return()=>i(e.tag,{class:r.value},u(a.default))}});export{q as Q};
+import { V as createComponent, ab as useDarkProps, ac as useDark, g as computed, h, X as hSlot, j as getCurrentInstance } from "./index.e647c85a.js";
+var QList = createComponent({
+  name: "QList",
+  props: {
+    ...useDarkProps,
+    bordered: Boolean,
+    dense: Boolean,
+    separator: Boolean,
+    padding: Boolean,
+    tag: {
+      type: String,
+      default: "div"
+    }
+  },
+  setup(props, { slots }) {
+    const vm = getCurrentInstance();
+    const isDark = useDark(props, vm.proxy.$q);
+    const classes = computed(
+      () => "q-list" + (props.bordered === true ? " q-list--bordered" : "") + (props.dense === true ? " q-list--dense" : "") + (props.separator === true ? " q-list--separator" : "") + (isDark.value === true ? " q-list--dark" : "") + (props.padding === true ? " q-list--padding" : "")
+    );
+    return () => h(props.tag, { class: classes.value }, hSlot(slots.default));
+  }
+});
+export { QList as Q };

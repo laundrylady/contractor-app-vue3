@@ -1,1 +1,115 @@
-import{V as f,ab as E,aF as L,ac as S,aG as I,r as m,g as n,h as o,j as K,aB as Q,ap as R,aH as j,X as w}from"./index.e647c85a.js";var A=f({name:"QItem",props:{...E,...L,tag:{type:String,default:"div"},active:{type:Boolean,default:null},clickable:Boolean,dense:Boolean,insetLevel:Number,tabindex:[String,Number],focused:Boolean,manualFocus:Boolean},emits:["click","keyup"],setup(e,{slots:i,emit:s}){const{proxy:{$q:c}}=K(),b=S(e,c),{hasLink:r,linkAttrs:q,linkClass:k,linkTag:y,navigateOnClick:g}=I(),u=m(null),l=m(null),v=n(()=>e.clickable===!0||r.value===!0||e.tag==="label"),a=n(()=>e.disable!==!0&&v.value===!0),h=n(()=>"q-item q-item-type row no-wrap"+(e.dense===!0?" q-item--dense":"")+(b.value===!0?" q-item--dark":"")+(r.value===!0&&e.active===null?k.value:e.active===!0?` q-item--active${e.activeClass!==void 0?` ${e.activeClass}`:""}`:"")+(e.disable===!0?" disabled":"")+(a.value===!0?" q-item--clickable q-link cursor-pointer "+(e.manualFocus===!0?"q-manual-focusable":"q-focusable q-hoverable")+(e.focused===!0?" q-manual-focusable--focused":""):"")),_=n(()=>{if(e.insetLevel===void 0)return null;const t=c.lang.rtl===!0?"Right":"Left";return{["padding"+t]:16+e.insetLevel*56+"px"}});function B(t){a.value===!0&&(l.value!==null&&(t.qKeyEvent!==!0&&document.activeElement===u.value?l.value.focus():document.activeElement===l.value&&u.value.focus()),g(t))}function C(t){if(a.value===!0&&Q(t,13)===!0){R(t),t.qKeyEvent=!0;const d=new MouseEvent("click",t);d.qKeyEvent=!0,u.value.dispatchEvent(d)}s("keyup",t)}function x(){const t=j(i.default,[]);return a.value===!0&&t.unshift(o("div",{class:"q-focus-helper",tabindex:-1,ref:l})),t}return()=>{const t={ref:u,class:h.value,style:_.value,role:"listitem",onClick:B,onKeyup:C};return a.value===!0?(t.tabindex=e.tabindex||"0",Object.assign(t,q.value)):v.value===!0&&(t["aria-disabled"]="true"),o(y.value,t,x())}}}),D=f({name:"QItemSection",props:{avatar:Boolean,thumbnail:Boolean,side:Boolean,top:Boolean,noWrap:Boolean},setup(e,{slots:i}){const s=n(()=>`q-item__section column q-item__section--${e.avatar===!0||e.side===!0||e.thumbnail===!0?"side":"main"}`+(e.top===!0?" q-item__section--top justify-start":" justify-center")+(e.avatar===!0?" q-item__section--avatar":"")+(e.thumbnail===!0?" q-item__section--thumbnail":"")+(e.noWrap===!0?" q-item__section--nowrap":""));return()=>o("div",{class:s.value},w(i.default))}});export{D as Q,A as a};
+import { V as createComponent, ab as useDarkProps, aF as useRouterLinkProps, ac as useDark, aG as useRouterLink, r as ref, g as computed, h, j as getCurrentInstance, aB as isKeyCode, ap as stopAndPrevent, aH as hUniqueSlot, X as hSlot } from "./index.e647c85a.js";
+var QItem = createComponent({
+  name: "QItem",
+  props: {
+    ...useDarkProps,
+    ...useRouterLinkProps,
+    tag: {
+      type: String,
+      default: "div"
+    },
+    active: {
+      type: Boolean,
+      default: null
+    },
+    clickable: Boolean,
+    dense: Boolean,
+    insetLevel: Number,
+    tabindex: [String, Number],
+    focused: Boolean,
+    manualFocus: Boolean
+  },
+  emits: ["click", "keyup"],
+  setup(props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance();
+    const isDark = useDark(props, $q);
+    const { hasLink, linkAttrs, linkClass, linkTag, navigateOnClick } = useRouterLink();
+    const rootRef = ref(null);
+    const blurTargetRef = ref(null);
+    const isActionable = computed(
+      () => props.clickable === true || hasLink.value === true || props.tag === "label"
+    );
+    const isClickable = computed(
+      () => props.disable !== true && isActionable.value === true
+    );
+    const classes = computed(
+      () => "q-item q-item-type row no-wrap" + (props.dense === true ? " q-item--dense" : "") + (isDark.value === true ? " q-item--dark" : "") + (hasLink.value === true && props.active === null ? linkClass.value : props.active === true ? ` q-item--active${props.activeClass !== void 0 ? ` ${props.activeClass}` : ""}` : "") + (props.disable === true ? " disabled" : "") + (isClickable.value === true ? " q-item--clickable q-link cursor-pointer " + (props.manualFocus === true ? "q-manual-focusable" : "q-focusable q-hoverable") + (props.focused === true ? " q-manual-focusable--focused" : "") : "")
+    );
+    const style = computed(() => {
+      if (props.insetLevel === void 0) {
+        return null;
+      }
+      const dir = $q.lang.rtl === true ? "Right" : "Left";
+      return {
+        ["padding" + dir]: 16 + props.insetLevel * 56 + "px"
+      };
+    });
+    function onClick(e) {
+      if (isClickable.value === true) {
+        if (blurTargetRef.value !== null) {
+          if (e.qKeyEvent !== true && document.activeElement === rootRef.value) {
+            blurTargetRef.value.focus();
+          } else if (document.activeElement === blurTargetRef.value) {
+            rootRef.value.focus();
+          }
+        }
+        navigateOnClick(e);
+      }
+    }
+    function onKeyup(e) {
+      if (isClickable.value === true && isKeyCode(e, 13) === true) {
+        stopAndPrevent(e);
+        e.qKeyEvent = true;
+        const evt = new MouseEvent("click", e);
+        evt.qKeyEvent = true;
+        rootRef.value.dispatchEvent(evt);
+      }
+      emit("keyup", e);
+    }
+    function getContent() {
+      const child = hUniqueSlot(slots.default, []);
+      isClickable.value === true && child.unshift(
+        h("div", { class: "q-focus-helper", tabindex: -1, ref: blurTargetRef })
+      );
+      return child;
+    }
+    return () => {
+      const data = {
+        ref: rootRef,
+        class: classes.value,
+        style: style.value,
+        role: "listitem",
+        onClick,
+        onKeyup
+      };
+      if (isClickable.value === true) {
+        data.tabindex = props.tabindex || "0";
+        Object.assign(data, linkAttrs.value);
+      } else if (isActionable.value === true) {
+        data["aria-disabled"] = "true";
+      }
+      return h(
+        linkTag.value,
+        data,
+        getContent()
+      );
+    };
+  }
+});
+var QItemSection = createComponent({
+  name: "QItemSection",
+  props: {
+    avatar: Boolean,
+    thumbnail: Boolean,
+    side: Boolean,
+    top: Boolean,
+    noWrap: Boolean
+  },
+  setup(props, { slots }) {
+    const classes = computed(
+      () => `q-item__section column q-item__section--${props.avatar === true || props.side === true || props.thumbnail === true ? "side" : "main"}` + (props.top === true ? " q-item__section--top justify-start" : " justify-center") + (props.avatar === true ? " q-item__section--avatar" : "") + (props.thumbnail === true ? " q-item__section--thumbnail" : "") + (props.noWrap === true ? " q-item__section--nowrap" : "")
+    );
+    return () => h("div", { class: classes.value }, hSlot(slots.default));
+  }
+});
+export { QItemSection as Q, QItem as a };

@@ -1,1 +1,17 @@
-import{A as o,m as a,n as t,s as r}from"./index.e647c85a.js";var s="/portal/assets/logo.c4b3b21d.webp";const m=o({__name:"AppLogo",props:{header:{type:Boolean}},setup(e){return(n,p)=>(a(),t("img",{src:s,style:r(`max-height:${e.header?"65":"126"}px;`)},null,4))}});export{m as _};
+import { A as defineComponent, m as openBlock, n as createElementBlock, s as normalizeStyle } from "./index.e647c85a.js";
+var _imports_0 = "/portal/assets/logo.c4b3b21d.webp";
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "AppLogo",
+  props: {
+    header: { type: Boolean }
+  },
+  setup(__props) {
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock("img", {
+        src: _imports_0,
+        style: normalizeStyle(`max-height:${__props.header ? "65" : "126"}px;`)
+      }, null, 4);
+    };
+  }
+});
+export { _sfc_main as _ };

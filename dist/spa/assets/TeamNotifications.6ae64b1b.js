@@ -1,1 +1,211 @@
-import{Q as w,_ as A}from"./QEditor.85cb90eb.js";import{Q as U}from"./QSelect.853d535e.js";import{A as q,i as M,r as f,B as O,o as D,m as o,K as F,L as _,l as a,N as J,U as b,n,R as j,q as d,F as N,b7 as Q,y as g,M as L,S,ae as R,Q as H,b8 as u}from"./index.e647c85a.js";import{u as I,r as v}from"./index.esm.4557c89b.js";import{u as K}from"./use-quasar.ae4f72e4.js";import{a as h}from"./axios.ccd3a804.js";import{u as k}from"./debug.805a8aef.js";import{b as z}from"./help.c0f85e41.js";import"./QToolbarTitle.1a75cd00.js";import"./QTable.64a81add.js";import"./QList.2f0afc60.js";import"./QMarkupTable.981d9979.js";import"./QLinearProgress.c48fac34.js";import"./ClosePopup.ef2f7039.js";import"./QBadge.5efaf9f7.js";import"./QBtnGroup.ea19e2fc.js";import"./format.8e90d58d.js";import"./QItemSection.99659658.js";import"./rtl.4f5e13e8.js";const G=d("div",{class:"text-h6 q-mb-md"},"Send Notification",-1),P={key:0,class:"q-pa-md"},W={key:1,class:"bg-positive text-white q-pa-md q-mt-md"},X=q({__name:"SendNotificationTeam",props:{notifiable_id:null,team:null},setup(s){const r=s,c=K(),x=M("bus"),m=f(),C=f(),$=f(),y={notification_template_id:null,notifiable_id:r.notifiable_id,notifiable_type:"Team",html:"",subject:null},i=O(y),V=f(),p=I({notifiable_id:{required:v},notifiable_type:{required:v},subject:{required:v},html:{required:v}},i),B=()=>{m.value=null,Object.assign(i,JSON.parse(JSON.stringify(y)))},E=()=>{if(!i.notification_template_id){i.subject=null,i.html="";return}h.get(`/notificationtemplate/${i.notification_template_id}`).then(l=>{l.data.content?(i.html=l.data.content,i.subject=l.data.subject):C.value=""})},T=()=>{c.loading.show({message:"Queuing emails for sending..."}),h.post("/notification/sendteam",i).then(l=>{z("positive","Emails queued for sending"),c.loading.hide(),m.value=l.data,x.emit("getNotifications"),i.subject=null,i.html=""}).catch(l=>{k(l),c.loading.hide()})};return D(()=>{const l=[];r.team.users&&(r.team.users.forEach(e=>{e.user.email_notifications&&l.push(e.user)}),V.value=l),h.get("/notificationtemplate/index").then(e=>{$.value=[{value:null,label:"Select a template"}].concat(e.data.map(t=>({value:t.id,label:t.name})))}).catch(e=>{k(e)})}),(l,e)=>(o(),F(H,null,{default:_(()=>[a(L,null,{default:_(()=>[G,a(U,{modelValue:i.notification_template_id,"onUpdate:modelValue":[e[0]||(e[0]=t=>i.notification_template_id=t),e[1]||(e[1]=t=>E())],options:$.value,"emit-value":"","map-options":"",label:"Template",outlined:"",class:"q-mb-md"},null,8,["modelValue","options"]),a(J,{modelValue:i.subject,"onUpdate:modelValue":e[2]||(e[2]=t=>i.subject=t),label:"Subject",error:b(p).subject.$invalid,onBlur:e[3]||(e[3]=t=>b(p).subject.$touch())},null,8,["modelValue","error"]),a(w,{modelValue:i.html,"onUpdate:modelValue":e[4]||(e[4]=t=>i.html=t),label:"Content",error:b(p).html.$invalid},null,8,["modelValue","error"]),!m.value||!m.value.length?(o(),n("div",P,[j(" An email will be sent to the following members: "),d("ul",null,[(o(!0),n(N,null,Q(V.value,t=>(o(),n("li",{key:t.id},u(t.fullname)+" ("+u(t.email)+") ",1))),128))])])):g("",!0),m.value?(o(),n("div",W,[j(" Email sent to: "),(o(!0),n(N,null,Q(m.value,t=>(o(),n("div",{key:t.id},[d("strong",null,u(t.user.fullname)+" ("+u(t.user.email)+")",1)]))),128))])):g("",!0)]),_:1}),a(R,{align:"right"},{default:_(()=>[a(S,{onClick:e[5]||(e[5]=t=>B()),color:"secondary",label:"Reset"}),a(S,{onClick:e[6]||(e[6]=t=>T()),disable:b(p).$invalid,label:"Send",color:"primary"},null,8,["disable"])]),_:1})]),_:1}))}}),Y={key:0},Z=d("div",{class:"text-h5"},"Email Activities",-1),$e=q({__name:"TeamNotifications",props:{model:null},setup(s){return(r,c)=>s.model.id?(o(),n("div",Y,[Z,d("p",null,"Send an Email or view the history for this "+u(r.$t("team.name"))+".",1),a(X,{team:s.model,notifiable_id:s.model.id,class:"q-mb-lg"},null,8,["team","notifiable_id"]),a(A,{notifiable_id:s.model.id,notifiable_type:"Team"},null,8,["notifiable_id"])])):g("",!0)}});export{$e as default};
+import { Q as QEditor, _ as _sfc_main$2 } from "./QEditor.85cb90eb.js";
+import { Q as QSelect } from "./QSelect.853d535e.js";
+import { A as defineComponent, i as inject, r as ref, B as reactive, o as onMounted, m as openBlock, K as createBlock, L as withCtx, l as createVNode, N as QInput, U as unref, n as createElementBlock, R as createTextVNode, q as createBaseVNode, F as Fragment, b7 as renderList, y as createCommentVNode, M as QCardSection, S as QBtn, ae as QCardActions, Q as QCard, b8 as toDisplayString } from "./index.e647c85a.js";
+import { u as useVuelidate, r as required } from "./index.esm.4557c89b.js";
+import { u as useQuasar } from "./use-quasar.ae4f72e4.js";
+import { a as api } from "./axios.ccd3a804.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { b as doNotify } from "./help.c0f85e41.js";
+import "./QToolbarTitle.1a75cd00.js";
+import "./QTable.64a81add.js";
+import "./QList.2f0afc60.js";
+import "./QMarkupTable.981d9979.js";
+import "./QLinearProgress.c48fac34.js";
+import "./ClosePopup.ef2f7039.js";
+import "./QBadge.5efaf9f7.js";
+import "./QBtnGroup.ea19e2fc.js";
+import "./format.8e90d58d.js";
+import "./QItemSection.99659658.js";
+import "./rtl.4f5e13e8.js";
+const _hoisted_1$1 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-md" }, "Send Notification", -1);
+const _hoisted_2$1 = {
+  key: 0,
+  class: "q-pa-md"
+};
+const _hoisted_3 = {
+  key: 1,
+  class: "bg-positive text-white q-pa-md q-mt-md"
+};
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "SendNotificationTeam",
+  props: {
+    notifiable_id: null,
+    team: null
+  },
+  setup(__props) {
+    const props = __props;
+    const $q = useQuasar();
+    const bus = inject("bus");
+    const sentTo = ref();
+    const html = ref();
+    const templates = ref();
+    const schema = {
+      notification_template_id: null,
+      notifiable_id: props.notifiable_id,
+      notifiable_type: "Team",
+      html: "",
+      subject: null
+    };
+    const model = reactive(schema);
+    const recipients = ref();
+    const rules = {
+      notifiable_id: { required },
+      notifiable_type: { required },
+      subject: { required },
+      html: { required }
+    };
+    const $v = useVuelidate(rules, model);
+    const reset = () => {
+      sentTo.value = null;
+      Object.assign(model, JSON.parse(JSON.stringify(schema)));
+    };
+    const populateHtml = () => {
+      if (!model.notification_template_id) {
+        model.subject = null;
+        model.html = "";
+        return;
+      }
+      api.get(`/notificationtemplate/${model.notification_template_id}`).then((response) => {
+        if (response.data.content) {
+          model.html = response.data.content;
+          model.subject = response.data.subject;
+        } else {
+          html.value = "";
+        }
+      });
+    };
+    const send = () => {
+      $q.loading.show({ message: "Queuing emails for sending..." });
+      api.post("/notification/sendteam", model).then((res) => {
+        doNotify("positive", "Emails queued for sending");
+        $q.loading.hide();
+        sentTo.value = res.data;
+        bus.emit("getNotifications");
+        model.subject = null;
+        model.html = "";
+      }).catch((error) => {
+        useMixinDebug(error);
+        $q.loading.hide();
+      });
+    };
+    onMounted(() => {
+      const r = [];
+      if (props.team.users) {
+        props.team.users.forEach((obj) => {
+          if (obj.user.email_notifications) {
+            r.push(obj.user);
+          }
+        });
+        recipients.value = r;
+      }
+      api.get("/notificationtemplate/index").then((response) => {
+        templates.value = [{ value: null, label: "Select a template" }].concat(response.data.map((o) => {
+          return { value: o.id, label: o.name };
+        }));
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QCard, null, {
+        default: withCtx(() => [
+          createVNode(QCardSection, null, {
+            default: withCtx(() => [
+              _hoisted_1$1,
+              createVNode(QSelect, {
+                modelValue: model.notification_template_id,
+                "onUpdate:modelValue": [
+                  _cache[0] || (_cache[0] = ($event) => model.notification_template_id = $event),
+                  _cache[1] || (_cache[1] = ($event) => populateHtml())
+                ],
+                options: templates.value,
+                "emit-value": "",
+                "map-options": "",
+                label: "Template",
+                outlined: "",
+                class: "q-mb-md"
+              }, null, 8, ["modelValue", "options"]),
+              createVNode(QInput, {
+                modelValue: model.subject,
+                "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => model.subject = $event),
+                label: "Subject",
+                error: unref($v).subject.$invalid,
+                onBlur: _cache[3] || (_cache[3] = ($event) => unref($v).subject.$touch())
+              }, null, 8, ["modelValue", "error"]),
+              createVNode(QEditor, {
+                modelValue: model.html,
+                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => model.html = $event),
+                label: "Content",
+                error: unref($v).html.$invalid
+              }, null, 8, ["modelValue", "error"]),
+              !sentTo.value || !sentTo.value.length ? (openBlock(), createElementBlock("div", _hoisted_2$1, [
+                createTextVNode(" An email will be sent to the following members: "),
+                createBaseVNode("ul", null, [
+                  (openBlock(true), createElementBlock(Fragment, null, renderList(recipients.value, (u) => {
+                    return openBlock(), createElementBlock("li", {
+                      key: u.id
+                    }, toDisplayString(u.fullname) + " (" + toDisplayString(u.email) + ") ", 1);
+                  }), 128))
+                ])
+              ])) : createCommentVNode("", true),
+              sentTo.value ? (openBlock(), createElementBlock("div", _hoisted_3, [
+                createTextVNode(" Email sent to: "),
+                (openBlock(true), createElementBlock(Fragment, null, renderList(sentTo.value, (s) => {
+                  return openBlock(), createElementBlock("div", {
+                    key: s.id
+                  }, [
+                    createBaseVNode("strong", null, toDisplayString(s.user.fullname) + " (" + toDisplayString(s.user.email) + ")", 1)
+                  ]);
+                }), 128))
+              ])) : createCommentVNode("", true)
+            ]),
+            _: 1
+          }),
+          createVNode(QCardActions, { align: "right" }, {
+            default: withCtx(() => [
+              createVNode(QBtn, {
+                onClick: _cache[5] || (_cache[5] = ($event) => reset()),
+                color: "secondary",
+                label: "Reset"
+              }),
+              createVNode(QBtn, {
+                onClick: _cache[6] || (_cache[6] = ($event) => send()),
+                disable: unref($v).$invalid,
+                label: "Send",
+                color: "primary"
+              }, null, 8, ["disable"])
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      });
+    };
+  }
+});
+const _hoisted_1 = { key: 0 };
+const _hoisted_2 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h5" }, "Email Activities", -1);
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "TeamNotifications",
+  props: {
+    model: null
+  },
+  setup(__props) {
+    return (_ctx, _cache) => {
+      return __props.model.id ? (openBlock(), createElementBlock("div", _hoisted_1, [
+        _hoisted_2,
+        createBaseVNode("p", null, "Send an Email or view the history for this " + toDisplayString(_ctx.$t("team.name")) + ".", 1),
+        createVNode(_sfc_main$1, {
+          team: __props.model,
+          notifiable_id: __props.model.id,
+          class: "q-mb-lg"
+        }, null, 8, ["team", "notifiable_id"]),
+        createVNode(_sfc_main$2, {
+          notifiable_id: __props.model.id,
+          notifiable_type: "Team"
+        }, null, 8, ["notifiable_id"])
+      ])) : createCommentVNode("", true);
+    };
+  }
+});
+export { _sfc_main as default };

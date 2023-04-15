@@ -1,1 +1,131 @@
-import{ak as b,V as $,al as w,g as a,h as n,an as B,j as _}from"./index.e647c85a.js";import{b as q}from"./format.8e90d58d.js";const z={...b,min:{type:Number,default:0},max:{type:Number,default:100},color:String,centerColor:String,trackColor:String,fontSize:String,rounded:Boolean,thickness:{type:Number,default:.2,validator:e=>e>=0&&e<=1},angle:{type:Number,default:0},showValue:Boolean,reverse:Boolean,instantFeedback:Boolean},u=50,m=2*u,f=m*Math.PI,N=Math.round(f*1e3)/1e3;var Q=$({name:"QCircularProgress",props:{...z,value:{type:Number,default:0},animationSpeed:{type:[String,Number],default:600},indeterminate:Boolean},setup(e,{slots:o}){const{proxy:{$q:c}}=_(),g=w(e),h=a(()=>{const r=(c.lang.rtl===!0?-1:1)*e.angle;return{transform:e.reverse!==(c.lang.rtl===!0)?`scale3d(-1, 1, 1) rotate3d(0, 0, 1, ${-90-r}deg)`:`rotate3d(0, 0, 1, ${r-90}deg)`}}),k=a(()=>e.instantFeedback!==!0&&e.indeterminate!==!0?{transition:`stroke-dashoffset ${e.animationSpeed}ms ease 0s, stroke ${e.animationSpeed}ms ease`}:""),t=a(()=>m/(1-e.thickness/2)),y=a(()=>`${t.value/2} ${t.value/2} ${t.value} ${t.value}`),s=a(()=>q(e.value,e.min,e.max)),C=a(()=>f*(1-(s.value-e.min)/(e.max-e.min))),i=a(()=>e.thickness/2*t.value);function d({thickness:r,offset:l,color:v,cls:S,rounded:x}){return n("circle",{class:"q-circular-progress__"+S+(v!==void 0?` text-${v}`:""),style:k.value,fill:"transparent",stroke:"currentColor","stroke-width":r,"stroke-dasharray":N,"stroke-dashoffset":l,"stroke-linecap":x,cx:t.value,cy:t.value,r:u})}return()=>{const r=[];e.centerColor!==void 0&&e.centerColor!=="transparent"&&r.push(n("circle",{class:`q-circular-progress__center text-${e.centerColor}`,fill:"currentColor",r:u-i.value/2,cx:t.value,cy:t.value})),e.trackColor!==void 0&&e.trackColor!=="transparent"&&r.push(d({cls:"track",thickness:i.value,offset:0,color:e.trackColor})),r.push(d({cls:"circle",thickness:i.value,offset:C.value,color:e.color,rounded:e.rounded===!0?"round":void 0}));const l=[n("svg",{class:"q-circular-progress__svg",style:h.value,viewBox:y.value,"aria-hidden":"true"},r)];return e.showValue===!0&&l.push(n("div",{class:"q-circular-progress__text absolute-full row flex-center content-center",style:{fontSize:e.fontSize}},o.default!==void 0?o.default():[n("div",s.value)])),n("div",{class:`q-circular-progress q-circular-progress--${e.indeterminate===!0?"in":""}determinate`,style:g.value,role:"progressbar","aria-valuemin":e.min,"aria-valuemax":e.max,"aria-valuenow":e.indeterminate===!0?void 0:s.value},B(o.internal,l))}}});export{Q};
+import { ak as useSizeProps, V as createComponent, al as useSize, g as computed, h, an as hMergeSlotSafely, j as getCurrentInstance } from "./index.e647c85a.js";
+import { b as between } from "./format.8e90d58d.js";
+const useCircularCommonProps = {
+  ...useSizeProps,
+  min: {
+    type: Number,
+    default: 0
+  },
+  max: {
+    type: Number,
+    default: 100
+  },
+  color: String,
+  centerColor: String,
+  trackColor: String,
+  fontSize: String,
+  rounded: Boolean,
+  thickness: {
+    type: Number,
+    default: 0.2,
+    validator: (v) => v >= 0 && v <= 1
+  },
+  angle: {
+    type: Number,
+    default: 0
+  },
+  showValue: Boolean,
+  reverse: Boolean,
+  instantFeedback: Boolean
+};
+const radius = 50, diameter = 2 * radius, circumference = diameter * Math.PI, strokeDashArray = Math.round(circumference * 1e3) / 1e3;
+var QCircularProgress = createComponent({
+  name: "QCircularProgress",
+  props: {
+    ...useCircularCommonProps,
+    value: {
+      type: Number,
+      default: 0
+    },
+    animationSpeed: {
+      type: [String, Number],
+      default: 600
+    },
+    indeterminate: Boolean
+  },
+  setup(props, { slots }) {
+    const { proxy: { $q } } = getCurrentInstance();
+    const sizeStyle = useSize(props);
+    const svgStyle = computed(() => {
+      const angle = ($q.lang.rtl === true ? -1 : 1) * props.angle;
+      return {
+        transform: props.reverse !== ($q.lang.rtl === true) ? `scale3d(-1, 1, 1) rotate3d(0, 0, 1, ${-90 - angle}deg)` : `rotate3d(0, 0, 1, ${angle - 90}deg)`
+      };
+    });
+    const circleStyle = computed(() => props.instantFeedback !== true && props.indeterminate !== true ? { transition: `stroke-dashoffset ${props.animationSpeed}ms ease 0s, stroke ${props.animationSpeed}ms ease` } : "");
+    const viewBox = computed(() => diameter / (1 - props.thickness / 2));
+    const viewBoxAttr = computed(
+      () => `${viewBox.value / 2} ${viewBox.value / 2} ${viewBox.value} ${viewBox.value}`
+    );
+    const normalized = computed(() => between(props.value, props.min, props.max));
+    const strokeDashOffset = computed(() => circumference * (1 - (normalized.value - props.min) / (props.max - props.min)));
+    const strokeWidth = computed(() => props.thickness / 2 * viewBox.value);
+    function getCircle({ thickness, offset, color, cls, rounded }) {
+      return h("circle", {
+        class: "q-circular-progress__" + cls + (color !== void 0 ? ` text-${color}` : ""),
+        style: circleStyle.value,
+        fill: "transparent",
+        stroke: "currentColor",
+        "stroke-width": thickness,
+        "stroke-dasharray": strokeDashArray,
+        "stroke-dashoffset": offset,
+        "stroke-linecap": rounded,
+        cx: viewBox.value,
+        cy: viewBox.value,
+        r: radius
+      });
+    }
+    return () => {
+      const svgChild = [];
+      props.centerColor !== void 0 && props.centerColor !== "transparent" && svgChild.push(
+        h("circle", {
+          class: `q-circular-progress__center text-${props.centerColor}`,
+          fill: "currentColor",
+          r: radius - strokeWidth.value / 2,
+          cx: viewBox.value,
+          cy: viewBox.value
+        })
+      );
+      props.trackColor !== void 0 && props.trackColor !== "transparent" && svgChild.push(
+        getCircle({
+          cls: "track",
+          thickness: strokeWidth.value,
+          offset: 0,
+          color: props.trackColor
+        })
+      );
+      svgChild.push(
+        getCircle({
+          cls: "circle",
+          thickness: strokeWidth.value,
+          offset: strokeDashOffset.value,
+          color: props.color,
+          rounded: props.rounded === true ? "round" : void 0
+        })
+      );
+      const child = [
+        h("svg", {
+          class: "q-circular-progress__svg",
+          style: svgStyle.value,
+          viewBox: viewBoxAttr.value,
+          "aria-hidden": "true"
+        }, svgChild)
+      ];
+      props.showValue === true && child.push(
+        h("div", {
+          class: "q-circular-progress__text absolute-full row flex-center content-center",
+          style: { fontSize: props.fontSize }
+        }, slots.default !== void 0 ? slots.default() : [h("div", normalized.value)])
+      );
+      return h("div", {
+        class: `q-circular-progress q-circular-progress--${props.indeterminate === true ? "in" : ""}determinate`,
+        style: sizeStyle.value,
+        role: "progressbar",
+        "aria-valuemin": props.min,
+        "aria-valuemax": props.max,
+        "aria-valuenow": props.indeterminate === true ? void 0 : normalized.value
+      }, hMergeSlotSafely(slots.internal, child));
+    };
+  }
+});
+export { QCircularProgress as Q };

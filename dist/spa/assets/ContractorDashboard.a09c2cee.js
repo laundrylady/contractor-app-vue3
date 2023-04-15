@@ -1,1 +1,472 @@
-import{Q as j}from"./QCircularProgress.85dfe2db.js";import{A as D,i as G,r as b,g as H,o as B,E as K,m as d,n as u,l as s,q as e,b8 as l,U as h,L as n,S as q,F as S,b7 as W,y as c,K as O,ad as J,w as X,Q as y,M as x,R as M,O as P,t as Z}from"./index.e647c85a.js";import{h as $,a as R}from"./axios.ccd3a804.js";import{_ as ee}from"./GlobalNotes.e0541d73.js";import{_ as Q}from"./OrderListFormat.91ec2ce4.js";import{_ as te}from"./OrderRecurringBookingFormat.78b33ae6.js";import{Q as se}from"./QSpace.7d6f905e.js";import{Q as oe}from"./QBtnGroup.ea19e2fc.js";import{Q as ae}from"./QBadge.5efaf9f7.js";import{t as re,Q as le}from"./index.esm.f64318c9.js";import{u as T}from"./debug.805a8aef.js";import{c as ne,n as Y,a as C}from"./help.c0f85e41.js";import{_ as de,a as ie}from"./UserRosterScheduleCreate.6d0f1fa6.js";import"./format.8e90d58d.js";import"./QToolbarTitle.1a75cd00.js";import"./QItemSection.99659658.js";import"./QList.2f0afc60.js";import"./UserAvatar.d3fe9aaa.js";import"./StatusTag.c8d66888.js";import"./QSelect.853d535e.js";import"./rtl.4f5e13e8.js";import"./ClosePopup.ef2f7039.js";import"./index.esm.4557c89b.js";import"./helpers.2defcd01.js";import"./DateField.75075dac.js";import"./use-quasar.ae4f72e4.js";const ce={class:"flex items-center q-mb-sm"},ue={class:"text-h7 text-primary"},me=["onMouseenter"],he={key:0,style:{display:"flex","justify-content":"space-evenly","flex-wrap":"wrap","align-items":"center","font-weight":"400","font-size":"12px",height:"auto"}},ve={key:1,class:"text-center q-mt-sm"},_e=D({__name:"UserRosterScheduleManagement",props:{user:null},setup(f){const k=f,p=G("bus"),t=b(),m=b(!1),w=b(),v=()=>{m.value=!0;const i=$(o.value).subtract(1,"month").startOf("month").format("YYYY-MM-DD"),r=$(o.value).add(1,"month").endOf("month").format("YYYY-MM-DD");R.get(`/userrosterschedule/index?user_id=${k.user.id}&start=${i}&end=${r}`).then(a=>{t.value=a.data,m.value=!1}).catch(a=>{T(a),m.value=!1})},o=b(re()),_=b(),N=H(()=>$(o.value).format("MMMM YYYY")),U=()=>{_.value&&(_.value.moveToToday(),v())},L=()=>{_.value&&(_.value.prev(),v())},V=()=>{_.value&&(_.value.next(),v())},z=i=>{const r=$();return!!$(i.date).isSameOrAfter(r)},F=i=>{if(!t.value)return[];const r=t.value.filter(a=>a.day===i.date);return r||[]},A=i=>t.value?t.value.filter(r=>r.day===i.date).length>0:[],E=i=>{p.emit("editUserRosterSchedule",i)},I=i=>{ne("This will create a new entry for this day").onOk(()=>{p.emit("newUserRosterSchedule",{day:i.date,user:k.user})})};return B(async()=>{v(),p.on("getSchedule",()=>{v()})}),K(()=>{p.off("getSchedule")}),(i,r)=>(d(),u(S,null,[s(de),s(ie),e("div",ce,[e("span",ue,l(h(N)),1),s(se),s(oe,null,{default:n(()=>[s(q,{onClick:r[0]||(r[0]=a=>L()),icon:"chevron_left",color:"secondary"}),s(q,{onClick:r[1]||(r[1]=a=>U()),label:"Today",color:"secondary"}),s(q,{onClick:r[2]||(r[2]=a=>V()),icon:"chevron_right",color:"secondary"})]),_:1})]),s(h(le),{ref_key:"calendarRef",ref:_,modelValue:o.value,"onUpdate:modelValue":r[3]||(r[3]=a=>o.value=a),weekdays:[1,2,3,4,5,6,0],hoverable:"",bordered:"",animated:"","day-min-height":80,"day-height":80,"month-label-size":"md","date-align":"right"},{day:n(({scope:a})=>[e("div",{onMouseenter:g=>w.value=a.timestamp.date,style:{height:"100%"}},[A(a.timestamp)?(d(),u("div",he,[(d(!0),u(S,null,W(F(a.timestamp),g=>(d(),O(ae,{key:g.time,label:`${h(Y)(g.start_time)} - ${h(Y)(g.end_time)}`,class:"q-mb-xs cursor-pointer",onClick:st=>E(g.id),color:g.active?"positive":"negative"},null,8,["label","onClick","color"]))),128))])):c("",!0),z(a.timestamp)&&w.value===a.timestamp.date?(d(),u("div",ve,[s(q,{onClick:g=>I(a.timestamp),icon:"add_circle",flat:"",size:"sm",dense:"",label:i.$t("schedule.create"),color:"grey-6"},null,8,["onClick","label"])])):c("",!0)],40,me)]),_:1},8,["modelValue"])],64))}}),fe={key:0},pe={class:"row q-col-gutter-md q-mb-lg"},ge={class:"col-xs-12 col-sm-4"},ye=e("div",{class:"text-h6"},"Weekly Target",-1),xe={class:"text-center",style:{height:"65px"}},be={class:"text-center q-mt-sm"},ke={key:0},we={class:"col-xs-12 col-sm-4"},$e=e("div",{class:"text-h6 q-mb-md"},"Commissions",-1),Ce={class:"row q-col-gutter-md"},Oe={class:"col-xs-12 col-sm-6"},qe={class:"text-h6 text-center"},Me=e("div",{class:"text-center"},"Owing",-1),Pe={class:"col-xs-12 col-sm-6"},Qe={class:"text-h6 text-center"},Re=e("div",{class:"text-center"}," Paid ",-1),Te={class:"col-xs-12 col-sm-4"},Se=e("div",{class:"text-h6 q-mb-md"},"Statistics",-1),Ye={class:"row q-col-gutter-md"},De={class:"col-xs-12 col-sm-6"},Be={class:"text-h6 text-center"},Ne={class:"text-center"},Ue={class:"col-xs-12 col-sm-6"},Le={class:"text-h6 text-center"},Ve=e("div",{class:"text-center"}," Total Revenue ",-1),ze={class:"row q-col-gutter-md"},Fe={class:"col-xs-12 col-sm-6"},Ae=e("div",{class:"text-h6 q-mb-md"},"Awaiting Pickup",-1),Ee={key:0},Ie={class:"col-xs-12 col-sm-6"},je={class:"text-h6 q-mb-md"},Ge={key:0},He={class:"col-xs-12 col-sm-6"},Ke=e("div",{class:"text-h6 q-mb-md"},"In Progress",-1),We={key:0},Je={class:"col-xs-12 col-sm-6"},Xe=e("div",{class:"text-h6 q-mb-md"},"Recently Completed",-1),Ze={key:0},et={class:"text-h5"},tt={class:"q-mb-xl"},Pt=D({__name:"ContractorDashboard",props:{model:null},setup(f){const k=f,p=J(),t=b(),m=b(),w=()=>{R.get(`/user/contractor/dashboard/${k.model.id}`).then(o=>{t.value=o.data}).catch(o=>{T(o)})},v=()=>{R.get(`/user/contractor/recurring/${k.model.id}`).then(o=>{m.value=o.data}).catch(o=>{T(o)})};return B(()=>{w(),v()}),X(()=>p.params.id,o=>{p.name==="contractor-dashboard"&&o&&(w(),v())}),(o,_)=>f.model.id&&t.value?(d(),u("div",fe,[e("div",pe,[e("div",ge,[s(y,{class:"bg-accent",style:{height:"160px"}},{default:n(()=>[s(x,null,{default:n(()=>[ye,e("div",xe,[t.value.weeklyOrders.percentage?(d(),O(j,{key:0,value:t.value.weeklyOrders.percentage,size:"64px",color:"primary","track-color":"pink-1"},null,8,["value"])):c("",!0)]),e("div",be,[M(l(h(C)(t.value.weeklyOrders.sum))+" / "+l(h(C)(f.model.contractor_target))+" ",1),t.value.weeklyOrders.diff===0?(d(),u("span",ke,"~")):c("",!0),t.value.weeklyOrders.diff<0?(d(),O(P,{key:1,name:"arrow_downward",color:"negative"})):c("",!0),t.value.weeklyOrders.diff>0?(d(),O(P,{key:2,name:"arrow_upward",color:"positive"})):c("",!0),M(),t.value.weeklyOrders.diff!==0?(d(),u("span",{key:3,class:Z({"text-positive":t.value.weeklyOrders.diff>0,"text-negative":t.value.weeklyOrders.diff<0})},l(t.value.weeklyOrders.diff)+"%",3)):c("",!0)])]),_:1})]),_:1})]),e("div",we,[s(y,{class:"bg-secondary text-white",style:{height:"160px"}},{default:n(()=>[s(x,null,{default:n(()=>[$e,e("div",Ce,[e("div",Oe,[e("div",qe,l(h(C)(t.value.totalCommissionsOwing.grandTotal)),1),Me]),e("div",Pe,[e("div",Qe,l(h(C)(t.value.totalCommissionsPaid.grandTotal)),1),Re])])]),_:1})]),_:1})]),e("div",Te,[s(y,{class:"bg-secondary text-white",style:{height:"160px"}},{default:n(()=>[s(x,null,{default:n(()=>[Se,e("div",Ye,[e("div",De,[e("div",Be,l(t.value.totalOrdersCount[0].count),1),e("div",Ne,"Total "+l(o.$t("order.namePlural")),1)]),e("div",Ue,[e("div",Le,l(h(C)(t.value.totalOrdersTotalPrice[0].sum?parseFloat(t.value.totalOrdersTotalPrice[0].sum)+parseFloat(t.value.totalOrdersTotalPriceGst[0].sum):0)),1),Ve])])]),_:1})]),_:1})])]),e("div",ze,[e("div",Fe,[s(y,{class:"bg-seamless q-mb-lg"},{default:n(()=>[s(x,null,{default:n(()=>[Ae,t.value.ordersConfirmed.length?c("",!0):(d(),u("div",Ee,"No "+l(o.$t("order.namePlural").toLowerCase())+" found. ",1)),s(Q,{orders:t.value.ordersConfirmed,"no-avatar":!0},null,8,["orders"])]),_:1})]),_:1})]),e("div",Ie,[s(y,{class:"bg-seamless q-mb-lg"},{default:n(()=>[s(x,null,{default:n(()=>[e("div",je,[s(P,{name:"sync"}),M(" Recurring "+l(o.$t("order.namePlural")),1)]),!m.value||!m.value.length?(d(),u("div",Ge,"No "+l(o.$t("order.namePlural").toLowerCase())+" found. ",1)):c("",!0),m.value?(d(),O(te,{key:1,orders:m.value,"no-avatar":!0},null,8,["orders"])):c("",!0)]),_:1})]),_:1})]),e("div",He,[s(y,{class:"bg-seamless q-mb-lg"},{default:n(()=>[s(x,null,{default:n(()=>[Ke,t.value.ordersInprogress.length?c("",!0):(d(),u("div",We,"No "+l(o.$t("order.namePlural").toLowerCase())+" found. ",1)),s(Q,{orders:t.value.ordersInprogress,"no-avatar":!0},null,8,["orders"])]),_:1})]),_:1})]),e("div",Je,[s(y,{class:"bg-seamless q-mb-lg"},{default:n(()=>[s(x,null,{default:n(()=>[Xe,t.value.ordersRecentCompleted.length?c("",!0):(d(),u("div",Ze,"No "+l(o.$t("order.namePlural").toLowerCase())+" found. ",1)),s(Q,{orders:t.value.ordersRecentCompleted,"no-avatar":!0},null,8,["orders"])]),_:1})]),_:1})])]),e("div",et,"Current "+l(o.$t("schedule.name")),1),e("p",null,"Below is the current schedule for the "+l(o.$t("contractor.name").toLowerCase())+".",1),e("div",tt,[s(_e,{user:f.model},null,8,["user"])]),s(ee,{notable_type:"User",notable_id:f.model.id,nobox:!0},null,8,["notable_id"])])):c("",!0)}});export{Pt as default};
+import { Q as QCircularProgress } from "./QCircularProgress.85dfe2db.js";
+import { A as defineComponent, i as inject, r as ref, g as computed, o as onMounted, E as onBeforeUnmount, m as openBlock, n as createElementBlock, l as createVNode, q as createBaseVNode, b8 as toDisplayString, U as unref, L as withCtx, S as QBtn, F as Fragment, b7 as renderList, y as createCommentVNode, K as createBlock, ad as useRoute, w as watch, Q as QCard, M as QCardSection, R as createTextVNode, O as QIcon, t as normalizeClass } from "./index.e647c85a.js";
+import { h as hooks, a as api } from "./axios.ccd3a804.js";
+import { _ as _sfc_main$4 } from "./GlobalNotes.e0541d73.js";
+import { _ as _sfc_main$5 } from "./OrderListFormat.91ec2ce4.js";
+import { _ as _sfc_main$6 } from "./OrderRecurringBookingFormat.78b33ae6.js";
+import { Q as QSpace } from "./QSpace.7d6f905e.js";
+import { Q as QBtnGroup } from "./QBtnGroup.ea19e2fc.js";
+import { Q as QBadge } from "./QBadge.5efaf9f7.js";
+import { t as today, Q as QCalendarMonth } from "./index.esm.f64318c9.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { c as confirmDelete, n as hourDisplay, a as currencyFormat } from "./help.c0f85e41.js";
+import { _ as _sfc_main$2, a as _sfc_main$3 } from "./UserRosterScheduleCreate.6d0f1fa6.js";
+import "./format.8e90d58d.js";
+import "./QToolbarTitle.1a75cd00.js";
+import "./QItemSection.99659658.js";
+import "./QList.2f0afc60.js";
+import "./UserAvatar.d3fe9aaa.js";
+import "./StatusTag.c8d66888.js";
+import "./QSelect.853d535e.js";
+import "./rtl.4f5e13e8.js";
+import "./ClosePopup.ef2f7039.js";
+import "./index.esm.4557c89b.js";
+import "./helpers.2defcd01.js";
+import "./DateField.75075dac.js";
+import "./use-quasar.ae4f72e4.js";
+const _hoisted_1$1 = { class: "flex items-center q-mb-sm" };
+const _hoisted_2$1 = { class: "text-h7 text-primary" };
+const _hoisted_3$1 = ["onMouseenter"];
+const _hoisted_4$1 = {
+  key: 0,
+  style: { "display": "flex", "justify-content": "space-evenly", "flex-wrap": "wrap", "align-items": "center", "font-weight": "400", "font-size": "12px", "height": "auto" }
+};
+const _hoisted_5$1 = {
+  key: 1,
+  class: "text-center q-mt-sm"
+};
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "UserRosterScheduleManagement",
+  props: {
+    user: null
+  },
+  setup(__props) {
+    const props = __props;
+    const bus = inject("bus");
+    const schedule = ref();
+    const loading = ref(false);
+    const currentHover = ref();
+    const getSchedule = () => {
+      loading.value = true;
+      const start = hooks(selectedDate.value).subtract(1, "month").startOf("month").format("YYYY-MM-DD");
+      const end = hooks(selectedDate.value).add(1, "month").endOf("month").format("YYYY-MM-DD");
+      api.get(`/userrosterschedule/index?user_id=${props.user.id}&start=${start}&end=${end}`).then((response) => {
+        schedule.value = response.data;
+        loading.value = false;
+      }).catch((error) => {
+        useMixinDebug(error);
+        loading.value = false;
+      });
+    };
+    const selectedDate = ref(today());
+    const calendarRef = ref();
+    const selectedMonth = computed(() => {
+      return hooks(selectedDate.value).format("MMMM YYYY");
+    });
+    const onToday = () => {
+      if (calendarRef.value) {
+        calendarRef.value.moveToToday();
+        getSchedule();
+      }
+    };
+    const onPrev = () => {
+      if (calendarRef.value) {
+        calendarRef.value.prev();
+        getSchedule();
+      }
+    };
+    const onNext = () => {
+      if (calendarRef.value) {
+        calendarRef.value.next();
+        getSchedule();
+      }
+    };
+    const isAfterToday = (timestamp) => {
+      const today2 = hooks();
+      const compare = hooks(timestamp.date);
+      if (compare.isSameOrAfter(today2)) {
+        return true;
+      }
+      return false;
+    };
+    const getEvents = (timestamp) => {
+      if (!schedule.value) {
+        return [];
+      }
+      const events = schedule.value.filter((o) => o.day === timestamp.date);
+      if (!events)
+        return [];
+      return events;
+    };
+    const hasEvents = (timestamp) => {
+      if (!schedule.value) {
+        return [];
+      }
+      return schedule.value.filter((o) => o.day === timestamp.date).length > 0;
+    };
+    const editUserRosterSchedule = (id) => {
+      bus.emit("editUserRosterSchedule", id);
+    };
+    const newUserRosterSchedule = (timestamp) => {
+      confirmDelete("This will create a new entry for this day").onOk(() => {
+        bus.emit("newUserRosterSchedule", { day: timestamp.date, user: props.user });
+      });
+    };
+    onMounted(async () => {
+      getSchedule();
+      bus.on("getSchedule", () => {
+        getSchedule();
+      });
+    });
+    onBeforeUnmount(() => {
+      bus.off("getSchedule");
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock(Fragment, null, [
+        createVNode(_sfc_main$2),
+        createVNode(_sfc_main$3),
+        createBaseVNode("div", _hoisted_1$1, [
+          createBaseVNode("span", _hoisted_2$1, toDisplayString(unref(selectedMonth)), 1),
+          createVNode(QSpace),
+          createVNode(QBtnGroup, null, {
+            default: withCtx(() => [
+              createVNode(QBtn, {
+                onClick: _cache[0] || (_cache[0] = ($event) => onPrev()),
+                icon: "chevron_left",
+                color: "secondary"
+              }),
+              createVNode(QBtn, {
+                onClick: _cache[1] || (_cache[1] = ($event) => onToday()),
+                label: "Today",
+                color: "secondary"
+              }),
+              createVNode(QBtn, {
+                onClick: _cache[2] || (_cache[2] = ($event) => onNext()),
+                icon: "chevron_right",
+                color: "secondary"
+              })
+            ]),
+            _: 1
+          })
+        ]),
+        createVNode(unref(QCalendarMonth), {
+          ref_key: "calendarRef",
+          ref: calendarRef,
+          modelValue: selectedDate.value,
+          "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => selectedDate.value = $event),
+          weekdays: [1, 2, 3, 4, 5, 6, 0],
+          hoverable: "",
+          bordered: "",
+          animated: "",
+          "day-min-height": 80,
+          "day-height": 80,
+          "month-label-size": "md",
+          "date-align": "right"
+        }, {
+          day: withCtx(({ scope }) => [
+            createBaseVNode("div", {
+              onMouseenter: ($event) => currentHover.value = scope.timestamp.date,
+              style: { "height": "100%" }
+            }, [
+              hasEvents(scope.timestamp) ? (openBlock(), createElementBlock("div", _hoisted_4$1, [
+                (openBlock(true), createElementBlock(Fragment, null, renderList(getEvents(scope.timestamp), (event) => {
+                  return openBlock(), createBlock(QBadge, {
+                    key: event.time,
+                    label: `${unref(hourDisplay)(event.start_time)} - ${unref(hourDisplay)(event.end_time)}`,
+                    class: "q-mb-xs cursor-pointer",
+                    onClick: ($event) => editUserRosterSchedule(event.id),
+                    color: event.active ? "positive" : "negative"
+                  }, null, 8, ["label", "onClick", "color"]);
+                }), 128))
+              ])) : createCommentVNode("", true),
+              isAfterToday(scope.timestamp) && currentHover.value === scope.timestamp.date ? (openBlock(), createElementBlock("div", _hoisted_5$1, [
+                createVNode(QBtn, {
+                  onClick: ($event) => newUserRosterSchedule(scope.timestamp),
+                  icon: "add_circle",
+                  flat: "",
+                  size: "sm",
+                  dense: "",
+                  label: _ctx.$t("schedule.create"),
+                  color: "grey-6"
+                }, null, 8, ["onClick", "label"])
+              ])) : createCommentVNode("", true)
+            ], 40, _hoisted_3$1)
+          ]),
+          _: 1
+        }, 8, ["modelValue"])
+      ], 64);
+    };
+  }
+});
+const _hoisted_1 = { key: 0 };
+const _hoisted_2 = { class: "row q-col-gutter-md q-mb-lg" };
+const _hoisted_3 = { class: "col-xs-12 col-sm-4" };
+const _hoisted_4 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6" }, "Weekly Target", -1);
+const _hoisted_5 = {
+  class: "text-center",
+  style: { "height": "65px" }
+};
+const _hoisted_6 = { class: "text-center q-mt-sm" };
+const _hoisted_7 = { key: 0 };
+const _hoisted_8 = { class: "col-xs-12 col-sm-4" };
+const _hoisted_9 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-md" }, "Commissions", -1);
+const _hoisted_10 = { class: "row q-col-gutter-md" };
+const _hoisted_11 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_12 = { class: "text-h6 text-center" };
+const _hoisted_13 = /* @__PURE__ */ createBaseVNode("div", { class: "text-center" }, "Owing", -1);
+const _hoisted_14 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_15 = { class: "text-h6 text-center" };
+const _hoisted_16 = /* @__PURE__ */ createBaseVNode("div", { class: "text-center" }, " Paid ", -1);
+const _hoisted_17 = { class: "col-xs-12 col-sm-4" };
+const _hoisted_18 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-md" }, "Statistics", -1);
+const _hoisted_19 = { class: "row q-col-gutter-md" };
+const _hoisted_20 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_21 = { class: "text-h6 text-center" };
+const _hoisted_22 = { class: "text-center" };
+const _hoisted_23 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_24 = { class: "text-h6 text-center" };
+const _hoisted_25 = /* @__PURE__ */ createBaseVNode("div", { class: "text-center" }, " Total Revenue ", -1);
+const _hoisted_26 = { class: "row q-col-gutter-md" };
+const _hoisted_27 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_28 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-md" }, "Awaiting Pickup", -1);
+const _hoisted_29 = { key: 0 };
+const _hoisted_30 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_31 = { class: "text-h6 q-mb-md" };
+const _hoisted_32 = { key: 0 };
+const _hoisted_33 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_34 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-md" }, "In Progress", -1);
+const _hoisted_35 = { key: 0 };
+const _hoisted_36 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_37 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-md" }, "Recently Completed", -1);
+const _hoisted_38 = { key: 0 };
+const _hoisted_39 = { class: "text-h5" };
+const _hoisted_40 = { class: "q-mb-xl" };
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "ContractorDashboard",
+  props: {
+    model: null
+  },
+  setup(__props) {
+    const props = __props;
+    const route = useRoute();
+    const dashboard = ref();
+    const recurringOrders = ref();
+    const getDashboard = () => {
+      api.get(`/user/contractor/dashboard/${props.model.id}`).then((response) => {
+        dashboard.value = response.data;
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+    };
+    const getRecurringOrders = () => {
+      api.get(`/user/contractor/recurring/${props.model.id}`).then((response) => {
+        recurringOrders.value = response.data;
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+    };
+    onMounted(() => {
+      getDashboard();
+      getRecurringOrders();
+    });
+    watch(() => route.params.id, (newVal) => {
+      if (route.name === "contractor-dashboard") {
+        if (newVal) {
+          getDashboard();
+          getRecurringOrders();
+        }
+      }
+    });
+    return (_ctx, _cache) => {
+      return __props.model.id && dashboard.value ? (openBlock(), createElementBlock("div", _hoisted_1, [
+        createBaseVNode("div", _hoisted_2, [
+          createBaseVNode("div", _hoisted_3, [
+            createVNode(QCard, {
+              class: "bg-accent",
+              style: { "height": "160px" }
+            }, {
+              default: withCtx(() => [
+                createVNode(QCardSection, null, {
+                  default: withCtx(() => [
+                    _hoisted_4,
+                    createBaseVNode("div", _hoisted_5, [
+                      dashboard.value.weeklyOrders.percentage ? (openBlock(), createBlock(QCircularProgress, {
+                        key: 0,
+                        value: dashboard.value.weeklyOrders.percentage,
+                        size: "64px",
+                        color: "primary",
+                        "track-color": "pink-1"
+                      }, null, 8, ["value"])) : createCommentVNode("", true)
+                    ]),
+                    createBaseVNode("div", _hoisted_6, [
+                      createTextVNode(toDisplayString(unref(currencyFormat)(dashboard.value.weeklyOrders.sum)) + " / " + toDisplayString(unref(currencyFormat)(__props.model.contractor_target)) + " ", 1),
+                      dashboard.value.weeklyOrders.diff === 0 ? (openBlock(), createElementBlock("span", _hoisted_7, "~")) : createCommentVNode("", true),
+                      dashboard.value.weeklyOrders.diff < 0 ? (openBlock(), createBlock(QIcon, {
+                        key: 1,
+                        name: "arrow_downward",
+                        color: "negative"
+                      })) : createCommentVNode("", true),
+                      dashboard.value.weeklyOrders.diff > 0 ? (openBlock(), createBlock(QIcon, {
+                        key: 2,
+                        name: "arrow_upward",
+                        color: "positive"
+                      })) : createCommentVNode("", true),
+                      createTextVNode(),
+                      dashboard.value.weeklyOrders.diff !== 0 ? (openBlock(), createElementBlock("span", {
+                        key: 3,
+                        class: normalizeClass({ "text-positive": dashboard.value.weeklyOrders.diff > 0, "text-negative": dashboard.value.weeklyOrders.diff < 0 })
+                      }, toDisplayString(dashboard.value.weeklyOrders.diff) + "%", 3)) : createCommentVNode("", true)
+                    ])
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ]),
+          createBaseVNode("div", _hoisted_8, [
+            createVNode(QCard, {
+              class: "bg-secondary text-white",
+              style: { "height": "160px" }
+            }, {
+              default: withCtx(() => [
+                createVNode(QCardSection, null, {
+                  default: withCtx(() => [
+                    _hoisted_9,
+                    createBaseVNode("div", _hoisted_10, [
+                      createBaseVNode("div", _hoisted_11, [
+                        createBaseVNode("div", _hoisted_12, toDisplayString(unref(currencyFormat)(dashboard.value.totalCommissionsOwing.grandTotal)), 1),
+                        _hoisted_13
+                      ]),
+                      createBaseVNode("div", _hoisted_14, [
+                        createBaseVNode("div", _hoisted_15, toDisplayString(unref(currencyFormat)(dashboard.value.totalCommissionsPaid.grandTotal)), 1),
+                        _hoisted_16
+                      ])
+                    ])
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ]),
+          createBaseVNode("div", _hoisted_17, [
+            createVNode(QCard, {
+              class: "bg-secondary text-white",
+              style: { "height": "160px" }
+            }, {
+              default: withCtx(() => [
+                createVNode(QCardSection, null, {
+                  default: withCtx(() => [
+                    _hoisted_18,
+                    createBaseVNode("div", _hoisted_19, [
+                      createBaseVNode("div", _hoisted_20, [
+                        createBaseVNode("div", _hoisted_21, toDisplayString(dashboard.value.totalOrdersCount[0].count), 1),
+                        createBaseVNode("div", _hoisted_22, "Total " + toDisplayString(_ctx.$t("order.namePlural")), 1)
+                      ]),
+                      createBaseVNode("div", _hoisted_23, [
+                        createBaseVNode("div", _hoisted_24, toDisplayString(unref(currencyFormat)(dashboard.value.totalOrdersTotalPrice[0].sum ? parseFloat(dashboard.value.totalOrdersTotalPrice[0].sum) + parseFloat(dashboard.value.totalOrdersTotalPriceGst[0].sum) : 0)), 1),
+                        _hoisted_25
+                      ])
+                    ])
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ])
+        ]),
+        createBaseVNode("div", _hoisted_26, [
+          createBaseVNode("div", _hoisted_27, [
+            createVNode(QCard, { class: "bg-seamless q-mb-lg" }, {
+              default: withCtx(() => [
+                createVNode(QCardSection, null, {
+                  default: withCtx(() => [
+                    _hoisted_28,
+                    !dashboard.value.ordersConfirmed.length ? (openBlock(), createElementBlock("div", _hoisted_29, "No " + toDisplayString(_ctx.$t("order.namePlural").toLowerCase()) + " found. ", 1)) : createCommentVNode("", true),
+                    createVNode(_sfc_main$5, {
+                      orders: dashboard.value.ordersConfirmed,
+                      "no-avatar": true
+                    }, null, 8, ["orders"])
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ]),
+          createBaseVNode("div", _hoisted_30, [
+            createVNode(QCard, { class: "bg-seamless q-mb-lg" }, {
+              default: withCtx(() => [
+                createVNode(QCardSection, null, {
+                  default: withCtx(() => [
+                    createBaseVNode("div", _hoisted_31, [
+                      createVNode(QIcon, { name: "sync" }),
+                      createTextVNode(" Recurring " + toDisplayString(_ctx.$t("order.namePlural")), 1)
+                    ]),
+                    !recurringOrders.value || !recurringOrders.value.length ? (openBlock(), createElementBlock("div", _hoisted_32, "No " + toDisplayString(_ctx.$t("order.namePlural").toLowerCase()) + " found. ", 1)) : createCommentVNode("", true),
+                    recurringOrders.value ? (openBlock(), createBlock(_sfc_main$6, {
+                      key: 1,
+                      orders: recurringOrders.value,
+                      "no-avatar": true
+                    }, null, 8, ["orders"])) : createCommentVNode("", true)
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ]),
+          createBaseVNode("div", _hoisted_33, [
+            createVNode(QCard, { class: "bg-seamless q-mb-lg" }, {
+              default: withCtx(() => [
+                createVNode(QCardSection, null, {
+                  default: withCtx(() => [
+                    _hoisted_34,
+                    !dashboard.value.ordersInprogress.length ? (openBlock(), createElementBlock("div", _hoisted_35, "No " + toDisplayString(_ctx.$t("order.namePlural").toLowerCase()) + " found. ", 1)) : createCommentVNode("", true),
+                    createVNode(_sfc_main$5, {
+                      orders: dashboard.value.ordersInprogress,
+                      "no-avatar": true
+                    }, null, 8, ["orders"])
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ]),
+          createBaseVNode("div", _hoisted_36, [
+            createVNode(QCard, { class: "bg-seamless q-mb-lg" }, {
+              default: withCtx(() => [
+                createVNode(QCardSection, null, {
+                  default: withCtx(() => [
+                    _hoisted_37,
+                    !dashboard.value.ordersRecentCompleted.length ? (openBlock(), createElementBlock("div", _hoisted_38, "No " + toDisplayString(_ctx.$t("order.namePlural").toLowerCase()) + " found. ", 1)) : createCommentVNode("", true),
+                    createVNode(_sfc_main$5, {
+                      orders: dashboard.value.ordersRecentCompleted,
+                      "no-avatar": true
+                    }, null, 8, ["orders"])
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ])
+        ]),
+        createBaseVNode("div", _hoisted_39, "Current " + toDisplayString(_ctx.$t("schedule.name")), 1),
+        createBaseVNode("p", null, "Below is the current schedule for the " + toDisplayString(_ctx.$t("contractor.name").toLowerCase()) + ".", 1),
+        createBaseVNode("div", _hoisted_40, [
+          createVNode(_sfc_main$1, { user: __props.model }, null, 8, ["user"])
+        ]),
+        createVNode(_sfc_main$4, {
+          notable_type: "User",
+          notable_id: __props.model.id,
+          nobox: true
+        }, null, 8, ["notable_id"])
+      ])) : createCommentVNode("", true);
+    };
+  }
+});
+export { _sfc_main as default };

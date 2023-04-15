@@ -1,4 +1,2543 @@
-import{V as ie,r as N,g as S,h as P,O as Le,G as Me,ao as Be,j as J,b1 as Re,aM as O,a1 as We,b2 as ze,aJ as G,b3 as Z,aY as ue,ap as ee,aK as te,w as Fe,D as Qe,H as Oe,b4 as Ye,X as Y,b5 as Se,i as je,W as oe,b6 as qe,ab as Ge,ac as He,$ as Ke,a7 as Xe,am as Je,A as le,B as Ae,m as U,n as ae,U as _,K as W,L as A,l as m,R as Q,y as R,F as me,b7 as Ze,b8 as et,S as $,q as d,ad as tt,o as ot,Q as nt,M as pe,N as q,af as at,b9 as E}from"./index.e647c85a.js";import{Q as rt,_ as st,a as it}from"./CountryField.01d37ae9.js";import{g as _e,s as he}from"./touch.70a9dd44.js";import{c as lt}from"./format.8e90d58d.js";import{u as De,_ as fe}from"./DateField.75075dac.js";import{Q as Te}from"./QUploader.b0316df6.js";import{Q as ct}from"./QPage.660fce82.js";import{Q as dt,a as ut}from"./QLayout.2e2ab899.js";import{u as mt,r as y,e as ve}from"./index.esm.4557c89b.js";import{u as pt}from"./use-quasar.ae4f72e4.js";import{a as ge}from"./axios.ccd3a804.js";import{_ as _t}from"./AppLogo.885260bb.js";import{a as ye,Q as ne}from"./QItemSection.99659658.js";import{Q as be}from"./QList.2f0afc60.js";import{u as I,c as ht}from"./help.c0f85e41.js";import{_ as ft}from"./PostcodeRegionField.1ba1a165.js";import{u as xe}from"./debug.805a8aef.js";import"./rtl.4f5e13e8.js";import"./QSelect.853d535e.js";import"./ClosePopup.ef2f7039.js";import"./QCircularProgress.85dfe2db.js";import"./QResizeObserver.97b49885.js";var $e=ie({name:"StepHeader",props:{stepper:{},step:{},goToPanel:Function},setup(o,{attrs:t}){const{proxy:{$q:n}}=J(),r=N(null),i=S(()=>o.stepper.modelValue===o.step.name),a=S(()=>{const v=o.step.disable;return v===!0||v===""}),u=S(()=>{const v=o.step.error;return v===!0||v===""}),p=S(()=>{const v=o.step.done;return a.value===!1&&(v===!0||v==="")}),e=S(()=>{const v=o.step.headerNav,k=v===!0||v===""||v===void 0;return a.value===!1&&o.stepper.headerNav&&k}),h=S(()=>o.step.prefix&&(i.value===!1||o.stepper.activeIcon==="none")&&(u.value===!1||o.stepper.errorIcon==="none")&&(p.value===!1||o.stepper.doneIcon==="none")),c=S(()=>{const v=o.step.icon||o.stepper.inactiveIcon;if(i.value===!0){const k=o.step.activeIcon||o.stepper.activeIcon;return k==="none"?v:k||n.iconSet.stepper.active}if(u.value===!0){const k=o.step.errorIcon||o.stepper.errorIcon;return k==="none"?v:k||n.iconSet.stepper.error}if(a.value===!1&&p.value===!0){const k=o.step.doneIcon||o.stepper.doneIcon;return k==="none"?v:k||n.iconSet.stepper.done}return v}),f=S(()=>{const v=u.value===!0?o.step.errorColor||o.stepper.errorColor:void 0;if(i.value===!0){const k=o.step.activeColor||o.stepper.activeColor||o.step.color;return k!==void 0?k:v}return v!==void 0?v:a.value===!1&&p.value===!0?o.step.doneColor||o.stepper.doneColor||o.step.color||o.stepper.inactiveColor:o.step.color||o.stepper.inactiveColor}),x=S(()=>"q-stepper__tab col-grow flex items-center no-wrap relative-position"+(f.value!==void 0?` text-${f.value}`:"")+(u.value===!0?" q-stepper__tab--error q-stepper__tab--error-with-"+(h.value===!0?"prefix":"icon"):"")+(i.value===!0?" q-stepper__tab--active":"")+(p.value===!0?" q-stepper__tab--done":"")+(e.value===!0?" q-stepper__tab--navigation q-focusable q-hoverable":"")+(a.value===!0?" q-stepper__tab--disabled":"")),V=S(()=>o.stepper.headerNav!==!0?!1:e.value);function g(){r.value!==null&&r.value.focus(),i.value===!1&&o.goToPanel(o.step.name)}function C(v){v.keyCode===13&&i.value===!1&&o.goToPanel(o.step.name)}return()=>{const v={class:x.value};e.value===!0&&(v.onClick=g,v.onKeyup=C,Object.assign(v,a.value===!0?{tabindex:-1,"aria-disabled":"true"}:{tabindex:t.tabindex||0}));const k=[P("div",{class:"q-focus-helper",tabindex:-1,ref:r}),P("div",{class:"q-stepper__dot row flex-center q-stepper__line relative-position"},[P("span",{class:"row flex-center"},[h.value===!0?o.step.prefix:P(Le,{name:c.value})])])];if(o.step.title!==void 0&&o.step.title!==null){const T=[P("div",{class:"q-stepper__title"},o.step.title)];o.step.caption!==void 0&&o.step.caption!==null&&T.push(P("div",{class:"q-stepper__caption"},o.step.caption)),k.push(P("div",{class:"q-stepper__label q-stepper__line relative-position"},T))}return Me(P("div",v,k),[[Be,V.value]])}}});function vt(o){const t=[.06,6,50];return typeof o=="string"&&o.length&&o.split(":").forEach((n,r)=>{const i=parseFloat(n);i&&(t[r]=i)}),t}var gt=Re({name:"touch-swipe",beforeMount(o,{value:t,arg:n,modifiers:r}){if(r.mouse!==!0&&O.has.touch!==!0)return;const i=r.mouseCapture===!0?"Capture":"",a={handler:t,sensitivity:vt(n),direction:_e(r),noop:We,mouseStart(u){he(u,a)&&ze(u)&&(G(a,"temp",[[document,"mousemove","move",`notPassive${i}`],[document,"mouseup","end","notPassiveCapture"]]),a.start(u,!0))},touchStart(u){if(he(u,a)){const p=u.target;G(a,"temp",[[p,"touchmove","move","notPassiveCapture"],[p,"touchcancel","end","notPassiveCapture"],[p,"touchend","end","notPassiveCapture"]]),a.start(u)}},start(u,p){O.is.firefox===!0&&Z(o,!0);const e=ue(u);a.event={x:e.left,y:e.top,time:Date.now(),mouse:p===!0,dir:!1}},move(u){if(a.event===void 0)return;if(a.event.dir!==!1){ee(u);return}const p=Date.now()-a.event.time;if(p===0)return;const e=ue(u),h=e.left-a.event.x,c=Math.abs(h),f=e.top-a.event.y,x=Math.abs(f);if(a.event.mouse!==!0){if(c<a.sensitivity[1]&&x<a.sensitivity[1]){a.end(u);return}}else if(c<a.sensitivity[2]&&x<a.sensitivity[2])return;const V=c/p,g=x/p;a.direction.vertical===!0&&c<x&&c<100&&g>a.sensitivity[0]&&(a.event.dir=f<0?"up":"down"),a.direction.horizontal===!0&&c>x&&x<100&&V>a.sensitivity[0]&&(a.event.dir=h<0?"left":"right"),a.direction.up===!0&&c<x&&f<0&&c<100&&g>a.sensitivity[0]&&(a.event.dir="up"),a.direction.down===!0&&c<x&&f>0&&c<100&&g>a.sensitivity[0]&&(a.event.dir="down"),a.direction.left===!0&&c>x&&h<0&&x<100&&V>a.sensitivity[0]&&(a.event.dir="left"),a.direction.right===!0&&c>x&&h>0&&x<100&&V>a.sensitivity[0]&&(a.event.dir="right"),a.event.dir!==!1?(ee(u),a.event.mouse===!0&&(document.body.classList.add("no-pointer-events--children"),document.body.classList.add("non-selectable"),lt(),a.styleCleanup=C=>{a.styleCleanup=void 0,document.body.classList.remove("non-selectable");const v=()=>{document.body.classList.remove("no-pointer-events--children")};C===!0?setTimeout(v,50):v()}),a.handler({evt:u,touch:a.event.mouse!==!0,mouse:a.event.mouse,direction:a.event.dir,duration:p,distance:{x:c,y:x}})):a.end(u)},end(u){a.event!==void 0&&(te(a,"temp"),O.is.firefox===!0&&Z(o,!1),a.styleCleanup!==void 0&&a.styleCleanup(!0),u!==void 0&&a.event.dir!==!1&&ee(u),a.event=void 0)}};if(o.__qtouchswipe=a,r.mouse===!0){const u=r.mouseCapture===!0||r.mousecapture===!0?"Capture":"";G(a,"main",[[o,"mousedown","mouseStart",`passive${u}`]])}O.has.touch===!0&&G(a,"main",[[o,"touchstart","touchStart",`passive${r.capture===!0?"Capture":""}`],[o,"touchmove","noop","notPassiveCapture"]])},updated(o,t){const n=o.__qtouchswipe;n!==void 0&&(t.oldValue!==t.value&&(typeof t.value!="function"&&n.end(),n.handler=t.value),n.direction=_e(t.modifiers))},beforeUnmount(o){const t=o.__qtouchswipe;t!==void 0&&(te(t,"main"),te(t,"temp"),O.is.firefox===!0&&Z(o,!1),t.styleCleanup!==void 0&&t.styleCleanup(),delete o.__qtouchswipe)}});const yt={name:{required:!0},disable:Boolean},we={setup(o,{slots:t}){return()=>P("div",{class:"q-panel scroll",role:"tabpanel"},Y(t.default))}},bt={modelValue:{required:!0},animated:Boolean,infinite:Boolean,swipeable:Boolean,vertical:Boolean,transitionPrev:String,transitionNext:String,transitionDuration:{type:[String,Number],default:300},keepAlive:Boolean,keepAliveInclude:[String,Array,RegExp],keepAliveExclude:[String,Array,RegExp],keepAliveMax:Number},xt=["update:modelValue","beforeTransition","transition"];function wt(){const{props:o,emit:t,proxy:n}=J(),{getCacheWithFn:r}=De();let i,a;const u=N(null),p=N(null);function e(w){const D=o.vertical===!0?"up":"left";F((n.$q.lang.rtl===!0?-1:1)*(w.direction===D?1:-1))}const h=S(()=>[[gt,e,void 0,{horizontal:o.vertical!==!0,vertical:o.vertical,mouse:!0}]]),c=S(()=>o.transitionPrev||`slide-${o.vertical===!0?"down":"right"}`),f=S(()=>o.transitionNext||`slide-${o.vertical===!0?"up":"left"}`),x=S(()=>`--q-transition-duration: ${o.transitionDuration}ms`),V=S(()=>typeof o.modelValue=="string"||typeof o.modelValue=="number"?o.modelValue:String(o.modelValue)),g=S(()=>({include:o.keepAliveInclude,exclude:o.keepAliveExclude,max:o.keepAliveMax})),C=S(()=>o.keepAliveInclude!==void 0||o.keepAliveExclude!==void 0);Fe(()=>o.modelValue,(w,D)=>{const L=z(w)===!0?b(w):-1;a!==!0&&l(L===-1?0:L<b(D)?-1:1),u.value!==L&&(u.value=L,t("beforeTransition",w,D),Qe(()=>{t("transition",w,D)}))});function v(){F(1)}function k(){F(-1)}function T(w){t("update:modelValue",w)}function z(w){return w!=null&&w!==""}function b(w){return i.findIndex(D=>D.props.name===w&&D.props.disable!==""&&D.props.disable!==!0)}function s(){return i.filter(w=>w.props.disable!==""&&w.props.disable!==!0)}function l(w){const D=w!==0&&o.animated===!0&&u.value!==-1?"q-transition--"+(w===-1?c.value:f.value):null;p.value!==D&&(p.value=D)}function F(w,D=u.value){let L=D+w;for(;L>-1&&L<i.length;){const j=i[L];if(j!==void 0&&j.props.disable!==""&&j.props.disable!==!0){l(w),a=!0,t("update:modelValue",j.props.name),setTimeout(()=>{a=!1});return}L+=w}o.infinite===!0&&i.length>0&&D!==-1&&D!==i.length&&F(w,w===-1?i.length:-1)}function B(){const w=b(o.modelValue);return u.value!==w&&(u.value=w),!0}function de(){const w=z(o.modelValue)===!0&&B()&&i[u.value];return o.keepAlive===!0?[P(Se,g.value,[P(C.value===!0?r(V.value,()=>({...we,name:V.value})):we,{key:V.value,style:x.value},()=>w)])]:[P("div",{class:"q-panel scroll",style:x.value,key:V.value,role:"tabpanel"},[w])]}function Ne(){if(i.length!==0)return o.animated===!0?[P(Oe,{name:p.value},de)]:de()}function Ue(w){return i=Ye(Y(w.default,[])).filter(D=>D.props!==null&&D.props.slot===void 0&&z(D.props.name)===!0),i.length}function Ie(){return i}return Object.assign(n,{next:v,previous:k,goTo:T}),{panelIndex:u,panelDirectives:h,updatePanelsList:Ue,updatePanelIndex:B,getPanelContent:Ne,getEnabledPanels:s,getPanels:Ie,isValidPanelName:z,keepAliveProps:g,needsUniqueKeepAliveWrapper:C,goToPanelByOffset:F,goToPanel:T,nextPanel:v,previousPanel:k}}function Ee(o){return P("div",{class:"q-stepper__step-content"},[P("div",{class:"q-stepper__step-inner"},Y(o.default))])}const Ce={setup(o,{slots:t}){return()=>Ee(t)}};var M=ie({name:"QStep",props:{...yt,icon:String,color:String,title:{type:String,required:!0},caption:String,prefix:[String,Number],doneIcon:String,doneColor:String,activeIcon:String,activeColor:String,errorIcon:String,errorColor:String,headerNav:{type:Boolean,default:!0},done:Boolean,error:Boolean,onScroll:[Function,Array]},setup(o,{slots:t,emit:n}){const{proxy:{$q:r}}=J(),i=je(qe,oe);if(i===oe)return console.error("QStep needs to be a child of QStepper"),oe;const{getCacheWithFn:a}=De(),u=N(null),p=S(()=>i.value.modelValue===o.name),e=S(()=>r.platform.is.ios!==!0&&r.platform.is.chrome===!0||p.value!==!0||i.value.vertical!==!0?{}:{onScroll(f){const{target:x}=f;x.scrollTop>0&&(x.scrollTop=0),o.onScroll!==void 0&&n("scroll",f)}}),h=S(()=>typeof o.name=="string"||typeof o.name=="number"?o.name:String(o.name));function c(){const f=i.value.vertical;return f===!0&&i.value.keepAlive===!0?P(Se,i.value.keepAliveProps.value,p.value===!0?[P(i.value.needsUniqueKeepAliveWrapper.value===!0?a(h.value,()=>({...Ce,name:h.value})):Ce,{key:h.value},t.default)]:void 0):f!==!0||p.value===!0?Ee(t):void 0}return()=>P("div",{ref:u,class:"q-stepper__step",role:"tabpanel",...e.value},i.value.vertical===!0?[P($e,{stepper:i.value,step:o,goToPanel:i.value.goToPanel}),i.value.animated===!0?P(rt,c):c()]:[c()])}});const Ct=/(-\w)/g;function kt(o){const t={};for(const n in o){const r=n.replace(Ct,i=>i[1].toUpperCase());t[r]=o[n]}return t}var Vt=ie({name:"QStepper",props:{...Ge,...bt,flat:Boolean,bordered:Boolean,alternativeLabels:Boolean,headerNav:Boolean,contracted:Boolean,headerClass:String,inactiveColor:String,inactiveIcon:String,doneIcon:String,doneColor:String,activeIcon:String,activeColor:String,errorIcon:String,errorColor:String},emits:xt,setup(o,{slots:t}){const n=J(),r=He(o,n.proxy.$q),{updatePanelsList:i,isValidPanelName:a,updatePanelIndex:u,getPanelContent:p,getPanels:e,panelDirectives:h,goToPanel:c,keepAliveProps:f,needsUniqueKeepAliveWrapper:x}=wt();Ke(qe,S(()=>({goToPanel:c,keepAliveProps:f,needsUniqueKeepAliveWrapper:x,...o})));const V=S(()=>`q-stepper q-stepper--${o.vertical===!0?"vertical":"horizontal"}`+(o.flat===!0?" q-stepper--flat":"")+(o.bordered===!0?" q-stepper--bordered":"")+(r.value===!0?" q-stepper--dark q-dark":"")),g=S(()=>`q-stepper__header row items-stretch justify-between q-stepper__header--${o.alternativeLabels===!0?"alternative":"standard"}-labels`+(o.flat===!1||o.bordered===!0?" q-stepper__header--border":"")+(o.contracted===!0?" q-stepper__header--contracted":"")+(o.headerClass!==void 0?` ${o.headerClass}`:""));function C(){const v=Y(t.message,[]);if(o.vertical===!0){a(o.modelValue)&&u();const k=P("div",{class:"q-stepper__content"},Y(t.default));return v===void 0?[k]:v.concat(k)}return[P("div",{class:g.value},e().map(k=>{const T=kt(k.props);return P($e,{key:T.name,stepper:o,step:T,goToPanel:c})})),v,Je("div",{class:"q-stepper__content q-panel-parent"},p(),"cont",o.swipeable,()=>h.value)]}return()=>(i(t),P("div",{class:V.value},Xe(t.navigation,C())))}});const Pt=d("p",{class:"text-caption"},"Accepted file types: jpg, gif, png, pdf, Max. file size: 5 MB, Max. files: 2.",-1),H=le({__name:"TmpAttachments",props:{type:null,documents:null},emits:["attachment:add","attachment:remove"],setup(o,{emit:t}){const n=o,r=N(),i={type:n.type,file_file_name:null,name:null},a=S(()=>n.documents.filter(c=>c.type===n.type)||[]),u=Ae(i),p=()=>{t("attachment:add",{name:u.name,file_file_name:u.file_file_name,type:n.type}),r.value.reset()},e=c=>{ht("This will remove the attachment").onOk(()=>{t("attachment:remove",{name:c.name,file_file_name:c.file_file_name,type:c.type})})},h=c=>{u.file_file_name=c.xhr.response,u.name=c.xhr.response,p()};return(c,f)=>(U(),ae(me,null,[!_(a)||!_(a).length?(U(),W(be,{key:0,separator:"",bordered:""},{default:A(()=>[m(ye,null,{default:A(()=>[m(ne,null,{default:A(()=>[Q("No documents uploaded")]),_:1})]),_:1})]),_:1})):R("",!0),_(a)&&_(a).length?(U(),W(be,{key:1,bordered:"",separator:""},{default:A(()=>[(U(!0),ae(me,null,Ze(_(a),(x,V)=>(U(),W(ye,{key:V},{default:A(()=>[m(ne,null,{default:A(()=>[Q(et(x.name),1)]),_:2},1024),m(ne,{side:""},{default:A(()=>[m($,{icon:"delete",onClick:g=>e(x),flat:""},null,8,["onClick"])]),_:2},1024)]),_:2},1024))),128))]),_:1})):R("",!0),m(Te,{color:"primary",url:_(I).url,headers:_(I).headers,onUploaded:h,label:"Upload document","auto-expand":"","auto-upload":"",accept:_(I).documents,"field-name":_(I).fieldName,class:"q-mb-sm q-mt-sm",ref_key:"tmpUploader",ref:r,"max-file-size":_(I)["max-file-size"]},null,8,["url","headers","accept","field-name","max-file-size"]),Pt],64))}});/*!
+import { V as createComponent, r as ref, g as computed, h, O as QIcon, G as withDirectives, ao as Ripple, j as getCurrentInstance, b1 as createDirective, aM as client, a1 as noop, b2 as leftClick, aJ as addEvt, b3 as preventDraggable, aY as position, ap as stopAndPrevent, aK as cleanEvt, w as watch, D as nextTick, H as Transition, b4 as getNormalizedVNodes, X as hSlot, b5 as KeepAlive, i as inject, W as emptyRenderFn, b6 as stepperKey, ab as useDarkProps, ac as useDark, $ as provide, a7 as hMergeSlot, am as hDir, A as defineComponent, B as reactive, m as openBlock, n as createElementBlock, U as unref, K as createBlock, L as withCtx, l as createVNode, R as createTextVNode, y as createCommentVNode, F as Fragment, b7 as renderList, b8 as toDisplayString, S as QBtn, q as createBaseVNode, ad as useRoute, o as onMounted, Q as QCard, M as QCardSection, N as QInput, af as QToggle, b9 as QCheckbox } from "./index.e647c85a.js";
+import { Q as QSlideTransition, _ as _sfc_main$4, a as _sfc_main$6 } from "./CountryField.01d37ae9.js";
+import { g as getModifierDirections, s as shouldStart } from "./touch.70a9dd44.js";
+import { c as clearSelection } from "./format.8e90d58d.js";
+import { u as useCache, _ as _sfc_main$3 } from "./DateField.75075dac.js";
+import { Q as QUploader } from "./QUploader.b0316df6.js";
+import { Q as QPage } from "./QPage.660fce82.js";
+import { Q as QLayout, a as QPageContainer } from "./QLayout.2e2ab899.js";
+import { u as useVuelidate, r as required, e as email } from "./index.esm.4557c89b.js";
+import { u as useQuasar } from "./use-quasar.ae4f72e4.js";
+import { a as api } from "./axios.ccd3a804.js";
+import { _ as _sfc_main$2 } from "./AppLogo.885260bb.js";
+import { a as QItem, Q as QItemSection } from "./QItemSection.99659658.js";
+import { Q as QList } from "./QList.2f0afc60.js";
+import { u as uploadConfig, c as confirmDelete } from "./help.c0f85e41.js";
+import { _ as _sfc_main$5 } from "./PostcodeRegionField.1ba1a165.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import "./rtl.4f5e13e8.js";
+import "./QSelect.853d535e.js";
+import "./ClosePopup.ef2f7039.js";
+import "./QCircularProgress.85dfe2db.js";
+import "./QResizeObserver.97b49885.js";
+var StepHeader = createComponent({
+  name: "StepHeader",
+  props: {
+    stepper: {},
+    step: {},
+    goToPanel: Function
+  },
+  setup(props, { attrs }) {
+    const { proxy: { $q } } = getCurrentInstance();
+    const blurRef = ref(null);
+    const isActive = computed(() => props.stepper.modelValue === props.step.name);
+    const isDisable = computed(() => {
+      const opt = props.step.disable;
+      return opt === true || opt === "";
+    });
+    const isError = computed(() => {
+      const opt = props.step.error;
+      return opt === true || opt === "";
+    });
+    const isDone = computed(() => {
+      const opt = props.step.done;
+      return isDisable.value === false && (opt === true || opt === "");
+    });
+    const headerNav = computed(() => {
+      const opt = props.step.headerNav, nav = opt === true || opt === "" || opt === void 0;
+      return isDisable.value === false && props.stepper.headerNav && nav;
+    });
+    const hasPrefix = computed(() => {
+      return props.step.prefix && (isActive.value === false || props.stepper.activeIcon === "none") && (isError.value === false || props.stepper.errorIcon === "none") && (isDone.value === false || props.stepper.doneIcon === "none");
+    });
+    const icon = computed(() => {
+      const defaultIcon = props.step.icon || props.stepper.inactiveIcon;
+      if (isActive.value === true) {
+        const icon2 = props.step.activeIcon || props.stepper.activeIcon;
+        return icon2 === "none" ? defaultIcon : icon2 || $q.iconSet.stepper.active;
+      }
+      if (isError.value === true) {
+        const icon2 = props.step.errorIcon || props.stepper.errorIcon;
+        return icon2 === "none" ? defaultIcon : icon2 || $q.iconSet.stepper.error;
+      }
+      if (isDisable.value === false && isDone.value === true) {
+        const icon2 = props.step.doneIcon || props.stepper.doneIcon;
+        return icon2 === "none" ? defaultIcon : icon2 || $q.iconSet.stepper.done;
+      }
+      return defaultIcon;
+    });
+    const color = computed(() => {
+      const errorColor = isError.value === true ? props.step.errorColor || props.stepper.errorColor : void 0;
+      if (isActive.value === true) {
+        const color2 = props.step.activeColor || props.stepper.activeColor || props.step.color;
+        return color2 !== void 0 ? color2 : errorColor;
+      }
+      if (errorColor !== void 0) {
+        return errorColor;
+      }
+      if (isDisable.value === false && isDone.value === true) {
+        return props.step.doneColor || props.stepper.doneColor || props.step.color || props.stepper.inactiveColor;
+      }
+      return props.step.color || props.stepper.inactiveColor;
+    });
+    const classes = computed(() => {
+      return "q-stepper__tab col-grow flex items-center no-wrap relative-position" + (color.value !== void 0 ? ` text-${color.value}` : "") + (isError.value === true ? " q-stepper__tab--error q-stepper__tab--error-with-" + (hasPrefix.value === true ? "prefix" : "icon") : "") + (isActive.value === true ? " q-stepper__tab--active" : "") + (isDone.value === true ? " q-stepper__tab--done" : "") + (headerNav.value === true ? " q-stepper__tab--navigation q-focusable q-hoverable" : "") + (isDisable.value === true ? " q-stepper__tab--disabled" : "");
+    });
+    const ripple = computed(() => props.stepper.headerNav !== true ? false : headerNav.value);
+    function onActivate() {
+      blurRef.value !== null && blurRef.value.focus();
+      isActive.value === false && props.goToPanel(props.step.name);
+    }
+    function onKeyup(e) {
+      if (e.keyCode === 13 && isActive.value === false) {
+        props.goToPanel(props.step.name);
+      }
+    }
+    return () => {
+      const data = { class: classes.value };
+      if (headerNav.value === true) {
+        data.onClick = onActivate;
+        data.onKeyup = onKeyup;
+        Object.assign(
+          data,
+          isDisable.value === true ? { tabindex: -1, "aria-disabled": "true" } : { tabindex: attrs.tabindex || 0 }
+        );
+      }
+      const child = [
+        h("div", { class: "q-focus-helper", tabindex: -1, ref: blurRef }),
+        h("div", { class: "q-stepper__dot row flex-center q-stepper__line relative-position" }, [
+          h("span", { class: "row flex-center" }, [
+            hasPrefix.value === true ? props.step.prefix : h(QIcon, { name: icon.value })
+          ])
+        ])
+      ];
+      if (props.step.title !== void 0 && props.step.title !== null) {
+        const content = [
+          h("div", { class: "q-stepper__title" }, props.step.title)
+        ];
+        if (props.step.caption !== void 0 && props.step.caption !== null) {
+          content.push(
+            h("div", { class: "q-stepper__caption" }, props.step.caption)
+          );
+        }
+        child.push(
+          h("div", {
+            class: "q-stepper__label q-stepper__line relative-position"
+          }, content)
+        );
+      }
+      return withDirectives(
+        h("div", data, child),
+        [[Ripple, ripple.value]]
+      );
+    };
+  }
+});
+function parseArg(arg) {
+  const data = [0.06, 6, 50];
+  if (typeof arg === "string" && arg.length) {
+    arg.split(":").forEach((val, index) => {
+      const v = parseFloat(val);
+      v && (data[index] = v);
+    });
+  }
+  return data;
+}
+var TouchSwipe = createDirective(
+  {
+    name: "touch-swipe",
+    beforeMount(el, { value, arg, modifiers }) {
+      if (modifiers.mouse !== true && client.has.touch !== true) {
+        return;
+      }
+      const mouseCapture = modifiers.mouseCapture === true ? "Capture" : "";
+      const ctx = {
+        handler: value,
+        sensitivity: parseArg(arg),
+        direction: getModifierDirections(modifiers),
+        noop,
+        mouseStart(evt) {
+          if (shouldStart(evt, ctx) && leftClick(evt)) {
+            addEvt(ctx, "temp", [
+              [document, "mousemove", "move", `notPassive${mouseCapture}`],
+              [document, "mouseup", "end", "notPassiveCapture"]
+            ]);
+            ctx.start(evt, true);
+          }
+        },
+        touchStart(evt) {
+          if (shouldStart(evt, ctx)) {
+            const target = evt.target;
+            addEvt(ctx, "temp", [
+              [target, "touchmove", "move", "notPassiveCapture"],
+              [target, "touchcancel", "end", "notPassiveCapture"],
+              [target, "touchend", "end", "notPassiveCapture"]
+            ]);
+            ctx.start(evt);
+          }
+        },
+        start(evt, mouseEvent) {
+          client.is.firefox === true && preventDraggable(el, true);
+          const pos = position(evt);
+          ctx.event = {
+            x: pos.left,
+            y: pos.top,
+            time: Date.now(),
+            mouse: mouseEvent === true,
+            dir: false
+          };
+        },
+        move(evt) {
+          if (ctx.event === void 0) {
+            return;
+          }
+          if (ctx.event.dir !== false) {
+            stopAndPrevent(evt);
+            return;
+          }
+          const time = Date.now() - ctx.event.time;
+          if (time === 0) {
+            return;
+          }
+          const pos = position(evt), distX = pos.left - ctx.event.x, absX = Math.abs(distX), distY = pos.top - ctx.event.y, absY = Math.abs(distY);
+          if (ctx.event.mouse !== true) {
+            if (absX < ctx.sensitivity[1] && absY < ctx.sensitivity[1]) {
+              ctx.end(evt);
+              return;
+            }
+          } else if (absX < ctx.sensitivity[2] && absY < ctx.sensitivity[2]) {
+            return;
+          }
+          const velX = absX / time, velY = absY / time;
+          if (ctx.direction.vertical === true && absX < absY && absX < 100 && velY > ctx.sensitivity[0]) {
+            ctx.event.dir = distY < 0 ? "up" : "down";
+          }
+          if (ctx.direction.horizontal === true && absX > absY && absY < 100 && velX > ctx.sensitivity[0]) {
+            ctx.event.dir = distX < 0 ? "left" : "right";
+          }
+          if (ctx.direction.up === true && absX < absY && distY < 0 && absX < 100 && velY > ctx.sensitivity[0]) {
+            ctx.event.dir = "up";
+          }
+          if (ctx.direction.down === true && absX < absY && distY > 0 && absX < 100 && velY > ctx.sensitivity[0]) {
+            ctx.event.dir = "down";
+          }
+          if (ctx.direction.left === true && absX > absY && distX < 0 && absY < 100 && velX > ctx.sensitivity[0]) {
+            ctx.event.dir = "left";
+          }
+          if (ctx.direction.right === true && absX > absY && distX > 0 && absY < 100 && velX > ctx.sensitivity[0]) {
+            ctx.event.dir = "right";
+          }
+          if (ctx.event.dir !== false) {
+            stopAndPrevent(evt);
+            if (ctx.event.mouse === true) {
+              document.body.classList.add("no-pointer-events--children");
+              document.body.classList.add("non-selectable");
+              clearSelection();
+              ctx.styleCleanup = (withDelay) => {
+                ctx.styleCleanup = void 0;
+                document.body.classList.remove("non-selectable");
+                const remove = () => {
+                  document.body.classList.remove("no-pointer-events--children");
+                };
+                if (withDelay === true) {
+                  setTimeout(remove, 50);
+                } else {
+                  remove();
+                }
+              };
+            }
+            ctx.handler({
+              evt,
+              touch: ctx.event.mouse !== true,
+              mouse: ctx.event.mouse,
+              direction: ctx.event.dir,
+              duration: time,
+              distance: {
+                x: absX,
+                y: absY
+              }
+            });
+          } else {
+            ctx.end(evt);
+          }
+        },
+        end(evt) {
+          if (ctx.event === void 0) {
+            return;
+          }
+          cleanEvt(ctx, "temp");
+          client.is.firefox === true && preventDraggable(el, false);
+          ctx.styleCleanup !== void 0 && ctx.styleCleanup(true);
+          evt !== void 0 && ctx.event.dir !== false && stopAndPrevent(evt);
+          ctx.event = void 0;
+        }
+      };
+      el.__qtouchswipe = ctx;
+      if (modifiers.mouse === true) {
+        const capture = modifiers.mouseCapture === true || modifiers.mousecapture === true ? "Capture" : "";
+        addEvt(ctx, "main", [
+          [el, "mousedown", "mouseStart", `passive${capture}`]
+        ]);
+      }
+      client.has.touch === true && addEvt(ctx, "main", [
+        [el, "touchstart", "touchStart", `passive${modifiers.capture === true ? "Capture" : ""}`],
+        [el, "touchmove", "noop", "notPassiveCapture"]
+      ]);
+    },
+    updated(el, bindings) {
+      const ctx = el.__qtouchswipe;
+      if (ctx !== void 0) {
+        if (bindings.oldValue !== bindings.value) {
+          typeof bindings.value !== "function" && ctx.end();
+          ctx.handler = bindings.value;
+        }
+        ctx.direction = getModifierDirections(bindings.modifiers);
+      }
+    },
+    beforeUnmount(el) {
+      const ctx = el.__qtouchswipe;
+      if (ctx !== void 0) {
+        cleanEvt(ctx, "main");
+        cleanEvt(ctx, "temp");
+        client.is.firefox === true && preventDraggable(el, false);
+        ctx.styleCleanup !== void 0 && ctx.styleCleanup();
+        delete el.__qtouchswipe;
+      }
+    }
+  }
+);
+const usePanelChildProps = {
+  name: { required: true },
+  disable: Boolean
+};
+const PanelWrapper$1 = {
+  setup(_, { slots }) {
+    return () => h("div", {
+      class: "q-panel scroll",
+      role: "tabpanel"
+    }, hSlot(slots.default));
+  }
+};
+const usePanelProps = {
+  modelValue: {
+    required: true
+  },
+  animated: Boolean,
+  infinite: Boolean,
+  swipeable: Boolean,
+  vertical: Boolean,
+  transitionPrev: String,
+  transitionNext: String,
+  transitionDuration: {
+    type: [String, Number],
+    default: 300
+  },
+  keepAlive: Boolean,
+  keepAliveInclude: [String, Array, RegExp],
+  keepAliveExclude: [String, Array, RegExp],
+  keepAliveMax: Number
+};
+const usePanelEmits = ["update:modelValue", "beforeTransition", "transition"];
+function usePanel() {
+  const { props, emit, proxy } = getCurrentInstance();
+  const { getCacheWithFn } = useCache();
+  let panels, forcedPanelTransition;
+  const panelIndex = ref(null);
+  const panelTransition = ref(null);
+  function onSwipe(evt) {
+    const dir = props.vertical === true ? "up" : "left";
+    goToPanelByOffset((proxy.$q.lang.rtl === true ? -1 : 1) * (evt.direction === dir ? 1 : -1));
+  }
+  const panelDirectives = computed(() => {
+    return [[
+      TouchSwipe,
+      onSwipe,
+      void 0,
+      {
+        horizontal: props.vertical !== true,
+        vertical: props.vertical,
+        mouse: true
+      }
+    ]];
+  });
+  const transitionPrev = computed(
+    () => props.transitionPrev || `slide-${props.vertical === true ? "down" : "right"}`
+  );
+  const transitionNext = computed(
+    () => props.transitionNext || `slide-${props.vertical === true ? "up" : "left"}`
+  );
+  const transitionStyle = computed(
+    () => `--q-transition-duration: ${props.transitionDuration}ms`
+  );
+  const contentKey = computed(() => typeof props.modelValue === "string" || typeof props.modelValue === "number" ? props.modelValue : String(props.modelValue));
+  const keepAliveProps = computed(() => ({
+    include: props.keepAliveInclude,
+    exclude: props.keepAliveExclude,
+    max: props.keepAliveMax
+  }));
+  const needsUniqueKeepAliveWrapper = computed(
+    () => props.keepAliveInclude !== void 0 || props.keepAliveExclude !== void 0
+  );
+  watch(() => props.modelValue, (newVal, oldVal) => {
+    const index = isValidPanelName(newVal) === true ? getPanelIndex(newVal) : -1;
+    if (forcedPanelTransition !== true) {
+      updatePanelTransition(
+        index === -1 ? 0 : index < getPanelIndex(oldVal) ? -1 : 1
+      );
+    }
+    if (panelIndex.value !== index) {
+      panelIndex.value = index;
+      emit("beforeTransition", newVal, oldVal);
+      nextTick(() => {
+        emit("transition", newVal, oldVal);
+      });
+    }
+  });
+  function nextPanel() {
+    goToPanelByOffset(1);
+  }
+  function previousPanel() {
+    goToPanelByOffset(-1);
+  }
+  function goToPanel(name) {
+    emit("update:modelValue", name);
+  }
+  function isValidPanelName(name) {
+    return name !== void 0 && name !== null && name !== "";
+  }
+  function getPanelIndex(name) {
+    return panels.findIndex((panel) => {
+      return panel.props.name === name && panel.props.disable !== "" && panel.props.disable !== true;
+    });
+  }
+  function getEnabledPanels() {
+    return panels.filter((panel) => {
+      return panel.props.disable !== "" && panel.props.disable !== true;
+    });
+  }
+  function updatePanelTransition(direction) {
+    const val = direction !== 0 && props.animated === true && panelIndex.value !== -1 ? "q-transition--" + (direction === -1 ? transitionPrev.value : transitionNext.value) : null;
+    if (panelTransition.value !== val) {
+      panelTransition.value = val;
+    }
+  }
+  function goToPanelByOffset(direction, startIndex = panelIndex.value) {
+    let index = startIndex + direction;
+    while (index > -1 && index < panels.length) {
+      const opt = panels[index];
+      if (opt !== void 0 && opt.props.disable !== "" && opt.props.disable !== true) {
+        updatePanelTransition(direction);
+        forcedPanelTransition = true;
+        emit("update:modelValue", opt.props.name);
+        setTimeout(() => {
+          forcedPanelTransition = false;
+        });
+        return;
+      }
+      index += direction;
+    }
+    if (props.infinite === true && panels.length > 0 && startIndex !== -1 && startIndex !== panels.length) {
+      goToPanelByOffset(direction, direction === -1 ? panels.length : -1);
+    }
+  }
+  function updatePanelIndex() {
+    const index = getPanelIndex(props.modelValue);
+    if (panelIndex.value !== index) {
+      panelIndex.value = index;
+    }
+    return true;
+  }
+  function getPanelContentChild() {
+    const panel = isValidPanelName(props.modelValue) === true && updatePanelIndex() && panels[panelIndex.value];
+    return props.keepAlive === true ? [
+      h(KeepAlive, keepAliveProps.value, [
+        h(
+          needsUniqueKeepAliveWrapper.value === true ? getCacheWithFn(contentKey.value, () => ({ ...PanelWrapper$1, name: contentKey.value })) : PanelWrapper$1,
+          { key: contentKey.value, style: transitionStyle.value },
+          () => panel
+        )
+      ])
+    ] : [
+      h("div", {
+        class: "q-panel scroll",
+        style: transitionStyle.value,
+        key: contentKey.value,
+        role: "tabpanel"
+      }, [panel])
+    ];
+  }
+  function getPanelContent() {
+    if (panels.length === 0) {
+      return;
+    }
+    return props.animated === true ? [h(Transition, { name: panelTransition.value }, getPanelContentChild)] : getPanelContentChild();
+  }
+  function updatePanelsList(slots) {
+    panels = getNormalizedVNodes(
+      hSlot(slots.default, [])
+    ).filter(
+      (panel) => panel.props !== null && panel.props.slot === void 0 && isValidPanelName(panel.props.name) === true
+    );
+    return panels.length;
+  }
+  function getPanels() {
+    return panels;
+  }
+  Object.assign(proxy, {
+    next: nextPanel,
+    previous: previousPanel,
+    goTo: goToPanel
+  });
+  return {
+    panelIndex,
+    panelDirectives,
+    updatePanelsList,
+    updatePanelIndex,
+    getPanelContent,
+    getEnabledPanels,
+    getPanels,
+    isValidPanelName,
+    keepAliveProps,
+    needsUniqueKeepAliveWrapper,
+    goToPanelByOffset,
+    goToPanel,
+    nextPanel,
+    previousPanel
+  };
+}
+function getStepWrapper(slots) {
+  return h("div", {
+    class: "q-stepper__step-content"
+  }, [
+    h("div", {
+      class: "q-stepper__step-inner"
+    }, hSlot(slots.default))
+  ]);
+}
+const PanelWrapper = {
+  setup(_, { slots }) {
+    return () => getStepWrapper(slots);
+  }
+};
+var QStep = createComponent({
+  name: "QStep",
+  props: {
+    ...usePanelChildProps,
+    icon: String,
+    color: String,
+    title: {
+      type: String,
+      required: true
+    },
+    caption: String,
+    prefix: [String, Number],
+    doneIcon: String,
+    doneColor: String,
+    activeIcon: String,
+    activeColor: String,
+    errorIcon: String,
+    errorColor: String,
+    headerNav: {
+      type: Boolean,
+      default: true
+    },
+    done: Boolean,
+    error: Boolean,
+    onScroll: [Function, Array]
+  },
+  setup(props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance();
+    const $stepper = inject(stepperKey, emptyRenderFn);
+    if ($stepper === emptyRenderFn) {
+      console.error("QStep needs to be a child of QStepper");
+      return emptyRenderFn;
+    }
+    const { getCacheWithFn } = useCache();
+    const rootRef = ref(null);
+    const isActive = computed(() => $stepper.value.modelValue === props.name);
+    const scrollEvent = computed(() => $q.platform.is.ios !== true && $q.platform.is.chrome === true || isActive.value !== true || $stepper.value.vertical !== true ? {} : {
+      onScroll(e) {
+        const { target } = e;
+        if (target.scrollTop > 0) {
+          target.scrollTop = 0;
+        }
+        props.onScroll !== void 0 && emit("scroll", e);
+      }
+    });
+    const contentKey = computed(() => typeof props.name === "string" || typeof props.name === "number" ? props.name : String(props.name));
+    function getStepContent() {
+      const vertical = $stepper.value.vertical;
+      if (vertical === true && $stepper.value.keepAlive === true) {
+        return h(
+          KeepAlive,
+          $stepper.value.keepAliveProps.value,
+          isActive.value === true ? [
+            h(
+              $stepper.value.needsUniqueKeepAliveWrapper.value === true ? getCacheWithFn(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value })) : PanelWrapper,
+              { key: contentKey.value },
+              slots.default
+            )
+          ] : void 0
+        );
+      }
+      return vertical !== true || isActive.value === true ? getStepWrapper(slots) : void 0;
+    }
+    return () => h(
+      "div",
+      { ref: rootRef, class: "q-stepper__step", role: "tabpanel", ...scrollEvent.value },
+      $stepper.value.vertical === true ? [
+        h(StepHeader, {
+          stepper: $stepper.value,
+          step: props,
+          goToPanel: $stepper.value.goToPanel
+        }),
+        $stepper.value.animated === true ? h(QSlideTransition, getStepContent) : getStepContent()
+      ] : [getStepContent()]
+    );
+  }
+});
+const camelRE = /(-\w)/g;
+function camelizeProps(props) {
+  const acc = {};
+  for (const key in props) {
+    const newKey = key.replace(camelRE, (m) => m[1].toUpperCase());
+    acc[newKey] = props[key];
+  }
+  return acc;
+}
+var QStepper = createComponent({
+  name: "QStepper",
+  props: {
+    ...useDarkProps,
+    ...usePanelProps,
+    flat: Boolean,
+    bordered: Boolean,
+    alternativeLabels: Boolean,
+    headerNav: Boolean,
+    contracted: Boolean,
+    headerClass: String,
+    inactiveColor: String,
+    inactiveIcon: String,
+    doneIcon: String,
+    doneColor: String,
+    activeIcon: String,
+    activeColor: String,
+    errorIcon: String,
+    errorColor: String
+  },
+  emits: usePanelEmits,
+  setup(props, { slots }) {
+    const vm = getCurrentInstance();
+    const isDark = useDark(props, vm.proxy.$q);
+    const {
+      updatePanelsList,
+      isValidPanelName,
+      updatePanelIndex,
+      getPanelContent,
+      getPanels,
+      panelDirectives,
+      goToPanel,
+      keepAliveProps,
+      needsUniqueKeepAliveWrapper
+    } = usePanel();
+    provide(stepperKey, computed(() => ({
+      goToPanel,
+      keepAliveProps,
+      needsUniqueKeepAliveWrapper,
+      ...props
+    })));
+    const classes = computed(
+      () => `q-stepper q-stepper--${props.vertical === true ? "vertical" : "horizontal"}` + (props.flat === true ? " q-stepper--flat" : "") + (props.bordered === true ? " q-stepper--bordered" : "") + (isDark.value === true ? " q-stepper--dark q-dark" : "")
+    );
+    const headerClasses = computed(
+      () => `q-stepper__header row items-stretch justify-between q-stepper__header--${props.alternativeLabels === true ? "alternative" : "standard"}-labels` + (props.flat === false || props.bordered === true ? " q-stepper__header--border" : "") + (props.contracted === true ? " q-stepper__header--contracted" : "") + (props.headerClass !== void 0 ? ` ${props.headerClass}` : "")
+    );
+    function getContent() {
+      const top = hSlot(slots.message, []);
+      if (props.vertical === true) {
+        isValidPanelName(props.modelValue) && updatePanelIndex();
+        const content = h("div", {
+          class: "q-stepper__content"
+        }, hSlot(slots.default));
+        return top === void 0 ? [content] : top.concat(content);
+      }
+      return [
+        h(
+          "div",
+          { class: headerClasses.value },
+          getPanels().map((panel) => {
+            const step = camelizeProps(panel.props);
+            return h(StepHeader, {
+              key: step.name,
+              stepper: props,
+              step,
+              goToPanel
+            });
+          })
+        ),
+        top,
+        hDir(
+          "div",
+          { class: "q-stepper__content q-panel-parent" },
+          getPanelContent(),
+          "cont",
+          props.swipeable,
+          () => panelDirectives.value
+        )
+      ];
+    }
+    return () => {
+      updatePanelsList(slots);
+      return h("div", {
+        class: classes.value
+      }, hMergeSlot(slots.navigation, getContent()));
+    };
+  }
+});
+const _hoisted_1$1 = /* @__PURE__ */ createBaseVNode("p", { class: "text-caption" }, "Accepted file types: jpg, gif, png, pdf, Max. file size: 5 MB, Max. files: 2.", -1);
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "TmpAttachments",
+  props: {
+    type: null,
+    documents: null
+  },
+  emits: ["attachment:add", "attachment:remove"],
+  setup(__props, { emit: emits }) {
+    const props = __props;
+    const tmpUploader = ref();
+    const schema = {
+      type: props.type,
+      file_file_name: null,
+      name: null
+    };
+    const attachments = computed(() => {
+      return props.documents.filter((o) => o.type === props.type) || [];
+    });
+    const newModel = reactive(schema);
+    const addNew = () => {
+      emits("attachment:add", { name: newModel.name, file_file_name: newModel.file_file_name, type: props.type });
+      tmpUploader.value.reset();
+    };
+    const removeAttachment = (a) => {
+      confirmDelete("This will remove the attachment").onOk(() => {
+        emits("attachment:remove", { name: a.name, file_file_name: a.file_file_name, type: a.type });
+      });
+    };
+    const successUpload = (file) => {
+      newModel.file_file_name = file.xhr.response;
+      newModel.name = file.xhr.response;
+      addNew();
+    };
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock(Fragment, null, [
+        !unref(attachments) || !unref(attachments).length ? (openBlock(), createBlock(QList, {
+          key: 0,
+          separator: "",
+          bordered: ""
+        }, {
+          default: withCtx(() => [
+            createVNode(QItem, null, {
+              default: withCtx(() => [
+                createVNode(QItemSection, null, {
+                  default: withCtx(() => [
+                    createTextVNode("No documents uploaded")
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ]),
+          _: 1
+        })) : createCommentVNode("", true),
+        unref(attachments) && unref(attachments).length ? (openBlock(), createBlock(QList, {
+          key: 1,
+          bordered: "",
+          separator: ""
+        }, {
+          default: withCtx(() => [
+            (openBlock(true), createElementBlock(Fragment, null, renderList(unref(attachments), (a, index) => {
+              return openBlock(), createBlock(QItem, { key: index }, {
+                default: withCtx(() => [
+                  createVNode(QItemSection, null, {
+                    default: withCtx(() => [
+                      createTextVNode(toDisplayString(a.name), 1)
+                    ]),
+                    _: 2
+                  }, 1024),
+                  createVNode(QItemSection, { side: "" }, {
+                    default: withCtx(() => [
+                      createVNode(QBtn, {
+                        icon: "delete",
+                        onClick: ($event) => removeAttachment(a),
+                        flat: ""
+                      }, null, 8, ["onClick"])
+                    ]),
+                    _: 2
+                  }, 1024)
+                ]),
+                _: 2
+              }, 1024);
+            }), 128))
+          ]),
+          _: 1
+        })) : createCommentVNode("", true),
+        createVNode(QUploader, {
+          color: "primary",
+          url: unref(uploadConfig).url,
+          headers: unref(uploadConfig).headers,
+          onUploaded: successUpload,
+          label: "Upload document",
+          "auto-expand": "",
+          "auto-upload": "",
+          accept: unref(uploadConfig).documents,
+          "field-name": unref(uploadConfig).fieldName,
+          class: "q-mb-sm q-mt-sm",
+          ref_key: "tmpUploader",
+          ref: tmpUploader,
+          "max-file-size": unref(uploadConfig)["max-file-size"]
+        }, null, 8, ["url", "headers", "accept", "field-name", "max-file-size"]),
+        _hoisted_1$1
+      ], 64);
+    };
+  }
+});
+/*!
  * Signature Pad v3.0.0-beta.4 | https://github.com/szimek/signature_pad
  * (c) 2020 Szymon Nowak | Released under the MIT license
- */class K{constructor(t,n,r){this.x=t,this.y=n,this.time=r||Date.now()}distanceTo(t){return Math.sqrt(Math.pow(this.x-t.x,2)+Math.pow(this.y-t.y,2))}equals(t){return this.x===t.x&&this.y===t.y&&this.time===t.time}velocityFrom(t){return this.time!==t.time?this.distanceTo(t)/(this.time-t.time):0}}class ce{constructor(t,n,r,i,a,u){this.startPoint=t,this.control2=n,this.control1=r,this.endPoint=i,this.startWidth=a,this.endWidth=u}static fromPoints(t,n){const r=this.calculateControlPoints(t[0],t[1],t[2]).c2,i=this.calculateControlPoints(t[1],t[2],t[3]).c1;return new ce(t[1],r,i,t[2],n.start,n.end)}static calculateControlPoints(t,n,r){const i=t.x-n.x,a=t.y-n.y,u=n.x-r.x,p=n.y-r.y,e={x:(t.x+n.x)/2,y:(t.y+n.y)/2},h={x:(n.x+r.x)/2,y:(n.y+r.y)/2},c=Math.sqrt(i*i+a*a),f=Math.sqrt(u*u+p*p),x=e.x-h.x,V=e.y-h.y,g=f/(c+f),C={x:h.x+x*g,y:h.y+V*g},v=n.x-C.x,k=n.y-C.y;return{c1:new K(e.x+v,e.y+k),c2:new K(h.x+v,h.y+k)}}length(){let n=0,r,i;for(let a=0;a<=10;a+=1){const u=a/10,p=this.point(u,this.startPoint.x,this.control1.x,this.control2.x,this.endPoint.x),e=this.point(u,this.startPoint.y,this.control1.y,this.control2.y,this.endPoint.y);if(a>0){const h=p-r,c=e-i;n+=Math.sqrt(h*h+c*c)}r=p,i=e}return n}point(t,n,r,i,a){return n*(1-t)*(1-t)*(1-t)+3*r*(1-t)*(1-t)*t+3*i*(1-t)*t*t+a*t*t*t}}function St(o,t=250){let n=0,r=null,i,a,u;const p=()=>{n=Date.now(),r=null,i=o.apply(a,u),r||(a=null,u=[])};return function(...h){const c=Date.now(),f=t-(c-n);return a=this,u=h,f<=0||f>t?(r&&(clearTimeout(r),r=null),n=c,i=o.apply(a,u),r||(a=null,u=[])):r||(r=window.setTimeout(p,f)),i}}class X{constructor(t,n={}){this.canvas=t,this.options=n,this._handleMouseDown=r=>{r.which===1&&(this._mouseButtonDown=!0,this._strokeBegin(r))},this._handleMouseMove=r=>{this._mouseButtonDown&&this._strokeMoveUpdate(r)},this._handleMouseUp=r=>{r.which===1&&this._mouseButtonDown&&(this._mouseButtonDown=!1,this._strokeEnd(r))},this._handleTouchStart=r=>{if(r.preventDefault(),r.targetTouches.length===1){const i=r.changedTouches[0];this._strokeBegin(i)}},this._handleTouchMove=r=>{r.preventDefault();const i=r.targetTouches[0];this._strokeMoveUpdate(i)},this._handleTouchEnd=r=>{if(r.target===this.canvas){r.preventDefault();const a=r.changedTouches[0];this._strokeEnd(a)}},this.velocityFilterWeight=n.velocityFilterWeight||.7,this.minWidth=n.minWidth||.5,this.maxWidth=n.maxWidth||2.5,this.throttle="throttle"in n?n.throttle:16,this.minDistance="minDistance"in n?n.minDistance:5,this.dotSize=n.dotSize||function(){return(this.minWidth+this.maxWidth)/2},this.penColor=n.penColor||"black",this.backgroundColor=n.backgroundColor||"rgba(0,0,0,0)",this.onBegin=n.onBegin,this.onEnd=n.onEnd,this._strokeMoveUpdate=this.throttle?St(X.prototype._strokeUpdate,this.throttle):X.prototype._strokeUpdate,this._ctx=t.getContext("2d"),this.clear(),this.on()}clear(){const{_ctx:t,canvas:n}=this;t.fillStyle=this.backgroundColor,t.clearRect(0,0,n.width,n.height),t.fillRect(0,0,n.width,n.height),this._data=[],this._reset(),this._isEmpty=!0}fromDataURL(t,n={},r){const i=new Image,a=n.ratio||window.devicePixelRatio||1,u=n.width||this.canvas.width/a,p=n.height||this.canvas.height/a;this._reset(),i.onload=()=>{this._ctx.drawImage(i,0,0,u,p),r&&r()},i.onerror=e=>{r&&r(e)},i.src=t,this._isEmpty=!1}toDataURL(t="image/png",n){switch(t){case"image/svg+xml":return this._toSVG();default:return this.canvas.toDataURL(t,n)}}on(){this.canvas.style.touchAction="none",this.canvas.style.msTouchAction="none",window.PointerEvent?this._handlePointerEvents():(this._handleMouseEvents(),"ontouchstart"in window&&this._handleTouchEvents())}off(){this.canvas.style.touchAction="auto",this.canvas.style.msTouchAction="auto",this.canvas.removeEventListener("pointerdown",this._handleMouseDown),this.canvas.removeEventListener("pointermove",this._handleMouseMove),document.removeEventListener("pointerup",this._handleMouseUp),this.canvas.removeEventListener("mousedown",this._handleMouseDown),this.canvas.removeEventListener("mousemove",this._handleMouseMove),document.removeEventListener("mouseup",this._handleMouseUp),this.canvas.removeEventListener("touchstart",this._handleTouchStart),this.canvas.removeEventListener("touchmove",this._handleTouchMove),this.canvas.removeEventListener("touchend",this._handleTouchEnd)}isEmpty(){return this._isEmpty}fromData(t){this.clear(),this._fromData(t,({color:n,curve:r})=>this._drawCurve({color:n,curve:r}),({color:n,point:r})=>this._drawDot({color:n,point:r})),this._data=t}toData(){return this._data}_strokeBegin(t){const n={color:this.penColor,points:[]};typeof this.onBegin=="function"&&this.onBegin(t),this._data.push(n),this._reset(),this._strokeUpdate(t)}_strokeUpdate(t){if(this._data.length===0){this._strokeBegin(t);return}const n=t.clientX,r=t.clientY,i=this._createPoint(n,r),a=this._data[this._data.length-1],u=a.points,p=u.length>0&&u[u.length-1],e=p?i.distanceTo(p)<=this.minDistance:!1,h=a.color;if(!p||!(p&&e)){const c=this._addPoint(i);p?c&&this._drawCurve({color:h,curve:c}):this._drawDot({color:h,point:i}),u.push({time:i.time,x:i.x,y:i.y})}}_strokeEnd(t){this._strokeUpdate(t),typeof this.onEnd=="function"&&this.onEnd(t)}_handlePointerEvents(){this._mouseButtonDown=!1,this.canvas.addEventListener("pointerdown",this._handleMouseDown),this.canvas.addEventListener("pointermove",this._handleMouseMove),document.addEventListener("pointerup",this._handleMouseUp)}_handleMouseEvents(){this._mouseButtonDown=!1,this.canvas.addEventListener("mousedown",this._handleMouseDown),this.canvas.addEventListener("mousemove",this._handleMouseMove),document.addEventListener("mouseup",this._handleMouseUp)}_handleTouchEvents(){this.canvas.addEventListener("touchstart",this._handleTouchStart),this.canvas.addEventListener("touchmove",this._handleTouchMove),this.canvas.addEventListener("touchend",this._handleTouchEnd)}_reset(){this._lastPoints=[],this._lastVelocity=0,this._lastWidth=(this.minWidth+this.maxWidth)/2,this._ctx.fillStyle=this.penColor}_createPoint(t,n){const r=this.canvas.getBoundingClientRect();return new K(t-r.left,n-r.top,new Date().getTime())}_addPoint(t){const{_lastPoints:n}=this;if(n.push(t),n.length>2){n.length===3&&n.unshift(n[0]);const r=this._calculateCurveWidths(n[1],n[2]),i=ce.fromPoints(n,r);return n.shift(),i}return null}_calculateCurveWidths(t,n){const r=this.velocityFilterWeight*n.velocityFrom(t)+(1-this.velocityFilterWeight)*this._lastVelocity,i=this._strokeWidth(r),a={end:i,start:this._lastWidth};return this._lastVelocity=r,this._lastWidth=i,a}_strokeWidth(t){return Math.max(this.maxWidth/(t+1),this.minWidth)}_drawCurveSegment(t,n,r){const i=this._ctx;i.moveTo(t,n),i.arc(t,n,r,0,2*Math.PI,!1),this._isEmpty=!1}_drawCurve({color:t,curve:n}){const r=this._ctx,i=n.endWidth-n.startWidth,a=Math.floor(n.length())*2;r.beginPath(),r.fillStyle=t;for(let u=0;u<a;u+=1){const p=u/a,e=p*p,h=e*p,c=1-p,f=c*c,x=f*c;let V=x*n.startPoint.x;V+=3*f*p*n.control1.x,V+=3*c*e*n.control2.x,V+=h*n.endPoint.x;let g=x*n.startPoint.y;g+=3*f*p*n.control1.y,g+=3*c*e*n.control2.y,g+=h*n.endPoint.y;const C=Math.min(n.startWidth+h*i,this.maxWidth);this._drawCurveSegment(V,g,C)}r.closePath(),r.fill()}_drawDot({color:t,point:n}){const r=this._ctx,i=typeof this.dotSize=="function"?this.dotSize():this.dotSize;r.beginPath(),this._drawCurveSegment(n.x,n.y,i),r.closePath(),r.fillStyle=t,r.fill()}_fromData(t,n,r){for(const i of t){const{color:a,points:u}=i;if(u.length>1)for(let p=0;p<u.length;p+=1){const e=u[p],h=new K(e.x,e.y,e.time);this.penColor=a,p===0&&this._reset();const c=this._addPoint(h);c&&n({color:a,curve:c})}else this._reset(),r({color:a,point:u[0]})}}_toSVG(){const t=this._data,n=Math.max(window.devicePixelRatio||1,1),r=0,i=0,a=this.canvas.width/n,u=this.canvas.height/n,p=document.createElementNS("http://www.w3.org/2000/svg","svg");p.setAttribute("width",this.canvas.width.toString()),p.setAttribute("height",this.canvas.height.toString()),this._fromData(t,({color:V,curve:g})=>{const C=document.createElement("path");if(!isNaN(g.control1.x)&&!isNaN(g.control1.y)&&!isNaN(g.control2.x)&&!isNaN(g.control2.y)){const v=`M ${g.startPoint.x.toFixed(3)},${g.startPoint.y.toFixed(3)} C ${g.control1.x.toFixed(3)},${g.control1.y.toFixed(3)} ${g.control2.x.toFixed(3)},${g.control2.y.toFixed(3)} ${g.endPoint.x.toFixed(3)},${g.endPoint.y.toFixed(3)}`;C.setAttribute("d",v),C.setAttribute("stroke-width",(g.endWidth*2.25).toFixed(3)),C.setAttribute("stroke",V),C.setAttribute("fill","none"),C.setAttribute("stroke-linecap","round"),p.appendChild(C)}},({color:V,point:g})=>{const C=document.createElement("circle"),v=typeof this.dotSize=="function"?this.dotSize():this.dotSize;C.setAttribute("r",v.toString()),C.setAttribute("cx",g.x.toString()),C.setAttribute("cy",g.y.toString()),C.setAttribute("fill",V),p.appendChild(C)});const e="data:image/svg+xml;base64,",h=`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${r} ${i} ${a} ${u}" width="${a}" height="${u}">`;let c=p.innerHTML;if(c===void 0){const V=document.createElement("dummy"),g=p.childNodes;V.innerHTML="";for(let C=0;C<g.length;C+=1)V.appendChild(g[C].cloneNode(!0));c=V.innerHTML}const f="</svg>",x=h+c+f;return e+btoa(x)}}var qt={format:"image/png",quality:.92,width:void 0,height:void 0,Canvas:void 0,crossOrigin:void 0},ke=function(o,t){return o===void 0&&(o=[]),t===void 0&&(t={}),new Promise(function(n){t=Object.assign({},qt,t);var r=t.Canvas?new t.Canvas:window.document.createElement("canvas"),i=t.Canvas?t.Canvas.Image:window.Image;t.Canvas&&(t.quality*=100);var a=o.map(function(p){return new Promise(function(e,h){p.constructor.name!=="Object"&&(p={src:p});var c=new i;c.crossOrigin=t.crossOrigin,c.onerror=function(){return h(new Error("Couldn't load image"))},c.onload=function(){return e(Object.assign({},p,{img:c}))},c.src=p.src})}),u=r.getContext("2d");n(Promise.all(a).then(function(p){var e=function(h){return t[h]||Math.max.apply(Math,p.map(function(c){return c.img[h]}))};return r.width=e("width"),r.height=e("height"),p.forEach(function(h){return u.globalAlpha=h.opacity?h.opacity:1,u.drawImage(h.img,h.x||0,h.y||0)}),t.Canvas&&t.format==="image/jpeg"?new Promise(function(h){r.toDataURL(t.format,{quality:t.quality,progressive:!1},function(c,f){if(c)throw c;h(f)})}):r.toDataURL(t.format,t.quality)}))})};const re=["image/png","image/jpeg","image/svg+xml"],At=o=>re.includes(o),Dt={dotSize:(.5+2.5)/2,minWidth:.5,maxWidth:2.5,throttle:16,minDistance:5,backgroundColor:"rgba(0,0,0,0)",penColor:"black",velocityFilterWeight:.7,onBegin:()=>{},onEnd:()=>{}},Ve=o=>JSON.parse(JSON.stringify(o)),Pe={src:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",x:0,y:0};var se=le({name:"VueSignaturePad",props:{width:{type:String,default:"100%"},height:{type:String,default:"100%"},customStyle:{type:Object,default:()=>({})},options:{type:Object,default:()=>({})},images:{type:Array,default:()=>[]},scaleToDevicePixelRatio:{type:Boolean,default:()=>!0}},data:()=>({signaturePad:{},cacheImages:[],signatureData:Pe,onResizeHandler:null}),computed:{propsImagesAndCustomImages(){const o=Ve(this.images),t=Ve(this.cacheImages);return[...o,...t]}},watch:{options:function(o){Object.keys(o).forEach(t=>{this.signaturePad[t]&&(this.signaturePad[t]=o[t])})}},mounted(){const{options:o}=this,t=this.$refs.signaturePadCanvas,n=new X(t,{...Dt,...o});this.signaturePad=n,o.resizeHandler&&(this.resizeCanvas=o.resizeHandler.bind(this)),this.onResizeHandler=this.resizeCanvas.bind(this),window.addEventListener("resize",this.onResizeHandler,!1),this.resizeCanvas()},beforeUnmount(){this.onResizeHandler&&window.removeEventListener("resize",this.onResizeHandler,!1)},methods:{resizeCanvas(){const o=this.$refs.signaturePadCanvas,t=this.signaturePad.toData(),n=this.scaleToDevicePixelRatio?Math.max(window.devicePixelRatio||1,1):1;o.width=o.offsetWidth*n,o.height=o.offsetHeight*n,o.getContext("2d").scale(n,n),this.signaturePad.clear(),this.signatureData=Pe,this.signaturePad.fromData(t)},saveSignature(){let o=arguments.length>0&&arguments[0]!==void 0?arguments[0]:re[0],t=arguments.length>1?arguments[1]:void 0;const{signaturePad:n}=this,r={isEmpty:!1,data:void 0};if(!At(o)){const i=re.join(", ");throw new Error(`The Image type is incorrect! We are support ${i} types.`)}return n.isEmpty()?{...r,isEmpty:!0}:(this.signatureData=n.toDataURL(o,t),{...r,data:this.signatureData})},undoSignature(){const{signaturePad:o}=this,t=o.toData();if(t)return o.fromData(t.slice(0,-1))},mergeImageAndSignature(o){return this.signatureData=o,ke([...this.images,...this.cacheImages,this.signatureData])},addImages(){let o=arguments.length>0&&arguments[0]!==void 0?arguments[0]:[];return this.cacheImages=[...this.cacheImages,...o],ke([...this.images,...this.cacheImages,this.signatureData])},fromDataURL(o){let t=arguments.length>1&&arguments[1]!==void 0?arguments[1]:{},n=arguments.length>2?arguments[2]:void 0;return this.signaturePad.fromDataURL(o,t,n)},fromData(o){return this.signaturePad.fromData(o)},toData(){return this.signaturePad.toData()},lockSignaturePad(){return this.signaturePad.off()},openSignaturePad(){return this.signaturePad.on()},isEmpty(){return this.signaturePad.isEmpty()},getPropImagesAndCacheImages(){return this.propsImagesAndCustomImages},clearCacheImages(){return this.cacheImages=[],this.cacheImages},clearSignature(){return this.signaturePad.clear()}},render(){const{width:o,height:t,customStyle:n}=this;return P("div",{style:{width:o,height:t,...n}},[P("canvas",{style:{width:o,height:t},ref:"signaturePadCanvas"})])}});se.__file="src/components/VueSignaturePad.vue";const Tt={class:"col-xs-12 col-sm-10 col-md-5"},$t=d("br",null,null,-1),Et=d("div",{class:"text-h5"},"Contractor Application Form",-1),Nt=d("div",{class:"text-h6"},"Your contact details",-1),Ut=d("div",{class:"text-h6 q-mt-md"},"Your References",-1),It=d("div",{class:"text-h6 q-mt-md"},"Your business details",-1),Lt=d("div",{class:"text-h6 q-mt-md"},"Your Commission Payments",-1),Mt=d("div",{class:"text-h6 q-mt-md"},"Documents Upload",-1),Bt=d("p",null,"Please upload copies of the following documents.",-1),Rt=d("div",{class:"text-h6 q-mt-md"},"Requirements Checklist",-1),Wt=d("div",{class:"text-h6 q-mt-md"},"Contractor Declaration",-1),zt={key:1},Ft=d("div",{class:"text-h5"},"Contractor Application Form",-1),Qt=d("p",null,"Please complete form below to proceed to the next steps.",-1),Ot={class:"row q-col-gutter-md q-mt-sm"},Yt={class:"col-xs-12 col-sm-6"},jt={class:"col-xs-12 col-sm-6"},Gt={class:"row q-col-gutter-md"},Ht={class:"col-xs-12 col-sm-6"},Kt={class:"col-xs-12 col-sm-6"},Xt={class:"row q-col-gutter-md"},Jt={class:"col-xs-12 col-sm-6"},Zt={class:"col-xs-12 col-sm-6"},eo=d("p",null,"Please enter your current home / business address",-1),to={class:"row q-col-gutter-md q-mb-md"},oo=d("p",{class:"q-mt-sm"},"Please ensure if these change in future you let us know",-1),no={class:"row q-col-gutter-md"},ao={class:"col-xs-12 col-sm-6"},ro={class:"col-xs-12 col-sm-6"},so={class:"row q-col-gutter-md"},io={class:"col-xs-12 col-sm-6"},lo={class:"col-xs-12 col-sm-6"},co=d("p",{class:"q-mt-sm"},"Please include contact details of 2 referees. These can be personal or work referees. By including their details you agree to us contacting them for a reference check. Your formal offer will not be made until we have completed a satisfactory reference check.",-1),uo={class:"row q-col-gutter-md"},mo={class:"col-xs-12 col-sm-6"},po={class:"col-xs-12 col-sm-6"},_o={class:"row q-col-gutter-md"},ho={class:"col-xs-12 col-sm-6"},fo={class:"col-xs-12 col-sm-6"},vo={class:"row q-col-gutter-md"},go={class:"col-xs-12 col-sm-6"},yo={class:"col-xs-12 col-sm-6"},bo={class:"row q-col-gutter-md"},xo={class:"col-xs-12 col-sm-6"},wo={class:"col-xs-12 col-sm-6"},Co=d("p",{class:"q-mt-sm"},[Q("If you do not have an ABN, you can register at: "),d("a",{href:"https://www.abr.gov.au/",target:"_blank",class:"link"},"Australian Government Australian Business Register")],-1),ko=d("div",{class:"text-bold"},"Are you registered for GST?",-1),Vo=d("p",null,[Q("If you are unsure if you need to register for GST talk to your accountant or check out the ATO site for more information. If your GST status changes while you are working with The Laundry Lady please let us know immediately. "),d("a",{href:"https://www.ato.gov.au/Business/GST/Registering-for-GST/",target:"_blank",class:"link"},"Click here for ATO Registering for GST")],-1),Po=d("p",{class:"q-mt-sm"},"Commission will be paid to your nominated account. Please ensure this is completed or advised prior to any commission being due.",-1),So={class:"row q-col-gutter-md"},qo={class:"col-xs-12 col-sm-6"},Ao={class:"col-xs-12 col-sm-6"},Do={class:"row q-col-gutter-md"},To={class:"col-xs-12 col-sm-6"},$o={class:"col-xs-12 col-sm-6"},Eo={class:"q-mt-sm"},No=d("p",null,"Please upload copies of the following documents.",-1),Uo=d("div",{class:"text-h6 q-mb-xs"},"Copy of current Drivers Licence (front and back)",-1),Io=d("div",{class:"text-h6 q-mb-xs q-mt-md"},"Copy of current Medicare Card",-1),Lo=d("div",{class:"text-h6 q-mb-xs q-mt-md"},"Copy of Certificate of Currency for Public Liability Insuranced ",-1),Mo=d("p",null,"You must have public liability insurance to the coverage of $5million and maintain a current certificate of insurance at all times while carrying out services for the Laundry Lady. The certificate should name all applicants including any family members who may help you with deliveries from time to time. You will need to send us an updated certificate of insurance every year. We have a partnership with Bizcover to offer you the best rates through our group buying power, and make it easier for us to track your certificate of currency. To apply for your Bizcover Public Liability Insurance under the Laundry Lady partnership go to:",-1),Bo=d("div",{class:"text-h6 q-mb-xs q-mt-md"},"NDIS Workers Clearance Certificate",-1),Ro=d("p",null,"Please upload your NDIS Workers Clearance Certificate or email confirmation of your application (save your screenshot as one of the allowed file extensions). See below for instructions on how to obtain your NDIS Workers Clearance. Use appropriate state/territory link (listed below) for your location.",-1),Wo=d("p",null,[d("a",{href:"https://www.qld.gov.au/law/laws-regulated-industries-and-accountability/queensland-laws-and-regulations/regulated-industries-and-licensing/blue-card/applications/combined-disability-worker-screening",class:"link",target:"_blank"},"Queensland"),d("a",{href:"https://www.service.vic.gov.au/services/national-disability-insurance-scheme?utm_source=vic_gov_au_website&utm_medium=referral&utm_campaign=ndis_worker_screening_check&utm_content=online_application",target:"_blank",class:"link q-ml-sm"},"Victoria"),d("a",{href:"https://screening.sa.gov.au/types-of-check/ndis-worker-checks",target:"_blank",class:"link q-ml-sm"},"South Australia"),d("a",{href:"https://www.myaccount.act.gov.au/WWVPNDIS/s/wwvp-ndis-new-application-v2",target:"_blank",class:"link q-ml-sm"},"ACT"),d("a",{href:"https://online.transport.wa.gov.au/tso/selfservice/public/ndis_wsu_apply_entry.jsf#/embd/preliminary-questions",target:"_blank",class:"link q-ml-sm"},"Western Australia")],-1),zo=d("p",{class:"q-mt-sm"},"You will need the Laundry Lady employer ID below to complete your application. Laundry Lady details - to use in online application: When completing the application online, please nominate The Laundry Lady Pty Ltd as your employer. Employer ID details are as below. Employer name: The Laundry Lady Pty Ltd Employer ID: 4-GUCBSYQ",-1),Fo=d("div",{class:"text-h6 q-mb-xs q-mt-md"},"Photo of yourself",-1),Qo=d("p",null,"Upload a head and shoulders photo of yourself in front of a white background. We will use this on your public profile on our website that customers will see when booking. If you are a team (eg husband and wife) please provide a photo of both of you together in front of a white background.",-1),Oo=d("p",{class:"text-caption"},"Accepted file types: jpg, gif, png, pdf, Max. file size: 5 MB",-1),Yo=d("div",{class:"text-bold q-mb-sm q-mt-sm"},"Your Equipment",-1),jo=d("div",{class:"text-bold q-mb-sm"},"Please check the following",-1),Go={class:"row q-col-gutter-md q-mt-sm"},Ho={class:"col-xs-12 col-sm-6"},Ko=d("div",{class:"text-bold"},"Applicant One Signature",-1),Xo={style:{border:"1px solid #efefef"}},Jo={class:"col-xs-12 col-sm-6"},Zo=d("div",{class:"text-bold"},"Applicant Two Signature",-1),en={style:{border:"1px solid #efefef"}},kn=le({__name:"ApplicationForm",setup(o){const t=pt(),n=tt(),r=N(!1),i=N(!1),a=N(1),u=N(),p=N(),e=Ae({first_name:null,last_name:null,first_name_2:null,last_name_2:null,contractor_badge_name:null,contractor_start_date:null,dateofbirth:null,address1:null,address2:null,suburb_postcode_region_id:null,country_id:13,contractor_ec_first_name:null,contractor_ec_last_name:null,contractor_ec_phone:null,contractor_ec_relationship:null,contractor_ref_first_name:null,contractor_ref_last_name:null,contractor_ref_email:null,contractor_ref_phone:null,contractor_ref2_first_name:null,contractor_ref2_last_name:null,contractor_ref2_email:null,contractor_ref2_phone:null,contractor_abn:null,contractor_gst_registered:!1,contractor_bd_name:null,contractor_bd_bank:null,contractor_bd_bsb:null,contractor_bd_number:null,contractor_clothing_rack:"No",contractor_smartphone_type:"No",contractor_computer_type:"No",contractor_ironing_steam_station:"No",contractor_washing_machine_dryer:"No",contractor_declaration_agreement:!1,contractor_declaration_training:!1,contractor_declaration_abn:!1,contractor_declaration_pl:!1,contractor_declaration_inform:!1,contractor_declaration_kit:!1,contractor_declaration_information:!1,contractor_applicant_1_sig:null,contractor_applicant_2_sig:null,documents:[],avatar:null}),c=mt({first_name:{required:y},last_name:{required:y},dateofbirth:{required:y},contractor_badge_name:{required:y},contractor_start_date:{required:y},address2:{required:y},suburb_postcode_region_id:{required:y},country_id:{required:y},contractor_ec_first_name:{required:y},contractor_ec_last_name:{required:y},contractor_ec_phone:{required:y},contractor_ec_relationship:{required:y},contractor_ref_first_name:{required:y},contractor_ref_last_name:{required:y},contractor_ref_email:{required:y,email:ve},contractor_ref_phone:{required:y},contractor_ref2_first_name:{required:y},contractor_ref2_last_name:{required:y},contractor_ref2_email:{required:y,email:ve},contractor_ref2_phone:{required:y},contractor_abn:{required:y},contractor_gst_registered:{required:y},contractor_bd_name:{required:y},contractor_bd_bank:{required:y},contractor_bd_bsb:{required:y},contractor_bd_number:{required:y},contractor_clothing_rack:{required:y},contractor_smartphone_type:{required:y},contractor_computer_type:{required:y},contractor_ironing_steam_station:{required:y},contractor_washing_machine_dryer:{required:y},contractor_declaration_agreement:{required:y},contractor_declaration_training:{required:y},contractor_declaration_abn:{required:y},contractor_declaration_pl:{required:y},contractor_declaration_inform:{required:y},contractor_declaration_kit:{required:y},contractor_declaration_information:{required:y},contractor_applicant_1_sig:{required:y},avatar:{required:y}},e,{$scope:!1}),f=S(()=>{const b={step1:!0,step2:!0,step3:!0,step4:!0,step5:!0,step6:!0,step7:!0,step8:!0,step9:!0};return(!e.first_name||!e.last_name||!e.contractor_badge_name||!e.contractor_start_date)&&(b.step1=!1),(!e.address2||!e.suburb_postcode_region_id||!e.dateofbirth)&&(b.step2=!1),(!e.contractor_ec_first_name||!e.contractor_ec_last_name||!e.contractor_ec_phone||!e.contractor_ec_relationship)&&(b.step3=!1),(!e.contractor_ref_first_name||!e.contractor_ref_last_name||!e.contractor_ref_email||!e.contractor_ref_phone)&&(b.step4=!1),e.contractor_abn||(b.step5=!1),(!e.contractor_bd_name||!e.contractor_bd_bank||!e.contractor_bd_bsb||!e.contractor_bd_number)&&(b.step6=!1),e.documents.filter(B=>B.type==="Drivers Licence").length<2&&(b.step7=!1),e.documents.filter(B=>B.type==="Medicare Card").length||(b.step7=!1),e.documents.filter(B=>B.type==="Certificate of Currency for Public Liability Insurance").length||(b.step7=!1),e.contractor_clothing_rack==="No"&&e.contractor_smartphone_type==="No"&&e.contractor_computer_type==="No"&&e.contractor_ironing_steam_station==="No"&&e.contractor_washing_machine_dryer==="No"&&(b.step8=!1),(!e.contractor_declaration_agreement||!e.contractor_declaration_training||!e.contractor_declaration_abn||!e.contractor_declaration_pl||!e.contractor_declaration_inform||!e.contractor_declaration_kit||!e.contractor_declaration_information)&&(b.step9=!1),b}),x=()=>{const{isEmpty:b,data:s}=u.value.saveSignature();b||(e.contractor_applicant_1_sig=s)},V=()=>{e.contractor_applicant_1_sig=null,u.value.clearSignature()},g=()=>{const{isEmpty:b,data:s}=p.value.saveSignature();b||(e.contractor_applicant_2_sig=s)},C=()=>{e.contractor_applicant_2_sig=null,p.value.clearSignature()},v=()=>{r.value=!0,i.value=!1,t.loading.show({message:"Submitting application, please wait..."}),ge.put(`/public/user/contractor/onboarding/application/${n.params.id}`,e).then(()=>{i.value=!0,r.value=!1,t.loading.hide()}).catch(b=>{r.value=!1,t.loading.hide(),xe(b)})},k=b=>{e.documents.push(b)},T=b=>{e.documents=e.documents.filter(s=>s.name!==b.name)},z=b=>{e.avatar=b.xhr.response};return ot(()=>{ge.get(`/public/user/contractor/onboarding/application/${n.params.id}`).then(b=>{Object.assign(e,b.data)}).catch(b=>{xe(b)})}),(b,s)=>e&&e.first_name?(U(),W(dt,{key:0,view:"lHh Lpr lFf"},{default:A(()=>[m(ut,null,{default:A(()=>[m(ct,{class:"row justify-center items-center animated fadeIn",padding:""},{default:A(()=>[d("div",Tt,[m(_t),i.value?(U(),W(nt,{key:0},{default:A(()=>[m(pe,{class:"text-left"},{default:A(()=>[Q(" Thanks for your interest in joining The Laundry Lady."),$t,Q("Please check your email for the next steps. ")]),_:1}),i.value?R("",!0):(U(),W(pe,{key:0,class:"text-left"},{default:A(()=>[Et,Nt,Ut,It,Lt,Mt,Bt,Rt,Wt,m($,{loading:r.value,onClick:s[0]||(s[0]=l=>v()),disabled:_(c).$invalid,color:"primary",label:"Submit",class:"full-width q-mt-md"},null,8,["loading","disabled"])]),_:1}))]),_:1})):R("",!0),i.value?R("",!0):(U(),ae("div",zt,[Ft,Qt,i.value?R("",!0):(U(),W(Vt,{key:0,modelValue:a.value,"onUpdate:modelValue":s[53]||(s[53]=l=>a.value=l),ref:"stepper",color:"primary",animated:"","header-nav":"",vertical:""},{default:A(()=>[m(M,{name:1,title:"Applicant Details",icon:"account_circle",prefix:"1",error:!_(f).step1,done:_(f).step1,"done-color":"positive"},{default:A(()=>[d("div",Ot,[d("div",Yt,[m(q,{modelValue:e.first_name,"onUpdate:modelValue":s[1]||(s[1]=l=>e.first_name=l),label:"Applicant One First Name",error:_(c).first_name.$invalid},null,8,["modelValue","error"])]),d("div",jt,[m(q,{modelValue:e.last_name,"onUpdate:modelValue":s[2]||(s[2]=l=>e.last_name=l),label:"Applicant One Last Name",error:_(c).last_name.$invalid},null,8,["modelValue","error"])])]),d("div",Gt,[d("div",Ht,[m(q,{modelValue:e.first_name_2,"onUpdate:modelValue":s[3]||(s[3]=l=>e.first_name_2=l),label:"Applicant Two First Name","bottom-slots":""},null,8,["modelValue"])]),d("div",Kt,[m(q,{modelValue:e.last_name_2,"onUpdate:modelValue":s[4]||(s[4]=l=>e.last_name_2=l),label:"Applicant Two Last Name","bottom-slots":""},null,8,["modelValue"])])]),d("div",Xt,[d("div",Jt,[m(q,{modelValue:e.contractor_badge_name,"onUpdate:modelValue":s[5]||(s[5]=l=>e.contractor_badge_name=l),label:"Preferred Name for Name Badge",error:_(c).contractor_badge_name.$invalid},null,8,["modelValue","error"])]),d("div",Zt,[m(fe,{modelValue:e.contractor_start_date,"onUpdate:modelValue":s[6]||(s[6]=l=>e.contractor_start_date=l),label:"Start Date",invalid:_(c).contractor_start_date.$invalid},null,8,["modelValue","invalid"])])]),m($,{onClick:s[7]||(s[7]=l=>a.value=2),label:"Next",color:"primary",class:"q-mt-lg"})]),_:1},8,["error","done"]),m(M,{name:2,title:"Your Contact Details",prefix:"2",error:!_(f).step2,done:_(f).step2,"done-color":"positive"},{default:A(()=>[eo,m(st,{model:e,outlined:!0,addressfields:{address1:"address1",address2:"address2",suburb_postcode_region_id:"suburb_postcode_region_id",lat:"lat",lng:"lng",country_id:"country_id"},placeholder:b.$t("address.search")},null,8,["model","placeholder"]),m(q,{modelValue:e.address1,"onUpdate:modelValue":s[8]||(s[8]=l=>e.address1=l),label:b.$t("address.line1"),"bottom-slots":""},null,8,["modelValue","label"]),m(q,{modelValue:e.address2,"onUpdate:modelValue":s[9]||(s[9]=l=>e.address2=l),error:_(c).address2.$invalid,label:b.$t("address.line2")},null,8,["modelValue","error","label"]),d("div",to,[m(ft,{modelValue:e.suburb_postcode_region_id,"onUpdate:modelValue":s[10]||(s[10]=l=>e.suburb_postcode_region_id=l),invalid:_(c).suburb_postcode_region_id.$invalid,label:b.$t("address.suburb"),class:"col-xs-12 col-sm-6"},null,8,["modelValue","invalid","label"]),m(it,{modelValue:e.country_id,"onUpdate:modelValue":s[11]||(s[11]=l=>e.country_id=l),label:b.$t("address.country"),invalid:_(c).country_id.$invalid,class:"col-xs-12 col-sm-6"},null,8,["modelValue","label","invalid"])]),m(fe,{modelValue:e.dateofbirth,"onUpdate:modelValue":s[12]||(s[12]=l=>e.dateofbirth=l),invalid:_(c).dateofbirth.$invalid,label:"Date of Birth"},null,8,["modelValue","invalid"]),m($,{onClick:s[13]||(s[13]=l=>a.value=3),label:"Next",color:"primary",class:"q-mt-lg"})]),_:1},8,["error","done"]),m(M,{name:3,title:"Emergency Contact Details",prefix:"3",error:!_(f).step3,done:_(f).step3,"done-color":"positive"},{default:A(()=>[oo,d("div",no,[d("div",ao,[m(q,{modelValue:e.contractor_ec_first_name,"onUpdate:modelValue":s[14]||(s[14]=l=>e.contractor_ec_first_name=l),label:"Emergency Contact First Name",error:_(c).contractor_ec_first_name.$invalid},null,8,["modelValue","error"])]),d("div",ro,[m(q,{modelValue:e.contractor_ec_last_name,"onUpdate:modelValue":s[15]||(s[15]=l=>e.contractor_ec_last_name=l),label:"Emergency Contact Last Name",error:_(c).contractor_ec_last_name.$invalid},null,8,["modelValue","error"])])]),d("div",so,[d("div",io,[m(q,{modelValue:e.contractor_ec_phone,"onUpdate:modelValue":s[16]||(s[16]=l=>e.contractor_ec_phone=l),label:"Emergency Contact Phone",error:_(c).contractor_ec_phone.$invalid},null,8,["modelValue","error"])]),d("div",lo,[m(q,{modelValue:e.contractor_ec_relationship,"onUpdate:modelValue":s[17]||(s[17]=l=>e.contractor_ec_relationship=l),label:"Emergency Contact Relationship to you",error:_(c).contractor_ec_relationship.$invalid},null,8,["modelValue","error"])])]),m($,{onClick:s[18]||(s[18]=l=>a.value=4),label:"Next",color:"primary",class:"q-mt-lg"})]),_:1},8,["error","done"]),m(M,{name:4,title:"Your References",prefix:"4",error:!_(f).step4,done:_(f).step4,"done-color":"positive"},{default:A(()=>[co,d("div",uo,[d("div",mo,[m(q,{modelValue:e.contractor_ref_first_name,"onUpdate:modelValue":s[19]||(s[19]=l=>e.contractor_ref_first_name=l),label:"Referee One First Name",error:_(c).contractor_ref_first_name.$invalid},null,8,["modelValue","error"])]),d("div",po,[m(q,{modelValue:e.contractor_ref_last_name,"onUpdate:modelValue":s[20]||(s[20]=l=>e.contractor_ref_last_name=l),label:"Referee One Last Name",error:_(c).contractor_ref_last_name.$invalid},null,8,["modelValue","error"])])]),d("div",_o,[d("div",ho,[m(q,{modelValue:e.contractor_ref_email,"onUpdate:modelValue":s[21]||(s[21]=l=>e.contractor_ref_email=l),label:"Referee One Email",error:_(c).contractor_ref_email.$invalid},null,8,["modelValue","error"])]),d("div",fo,[m(q,{modelValue:e.contractor_ref_phone,"onUpdate:modelValue":s[22]||(s[22]=l=>e.contractor_ref_phone=l),label:"Referee One Phone",error:_(c).contractor_ref_phone.$invalid},null,8,["modelValue","error"])])]),d("div",vo,[d("div",go,[m(q,{modelValue:e.contractor_ref2_first_name,"onUpdate:modelValue":s[23]||(s[23]=l=>e.contractor_ref2_first_name=l),label:"Referee Two First Name",error:_(c).contractor_ref2_first_name.$invalid},null,8,["modelValue","error"])]),d("div",yo,[m(q,{modelValue:e.contractor_ref2_last_name,"onUpdate:modelValue":s[24]||(s[24]=l=>e.contractor_ref2_last_name=l),label:"Referee Two Last Name",error:_(c).contractor_ref2_last_name.$invalid},null,8,["modelValue","error"])])]),d("div",bo,[d("div",xo,[m(q,{modelValue:e.contractor_ref2_email,"onUpdate:modelValue":s[25]||(s[25]=l=>e.contractor_ref2_email=l),label:"Referee Two Email",error:_(c).contractor_ref2_email.$invalid},null,8,["modelValue","error"])]),d("div",wo,[m(q,{modelValue:e.contractor_ref2_phone,"onUpdate:modelValue":s[26]||(s[26]=l=>e.contractor_ref2_phone=l),label:"Referee Two Phone",error:_(c).contractor_ref2_phone.$invalid},null,8,["modelValue","error"])])]),m($,{onClick:s[27]||(s[27]=l=>a.value=5),label:"Next",color:"primary",class:"q-mt-lg"})]),_:1},8,["error","done"]),m(M,{name:5,title:"Your business details",prefix:"5",error:!_(f).step5,done:_(f).step5,"done-color":"positive"},{default:A(()=>[Co,m(q,{modelValue:e.contractor_abn,"onUpdate:modelValue":s[28]||(s[28]=l=>e.contractor_abn=l),label:"ABN","bottom-slots":"",error:_(c).contractor_abn.$invalid},null,8,["modelValue","error"]),ko,m(at,{modelValue:e.contractor_gst_registered,"onUpdate:modelValue":s[29]||(s[29]=l=>e.contractor_gst_registered=l),label:"I am registered for GST",class:"q-mt-sm q-mb-sm"},null,8,["modelValue"]),Vo,m($,{onClick:s[30]||(s[30]=l=>a.value=6),label:"Next",color:"primary",class:"q-mt-lg"})]),_:1},8,["error","done"]),m(M,{name:6,title:"Your Commission Payments",prefix:"6",error:!_(f).step6,done:_(f).step6,"done-color":"positive"},{default:A(()=>[Po,d("div",So,[d("div",qo,[m(q,{modelValue:e.contractor_bd_name,"onUpdate:modelValue":s[31]||(s[31]=l=>e.contractor_bd_name=l),label:"Account Name",error:_(c).contractor_bd_name.$invalid},null,8,["modelValue","error"])]),d("div",Ao,[m(q,{modelValue:e.contractor_bd_bank,"onUpdate:modelValue":s[32]||(s[32]=l=>e.contractor_bd_bank=l),label:"Bank / Financial Institution",error:_(c).contractor_bd_bank.$invalid},null,8,["modelValue","error"])])]),d("div",Do,[d("div",To,[m(q,{modelValue:e.contractor_bd_bsb,"onUpdate:modelValue":s[33]||(s[33]=l=>e.contractor_bd_bsb=l),label:"Branch / BSB Number",error:_(c).contractor_bd_bsb.$invalid},null,8,["modelValue","error"])]),d("div",$o,[m(q,{modelValue:e.contractor_bd_number,"onUpdate:modelValue":s[34]||(s[34]=l=>e.contractor_bd_number=l),label:"Account Number",error:_(c).contractor_bd_number.$invalid},null,8,["modelValue","error"])])]),m($,{onClick:s[35]||(s[35]=l=>a.value=7),label:"Next",color:"primary",class:"q-mt-lg"})]),_:1},8,["error","done"]),m(M,{name:7,title:"Documents Upload",prefix:"7",error:!_(f).step7,done:_(f).step7,"done-color":"positive"},{default:A(()=>[d("div",Eo,[No,Uo,m(H,{type:"Drivers Licence",documents:e.documents,"onAttachment:add":k,"onAttachment:remove":T},null,8,["documents"]),Io,m(H,{type:"Medicare Card",documents:e.documents,"onAttachment:add":k,"onAttachment:remove":T},null,8,["documents"]),Lo,Mo,m(H,{type:"Certificate of Currency for Public Liability Insurance",documents:e.documents,"onAttachment:add":k,"onAttachment:remove":T},null,8,["documents"]),Bo,Ro,Wo,m(H,{type:"NDIS Workers Clearance Certificate",documents:e.documents,"onAttachment:add":k,"onAttachment:remove":T},null,8,["documents"]),zo,Fo,Qo,m(Te,{color:"primary",url:_(I).url,headers:_(I).headers,onUploaded:z,label:"Upload document","auto-expand":"","auto-upload":"",accept:_(I).documents,"field-name":_(I).fieldName,class:"q-mb-sm",ref:"tmpUploader","max-file-size":_(I)["max-file-size"]},null,8,["url","headers","accept","field-name","max-file-size"]),Oo]),m($,{onClick:s[36]||(s[36]=l=>a.value=8),label:"Next",color:"primary",class:"q-mt-lg"})]),_:1},8,["error","done"]),m(M,{name:8,title:"Requirements Checklist",prefix:"8",error:!_(f).step8,done:_(f).step8,"done-color":"positive"},{default:A(()=>[Yo,d("div",null,[m(E,{modelValue:e.contractor_clothing_rack,"onUpdate:modelValue":s[37]||(s[37]=l=>e.contractor_clothing_rack=l),label:"Car with clothing rack or clothing bar secured","true-value":"Yes","false-value":"No"},null,8,["modelValue"])]),d("div",null,[m(E,{modelValue:e.contractor_smartphone_type,"onUpdate:modelValue":s[38]||(s[38]=l=>e.contractor_smartphone_type=l),label:"Smartphone with data plan","true-value":"Yes","false-value":"No"},null,8,["modelValue"])]),d("div",null,[m(E,{modelValue:e.contractor_computer_type,"onUpdate:modelValue":s[39]||(s[39]=l=>e.contractor_computer_type=l),label:"Computer or Laptop with internet access","true-value":"Yes","false-value":"No"},null,8,["modelValue"])]),d("div",null,[m(E,{modelValue:e.contractor_ironing_steam_station,"onUpdate:modelValue":s[40]||(s[40]=l=>e.contractor_ironing_steam_station=l),label:"Ironing steam station","true-value":"Yes","false-value":"No"},null,8,["modelValue"])]),d("div",null,[m(E,{modelValue:e.contractor_washing_machine_dryer,"onUpdate:modelValue":s[41]||(s[41]=l=>e.contractor_washing_machine_dryer=l),label:"Washing Machine and Dryer","true-value":"Yes","false-value":"No"},null,8,["modelValue"])]),m($,{onClick:s[42]||(s[42]=l=>a.value=9),label:"Next",color:"primary",class:"q-mt-lg"})]),_:1},8,["error","done"]),m(M,{name:9,title:"Contractor Declaration",prefix:"9",error:!_(f).step9,done:_(f).step9,"done-color":"positive"},{default:A(()=>[jo,d("div",null,[m(E,{modelValue:e.contractor_declaration_agreement,"onUpdate:modelValue":s[43]||(s[43]=l=>e.contractor_declaration_agreement=l),label:"I have read and agree with the Contractor Agreement and will submit a signed agreement"},null,8,["modelValue"])]),d("div",null,[m(E,{modelValue:e.contractor_declaration_training,"onUpdate:modelValue":s[44]||(s[44]=l=>e.contractor_declaration_training=l),label:"I agree to undertake the Laundry Lady Training Program and follow Laundry Lady policies and procedures"},null,8,["modelValue"])]),d("div",null,[m(E,{modelValue:e.contractor_declaration_abn,"onUpdate:modelValue":s[45]||(s[45]=l=>e.contractor_declaration_abn=l),label:"I agree to register and maintain an ABN and for the Laundry Lady to create recepient created tax invoices for weekly commissions"},null,8,["modelValue"])]),d("div",null,[m(E,{modelValue:e.contractor_declaration_pl,"onUpdate:modelValue":s[46]||(s[46]=l=>e.contractor_declaration_pl=l),label:"I agree to take out public liability coverage to $5million and keep the policy current at all times"},null,8,["modelValue"])]),d("div",null,[m(E,{modelValue:e.contractor_declaration_inform,"onUpdate:modelValue":s[47]||(s[47]=l=>e.contractor_declaration_inform=l),label:"I agree to inform the Laundry Lady if any details change in this application form"},null,8,["modelValue"])]),d("div",null,[m(E,{modelValue:e.contractor_declaration_kit,"onUpdate:modelValue":s[48]||(s[48]=l=>e.contractor_declaration_kit=l),label:"I agree to purchase the Starter Kit for $399 including GST as detailed in the The Laundry Lady Contractor Package. An invoice will be sent after references are checked and confirmed."},null,8,["modelValue"])]),d("div",null,[m(E,{modelValue:e.contractor_declaration_information,"onUpdate:modelValue":s[49]||(s[49]=l=>e.contractor_declaration_information=l),label:"I agree that all information included in this application form is true and correct."},null,8,["modelValue"])]),d("div",Go,[d("div",Ho,[Ko,d("div",Xo,[m(_(se),{id:"signature",width:"100%",height:"150px",ref_key:"sig1Ref",ref:u,options:{onEnd:x}},null,8,["options"])]),m($,{onClick:s[50]||(s[50]=l=>V()),icon:"sync",flat:""})]),d("div",Jo,[Zo,d("div",en,[m(_(se),{id:"signature",width:"100%",height:"150px",ref_key:"sig2Ref",ref:p,options:{onEnd:g}},null,8,["options"])]),m($,{onClick:s[51]||(s[51]=l=>C()),icon:"sync",flat:""})])]),m($,{onClick:s[52]||(s[52]=l=>v()),disable:r.value||_(c).$invalid,label:"Submit",color:"primary",class:"q-mt-lg"},null,8,["disable"])]),_:1},8,["error","done"])]),_:1},8,["modelValue"]))]))])]),_:1})]),_:1})]),_:1})):R("",!0)}});export{kn as default};
+ */
+class Point {
+  constructor(x, y, time) {
+    this.x = x;
+    this.y = y;
+    this.time = time || Date.now();
+  }
+  distanceTo(start) {
+    return Math.sqrt(Math.pow(this.x - start.x, 2) + Math.pow(this.y - start.y, 2));
+  }
+  equals(other) {
+    return this.x === other.x && this.y === other.y && this.time === other.time;
+  }
+  velocityFrom(start) {
+    return this.time !== start.time ? this.distanceTo(start) / (this.time - start.time) : 0;
+  }
+}
+class Bezier {
+  constructor(startPoint, control2, control1, endPoint, startWidth, endWidth) {
+    this.startPoint = startPoint;
+    this.control2 = control2;
+    this.control1 = control1;
+    this.endPoint = endPoint;
+    this.startWidth = startWidth;
+    this.endWidth = endWidth;
+  }
+  static fromPoints(points, widths) {
+    const c2 = this.calculateControlPoints(points[0], points[1], points[2]).c2;
+    const c3 = this.calculateControlPoints(points[1], points[2], points[3]).c1;
+    return new Bezier(points[1], c2, c3, points[2], widths.start, widths.end);
+  }
+  static calculateControlPoints(s1, s2, s3) {
+    const dx1 = s1.x - s2.x;
+    const dy1 = s1.y - s2.y;
+    const dx2 = s2.x - s3.x;
+    const dy2 = s2.y - s3.y;
+    const m1 = { x: (s1.x + s2.x) / 2, y: (s1.y + s2.y) / 2 };
+    const m2 = { x: (s2.x + s3.x) / 2, y: (s2.y + s3.y) / 2 };
+    const l1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+    const l2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+    const dxm = m1.x - m2.x;
+    const dym = m1.y - m2.y;
+    const k = l2 / (l1 + l2);
+    const cm = { x: m2.x + dxm * k, y: m2.y + dym * k };
+    const tx = s2.x - cm.x;
+    const ty = s2.y - cm.y;
+    return {
+      c1: new Point(m1.x + tx, m1.y + ty),
+      c2: new Point(m2.x + tx, m2.y + ty)
+    };
+  }
+  length() {
+    const steps = 10;
+    let length = 0;
+    let px;
+    let py;
+    for (let i = 0; i <= steps; i += 1) {
+      const t = i / steps;
+      const cx = this.point(t, this.startPoint.x, this.control1.x, this.control2.x, this.endPoint.x);
+      const cy = this.point(t, this.startPoint.y, this.control1.y, this.control2.y, this.endPoint.y);
+      if (i > 0) {
+        const xdiff = cx - px;
+        const ydiff = cy - py;
+        length += Math.sqrt(xdiff * xdiff + ydiff * ydiff);
+      }
+      px = cx;
+      py = cy;
+    }
+    return length;
+  }
+  point(t, start, c1, c2, end) {
+    return start * (1 - t) * (1 - t) * (1 - t) + 3 * c1 * (1 - t) * (1 - t) * t + 3 * c2 * (1 - t) * t * t + end * t * t * t;
+  }
+}
+function throttle(fn, wait = 250) {
+  let previous = 0;
+  let timeout = null;
+  let result;
+  let storedContext;
+  let storedArgs;
+  const later = () => {
+    previous = Date.now();
+    timeout = null;
+    result = fn.apply(storedContext, storedArgs);
+    if (!timeout) {
+      storedContext = null;
+      storedArgs = [];
+    }
+  };
+  return function wrapper(...args) {
+    const now = Date.now();
+    const remaining = wait - (now - previous);
+    storedContext = this;
+    storedArgs = args;
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      previous = now;
+      result = fn.apply(storedContext, storedArgs);
+      if (!timeout) {
+        storedContext = null;
+        storedArgs = [];
+      }
+    } else if (!timeout) {
+      timeout = window.setTimeout(later, remaining);
+    }
+    return result;
+  };
+}
+class SignaturePad {
+  constructor(canvas, options = {}) {
+    this.canvas = canvas;
+    this.options = options;
+    this._handleMouseDown = (event) => {
+      if (event.which === 1) {
+        this._mouseButtonDown = true;
+        this._strokeBegin(event);
+      }
+    };
+    this._handleMouseMove = (event) => {
+      if (this._mouseButtonDown) {
+        this._strokeMoveUpdate(event);
+      }
+    };
+    this._handleMouseUp = (event) => {
+      if (event.which === 1 && this._mouseButtonDown) {
+        this._mouseButtonDown = false;
+        this._strokeEnd(event);
+      }
+    };
+    this._handleTouchStart = (event) => {
+      event.preventDefault();
+      if (event.targetTouches.length === 1) {
+        const touch = event.changedTouches[0];
+        this._strokeBegin(touch);
+      }
+    };
+    this._handleTouchMove = (event) => {
+      event.preventDefault();
+      const touch = event.targetTouches[0];
+      this._strokeMoveUpdate(touch);
+    };
+    this._handleTouchEnd = (event) => {
+      const wasCanvasTouched = event.target === this.canvas;
+      if (wasCanvasTouched) {
+        event.preventDefault();
+        const touch = event.changedTouches[0];
+        this._strokeEnd(touch);
+      }
+    };
+    this.velocityFilterWeight = options.velocityFilterWeight || 0.7;
+    this.minWidth = options.minWidth || 0.5;
+    this.maxWidth = options.maxWidth || 2.5;
+    this.throttle = "throttle" in options ? options.throttle : 16;
+    this.minDistance = "minDistance" in options ? options.minDistance : 5;
+    this.dotSize = options.dotSize || function dotSize() {
+      return (this.minWidth + this.maxWidth) / 2;
+    };
+    this.penColor = options.penColor || "black";
+    this.backgroundColor = options.backgroundColor || "rgba(0,0,0,0)";
+    this.onBegin = options.onBegin;
+    this.onEnd = options.onEnd;
+    this._strokeMoveUpdate = this.throttle ? throttle(SignaturePad.prototype._strokeUpdate, this.throttle) : SignaturePad.prototype._strokeUpdate;
+    this._ctx = canvas.getContext("2d");
+    this.clear();
+    this.on();
+  }
+  clear() {
+    const { _ctx: ctx, canvas } = this;
+    ctx.fillStyle = this.backgroundColor;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    this._data = [];
+    this._reset();
+    this._isEmpty = true;
+  }
+  fromDataURL(dataUrl, options = {}, callback) {
+    const image = new Image();
+    const ratio = options.ratio || window.devicePixelRatio || 1;
+    const width = options.width || this.canvas.width / ratio;
+    const height = options.height || this.canvas.height / ratio;
+    this._reset();
+    image.onload = () => {
+      this._ctx.drawImage(image, 0, 0, width, height);
+      if (callback) {
+        callback();
+      }
+    };
+    image.onerror = (error) => {
+      if (callback) {
+        callback(error);
+      }
+    };
+    image.src = dataUrl;
+    this._isEmpty = false;
+  }
+  toDataURL(type = "image/png", encoderOptions) {
+    switch (type) {
+      case "image/svg+xml":
+        return this._toSVG();
+      default:
+        return this.canvas.toDataURL(type, encoderOptions);
+    }
+  }
+  on() {
+    this.canvas.style.touchAction = "none";
+    this.canvas.style.msTouchAction = "none";
+    if (window.PointerEvent) {
+      this._handlePointerEvents();
+    } else {
+      this._handleMouseEvents();
+      if ("ontouchstart" in window) {
+        this._handleTouchEvents();
+      }
+    }
+  }
+  off() {
+    this.canvas.style.touchAction = "auto";
+    this.canvas.style.msTouchAction = "auto";
+    this.canvas.removeEventListener("pointerdown", this._handleMouseDown);
+    this.canvas.removeEventListener("pointermove", this._handleMouseMove);
+    document.removeEventListener("pointerup", this._handleMouseUp);
+    this.canvas.removeEventListener("mousedown", this._handleMouseDown);
+    this.canvas.removeEventListener("mousemove", this._handleMouseMove);
+    document.removeEventListener("mouseup", this._handleMouseUp);
+    this.canvas.removeEventListener("touchstart", this._handleTouchStart);
+    this.canvas.removeEventListener("touchmove", this._handleTouchMove);
+    this.canvas.removeEventListener("touchend", this._handleTouchEnd);
+  }
+  isEmpty() {
+    return this._isEmpty;
+  }
+  fromData(pointGroups) {
+    this.clear();
+    this._fromData(pointGroups, ({ color, curve }) => this._drawCurve({ color, curve }), ({ color, point }) => this._drawDot({ color, point }));
+    this._data = pointGroups;
+  }
+  toData() {
+    return this._data;
+  }
+  _strokeBegin(event) {
+    const newPointGroup = {
+      color: this.penColor,
+      points: []
+    };
+    if (typeof this.onBegin === "function") {
+      this.onBegin(event);
+    }
+    this._data.push(newPointGroup);
+    this._reset();
+    this._strokeUpdate(event);
+  }
+  _strokeUpdate(event) {
+    if (this._data.length === 0) {
+      this._strokeBegin(event);
+      return;
+    }
+    const x = event.clientX;
+    const y = event.clientY;
+    const point = this._createPoint(x, y);
+    const lastPointGroup = this._data[this._data.length - 1];
+    const lastPoints = lastPointGroup.points;
+    const lastPoint = lastPoints.length > 0 && lastPoints[lastPoints.length - 1];
+    const isLastPointTooClose = lastPoint ? point.distanceTo(lastPoint) <= this.minDistance : false;
+    const color = lastPointGroup.color;
+    if (!lastPoint || !(lastPoint && isLastPointTooClose)) {
+      const curve = this._addPoint(point);
+      if (!lastPoint) {
+        this._drawDot({ color, point });
+      } else if (curve) {
+        this._drawCurve({ color, curve });
+      }
+      lastPoints.push({
+        time: point.time,
+        x: point.x,
+        y: point.y
+      });
+    }
+  }
+  _strokeEnd(event) {
+    this._strokeUpdate(event);
+    if (typeof this.onEnd === "function") {
+      this.onEnd(event);
+    }
+  }
+  _handlePointerEvents() {
+    this._mouseButtonDown = false;
+    this.canvas.addEventListener("pointerdown", this._handleMouseDown);
+    this.canvas.addEventListener("pointermove", this._handleMouseMove);
+    document.addEventListener("pointerup", this._handleMouseUp);
+  }
+  _handleMouseEvents() {
+    this._mouseButtonDown = false;
+    this.canvas.addEventListener("mousedown", this._handleMouseDown);
+    this.canvas.addEventListener("mousemove", this._handleMouseMove);
+    document.addEventListener("mouseup", this._handleMouseUp);
+  }
+  _handleTouchEvents() {
+    this.canvas.addEventListener("touchstart", this._handleTouchStart);
+    this.canvas.addEventListener("touchmove", this._handleTouchMove);
+    this.canvas.addEventListener("touchend", this._handleTouchEnd);
+  }
+  _reset() {
+    this._lastPoints = [];
+    this._lastVelocity = 0;
+    this._lastWidth = (this.minWidth + this.maxWidth) / 2;
+    this._ctx.fillStyle = this.penColor;
+  }
+  _createPoint(x, y) {
+    const rect = this.canvas.getBoundingClientRect();
+    return new Point(x - rect.left, y - rect.top, new Date().getTime());
+  }
+  _addPoint(point) {
+    const { _lastPoints } = this;
+    _lastPoints.push(point);
+    if (_lastPoints.length > 2) {
+      if (_lastPoints.length === 3) {
+        _lastPoints.unshift(_lastPoints[0]);
+      }
+      const widths = this._calculateCurveWidths(_lastPoints[1], _lastPoints[2]);
+      const curve = Bezier.fromPoints(_lastPoints, widths);
+      _lastPoints.shift();
+      return curve;
+    }
+    return null;
+  }
+  _calculateCurveWidths(startPoint, endPoint) {
+    const velocity = this.velocityFilterWeight * endPoint.velocityFrom(startPoint) + (1 - this.velocityFilterWeight) * this._lastVelocity;
+    const newWidth = this._strokeWidth(velocity);
+    const widths = {
+      end: newWidth,
+      start: this._lastWidth
+    };
+    this._lastVelocity = velocity;
+    this._lastWidth = newWidth;
+    return widths;
+  }
+  _strokeWidth(velocity) {
+    return Math.max(this.maxWidth / (velocity + 1), this.minWidth);
+  }
+  _drawCurveSegment(x, y, width) {
+    const ctx = this._ctx;
+    ctx.moveTo(x, y);
+    ctx.arc(x, y, width, 0, 2 * Math.PI, false);
+    this._isEmpty = false;
+  }
+  _drawCurve({ color, curve }) {
+    const ctx = this._ctx;
+    const widthDelta = curve.endWidth - curve.startWidth;
+    const drawSteps = Math.floor(curve.length()) * 2;
+    ctx.beginPath();
+    ctx.fillStyle = color;
+    for (let i = 0; i < drawSteps; i += 1) {
+      const t = i / drawSteps;
+      const tt = t * t;
+      const ttt = tt * t;
+      const u = 1 - t;
+      const uu = u * u;
+      const uuu = uu * u;
+      let x = uuu * curve.startPoint.x;
+      x += 3 * uu * t * curve.control1.x;
+      x += 3 * u * tt * curve.control2.x;
+      x += ttt * curve.endPoint.x;
+      let y = uuu * curve.startPoint.y;
+      y += 3 * uu * t * curve.control1.y;
+      y += 3 * u * tt * curve.control2.y;
+      y += ttt * curve.endPoint.y;
+      const width = Math.min(curve.startWidth + ttt * widthDelta, this.maxWidth);
+      this._drawCurveSegment(x, y, width);
+    }
+    ctx.closePath();
+    ctx.fill();
+  }
+  _drawDot({ color, point }) {
+    const ctx = this._ctx;
+    const width = typeof this.dotSize === "function" ? this.dotSize() : this.dotSize;
+    ctx.beginPath();
+    this._drawCurveSegment(point.x, point.y, width);
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+  _fromData(pointGroups, drawCurve, drawDot) {
+    for (const group of pointGroups) {
+      const { color, points } = group;
+      if (points.length > 1) {
+        for (let j = 0; j < points.length; j += 1) {
+          const basicPoint = points[j];
+          const point = new Point(basicPoint.x, basicPoint.y, basicPoint.time);
+          this.penColor = color;
+          if (j === 0) {
+            this._reset();
+          }
+          const curve = this._addPoint(point);
+          if (curve) {
+            drawCurve({ color, curve });
+          }
+        }
+      } else {
+        this._reset();
+        drawDot({
+          color,
+          point: points[0]
+        });
+      }
+    }
+  }
+  _toSVG() {
+    const pointGroups = this._data;
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const minX = 0;
+    const minY = 0;
+    const maxX = this.canvas.width / ratio;
+    const maxY = this.canvas.height / ratio;
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("width", this.canvas.width.toString());
+    svg.setAttribute("height", this.canvas.height.toString());
+    this._fromData(pointGroups, ({ color, curve }) => {
+      const path = document.createElement("path");
+      if (!isNaN(curve.control1.x) && !isNaN(curve.control1.y) && !isNaN(curve.control2.x) && !isNaN(curve.control2.y)) {
+        const attr = `M ${curve.startPoint.x.toFixed(3)},${curve.startPoint.y.toFixed(3)} C ${curve.control1.x.toFixed(3)},${curve.control1.y.toFixed(3)} ${curve.control2.x.toFixed(3)},${curve.control2.y.toFixed(3)} ${curve.endPoint.x.toFixed(3)},${curve.endPoint.y.toFixed(3)}`;
+        path.setAttribute("d", attr);
+        path.setAttribute("stroke-width", (curve.endWidth * 2.25).toFixed(3));
+        path.setAttribute("stroke", color);
+        path.setAttribute("fill", "none");
+        path.setAttribute("stroke-linecap", "round");
+        svg.appendChild(path);
+      }
+    }, ({ color, point }) => {
+      const circle = document.createElement("circle");
+      const dotSize = typeof this.dotSize === "function" ? this.dotSize() : this.dotSize;
+      circle.setAttribute("r", dotSize.toString());
+      circle.setAttribute("cx", point.x.toString());
+      circle.setAttribute("cy", point.y.toString());
+      circle.setAttribute("fill", color);
+      svg.appendChild(circle);
+    });
+    const prefix = "data:image/svg+xml;base64,";
+    const header = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${minX} ${minY} ${maxX} ${maxY}" width="${maxX}" height="${maxY}">`;
+    let body = svg.innerHTML;
+    if (body === void 0) {
+      const dummy = document.createElement("dummy");
+      const nodes = svg.childNodes;
+      dummy.innerHTML = "";
+      for (let i = 0; i < nodes.length; i += 1) {
+        dummy.appendChild(nodes[i].cloneNode(true));
+      }
+      body = dummy.innerHTML;
+    }
+    const footer = "</svg>";
+    const data = header + body + footer;
+    return prefix + btoa(data);
+  }
+}
+var defaultOptions = {
+  format: "image/png",
+  quality: 0.92,
+  width: void 0,
+  height: void 0,
+  Canvas: void 0,
+  crossOrigin: void 0
+};
+var mergeImages = function(sources, options) {
+  if (sources === void 0)
+    sources = [];
+  if (options === void 0)
+    options = {};
+  return new Promise(function(resolve) {
+    options = Object.assign({}, defaultOptions, options);
+    var canvas = options.Canvas ? new options.Canvas() : window.document.createElement("canvas");
+    var Image2 = options.Canvas ? options.Canvas.Image : window.Image;
+    if (options.Canvas) {
+      options.quality *= 100;
+    }
+    var images = sources.map(function(source) {
+      return new Promise(function(resolve2, reject) {
+        if (source.constructor.name !== "Object") {
+          source = { src: source };
+        }
+        var img = new Image2();
+        img.crossOrigin = options.crossOrigin;
+        img.onerror = function() {
+          return reject(new Error("Couldn't load image"));
+        };
+        img.onload = function() {
+          return resolve2(Object.assign({}, source, { img }));
+        };
+        img.src = source.src;
+      });
+    });
+    var ctx = canvas.getContext("2d");
+    resolve(Promise.all(images).then(function(images2) {
+      var getSize = function(dim) {
+        return options[dim] || Math.max.apply(Math, images2.map(function(image) {
+          return image.img[dim];
+        }));
+      };
+      canvas.width = getSize("width");
+      canvas.height = getSize("height");
+      images2.forEach(function(image) {
+        ctx.globalAlpha = image.opacity ? image.opacity : 1;
+        return ctx.drawImage(image.img, image.x || 0, image.y || 0);
+      });
+      if (options.Canvas && options.format === "image/jpeg") {
+        return new Promise(function(resolve2) {
+          canvas.toDataURL(options.format, {
+            quality: options.quality,
+            progressive: false
+          }, function(err, jpeg) {
+            if (err) {
+              throw err;
+            }
+            resolve2(jpeg);
+          });
+        });
+      }
+      return canvas.toDataURL(options.format, options.quality);
+    }));
+  });
+};
+const IMAGE_TYPES = ["image/png", "image/jpeg", "image/svg+xml"];
+const checkSaveType = (type) => IMAGE_TYPES.includes(type);
+const DEFAULT_OPTIONS = {
+  dotSize: (0.5 + 2.5) / 2,
+  minWidth: 0.5,
+  maxWidth: 2.5,
+  throttle: 16,
+  minDistance: 5,
+  backgroundColor: "rgba(0,0,0,0)",
+  penColor: "black",
+  velocityFilterWeight: 0.7,
+  onBegin: () => {
+  },
+  onEnd: () => {
+  }
+};
+const convert2NonReactive = (observerValue) => JSON.parse(JSON.stringify(observerValue));
+const TRANSPARENT_PNG = {
+  src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+  x: 0,
+  y: 0
+};
+var script = defineComponent({
+  name: "VueSignaturePad",
+  props: {
+    width: {
+      type: String,
+      default: "100%"
+    },
+    height: {
+      type: String,
+      default: "100%"
+    },
+    customStyle: {
+      type: Object,
+      default: () => ({})
+    },
+    options: {
+      type: Object,
+      default: () => ({})
+    },
+    images: {
+      type: Array,
+      default: () => []
+    },
+    scaleToDevicePixelRatio: {
+      type: Boolean,
+      default: () => true
+    }
+  },
+  data: () => ({
+    signaturePad: {},
+    cacheImages: [],
+    signatureData: TRANSPARENT_PNG,
+    onResizeHandler: null
+  }),
+  computed: {
+    propsImagesAndCustomImages() {
+      const nonReactiveProrpImages = convert2NonReactive(this.images);
+      const nonReactiveCachImages = convert2NonReactive(this.cacheImages);
+      return [...nonReactiveProrpImages, ...nonReactiveCachImages];
+    }
+  },
+  watch: {
+    options: function(nextOptions) {
+      Object.keys(nextOptions).forEach((option) => {
+        if (this.signaturePad[option]) {
+          this.signaturePad[option] = nextOptions[option];
+        }
+      });
+    }
+  },
+  mounted() {
+    const {
+      options
+    } = this;
+    const canvas = this.$refs.signaturePadCanvas;
+    const signaturePad = new SignaturePad(canvas, {
+      ...DEFAULT_OPTIONS,
+      ...options
+    });
+    this.signaturePad = signaturePad;
+    if (options.resizeHandler) {
+      this.resizeCanvas = options.resizeHandler.bind(this);
+    }
+    this.onResizeHandler = this.resizeCanvas.bind(this);
+    window.addEventListener("resize", this.onResizeHandler, false);
+    this.resizeCanvas();
+  },
+  beforeUnmount() {
+    if (this.onResizeHandler) {
+      window.removeEventListener("resize", this.onResizeHandler, false);
+    }
+  },
+  methods: {
+    resizeCanvas() {
+      const canvas = this.$refs.signaturePadCanvas;
+      const data = this.signaturePad.toData();
+      const ratio = this.scaleToDevicePixelRatio ? Math.max(window.devicePixelRatio || 1, 1) : 1;
+      canvas.width = canvas.offsetWidth * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
+      canvas.getContext("2d").scale(ratio, ratio);
+      this.signaturePad.clear();
+      this.signatureData = TRANSPARENT_PNG;
+      this.signaturePad.fromData(data);
+    },
+    saveSignature() {
+      let type = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : IMAGE_TYPES[0];
+      let encoderOptions = arguments.length > 1 ? arguments[1] : void 0;
+      const {
+        signaturePad
+      } = this;
+      const status = {
+        isEmpty: false,
+        data: void 0
+      };
+      if (!checkSaveType(type)) {
+        const imageTypesString = IMAGE_TYPES.join(", ");
+        throw new Error(`The Image type is incorrect! We are support ${imageTypesString} types.`);
+      }
+      if (signaturePad.isEmpty()) {
+        return {
+          ...status,
+          isEmpty: true
+        };
+      } else {
+        this.signatureData = signaturePad.toDataURL(type, encoderOptions);
+        return {
+          ...status,
+          data: this.signatureData
+        };
+      }
+    },
+    undoSignature() {
+      const {
+        signaturePad
+      } = this;
+      const record = signaturePad.toData();
+      if (record) {
+        return signaturePad.fromData(record.slice(0, -1));
+      }
+    },
+    mergeImageAndSignature(customSignature) {
+      this.signatureData = customSignature;
+      return mergeImages([...this.images, ...this.cacheImages, this.signatureData]);
+    },
+    addImages() {
+      let images = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [];
+      this.cacheImages = [...this.cacheImages, ...images];
+      return mergeImages([...this.images, ...this.cacheImages, this.signatureData]);
+    },
+    fromDataURL(data) {
+      let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+      let callback = arguments.length > 2 ? arguments[2] : void 0;
+      return this.signaturePad.fromDataURL(data, options, callback);
+    },
+    fromData(data) {
+      return this.signaturePad.fromData(data);
+    },
+    toData() {
+      return this.signaturePad.toData();
+    },
+    lockSignaturePad() {
+      return this.signaturePad.off();
+    },
+    openSignaturePad() {
+      return this.signaturePad.on();
+    },
+    isEmpty() {
+      return this.signaturePad.isEmpty();
+    },
+    getPropImagesAndCacheImages() {
+      return this.propsImagesAndCustomImages;
+    },
+    clearCacheImages() {
+      this.cacheImages = [];
+      return this.cacheImages;
+    },
+    clearSignature() {
+      return this.signaturePad.clear();
+    }
+  },
+  render() {
+    const {
+      width,
+      height,
+      customStyle
+    } = this;
+    return h("div", {
+      style: {
+        width,
+        height,
+        ...customStyle
+      }
+    }, [h("canvas", {
+      style: {
+        width,
+        height
+      },
+      ref: "signaturePadCanvas"
+    })]);
+  }
+});
+script.__file = "src/components/VueSignaturePad.vue";
+const _hoisted_1 = { class: "col-xs-12 col-sm-10 col-md-5" };
+const _hoisted_2 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_3 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h5" }, "Contractor Application Form", -1);
+const _hoisted_4 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6" }, "Your contact details", -1);
+const _hoisted_5 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mt-md" }, "Your References", -1);
+const _hoisted_6 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mt-md" }, "Your business details", -1);
+const _hoisted_7 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mt-md" }, "Your Commission Payments", -1);
+const _hoisted_8 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mt-md" }, "Documents Upload", -1);
+const _hoisted_9 = /* @__PURE__ */ createBaseVNode("p", null, "Please upload copies of the following documents.", -1);
+const _hoisted_10 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mt-md" }, "Requirements Checklist", -1);
+const _hoisted_11 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mt-md" }, "Contractor Declaration", -1);
+const _hoisted_12 = { key: 1 };
+const _hoisted_13 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h5" }, "Contractor Application Form", -1);
+const _hoisted_14 = /* @__PURE__ */ createBaseVNode("p", null, "Please complete form below to proceed to the next steps.", -1);
+const _hoisted_15 = { class: "row q-col-gutter-md q-mt-sm" };
+const _hoisted_16 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_17 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_18 = { class: "row q-col-gutter-md" };
+const _hoisted_19 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_20 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_21 = { class: "row q-col-gutter-md" };
+const _hoisted_22 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_23 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_24 = /* @__PURE__ */ createBaseVNode("p", null, "Please enter your current home / business address", -1);
+const _hoisted_25 = { class: "row q-col-gutter-md q-mb-md" };
+const _hoisted_26 = /* @__PURE__ */ createBaseVNode("p", { class: "q-mt-sm" }, "Please ensure if these change in future you let us know", -1);
+const _hoisted_27 = { class: "row q-col-gutter-md" };
+const _hoisted_28 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_29 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_30 = { class: "row q-col-gutter-md" };
+const _hoisted_31 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_32 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_33 = /* @__PURE__ */ createBaseVNode("p", { class: "q-mt-sm" }, "Please include contact details of 2 referees. These can be personal or work referees. By including their details you agree to us contacting them for a reference check. Your formal offer will not be made until we have completed a satisfactory reference check.", -1);
+const _hoisted_34 = { class: "row q-col-gutter-md" };
+const _hoisted_35 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_36 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_37 = { class: "row q-col-gutter-md" };
+const _hoisted_38 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_39 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_40 = { class: "row q-col-gutter-md" };
+const _hoisted_41 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_42 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_43 = { class: "row q-col-gutter-md" };
+const _hoisted_44 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_45 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_46 = /* @__PURE__ */ createBaseVNode("p", { class: "q-mt-sm" }, [
+  /* @__PURE__ */ createTextVNode("If you do not have an ABN, you can register at: "),
+  /* @__PURE__ */ createBaseVNode("a", {
+    href: "https://www.abr.gov.au/",
+    target: "_blank",
+    class: "link"
+  }, "Australian Government Australian Business Register")
+], -1);
+const _hoisted_47 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold" }, "Are you registered for GST?", -1);
+const _hoisted_48 = /* @__PURE__ */ createBaseVNode("p", null, [
+  /* @__PURE__ */ createTextVNode("If you are unsure if you need to register for GST talk to your accountant or check out the ATO site for more information. If your GST status changes while you are working with The Laundry Lady please let us know immediately. "),
+  /* @__PURE__ */ createBaseVNode("a", {
+    href: "https://www.ato.gov.au/Business/GST/Registering-for-GST/",
+    target: "_blank",
+    class: "link"
+  }, "Click here for ATO Registering for GST")
+], -1);
+const _hoisted_49 = /* @__PURE__ */ createBaseVNode("p", { class: "q-mt-sm" }, "Commission will be paid to your nominated account. Please ensure this is completed or advised prior to any commission being due.", -1);
+const _hoisted_50 = { class: "row q-col-gutter-md" };
+const _hoisted_51 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_52 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_53 = { class: "row q-col-gutter-md" };
+const _hoisted_54 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_55 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_56 = { class: "q-mt-sm" };
+const _hoisted_57 = /* @__PURE__ */ createBaseVNode("p", null, "Please upload copies of the following documents.", -1);
+const _hoisted_58 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-xs" }, "Copy of current Drivers Licence (front and back)", -1);
+const _hoisted_59 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-xs q-mt-md" }, "Copy of current Medicare Card", -1);
+const _hoisted_60 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-xs q-mt-md" }, "Copy of Certificate of Currency for Public Liability Insuranced ", -1);
+const _hoisted_61 = /* @__PURE__ */ createBaseVNode("p", null, "You must have public liability insurance to the coverage of $5million and maintain a current certificate of insurance at all times while carrying out services for the Laundry Lady. The certificate should name all applicants including any family members who may help you with deliveries from time to time. You will need to send us an updated certificate of insurance every year. We have a partnership with Bizcover to offer you the best rates through our group buying power, and make it easier for us to track your certificate of currency. To apply for your Bizcover Public Liability Insurance under the Laundry Lady partnership go to:", -1);
+const _hoisted_62 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-xs q-mt-md" }, "NDIS Workers Clearance Certificate", -1);
+const _hoisted_63 = /* @__PURE__ */ createBaseVNode("p", null, "Please upload your NDIS Workers Clearance Certificate or email confirmation of your application (save your screenshot as one of the allowed file extensions). See below for instructions on how to obtain your NDIS Workers Clearance. Use appropriate state/territory link (listed below) for your location.", -1);
+const _hoisted_64 = /* @__PURE__ */ createBaseVNode("p", null, [
+  /* @__PURE__ */ createBaseVNode("a", {
+    href: "https://www.qld.gov.au/law/laws-regulated-industries-and-accountability/queensland-laws-and-regulations/regulated-industries-and-licensing/blue-card/applications/combined-disability-worker-screening",
+    class: "link",
+    target: "_blank"
+  }, "Queensland"),
+  /* @__PURE__ */ createBaseVNode("a", {
+    href: "https://www.service.vic.gov.au/services/national-disability-insurance-scheme?utm_source=vic_gov_au_website&utm_medium=referral&utm_campaign=ndis_worker_screening_check&utm_content=online_application",
+    target: "_blank",
+    class: "link q-ml-sm"
+  }, "Victoria"),
+  /* @__PURE__ */ createBaseVNode("a", {
+    href: "https://screening.sa.gov.au/types-of-check/ndis-worker-checks",
+    target: "_blank",
+    class: "link q-ml-sm"
+  }, "South Australia"),
+  /* @__PURE__ */ createBaseVNode("a", {
+    href: "https://www.myaccount.act.gov.au/WWVPNDIS/s/wwvp-ndis-new-application-v2",
+    target: "_blank",
+    class: "link q-ml-sm"
+  }, "ACT"),
+  /* @__PURE__ */ createBaseVNode("a", {
+    href: "https://online.transport.wa.gov.au/tso/selfservice/public/ndis_wsu_apply_entry.jsf#/embd/preliminary-questions",
+    target: "_blank",
+    class: "link q-ml-sm"
+  }, "Western Australia")
+], -1);
+const _hoisted_65 = /* @__PURE__ */ createBaseVNode("p", { class: "q-mt-sm" }, "You will need the Laundry Lady employer ID below to complete your application. Laundry Lady details - to use in online application: When completing the application online, please nominate The Laundry Lady Pty Ltd as your employer. Employer ID details are as below. Employer name: The Laundry Lady Pty Ltd Employer ID: 4-GUCBSYQ", -1);
+const _hoisted_66 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6 q-mb-xs q-mt-md" }, "Photo of yourself", -1);
+const _hoisted_67 = /* @__PURE__ */ createBaseVNode("p", null, "Upload a head and shoulders photo of yourself in front of a white background. We will use this on your public profile on our website that customers will see when booking. If you are a team (eg husband and wife) please provide a photo of both of you together in front of a white background.", -1);
+const _hoisted_68 = /* @__PURE__ */ createBaseVNode("p", { class: "text-caption" }, "Accepted file types: jpg, gif, png, pdf, Max. file size: 5 MB", -1);
+const _hoisted_69 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold q-mb-sm q-mt-sm" }, "Your Equipment", -1);
+const _hoisted_70 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold q-mb-sm" }, "Please check the following", -1);
+const _hoisted_71 = { class: "row q-col-gutter-md q-mt-sm" };
+const _hoisted_72 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_73 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold" }, "Applicant One Signature", -1);
+const _hoisted_74 = { style: { "border": "1px solid #efefef" } };
+const _hoisted_75 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_76 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold" }, "Applicant Two Signature", -1);
+const _hoisted_77 = { style: { "border": "1px solid #efefef" } };
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "ApplicationForm",
+  setup(__props) {
+    const $q = useQuasar();
+    const route = useRoute();
+    const loading = ref(false);
+    const success = ref(false);
+    const step = ref(1);
+    const sig1Ref = ref();
+    const sig2Ref = ref();
+    const model = reactive({
+      first_name: null,
+      last_name: null,
+      first_name_2: null,
+      last_name_2: null,
+      contractor_badge_name: null,
+      contractor_start_date: null,
+      dateofbirth: null,
+      address1: null,
+      address2: null,
+      suburb_postcode_region_id: null,
+      country_id: 13,
+      contractor_ec_first_name: null,
+      contractor_ec_last_name: null,
+      contractor_ec_phone: null,
+      contractor_ec_relationship: null,
+      contractor_ref_first_name: null,
+      contractor_ref_last_name: null,
+      contractor_ref_email: null,
+      contractor_ref_phone: null,
+      contractor_ref2_first_name: null,
+      contractor_ref2_last_name: null,
+      contractor_ref2_email: null,
+      contractor_ref2_phone: null,
+      contractor_abn: null,
+      contractor_gst_registered: false,
+      contractor_bd_name: null,
+      contractor_bd_bank: null,
+      contractor_bd_bsb: null,
+      contractor_bd_number: null,
+      contractor_clothing_rack: "No",
+      contractor_smartphone_type: "No",
+      contractor_computer_type: "No",
+      contractor_ironing_steam_station: "No",
+      contractor_washing_machine_dryer: "No",
+      contractor_declaration_agreement: false,
+      contractor_declaration_training: false,
+      contractor_declaration_abn: false,
+      contractor_declaration_pl: false,
+      contractor_declaration_inform: false,
+      contractor_declaration_kit: false,
+      contractor_declaration_information: false,
+      contractor_applicant_1_sig: null,
+      contractor_applicant_2_sig: null,
+      documents: [],
+      avatar: null
+    });
+    const rules = {
+      first_name: { required },
+      last_name: { required },
+      dateofbirth: { required },
+      contractor_badge_name: { required },
+      contractor_start_date: { required },
+      address2: { required },
+      suburb_postcode_region_id: { required },
+      country_id: { required },
+      contractor_ec_first_name: { required },
+      contractor_ec_last_name: { required },
+      contractor_ec_phone: { required },
+      contractor_ec_relationship: { required },
+      contractor_ref_first_name: { required },
+      contractor_ref_last_name: { required },
+      contractor_ref_email: { required, email },
+      contractor_ref_phone: { required },
+      contractor_ref2_first_name: { required },
+      contractor_ref2_last_name: { required },
+      contractor_ref2_email: { required, email },
+      contractor_ref2_phone: { required },
+      contractor_abn: { required },
+      contractor_gst_registered: { required },
+      contractor_bd_name: { required },
+      contractor_bd_bank: { required },
+      contractor_bd_bsb: { required },
+      contractor_bd_number: { required },
+      contractor_clothing_rack: { required },
+      contractor_smartphone_type: { required },
+      contractor_computer_type: { required },
+      contractor_ironing_steam_station: { required },
+      contractor_washing_machine_dryer: { required },
+      contractor_declaration_agreement: { required },
+      contractor_declaration_training: { required },
+      contractor_declaration_abn: { required },
+      contractor_declaration_pl: { required },
+      contractor_declaration_inform: { required },
+      contractor_declaration_kit: { required },
+      contractor_declaration_information: { required },
+      contractor_applicant_1_sig: { required },
+      avatar: { required }
+    };
+    const $v = useVuelidate(rules, model, { $scope: false });
+    const stepsValid = computed(() => {
+      const valid = {
+        step1: true,
+        step2: true,
+        step3: true,
+        step4: true,
+        step5: true,
+        step6: true,
+        step7: true,
+        step8: true,
+        step9: true
+      };
+      if (!model.first_name || !model.last_name || !model.contractor_badge_name || !model.contractor_start_date) {
+        valid.step1 = false;
+      }
+      if (!model.address2 || !model.suburb_postcode_region_id || !model.dateofbirth) {
+        valid.step2 = false;
+      }
+      if (!model.contractor_ec_first_name || !model.contractor_ec_last_name || !model.contractor_ec_phone || !model.contractor_ec_relationship) {
+        valid.step3 = false;
+      }
+      if (!model.contractor_ref_first_name || !model.contractor_ref_last_name || !model.contractor_ref_email || !model.contractor_ref_phone) {
+        valid.step4 = false;
+      }
+      if (!model.contractor_abn) {
+        valid.step5 = false;
+      }
+      if (!model.contractor_bd_name || !model.contractor_bd_bank || !model.contractor_bd_bsb || !model.contractor_bd_number) {
+        valid.step6 = false;
+      }
+      const dl = model.documents.filter((o) => o.type === "Drivers Licence");
+      if (dl.length < 2) {
+        valid.step7 = false;
+      }
+      const mc = model.documents.filter((o) => o.type === "Medicare Card");
+      if (!mc.length) {
+        valid.step7 = false;
+      }
+      const pl = model.documents.filter((o) => o.type === "Certificate of Currency for Public Liability Insurance");
+      if (!pl.length) {
+        valid.step7 = false;
+      }
+      if (model.contractor_clothing_rack === "No" && model.contractor_smartphone_type === "No" && model.contractor_computer_type === "No" && model.contractor_ironing_steam_station === "No" && model.contractor_washing_machine_dryer === "No") {
+        valid.step8 = false;
+      }
+      if (!model.contractor_declaration_agreement || !model.contractor_declaration_training || !model.contractor_declaration_abn || !model.contractor_declaration_pl || !model.contractor_declaration_inform || !model.contractor_declaration_kit || !model.contractor_declaration_information) {
+        valid.step9 = false;
+      }
+      return valid;
+    });
+    const saveSig1 = () => {
+      const { isEmpty, data } = sig1Ref.value.saveSignature();
+      if (!isEmpty) {
+        model.contractor_applicant_1_sig = data;
+      }
+    };
+    const resetSig1 = () => {
+      model.contractor_applicant_1_sig = null;
+      sig1Ref.value.clearSignature();
+    };
+    const saveSig2 = () => {
+      const { isEmpty, data } = sig2Ref.value.saveSignature();
+      if (!isEmpty) {
+        model.contractor_applicant_2_sig = data;
+      }
+    };
+    const resetSig2 = () => {
+      model.contractor_applicant_2_sig = null;
+      sig2Ref.value.clearSignature();
+    };
+    const update = () => {
+      loading.value = true;
+      success.value = false;
+      $q.loading.show({ message: "Submitting application, please wait..." });
+      api.put(`/public/user/contractor/onboarding/application/${route.params.id}`, model).then(() => {
+        success.value = true;
+        loading.value = false;
+        $q.loading.hide();
+      }).catch((error) => {
+        loading.value = false;
+        $q.loading.hide();
+        useMixinDebug(error);
+      });
+    };
+    const addDocument = (a) => {
+      model.documents.push(a);
+    };
+    const removeDocument = (a) => {
+      model.documents = model.documents.filter((o) => o.name !== a.name);
+    };
+    const successUpload = (file) => {
+      model.avatar = file.xhr.response;
+    };
+    onMounted(() => {
+      api.get(`/public/user/contractor/onboarding/application/${route.params.id}`).then((response) => {
+        Object.assign(model, response.data);
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+    });
+    return (_ctx, _cache) => {
+      return model && model.first_name ? (openBlock(), createBlock(QLayout, {
+        key: 0,
+        view: "lHh Lpr lFf"
+      }, {
+        default: withCtx(() => [
+          createVNode(QPageContainer, null, {
+            default: withCtx(() => [
+              createVNode(QPage, {
+                class: "row justify-center items-center animated fadeIn",
+                padding: ""
+              }, {
+                default: withCtx(() => [
+                  createBaseVNode("div", _hoisted_1, [
+                    createVNode(_sfc_main$2),
+                    success.value ? (openBlock(), createBlock(QCard, { key: 0 }, {
+                      default: withCtx(() => [
+                        createVNode(QCardSection, { class: "text-left" }, {
+                          default: withCtx(() => [
+                            createTextVNode(" Thanks for your interest in joining The Laundry Lady."),
+                            _hoisted_2,
+                            createTextVNode("Please check your email for the next steps. ")
+                          ]),
+                          _: 1
+                        }),
+                        !success.value ? (openBlock(), createBlock(QCardSection, {
+                          key: 0,
+                          class: "text-left"
+                        }, {
+                          default: withCtx(() => [
+                            _hoisted_3,
+                            _hoisted_4,
+                            _hoisted_5,
+                            _hoisted_6,
+                            _hoisted_7,
+                            _hoisted_8,
+                            _hoisted_9,
+                            _hoisted_10,
+                            _hoisted_11,
+                            createVNode(QBtn, {
+                              loading: loading.value,
+                              onClick: _cache[0] || (_cache[0] = ($event) => update()),
+                              disabled: unref($v).$invalid,
+                              color: "primary",
+                              label: "Submit",
+                              class: "full-width q-mt-md"
+                            }, null, 8, ["loading", "disabled"])
+                          ]),
+                          _: 1
+                        })) : createCommentVNode("", true)
+                      ]),
+                      _: 1
+                    })) : createCommentVNode("", true),
+                    !success.value ? (openBlock(), createElementBlock("div", _hoisted_12, [
+                      _hoisted_13,
+                      _hoisted_14,
+                      !success.value ? (openBlock(), createBlock(QStepper, {
+                        key: 0,
+                        modelValue: step.value,
+                        "onUpdate:modelValue": _cache[53] || (_cache[53] = ($event) => step.value = $event),
+                        ref: "stepper",
+                        color: "primary",
+                        animated: "",
+                        "header-nav": "",
+                        vertical: ""
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(QStep, {
+                            name: 1,
+                            title: "Applicant Details",
+                            icon: "account_circle",
+                            prefix: "1",
+                            error: !unref(stepsValid).step1,
+                            done: unref(stepsValid).step1,
+                            "done-color": "positive"
+                          }, {
+                            default: withCtx(() => [
+                              createBaseVNode("div", _hoisted_15, [
+                                createBaseVNode("div", _hoisted_16, [
+                                  createVNode(QInput, {
+                                    modelValue: model.first_name,
+                                    "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => model.first_name = $event),
+                                    label: "Applicant One First Name",
+                                    error: unref($v).first_name.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ]),
+                                createBaseVNode("div", _hoisted_17, [
+                                  createVNode(QInput, {
+                                    modelValue: model.last_name,
+                                    "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => model.last_name = $event),
+                                    label: "Applicant One Last Name",
+                                    error: unref($v).last_name.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ])
+                              ]),
+                              createBaseVNode("div", _hoisted_18, [
+                                createBaseVNode("div", _hoisted_19, [
+                                  createVNode(QInput, {
+                                    modelValue: model.first_name_2,
+                                    "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => model.first_name_2 = $event),
+                                    label: "Applicant Two First Name",
+                                    "bottom-slots": ""
+                                  }, null, 8, ["modelValue"])
+                                ]),
+                                createBaseVNode("div", _hoisted_20, [
+                                  createVNode(QInput, {
+                                    modelValue: model.last_name_2,
+                                    "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => model.last_name_2 = $event),
+                                    label: "Applicant Two Last Name",
+                                    "bottom-slots": ""
+                                  }, null, 8, ["modelValue"])
+                                ])
+                              ]),
+                              createBaseVNode("div", _hoisted_21, [
+                                createBaseVNode("div", _hoisted_22, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_badge_name,
+                                    "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => model.contractor_badge_name = $event),
+                                    label: "Preferred Name for Name Badge",
+                                    error: unref($v).contractor_badge_name.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ]),
+                                createBaseVNode("div", _hoisted_23, [
+                                  createVNode(_sfc_main$3, {
+                                    modelValue: model.contractor_start_date,
+                                    "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => model.contractor_start_date = $event),
+                                    label: "Start Date",
+                                    invalid: unref($v).contractor_start_date.$invalid
+                                  }, null, 8, ["modelValue", "invalid"])
+                                ])
+                              ]),
+                              createVNode(QBtn, {
+                                onClick: _cache[7] || (_cache[7] = ($event) => step.value = 2),
+                                label: "Next",
+                                color: "primary",
+                                class: "q-mt-lg"
+                              })
+                            ]),
+                            _: 1
+                          }, 8, ["error", "done"]),
+                          createVNode(QStep, {
+                            name: 2,
+                            title: "Your Contact Details",
+                            prefix: "2",
+                            error: !unref(stepsValid).step2,
+                            done: unref(stepsValid).step2,
+                            "done-color": "positive"
+                          }, {
+                            default: withCtx(() => [
+                              _hoisted_24,
+                              createVNode(_sfc_main$4, {
+                                model,
+                                outlined: true,
+                                addressfields: { address1: "address1", address2: "address2", suburb_postcode_region_id: "suburb_postcode_region_id", lat: "lat", lng: "lng", country_id: "country_id" },
+                                placeholder: _ctx.$t("address.search")
+                              }, null, 8, ["model", "placeholder"]),
+                              createVNode(QInput, {
+                                modelValue: model.address1,
+                                "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => model.address1 = $event),
+                                label: _ctx.$t("address.line1"),
+                                "bottom-slots": ""
+                              }, null, 8, ["modelValue", "label"]),
+                              createVNode(QInput, {
+                                modelValue: model.address2,
+                                "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => model.address2 = $event),
+                                error: unref($v).address2.$invalid,
+                                label: _ctx.$t("address.line2")
+                              }, null, 8, ["modelValue", "error", "label"]),
+                              createBaseVNode("div", _hoisted_25, [
+                                createVNode(_sfc_main$5, {
+                                  modelValue: model.suburb_postcode_region_id,
+                                  "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => model.suburb_postcode_region_id = $event),
+                                  invalid: unref($v).suburb_postcode_region_id.$invalid,
+                                  label: _ctx.$t("address.suburb"),
+                                  class: "col-xs-12 col-sm-6"
+                                }, null, 8, ["modelValue", "invalid", "label"]),
+                                createVNode(_sfc_main$6, {
+                                  modelValue: model.country_id,
+                                  "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => model.country_id = $event),
+                                  label: _ctx.$t("address.country"),
+                                  invalid: unref($v).country_id.$invalid,
+                                  class: "col-xs-12 col-sm-6"
+                                }, null, 8, ["modelValue", "label", "invalid"])
+                              ]),
+                              createVNode(_sfc_main$3, {
+                                modelValue: model.dateofbirth,
+                                "onUpdate:modelValue": _cache[12] || (_cache[12] = ($event) => model.dateofbirth = $event),
+                                invalid: unref($v).dateofbirth.$invalid,
+                                label: "Date of Birth"
+                              }, null, 8, ["modelValue", "invalid"]),
+                              createVNode(QBtn, {
+                                onClick: _cache[13] || (_cache[13] = ($event) => step.value = 3),
+                                label: "Next",
+                                color: "primary",
+                                class: "q-mt-lg"
+                              })
+                            ]),
+                            _: 1
+                          }, 8, ["error", "done"]),
+                          createVNode(QStep, {
+                            name: 3,
+                            title: "Emergency Contact Details",
+                            prefix: "3",
+                            error: !unref(stepsValid).step3,
+                            done: unref(stepsValid).step3,
+                            "done-color": "positive"
+                          }, {
+                            default: withCtx(() => [
+                              _hoisted_26,
+                              createBaseVNode("div", _hoisted_27, [
+                                createBaseVNode("div", _hoisted_28, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_ec_first_name,
+                                    "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => model.contractor_ec_first_name = $event),
+                                    label: "Emergency Contact First Name",
+                                    error: unref($v).contractor_ec_first_name.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ]),
+                                createBaseVNode("div", _hoisted_29, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_ec_last_name,
+                                    "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => model.contractor_ec_last_name = $event),
+                                    label: "Emergency Contact Last Name",
+                                    error: unref($v).contractor_ec_last_name.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ])
+                              ]),
+                              createBaseVNode("div", _hoisted_30, [
+                                createBaseVNode("div", _hoisted_31, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_ec_phone,
+                                    "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => model.contractor_ec_phone = $event),
+                                    label: "Emergency Contact Phone",
+                                    error: unref($v).contractor_ec_phone.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ]),
+                                createBaseVNode("div", _hoisted_32, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_ec_relationship,
+                                    "onUpdate:modelValue": _cache[17] || (_cache[17] = ($event) => model.contractor_ec_relationship = $event),
+                                    label: "Emergency Contact Relationship to you",
+                                    error: unref($v).contractor_ec_relationship.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ])
+                              ]),
+                              createVNode(QBtn, {
+                                onClick: _cache[18] || (_cache[18] = ($event) => step.value = 4),
+                                label: "Next",
+                                color: "primary",
+                                class: "q-mt-lg"
+                              })
+                            ]),
+                            _: 1
+                          }, 8, ["error", "done"]),
+                          createVNode(QStep, {
+                            name: 4,
+                            title: "Your References",
+                            prefix: "4",
+                            error: !unref(stepsValid).step4,
+                            done: unref(stepsValid).step4,
+                            "done-color": "positive"
+                          }, {
+                            default: withCtx(() => [
+                              _hoisted_33,
+                              createBaseVNode("div", _hoisted_34, [
+                                createBaseVNode("div", _hoisted_35, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_ref_first_name,
+                                    "onUpdate:modelValue": _cache[19] || (_cache[19] = ($event) => model.contractor_ref_first_name = $event),
+                                    label: "Referee One First Name",
+                                    error: unref($v).contractor_ref_first_name.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ]),
+                                createBaseVNode("div", _hoisted_36, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_ref_last_name,
+                                    "onUpdate:modelValue": _cache[20] || (_cache[20] = ($event) => model.contractor_ref_last_name = $event),
+                                    label: "Referee One Last Name",
+                                    error: unref($v).contractor_ref_last_name.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ])
+                              ]),
+                              createBaseVNode("div", _hoisted_37, [
+                                createBaseVNode("div", _hoisted_38, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_ref_email,
+                                    "onUpdate:modelValue": _cache[21] || (_cache[21] = ($event) => model.contractor_ref_email = $event),
+                                    label: "Referee One Email",
+                                    error: unref($v).contractor_ref_email.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ]),
+                                createBaseVNode("div", _hoisted_39, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_ref_phone,
+                                    "onUpdate:modelValue": _cache[22] || (_cache[22] = ($event) => model.contractor_ref_phone = $event),
+                                    label: "Referee One Phone",
+                                    error: unref($v).contractor_ref_phone.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ])
+                              ]),
+                              createBaseVNode("div", _hoisted_40, [
+                                createBaseVNode("div", _hoisted_41, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_ref2_first_name,
+                                    "onUpdate:modelValue": _cache[23] || (_cache[23] = ($event) => model.contractor_ref2_first_name = $event),
+                                    label: "Referee Two First Name",
+                                    error: unref($v).contractor_ref2_first_name.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ]),
+                                createBaseVNode("div", _hoisted_42, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_ref2_last_name,
+                                    "onUpdate:modelValue": _cache[24] || (_cache[24] = ($event) => model.contractor_ref2_last_name = $event),
+                                    label: "Referee Two Last Name",
+                                    error: unref($v).contractor_ref2_last_name.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ])
+                              ]),
+                              createBaseVNode("div", _hoisted_43, [
+                                createBaseVNode("div", _hoisted_44, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_ref2_email,
+                                    "onUpdate:modelValue": _cache[25] || (_cache[25] = ($event) => model.contractor_ref2_email = $event),
+                                    label: "Referee Two Email",
+                                    error: unref($v).contractor_ref2_email.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ]),
+                                createBaseVNode("div", _hoisted_45, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_ref2_phone,
+                                    "onUpdate:modelValue": _cache[26] || (_cache[26] = ($event) => model.contractor_ref2_phone = $event),
+                                    label: "Referee Two Phone",
+                                    error: unref($v).contractor_ref2_phone.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ])
+                              ]),
+                              createVNode(QBtn, {
+                                onClick: _cache[27] || (_cache[27] = ($event) => step.value = 5),
+                                label: "Next",
+                                color: "primary",
+                                class: "q-mt-lg"
+                              })
+                            ]),
+                            _: 1
+                          }, 8, ["error", "done"]),
+                          createVNode(QStep, {
+                            name: 5,
+                            title: "Your business details",
+                            prefix: "5",
+                            error: !unref(stepsValid).step5,
+                            done: unref(stepsValid).step5,
+                            "done-color": "positive"
+                          }, {
+                            default: withCtx(() => [
+                              _hoisted_46,
+                              createVNode(QInput, {
+                                modelValue: model.contractor_abn,
+                                "onUpdate:modelValue": _cache[28] || (_cache[28] = ($event) => model.contractor_abn = $event),
+                                label: "ABN",
+                                "bottom-slots": "",
+                                error: unref($v).contractor_abn.$invalid
+                              }, null, 8, ["modelValue", "error"]),
+                              _hoisted_47,
+                              createVNode(QToggle, {
+                                modelValue: model.contractor_gst_registered,
+                                "onUpdate:modelValue": _cache[29] || (_cache[29] = ($event) => model.contractor_gst_registered = $event),
+                                label: "I am registered for GST",
+                                class: "q-mt-sm q-mb-sm"
+                              }, null, 8, ["modelValue"]),
+                              _hoisted_48,
+                              createVNode(QBtn, {
+                                onClick: _cache[30] || (_cache[30] = ($event) => step.value = 6),
+                                label: "Next",
+                                color: "primary",
+                                class: "q-mt-lg"
+                              })
+                            ]),
+                            _: 1
+                          }, 8, ["error", "done"]),
+                          createVNode(QStep, {
+                            name: 6,
+                            title: "Your Commission Payments",
+                            prefix: "6",
+                            error: !unref(stepsValid).step6,
+                            done: unref(stepsValid).step6,
+                            "done-color": "positive"
+                          }, {
+                            default: withCtx(() => [
+                              _hoisted_49,
+                              createBaseVNode("div", _hoisted_50, [
+                                createBaseVNode("div", _hoisted_51, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_bd_name,
+                                    "onUpdate:modelValue": _cache[31] || (_cache[31] = ($event) => model.contractor_bd_name = $event),
+                                    label: "Account Name",
+                                    error: unref($v).contractor_bd_name.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ]),
+                                createBaseVNode("div", _hoisted_52, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_bd_bank,
+                                    "onUpdate:modelValue": _cache[32] || (_cache[32] = ($event) => model.contractor_bd_bank = $event),
+                                    label: "Bank / Financial Institution",
+                                    error: unref($v).contractor_bd_bank.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ])
+                              ]),
+                              createBaseVNode("div", _hoisted_53, [
+                                createBaseVNode("div", _hoisted_54, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_bd_bsb,
+                                    "onUpdate:modelValue": _cache[33] || (_cache[33] = ($event) => model.contractor_bd_bsb = $event),
+                                    label: "Branch / BSB Number",
+                                    error: unref($v).contractor_bd_bsb.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ]),
+                                createBaseVNode("div", _hoisted_55, [
+                                  createVNode(QInput, {
+                                    modelValue: model.contractor_bd_number,
+                                    "onUpdate:modelValue": _cache[34] || (_cache[34] = ($event) => model.contractor_bd_number = $event),
+                                    label: "Account Number",
+                                    error: unref($v).contractor_bd_number.$invalid
+                                  }, null, 8, ["modelValue", "error"])
+                                ])
+                              ]),
+                              createVNode(QBtn, {
+                                onClick: _cache[35] || (_cache[35] = ($event) => step.value = 7),
+                                label: "Next",
+                                color: "primary",
+                                class: "q-mt-lg"
+                              })
+                            ]),
+                            _: 1
+                          }, 8, ["error", "done"]),
+                          createVNode(QStep, {
+                            name: 7,
+                            title: "Documents Upload",
+                            prefix: "7",
+                            error: !unref(stepsValid).step7,
+                            done: unref(stepsValid).step7,
+                            "done-color": "positive"
+                          }, {
+                            default: withCtx(() => [
+                              createBaseVNode("div", _hoisted_56, [
+                                _hoisted_57,
+                                _hoisted_58,
+                                createVNode(_sfc_main$1, {
+                                  type: "Drivers Licence",
+                                  documents: model.documents,
+                                  "onAttachment:add": addDocument,
+                                  "onAttachment:remove": removeDocument
+                                }, null, 8, ["documents"]),
+                                _hoisted_59,
+                                createVNode(_sfc_main$1, {
+                                  type: "Medicare Card",
+                                  documents: model.documents,
+                                  "onAttachment:add": addDocument,
+                                  "onAttachment:remove": removeDocument
+                                }, null, 8, ["documents"]),
+                                _hoisted_60,
+                                _hoisted_61,
+                                createVNode(_sfc_main$1, {
+                                  type: "Certificate of Currency for Public Liability Insurance",
+                                  documents: model.documents,
+                                  "onAttachment:add": addDocument,
+                                  "onAttachment:remove": removeDocument
+                                }, null, 8, ["documents"]),
+                                _hoisted_62,
+                                _hoisted_63,
+                                _hoisted_64,
+                                createVNode(_sfc_main$1, {
+                                  type: "NDIS Workers Clearance Certificate",
+                                  documents: model.documents,
+                                  "onAttachment:add": addDocument,
+                                  "onAttachment:remove": removeDocument
+                                }, null, 8, ["documents"]),
+                                _hoisted_65,
+                                _hoisted_66,
+                                _hoisted_67,
+                                createVNode(QUploader, {
+                                  color: "primary",
+                                  url: unref(uploadConfig).url,
+                                  headers: unref(uploadConfig).headers,
+                                  onUploaded: successUpload,
+                                  label: "Upload document",
+                                  "auto-expand": "",
+                                  "auto-upload": "",
+                                  accept: unref(uploadConfig).documents,
+                                  "field-name": unref(uploadConfig).fieldName,
+                                  class: "q-mb-sm",
+                                  ref: "tmpUploader",
+                                  "max-file-size": unref(uploadConfig)["max-file-size"]
+                                }, null, 8, ["url", "headers", "accept", "field-name", "max-file-size"]),
+                                _hoisted_68
+                              ]),
+                              createVNode(QBtn, {
+                                onClick: _cache[36] || (_cache[36] = ($event) => step.value = 8),
+                                label: "Next",
+                                color: "primary",
+                                class: "q-mt-lg"
+                              })
+                            ]),
+                            _: 1
+                          }, 8, ["error", "done"]),
+                          createVNode(QStep, {
+                            name: 8,
+                            title: "Requirements Checklist",
+                            prefix: "8",
+                            error: !unref(stepsValid).step8,
+                            done: unref(stepsValid).step8,
+                            "done-color": "positive"
+                          }, {
+                            default: withCtx(() => [
+                              _hoisted_69,
+                              createBaseVNode("div", null, [
+                                createVNode(QCheckbox, {
+                                  modelValue: model.contractor_clothing_rack,
+                                  "onUpdate:modelValue": _cache[37] || (_cache[37] = ($event) => model.contractor_clothing_rack = $event),
+                                  label: "Car with clothing rack or clothing bar secured",
+                                  "true-value": "Yes",
+                                  "false-value": "No"
+                                }, null, 8, ["modelValue"])
+                              ]),
+                              createBaseVNode("div", null, [
+                                createVNode(QCheckbox, {
+                                  modelValue: model.contractor_smartphone_type,
+                                  "onUpdate:modelValue": _cache[38] || (_cache[38] = ($event) => model.contractor_smartphone_type = $event),
+                                  label: "Smartphone with data plan",
+                                  "true-value": "Yes",
+                                  "false-value": "No"
+                                }, null, 8, ["modelValue"])
+                              ]),
+                              createBaseVNode("div", null, [
+                                createVNode(QCheckbox, {
+                                  modelValue: model.contractor_computer_type,
+                                  "onUpdate:modelValue": _cache[39] || (_cache[39] = ($event) => model.contractor_computer_type = $event),
+                                  label: "Computer or Laptop with internet access",
+                                  "true-value": "Yes",
+                                  "false-value": "No"
+                                }, null, 8, ["modelValue"])
+                              ]),
+                              createBaseVNode("div", null, [
+                                createVNode(QCheckbox, {
+                                  modelValue: model.contractor_ironing_steam_station,
+                                  "onUpdate:modelValue": _cache[40] || (_cache[40] = ($event) => model.contractor_ironing_steam_station = $event),
+                                  label: "Ironing steam station",
+                                  "true-value": "Yes",
+                                  "false-value": "No"
+                                }, null, 8, ["modelValue"])
+                              ]),
+                              createBaseVNode("div", null, [
+                                createVNode(QCheckbox, {
+                                  modelValue: model.contractor_washing_machine_dryer,
+                                  "onUpdate:modelValue": _cache[41] || (_cache[41] = ($event) => model.contractor_washing_machine_dryer = $event),
+                                  label: "Washing Machine and Dryer",
+                                  "true-value": "Yes",
+                                  "false-value": "No"
+                                }, null, 8, ["modelValue"])
+                              ]),
+                              createVNode(QBtn, {
+                                onClick: _cache[42] || (_cache[42] = ($event) => step.value = 9),
+                                label: "Next",
+                                color: "primary",
+                                class: "q-mt-lg"
+                              })
+                            ]),
+                            _: 1
+                          }, 8, ["error", "done"]),
+                          createVNode(QStep, {
+                            name: 9,
+                            title: "Contractor Declaration",
+                            prefix: "9",
+                            error: !unref(stepsValid).step9,
+                            done: unref(stepsValid).step9,
+                            "done-color": "positive"
+                          }, {
+                            default: withCtx(() => [
+                              _hoisted_70,
+                              createBaseVNode("div", null, [
+                                createVNode(QCheckbox, {
+                                  modelValue: model.contractor_declaration_agreement,
+                                  "onUpdate:modelValue": _cache[43] || (_cache[43] = ($event) => model.contractor_declaration_agreement = $event),
+                                  label: "I have read and agree with the Contractor Agreement and will submit a signed agreement"
+                                }, null, 8, ["modelValue"])
+                              ]),
+                              createBaseVNode("div", null, [
+                                createVNode(QCheckbox, {
+                                  modelValue: model.contractor_declaration_training,
+                                  "onUpdate:modelValue": _cache[44] || (_cache[44] = ($event) => model.contractor_declaration_training = $event),
+                                  label: "I agree to undertake the Laundry Lady Training Program and follow Laundry Lady policies and procedures"
+                                }, null, 8, ["modelValue"])
+                              ]),
+                              createBaseVNode("div", null, [
+                                createVNode(QCheckbox, {
+                                  modelValue: model.contractor_declaration_abn,
+                                  "onUpdate:modelValue": _cache[45] || (_cache[45] = ($event) => model.contractor_declaration_abn = $event),
+                                  label: "I agree to register and maintain an ABN and for the Laundry Lady to create recepient created tax invoices for weekly commissions"
+                                }, null, 8, ["modelValue"])
+                              ]),
+                              createBaseVNode("div", null, [
+                                createVNode(QCheckbox, {
+                                  modelValue: model.contractor_declaration_pl,
+                                  "onUpdate:modelValue": _cache[46] || (_cache[46] = ($event) => model.contractor_declaration_pl = $event),
+                                  label: "I agree to take out public liability coverage to $5million and keep the policy current at all times"
+                                }, null, 8, ["modelValue"])
+                              ]),
+                              createBaseVNode("div", null, [
+                                createVNode(QCheckbox, {
+                                  modelValue: model.contractor_declaration_inform,
+                                  "onUpdate:modelValue": _cache[47] || (_cache[47] = ($event) => model.contractor_declaration_inform = $event),
+                                  label: "I agree to inform the Laundry Lady if any details change in this application form"
+                                }, null, 8, ["modelValue"])
+                              ]),
+                              createBaseVNode("div", null, [
+                                createVNode(QCheckbox, {
+                                  modelValue: model.contractor_declaration_kit,
+                                  "onUpdate:modelValue": _cache[48] || (_cache[48] = ($event) => model.contractor_declaration_kit = $event),
+                                  label: "I agree to purchase the Starter Kit for $399 including GST as detailed in the The Laundry Lady Contractor Package. An invoice will be sent after references are checked and confirmed."
+                                }, null, 8, ["modelValue"])
+                              ]),
+                              createBaseVNode("div", null, [
+                                createVNode(QCheckbox, {
+                                  modelValue: model.contractor_declaration_information,
+                                  "onUpdate:modelValue": _cache[49] || (_cache[49] = ($event) => model.contractor_declaration_information = $event),
+                                  label: "I agree that all information included in this application form is true and correct."
+                                }, null, 8, ["modelValue"])
+                              ]),
+                              createBaseVNode("div", _hoisted_71, [
+                                createBaseVNode("div", _hoisted_72, [
+                                  _hoisted_73,
+                                  createBaseVNode("div", _hoisted_74, [
+                                    createVNode(unref(script), {
+                                      id: "signature",
+                                      width: "100%",
+                                      height: "150px",
+                                      ref_key: "sig1Ref",
+                                      ref: sig1Ref,
+                                      options: { onEnd: saveSig1 }
+                                    }, null, 8, ["options"])
+                                  ]),
+                                  createVNode(QBtn, {
+                                    onClick: _cache[50] || (_cache[50] = ($event) => resetSig1()),
+                                    icon: "sync",
+                                    flat: ""
+                                  })
+                                ]),
+                                createBaseVNode("div", _hoisted_75, [
+                                  _hoisted_76,
+                                  createBaseVNode("div", _hoisted_77, [
+                                    createVNode(unref(script), {
+                                      id: "signature",
+                                      width: "100%",
+                                      height: "150px",
+                                      ref_key: "sig2Ref",
+                                      ref: sig2Ref,
+                                      options: { onEnd: saveSig2 }
+                                    }, null, 8, ["options"])
+                                  ]),
+                                  createVNode(QBtn, {
+                                    onClick: _cache[51] || (_cache[51] = ($event) => resetSig2()),
+                                    icon: "sync",
+                                    flat: ""
+                                  })
+                                ])
+                              ]),
+                              createVNode(QBtn, {
+                                onClick: _cache[52] || (_cache[52] = ($event) => update()),
+                                disable: loading.value || unref($v).$invalid,
+                                label: "Submit",
+                                color: "primary",
+                                class: "q-mt-lg"
+                              }, null, 8, ["disable"])
+                            ]),
+                            _: 1
+                          }, 8, ["error", "done"])
+                        ]),
+                        _: 1
+                      }, 8, ["modelValue"])) : createCommentVNode("", true)
+                    ])) : createCommentVNode("", true)
+                  ])
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      })) : createCommentVNode("", true);
+    };
+  }
+});
+export { _sfc_main as default };

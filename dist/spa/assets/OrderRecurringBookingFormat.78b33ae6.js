@@ -1,1 +1,92 @@
-import{a as h,Q as m}from"./QItemSection.99659658.js";import{A as f,J as x,m as t,K as u,L as s,n as a,F as p,b7 as _,l as c,y as r,q as k,R as n,b8 as o,U as d,O as B}from"./index.e647c85a.js";import{Q as v}from"./QList.2f0afc60.js";import{i as Q,j as D,k as b}from"./help.c0f85e41.js";import{_ as A}from"./UserAvatar.d3fe9aaa.js";const C={key:0},N={key:1},V={class:"text-grey-7 text-caption"},q={key:0},w={key:0,class:"q-ml-xs q-mr-xs"},E=f({__name:"OrderRecurringBookingFormat",props:{orders:null,noAvatar:{type:Boolean}},setup(i){return(F,I)=>{const g=x("router-link");return i.orders&&i.orders.length?(t(),u(v,{key:0,class:"bg-white"},{default:s(()=>[(t(!0),a(p,null,_(i.orders,e=>(t(),u(h,{key:e.id},{default:s(()=>[e.contractor&&!i.noAvatar?(t(),u(m,{key:0,avatar:""},{default:s(()=>[c(A,{user:e.contractor},null,8,["user"])]),_:2},1024)):r("",!0),c(m,null,{default:s(()=>[k("div",null,[c(g,{to:{name:"order-edit",params:{id:e.id}},target:"_blank",class:"link"},{default:s(()=>[n(o(d(Q)(e.scheduled_pickup_date))+" (",1),e.agreed_pickup_time?r("",!0):(t(),a("span",C,o(d(D)(e.scheduled_pickup_time)),1)),e.agreed_pickup_time?(t(),a("span",N,o(d(b)(e.agreed_pickup_time)),1)):r("",!0),n(")")]),_:2},1032,["to"]),k("div",V,[c(B,{name:"settings",color:"grey-7"}),n(),e.productcategories?(t(),a("span",q,[(t(!0),a(p,null,_(e.productcategories,(l,y)=>(t(),a("span",{key:l.id},[n(o(l.name),1),y+1!==e.productcategories.length?(t(),a("span",w,"&")):r("",!0)]))),128)),n(" pickup with "+o(e.team.name),1)])):r("",!0)])])]),_:2},1024)]),_:2},1024))),128))]),_:1})):r("",!0)}}});export{E as _};
+import { a as QItem, Q as QItemSection } from "./QItemSection.99659658.js";
+import { A as defineComponent, J as resolveComponent, m as openBlock, K as createBlock, L as withCtx, n as createElementBlock, F as Fragment, b7 as renderList, l as createVNode, y as createCommentVNode, q as createBaseVNode, R as createTextVNode, b8 as toDisplayString, U as unref, O as QIcon } from "./index.e647c85a.js";
+import { Q as QList } from "./QList.2f0afc60.js";
+import { i as displayDateDay, j as hourBookingDisplay, k as hourAgreedDisplay } from "./help.c0f85e41.js";
+import { _ as _sfc_main$1 } from "./UserAvatar.d3fe9aaa.js";
+const _hoisted_1 = { key: 0 };
+const _hoisted_2 = { key: 1 };
+const _hoisted_3 = { class: "text-grey-7 text-caption" };
+const _hoisted_4 = { key: 0 };
+const _hoisted_5 = {
+  key: 0,
+  class: "q-ml-xs q-mr-xs"
+};
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "OrderRecurringBookingFormat",
+  props: {
+    orders: null,
+    noAvatar: { type: Boolean }
+  },
+  setup(__props) {
+    return (_ctx, _cache) => {
+      const _component_router_link = resolveComponent("router-link");
+      return __props.orders && __props.orders.length ? (openBlock(), createBlock(QList, {
+        key: 0,
+        class: "bg-white"
+      }, {
+        default: withCtx(() => [
+          (openBlock(true), createElementBlock(Fragment, null, renderList(__props.orders, (o) => {
+            return openBlock(), createBlock(QItem, {
+              key: o.id
+            }, {
+              default: withCtx(() => [
+                o.contractor && !__props.noAvatar ? (openBlock(), createBlock(QItemSection, {
+                  key: 0,
+                  avatar: ""
+                }, {
+                  default: withCtx(() => [
+                    createVNode(_sfc_main$1, {
+                      user: o.contractor
+                    }, null, 8, ["user"])
+                  ]),
+                  _: 2
+                }, 1024)) : createCommentVNode("", true),
+                createVNode(QItemSection, null, {
+                  default: withCtx(() => [
+                    createBaseVNode("div", null, [
+                      createVNode(_component_router_link, {
+                        to: { name: "order-edit", params: { id: o.id } },
+                        target: "_blank",
+                        class: "link"
+                      }, {
+                        default: withCtx(() => [
+                          createTextVNode(toDisplayString(unref(displayDateDay)(o.scheduled_pickup_date)) + " (", 1),
+                          !o.agreed_pickup_time ? (openBlock(), createElementBlock("span", _hoisted_1, toDisplayString(unref(hourBookingDisplay)(o.scheduled_pickup_time)), 1)) : createCommentVNode("", true),
+                          o.agreed_pickup_time ? (openBlock(), createElementBlock("span", _hoisted_2, toDisplayString(unref(hourAgreedDisplay)(o.agreed_pickup_time)), 1)) : createCommentVNode("", true),
+                          createTextVNode(")")
+                        ]),
+                        _: 2
+                      }, 1032, ["to"]),
+                      createBaseVNode("div", _hoisted_3, [
+                        createVNode(QIcon, {
+                          name: "settings",
+                          color: "grey-7"
+                        }),
+                        createTextVNode(),
+                        o.productcategories ? (openBlock(), createElementBlock("span", _hoisted_4, [
+                          (openBlock(true), createElementBlock(Fragment, null, renderList(o.productcategories, (c, index) => {
+                            return openBlock(), createElementBlock("span", {
+                              key: c.id
+                            }, [
+                              createTextVNode(toDisplayString(c.name), 1),
+                              index + 1 !== o.productcategories.length ? (openBlock(), createElementBlock("span", _hoisted_5, "&")) : createCommentVNode("", true)
+                            ]);
+                          }), 128)),
+                          createTextVNode(" pickup with " + toDisplayString(o.team.name), 1)
+                        ])) : createCommentVNode("", true)
+                      ])
+                    ])
+                  ]),
+                  _: 2
+                }, 1024)
+              ]),
+              _: 2
+            }, 1024);
+          }), 128))
+        ]),
+        _: 1
+      })) : createCommentVNode("", true);
+    };
+  }
+});
+export { _sfc_main as _ };

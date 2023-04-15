@@ -1,1 +1,753 @@
-import{aI as be,r as p,aB as ye,ay as j,D as we,aJ as I,w as y,o as pe,E as W,j as ee,aK as Te,a2 as P,aL as V,aM as Se,a6 as Ce,V as Ee,aN as Me,ab as ke,aO as He,aP as Pe,g as b,ac as Be,aQ as We,aR as qe,aS as Le,aT as Oe,aU as Ae,aV as ze,aW as Q,aX as Re,aY as $e,aZ as Fe,a0 as Ke,a_ as De,h as N,X as je,H as Ie,a$ as Ve,b0 as Qe,ap as Ne}from"./index.e647c85a.js";function Xe(){if(window.getSelection!==void 0){const e=window.getSelection();e.empty!==void 0?e.empty():e.removeAllRanges!==void 0&&(e.removeAllRanges(),be.is.mobile!==!0&&e.addRange(document.createRange()))}else document.selection!==void 0&&document.selection.empty()}const Ye={target:{default:!0},noParentEvent:Boolean,contextMenu:Boolean};function _e({showing:e,avoidEmit:n,configureAnchorEl:i}){const{props:t,proxy:o,emit:c}=ee(),l=p(null);let d=null;function f(a){return l.value===null?!1:a===void 0||a.touches===void 0||a.touches.length<=1}const r={};i===void 0&&(Object.assign(r,{hide(a){o.hide(a)},toggle(a){o.toggle(a),a.qAnchorHandled=!0},toggleKey(a){ye(a,13)===!0&&r.toggle(a)},contextClick(a){o.hide(a),j(a),we(()=>{o.show(a),a.qAnchorHandled=!0})},prevent:j,mobileTouch(a){if(r.mobileCleanup(a),f(a)!==!0)return;o.hide(a),l.value.classList.add("non-selectable");const h=a.target;I(r,"anchor",[[h,"touchmove","mobileCleanup","passive"],[h,"touchend","mobileCleanup","passive"],[h,"touchcancel","mobileCleanup","passive"],[l.value,"contextmenu","prevent","notPassive"]]),d=setTimeout(()=>{d=null,o.show(a),a.qAnchorHandled=!0},300)},mobileCleanup(a){l.value.classList.remove("non-selectable"),d!==null&&(clearTimeout(d),d=null),e.value===!0&&a!==void 0&&Xe()}}),i=function(a=t.contextMenu){if(t.noParentEvent===!0||l.value===null)return;let h;a===!0?o.$q.platform.is.mobile===!0?h=[[l.value,"touchstart","mobileTouch","passive"]]:h=[[l.value,"mousedown","hide","passive"],[l.value,"contextmenu","contextClick","notPassive"]]:h=[[l.value,"click","toggle","passive"],[l.value,"keyup","toggleKey","passive"]],I(r,"anchor",h)});function s(){Te(r,"anchor")}function v(a){for(l.value=a;l.value.classList.contains("q-anchor--skip");)l.value=l.value.parentNode;i()}function m(){if(t.target===!1||t.target===""||o.$el.parentNode===null)l.value=null;else if(t.target===!0)v(o.$el.parentNode);else{let a=t.target;if(typeof t.target=="string")try{a=document.querySelector(t.target)}catch{a=void 0}a!=null?(l.value=a.$el||a,i()):(l.value=null,console.error(`Anchor: target "${t.target}" not found`))}}return y(()=>t.contextMenu,a=>{l.value!==null&&(s(),i(a))}),y(()=>t.target,()=>{l.value!==null&&s(),m()}),y(()=>t.noParentEvent,a=>{l.value!==null&&(a===!0?s():i())}),pe(()=>{m(),n!==!0&&t.modelValue===!0&&l.value===null&&c("update:modelValue",!1)}),W(()=>{d!==null&&clearTimeout(d),s()}),{anchorEl:l,canShow:f,anchorEvents:r}}function Ue(e,n){const i=p(null);let t;function o(d,f){const r=`${f!==void 0?"add":"remove"}EventListener`,s=f!==void 0?f:t;d!==window&&d[r]("scroll",s,P.passive),window[r]("scroll",s,P.passive),t=f}function c(){i.value!==null&&(o(i.value),i.value=null)}const l=y(()=>e.noParentEvent,()=>{i.value!==null&&(c(),n())});return W(l),{localScrollTarget:i,unconfigureScrollTarget:c,changeScrollEvent:o}}const{notPassiveCapture:T}=P,g=[];function S(e){const n=e.target;if(n===void 0||n.nodeType===8||n.classList.contains("no-pointer-events")===!0)return;let i=V.length-1;for(;i>=0;){const t=V[i].$;if(t.type.name!=="QDialog")break;if(t.props.seamless!==!0)return;i--}for(let t=g.length-1;t>=0;t--){const o=g[t];if((o.anchorEl.value===null||o.anchorEl.value.contains(n)===!1)&&(n===document.body||o.innerRef.value!==null&&o.innerRef.value.contains(n)===!1))e.qClickOutside=!0,o.onClickOutside(e);else return}}function Ge(e){g.push(e),g.length===1&&(document.addEventListener("mousedown",S,T),document.addEventListener("touchstart",S,T))}function X(e){const n=g.findIndex(i=>i===e);n>-1&&(g.splice(n,1),g.length===0&&(document.removeEventListener("mousedown",S,T),document.removeEventListener("touchstart",S,T)))}let Y,_;function U(e){const n=e.split(" ");return n.length!==2?!1:["top","center","bottom"].includes(n[0])!==!0?(console.error("Anchor/Self position must start with one of top/center/bottom"),!1):["left","middle","right","start","end"].includes(n[1])!==!0?(console.error("Anchor/Self position must end with one of left/middle/right/start/end"),!1):!0}function Je(e){return e?!(e.length!==2||typeof e[0]!="number"||typeof e[1]!="number"):!0}const B={"start#ltr":"left","start#rtl":"right","end#ltr":"right","end#rtl":"left"};["left","middle","right"].forEach(e=>{B[`${e}#ltr`]=e,B[`${e}#rtl`]=e});function G(e,n){const i=e.split(" ");return{vertical:i[0],horizontal:B[`${i[1]}#${n===!0?"rtl":"ltr"}`]}}function Ze(e,n){let{top:i,left:t,right:o,bottom:c,width:l,height:d}=e.getBoundingClientRect();return n!==void 0&&(i-=n[1],t-=n[0],c+=n[1],o+=n[0],l+=n[0],d+=n[1]),{top:i,bottom:c,height:d,left:t,right:o,width:l,middle:t+(o-t)/2,center:i+(c-i)/2}}function et(e,n,i){let{top:t,left:o}=e.getBoundingClientRect();return t+=n.top,o+=n.left,i!==void 0&&(t+=i[1],o+=i[0]),{top:t,bottom:t+1,height:1,left:o,right:o+1,width:1,middle:o,center:t}}function tt(e){return{top:0,center:e.offsetHeight/2,bottom:e.offsetHeight,left:0,middle:e.offsetWidth/2,right:e.offsetWidth}}function J(e,n,i){return{top:e[i.anchorOrigin.vertical]-n[i.selfOrigin.vertical],left:e[i.anchorOrigin.horizontal]-n[i.selfOrigin.horizontal]}}function nt(e){if(Se.is.ios===!0&&window.visualViewport!==void 0){const d=document.body.style,{offsetLeft:f,offsetTop:r}=window.visualViewport;f!==Y&&(d.setProperty("--q-pe-left",f+"px"),Y=f),r!==_&&(d.setProperty("--q-pe-top",r+"px"),_=r)}const{scrollLeft:n,scrollTop:i}=e.el,t=e.absoluteOffset===void 0?Ze(e.anchorEl,e.cover===!0?[0,0]:e.offset):et(e.anchorEl,e.absoluteOffset,e.offset);let o={maxHeight:e.maxHeight,maxWidth:e.maxWidth,visibility:"visible"};(e.fit===!0||e.cover===!0)&&(o.minWidth=t.width+"px",e.cover===!0&&(o.minHeight=t.height+"px")),Object.assign(e.el.style,o);const c=tt(e.el);let l=J(t,c,e);if(e.absoluteOffset===void 0||e.offset===void 0)H(l,t,c,e.anchorOrigin,e.selfOrigin);else{const{top:d,left:f}=l;H(l,t,c,e.anchorOrigin,e.selfOrigin);let r=!1;if(l.top!==d){r=!0;const s=2*e.offset[1];t.center=t.top-=s,t.bottom-=s+2}if(l.left!==f){r=!0;const s=2*e.offset[0];t.middle=t.left-=s,t.right-=s+2}r===!0&&(l=J(t,c,e),H(l,t,c,e.anchorOrigin,e.selfOrigin))}o={top:l.top+"px",left:l.left+"px"},l.maxHeight!==void 0&&(o.maxHeight=l.maxHeight+"px",t.height>l.maxHeight&&(o.minHeight=o.maxHeight)),l.maxWidth!==void 0&&(o.maxWidth=l.maxWidth+"px",t.width>l.maxWidth&&(o.minWidth=o.maxWidth)),Object.assign(e.el.style,o),e.el.scrollTop!==i&&(e.el.scrollTop=i),e.el.scrollLeft!==n&&(e.el.scrollLeft=n)}function H(e,n,i,t,o){const c=i.bottom,l=i.right,d=Ce(),f=window.innerHeight-d,r=document.body.clientWidth;if(e.top<0||e.top+c>f)if(o.vertical==="center")e.top=n[t.vertical]>f/2?Math.max(0,f-c):0,e.maxHeight=Math.min(c,f);else if(n[t.vertical]>f/2){const s=Math.min(f,t.vertical==="center"?n.center:t.vertical===o.vertical?n.bottom:n.top);e.maxHeight=Math.min(c,s),e.top=Math.max(0,s-c)}else e.top=Math.max(0,t.vertical==="center"?n.center:t.vertical===o.vertical?n.top:n.bottom),e.maxHeight=Math.min(c,f-e.top);if(e.left<0||e.left+l>r)if(e.maxWidth=Math.min(l,r),o.horizontal==="middle")e.left=n[t.horizontal]>r/2?Math.max(0,r-l):0;else if(n[t.horizontal]>r/2){const s=Math.min(r,t.horizontal==="middle"?n.middle:t.horizontal===o.horizontal?n.right:n.left);e.maxWidth=Math.min(l,s),e.left=Math.max(0,s-e.maxWidth)}else e.left=Math.max(0,t.horizontal==="middle"?n.middle:t.horizontal===o.horizontal?n.left:n.right),e.maxWidth=Math.min(l,r-e.left)}var lt=Ee({name:"QMenu",inheritAttrs:!1,props:{...Ye,...Me,...ke,...He,persistent:Boolean,autoClose:Boolean,separateClosePopup:Boolean,noRouteDismiss:Boolean,noRefocus:Boolean,noFocus:Boolean,fit:Boolean,cover:Boolean,square:Boolean,anchor:{type:String,validator:U},self:{type:String,validator:U},offset:{type:Array,validator:Je},scrollTarget:{default:void 0},touchPosition:Boolean,maxHeight:{type:String,default:null},maxWidth:{type:String,default:null}},emits:[...Pe,"click","escapeKey"],setup(e,{slots:n,emit:i,attrs:t}){let o=null,c,l,d;const f=ee(),{proxy:r}=f,{$q:s}=r,v=p(null),m=p(!1),a=b(()=>e.persistent!==!0&&e.noRouteDismiss!==!0),h=Be(e,s),{registerTick:te,removeTick:ne}=We(),{registerTimeout:q}=qe(),{transitionProps:oe,transitionStyle:le}=Le(e),{localScrollTarget:L,changeScrollEvent:ie,unconfigureScrollTarget:ae}=Ue(e,K),{anchorEl:x,canShow:ue}=_e({showing:m}),{hide:O}=Oe({showing:m,canShow:ue,handleShow:fe,handleHide:he,hideOnRouteChange:a,processOnMount:!0}),{showPortal:A,hidePortal:z,renderPortal:re}=Ae(f,v,me,"menu"),C={anchorEl:x,innerRef:v,onClickOutside(u){if(e.persistent!==!0&&m.value===!0)return O(u),(u.type==="touchstart"||u.target.classList.contains("q-dialog__backdrop"))&&Ne(u),!0}},R=b(()=>G(e.anchor||(e.cover===!0?"center middle":"bottom start"),s.lang.rtl)),se=b(()=>e.cover===!0?R.value:G(e.self||"top start",s.lang.rtl)),ce=b(()=>(e.square===!0?" q-menu--square":"")+(h.value===!0?" q-menu--dark q-dark":"")),de=b(()=>e.autoClose===!0?{onClick:ve}:{}),$=b(()=>m.value===!0&&e.persistent!==!0);y($,u=>{u===!0?(ze(M),Ge(C)):(Q(M),X(C))});function E(){Ve(()=>{let u=v.value;u&&u.contains(document.activeElement)!==!0&&(u=u.querySelector("[autofocus][tabindex], [data-autofocus][tabindex]")||u.querySelector("[autofocus] [tabindex], [data-autofocus] [tabindex]")||u.querySelector("[autofocus], [data-autofocus]")||u,u.focus({preventScroll:!0}))})}function fe(u){if(o=e.noRefocus===!1?document.activeElement:null,Re(D),A(),K(),c=void 0,u!==void 0&&(e.touchPosition||e.contextMenu)){const k=$e(u);if(k.left!==void 0){const{top:ge,left:xe}=x.value.getBoundingClientRect();c={left:k.left-xe,top:k.top-ge}}}l===void 0&&(l=y(()=>s.screen.width+"|"+s.screen.height+"|"+e.self+"|"+e.anchor+"|"+s.lang.rtl,w)),e.noFocus!==!0&&document.activeElement.blur(),te(()=>{w(),e.noFocus!==!0&&E()}),q(()=>{s.platform.is.ios===!0&&(d=e.autoClose,v.value.click()),w(),A(!0),i("show",u)},e.transitionDuration)}function he(u){ne(),z(),F(!0),o!==null&&(u===void 0||u.qClickOutside!==!0)&&(((u&&u.type.indexOf("key")===0?o.closest('[tabindex]:not([tabindex^="-"])'):void 0)||o).focus(),o=null),q(()=>{z(!0),i("hide",u)},e.transitionDuration)}function F(u){c=void 0,l!==void 0&&(l(),l=void 0),(u===!0||m.value===!0)&&(Fe(D),ae(),X(C),Q(M)),u!==!0&&(o=null)}function K(){(x.value!==null||e.scrollTarget!==void 0)&&(L.value=Ke(x.value,e.scrollTarget),ie(L.value,w))}function ve(u){d!==!0?(De(r,u),i("click",u)):d=!1}function D(u){$.value===!0&&e.noFocus!==!0&&Qe(v.value,u.target)!==!0&&E()}function M(u){i("escapeKey"),O(u)}function w(){const u=v.value;u===null||x.value===null||nt({el:u,offset:e.offset,anchorEl:x.value,anchorOrigin:R.value,selfOrigin:se.value,absoluteOffset:c,fit:e.fit,cover:e.cover,maxHeight:e.maxHeight,maxWidth:e.maxWidth})}function me(){return N(Ie,oe.value,()=>m.value===!0?N("div",{role:"menu",...t,ref:v,tabindex:-1,class:["q-menu q-position-engine scroll"+ce.value,t.class],style:[t.style,le.value],...de.value},je(n.default)):null)}return W(F),Object.assign(r,{focus:E,updatePosition:w}),re}});const Z=["B","KB","MB","GB","TB","PB"];function it(e){let n=0;for(;parseInt(e,10)>=1024&&n<Z.length-1;)e/=1024,++n;return`${e.toFixed(1)}${Z[n]}`}function at(e,n,i){return i<=n?n:Math.min(i,Math.max(n,e))}function ut(e,n,i){if(i<=n)return n;const t=i-n+1;let o=n+(e-n)%t;return o<n&&(o=t+o),o===0?0:o}function rt(e,n=2,i="0"){if(e==null)return e;const t=""+e;return t.length>=n?t:new Array(n-t.length+1).join(i)+t}export{lt as Q,_e as a,at as b,Xe as c,Je as d,G as e,Ue as f,Ge as g,it as h,ut as n,rt as p,X as r,nt as s,Ye as u,U as v};
+import { aI as Platform, r as ref, aB as isKeyCode, ay as prevent, D as nextTick, aJ as addEvt, w as watch, o as onMounted, E as onBeforeUnmount, j as getCurrentInstance, aK as cleanEvt, a2 as listenOpts, aL as portalProxyList, aM as client, a6 as getScrollbarWidth, V as createComponent, aN as useModelToggleProps, ab as useDarkProps, aO as useTransitionProps, aP as useModelToggleEmits, g as computed, ac as useDark, aQ as useTick, aR as useTimeout, aS as useTransition, aT as useModelToggle, aU as usePortal, aV as addEscapeKey, aW as removeEscapeKey, aX as addFocusout, aY as position, aZ as removeFocusout, a0 as getScrollTarget, a_ as closePortalMenus, h, X as hSlot, H as Transition, a$ as addFocusFn, b0 as childHasFocus, ap as stopAndPrevent } from "./index.e647c85a.js";
+function clearSelection() {
+  if (window.getSelection !== void 0) {
+    const selection = window.getSelection();
+    if (selection.empty !== void 0) {
+      selection.empty();
+    } else if (selection.removeAllRanges !== void 0) {
+      selection.removeAllRanges();
+      Platform.is.mobile !== true && selection.addRange(document.createRange());
+    }
+  } else if (document.selection !== void 0) {
+    document.selection.empty();
+  }
+}
+const useAnchorProps = {
+  target: {
+    default: true
+  },
+  noParentEvent: Boolean,
+  contextMenu: Boolean
+};
+function useAnchor({
+  showing,
+  avoidEmit,
+  configureAnchorEl
+}) {
+  const { props, proxy, emit } = getCurrentInstance();
+  const anchorEl = ref(null);
+  let touchTimer = null;
+  function canShow(evt) {
+    return anchorEl.value === null ? false : evt === void 0 || evt.touches === void 0 || evt.touches.length <= 1;
+  }
+  const anchorEvents = {};
+  if (configureAnchorEl === void 0) {
+    Object.assign(anchorEvents, {
+      hide(evt) {
+        proxy.hide(evt);
+      },
+      toggle(evt) {
+        proxy.toggle(evt);
+        evt.qAnchorHandled = true;
+      },
+      toggleKey(evt) {
+        isKeyCode(evt, 13) === true && anchorEvents.toggle(evt);
+      },
+      contextClick(evt) {
+        proxy.hide(evt);
+        prevent(evt);
+        nextTick(() => {
+          proxy.show(evt);
+          evt.qAnchorHandled = true;
+        });
+      },
+      prevent,
+      mobileTouch(evt) {
+        anchorEvents.mobileCleanup(evt);
+        if (canShow(evt) !== true) {
+          return;
+        }
+        proxy.hide(evt);
+        anchorEl.value.classList.add("non-selectable");
+        const target = evt.target;
+        addEvt(anchorEvents, "anchor", [
+          [target, "touchmove", "mobileCleanup", "passive"],
+          [target, "touchend", "mobileCleanup", "passive"],
+          [target, "touchcancel", "mobileCleanup", "passive"],
+          [anchorEl.value, "contextmenu", "prevent", "notPassive"]
+        ]);
+        touchTimer = setTimeout(() => {
+          touchTimer = null;
+          proxy.show(evt);
+          evt.qAnchorHandled = true;
+        }, 300);
+      },
+      mobileCleanup(evt) {
+        anchorEl.value.classList.remove("non-selectable");
+        if (touchTimer !== null) {
+          clearTimeout(touchTimer);
+          touchTimer = null;
+        }
+        if (showing.value === true && evt !== void 0) {
+          clearSelection();
+        }
+      }
+    });
+    configureAnchorEl = function(context = props.contextMenu) {
+      if (props.noParentEvent === true || anchorEl.value === null) {
+        return;
+      }
+      let evts;
+      if (context === true) {
+        if (proxy.$q.platform.is.mobile === true) {
+          evts = [
+            [anchorEl.value, "touchstart", "mobileTouch", "passive"]
+          ];
+        } else {
+          evts = [
+            [anchorEl.value, "mousedown", "hide", "passive"],
+            [anchorEl.value, "contextmenu", "contextClick", "notPassive"]
+          ];
+        }
+      } else {
+        evts = [
+          [anchorEl.value, "click", "toggle", "passive"],
+          [anchorEl.value, "keyup", "toggleKey", "passive"]
+        ];
+      }
+      addEvt(anchorEvents, "anchor", evts);
+    };
+  }
+  function unconfigureAnchorEl() {
+    cleanEvt(anchorEvents, "anchor");
+  }
+  function setAnchorEl(el) {
+    anchorEl.value = el;
+    while (anchorEl.value.classList.contains("q-anchor--skip")) {
+      anchorEl.value = anchorEl.value.parentNode;
+    }
+    configureAnchorEl();
+  }
+  function pickAnchorEl() {
+    if (props.target === false || props.target === "" || proxy.$el.parentNode === null) {
+      anchorEl.value = null;
+    } else if (props.target === true) {
+      setAnchorEl(proxy.$el.parentNode);
+    } else {
+      let el = props.target;
+      if (typeof props.target === "string") {
+        try {
+          el = document.querySelector(props.target);
+        } catch (err) {
+          el = void 0;
+        }
+      }
+      if (el !== void 0 && el !== null) {
+        anchorEl.value = el.$el || el;
+        configureAnchorEl();
+      } else {
+        anchorEl.value = null;
+        console.error(`Anchor: target "${props.target}" not found`);
+      }
+    }
+  }
+  watch(() => props.contextMenu, (val) => {
+    if (anchorEl.value !== null) {
+      unconfigureAnchorEl();
+      configureAnchorEl(val);
+    }
+  });
+  watch(() => props.target, () => {
+    if (anchorEl.value !== null) {
+      unconfigureAnchorEl();
+    }
+    pickAnchorEl();
+  });
+  watch(() => props.noParentEvent, (val) => {
+    if (anchorEl.value !== null) {
+      if (val === true) {
+        unconfigureAnchorEl();
+      } else {
+        configureAnchorEl();
+      }
+    }
+  });
+  onMounted(() => {
+    pickAnchorEl();
+    if (avoidEmit !== true && props.modelValue === true && anchorEl.value === null) {
+      emit("update:modelValue", false);
+    }
+  });
+  onBeforeUnmount(() => {
+    touchTimer !== null && clearTimeout(touchTimer);
+    unconfigureAnchorEl();
+  });
+  return {
+    anchorEl,
+    canShow,
+    anchorEvents
+  };
+}
+function useScrollTarget(props, configureScrollTarget) {
+  const localScrollTarget = ref(null);
+  let scrollFn;
+  function changeScrollEvent(scrollTarget, fn) {
+    const fnProp = `${fn !== void 0 ? "add" : "remove"}EventListener`;
+    const fnHandler = fn !== void 0 ? fn : scrollFn;
+    if (scrollTarget !== window) {
+      scrollTarget[fnProp]("scroll", fnHandler, listenOpts.passive);
+    }
+    window[fnProp]("scroll", fnHandler, listenOpts.passive);
+    scrollFn = fn;
+  }
+  function unconfigureScrollTarget() {
+    if (localScrollTarget.value !== null) {
+      changeScrollEvent(localScrollTarget.value);
+      localScrollTarget.value = null;
+    }
+  }
+  const noParentEventWatcher = watch(() => props.noParentEvent, () => {
+    if (localScrollTarget.value !== null) {
+      unconfigureScrollTarget();
+      configureScrollTarget();
+    }
+  });
+  onBeforeUnmount(noParentEventWatcher);
+  return {
+    localScrollTarget,
+    unconfigureScrollTarget,
+    changeScrollEvent
+  };
+}
+const { notPassiveCapture } = listenOpts, registeredList = [];
+function globalHandler(evt) {
+  const target = evt.target;
+  if (target === void 0 || target.nodeType === 8 || target.classList.contains("no-pointer-events") === true) {
+    return;
+  }
+  let portalIndex = portalProxyList.length - 1;
+  while (portalIndex >= 0) {
+    const proxy = portalProxyList[portalIndex].$;
+    if (proxy.type.name !== "QDialog") {
+      break;
+    }
+    if (proxy.props.seamless !== true) {
+      return;
+    }
+    portalIndex--;
+  }
+  for (let i = registeredList.length - 1; i >= 0; i--) {
+    const state = registeredList[i];
+    if ((state.anchorEl.value === null || state.anchorEl.value.contains(target) === false) && (target === document.body || state.innerRef.value !== null && state.innerRef.value.contains(target) === false)) {
+      evt.qClickOutside = true;
+      state.onClickOutside(evt);
+    } else {
+      return;
+    }
+  }
+}
+function addClickOutside(clickOutsideProps) {
+  registeredList.push(clickOutsideProps);
+  if (registeredList.length === 1) {
+    document.addEventListener("mousedown", globalHandler, notPassiveCapture);
+    document.addEventListener("touchstart", globalHandler, notPassiveCapture);
+  }
+}
+function removeClickOutside(clickOutsideProps) {
+  const index = registeredList.findIndex((h2) => h2 === clickOutsideProps);
+  if (index > -1) {
+    registeredList.splice(index, 1);
+    if (registeredList.length === 0) {
+      document.removeEventListener("mousedown", globalHandler, notPassiveCapture);
+      document.removeEventListener("touchstart", globalHandler, notPassiveCapture);
+    }
+  }
+}
+let vpLeft, vpTop;
+function validatePosition(pos) {
+  const parts = pos.split(" ");
+  if (parts.length !== 2) {
+    return false;
+  }
+  if (["top", "center", "bottom"].includes(parts[0]) !== true) {
+    console.error("Anchor/Self position must start with one of top/center/bottom");
+    return false;
+  }
+  if (["left", "middle", "right", "start", "end"].includes(parts[1]) !== true) {
+    console.error("Anchor/Self position must end with one of left/middle/right/start/end");
+    return false;
+  }
+  return true;
+}
+function validateOffset(val) {
+  if (!val) {
+    return true;
+  }
+  if (val.length !== 2) {
+    return false;
+  }
+  if (typeof val[0] !== "number" || typeof val[1] !== "number") {
+    return false;
+  }
+  return true;
+}
+const horizontalPos = {
+  "start#ltr": "left",
+  "start#rtl": "right",
+  "end#ltr": "right",
+  "end#rtl": "left"
+};
+["left", "middle", "right"].forEach((pos) => {
+  horizontalPos[`${pos}#ltr`] = pos;
+  horizontalPos[`${pos}#rtl`] = pos;
+});
+function parsePosition(pos, rtl) {
+  const parts = pos.split(" ");
+  return {
+    vertical: parts[0],
+    horizontal: horizontalPos[`${parts[1]}#${rtl === true ? "rtl" : "ltr"}`]
+  };
+}
+function getAnchorProps(el, offset) {
+  let { top, left, right, bottom, width, height } = el.getBoundingClientRect();
+  if (offset !== void 0) {
+    top -= offset[1];
+    left -= offset[0];
+    bottom += offset[1];
+    right += offset[0];
+    width += offset[0];
+    height += offset[1];
+  }
+  return {
+    top,
+    bottom,
+    height,
+    left,
+    right,
+    width,
+    middle: left + (right - left) / 2,
+    center: top + (bottom - top) / 2
+  };
+}
+function getAbsoluteAnchorProps(el, absoluteOffset, offset) {
+  let { top, left } = el.getBoundingClientRect();
+  top += absoluteOffset.top;
+  left += absoluteOffset.left;
+  if (offset !== void 0) {
+    top += offset[1];
+    left += offset[0];
+  }
+  return {
+    top,
+    bottom: top + 1,
+    height: 1,
+    left,
+    right: left + 1,
+    width: 1,
+    middle: left,
+    center: top
+  };
+}
+function getTargetProps(el) {
+  return {
+    top: 0,
+    center: el.offsetHeight / 2,
+    bottom: el.offsetHeight,
+    left: 0,
+    middle: el.offsetWidth / 2,
+    right: el.offsetWidth
+  };
+}
+function getTopLeftProps(anchorProps, targetProps, cfg) {
+  return {
+    top: anchorProps[cfg.anchorOrigin.vertical] - targetProps[cfg.selfOrigin.vertical],
+    left: anchorProps[cfg.anchorOrigin.horizontal] - targetProps[cfg.selfOrigin.horizontal]
+  };
+}
+function setPosition(cfg) {
+  if (client.is.ios === true && window.visualViewport !== void 0) {
+    const el = document.body.style;
+    const { offsetLeft: left, offsetTop: top } = window.visualViewport;
+    if (left !== vpLeft) {
+      el.setProperty("--q-pe-left", left + "px");
+      vpLeft = left;
+    }
+    if (top !== vpTop) {
+      el.setProperty("--q-pe-top", top + "px");
+      vpTop = top;
+    }
+  }
+  const { scrollLeft, scrollTop } = cfg.el;
+  const anchorProps = cfg.absoluteOffset === void 0 ? getAnchorProps(cfg.anchorEl, cfg.cover === true ? [0, 0] : cfg.offset) : getAbsoluteAnchorProps(cfg.anchorEl, cfg.absoluteOffset, cfg.offset);
+  let elStyle = {
+    maxHeight: cfg.maxHeight,
+    maxWidth: cfg.maxWidth,
+    visibility: "visible"
+  };
+  if (cfg.fit === true || cfg.cover === true) {
+    elStyle.minWidth = anchorProps.width + "px";
+    if (cfg.cover === true) {
+      elStyle.minHeight = anchorProps.height + "px";
+    }
+  }
+  Object.assign(cfg.el.style, elStyle);
+  const targetProps = getTargetProps(cfg.el);
+  let props = getTopLeftProps(anchorProps, targetProps, cfg);
+  if (cfg.absoluteOffset === void 0 || cfg.offset === void 0) {
+    applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin);
+  } else {
+    const { top, left } = props;
+    applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin);
+    let hasChanged = false;
+    if (props.top !== top) {
+      hasChanged = true;
+      const offsetY = 2 * cfg.offset[1];
+      anchorProps.center = anchorProps.top -= offsetY;
+      anchorProps.bottom -= offsetY + 2;
+    }
+    if (props.left !== left) {
+      hasChanged = true;
+      const offsetX = 2 * cfg.offset[0];
+      anchorProps.middle = anchorProps.left -= offsetX;
+      anchorProps.right -= offsetX + 2;
+    }
+    if (hasChanged === true) {
+      props = getTopLeftProps(anchorProps, targetProps, cfg);
+      applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin);
+    }
+  }
+  elStyle = {
+    top: props.top + "px",
+    left: props.left + "px"
+  };
+  if (props.maxHeight !== void 0) {
+    elStyle.maxHeight = props.maxHeight + "px";
+    if (anchorProps.height > props.maxHeight) {
+      elStyle.minHeight = elStyle.maxHeight;
+    }
+  }
+  if (props.maxWidth !== void 0) {
+    elStyle.maxWidth = props.maxWidth + "px";
+    if (anchorProps.width > props.maxWidth) {
+      elStyle.minWidth = elStyle.maxWidth;
+    }
+  }
+  Object.assign(cfg.el.style, elStyle);
+  if (cfg.el.scrollTop !== scrollTop) {
+    cfg.el.scrollTop = scrollTop;
+  }
+  if (cfg.el.scrollLeft !== scrollLeft) {
+    cfg.el.scrollLeft = scrollLeft;
+  }
+}
+function applyBoundaries(props, anchorProps, targetProps, anchorOrigin, selfOrigin) {
+  const currentHeight = targetProps.bottom, currentWidth = targetProps.right, margin = getScrollbarWidth(), innerHeight = window.innerHeight - margin, innerWidth = document.body.clientWidth;
+  if (props.top < 0 || props.top + currentHeight > innerHeight) {
+    if (selfOrigin.vertical === "center") {
+      props.top = anchorProps[anchorOrigin.vertical] > innerHeight / 2 ? Math.max(0, innerHeight - currentHeight) : 0;
+      props.maxHeight = Math.min(currentHeight, innerHeight);
+    } else if (anchorProps[anchorOrigin.vertical] > innerHeight / 2) {
+      const anchorY = Math.min(
+        innerHeight,
+        anchorOrigin.vertical === "center" ? anchorProps.center : anchorOrigin.vertical === selfOrigin.vertical ? anchorProps.bottom : anchorProps.top
+      );
+      props.maxHeight = Math.min(currentHeight, anchorY);
+      props.top = Math.max(0, anchorY - currentHeight);
+    } else {
+      props.top = Math.max(
+        0,
+        anchorOrigin.vertical === "center" ? anchorProps.center : anchorOrigin.vertical === selfOrigin.vertical ? anchorProps.top : anchorProps.bottom
+      );
+      props.maxHeight = Math.min(currentHeight, innerHeight - props.top);
+    }
+  }
+  if (props.left < 0 || props.left + currentWidth > innerWidth) {
+    props.maxWidth = Math.min(currentWidth, innerWidth);
+    if (selfOrigin.horizontal === "middle") {
+      props.left = anchorProps[anchorOrigin.horizontal] > innerWidth / 2 ? Math.max(0, innerWidth - currentWidth) : 0;
+    } else if (anchorProps[anchorOrigin.horizontal] > innerWidth / 2) {
+      const anchorX = Math.min(
+        innerWidth,
+        anchorOrigin.horizontal === "middle" ? anchorProps.middle : anchorOrigin.horizontal === selfOrigin.horizontal ? anchorProps.right : anchorProps.left
+      );
+      props.maxWidth = Math.min(currentWidth, anchorX);
+      props.left = Math.max(0, anchorX - props.maxWidth);
+    } else {
+      props.left = Math.max(
+        0,
+        anchorOrigin.horizontal === "middle" ? anchorProps.middle : anchorOrigin.horizontal === selfOrigin.horizontal ? anchorProps.left : anchorProps.right
+      );
+      props.maxWidth = Math.min(currentWidth, innerWidth - props.left);
+    }
+  }
+}
+var QMenu = createComponent({
+  name: "QMenu",
+  inheritAttrs: false,
+  props: {
+    ...useAnchorProps,
+    ...useModelToggleProps,
+    ...useDarkProps,
+    ...useTransitionProps,
+    persistent: Boolean,
+    autoClose: Boolean,
+    separateClosePopup: Boolean,
+    noRouteDismiss: Boolean,
+    noRefocus: Boolean,
+    noFocus: Boolean,
+    fit: Boolean,
+    cover: Boolean,
+    square: Boolean,
+    anchor: {
+      type: String,
+      validator: validatePosition
+    },
+    self: {
+      type: String,
+      validator: validatePosition
+    },
+    offset: {
+      type: Array,
+      validator: validateOffset
+    },
+    scrollTarget: {
+      default: void 0
+    },
+    touchPosition: Boolean,
+    maxHeight: {
+      type: String,
+      default: null
+    },
+    maxWidth: {
+      type: String,
+      default: null
+    }
+  },
+  emits: [
+    ...useModelToggleEmits,
+    "click",
+    "escapeKey"
+  ],
+  setup(props, { slots, emit, attrs }) {
+    let refocusTarget = null, absoluteOffset, unwatchPosition, avoidAutoClose;
+    const vm = getCurrentInstance();
+    const { proxy } = vm;
+    const { $q } = proxy;
+    const innerRef = ref(null);
+    const showing = ref(false);
+    const hideOnRouteChange = computed(
+      () => props.persistent !== true && props.noRouteDismiss !== true
+    );
+    const isDark = useDark(props, $q);
+    const { registerTick, removeTick } = useTick();
+    const { registerTimeout } = useTimeout();
+    const { transitionProps, transitionStyle } = useTransition(props);
+    const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget);
+    const { anchorEl, canShow } = useAnchor({ showing });
+    const { hide } = useModelToggle({
+      showing,
+      canShow,
+      handleShow,
+      handleHide,
+      hideOnRouteChange,
+      processOnMount: true
+    });
+    const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent, "menu");
+    const clickOutsideProps = {
+      anchorEl,
+      innerRef,
+      onClickOutside(e) {
+        if (props.persistent !== true && showing.value === true) {
+          hide(e);
+          if (e.type === "touchstart" || e.target.classList.contains("q-dialog__backdrop")) {
+            stopAndPrevent(e);
+          }
+          return true;
+        }
+      }
+    };
+    const anchorOrigin = computed(
+      () => parsePosition(
+        props.anchor || (props.cover === true ? "center middle" : "bottom start"),
+        $q.lang.rtl
+      )
+    );
+    const selfOrigin = computed(() => props.cover === true ? anchorOrigin.value : parsePosition(props.self || "top start", $q.lang.rtl));
+    const menuClass = computed(
+      () => (props.square === true ? " q-menu--square" : "") + (isDark.value === true ? " q-menu--dark q-dark" : "")
+    );
+    const onEvents = computed(() => props.autoClose === true ? { onClick: onAutoClose } : {});
+    const handlesFocus = computed(
+      () => showing.value === true && props.persistent !== true
+    );
+    watch(handlesFocus, (val) => {
+      if (val === true) {
+        addEscapeKey(onEscapeKey);
+        addClickOutside(clickOutsideProps);
+      } else {
+        removeEscapeKey(onEscapeKey);
+        removeClickOutside(clickOutsideProps);
+      }
+    });
+    function focus() {
+      addFocusFn(() => {
+        let node = innerRef.value;
+        if (node && node.contains(document.activeElement) !== true) {
+          node = node.querySelector("[autofocus][tabindex], [data-autofocus][tabindex]") || node.querySelector("[autofocus] [tabindex], [data-autofocus] [tabindex]") || node.querySelector("[autofocus], [data-autofocus]") || node;
+          node.focus({ preventScroll: true });
+        }
+      });
+    }
+    function handleShow(evt) {
+      refocusTarget = props.noRefocus === false ? document.activeElement : null;
+      addFocusout(onFocusout);
+      showPortal();
+      configureScrollTarget();
+      absoluteOffset = void 0;
+      if (evt !== void 0 && (props.touchPosition || props.contextMenu)) {
+        const pos = position(evt);
+        if (pos.left !== void 0) {
+          const { top, left } = anchorEl.value.getBoundingClientRect();
+          absoluteOffset = { left: pos.left - left, top: pos.top - top };
+        }
+      }
+      if (unwatchPosition === void 0) {
+        unwatchPosition = watch(
+          () => $q.screen.width + "|" + $q.screen.height + "|" + props.self + "|" + props.anchor + "|" + $q.lang.rtl,
+          updatePosition
+        );
+      }
+      if (props.noFocus !== true) {
+        document.activeElement.blur();
+      }
+      registerTick(() => {
+        updatePosition();
+        props.noFocus !== true && focus();
+      });
+      registerTimeout(() => {
+        if ($q.platform.is.ios === true) {
+          avoidAutoClose = props.autoClose;
+          innerRef.value.click();
+        }
+        updatePosition();
+        showPortal(true);
+        emit("show", evt);
+      }, props.transitionDuration);
+    }
+    function handleHide(evt) {
+      removeTick();
+      hidePortal();
+      anchorCleanup(true);
+      if (refocusTarget !== null && (evt === void 0 || evt.qClickOutside !== true)) {
+        ((evt && evt.type.indexOf("key") === 0 ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])') : void 0) || refocusTarget).focus();
+        refocusTarget = null;
+      }
+      registerTimeout(() => {
+        hidePortal(true);
+        emit("hide", evt);
+      }, props.transitionDuration);
+    }
+    function anchorCleanup(hiding) {
+      absoluteOffset = void 0;
+      if (unwatchPosition !== void 0) {
+        unwatchPosition();
+        unwatchPosition = void 0;
+      }
+      if (hiding === true || showing.value === true) {
+        removeFocusout(onFocusout);
+        unconfigureScrollTarget();
+        removeClickOutside(clickOutsideProps);
+        removeEscapeKey(onEscapeKey);
+      }
+      if (hiding !== true) {
+        refocusTarget = null;
+      }
+    }
+    function configureScrollTarget() {
+      if (anchorEl.value !== null || props.scrollTarget !== void 0) {
+        localScrollTarget.value = getScrollTarget(anchorEl.value, props.scrollTarget);
+        changeScrollEvent(localScrollTarget.value, updatePosition);
+      }
+    }
+    function onAutoClose(e) {
+      if (avoidAutoClose !== true) {
+        closePortalMenus(proxy, e);
+        emit("click", e);
+      } else {
+        avoidAutoClose = false;
+      }
+    }
+    function onFocusout(evt) {
+      if (handlesFocus.value === true && props.noFocus !== true && childHasFocus(innerRef.value, evt.target) !== true) {
+        focus();
+      }
+    }
+    function onEscapeKey(evt) {
+      emit("escapeKey");
+      hide(evt);
+    }
+    function updatePosition() {
+      const el = innerRef.value;
+      if (el === null || anchorEl.value === null) {
+        return;
+      }
+      setPosition({
+        el,
+        offset: props.offset,
+        anchorEl: anchorEl.value,
+        anchorOrigin: anchorOrigin.value,
+        selfOrigin: selfOrigin.value,
+        absoluteOffset,
+        fit: props.fit,
+        cover: props.cover,
+        maxHeight: props.maxHeight,
+        maxWidth: props.maxWidth
+      });
+    }
+    function renderPortalContent() {
+      return h(
+        Transition,
+        transitionProps.value,
+        () => showing.value === true ? h("div", {
+          role: "menu",
+          ...attrs,
+          ref: innerRef,
+          tabindex: -1,
+          class: [
+            "q-menu q-position-engine scroll" + menuClass.value,
+            attrs.class
+          ],
+          style: [
+            attrs.style,
+            transitionStyle.value
+          ],
+          ...onEvents.value
+        }, hSlot(slots.default)) : null
+      );
+    }
+    onBeforeUnmount(anchorCleanup);
+    Object.assign(proxy, { focus, updatePosition });
+    return renderPortal;
+  }
+});
+const units = ["B", "KB", "MB", "GB", "TB", "PB"];
+function humanStorageSize(bytes) {
+  let u = 0;
+  while (parseInt(bytes, 10) >= 1024 && u < units.length - 1) {
+    bytes /= 1024;
+    ++u;
+  }
+  return `${bytes.toFixed(1)}${units[u]}`;
+}
+function between(v, min, max) {
+  return max <= min ? min : Math.min(max, Math.max(min, v));
+}
+function normalizeToInterval(v, min, max) {
+  if (max <= min) {
+    return min;
+  }
+  const size = max - min + 1;
+  let index = min + (v - min) % size;
+  if (index < min) {
+    index = size + index;
+  }
+  return index === 0 ? 0 : index;
+}
+function pad(v, length = 2, char = "0") {
+  if (v === void 0 || v === null) {
+    return v;
+  }
+  const val = "" + v;
+  return val.length >= length ? val : new Array(length - val.length + 1).join(char) + val;
+}
+export { QMenu as Q, useAnchor as a, between as b, clearSelection as c, validateOffset as d, parsePosition as e, useScrollTarget as f, addClickOutside as g, humanStorageSize as h, normalizeToInterval as n, pad as p, removeClickOutside as r, setPosition as s, useAnchorProps as u, validatePosition as v };

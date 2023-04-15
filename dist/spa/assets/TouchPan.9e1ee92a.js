@@ -1,1 +1,308 @@
-import{b1 as Y,aM as m,a1 as D,b2 as X,aJ as h,b3 as y,ay as w,aA as C,aY as E,aK as b,ap as A}from"./index.e647c85a.js";import{g as M,s as _}from"./touch.70a9dd44.js";import{c as F}from"./format.8e90d58d.js";function g(a,r,n){const l=E(a);let e,t=l.left-r.event.x,i=l.top-r.event.y,u=Math.abs(t),s=Math.abs(i);const o=r.direction;o.horizontal===!0&&o.vertical!==!0?e=t<0?"left":"right":o.horizontal!==!0&&o.vertical===!0?e=i<0?"up":"down":o.up===!0&&i<0?(e="up",u>s&&(o.left===!0&&t<0?e="left":o.right===!0&&t>0&&(e="right"))):o.down===!0&&i>0?(e="down",u>s&&(o.left===!0&&t<0?e="left":o.right===!0&&t>0&&(e="right"))):o.left===!0&&t<0?(e="left",u<s&&(o.up===!0&&i<0?e="up":o.down===!0&&i>0&&(e="down"))):o.right===!0&&t>0&&(e="right",u<s&&(o.up===!0&&i<0?e="up":o.down===!0&&i>0&&(e="down")));let v=!1;if(e===void 0&&n===!1){if(r.event.isFirst===!0||r.event.lastDir===void 0)return{};e=r.event.lastDir,v=!0,e==="left"||e==="right"?(l.left-=t,u=0,t=0):(l.top-=i,s=0,i=0)}return{synthetic:v,payload:{evt:a,touch:r.event.mouse!==!0,mouse:r.event.mouse===!0,position:l,direction:e,isFirst:r.event.isFirst,isFinal:n===!0,duration:Date.now()-r.event.time,distance:{x:u,y:s},offset:{x:t,y:i},delta:{x:l.left-r.event.lastX,y:l.top-r.event.lastY}}}}let P=0;var O=Y({name:"touch-pan",beforeMount(a,{value:r,modifiers:n}){if(n.mouse!==!0&&m.has.touch!==!0)return;function l(t,i){n.mouse===!0&&i===!0?A(t):(n.stop===!0&&C(t),n.prevent===!0&&w(t))}const e={uid:"qvtp_"+P++,handler:r,modifiers:n,direction:M(n),noop:D,mouseStart(t){_(t,e)&&X(t)&&(h(e,"temp",[[document,"mousemove","move","notPassiveCapture"],[document,"mouseup","end","passiveCapture"]]),e.start(t,!0))},touchStart(t){if(_(t,e)){const i=t.target;h(e,"temp",[[i,"touchmove","move","notPassiveCapture"],[i,"touchcancel","end","passiveCapture"],[i,"touchend","end","passiveCapture"]]),e.start(t)}},start(t,i){if(m.is.firefox===!0&&y(a,!0),e.lastEvt=t,i===!0||n.stop===!0){if(e.direction.all!==!0&&(i!==!0||e.modifiers.mouseAllDir!==!0&&e.modifiers.mousealldir!==!0)){const o=t.type.indexOf("mouse")>-1?new MouseEvent(t.type,t):new TouchEvent(t.type,t);t.defaultPrevented===!0&&w(o),t.cancelBubble===!0&&C(o),Object.assign(o,{qKeyEvent:t.qKeyEvent,qClickOutside:t.qClickOutside,qAnchorHandled:t.qAnchorHandled,qClonedBy:t.qClonedBy===void 0?[e.uid]:t.qClonedBy.concat(e.uid)}),e.initialEvent={target:t.target,event:o}}C(t)}const{left:u,top:s}=E(t);e.event={x:u,y:s,time:Date.now(),mouse:i===!0,detected:!1,isFirst:!0,isFinal:!1,lastX:u,lastY:s}},move(t){if(e.event===void 0)return;const i=E(t),u=i.left-e.event.x,s=i.top-e.event.y;if(u===0&&s===0)return;e.lastEvt=t;const o=e.event.mouse===!0,v=()=>{l(t,o);let d;n.preserveCursor!==!0&&n.preservecursor!==!0&&(d=document.documentElement.style.cursor||"",document.documentElement.style.cursor="grabbing"),o===!0&&document.body.classList.add("no-pointer-events--children"),document.body.classList.add("non-selectable"),F(),e.styleCleanup=p=>{if(e.styleCleanup=void 0,d!==void 0&&(document.documentElement.style.cursor=d),document.body.classList.remove("non-selectable"),o===!0){const q=()=>{document.body.classList.remove("no-pointer-events--children")};p!==void 0?setTimeout(()=>{q(),p()},50):q()}else p!==void 0&&p()}};if(e.event.detected===!0){e.event.isFirst!==!0&&l(t,e.event.mouse);const{payload:d,synthetic:p}=g(t,e,!1);d!==void 0&&(e.handler(d)===!1?e.end(t):(e.styleCleanup===void 0&&e.event.isFirst===!0&&v(),e.event.lastX=d.position.left,e.event.lastY=d.position.top,e.event.lastDir=p===!0?void 0:d.direction,e.event.isFirst=!1));return}if(e.direction.all===!0||o===!0&&(e.modifiers.mouseAllDir===!0||e.modifiers.mousealldir===!0)){v(),e.event.detected=!0,e.move(t);return}const c=Math.abs(u),f=Math.abs(s);c!==f&&(e.direction.horizontal===!0&&c>f||e.direction.vertical===!0&&c<f||e.direction.up===!0&&c<f&&s<0||e.direction.down===!0&&c<f&&s>0||e.direction.left===!0&&c>f&&u<0||e.direction.right===!0&&c>f&&u>0?(e.event.detected=!0,e.move(t)):e.end(t,!0))},end(t,i){if(e.event!==void 0){if(b(e,"temp"),m.is.firefox===!0&&y(a,!1),i===!0)e.styleCleanup!==void 0&&e.styleCleanup(),e.event.detected!==!0&&e.initialEvent!==void 0&&e.initialEvent.target.dispatchEvent(e.initialEvent.event);else if(e.event.detected===!0){e.event.isFirst===!0&&e.handler(g(t===void 0?e.lastEvt:t,e).payload);const{payload:u}=g(t===void 0?e.lastEvt:t,e,!0),s=()=>{e.handler(u)};e.styleCleanup!==void 0?e.styleCleanup(s):s()}e.event=void 0,e.initialEvent=void 0,e.lastEvt=void 0}}};if(a.__qtouchpan=e,n.mouse===!0){const t=n.mouseCapture===!0||n.mousecapture===!0?"Capture":"";h(e,"main",[[a,"mousedown","mouseStart",`passive${t}`]])}m.has.touch===!0&&h(e,"main",[[a,"touchstart","touchStart",`passive${n.capture===!0?"Capture":""}`],[a,"touchmove","noop","notPassiveCapture"]])},updated(a,r){const n=a.__qtouchpan;n!==void 0&&(r.oldValue!==r.value&&(typeof value!="function"&&n.end(),n.handler=r.value),n.direction=M(r.modifiers))},beforeUnmount(a){const r=a.__qtouchpan;r!==void 0&&(r.event!==void 0&&r.end(),b(r,"main"),b(r,"temp"),m.is.firefox===!0&&y(a,!1),r.styleCleanup!==void 0&&r.styleCleanup(),delete a.__qtouchpan)}});export{O as T};
+import { b1 as createDirective, aM as client, a1 as noop, b2 as leftClick, aJ as addEvt, b3 as preventDraggable, ay as prevent, aA as stop, aY as position, aK as cleanEvt, ap as stopAndPrevent } from "./index.e647c85a.js";
+import { g as getModifierDirections, s as shouldStart } from "./touch.70a9dd44.js";
+import { c as clearSelection } from "./format.8e90d58d.js";
+function getChanges(evt, ctx, isFinal) {
+  const pos = position(evt);
+  let dir, distX = pos.left - ctx.event.x, distY = pos.top - ctx.event.y, absX = Math.abs(distX), absY = Math.abs(distY);
+  const direction = ctx.direction;
+  if (direction.horizontal === true && direction.vertical !== true) {
+    dir = distX < 0 ? "left" : "right";
+  } else if (direction.horizontal !== true && direction.vertical === true) {
+    dir = distY < 0 ? "up" : "down";
+  } else if (direction.up === true && distY < 0) {
+    dir = "up";
+    if (absX > absY) {
+      if (direction.left === true && distX < 0) {
+        dir = "left";
+      } else if (direction.right === true && distX > 0) {
+        dir = "right";
+      }
+    }
+  } else if (direction.down === true && distY > 0) {
+    dir = "down";
+    if (absX > absY) {
+      if (direction.left === true && distX < 0) {
+        dir = "left";
+      } else if (direction.right === true && distX > 0) {
+        dir = "right";
+      }
+    }
+  } else if (direction.left === true && distX < 0) {
+    dir = "left";
+    if (absX < absY) {
+      if (direction.up === true && distY < 0) {
+        dir = "up";
+      } else if (direction.down === true && distY > 0) {
+        dir = "down";
+      }
+    }
+  } else if (direction.right === true && distX > 0) {
+    dir = "right";
+    if (absX < absY) {
+      if (direction.up === true && distY < 0) {
+        dir = "up";
+      } else if (direction.down === true && distY > 0) {
+        dir = "down";
+      }
+    }
+  }
+  let synthetic = false;
+  if (dir === void 0 && isFinal === false) {
+    if (ctx.event.isFirst === true || ctx.event.lastDir === void 0) {
+      return {};
+    }
+    dir = ctx.event.lastDir;
+    synthetic = true;
+    if (dir === "left" || dir === "right") {
+      pos.left -= distX;
+      absX = 0;
+      distX = 0;
+    } else {
+      pos.top -= distY;
+      absY = 0;
+      distY = 0;
+    }
+  }
+  return {
+    synthetic,
+    payload: {
+      evt,
+      touch: ctx.event.mouse !== true,
+      mouse: ctx.event.mouse === true,
+      position: pos,
+      direction: dir,
+      isFirst: ctx.event.isFirst,
+      isFinal: isFinal === true,
+      duration: Date.now() - ctx.event.time,
+      distance: {
+        x: absX,
+        y: absY
+      },
+      offset: {
+        x: distX,
+        y: distY
+      },
+      delta: {
+        x: pos.left - ctx.event.lastX,
+        y: pos.top - ctx.event.lastY
+      }
+    }
+  };
+}
+let uid = 0;
+var TouchPan = createDirective(
+  {
+    name: "touch-pan",
+    beforeMount(el, { value: value2, modifiers }) {
+      if (modifiers.mouse !== true && client.has.touch !== true) {
+        return;
+      }
+      function handleEvent(evt, mouseEvent) {
+        if (modifiers.mouse === true && mouseEvent === true) {
+          stopAndPrevent(evt);
+        } else {
+          modifiers.stop === true && stop(evt);
+          modifiers.prevent === true && prevent(evt);
+        }
+      }
+      const ctx = {
+        uid: "qvtp_" + uid++,
+        handler: value2,
+        modifiers,
+        direction: getModifierDirections(modifiers),
+        noop,
+        mouseStart(evt) {
+          if (shouldStart(evt, ctx) && leftClick(evt)) {
+            addEvt(ctx, "temp", [
+              [document, "mousemove", "move", "notPassiveCapture"],
+              [document, "mouseup", "end", "passiveCapture"]
+            ]);
+            ctx.start(evt, true);
+          }
+        },
+        touchStart(evt) {
+          if (shouldStart(evt, ctx)) {
+            const target = evt.target;
+            addEvt(ctx, "temp", [
+              [target, "touchmove", "move", "notPassiveCapture"],
+              [target, "touchcancel", "end", "passiveCapture"],
+              [target, "touchend", "end", "passiveCapture"]
+            ]);
+            ctx.start(evt);
+          }
+        },
+        start(evt, mouseEvent) {
+          client.is.firefox === true && preventDraggable(el, true);
+          ctx.lastEvt = evt;
+          if (mouseEvent === true || modifiers.stop === true) {
+            if (ctx.direction.all !== true && (mouseEvent !== true || ctx.modifiers.mouseAllDir !== true && ctx.modifiers.mousealldir !== true)) {
+              const clone = evt.type.indexOf("mouse") > -1 ? new MouseEvent(evt.type, evt) : new TouchEvent(evt.type, evt);
+              evt.defaultPrevented === true && prevent(clone);
+              evt.cancelBubble === true && stop(clone);
+              Object.assign(clone, {
+                qKeyEvent: evt.qKeyEvent,
+                qClickOutside: evt.qClickOutside,
+                qAnchorHandled: evt.qAnchorHandled,
+                qClonedBy: evt.qClonedBy === void 0 ? [ctx.uid] : evt.qClonedBy.concat(ctx.uid)
+              });
+              ctx.initialEvent = {
+                target: evt.target,
+                event: clone
+              };
+            }
+            stop(evt);
+          }
+          const { left, top } = position(evt);
+          ctx.event = {
+            x: left,
+            y: top,
+            time: Date.now(),
+            mouse: mouseEvent === true,
+            detected: false,
+            isFirst: true,
+            isFinal: false,
+            lastX: left,
+            lastY: top
+          };
+        },
+        move(evt) {
+          if (ctx.event === void 0) {
+            return;
+          }
+          const pos = position(evt), distX = pos.left - ctx.event.x, distY = pos.top - ctx.event.y;
+          if (distX === 0 && distY === 0) {
+            return;
+          }
+          ctx.lastEvt = evt;
+          const isMouseEvt = ctx.event.mouse === true;
+          const start = () => {
+            handleEvent(evt, isMouseEvt);
+            let cursor;
+            if (modifiers.preserveCursor !== true && modifiers.preservecursor !== true) {
+              cursor = document.documentElement.style.cursor || "";
+              document.documentElement.style.cursor = "grabbing";
+            }
+            isMouseEvt === true && document.body.classList.add("no-pointer-events--children");
+            document.body.classList.add("non-selectable");
+            clearSelection();
+            ctx.styleCleanup = (withDelayedFn) => {
+              ctx.styleCleanup = void 0;
+              if (cursor !== void 0) {
+                document.documentElement.style.cursor = cursor;
+              }
+              document.body.classList.remove("non-selectable");
+              if (isMouseEvt === true) {
+                const remove = () => {
+                  document.body.classList.remove("no-pointer-events--children");
+                };
+                if (withDelayedFn !== void 0) {
+                  setTimeout(() => {
+                    remove();
+                    withDelayedFn();
+                  }, 50);
+                } else {
+                  remove();
+                }
+              } else if (withDelayedFn !== void 0) {
+                withDelayedFn();
+              }
+            };
+          };
+          if (ctx.event.detected === true) {
+            ctx.event.isFirst !== true && handleEvent(evt, ctx.event.mouse);
+            const { payload, synthetic } = getChanges(evt, ctx, false);
+            if (payload !== void 0) {
+              if (ctx.handler(payload) === false) {
+                ctx.end(evt);
+              } else {
+                if (ctx.styleCleanup === void 0 && ctx.event.isFirst === true) {
+                  start();
+                }
+                ctx.event.lastX = payload.position.left;
+                ctx.event.lastY = payload.position.top;
+                ctx.event.lastDir = synthetic === true ? void 0 : payload.direction;
+                ctx.event.isFirst = false;
+              }
+            }
+            return;
+          }
+          if (ctx.direction.all === true || isMouseEvt === true && (ctx.modifiers.mouseAllDir === true || ctx.modifiers.mousealldir === true)) {
+            start();
+            ctx.event.detected = true;
+            ctx.move(evt);
+            return;
+          }
+          const absX = Math.abs(distX), absY = Math.abs(distY);
+          if (absX !== absY) {
+            if (ctx.direction.horizontal === true && absX > absY || ctx.direction.vertical === true && absX < absY || ctx.direction.up === true && absX < absY && distY < 0 || ctx.direction.down === true && absX < absY && distY > 0 || ctx.direction.left === true && absX > absY && distX < 0 || ctx.direction.right === true && absX > absY && distX > 0) {
+              ctx.event.detected = true;
+              ctx.move(evt);
+            } else {
+              ctx.end(evt, true);
+            }
+          }
+        },
+        end(evt, abort) {
+          if (ctx.event === void 0) {
+            return;
+          }
+          cleanEvt(ctx, "temp");
+          client.is.firefox === true && preventDraggable(el, false);
+          if (abort === true) {
+            ctx.styleCleanup !== void 0 && ctx.styleCleanup();
+            if (ctx.event.detected !== true && ctx.initialEvent !== void 0) {
+              ctx.initialEvent.target.dispatchEvent(ctx.initialEvent.event);
+            }
+          } else if (ctx.event.detected === true) {
+            ctx.event.isFirst === true && ctx.handler(getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx).payload);
+            const { payload } = getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx, true);
+            const fn = () => {
+              ctx.handler(payload);
+            };
+            if (ctx.styleCleanup !== void 0) {
+              ctx.styleCleanup(fn);
+            } else {
+              fn();
+            }
+          }
+          ctx.event = void 0;
+          ctx.initialEvent = void 0;
+          ctx.lastEvt = void 0;
+        }
+      };
+      el.__qtouchpan = ctx;
+      if (modifiers.mouse === true) {
+        const capture = modifiers.mouseCapture === true || modifiers.mousecapture === true ? "Capture" : "";
+        addEvt(ctx, "main", [
+          [el, "mousedown", "mouseStart", `passive${capture}`]
+        ]);
+      }
+      client.has.touch === true && addEvt(ctx, "main", [
+        [el, "touchstart", "touchStart", `passive${modifiers.capture === true ? "Capture" : ""}`],
+        [el, "touchmove", "noop", "notPassiveCapture"]
+      ]);
+    },
+    updated(el, bindings) {
+      const ctx = el.__qtouchpan;
+      if (ctx !== void 0) {
+        if (bindings.oldValue !== bindings.value) {
+          typeof value !== "function" && ctx.end();
+          ctx.handler = bindings.value;
+        }
+        ctx.direction = getModifierDirections(bindings.modifiers);
+      }
+    },
+    beforeUnmount(el) {
+      const ctx = el.__qtouchpan;
+      if (ctx !== void 0) {
+        ctx.event !== void 0 && ctx.end();
+        cleanEvt(ctx, "main");
+        cleanEvt(ctx, "temp");
+        client.is.firefox === true && preventDraggable(el, false);
+        ctx.styleCleanup !== void 0 && ctx.styleCleanup();
+        delete el.__qtouchpan;
+      }
+    }
+  }
+);
+export { TouchPan as T };

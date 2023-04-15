@@ -1,1 +1,634 @@
-import{A as J,r as c,m as p,K as de,L as r,l as t,O as N,U as g,q as n,G as W,S as D,N as ie,i as ue,g as ce,B as me,o as fe,E as pe,J as A,n as _,F as R,t as ve,R as T,y as U,bv as _e,Q as ge,M as he,b7 as z,s as ye,b8 as B}from"./index.e647c85a.js";import{a as be,Q as E}from"./QBreadcrumbs.14144362.js";import{Q as H}from"./QSpace.7d6f905e.js";import{Q as ke}from"./format.8e90d58d.js";import{Q as xe}from"./QHeader.001fd0f6.js";import{Q as Se}from"./QCircularProgress.85dfe2db.js";import{Q as Ve}from"./QBtnGroup.ea19e2fc.js";import{Q as De}from"./QBadge.5efaf9f7.js";import{Q as $e}from"./QPage.660fce82.js";import{Q as Qe,a as Ye}from"./QLayout.2e2ab899.js";import{_ as qe}from"./code_thinking.ed37dda4.js";import{t as we}from"./index.esm.f64318c9.js";import{u as Ce,r as G}from"./index.esm.4557c89b.js";import{m as h,a as O}from"./axios.ccd3a804.js";import{u as K}from"./use-quasar.ae4f72e4.js";import{Q as Be,e as Me}from"./DateField.75075dac.js";import{C as Pe}from"./ClosePopup.ef2f7039.js";import{_ as Ue}from"./PostcodeRegionField.1ba1a165.js";import{_ as Le}from"./PostcodeRegionGroupField.6d96b938.js";import{_ as Re}from"./UserAvatar.d3fe9aaa.js";import{_ as Oe,a as Fe}from"./UserRosterScheduleCreate.6d0f1fa6.js";import{u as F}from"./debug.805a8aef.js";import{c as Ne,n as I}from"./help.c0f85e41.js";import{a as Ae}from"./geolocation.172e3971.js";import"./QResizeObserver.97b49885.js";import"./QSelect.853d535e.js";import"./QItemSection.99659658.js";import"./rtl.4f5e13e8.js";import"./QToolbarTitle.1a75cd00.js";import"./helpers.2defcd01.js";const Te={class:"row items-center justify-end"},j=J({__name:"DateFieldSlim",props:{label:null,placeholder:null,modelValue:null,fdc:{type:Boolean},disabled:{type:Boolean},dark:{type:Boolean},previous:null,after:null,samePrevious:null,borderless:{type:Boolean},outlined:{type:Boolean},hint:null,year:null,filled:{type:Boolean}},emits:["update:modelValue"],setup(k,{emit:i}){const d=k,L=K(),m=c(),x=c(),Y=s=>{x.value&&x.value.hide(),i("update:modelValue",s)},$=s=>{i("update:modelValue",s)},q=()=>{if(m.value=!1,d.modelValue){let s=d.modelValue;if(s=s.replace("/",""),s=s.replace("/",""),s=s.replace(/\D/g,""),s=s.replace(" ",""),s.length<6)i("update:modelValue",null),m.value="Please enter a valid date";else{const y=s,Q=s,w=s;let M=Q.slice(0,2);M+="/";let P=y.slice(2,4);P+="/";let l=w.slice(4,8);l.length!==4&&(l=l.slice(0,2),d.year?l=d.year+l:l=`20${l}`);const C=M+P+l;if(C&&!C.match("undefined")){const f=h(C,"DD/MM/YYYY"),v=new Date;if(v.setHours(0,0,0,0),f.isValid()){let S=!0,V=null;d.fdc&&!f.isAfter(v)&&!f.isSame(v)&&(S=!1,L.dialog({title:"Invalid date",message:`Please enter a date on or after ${d.after}`})),d.after&&(f.isSameOrAfter(h(d.after,"DD/MM/YYYY"))||(S=!1,V=`Please enter a date on or after ${d.after}`)),d.previous&&f.isAfter(v)&&(S=!1,V="Please enter a previous date"),d.samePrevious&&(f.endOf("day").isSameOrBefore(h(v).endOf("day"))||(S=!1,V="Please enter a previous date")),m.value=V,S?i("update:modelValue",C):i("update:modelValue",null)}else i("update:modelValue",null),m.value="Please enter a valid date"}}}};return(s,y)=>(p(),de(ie,{filled:k.filled,outlined:k.outlined,"model-value":k.modelValue,mask:"##/##/####",label:k.label,style:{width:"130px"},"onUpdate:modelValue":$,onBlur:y[1]||(y[1]=Q=>q())},{append:r(()=>[t(N,{name:"event",class:"cursor-pointer",onBlur:y[0]||(y[0]=Q=>q())},{default:r(()=>[t(g(Be),{cover:"","transition-show":"scale","transition-hide":"scale",ref_key:"qDateProxy",ref:x},{default:r(()=>[t(Me,{"model-value":k.modelValue,"onUpdate:modelValue":Y,mask:"DD/MM/YYYY",color:"secondary"},{default:r(()=>[n("div",Te,[W(t(D,{label:"Close",color:"primary",flat:""},null,512),[[Pe]])])]),_:1},8,["model-value"])]),_:1},512)]),_:1})]),_:1},8,["filled","outlined","model-value","label"]))}}),ze={class:"q-pl-md q-pt-sm q-pr-md q-pb-sm flex items-center",style:{"padding-top":"11px"}},Ee={class:"q-pa-lg",style:{width:"500px"}},He=n("div",{class:"text-h6"},"Suburb Group",-1),Ge=n("div",{class:"text-h6"},"Individual Suburb",-1),Ie={key:0,class:"text-center text-grey",style:{"margin-top":"200px"}},je=n("div",{class:"q-mb-lg"},[n("img",{src:qe,style:{"max-height":"150px"}})],-1),Je={class:"flex"},We={key:0,class:"flex"},Ke={class:"flex items-center"},Xe={class:"q-ml-sm"},Ze={class:"text-bold",style:{"line-height":"0.9rem"}},et={class:"q-mt-sm"},tt={class:"text-center q-pa-xs"},at={class:"q-mt-xs"},ot=["onMouseenter"],lt={key:0,style:{display:"flex","justify-content":"space-evenly","flex-wrap":"wrap","align-items":"center","font-weight":"400","font-size":"12px",height:"auto"}},st={key:1,class:"text-center q-mt-sm"},Rt=J({__name:"UserRosterScheduler",setup(k){const i=K(),d=ue("bus"),L=c(),m=c(),x=c(!1),Y=c([]),$=c(),q=c(we()),s=c(),y=c(),Q=c(),w=c(),M=ce(()=>({"--calendar-resources-width":150+"px"})),P={keyword:null,start:h().startOf("isoWeek").format("DD/MM/YYYY"),end:h().endOf("isoWeek").format("DD/MM/YYYY"),postcode_region_group_id:null,postcode_region_id:null},l=me(JSON.parse(JSON.stringify(P))),f=Ce({start:{required:G},end:{required:G}},l,{$scope:!1}),v=()=>{i.loading.show({message:"Fetching schedule..."}),O.post("/userrosterschedule/scheduler",l).then(o=>{m.value=o.data,Y.value=o.data.map(e=>e.user),x.value=!0,S()}).catch(o=>{i.loading.hide(),F(o)})},S=()=>{O.post("/user/contractor/landing",{start:l.start,end:l.end,postcode_region_group_id:l.postcode_region_group_id,postcode_region_id:l.postcode_region_id}).then(o=>{w.value=o.data,i.loading.hide()}).catch(o=>{F(o),i.loading.hide()})},V=o=>{Q.value=o},X=()=>{s.value&&s.value.moveToToday()},Z=()=>{s.value&&s.value.prev()},ee=()=>{s.value&&s.value.next()},te=o=>{const e=h(o.start).format("DD/MM/YYYY"),u=h(o.end).format("DD/MM/YYYY");l.start!==e&&l.end!==u&&(l.start=e,l.end=u,v())},ae=o=>{const e=h();return!!h(o.timestamp.date).isSameOrAfter(e)},oe=o=>{if(!m.value)return[];const e=m.value.find(u=>u.user.id===o.resource.id);return e?e.schedule.filter(u=>u.day===o.timestamp.date):[]},le=o=>{if(!m.value)return!1;const e=m.value.find(u=>u.user.id===o.resource.id);return e?e.schedule.filter(u=>u.day===o.timestamp.date).length>0:[]},se=o=>{d.emit("editUserRosterSchedule",o)},re=o=>{Ne("This will create a new entry for this day").onOk(()=>{d.emit("newUserRosterSchedule",{day:o.timestamp.date,user:o.resource})})};return fe(async()=>{L.value=await Ae(),O.get("/postcoderegiongroup/index").then(o=>{y.value=o.data.map(e=>({value:e.id,label:e.name}))}).catch(o=>{F(o)}),d.on("getSchedule",()=>{v()})}),pe(()=>{d.off("getSchedule")}),(o,e)=>{const u=A("router-link"),ne=A("q-calendar-scheduler");return p(),_(R,null,[t(Oe),t(Fe),t(Qe,{view:"lHh LpR fFf",container:"",class:"layout-height"},{default:r(()=>[t(xe,{class:ve({"page-title text-black":!g(i).dark.isActive,"bg-dark":g(i).dark.isActive}),bordered:""},{default:r(()=>[n("div",ze,[t(be,null,{separator:r(()=>[t(N,{size:"1.5em",name:"chevron_right"})]),default:r(()=>[t(E,{label:"Home",icon:"home",to:{name:"appDashboard"}}),t(E,{label:"Scheduler"})]),_:1}),t(H),t(D,{icon:"place",label:`${Q.value||"Location"}`,flat:"",color:"grey","no-caps":"",class:"form-field-padding-dense"},{default:r(()=>[t(ke,null,{default:r(()=>[n("div",Ee,[He,t(Le,{modelValue:l.postcode_region_group_id,"onUpdate:modelValue":e[0]||(e[0]=a=>l.postcode_region_group_id=a),label:"Choose an area",outlined:!0,dense:!0,class:"q-mb-md",onSelectedLocation:V},null,8,["modelValue"]),Ge,t(Ue,{modelValue:l.postcode_region_id,"onUpdate:modelValue":e[1]||(e[1]=a=>l.postcode_region_id=a),label:"Specific Suburb",dense:!0,outlined:!0,onSelectedLocation:V},null,8,["modelValue"])])]),_:1})]),_:1},8,["label"]),t(j,{modelValue:l.start,"onUpdate:modelValue":e[2]||(e[2]=a=>l.start=a),invalid:g(f).start.$invalid,label:"Start date",dense:!0,outlined:!0,"no-hint":!0,class:"q-mr-sm q-ml-sm"},null,8,["modelValue","invalid"]),t(j,{modelValue:l.end,"onUpdate:modelValue":e[3]||(e[3]=a=>l.end=a),invalid:g(f).end.$invalid,label:"End date",dense:!0,outlined:!0,"no-hint":!0,class:"q-mr-sm"},null,8,["modelValue","invalid"]),t(D,{onClick:e[4]||(e[4]=a=>v()),disable:g(f).$invalid||!l.postcode_region_group_id&&!l.postcode_region_id,icon:"search",label:"Search",color:"primary"},null,8,["disable"])])]),_:1},8,["class"]),t(Ye,null,{default:r(()=>[t($e,{padding:""},{default:r(()=>[x.value?U("",!0):(p(),_("div",Ie,[je,t(N,{name:"place"}),T(" Select a location above to get started ")])),W(n("div",null,[t(ge,{class:"bg-seamless q-mt-md"},{default:r(()=>[t(he,null,{default:r(()=>[n("div",Je,[t(H),w.value?(p(),_("div",We,[(p(!0),_(R,null,z(w.value,a=>(p(),_("div",{key:a.name,class:"q-mr-lg"},[n("div",Ke,[t(Se,{value:a.per,size:"32px",color:"primary","track-color":"grey-5"},null,8,["value"]),n("div",Xe,[n("div",Ze,B(a.name)+" Bookings",1),n("div",null,B(a.oc)+"/"+B(a.cc)+" - "+B(a.per)+"% ",1)])])]))),128))])):U("",!0),n("div",null,[t(Ve,null,{default:r(()=>[t(D,{onClick:e[5]||(e[5]=a=>Z()),icon:"chevron_left",color:"secondary"}),t(D,{onClick:e[6]||(e[6]=a=>X()),label:"Today",color:"secondary"}),t(D,{onClick:e[7]||(e[7]=a=>ee()),icon:"chevron_right",color:"secondary"})]),_:1})])]),n("div",et,[t(ne,{ref_key:"calendarRef",ref:s,modelValue:q.value,"onUpdate:modelValue":e[8]||(e[8]=a=>q.value=a),"model-resources":Y.value,"onUpdate:modelResources":e[9]||(e[9]=a=>Y.value=a),view:"week","short-weekday-label":"",animated:"",bordered:"",weekdays:[1,2,3,4,5,6,0],style:ye(g(M)),onChange:te},{"resource-label":r(({scope:a})=>[n("div",tt,[t(Re,{user:a.resource},null,8,["user"]),n("div",at,[t(u,{to:{name:"contractor-dashboard",params:{id:a.resource.id}},target:"_blank",class:"link"},{default:r(()=>[T(B(a.resource.fullname),1)]),_:2},1032,["to"])])])]),day:r(({scope:a})=>[n("div",{onMouseenter:b=>$.value={resource:a.resource.id,date:a.timestamp.date},style:{height:"100%"}},[le(a)?(p(),_("div",lt,[(p(!0),_(R,null,z(oe(a),b=>(p(),_("div",{key:b.time,class:"q-mt-xs"},[t(De,{label:`${g(I)(b.start_time)} - ${g(I)(b.end_time)} (${b.orders})`,class:"q-mb-xs cursor-pointer",onClick:rt=>se(b.id),color:b.active?"positive":"negative"},null,8,["label","onClick","color"])]))),128))])):U("",!0),ae(a)&&$.value&&$.value.resource===a.resource.id&&$.value.date===a.timestamp.date?(p(),_("div",st,[t(D,{onClick:b=>re(a),icon:"add_circle",flat:"",size:"sm",dense:"",label:o.$t("schedule.create"),color:"grey-6"},null,8,["onClick","label"])])):U("",!0)],40,ot)]),_:1},8,["modelValue","model-resources","style"])])]),_:1})]),_:1})],512),[[_e,x.value]])]),_:1})]),_:1})]),_:1})],64)}}});export{Rt as default};
+import { A as defineComponent, r as ref, m as openBlock, K as createBlock, L as withCtx, l as createVNode, O as QIcon, U as unref, q as createBaseVNode, G as withDirectives, S as QBtn, N as QInput, i as inject, g as computed, B as reactive, o as onMounted, E as onBeforeUnmount, J as resolveComponent, n as createElementBlock, F as Fragment, t as normalizeClass, R as createTextVNode, y as createCommentVNode, bv as vShow, Q as QCard, M as QCardSection, b7 as renderList, s as normalizeStyle, b8 as toDisplayString } from "./index.e647c85a.js";
+import { a as QBreadcrumbs, Q as QBreadcrumbsEl } from "./QBreadcrumbs.14144362.js";
+import { Q as QSpace } from "./QSpace.7d6f905e.js";
+import { Q as QMenu } from "./format.8e90d58d.js";
+import { Q as QHeader } from "./QHeader.001fd0f6.js";
+import { Q as QCircularProgress } from "./QCircularProgress.85dfe2db.js";
+import { Q as QBtnGroup } from "./QBtnGroup.ea19e2fc.js";
+import { Q as QBadge } from "./QBadge.5efaf9f7.js";
+import { Q as QPage } from "./QPage.660fce82.js";
+import { Q as QLayout, a as QPageContainer } from "./QLayout.2e2ab899.js";
+import { _ as _imports_0 } from "./code_thinking.ed37dda4.js";
+import { t as today } from "./index.esm.f64318c9.js";
+import { u as useVuelidate, r as required } from "./index.esm.4557c89b.js";
+import { m as moment, a as api } from "./axios.ccd3a804.js";
+import { u as useQuasar } from "./use-quasar.ae4f72e4.js";
+import { Q as QPopupProxy, e as QDate } from "./DateField.75075dac.js";
+import { C as ClosePopup } from "./ClosePopup.ef2f7039.js";
+import { _ as _sfc_main$5 } from "./PostcodeRegionField.1ba1a165.js";
+import { _ as _sfc_main$4 } from "./PostcodeRegionGroupField.6d96b938.js";
+import { _ as _sfc_main$6 } from "./UserAvatar.d3fe9aaa.js";
+import { _ as _sfc_main$2, a as _sfc_main$3 } from "./UserRosterScheduleCreate.6d0f1fa6.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { c as confirmDelete, n as hourDisplay } from "./help.c0f85e41.js";
+import { a as getCurrentLocation } from "./geolocation.172e3971.js";
+import "./QResizeObserver.97b49885.js";
+import "./QSelect.853d535e.js";
+import "./QItemSection.99659658.js";
+import "./rtl.4f5e13e8.js";
+import "./QToolbarTitle.1a75cd00.js";
+import "./helpers.2defcd01.js";
+const _hoisted_1$1 = { class: "row items-center justify-end" };
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "DateFieldSlim",
+  props: {
+    label: null,
+    placeholder: null,
+    modelValue: null,
+    fdc: { type: Boolean },
+    disabled: { type: Boolean },
+    dark: { type: Boolean },
+    previous: null,
+    after: null,
+    samePrevious: null,
+    borderless: { type: Boolean },
+    outlined: { type: Boolean },
+    hint: null,
+    year: null,
+    filled: { type: Boolean }
+  },
+  emits: ["update:modelValue"],
+  setup(__props, { emit: emits }) {
+    const props = __props;
+    const $q = useQuasar();
+    const hintCurrent = ref();
+    const qDateProxy = ref();
+    const fromCalendar = (val) => {
+      if (qDateProxy.value) {
+        qDateProxy.value.hide();
+      }
+      emits("update:modelValue", val);
+    };
+    const handleChange = (val) => {
+      emits("update:modelValue", val);
+    };
+    const checkDate = () => {
+      hintCurrent.value = false;
+      if (props.modelValue) {
+        let dateStr = props.modelValue;
+        dateStr = dateStr.replace("/", "");
+        dateStr = dateStr.replace("/", "");
+        dateStr = dateStr.replace(/\D/g, "");
+        dateStr = dateStr.replace(" ", "");
+        if (dateStr.length < 6) {
+          emits("update:modelValue", null);
+          hintCurrent.value = "Please enter a valid date";
+        } else {
+          const dFm = dateStr;
+          const dFd = dateStr;
+          const dFy = dateStr;
+          let dSday = dFd.slice(0, 2);
+          dSday += "/";
+          let dSmonth = dFm.slice(2, 4);
+          dSmonth += "/";
+          let dSyear = dFy.slice(4, 8);
+          if (dSyear.length !== 4) {
+            dSyear = dSyear.slice(0, 2);
+            if (props.year) {
+              dSyear = props.year + dSyear;
+            } else {
+              dSyear = `20${dSyear}`;
+            }
+          }
+          const newDateStr = dSday + dSmonth + dSyear;
+          if (newDateStr && !newDateStr.match("undefined")) {
+            const mNewDateStr = moment(newDateStr, "DD/MM/YYYY");
+            const today2 = new Date();
+            today2.setHours(0, 0, 0, 0);
+            if (mNewDateStr.isValid()) {
+              let validDate = true;
+              let hint = null;
+              if (props.fdc) {
+                if (!mNewDateStr.isAfter(today2) && !mNewDateStr.isSame(today2)) {
+                  validDate = false;
+                  $q.dialog({
+                    title: "Invalid date",
+                    message: `Please enter a date on or after ${props.after}`
+                  });
+                }
+              }
+              if (props.after) {
+                if (!mNewDateStr.isSameOrAfter(moment(props.after, "DD/MM/YYYY"))) {
+                  validDate = false;
+                  hint = `Please enter a date on or after ${props.after}`;
+                }
+              }
+              if (props.previous) {
+                if (mNewDateStr.isAfter(today2)) {
+                  validDate = false;
+                  hint = "Please enter a previous date";
+                }
+              }
+              if (props.samePrevious) {
+                if (!mNewDateStr.endOf("day").isSameOrBefore(moment(today2).endOf("day"))) {
+                  validDate = false;
+                  hint = "Please enter a previous date";
+                }
+              }
+              hintCurrent.value = hint;
+              if (validDate) {
+                emits("update:modelValue", newDateStr);
+              } else {
+                emits("update:modelValue", null);
+              }
+            } else {
+              emits("update:modelValue", null);
+              hintCurrent.value = "Please enter a valid date";
+            }
+          }
+        }
+      }
+    };
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QInput, {
+        filled: __props.filled,
+        outlined: __props.outlined,
+        "model-value": __props.modelValue,
+        mask: "##/##/####",
+        label: __props.label,
+        style: { "width": "130px" },
+        "onUpdate:modelValue": handleChange,
+        onBlur: _cache[1] || (_cache[1] = ($event) => checkDate())
+      }, {
+        append: withCtx(() => [
+          createVNode(QIcon, {
+            name: "event",
+            class: "cursor-pointer",
+            onBlur: _cache[0] || (_cache[0] = ($event) => checkDate())
+          }, {
+            default: withCtx(() => [
+              createVNode(unref(QPopupProxy), {
+                cover: "",
+                "transition-show": "scale",
+                "transition-hide": "scale",
+                ref_key: "qDateProxy",
+                ref: qDateProxy
+              }, {
+                default: withCtx(() => [
+                  createVNode(QDate, {
+                    "model-value": __props.modelValue,
+                    "onUpdate:modelValue": fromCalendar,
+                    mask: "DD/MM/YYYY",
+                    color: "secondary"
+                  }, {
+                    default: withCtx(() => [
+                      createBaseVNode("div", _hoisted_1$1, [
+                        withDirectives(createVNode(QBtn, {
+                          label: "Close",
+                          color: "primary",
+                          flat: ""
+                        }, null, 512), [
+                          [ClosePopup]
+                        ])
+                      ])
+                    ]),
+                    _: 1
+                  }, 8, ["model-value"])
+                ]),
+                _: 1
+              }, 512)
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      }, 8, ["filled", "outlined", "model-value", "label"]);
+    };
+  }
+});
+const _hoisted_1 = {
+  class: "q-pl-md q-pt-sm q-pr-md q-pb-sm flex items-center",
+  style: { "padding-top": "11px" }
+};
+const _hoisted_2 = {
+  class: "q-pa-lg",
+  style: { "width": "500px" }
+};
+const _hoisted_3 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6" }, "Suburb Group", -1);
+const _hoisted_4 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6" }, "Individual Suburb", -1);
+const _hoisted_5 = {
+  key: 0,
+  class: "text-center text-grey",
+  style: { "margin-top": "200px" }
+};
+const _hoisted_6 = /* @__PURE__ */ createBaseVNode("div", { class: "q-mb-lg" }, [
+  /* @__PURE__ */ createBaseVNode("img", {
+    src: _imports_0,
+    style: { "max-height": "150px" }
+  })
+], -1);
+const _hoisted_7 = { class: "flex" };
+const _hoisted_8 = {
+  key: 0,
+  class: "flex"
+};
+const _hoisted_9 = { class: "flex items-center" };
+const _hoisted_10 = { class: "q-ml-sm" };
+const _hoisted_11 = {
+  class: "text-bold",
+  style: { "line-height": "0.9rem" }
+};
+const _hoisted_12 = { class: "q-mt-sm" };
+const _hoisted_13 = { class: "text-center q-pa-xs" };
+const _hoisted_14 = { class: "q-mt-xs" };
+const _hoisted_15 = ["onMouseenter"];
+const _hoisted_16 = {
+  key: 0,
+  style: { "display": "flex", "justify-content": "space-evenly", "flex-wrap": "wrap", "align-items": "center", "font-weight": "400", "font-size": "12px", "height": "auto" }
+};
+const _hoisted_17 = {
+  key: 1,
+  class: "text-center q-mt-sm"
+};
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "UserRosterScheduler",
+  setup(__props) {
+    const $q = useQuasar();
+    const bus = inject("bus");
+    const latLng = ref();
+    const data = ref();
+    const loaded = ref(false);
+    const dataResources = ref([]);
+    const currentHover = ref();
+    const selectedDate = ref(today());
+    const calendarRef = ref();
+    const postcodeRegionGroups = ref();
+    const selectedLocation = ref();
+    const landingData = ref();
+    const styles = computed(() => {
+      return {
+        "--calendar-resources-width": 150 + "px"
+      };
+    });
+    const schema = {
+      keyword: null,
+      start: moment().startOf("isoWeek").format("DD/MM/YYYY"),
+      end: moment().endOf("isoWeek").format("DD/MM/YYYY"),
+      postcode_region_group_id: null,
+      postcode_region_id: null
+    };
+    const search = reactive(JSON.parse(JSON.stringify(schema)));
+    const rules = {
+      start: { required },
+      end: { required }
+    };
+    const $v = useVuelidate(rules, search, { $scope: false });
+    const getSchedule = () => {
+      $q.loading.show({ message: "Fetching schedule..." });
+      api.post("/userrosterschedule/scheduler", search).then((response) => {
+        data.value = response.data;
+        dataResources.value = response.data.map((o) => o.user);
+        loaded.value = true;
+        getLandingData();
+      }).catch((error) => {
+        $q.loading.hide();
+        useMixinDebug(error);
+      });
+    };
+    const getLandingData = () => {
+      api.post("/user/contractor/landing", { start: search.start, end: search.end, postcode_region_group_id: search.postcode_region_group_id, postcode_region_id: search.postcode_region_id }).then((response) => {
+        landingData.value = response.data;
+        $q.loading.hide();
+      }).catch((error) => {
+        useMixinDebug(error);
+        $q.loading.hide();
+      });
+    };
+    const setSelectedLocation = (val) => {
+      selectedLocation.value = val;
+    };
+    const onToday = () => {
+      if (calendarRef.value) {
+        calendarRef.value.moveToToday();
+      }
+    };
+    const onPrev = () => {
+      if (calendarRef.value) {
+        calendarRef.value.prev();
+      }
+    };
+    const onNext = () => {
+      if (calendarRef.value) {
+        calendarRef.value.next();
+      }
+    };
+    const onChange = (event) => {
+      const startFormatted = moment(event.start).format("DD/MM/YYYY");
+      const endFormatted = moment(event.end).format("DD/MM/YYYY");
+      if (search.start !== startFormatted && search.end !== endFormatted) {
+        search.start = startFormatted;
+        search.end = endFormatted;
+        getSchedule();
+      }
+    };
+    const isAfterToday = (resource) => {
+      const today2 = moment();
+      const compare = moment(resource.timestamp.date);
+      if (compare.isSameOrAfter(today2)) {
+        return true;
+      }
+      return false;
+    };
+    const getEvents = (resource) => {
+      if (!data.value) {
+        return [];
+      }
+      const record = data.value.find((o) => o.user.id === resource.resource.id);
+      if (record) {
+        return record.schedule.filter((o) => o.day === resource.timestamp.date);
+      }
+      return [];
+    };
+    const hasEvents = (resource) => {
+      if (!data.value) {
+        return false;
+      }
+      const record = data.value.find((o) => o.user.id === resource.resource.id);
+      if (record) {
+        return record.schedule.filter((o) => o.day === resource.timestamp.date).length > 0;
+      }
+      return [];
+    };
+    const editUserRosterSchedule = (id) => {
+      bus.emit("editUserRosterSchedule", id);
+    };
+    const newUserRosterSchedule = (resource) => {
+      confirmDelete("This will create a new entry for this day").onOk(() => {
+        bus.emit("newUserRosterSchedule", { day: resource.timestamp.date, user: resource.resource });
+      });
+    };
+    onMounted(async () => {
+      latLng.value = await getCurrentLocation();
+      api.get("/postcoderegiongroup/index").then((response) => {
+        postcodeRegionGroups.value = response.data.map((o) => {
+          return { value: o.id, label: o.name };
+        });
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+      bus.on("getSchedule", () => {
+        getSchedule();
+      });
+    });
+    onBeforeUnmount(() => {
+      bus.off("getSchedule");
+    });
+    return (_ctx, _cache) => {
+      const _component_router_link = resolveComponent("router-link");
+      const _component_q_calendar_scheduler = resolveComponent("q-calendar-scheduler");
+      return openBlock(), createElementBlock(Fragment, null, [
+        createVNode(_sfc_main$2),
+        createVNode(_sfc_main$3),
+        createVNode(QLayout, {
+          view: "lHh LpR fFf",
+          container: "",
+          class: "layout-height"
+        }, {
+          default: withCtx(() => [
+            createVNode(QHeader, {
+              class: normalizeClass({ "page-title text-black": !unref($q).dark.isActive, "bg-dark": unref($q).dark.isActive }),
+              bordered: ""
+            }, {
+              default: withCtx(() => [
+                createBaseVNode("div", _hoisted_1, [
+                  createVNode(QBreadcrumbs, null, {
+                    separator: withCtx(() => [
+                      createVNode(QIcon, {
+                        size: "1.5em",
+                        name: "chevron_right"
+                      })
+                    ]),
+                    default: withCtx(() => [
+                      createVNode(QBreadcrumbsEl, {
+                        label: "Home",
+                        icon: "home",
+                        to: { name: "appDashboard" }
+                      }),
+                      createVNode(QBreadcrumbsEl, { label: "Scheduler" })
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QSpace),
+                  createVNode(QBtn, {
+                    icon: "place",
+                    label: `${selectedLocation.value || "Location"}`,
+                    flat: "",
+                    color: "grey",
+                    "no-caps": "",
+                    class: "form-field-padding-dense"
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QMenu, null, {
+                        default: withCtx(() => [
+                          createBaseVNode("div", _hoisted_2, [
+                            _hoisted_3,
+                            createVNode(_sfc_main$4, {
+                              modelValue: search.postcode_region_group_id,
+                              "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => search.postcode_region_group_id = $event),
+                              label: "Choose an area",
+                              outlined: true,
+                              dense: true,
+                              class: "q-mb-md",
+                              onSelectedLocation: setSelectedLocation
+                            }, null, 8, ["modelValue"]),
+                            _hoisted_4,
+                            createVNode(_sfc_main$5, {
+                              modelValue: search.postcode_region_id,
+                              "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => search.postcode_region_id = $event),
+                              label: "Specific Suburb",
+                              dense: true,
+                              outlined: true,
+                              onSelectedLocation: setSelectedLocation
+                            }, null, 8, ["modelValue"])
+                          ])
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }, 8, ["label"]),
+                  createVNode(_sfc_main$1, {
+                    modelValue: search.start,
+                    "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => search.start = $event),
+                    invalid: unref($v).start.$invalid,
+                    label: "Start date",
+                    dense: true,
+                    outlined: true,
+                    "no-hint": true,
+                    class: "q-mr-sm q-ml-sm"
+                  }, null, 8, ["modelValue", "invalid"]),
+                  createVNode(_sfc_main$1, {
+                    modelValue: search.end,
+                    "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => search.end = $event),
+                    invalid: unref($v).end.$invalid,
+                    label: "End date",
+                    dense: true,
+                    outlined: true,
+                    "no-hint": true,
+                    class: "q-mr-sm"
+                  }, null, 8, ["modelValue", "invalid"]),
+                  createVNode(QBtn, {
+                    onClick: _cache[4] || (_cache[4] = ($event) => getSchedule()),
+                    disable: unref($v).$invalid || !search.postcode_region_group_id && !search.postcode_region_id,
+                    icon: "search",
+                    label: "Search",
+                    color: "primary"
+                  }, null, 8, ["disable"])
+                ])
+              ]),
+              _: 1
+            }, 8, ["class"]),
+            createVNode(QPageContainer, null, {
+              default: withCtx(() => [
+                createVNode(QPage, { padding: "" }, {
+                  default: withCtx(() => [
+                    !loaded.value ? (openBlock(), createElementBlock("div", _hoisted_5, [
+                      _hoisted_6,
+                      createVNode(QIcon, { name: "place" }),
+                      createTextVNode(" Select a location above to get started ")
+                    ])) : createCommentVNode("", true),
+                    withDirectives(createBaseVNode("div", null, [
+                      createVNode(QCard, { class: "bg-seamless q-mt-md" }, {
+                        default: withCtx(() => [
+                          createVNode(QCardSection, null, {
+                            default: withCtx(() => [
+                              createBaseVNode("div", _hoisted_7, [
+                                createVNode(QSpace),
+                                landingData.value ? (openBlock(), createElementBlock("div", _hoisted_8, [
+                                  (openBlock(true), createElementBlock(Fragment, null, renderList(landingData.value, (l) => {
+                                    return openBlock(), createElementBlock("div", {
+                                      key: l.name,
+                                      class: "q-mr-lg"
+                                    }, [
+                                      createBaseVNode("div", _hoisted_9, [
+                                        createVNode(QCircularProgress, {
+                                          value: l.per,
+                                          size: "32px",
+                                          color: "primary",
+                                          "track-color": "grey-5"
+                                        }, null, 8, ["value"]),
+                                        createBaseVNode("div", _hoisted_10, [
+                                          createBaseVNode("div", _hoisted_11, toDisplayString(l.name) + " Bookings", 1),
+                                          createBaseVNode("div", null, toDisplayString(l.oc) + "/" + toDisplayString(l.cc) + " - " + toDisplayString(l.per) + "% ", 1)
+                                        ])
+                                      ])
+                                    ]);
+                                  }), 128))
+                                ])) : createCommentVNode("", true),
+                                createBaseVNode("div", null, [
+                                  createVNode(QBtnGroup, null, {
+                                    default: withCtx(() => [
+                                      createVNode(QBtn, {
+                                        onClick: _cache[5] || (_cache[5] = ($event) => onPrev()),
+                                        icon: "chevron_left",
+                                        color: "secondary"
+                                      }),
+                                      createVNode(QBtn, {
+                                        onClick: _cache[6] || (_cache[6] = ($event) => onToday()),
+                                        label: "Today",
+                                        color: "secondary"
+                                      }),
+                                      createVNode(QBtn, {
+                                        onClick: _cache[7] || (_cache[7] = ($event) => onNext()),
+                                        icon: "chevron_right",
+                                        color: "secondary"
+                                      })
+                                    ]),
+                                    _: 1
+                                  })
+                                ])
+                              ]),
+                              createBaseVNode("div", _hoisted_12, [
+                                createVNode(_component_q_calendar_scheduler, {
+                                  ref_key: "calendarRef",
+                                  ref: calendarRef,
+                                  modelValue: selectedDate.value,
+                                  "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => selectedDate.value = $event),
+                                  "model-resources": dataResources.value,
+                                  "onUpdate:modelResources": _cache[9] || (_cache[9] = ($event) => dataResources.value = $event),
+                                  view: "week",
+                                  "short-weekday-label": "",
+                                  animated: "",
+                                  bordered: "",
+                                  weekdays: [1, 2, 3, 4, 5, 6, 0],
+                                  style: normalizeStyle(unref(styles)),
+                                  onChange
+                                }, {
+                                  "resource-label": withCtx(({ scope }) => [
+                                    createBaseVNode("div", _hoisted_13, [
+                                      createVNode(_sfc_main$6, {
+                                        user: scope.resource
+                                      }, null, 8, ["user"]),
+                                      createBaseVNode("div", _hoisted_14, [
+                                        createVNode(_component_router_link, {
+                                          to: { name: "contractor-dashboard", params: { id: scope.resource.id } },
+                                          target: "_blank",
+                                          class: "link"
+                                        }, {
+                                          default: withCtx(() => [
+                                            createTextVNode(toDisplayString(scope.resource.fullname), 1)
+                                          ]),
+                                          _: 2
+                                        }, 1032, ["to"])
+                                      ])
+                                    ])
+                                  ]),
+                                  day: withCtx(({ scope }) => [
+                                    createBaseVNode("div", {
+                                      onMouseenter: ($event) => currentHover.value = { resource: scope.resource.id, date: scope.timestamp.date },
+                                      style: { "height": "100%" }
+                                    }, [
+                                      hasEvents(scope) ? (openBlock(), createElementBlock("div", _hoisted_16, [
+                                        (openBlock(true), createElementBlock(Fragment, null, renderList(getEvents(scope), (event) => {
+                                          return openBlock(), createElementBlock("div", {
+                                            key: event.time,
+                                            class: "q-mt-xs"
+                                          }, [
+                                            createVNode(QBadge, {
+                                              label: `${unref(hourDisplay)(event.start_time)} - ${unref(hourDisplay)(event.end_time)} (${event.orders})`,
+                                              class: "q-mb-xs cursor-pointer",
+                                              onClick: ($event) => editUserRosterSchedule(event.id),
+                                              color: event.active ? "positive" : "negative"
+                                            }, null, 8, ["label", "onClick", "color"])
+                                          ]);
+                                        }), 128))
+                                      ])) : createCommentVNode("", true),
+                                      isAfterToday(scope) && currentHover.value && currentHover.value.resource === scope.resource.id && currentHover.value.date === scope.timestamp.date ? (openBlock(), createElementBlock("div", _hoisted_17, [
+                                        createVNode(QBtn, {
+                                          onClick: ($event) => newUserRosterSchedule(scope),
+                                          icon: "add_circle",
+                                          flat: "",
+                                          size: "sm",
+                                          dense: "",
+                                          label: _ctx.$t("schedule.create"),
+                                          color: "grey-6"
+                                        }, null, 8, ["onClick", "label"])
+                                      ])) : createCommentVNode("", true)
+                                    ], 40, _hoisted_15)
+                                  ]),
+                                  _: 1
+                                }, 8, ["modelValue", "model-resources", "style"])
+                              ])
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })
+                    ], 512), [
+                      [vShow, loaded.value]
+                    ])
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ]),
+          _: 1
+        })
+      ], 64);
+    };
+  }
+});
+export { _sfc_main as default };

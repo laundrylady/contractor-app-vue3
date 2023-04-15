@@ -1,5 +1,7480 @@
-import{A as xt,r as w,B as Ct,w as ne,g as x,j as Et,C as Ut,o as Vt,D as ba,E as bn,G as Ot,h as i,H as Yt}from"./index.e647c85a.js";/*!
+import { A as defineComponent, r as ref, B as reactive, w as watch, g as computed, j as getCurrentInstance, C as onBeforeUpdate, o as onMounted, D as nextTick, E as onBeforeUnmount, G as withDirectives, h, H as Transition } from "./index.e647c85a.js";
+/*!
  * @quasar/quasar-ui-qcalendar v4.0.0-beta.16
  * (c) 2023 Jeff Galbraith <jeff@quasar.dev>
  * Released under the MIT License.
- */const Ia=/^(\d{4})-(\d{1,2})(-(\d{1,2}))?([^\d]+(\d{1,2}))?(:(\d{1,2}))?(:(\d{1,2}))?(.(\d{1,3}))?$/,Fn=/^(\d{4})-(\d{1,2})(-(\d{1,2}))/,Ua=/(\d\d?)(:(\d\d?)|)(:(\d\d?)|)/,Va=[0,31,28,31,30,31,30,31,31,30,31,30,31],Ya=[0,31,29,31,30,31,30,31,31,30,31,30,31],$a=28,Za=31,Dt=12,Fa=1,oa=1,Ft=7,Nt=60,_a=24,qn=0,Cn=6e4,Hn=36e5,Xa=864e5,ja=6048e5,Sn={date:"",time:"",year:0,month:0,day:0,weekday:0,hour:0,minute:0,doy:0,workweek:0,hasDay:!1,hasTime:!1,past:!1,current:!1,future:!1,disabled:!1,currentWeekday:!1},Tn={hour:0,minute:0};function et(){const e=new Date,t=""+(e.getMonth()+1),a=""+e.getDate();return[e.getFullYear(),nt(t,2),nt(a,2)].join("-")}function It(e,t,a){let r=Ce(e);if(r.day===1||r.weekday===0)for(;!t.includes(r.weekday);)r=_t(r);return r=ia(r,t[0],Ca),r=st(r),a&&(r=bt(r,a,r.hasTime)),r}function qt(e,t,a){let r=Ce(e);if(ht(r.year,r.month)===r.day||r.weekday===6)for(;!t.includes(r.weekday);)r=Ca(r);return r=ia(r,t[t.length-1],_t),r=st(r),a&&(r=bt(r,a,r.hasTime)),r}function Pt(e){const t=Ce(e);return t.day=oa,st(t),t}function At(e){const t=Ce(e);return t.day=ht(t.year,t.month),st(t),t}function Aa(e){switch(Object.prototype.toString.call(e)){case"[object Number]":return e;case"[object String]":{const a=Ua.exec(e);return a?parseInt(a[1],10)*60+parseInt(a[3]||0,10):!1}case"[object Object]":return typeof e.hour!="number"||typeof e.minute!="number"?!1:e.hour*60+e.minute}return!1}function qa(e){return!!Ia.exec(e)}function Wn(e,t){return JSON.stringify(e)===JSON.stringify(t)}function An(e,t){return da(e)===da(t)}function xn(e,t){return Kt(e)===Kt(t)}function En(e,t){return zt(e)===zt(t)}function he(e){const t=Ia.exec(e);return t?{date:e,time:nt(parseInt(t[6],10)||0,2)+":"+nt(parseInt(t[8],10)||0,2),year:parseInt(t[1],10),month:parseInt(t[2],10),day:parseInt(t[4],10)||1,hour:isNaN(parseInt(t[6],10))?0:parseInt(t[6],10),minute:isNaN(parseInt(t[8],10))?0:parseInt(t[8],10),weekday:0,doy:0,workweek:0,hasDay:!!t[4],hasTime:!0,past:!1,current:!1,future:!1,disabled:!1}:null}function Ae(e,t){let a=he(e);return a===null?null:(a=st(a),t&&bt(a,t,a.hasTime),a)}function Qa(e,t=!1){const a=t?"UTC":"";return st({date:nt(e[`get${a}FullYear`](),4)+"-"+nt(e[`get${a}Month`]()+1,2)+"-"+nt(e[`get${a}Date`](),2),time:nt(e[`get${a}Hours`]()||0,2)+":"+nt(e[`get${a}Minutes`]()||0,2),year:e[`get${a}FullYear`](),month:e[`get${a}Month`]()+1,day:e[`get${a}Date`](),hour:e[`get${a}Hours`](),minute:e[`get${a}Minutes`](),weekday:0,doy:0,workweek:0,hasDay:!0,hasTime:!0,past:!1,current:!1,future:!1,disabled:!1})}function j(e){return e.year*1e8+e.month*1e6+e.day*1e4}function St(e){return e.hour*100+e.minute}function wt(e){return j(e)+St(e)}function Ga(e,t,a){const r=Date.UTC(e.year,e.month-1,e.day,e.hour,e.minute),s=Date.UTC(t.year,t.month-1,t.day,t.hour,t.minute);return a===!0&&s<r?0:s-r}function bt(e,t,a=!1){let r=j(t),s=j(e),g=r===s;return e.hasTime&&a&&g&&(r=St(t),s=St(e),g=r===s),e.past=s<r,e.current=g,e.future=s>r,e.currentWeekday=e.weekday===t.weekday,e}function Ja(e,t,a){return e.hasTime=!0,e.hour=Math.floor(t/Nt),e.minute=t%Nt,e.time=Kt(e),a&&bt(e,a,!0),e}function xa(e){return e.weekday=Ma(e),e}function pa(e){return e.doy=La(e),e}function On(e){return e.workweek=Ra(e),e}function en(e,t,a,r,s){const g=j(e);if(t!==void 0){const f=j(he(t));g<=f&&(e.disabled=!0)}if(e.disabled!==!0&&a!==void 0){const f=j(he(a));g>=f&&(e.disabled=!0)}if(e.disabled!==!0&&Array.isArray(r)&&r.length>0){for(const f in r)if(r[f]===e.weekday){e.disabled=!0;break}}if(e.disabled!==!0&&Array.isArray(s)&&s.length>0){for(const f in s)if(Array.isArray(s[f])&&s[f].length===2){const m=he(s[f][0]),C=he(s[f][1]);if(ln(e,m,C)){e.disabled=!0;break}}else if(j(Ae(s[f]+" 00:00"))===g){e.disabled=!0;break}}return e}function st(e){return e.hasTime=!0,e.time=Kt(e),e.date=da(e),e.weekday=Ma(e),e.doy=La(e),e.workweek=Ra(e),e}function La(e){if(e.year!==0)return(Date.UTC(e.year,e.month-1,e.day)-Date.UTC(e.year,0,0))/24/60/60/1e3}function Ra(e){e.year===0&&(e=Ae(et()));const t=un(e);if(isNaN(t))return 0;const a=new Date(t.getFullYear(),t.getMonth(),t.getDate());a.setDate(a.getDate()-(a.getDay()+6)%7+3);const r=new Date(a.getFullYear(),0,4);r.setDate(r.getDate()-(r.getDay()+6)%7+3);const s=a.getTimezoneOffset()-r.getTimezoneOffset();a.setHours(a.getHours()-s);const g=(a-r)/ja;return 1+Math.floor(g)}function Ma(e){let t=e.weekday;if(e.hasDay){const a=Math.floor,r=e.day,s=(e.month+9)%Dt+1,g=a(e.year/100),f=e.year%100-(e.month<=2?1:0);t=((r+a(2.6*s-.2)-2*g+f+a(f/4)+a(g/4))%7+7)%7}return t}function tn(e){return(e%4===0^e%100===0^e%400===0)===1}function ht(e,t){return tn(e)?Ya[t]:Va[t]}function Ce(e){return{...e}}function nt(e,t){let a=String(e);for(;a.length<t;)a="0"+a;return a}function da(e){let t=`${nt(e.year,4)}-${nt(e.month,2)}`;return e.hasDay&&(t+=`-${nt(e.day,2)}`),t}function Kt(e){return e.hasTime?`${nt(e.hour,2)}:${nt(e.minute,2)}`:""}function zt(e){return da(e)+" "+(e.hasTime?Kt(e):"00:00")}function _t(e){return++e.day,e.weekday=(e.weekday+1)%Ft,e.day>$a&&e.day>ht(e.year,e.month)&&(e.day=oa,++e.month,e.month>Dt&&(e.month=Fa,++e.year)),e}function Ca(e){return e.day--,e.weekday=(e.weekday+6)%Ft,e.day<oa&&(e.month--,e.month<Fa&&(e.year--,e.month=Dt),e.day=ht(e.year,e.month)),e}function Ea(e,t=_t,a=1,r=[0,1,2,3,4,5,6]){return Tt(e,t,a,r)}function Tt(e,t=_t,a=1,r=[0,1,2,3,4,5,6]){for(!r.includes(e.weekday)&&e.weekday===0&&t===_t&&++a;--a>=0;)e=t(e),r.length<7&&!r.includes(e.weekday)&&++a;return e}function ia(e,t,a=_t,r=6){for(;e.weekday!==t&&--r>=0;)e=a(e);return e}function an(e){const t=[1,1,1,1,1,1,1],a=[0,0,0,0,0,0,0];for(let r=0;r<e.length;++r)a[e[r]]=1;for(let r=0;r<Ft;++r){let s=1;for(let g=1;g<Ft;++g){const f=(r+g)%Ft;if(a[f])break;++s}t[r]=a[r]*s}return t}function ca(e,t,a,r,s,g,f=[],m=[],C=42,O=0){const A=j(t),L=[];let M=Ce(e),z=0,G=z===A;if(A<j(e))return L;for(;(!G||L.length<O)&&L.length<C&&(z=j(M),G=G||z>A&&L.length>=O,!G);){if(r[M.weekday]===0){M=Tt(M,_t);continue}const U=Ce(M);st(U),bt(U,a),en(U,s,g,f,m),L.push(U),M=Tt(M,_t)}return L}function nn(e,t,a,r,s){const g=[];for(let f=0;f<r;++f){const m=(t+f)*a,C=Ce(e);g.push(Ja(C,m,s))}return g}function Wt(e,t){const a=(r,s)=>"";return typeof Intl=="undefined"||typeof Intl.DateTimeFormat=="undefined"?a:(r,s)=>{try{return new Intl.DateTimeFormat(e||void 0,t(r,s)).format(rn(r))}catch(g){return console.error(`Intl.DateTimeFormat: ${g.message} -> ${zt(r)}`),a}}}function un(e,t=!0){return t?new Date(Date.UTC(e.year,e.month-1,e.day,0,0)):new Date(e.year,e.month-1,e.day,0,0)}function rn(e,t=!0){return t?new Date(Date.UTC(e.year,e.month-1,e.day,e.hour,e.minute)):new Date(e.year,e.month-1,e.day,e.hour,e.minute)}function Ve(e){return isFinite(parseInt(e,10))}function In(e,t=!1){const a=t===!0?wt:j;return e.reduce((r,s)=>Math.max(a(r),a(s))===a(r)?r:s)}function Ln(e,t=!1){const a=t===!0?wt:j;return e.reduce((r,s)=>Math.min(a(r),a(s))===a(r)?r:s)}function ln(e,t,a,r){const s=j(e)+(r===!0?St(e):0),g=j(t)+(r===!0?St(t):0),f=j(a)+(r===!0?St(a):0);return s>=g&&s<=f}function Rn(e,t,a,r){const s=j(e),g=j(t),f=j(a),m=j(r);return s>=f&&s<=m||g>=f&&g<=m||f>=s&&g>=m}function Oe(e,t){const a=Ce(e);let r;return Mn(t,(s,g)=>{if(a[g]!==void 0){a[g]+=parseInt(s,10);const f=Pa.indexOf(g);f!==-1&&(r===void 0?r=f:r=Math.min(f,r))}}),r!==void 0&&Nn(a,Pa[r]),st(a),a}const Pa=["minute","hour","day","month"];function Mn(e,t){Object.keys(e).forEach(a=>t(e[a],a))}function Bn(e){if(e.minute>=Nt||e.minute<0){const t=Math.floor(e.minute/Nt);e.minute-=t*Nt,e.hour+=t,dn(e)}return e}function dn(e){if(e.hour>=_a||e.hour<0){const t=Math.floor(e.hour/_a);e.hour-=t*_a,e.day+=t,cn(e)}return e}function cn(e){Bt(e);let t=ht(e.year,e.month);if(e.day>t){++e.month,e.month>Dt&&Bt(e);let a=e.day-t;t=ht(e.year,e.month);do a>t&&(++e.month,e.month>Dt&&Bt(e),a-=t,t=ht(e.year,e.month));while(a>t);e.day=a}else if(e.day<=0){let a=-1*e.day;--e.month,e.month<=0&&Bt(e),t=ht(e.year,e.month);do a>t&&(a-=t,--e.month,e.month<=0&&Bt(e),t=ht(e.year,e.month));while(a>t);e.day=t-a}return e}function Bt(e){if(e.month>Dt){const t=Math.floor(e.month/Dt);e.month=e.month%Dt,e.year+=t}else e.month<Fa&&(e.month+=Dt,--e.year);return e}function Nn(e,t){switch(t){case"minute":return Bn(e);case"hour":return dn(e);case"day":return cn(e);case"month":return Bt(e)}}function on(e,t){const a=Ga(e,t,!0);return Math.floor(a/Xa)}function Pn(e,t){let a=Ce(e),r=Ce(t);return a=ia(a,0),r=ia(r,6),Math.ceil(on(a,r)/Ft)}const sn={Sun:new Date("2020-01-05T00:00:00.000Z"),Mon:new Date("2020-01-06T00:00:00.000Z"),Tue:new Date("2020-01-07T00:00:00.000Z"),Wed:new Date("2020-01-08T00:00:00.000Z"),Thu:new Date("2020-01-09T00:00:00.000Z"),Fri:new Date("2020-01-10T00:00:00.000Z"),Sat:new Date("2020-01-11T00:00:00.000Z")};function fn(){const e=(r,s)=>"",t={long:{timeZone:"UTC",weekday:"long"},short:{timeZone:"UTC",weekday:"short"},narrow:{timeZone:"UTC",weekday:"narrow"}};if(typeof Intl=="undefined"||typeof Intl.DateTimeFormat=="undefined")return e;function a(r,s,g){try{return new Intl.DateTimeFormat(g||void 0,t[s]||t.long).format(sn[r])}catch(f){return console.error(`Intl.DateTimeFormat: ${f.message} -> day of week: ${r}`),e}}return a}function Kn(e,t){const a=Object.keys(sn),r=fn();return a.map(s=>r(s,e,t))}function vn(){const e=(r,s)=>"",t={long:{timeZone:"UTC",month:"long"},short:{timeZone:"UTC",month:"short"},narrow:{timeZone:"UTC",month:"narrow"}};if(typeof Intl=="undefined"||typeof Intl.DateTimeFormat=="undefined")return e;function a(r,s,g){try{const f=new Intl.DateTimeFormat(g||void 0,t[s]||t.long),m=new Date;return m.setDate(1),m.setMonth(r),f.format(m)}catch(f){return console.error(`Intl.DateTimeFormat: ${f.message} -> month: ${r}`),e}}return a}function zn(e,t){const a=vn();return[...Array(12).keys()].map(r=>a(r,e,t))}function p(e,t="px"){if(!(e==null||e===""))return isNaN(e)?String(e):e==="auto"?e:`${Number(e)}${t}`}function Un(e,t){for(let a=0;a<e.length;a++)if(t(e[a],a)===!0)return a;return-1}function sa(e,t){return t===0?e:e.slice(0,t)}var mt={name:"ResizeObserver",mounted(e,{modifiers:t,value:a}){if(!a)return;const r={};r.callback=a,r.size={width:0,height:0},r.observer=new ResizeObserver(s=>{const g=s[0].contentRect;(g.width!==r.size.width||g.height!==r.size.height)&&(r.size.width=g.width,r.size.height=g.height,r.callback(r.size))}),r.observer.observe(e),e.__onResizeObserver=r},beforeUnmount(e){if(!e.__onResizeObserver)return;const{observer:t}=e.__onResizeObserver;t.unobserve(e),delete e.__onResizeObserver}};function $t(e,t,{scrollArea:a,pane:r}){if(!t){const A="[error: renderCalendar] no renderFunc has been supplied to useCalendar";throw console.error(A),new Error(A)}const s=Ct({width:0,height:0}),g=w(null);function f({width:A,height:L}){s.width=A,s.height=L}const m=x(()=>e.noScroll!==!0&&a.value&&r.value&&s.height?a.value.offsetWidth-r.value.offsetWidth:0);function C(){}function O(){const A={ref:g,role:"complementary",lang:e.locale,class:{"q-calendar--dark":e.dark===!0,"q-calendar":!0,"q-calendar__bordered":e.bordered===!0}};return Ot(i("div",A,[t()]),[[mt,f]])}return{rootRef:g,scrollWidth:m,__initCalendar:C,__renderCalendar:O}}const Zt={modelValue:{type:String,default:et(),validator:e=>e===""||qa(e)},weekdays:{type:Array,default:()=>[0,1,2,3,4,5,6]},dateType:{type:String,default:"round",validator:e=>["round","rounded","square"].includes(e)},weekdayAlign:{type:String,default:"center",validator:e=>["left","center","right"].includes(e)},dateAlign:{type:String,default:"center",validator:e=>["left","center","right"].includes(e)},bordered:Boolean,dark:Boolean,noAria:Boolean,noActiveDate:Boolean,noHeader:Boolean,noScroll:Boolean,shortWeekdayLabel:Boolean,noDefaultHeaderText:Boolean,noDefaultHeaderBtn:Boolean,minWeekdayLabel:{type:[Number,String],default:1},weekdayBreakpoints:{type:Array,default:()=>[75,35],validator:e=>e.length===2},locale:{type:String,default:"en-US"},animated:Boolean,transitionPrev:{type:String,default:"slide-right"},transitionNext:{type:String,default:"slide-left"},disabledDays:Array,disabledBefore:String,disabledAfter:String,disabledWeekdays:{type:Array,default:()=>[]},dragEnterFunc:{type:Function},dragOverFunc:{type:Function},dragLeaveFunc:{type:Function},dropFunc:{type:Function},selectedDates:{type:Array,default:()=>[]},selectedStartEndDates:{type:Array,default:()=>[]},hoverable:Boolean,focusable:Boolean,focusType:{type:Array,default:["date"],validator:e=>{let t=!0;return e.forEach(a=>{["day","date","weekday","interval","time","resource","task"].includes(a)!==!0&&(t=!1)}),t}}};function Xt(e,{startDate:t,endDate:a,times:r}){const s=x(()=>an(e.weekdays)),g=x(()=>Ae(t.value)),f=x(()=>a.value==="0000-00-00"?G(g.value):Ae(a.value)),m=x(()=>{const F={timeZone:"UTC",day:"numeric"};return Wt(e.locale,(B,S)=>F)}),C=x(()=>{const F={timeZone:"UTC",weekday:"long"},B={timeZone:"UTC",weekday:"short"};return Wt(e.locale,(S,T)=>T?B:F)}),O=x(()=>{const F={timeZone:"UTC",dateStyle:"full"};return Wt(e.locale,B=>F)});function A(F,B){return F&&F.length>0&&F.includes(B.date)}function L(F,B){const S={firstDay:!1,betweenDays:!1,lastDay:!1};if(F&&F.length===2){const T=j(B),V=j(he(F[0])),_e=j(he(F[1]));S.firstDay=V===T,S.lastDay=_e===T,S.betweenDays=V<T&&_e>T}return S}function M(F,B=!1,S=[],T=[],V=!1){const _e=A(S,F),{firstDay:De,lastDay:me,betweenDays:ee}=L(T,F);return{"q-past-day":De!==!0&&ee!==!0&&me!==!0&&_e!==!0&&B!==!0&&F.past,"q-future-day":De!==!0&&ee!==!0&&me!==!0&&_e!==!0&&B!==!0&&F.future,"q-outside":B,"q-current-day":F.current,"q-selected":_e,"q-range-first":De===!0,"q-range":ee===!0,"q-range-last":me===!0,"q-range-hover":V===!0&&(De===!0||me===!0||ee===!0),"q-disabled-day disabled":F.disabled===!0}}function z(F){return It(F,e.weekdays,r.today)}function G(F){return qt(F,e.weekdays,r.today)}function U(F){}return{weekdaySkips:s,parsedStart:g,parsedEnd:f,dayFormatter:m,weekdayFormatter:C,ariaDateFormatter:O,arrayHasDate:A,checkDays:L,getRelativeClasses:M,startOfWeek:z,endOfWeek:G,dayStyleDefault:U}}function Ka(e,t){if(e===window){window.scrollTo(window.pageXOffset||window.scrollX||document.body.scrollLeft||0,t);return}e.scrollTop=t}function Vn(e,t){if(e===window){window.scrollTo(t,window.pageYOffset||window.scrollY||document.body.scrollTop||0);return}e.scrollLeft=t}function Yn(e){return e===window?window.pageYOffset||window.scrollY||document.body.scrollTop||0:e.scrollTop}function $n(e){return e===window?window.pageXOffset||window.scrollX||document.body.scrollLeft||0:e.scrollLeft}function yn(e,t,a=0){const r=arguments[3]===void 0?performance.now():arguments[3],s=Yn(e);if(a<=0){s!==t&&Ka(e,t);return}requestAnimationFrame(g=>{const f=g-r,m=s+(t-s)/Math.max(f,a)*f;Ka(e,m),m!==t&&yn(e,t,a-f,g)})}function hn(e,t,a=0){const r=arguments[3]===void 0?performance.now():arguments[3],s=$n(e);if(a<=0){s!==t&&Vn(e,t);return}requestAnimationFrame(g=>{const f=g-r,m=s+(t-s)/Math.max(f,a)*f;setHorizontalScroll(e,m),m!==t&&hn(e,t,a-f,g)})}const Ba={view:{type:String,validator:e=>["day","week","month","month-interval"].includes(e),default:"day"},shortIntervalLabel:Boolean,intervalHeight:{type:[Number,String],default:40,validator:Ve},intervalMinutes:{type:[Number,String],default:60,validator:Ve},intervalStart:{type:[Number,String],default:0,validator:Ve},intervalCount:{type:[Number,String],default:24,validator:Ve},intervalStyle:{type:Function,default:null},intervalClass:{type:Function,default:null},weekdayStyle:{type:Function,default:null},weekdayClass:{type:Function,default:null},showIntervalLabel:{type:Function,default:null},hour24Format:Boolean,timeClicksClamped:Boolean,dateHeader:{type:String,default:"stacked",validator:e=>["stacked","inline","inverted"].includes(e)}},_n={view:{type:String,validator:e=>["day","week","month","month-interval"].includes(e),default:"day"},modelResources:{type:Array},resourceKey:{type:[String,Number],default:"id"},resourceLabel:{type:[String,Number],default:"label"},resourceHeight:{type:[Number,String],default:0,validator:Ve},resourceMinHeight:{type:[Number,String],default:70,validator:Ve},resourceStyle:{type:Function,default:null},resourceClass:{type:Function,default:null},weekdayStyle:{type:Function,default:null},weekdayClass:{type:Function,default:null},dayStyle:{type:Function,default:null},dayClass:{type:Function,default:null},dateHeader:{type:String,default:"stacked",validator:e=>["stacked","inline","inverted"].includes(e)}},Zn={view:{type:String,validator:e=>["day","week","month","month-interval"].includes(e),default:"day"},leftColumnOptions:{type:Array},rightColumnOptions:{type:Array},columnOptionsId:{type:String},columnOptionsLabel:{type:String},weekdayStyle:{type:Function,default:null},weekdayClass:{type:Function,default:null},dayStyle:{type:Function,default:null},dayClass:{type:Function,default:null},dateHeader:{type:String,default:"stacked",validator:e=>["stacked","inline","inverted"].includes(e)},dayHeight:{type:[Number,String],default:0,validator:Ve},dayMinHeight:{type:[Number,String],default:40,validator:Ve}},mn={modelResources:{type:Array},resourceKey:{type:[String,Number],default:"id"},resourceLabel:{type:[String,Number],default:"label"},resourceHeight:{type:[Number,String],default:0,validator:Ve},resourceMinHeight:{type:[Number,String],default:70,validator:Ve},resourceStyle:{type:Function,default:null},resourceClass:{type:Function,default:null},cellWidth:{type:[Number,String],default:100},intervalHeaderHeight:{type:[Number,String],default:20,validator:Ve},noSticky:Boolean};function Ha(e,{weekdaySkips:t,times:a,scrollArea:r,parsedStart:s,parsedEnd:g,maxDays:f,size:m,headerColumnRef:C}){const O=x(()=>parseInt(e.intervalStart,10)),A=x(()=>parseInt(e.intervalMinutes,10)),L=x(()=>parseInt(e.intervalCount,10)),M=x(()=>parseFloat(e.intervalHeight)),z=x(()=>{let h=0;return e.cellWidth?h=e.cellWidth:m.width>0&&C.value&&(h=C.value.offsetWidth/(e.columnCount>1?e.columnCount:f.value)),h}),G=x(()=>O.value*A.value),U=x(()=>L.value*M.value),F=x(()=>L.value*z.value),B=x(()=>_e(s.value)),S=x(()=>De(g.value)),T=x(()=>ca(s.value,g.value,a.today,t.value,e.disabledBefore,e.disabledAfter,e.disabledWeekdays,e.disabledDays,f.value)),V=x(()=>T.value.map(h=>nn(h,O.value,A.value,L.value,a.now)));function _e(h){return It(h,e.weekdays,a.today)}function De(h){return qt(h,e.weekdays,a.today)}function me(h,X){return h&&h.length>0&&h.includes(zt(X))}function ee(h,X){const K={firstDay:!1,betweenDays:!1,lastDay:!1};if(h&&h.length===2){const te=wt(X),oe=wt(he(h[0])),se=wt(he(h[1]));K.firstDay=oe===te,K.lastDay=se===te,K.betweenDays=oe<te&&se>te}return K}function N(h,X=[],K=[]){const te=me(X,h),{firstDay:oe,lastDay:se,betweenDays:ue}=ee(K,h);return{"q-selected":te,"q-range-first":oe===!0,"q-range":ue===!0,"q-range-last":se===!0,"q-disabled-interval disabled":h.disabled===!0}}function Q(h,X=[],K=[]){return[]}const Z=x(()=>{const h={timeZone:"UTC",hour12:!e.hour24Format,hour:"2-digit",minute:"2-digit"},X={timeZone:"UTC",hour12:!e.hour24Format,hour:"numeric",minute:"2-digit"},K={timeZone:"UTC",hour12:!e.hour24Format,hour:"numeric"};return Wt(e.locale,(te,oe)=>oe?te.minute===0?K:X:h)}),k=x(()=>{const h={timeZone:"UTC",dateStyle:"full",timeStyle:"short"};return Wt(e.locale,X=>h)});function Te(h){const X=V.value[0][0];return!(X.hour===h.hour&&X.minute===h.minute)&&h.minute===0}function xe(h){}function Ne(h){}function it(h,X,K=!1,te=void 0){let oe=Ce(X);const se=h.currentTarget.getBoundingClientRect(),ue=h,qe=h,re=ue.changedTouches||ue.touches,Re=((re&&re[0]?re[0].clientY:qe.clientY)-se.top)/M.value,We=Math.floor((K?Math.floor(Re):Re)*A.value);return We!==0&&(oe=Oe(oe,{minute:We})),te&&bt(oe,te,!0),oe}function tt(h,X,K=!1,te=void 0){let oe=Ce(X);const se=h.currentTarget.getBoundingClientRect(),ue=h,qe=h,re=ue.changedTouches||ue.touches,Re=((re&&re[0]?re[0].clientY:qe.clientY)-se.top)/M.value,We=Math.floor((K?Math.floor(Re):Re)*A.value);return We!==0&&(oe=Oe(oe,{minute:We})),te&&bt(oe,te,!0),oe}function Xe(h,X,K=!1,te=void 0){let oe=Ce(X);const se=h.currentTarget.getBoundingClientRect(),ue=h,qe=h,re=ue.changedTouches||ue.touches,Re=((re&&re[0]?re[0].clientX:qe.clientX)-se.left)/z.value,We=Math.floor((K?Math.floor(Re):Re)*A.value);return We!==0&&(oe=Oe(oe,{minute:We})),te&&bt(oe,te,!0),oe}function Ge(h,X){const K={timestamp:h};return K.timeStartPos=ce,K.timeDurationHeight=Le,X!==void 0&&(K.columnIndex=X),K}function be(h,X){const K={timestamp:Ce(h)};return K.timeStartPosX=J,K.timeDurationWidth=Fe,X!==void 0&&(K.index=X),K}function Se(h,X=0){const K=ce(h);return K===!1||!r.value?!1:(yn(r.value,K,X),!0)}function Ie(h,X=0){const K=J(h);return K===!1||!r.value?!1:(hn(r.value,K,X),!0)}function Le(h){return h/A.value*M.value}function Fe(h){return h/A.value*z.value}function ut(h){return parseInt(h,10)*A.value/M.value}function ge(h){return parseInt(h,10)*A.value/z.value}function ce(h,X=!0){const K=Aa(h);if(K===!1)return!1;const te=G.value,oe=L.value*A.value;let ue=(K-te)/oe*U.value;return X&&(ue<0&&(ue=0),ue>U.value&&(ue=U.value)),ue}function J(h,X=!0){const K=Aa(h);if(K===!1)return!1;const te=G.value,oe=L.value*A.value;let ue=(K-te)/oe*F.value;return X&&(ue<0&&(ue=0),ue>F.value&&(ue=F.value)),ue}return{parsedIntervalStart:O,parsedIntervalMinutes:A,parsedIntervalCount:L,parsedIntervalHeight:M,parsedCellWidth:z,parsedStartMinute:G,bodyHeight:U,bodyWidth:F,parsedWeekStart:B,parsedWeekEnd:S,days:T,intervals:V,intervalFormatter:Z,ariaDateTimeFormatter:k,arrayHasDateTime:me,checkIntervals:ee,getIntervalClasses:N,getResourceClasses:Q,showIntervalLabelDefault:Te,showResourceLabelDefault:xe,styleDefault:Ne,getTimestampAtEventInterval:it,getTimestampAtEvent:tt,getTimestampAtEventX:Xe,getScopeForSlot:Ge,getScopeForSlotX:be,scrollToTime:Se,scrollToTimeX:Ie,timeDurationHeight:Le,timeDurationWidth:Fe,heightToMinutes:ut,widthToMinutes:ge,timeStartPos:ce,timeStartPosX:J}}const Sa={columnCount:{type:[Number,String],default:0,validator:Ve},columnIndexStart:{type:[Number,String],default:0,validator:Ve}},fa={maxDays:{type:Number,default:1}},Lt={now:{type:String,validator:e=>e===""||qa(e),default:""}};function jt(e){const t=Ct({now:Ae("0000-00-00 00:00"),today:Ae("0000-00-00")}),a=x(()=>e.now?Ae(e.now):g());ne(()=>a,C=>s());function r(){t.now.current=t.today.current=!0,t.now.past=t.today.past=!1,t.now.future=t.today.future=!1}function s(){const C=a.value||g();f(C,t.now),m(C,t.now),f(C,t.today)}function g(){return Qa(new Date)}function f(C,O){C.date!==O.date&&(O.year=C.year,O.month=C.month,O.day=C.day,O.weekday=C.weekday,O.date=C.date)}function m(C,O){C.time!==O.time&&(O.hour=C.hour,O.minute=C.minute,O.time=C.time)}return{times:t,parsedNow:a,setCurrent:r,updateCurrent:s,getNow:g,updateDay:f,updateTime:m}}function Qt(e,{parsedView:t,parsedValue:a,times:r}){return{renderValues:x(()=>{const g=a.value;let f=e.maxDays,m=g,C=g;switch(t.value){case"month":m=Pt(g),C=At(g),f=ht(m.year,m.month);break;case"week":case"week-agenda":case"week-scheduler":m=It(g,e.weekdays,r.today),C=qt(m,e.weekdays,r.today),f=e.weekdays.length;break;case"day":case"scheduler":case"agenda":C=Ea(Ce(C),_t,f>1?f-1:f,e.weekdays),st(C);break;case"month-interval":case"month-scheduler":case"month-agenda":m=Pt(g),C=At(g),st(C),f=ht(m.year,m.month);break;case"resource":f=1,C=Ea(Ce(C),_t,f,e.weekdays),st(C);break}return{start:m,end:C,maxDays:f}})}}const Xn=e=>e.replace(/(-\w)/g,t=>t[1].toUpperCase());let Oa,gn;function kn(e,t){const a={};for(const r in e){const s=e[r],g=Xn("on-"+r);if(Oa===void 0){console.warn("$listeners has not been set up");return}if(Oa.value[g]===void 0)continue;const f="on"+s.event.charAt(0).toUpperCase()+s.event.slice(1),m=C=>{const O=C;return(s.button===void 0||O.buttons>0&&O.button===s.button)&&(s.prevent&&O.preventDefault(),s.stop&&O.stopPropagation(),gn(r,t(O,r))),s.result};f in a?Array.isArray(a[f])?a[f].push(m):a[f]=[a[f],m]:a[f]=m}return a}function jn(e,t){return kn(Na(e),t)}function Na(e){return{["click"+e]:{event:"click"},["contextmenu"+e]:{event:"contextmenu",prevent:!0,result:!1},["mousedown"+e]:{event:"mousedown"},["mousemove"+e]:{event:"mousemove"},["mouseup"+e]:{event:"mouseup"},["mouseenter"+e]:{event:"mouseenter"},["mouseleave"+e]:{event:"mouseleave"},["touchstart"+e]:{event:"touchstart"},["touchmove"+e]:{event:"touchmove"},["touchend"+e]:{event:"touchend"}}}function He(e){return Object.keys(Na(e))}function Gt(e,t){return gn=e,Oa=t,{getMouseEventHandlers:kn,getDefaultMouseEventHandlers:jn,getMouseEventName:Na,getRawMouseEvents:He}}const Jt=["moved"];function pt(e,{parsedView:t,parsedValue:a,weekdaySkips:r,direction:s,maxDays:g,times:f,emittedValue:m,emit:C}){function O(A=1){if(A===0){m.value=et();return}let L=Ce(a.value);const M=A>0,z=M?_t:Ca,G=M?Za:oa;let U=M?A:-A;s.value=M?"next":"prev";const F=r.value.filter(B=>B!==0).length;for(;--U>=0;)switch(t.value){case"month":for(L.day=G,z(L),xa(L);r.value[L.weekday]===0;)L=Oe(L,{day:M===!0?1:-1});break;case"week":case"week-agenda":case"week-scheduler":Tt(L,z,F,e.weekdays);break;case"day":case"scheduler":case"agenda":Tt(L,z,g.value,e.weekdays);break;case"month-interval":case"month-agenda":case"month-scheduler":L.day=G,z(L);break;case"resource":Tt(L,z,g.value,e.weekdays);break}xa(L),st(L),pa(L),bt(L,f.now),m.value=L.date,C("moved",L)}return{move:O}}const Qn=/^on[A-Z]/;function ea(e=Et()){return{emitListeners:x(()=>{const t={};return e.vnode!==void 0&&e.vnode!==null&&e.vnode.props!==null&&Object.keys(e.vnode.props).forEach(a=>{Qn.test(a)===!0&&(t[a]=!0)}),t})}}function Qe(){return[i("span",{ariaHidden:"true",class:"q-calendar__focus-helper"})]}function va(e,t,a){const r=e.focusable===!0&&e.focusType.includes("date")===!0;return t.tabindex=r===!0?0:-1,i("button",t,[a,r===!0&&Qe()])}const ya={cellWidth:[Number,String]};function Ta(e){return{isSticky:x(()=>e.cellWidth!==void 0)}}const ta=["change"];function aa(e,{days:t,lastStart:a,lastEnd:r}){function s(){if(t.value&&t.value.length>0){const g=t.value[0].date,f=t.value[t.value.length-1].date;if(a.value===null||r.value===null||g!==a.value||f!==r.value)return a.value=g,r.value=f,e("change",{start:g,end:f,days:t.value}),!0}return!1}return{checkChange:s}}function Rt(){function e(a,{bubbles:r=!1,cancelable:s=!1}={}){try{return new CustomEvent(a,{bubbles:r,cancelable:s})}catch{const f=document.createEvent("Event");return f.initEvent(a,r,s),f}}function t(a,r){return[].concat(r).includes(a.keyCode)}return{createEvent:e,isKeyCode:t}}const{isKeyCode:za}=Rt(),Mt={useNavigation:Boolean};function na(e,{rootRef:t,focusRef:a,focusValue:r,datesRef:s,days:g,parsedView:f,parsedValue:m,emittedValue:C,weekdaySkips:O,direction:A,times:L}){let M=!1;bn(()=>{G()}),ne(()=>e.useNavigation,Z=>{Z===!0?z():G()}),e.useNavigation===!0&&z();function z(){M!==!0&&document&&(M=!0,document.addEventListener("keyup",S),document.addEventListener("keydown",B))}function G(){document&&(document.removeEventListener("keyup",S),document.removeEventListener("keydown",B),M=!1)}function U(Z){if(Z===void 0)return!1;if(document){const k=document.activeElement;if(k!==document.body&&t.value.contains(k)===!0)return!0}return!1}function F(){let Z=0;const k=setInterval(()=>{s.value[a.value]?(s.value[a.value].focus(),(++Z===50||document.activeElement===s.value[a.value])&&clearInterval(k)):clearInterval(k)},250)}function B(Z){U(Z)&&za(Z,[33,34,35,36,37,38,39,40])&&(Z.stopPropagation(),Z.preventDefault())}function S(Z){if(U(Z)&&za(Z,[33,34,35,36,37,38,39,40]))switch(Z.keyCode){case 33:me();break;case 34:ee();break;case 35:Q();break;case 36:N();break;case 37:_e();break;case 38:T();break;case 39:De();break;case 40:V();break}}function T(Z){let k=Ce(r.value);if(f.value==="month"){if(k=Oe(k,{day:-7}),r.value.month!==k.month){A.value="prev",C.value=k.date;return}}else(f.value==="day"||f.value==="week"||f.value==="month-interval")&&(k=Oe(k,{minute:parseInt(e.intervalMinutes)}));A.value="prev",a.value=k.date}function V(Z){let k=Ce(r.value);if(f.value==="month"){if(k=Oe(k,{day:7}),r.value.month!==k.month){A.value="next",C.value=k.date;return}}else(f.value==="day"||f.value==="week"||f.value==="month-interval")&&(k=Oe(k,{minute:parseInt(e.intervalMinutes)}));A.value="next",a.value=k.date}function _e(Z){let k=Ce(r.value);A.value="prev";do k=Oe(k,{day:-1});while(O.value[k.weekday]===0);if(f.value==="month"||f.value==="month-interval"){if(r.value.month!==k.month){C.value=k.date;return}}else if(f.value==="week"){if(k.weekday>r.value.weekday){C.value=k.date;return}}else if(f.value==="day"){C.value=k.date;return}a.value=k.date}function De(Z){let k=Ce(r.value);A.value="next";do k=Oe(k,{day:1});while(O.value[k.weekday]===0);if(f.value==="month"||f.value==="month-interval"){if(r.value.month!==k.month){C.value=k.date;return}}else if(f.value==="week"){if(k.weekday<r.value.weekday){C.value=k.date;return}}else if(f.value==="day"){C.value=k.date;return}a.value=k.date}function me(Z){let k=Ce(r.value);if(f.value==="month"||f.value==="month-interval"){k=Oe(k,{month:-1});const Te=k.day<=15?1:-1;for(;O.value[k.weekday]===0;)k=Oe(k,{day:Te})}else f.value==="day"?k=Oe(k,{day:-1}):f.value==="week"&&(k=Oe(k,{day:-7}));A.value="prev",a.value=k.date}function ee(Z){let k=Ce(r.value);if(f.value==="month"||f.value==="month-interval"){k=Oe(k,{month:1});const Te=k.day<=15?1:-1;for(;O.value[k.weekday]===0;)k=Oe(k,{day:Te})}else f.value==="day"?k=Oe(k,{day:1}):f.value==="week"&&(k=Oe(k,{day:7}));A.value="next",a.value=k.date}function N(Z){let k=Ce(r.value);for(f.value==="month"||f.value==="month-interval"?k=Pt(k):f.value==="week"&&(k=It(k,e.weekdays,L.today));O.value[k.weekday]===0;)k=Oe(k,{day:-1});a.value=k.date}function Q(Z){let k=Ce(r.value);for(f.value==="month"||f.value==="month-interval"?k=At(k):f.value==="week"&&(k=qt(k,e.weekdays,L.today));O.value[k.weekday]===0;)k=Oe(k,{day:-1});a.value=k.date}return{startNavigation:z,endNavigation:G,tryFocus:F}}var ma=xt({name:"QCalendarAgenda",directives:[mt],props:{...Zt,...Zn,...Sa,...fa,...Lt,...ya,...Mt},emits:["update:model-value",...ta,...Jt,...He("-date"),...He("-head-day"),...He("-time")],setup(e,{slots:t,emit:a,expose:r}){const s=w(null),g=w(null),f=w(null),m=w(null),C=w(null),O=w({}),A=w({}),L=w({}),M=w("next"),z=w(et()),G=w("0000-00-00"),U=w(0),F=w(e.modelValue),B=Ct({width:0,height:0}),S=w(!1),T=w(null),V=w(null);ne(()=>e.view,()=>{U.value=0});const _e=x(()=>e.view==="month"?"month-interval":e.view),De=Et();if(De===null)throw new Error("current instance is null");const{emitListeners:me}=ea(De),{isSticky:ee}=Ta(e);ne(ee,c=>{});const{times:N,setCurrent:Q,updateCurrent:Z}=jt(e);Z(),Q();const{weekdaySkips:k,parsedStart:Te,parsedEnd:xe,dayFormatter:Ne,weekdayFormatter:it,ariaDateFormatter:tt,dayStyleDefault:Xe,getRelativeClasses:Ge}=Xt(e,{startDate:z,endDate:G,times:N}),be=x(()=>Ae(e.modelValue,N.now)||Te.value||N.today);C.value=be.value,m.value=be.value.date;const{renderValues:Se}=Qt(e,{parsedView:_e,parsedValue:be,times:N}),{rootRef:Ie,scrollWidth:Le,__initCalendar:Fe,__renderCalendar:ut}=$t(e,Be,{scrollArea:s,pane:g}),{days:ge,parsedCellWidth:ce,getScopeForSlot:J}=Ha(e,{weekdaySkips:k,times:N,scrollArea:s,parsedStart:Te,parsedEnd:xe,maxDays:U,size:B,headerColumnRef:f}),{move:h}=pt(e,{parsedView:_e,parsedValue:be,weekdaySkips:k,direction:M,maxDays:U,times:N,emittedValue:F,emit:a}),{getDefaultMouseEventHandlers:X}=Gt(a,me),{checkChange:K}=aa(a,{days:ge,lastStart:T,lastEnd:V}),{isKeyCode:te}=Rt(),{tryFocus:oe}=na(e,{rootRef:Ie,focusRef:m,focusValue:C,datesRef:O,days:ge,parsedView:_e,parsedValue:be,emittedValue:F,weekdaySkips:k,direction:M,times:N}),se=x(()=>ge.value.length+(ue.value===!0?e.leftColumnOptions.length:0)+(qe.value===!0?e.rightColumnOptions.length:0)+ge.value.length===1&&parseInt(e.columnCount,10)>0?parseInt(e.columnCount,10):0),ue=x(()=>e.leftColumnOptions!==void 0&&Array.isArray(e.leftColumnOptions)),qe=x(()=>e.rightColumnOptions!==void 0&&Array.isArray(e.rightColumnOptions)),re=x(()=>{if(Ie.value){const c=B.width||Ie.value.getBoundingClientRect().width;if(c&&se.value)return(c-Le.value)/se.value+"px"}return 100/se.value+"%"});ne([ge],K,{deep:!0,immediate:!0}),ne(()=>e.modelValue,(c,q)=>{if(F.value!==c){if(e.animated===!0){const l=j(he(c)),_=j(he(q));M.value=l>=_?"next":"prev"}F.value=c}m.value=c}),ne(F,(c,q)=>{if(F.value!==e.modelValue){if(e.animated===!0){const l=j(he(c)),_=j(he(q));M.value=l>=_?"next":"prev"}a("update:model-value",c)}}),ne(m,c=>{c&&(C.value=Ae(c))}),ne(C,c=>{O.value[m.value]?O.value[m.value].focus():oe()}),ne(()=>e.maxDays,c=>{U.value=c}),Ut(()=>{O.value={}}),Vt(()=>{Fe()});function Ye(){F.value=et()}function Re(c=1){h(c)}function We(c=1){h(-c)}function at({width:c,height:q}){B.width=c,B.height=q}function ze(c){return c.date===F.value}function Ee(c,q){const l=t["head-column"],_={column:c,index:q,days:ge.value},u=ee.value===!0?e.cellWidth:re.value,d=e.focusable===!0&&e.focusType.includes("weekday"),v=e.columnOptionsId!==void 0?c[e.columnOptionsId]:void 0,D={maxWidth:u,width:u};return i("div",{key:v,tabindex:d===!0?0:-1,class:{"q-calendar-agenda__head--day":!0,"q-column-day":!0,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":d===!0},style:D,onDragenter:n=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc(n,"head-column",_)===!0?S.value=v:S.value="")},onDragover:n=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc(n,"head-column",_)===!0?S.value=v:S.value="")},onDragleave:n=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc(n,"head-column",_)===!0?S.value=v:S.value="")},onDrop:n=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc(n,"head-column",_)===!0?S.value=v:S.value="")},...X("-head-column",(n,y)=>({scope:{column:c,index:q},event:n}))},[e.noDefaultHeaderText!==!0&&gt(c),l&&l(_),Qe()])}function gt(c){const q=t["head-column-label"],l={column:c},_=e.columnOptionsLabel!==void 0?c[e.columnOptionsLabel]:c.label,u=i("div",{class:{"q-calendar-agenda__head--weekday":!0,["q-calendar__"+e.weekdayAlign]:!0,ellipsis:!0},style:{alignSelf:"center"}},[q&&q({scope:l}),!q&&i("span",{class:"ellipsis"},_)]);return e.dateHeader==="stacked"?u:i("div",{class:"q-calendar__header--inline",style:{height:"100%"}},[u])}function Ue(){return i("div",{roll:"presentation",class:{"q-calendar-agenda__head":!0,"q-calendar__sticky":ee.value===!0},style:{marginRight:Le.value+"px"}},[ft()])}function ft(){return i("div",{ref:f,class:{"q-calendar-agenda__head--days__column":!0}},[ct(),rt()])}function ct(){return i("div",{class:{"q-calendar-agenda__head--days__weekdays":!0}},[...ot()])}function rt(){const c=t["head-days-events"];return ba(()=>{if(L.value&&e.columnCount===0&&window)try{const q=window.getComputedStyle(L.value);A.value.parentElement.style.height=q.height,A.value.style.height=q.height}catch{}}),i("div",{class:{"q-calendar-agenda__head--days__event":!0}},[c&&i("div",{ref:A,style:{position:"absolute",left:0,top:0,right:0,overflow:"hidden",zIndex:1}},[c({scope:{days:ge.value,ref:L}})]),...vt()])}function ot(){return ge.value.length===1&&parseInt(e.columnCount,10)>0?[ue.value===!0&&e.leftColumnOptions.map((c,q)=>Ee(c,q)),Array.apply(null,new Array(parseInt(e.columnCount,10))).map((c,q)=>q+parseInt(e.columnIndexStart,10)).map(c=>yt(ge.value[0],c)),qe.value===!0&&e.rightColumnOptions.map((c,q)=>Ee(c,q))]:[ue.value===!0&&e.leftColumnOptions.map((c,q)=>Ee(c,q)),ge.value.map(c=>yt(c)),qe.value===!0&&e.rightColumnOptions.map((c,q)=>Ee(c,q))]}function vt(){return ge.value.length===1&&parseInt(e.columnCount,10)>0?[Array.apply(null,new Array(parseInt(e.columnCount,10))).map((c,q)=>q+parseInt(e.columnIndexStart,10)).map(c=>lt(ge.value[0],c))]:ge.value.map(c=>lt(c))}function yt(c,q){const l=t["head-day"],_=t["head-date"],u=e.noActiveDate!==!0&&ze(c),d=J(c,q);d.activeDate=u,d.droppable=S.value===c.date,d.disabled=e.disabledWeekdays?e.disabledWeekdays.includes(c.weekday):!1;const v=ee.value===!0?e.cellWidth:re.value,D=e.weekdayStyle||Xe,n={width:v,maxWidth:v,...D({scope:d})};ee.value===!0&&(n.minWidth=v);const y=typeof e.weekdayClass=="function"?e.weekdayClass({scope:d}):{},b=e.focusable===!0&&e.focusType.includes("weekday"),H={key:c.date+(q!==void 0?"-"+q:""),ref:I=>{O.value[c.date]=I},tabindex:b===!0?0:-1,class:{"q-calendar-agenda__head--day":!0,...y,...Ge(c),"q-active-date":u,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":b===!0},style:n,onDragenter:I=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc(I,"head-day",d)===!0?S.value=c.date:S.value="")},onDragover:I=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc(I,"head-day",d)===!0?S.value=c.date:S.value="")},onDragleave:I=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc(I,"head-day",d)===!0?S.value=c.date:S.value="")},onDrop:I=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc(I,"head-day",d)===!0?S.value=c.date:S.value="")},onFocus:I=>{b===!0&&(m.value=c.date)},...X("-head-day",I=>({scope:d,event:I}))};return i("div",H,[l!==void 0&&l({scope:d}),l===void 0&&kt(c),l===void 0&&_&&_({scope:d}),Qe()])}function kt(c){if(e.dateHeader==="stacked")return[e.noDefaultHeaderText!==!0&&$e(c),e.noDefaultHeaderBtn!==!0&&Me(c)];if(e.dateHeader==="inline")return e.weekdayAlign==="left"&&e.dateAlign==="right"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderText!==!0&&$e(c),e.noDefaultHeaderBtn!==!0&&Me(c)]):e.weekdayAlign==="right"&&e.dateAlign==="left"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderText!==!0&&$e(c),e.noDefaultHeaderBtn!==!0&&Me(c)]):i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderText!==!0&&$e(c),e.noDefaultHeaderBtn!==!0&&Me(c)]);if(e.dateHeader==="inverted")return e.weekdayAlign==="left"&&e.dateAlign==="right"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderBtn!==!0&&Me(c),e.noDefaultHeaderText!==!0&&$e(c)]):e.weekdayAlign==="right"&&e.dateAlign==="left"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderBtn!==!0&&Me(c),e.noDefaultHeaderText!==!0&&$e(c)]):i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderBtn!==!0&&Me(c),e.noDefaultHeaderText!==!0&&$e(c)])}function lt(c,q){const l=t["head-day-event"],_=e.noActiveDate!==!0&&ze(c),u=J(c,q);u.activeDate=_,u.disabled=e.disabledWeekdays?e.disabledWeekdays.includes(c.weekday):!1;const d=ee.value===!0?e.cellWidth:re.value,v={width:d,maxWidth:d};return ee.value===!0&&(v.minWidth=d),i("div",{key:"event-"+c.date+(q!==void 0?"-"+q:""),class:{"q-calendar-agenda__head--day__event":!0,...Ge(c),"q-active-date":_},style:v},[l&&l({scope:u})])}function $e(c){const q=t["head-weekday-label"],l=J(c);l.shortWeekdayLabel=e.shortWeekdayLabel;const _={class:{"q-calendar-agenda__head--weekday":!0,["q-calendar__"+e.weekdayAlign]:!0,"q-calendar__ellipsis":!0}};return i("div",_,q&&q({scope:l})||Ze(c,e.shortWeekdayLabel))}function Ze(c,q){const l=it.value(c,q||e.weekdayBreakpoints[0]>0&&ce.value<=e.weekdayBreakpoints[0]);return i("span",{class:"q-calendar__ellipsis"},e.weekdayBreakpoints[1]>0&&ce.value<=e.weekdayBreakpoints[1]?sa(l,e.minWeekdayLabel):l)}function Me(c){const q={class:{"q-calendar-agenda__head--date":!0,["q-calendar__"+e.dateAlign]:!0}};return i("div",q,Je(c))}function Je(c){const q=e.noActiveDate!==!0&&ze(c),l=Ne.value(c,!1),_=t["head-day-label"],u=t["head-day-button"],d={dayLabel:l,timestamp:c,activeDate:q,disabled:e.disabledWeekdays?e.disabledWeekdays.includes(c.weekday):!1},v={class:{"q-calendar-agenda__head--day__label":!0,"q-calendar__button":!0,"q-calendar__button--round":e.dateType==="round","q-calendar__button--rounded":e.dateType==="rounded","q-calendar__button--bordered":c.current===!0,"q-calendar__focusable":!0},disabled:c.disabled,onKeydown:D=>{c.disabled!==!0&&te(D,[13,32])&&(D.stopPropagation(),D.preventDefault())},onKeyup:D=>{c.disabled!==!0&&te(D,[13,32])&&(F.value=c.date,me.value.onClickDate!==void 0&&a("click-date",{scope:d}))},...X("-date",(D,n)=>((n==="click-date"||n==="contextmenu-date")&&(F.value=c.date,n==="click-date"&&D.preventDefault()),{scope:d,event:D}))};return e.noAria!==!0&&(v.ariaLabel=tt.value(c)),u?u({scope:d}):va(e,v,_?_({scope:d}):l)}function pe(){return i("div",{class:"q-calendar-agenda__body"},[W()])}function W(){return ee.value===!0?i("div",{ref:s,class:{"q-calendar-agenda__scroll-area":!0,"q-calendar__scroll":!0}},[ie()]):e.noScroll===!0?le():i("div",{ref:s,class:{"q-calendar-agenda__scroll-area":!0,"q-calendar__scroll":!0}},[le()])}function le(){return i("div",{ref:g,class:"q-calendar-agenda__pane"},[ie()])}function ie(){const c=t["day-container"];return i("div",{class:"q-calendar-agenda__day-container"},[ee.value===!0&&e.noHeader!==!0&&Ue(),i("div",{style:{display:"flex",flexDirection:"row",height:"100%"}},[...fe()]),c&&c({scope:{days:ge.value}})])}function fe(){return ge.value.length===1&&parseInt(e.columnCount,10)>0?[ue.value===!0&&e.leftColumnOptions.map((c,q)=>ke(c,q)),Array.apply(null,new Array(parseInt(e.columnCount,10))).map((c,q)=>q+parseInt(e.columnIndexStart,10)).map(c=>ye(ge.value[0],0,c)),qe.value===!0&&e.rightColumnOptions.map((c,q)=>ke(c,q))]:[ue.value===!0&&e.leftColumnOptions.map((c,q)=>ke(c,q)),ge.value.map((c,q)=>ye(c)),qe.value===!0&&e.rightColumnOptions.map((c,q)=>ke(c,q))]}function ke(c,q){const l=t.column,_={column:c,days:ge.value,index:q},u=ee.value===!0?e.cellWidth:re.value,d=e.focusable===!0&&e.focusType.includes("day"),v=e.columnOptionsId!==void 0?c[e.columnOptionsId]:void 0;return i("div",{key:v,tabindex:d===!0?0:-1,class:{"q-calendar-agenda__day":!0,"q-column-day":!0,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":d===!0},style:{maxWidth:u,width:u},onDragenter:D=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc(D,"column",_)===!0?S.value=v:S.value="")},onDragover:D=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc(D,"column",_)===!0?S.value=v:S.value="")},onDragleave:D=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc(D,"column",_)===!0?S.value=v:S.value="")},onDrop:D=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc(D,"column",_)===!0?S.value=v:S.value="")},...X("-column",(D,n)=>({scope:_,event:D}))},[l&&l({scope:_})])}function ye(c,q,l){const _=t.day,u=J(c,l),d=ee.value===!0?e.cellWidth:re.value,v={width:d,maxWidth:d};return ee.value===!0&&(v.minWidth=d),v.height=parseInt(e.dayHeight,10)>0?p(parseInt(e.dayHeight,10)):"auto",parseInt(e.dayMinHeight,10)>0&&(v.minHeight=p(parseInt(e.dayMinHeight,10))),i("div",{key:c.date+(l!==void 0?":"+l:""),class:{"q-calendar-agenda__day":!0,...Ge(c)},style:v},[_&&_({scope:u})])}function Be(){const{start:c,end:q,maxDays:l}=Se.value;(z.value!==c.date||G.value!==q.date||U.value!==l)&&(z.value=c.date,G.value=q.date,U.value=l);const _=B.width>0,u=Ot(i("div",{class:"q-calendar-agenda",key:z.value},[_===!0&&ee.value!==!0&&e.noHeader!==!0&&Ue(),_===!0&&pe()]),[[mt,at]]);if(e.animated===!0){const d="q-calendar--"+(M.value==="prev"?e.transitionPrev:e.transitionNext);return i(Yt,{name:d,appear:!0},()=>u)}return u}return r({prev:We,next:Re,move:h,moveToToday:Ye,updateCurrent:Z}),()=>ut()}}),la=xt({name:"QCalendarDay",directives:[mt],props:{...Zt,...Ba,...Sa,...fa,...Lt,...ya,...Mt},emits:["update:model-value",...ta,...Jt,...He("-date"),...He("-interval"),...He("-head-intervals"),...He("-head-day"),...He("-time")],setup(e,{slots:t,emit:a,expose:r}){const s=w(null),g=w(null),f=w(null),m=w(null),C=w(null),O=w({}),A=w({}),L=w({}),M=w("next"),z=w(e.modelValue||et()),G=w("0000-00-00"),U=w(0),F=w(e.modelValue),B=Ct({width:0,height:0}),S=w(!1),T=w(!1),V=w(null),_e=w(null);ne(()=>e.view,()=>{U.value=0});const De=x(()=>e.view==="month"?"month-interval":e.view),me=Et();if(me===null)throw new Error("current instance is null");const{emitListeners:ee}=ea(me),{isSticky:N}=Ta(e),{times:Q,setCurrent:Z,updateCurrent:k}=jt(e);k(),Z();const{weekdaySkips:Te,parsedStart:xe,parsedEnd:Ne,dayFormatter:it,weekdayFormatter:tt,ariaDateFormatter:Xe,dayStyleDefault:Ge,getRelativeClasses:be}=Xt(e,{startDate:z,endDate:G,times:Q}),Se=x(()=>Ae(e.modelValue,Q.now)||xe.value||Q.today);C.value=Se.value,m.value=Se.value.date;const{renderValues:Ie}=Qt(e,{parsedView:De,parsedValue:Se,times:Q}),{rootRef:Le,scrollWidth:Fe,__initCalendar:ut,__renderCalendar:ge}=$t(e,dt,{scrollArea:s,pane:g}),{days:ce,intervals:J,intervalFormatter:h,ariaDateTimeFormatter:X,parsedCellWidth:K,getIntervalClasses:te,showIntervalLabelDefault:oe,styleDefault:se,getTimestampAtEventInterval:ue,getTimestampAtEvent:qe,getScopeForSlot:re,scrollToTime:Ye,heightToMinutes:Re,timeDurationHeight:We,timeStartPos:at}=Ha(e,{weekdaySkips:Te,times:Q,scrollArea:s,parsedStart:xe,parsedEnd:Ne,maxDays:U,size:B,headerColumnRef:f}),{move:ze}=pt(e,{parsedView:De,parsedValue:Se,weekdaySkips:Te,direction:M,maxDays:U,times:Q,emittedValue:F,emit:a}),{getDefaultMouseEventHandlers:Ee}=Gt(a,ee),{checkChange:gt}=aa(a,{days:ce,lastStart:V,lastEnd:_e}),{isKeyCode:Ue}=Rt(),{tryFocus:ft}=na(e,{rootRef:Le,focusRef:m,focusValue:C,datesRef:O,days:ce,parsedView:De,parsedValue:Se,emittedValue:F,weekdaySkips:Te,direction:M,times:Q}),ct=x(()=>De.value==="day"&&parseInt(e.columnCount,10)>1?parseInt(e.columnCount,10):De.value==="day"&&e.maxDays&&e.maxDays>1?e.maxDays:ce.value.length),rt=x(()=>Le.value?parseInt(getComputedStyle(Le.value).getPropertyValue("--calendar-intervals-width"),10):0),ot=x(()=>{if(Le.value){const o=B.width||Le.value.getBoundingClientRect().width;if(o&&rt.value&&ct.value)return(o-Fe.value-rt.value)/ct.value+"px"}return 100/ct.value+"%"});ne([ce],gt,{deep:!0,immediate:!0}),ne(()=>e.modelValue,(o,R)=>{if(F.value!==e.modelValue){if(e.animated===!0){const P=j(he(o)),Y=j(he(R));M.value=P>=Y?"next":"prev"}F.value=o}m.value=o}),ne(F,(o,R)=>{if(F.value!==e.modelValue){if(e.animated===!0){const P=j(he(o)),Y=j(he(R));M.value=P>=Y?"next":"prev"}a("update:model-value",o)}}),ne(m,o=>{o&&(C.value=Ae(o))}),ne(C,o=>{O.value[m.value]?O.value[m.value].focus():ft()}),ne(()=>e.maxDays,o=>{U.value=o}),Ut(()=>{O.value={},A.value={},L.value={}}),Vt(()=>{ut()});function vt(){F.value=et()}function yt(o=1){ze(o)}function kt(o=1){ze(-o)}function lt({width:o,height:R}){B.width=o,B.height=R}function $e(o){return o.date===F.value}function Ze(){return i("div",{roll:"presentation",class:{"q-calendar-day__head":!0,"q-calendar__sticky":N.value===!0},style:{marginRight:Fe.value+"px"}},[Me(),Je()])}function Me(){const o=t["head-intervals"],R={timestamps:ce.value,days:ce.value,date:e.modelValue};return i("div",{class:{"q-calendar-day__head--intervals":!0,"q-calendar__sticky":N.value===!0},...Ee("-head-intervals",P=>({scope:R,event:P}))},[o&&o({scope:R})])}function Je(){return i("div",{ref:f,class:{"q-calendar-day__head--days__column":!0}},[pe(),W()])}function pe(){return i("div",{class:{"q-calendar-day__head--days__weekdays":!0}},[...le()])}function W(){const o=t["head-days-events"];return ba(()=>{if(L.value&&parseInt(e.columnCount,10)===0&&window)try{const R=window.getComputedStyle(L.value);A.value.parentElement.style.height=R.height,A.value.style.height=R.height}catch{}}),i("div",{class:{"q-calendar-day__head--days__event":!0}},[o&&i("div",{ref:A,style:{position:"absolute",left:0,top:0,right:0,overflow:"hidden",zIndex:1}},[o({scope:{days:ce.value,ref:L}})]),...ie()])}function le(){return ce.value.length===1&&parseInt(e.columnCount,10)>0?Array.apply(null,new Array(parseInt(e.columnCount,10))).map((o,R)=>R+parseInt(e.columnIndexStart,10)).map(o=>fe(ce.value[0],o)):ce.value.map(o=>fe(o))}function ie(){return ce.value.length===1&&parseInt(e.columnCount,10)>0?Array.apply(null,new Array(parseInt(e.columnCount,10))).map((o,R)=>R+parseInt(e.columnIndexStart,10)).map(o=>ye(ce.value[0],o)):ce.value.map(o=>ye(o))}function fe(o,R){const P=t["head-day"],Y=t["head-date"],ae=e.noActiveDate!==!0&&$e(o),de=re(o,R);de.activeDate=ae,de.droppable=S.value===o.date,de.disabled=e.disabledWeekdays?e.disabledWeekdays.includes(o.weekday):!1;const Pe=N.value===!0?e.cellWidth:ot.value,we=e.weekdayStyle||Ge,Ht={width:Pe,maxWidth:Pe,minWidth:Pe,...we({scope:de})};N.value===!0&&(Ht.minWidth=Pe);const ha=typeof e.weekdayClass=="function"?e.weekdayClass({scope:de}):{},ua=e.focusable===!0&&e.focusType.includes("weekday"),Ke=o.date+(R!==void 0?"-"+R:""),ra={key:Ke,ref:je=>{O.value[Ke]=je},tabindex:ua===!0?0:-1,class:{"q-calendar-day__head--day":!0,...ha,...be(o),"q-active-date":ae,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":ua===!0},style:Ht,onFocus:je=>{ua===!0&&(m.value=Ke)},onKeydown:je=>{o.disabled!==!0&&Ue(je,[13,32])&&(je.stopPropagation(),je.preventDefault())},onKeyup:je=>{o.disabled!==!0&&Ue(je,[13,32])&&(F.value=o.date)},...Ee("-head-day",je=>({scope:de,event:je})),onDragenter:je=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc(je,"head-day",de)===!0?S.value=o.date:S.value="")},onDragover:je=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc(je,"head-day",de)===!0?S.value=o.date:S.value="")},onDragleave:je=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc(je,"head-day",de)===!0?S.value=o.date:S.value="")},onDrop:je=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc(je,"head-day",de)===!0?S.value=o.date:S.value="")}};return i("div",ra,[P!==void 0&&P({scope:de}),P===void 0&&_(o,R),P===void 0&&ke(o),P===void 0&&Y&&Y({scope:de}),P===void 0&&u(o,R),Qe()])}function ke(o){if(e.dateHeader==="stacked")return[e.noDefaultHeaderText!==!0&&Be(o),e.noDefaultHeaderBtn!==!0&&q(o)];if(e.dateHeader==="inline")return e.weekdayAlign==="left"&&e.dateAlign==="right"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderText!==!0&&Be(o),e.noDefaultHeaderBtn!==!0&&q(o)]):e.weekdayAlign==="right"&&e.dateAlign==="left"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderText!==!0&&Be(o),e.noDefaultHeaderBtn!==!0&&q(o)]):i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderText!==!0&&Be(o),e.noDefaultHeaderBtn!==!0&&q(o)]);if(e.dateHeader==="inverted")return e.weekdayAlign==="left"&&e.dateAlign==="right"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderBtn!==!0&&q(o),e.noDefaultHeaderText!==!0&&Be(o)]):e.weekdayAlign==="right"&&e.dateAlign==="left"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderBtn!==!0&&q(o),e.noDefaultHeaderText!==!0&&Be(o)]):i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderBtn!==!0&&q(o),e.noDefaultHeaderText!==!0&&Be(o)])}function ye(o,R){const P=t["head-day-event"],Y=e.noActiveDate!==!0&&$e(o),ae=re(o,R);ae.activeDate=Y,ae.disabled=e.disabledWeekdays?e.disabledWeekdays.includes(o.weekday):!1;const de=N.value===!0?p(K.value):ot.value,Pe={width:de,maxWidth:de,minWidth:de};return N.value===!0&&(Pe.minWidth=de),i("div",{key:"event-"+o.date+(R!==void 0?"-"+R:""),class:{"q-calendar-day__head--day__event":!0,...be(o),"q-active-date":Y},style:Pe},[P&&P({scope:ae})])}function Be(o){const R=t["head-weekday-label"],P=e.shortWeekdayLabel===!0,Y=re(o);Y.shortWeekdayLabel=e.shortWeekdayLabel,Y.disabled=e.disabledWeekdays?e.disabledWeekdays.includes(o.weekday):!1;const ae={class:{"q-calendar-day__head--weekday":!0,["q-calendar__"+e.weekdayAlign]:!0,"q-calendar__ellipsis":!0}};return i("div",ae,R&&R({scope:Y})||c(o,P))}function c(o,R){const P=tt.value(o,R||e.weekdayBreakpoints[0]>0&&K.value<=e.weekdayBreakpoints[0]);return i("span",{class:"q-calendar-day__head--weekday-label q-calendar__ellipsis"},e.weekdayBreakpoints[1]>0&&K.value<=e.weekdayBreakpoints[1]?sa(P,e.minWeekdayLabel):P)}function q(o){const R={class:{"q-calendar-day__head--date":!0,["q-calendar__"+e.dateAlign]:!0}};return i("div",R,l(o))}function l(o){const R=e.noActiveDate!==!0&&$e(o),P=it.value(o,!1),Y=t["head-day-label"],ae=t["head-day-button"],de={dayLabel:P,timestamp:o,activeDate:R,disabled:e.disabledWeekdays?e.disabledWeekdays.includes(o.weekday):!1},Pe={class:{"q-calendar-day__head--day__label":!0,"q-calendar__button":!0,"q-calendar__button--round":e.dateType==="round","q-calendar__button--rounded":e.dateType==="rounded","q-calendar__button--bordered":o.current===!0,"q-calendar__focusable":!0},disabled:o.disabled,onKeydown:we=>{o.disabled!==!0&&Ue(we,[13,32])&&(we.stopPropagation(),we.preventDefault())},onKeyup:we=>{o.disabled!==!0&&Ue(we,[13,32])&&(F.value=o.date,ee.value.onClickDate!==void 0&&a("click-date",{scope:de}))},...Ee("-date",(we,Ht)=>((Ht==="click-date"||Ht==="contextmenu-date")&&(F.value=o.date,Ht==="click-date"&&we.preventDefault()),{scope:de,event:we}))};return e.noAria!==!0&&(Pe.ariaLabel=Xe.value(o)),ae?ae({scope:de}):va(e,Pe,Y?Y({scope:de}):P)}function _(o,R){const P=t["column-header-before"];if(P)return i("div",{class:"q-calendar-day__column-header--before"},[P({scope:{timestamp:o,columnIndex:R}})])}function u(o,R){const P=t["column-header-after"];if(P)return i("div",{class:"q-calendar-day__column-header--after"},[P({scope:{timestamp:o,columnIndex:R}})])}function d(){return i("div",{class:"q-calendar-day__body"},[v()])}function v(){return N.value===!0?i("div",{ref:s,class:{"q-calendar-day__scroll-area":!0,"q-calendar__scroll":!0}},[N.value!==!0&&E(),n()]):e.noScroll===!0?D():i("div",{ref:s,class:{"q-calendar-day__scroll-area":!0,"q-calendar__scroll":!0}},[D()])}function D(){return i("div",{ref:g,class:"q-calendar-day__pane"},[E(),n()])}function n(){const o=t["day-container"];return i("div",{class:"q-calendar-day__day-container"},[N.value===!0&&e.noHeader!==!0&&Ze(),i("div",{style:{display:"flex",flexDirection:"row"}},[N.value===!0&&E(),...y()]),o&&o({scope:{days:ce.value}})])}function y(){return ce.value.length===1&&parseInt(e.columnCount,10)>0?Array.apply(null,new Array(parseInt(e.columnCount,10))).map((o,R)=>R+parseInt(e.columnIndexStart,10)).map(o=>b(ce.value[0],0,o)):ce.value.map((o,R)=>b(o,R))}function b(o,R,P){const Y=t["day-body"],ae=re(o,P),de=N.value===!0?e.cellWidth:ot.value,Pe={width:de,maxWidth:de,minWidth:de};return N.value===!0&&(Pe.minWidth=de),i("div",{key:o.date+(P!==void 0?":"+P:""),class:{"q-calendar-day__day":!0,...be(o)},style:Pe},[...H(R,P),Y&&Y({scope:ae})])}function H(o,R){return J.value[o].map(P=>I(P,R))}function I(o,R){const P=p(e.intervalHeight),Y=e.intervalStyle||se,ae=t["day-interval"],de=re(o,R);de.droppable=T.value===wt(o);const Pe=typeof e.intervalClass=="function"?e.intervalClass({scope:de}):{},we=e.focusable===!0&&e.focusType.includes("interval"),ha={key:zt(o),tabindex:we===!0?0:-1,class:{"q-calendar-day__day-interval":o.minute===0,"q-calendar-day__day-interval--section":o.minute!==0,...Pe,...te(o,e.selectedDates,e.selectedStartEndDates),"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":we===!0},style:{height:P,...Y({scope:de})},onDragenter:Ke=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc(Ke,"interval",de)===!0?T.value=wt(o):T.value="")},onDragover:Ke=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc(Ke,"interval",de)===!0?T.value=wt(o):T.value="")},onDragleave:Ke=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc(Ke,"interval",de)===!0?T.value=wt(o):T.value="")},onDrop:Ke=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc(Ke,"interval",de)===!0?T.value=wt(o):T.value="")},onKeydown:Ke=>{Ue(Ke,[13,32])&&(Ke.stopPropagation(),Ke.preventDefault())},onKeyup:Ke=>{if(Ue(Ke,[13,32])){const ra=re(o,R);F.value=ra.timestamp.date,ee.value.onClickTime!==void 0&&a("click-time",{scope:ra,event:Ke})}},...Ee("-time",Ke=>({scope:re(ue(Ke,o,e.timeClicksClamped,Q.now),R),event:Ke}))};e.noAria!==!0&&(ha.ariaLabel=X.value(o));const ua=ae?ae({scope:de}):void 0;return i("div",ha,[ua,Qe()])}function E(){const o={ariaHidden:"true",class:{"q-calendar-day__intervals-column":!0,"q-calendar__ellipsis":!0,"q-calendar__sticky":N.value===!0},...Ee("-interval",R=>({scope:{timestamp:qe(R,xe.value,e.timeClicksClamped,Q.now)},event:R}))};return i("div",o,ve())}function ve(){return J.value[0].map(o=>$(o))}function $(o){const R=t["interval-label"],P=p(e.intervalHeight),Y=e.shortIntervalLabel,Pe=(e.showIntervalLabel||oe)(o)?h.value(o,Y):void 0;return i("div",{key:o.time,class:{"q-calendar-day__interval":o.minute===0,"q-calendar-day__interval--section":o.minute!==0},style:{height:P}},[i("div",{class:"q-calendar-day__interval--text q-calendar__overflow-wrap"},[R?R({scope:{timestamp:o,label:Pe}}):Pe])])}function dt(){const{start:o,end:R,maxDays:P}=Ie.value;(z.value!==o.date||G.value!==R.date||U.value!==P)&&(z.value=o.date,G.value=R.date,U.value=P);const Y=B.width>0,ae=Ot(i("div",{key:z.value,class:"q-calendar-day"},[Y===!0&&N.value!==!0&&e.noHeader!==!0&&Ze(),Y&&d()]),[[mt,lt]]);if(e.animated===!0){const de="q-calendar--"+(M.value==="prev"?e.transitionPrev:e.transitionNext);return i(Yt,{name:de,appear:!0},()=>ae)}return ae}return r({prev:kt,next:yt,move:ze,moveToToday:vt,updateCurrent:k,timeStartPos:at,timeDurationHeight:We,heightToMinutes:Re,scrollToTime:Ye}),()=>ge()}});const wn={dayHeight:{type:[Number,String],default:0,validator:Ve},dayMinHeight:{type:[Number,String],default:0,validator:Ve},dayStyle:{type:Function,default:null},dayClass:{type:Function,default:null},weekdayStyle:{type:Function,default:null},weekdayClass:{type:Function,default:null},dayPadding:String,minWeeks:{type:[Number,String],validator:Ve,default:1},shortMonthLabel:Boolean,showWorkWeeks:Boolean,showMonthLabel:{type:Boolean,default:!0},showDayOfYearLabel:Boolean,enableOutsideDays:Boolean,noOutsideDays:Boolean,hover:Boolean,miniMode:{type:[Boolean,String],validator:e=>[!0,!1,"auto"].includes(e)},breakpoint:{type:[Number,String],default:"md",validator:e=>["xs","sm","md","lg","xl"].includes(e)||Ve(e)},monthLabelSize:{type:String,default:"sm",validator:e=>["xxs","xs","sm","md","lg","xl","xxl"].includes(e)||!!e&&e.length>0}};function Gn(e,t,{weekdaySkips:a,times:r,parsedStart:s,parsedEnd:g,size:f,headerColumnRef:m}){const C=x(()=>parseInt(e.minWeeks,10)),O=x(()=>C.value*e.weekdays.length),A=x(()=>V(De(s.value))),L=x(()=>_e(me(g.value))),M=x(()=>{let N=0;return e.cellWidth?N=e.cellWidth:f.width>0&&m.value&&(N=m.value.offsetWidth/e.weekdays.length),N}),z=x(()=>ca(A.value,L.value,r.today,a.value,e.disabledBefore,e.disabledAfter,e.disabledWeekdays,e.disabledDays,Number.MAX_SAFE_INTEGER,O.value)),G=x(()=>{const N=r.today,Q=V(N),Z=_e(N);return ca(Q,Z,N,a,e.disabledBefore,e.disabledAfter,e.disabledWeekdays,e.disabledDays,e.weekdays.length,e.weekdays.length)}),U=x(()=>{const N={timeZone:"UTC",month:"long"},Q={timeZone:"UTC",month:"short"};return Wt(e.locale,(Z,k)=>k?Q:N)}),F=x(()=>{switch(e.breakpoint){case"xs":return 300;case"sm":return 350;case"md":return 400;case"lg":return 450;case"xl":return 500;default:return parseInt(e.breakpoint,10)}}),B=x(()=>{switch(e.monthLabelSize){case"xxs":return".4em";case"xs":return".6em";case"sm":return".8em";case"md":return"1.0em";case"lg":return"1.2em";case"xl":return"1.4em";case"xxl":return"1.6em";default:return e.monthLabelSize}});let S=!0;const T=x(()=>{const N=e.miniMode===!0||e.miniMode==="auto"&&e.breakpoint!==void 0&&f.width<F.value;return S===!0&&(S=!1,t("mini-mode",N)),N});ne(T,N=>{t("mini-mode",N)});function V(N){return It(N,e.weekdays,r.today)}function _e(N){return qt(N,e.weekdays,r.today)}function De(N){return Pt(N)}function me(N){return At(N)}function ee(N){const Q=j(N);return Q<j(s.value)||Q>j(g.value)}return{parsedCellWidth:M,parsedMinWeeks:C,parsedMinDays:O,parsedMonthStart:A,parsedMonthEnd:L,parsedBreakpoint:F,parsedMonthLabelSize:B,days:z,todayWeek:G,isMiniMode:T,monthFormatter:U,isOutside:ee}}var ga=xt({name:"QCalendarMonth",directives:[mt],props:{...Zt,...wn,...Lt,...ya,...Mt},emits:["update:model-value",...ta,...Jt,"mini-mode",...He("-date"),...He("-day"),...He("-head-workweek"),...He("-head-day"),...He("-workweek")],setup(e,{slots:t,emit:a,expose:r}){const s=w(null),g=w(null),f=w(null),m=w(null),C=w(null),O=w({}),A=w([]),L=w([]),M=w("next"),z=w(e.modelValue||et()),G=w("0000-00-00"),U=w(0),F=w(e.modelValue),B=Ct({width:0,height:0}),S=w(!1),T=w(!1),V=w(null),_e=w(null),De=x(()=>"month"),me=Et();if(me===null)throw new Error("current instance is null");const{emitListeners:ee}=ea(me),{isSticky:N}=Ta(e);ne(N,l=>{});const{times:Q,setCurrent:Z,updateCurrent:k}=jt(e);k(),Z();const{weekdaySkips:Te,parsedStart:xe,parsedEnd:Ne,dayFormatter:it,weekdayFormatter:tt,ariaDateFormatter:Xe,dayStyleDefault:Ge,getRelativeClasses:be}=Xt(e,{startDate:z,endDate:G,times:Q}),Se=x(()=>Ae(e.modelValue,Q.now)||xe.value||Q.today);C.value=Se.value,m.value=Se.value.date;const Ie=x(()=>{const l={};return e.dayPadding!==void 0&&(l.padding=e.dayPadding),l.minWidth=at.value,l.maxWidth=at.value,l.width=at.value,l}),{renderValues:Le}=Qt(e,{parsedView:De,times:Q,parsedValue:Se}),{rootRef:Fe,__initCalendar:ut,__renderCalendar:ge}=$t(e,q,{scrollArea:s,pane:g}),{days:ce,todayWeek:J,isMiniMode:h,parsedCellWidth:X,parsedMonthLabelSize:K,isOutside:te,monthFormatter:oe}=Gn(e,a,{weekdaySkips:Te,times:Q,parsedStart:xe,parsedEnd:Ne,size:B,headerColumnRef:f}),{move:se}=pt(e,{parsedView:De,parsedValue:Se,weekdaySkips:Te,direction:M,maxDays:U,times:Q,emittedValue:F,emit:a}),{getDefaultMouseEventHandlers:ue}=Gt(a,ee),{checkChange:qe}=aa(a,{days:ce,lastStart:V,lastEnd:_e}),{isKeyCode:re}=Rt(),{tryFocus:Ye}=na(e,{rootRef:Fe,focusRef:m,focusValue:C,datesRef:O,days:ce,parsedView:De,parsedValue:Se,emittedValue:F,weekdaySkips:Te,direction:M,times:Q}),Re=x(()=>Fe.value&&e.showWorkWeeks===!0?parseInt(getComputedStyle(Fe.value).getPropertyValue(h.value===!0?"--calendar-mini-work-week-width":"--calendar-work-week-width"),10):0),We=x(()=>e.weekdays.length),at=x(()=>{if(Fe.value){const l=B.width||Fe.value.getBoundingClientRect().width;if(l&&We.value)return(l-Re.value)/We.value+"px"}return 100/We.value+"%"}),ze=x(()=>e.focusable===!0&&e.focusType.includes("day")&&h.value!==!0),Ee=x(()=>e.focusable===!0&&e.focusType.includes("date")&&ze.value!==!0);ne([ce],qe,{deep:!0,immediate:!0}),ne(()=>e.modelValue,(l,_)=>{if(F.value!==l){if(e.animated===!0){const u=j(he(l)),d=j(he(_));M.value=u>=d?"next":"prev"}F.value=l}m.value=l}),ne(F,(l,_)=>{if(F.value!==e.modelValue){if(e.animated===!0){const u=j(he(l)),d=j(he(_));M.value=u>=d?"next":"prev"}a("update:model-value",l)}}),ne(m,l=>{l&&(C.value=Ae(l),F.value!==l&&(F.value=l))}),ne(C,l=>{O.value[m.value]?O.value[m.value].focus():Ye()}),Ut(()=>{O.value={},A.value=[],L.value=[],ba(()=>{vt()})}),Vt(()=>{ut(),vt()});function gt(){F.value=et()}function Ue(l=1){se(l)}function ft(l=1){se(-l)}function ct({width:l,height:_}){B.width=l,B.height=_}function rt(l){return l.date===F.value}function ot(l){for(let _=0;_<l.length;++_)if(l[_].current===!0)return{timestamp:l[_]};return{timestamp:!1}}function vt(){if(!(h.value===!0||e.dayHeight!==0||t.week===void 0)&&window)for(const _ in A.value){const u=A.value[_];if(u===void 0)continue;const d=L.value[_];if(d===void 0)continue;const v=window.getComputedStyle(u),D=parseFloat(v.marginTop,10)+parseFloat(v.marginBottom,10);u.clientHeight+D>d.clientHeight&&(d.style.height=u.clientHeight+D+"px")}}function yt(){return i("div",{class:"q-calendar-month__body"},[...W()])}function kt(){return i("div",{role:"presentation",class:"q-calendar-month__head"},[e.showWorkWeeks===!0&&$e(),i("div",{class:"q-calendar-month__head--wrapper"},[lt()])])}function lt(){return i("div",{ref:f,class:{"q-calendar-month__head--weekdays":!0}},[...Ze()])}function $e(){const l=t["head-workweek"],_={start:xe.value,end:Ne.value,miniMode:h.value};return i("div",{class:"q-calendar-month__head--workweek",...ue("-head-workweek",u=>({scope:_,event:u}))},l?l({scope:_}):"#")}function Ze(){return J.value.map((l,_)=>Me(l,_))}function Me(l,_){const u=t["head-day"],d=ce.value.filter($=>$.weekday===l.weekday),v=d[0].weekday,n={activeDate:e.noActiveDate!==!0&&rt(l),weekday:v,timestamp:l,days:d,index:_,miniMode:h.value,droppable:S.value===l.weekday,disabled:e.disabledWeekdays?e.disabledWeekdays.includes(l.weekday):!1},y=typeof e.weekdayClass=="function"?e.weekdayClass({scope:n}):{},b=e.focusable===!0&&e.focusType.includes("weekday"),H=at.value,I=e.weekdayStyle||Ge,E={width:H,maxWidth:H,minWidth:H,...I({scope:n})},ve={key:l.date+(_!==void 0?"-"+_:""),tabindex:b===!0?0:-1,class:{"q-calendar-month__head--weekday":!0,...y,"q-disabled-day disabled":n.disabled===!0,["q-calendar__"+e.weekdayAlign]:!0,"q-calendar__ellipsis":!0,"q-calendar__focusable":b===!0},style:E,onDragenter:$=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc($,"head-day",n)===!0?S.value=l.weekday:S.value="")},onDragover:$=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc($,"head-day",n)===!0?S.value=l.weekday:S.value="")},onDragleave:$=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc($,"head-day",n)===!0?S.value=l.weekday:S.value="")},onDrop:$=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc($,"head-day",n)===!0?S.value=l.weekday:S.value="")},onFocus:$=>{b===!0&&(m.value=l.date)},...ue("-head-day",$=>({scope:n,event:$}))};return e.noAria!==!0&&(ve.ariaLabel=tt.value(l,!1)),i("div",ve,[u===void 0&&pe(l,e.shortWeekdayLabel||h.value),u!==void 0&&u({scope:n}),Je(l,_),b===!0&&Qe()])}function Je(l,_){const u=t["head-day-event"],d=e.noActiveDate!==!0&&rt(l),v=ce.value.filter(I=>I.weekday===l.weekday),n={weekday:v[0].weekday,timestamp:l,days:v,index:_,miniMode:h.value,activeDate:d,disabled:e.disabledWeekdays?e.disabledWeekdays.includes(l.weekday):!1},y=at.value,b=e.weekdayStyle||Ge,H={width:y,maxWidth:y,minWidth:y,...b({scope:n})};return i("div",{key:"event-"+l.date+(_!==void 0?"-"+_:""),class:{"q-calendar-month__head--event":!0},style:H},[u!==void 0&&u({scope:n})])}function pe(l,_){const u=tt.value(l,_||e.weekdayBreakpoints[0]>0&&X.value<=e.weekdayBreakpoints[0]);return i("span",{class:"q-calendar__ellipsis"},h.value===!0&&e.shortWeekdayLabel===!0||e.weekdayBreakpoints[1]>0&&X.value<=e.weekdayBreakpoints[1]?sa(u,e.minWeekdayLabel):u)}function W(){const l=e.weekdays.length,_=[];for(let u=0;u<ce.value.length;u+=l)_.push(le(ce.value.slice(u,u+l),u/l));return _}function le(l,_){const u=t.week,d=e.weekdays,v={week:l,weekdays:d,miniMode:h.value},D={};D.height=e.dayHeight>0&&h.value!==!0?p(parseInt(e.dayHeight,10)):"auto",e.dayMinHeight>0&&h.value!==!0&&(D.minHeight=p(parseInt(e.dayMinHeight,10)));const n=parseInt(e.dayHeight,10)===0&&parseInt(e.dayMinHeight,10)===0;return i("div",{key:l[0].date,ref:y=>{L.value[_]=y},class:{"q-calendar-month__week--wrapper":!0,"q-calendar-month__week--auto-height":n},style:D},[e.showWorkWeeks===!0?ie(l):void 0,i("div",{class:"q-calendar-month__week"},[i("div",{class:"q-calendar-month__week--days"},l.map((y,b)=>fe(y))),h.value!==!0&&u!==void 0?i("div",{ref:y=>{A.value[_]=y},class:"q-calendar-month__week--events"},u({scope:v})):void 0])])}function ie(l){const _=t.workweek,u=l.length>2?l[2]:l[0],{timestamp:d}=ot(l),v=Number(u.workweek).toLocaleString(e.locale),D={workweekLabel:v,week:l,miniMode:h.value};return i("div",{key:u.workweek,class:{"q-calendar-month__workweek":!0,...be(d!==!1?d:u,!1)},...ue("-workweek",n=>({scope:D,event:n}))},_?_({scope:D}):v)}function fe(l){const _=t.day,u=e.dayStyle||Ge,d=te(l),v=e.noActiveDate!==!0&&Se.value.date===l.date,D=d===!1&&e.showMonthLabel===!0&&ce.value.find(E=>E.month===l.month).day===l.day,n={outside:d,timestamp:l,miniMode:h.value,activeDate:v,hasMonth:D,droppable:T.value===l.date,disabled:e.disabledWeekdays?e.disabledWeekdays.includes(l.weekday):!1},y=Object.assign({...Ie.value},u({scope:n})),b=typeof e.dayClass=="function"?e.dayClass({scope:n}):{},H={key:l.date,ref:E=>{ze.value===!0&&(O.value[l.date]=E)},tabindex:ze.value===!0?0:-1,class:{"q-calendar-month__day":!0,...b,...be(l,d,e.selectedDates,e.selectedStartEndDates,e.hover),"q-active-date":v===!0,disabled:e.enableOutsideDays!==!0&&d===!0,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":ze.value===!0},style:y,onFocus:E=>{ze.value===!0&&(m.value=l.date)},onKeydown:E=>{d!==!0&&l.disabled!==!0&&re(E,[13,32])&&(E.stopPropagation(),E.preventDefault())},onKeyup:E=>{d!==!0&&l.disabled!==!0&&re(E,[13,32])&&(E.stopPropagation(),E.preventDefault(),ee.value.onClickDay!==void 0&&h.value!==!0&&a("click-day",{scope:n,event:E}))},...ue("-day",E=>({scope:n,event:E}))};return d!==!0&&Object.assign(H,{onDragenter:E=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc(E,"day",n)===!0?T.value=l.date:T.value="")},onDragover:E=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc(E,"day",n)===!0?T.value=l.date:T.value="")},onDragleave:E=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc(E,"day",n)===!0?T.value=l.date:T.value="")},onDrop:E=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc(E,"day",n)===!0?T.value=l.date:T.value="")}}),e.noAria!==!0&&(H.ariaLabel=Xe.value(l)),i("div",H,[ke(l,d,D),i("div",{class:{"q-calendar-month__day--content":!0}},_?_({scope:n}):void 0),ze.value===!0&&Qe()])}function ke(l,_,u){let d,v;const D=[ye(l,_)];h.value!==!0&&u===!0&&B.width>340&&(v=c(l,_)),h.value!==!0&&e.showDayOfYearLabel===!0&&v===void 0&&B.width>300&&(d=Be(l,_)),e.dateAlign==="left"?(d!==void 0&&D.push(d),v!==void 0&&D.push(v)):e.dateAlign==="right"?(d!==void 0&&D.unshift(d),v!==void 0&&D.unshift(v)):(d=void 0,v=void 0);const n={class:{"q-calendar-month__day--label__wrapper":!0,"q-calendar__ellipsis":!0,["q-calendar__"+e.dateAlign]:d===void 0&&v===void 0,"q-calendar__justify":d!==void 0||v!==void 0}};return i("div",n,D)}function ye(l,_){if(_===!0&&e.noOutsideDays===!0)return;const u=it.value(l,!1),d=t["head-day-label"],v=t["head-day-button"],D=e.selectedDates&&e.selectedDates.length>0&&e.selectedDates.includes(l.date),n=e.noActiveDate!==!0&&rt(l),y={dayLabel:u,timestamp:l,outside:_,activeDate:n,selectedDate:D,miniMode:h.value,disabled:e.disabledWeekdays?e.disabledWeekdays.includes(l.weekday):!1},b={key:l.date,ref:H=>{Ee.value===!0&&(O.value[l.date]=H)},tabindex:Ee.value===!0?0:-1,class:{"q-calendar-month__day--label":!0,"q-calendar__button":!0,"q-calendar__button--round":e.dateType==="round","q-calendar__button--rounded":e.dateType==="rounded","q-calendar__button--bordered":l.current===!0,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":Ee.value===!0},disabled:l.disabled===!0||e.enableOutsideDays!==!0&&_===!0,onFocus:H=>{Ee.value===!0&&(m.value=l.date)},onKeydown:H=>{_!==!0&&l.disabled!==!0&&re(H,[13,32])&&(H.stopPropagation(),H.preventDefault())},onKeyup:H=>{Ee.value===!0&&_!==!0&&l.disabled!==!0&&re(H,[13,32])&&(H.stopPropagation(),H.preventDefault(),F.value=l.date,ee.value.onClickDate!==void 0&&a("click-date",{scope:y,event:H}))},...ue("-date",(H,I)=>(H.stopPropagation(),(I==="click-date"||I==="contextmenu-date")&&(F.value=l.date),{scope:y,event:H}))};return e.noAria!==!0&&(b.ariaLabel=Xe.value(l)),[v?v({scope:y}):va(e,b,d?d({scope:y}):u),Ee.value===!0&&Qe()]}function Be(l,_){if(_===!0&&e.noOutsideDays===!0)return;const u=t["day-of-year"];return i("span",{class:{"q-calendar-month__day--day-of-year":!0,"q-calendar__ellipsis":!0}},u?u({scope:{timestamp:l}}):l.doy)}function c(l,_){if(_===!0&&e.noOutsideDays===!0)return;const u=t["month-label"],d=oe.value(l,e.shortMonthLabel||B.width<500),v={monthLabel:d,timestamp:l,miniMode:h.value},D={};return h.value!==!0&&K.value!==void 0&&(D.fontSize=K.value),i("span",{class:"q-calendar-month__day--month q-calendar__ellipsis",style:D},[u?u({scope:v}):h.value!==!0?d:void 0])}function q(){const{start:l,end:_}=Le.value;z.value=l.date,G.value=_.date;const u=B.width>0,d=Ot(i("div",{class:{"q-calendar-mini":h.value===!0,"q-calendar-month":!0},key:z.value},[u===!0&&e.noHeader!==!0&&kt(),u===!0&&yt()]),[[mt,ct]]);if(e.animated===!0){const v="q-calendar--"+(M.value==="prev"?e.transitionPrev:e.transitionNext);return i(Yt,{name:v,appear:!0},()=>d)}return d}return r({prev:ft,next:Ue,move:se,moveToToday:gt,updateCurrent:k}),()=>ge()}}),ka=xt({name:"QCalendarResource",props:{...Zt,...mn,...Ba,...Sa,...fa,...Lt,...Mt},emits:["update:model-value","update:model-resources","resource-expanded",...ta,...Jt,...He("-date"),...He("-interval"),...He("-head-day"),...He("-time"),...He("-head-resources"),...He("-resource")],setup(e,{slots:t,emit:a,expose:r}){const s=w(null),g=w(null),f=w(null),m=w(null),C=w(null),O=w(null),A=w({}),L=w({}),M=w("next"),z=w(et()),G=w("0000-00-00"),U=w(0),F=w(e.modelValue),B=Ct({width:0,height:0}),S=w(!1),T=w(!1),V=w(!1),_e=w(null),De=w(null);ne(()=>e.view,()=>{U.value=0});const me=x(()=>e.view==="month"?"month-interval":e.view),ee=x(()=>parseInt(e.cellWidth,10)),N=Et();if(N===null)throw new Error("current instance is null");const{emitListeners:Q}=ea(N),{times:Z,setCurrent:k,updateCurrent:Te}=jt(e);Te(),k();const{weekdaySkips:xe,parsedStart:Ne,parsedEnd:it,dayStyleDefault:tt}=Xt(e,{startDate:z,endDate:G,times:Z}),Xe=x(()=>Ae(e.modelValue,Z.now)||Ne.value||Z.today);O.value=Xe.value,C.value=Xe.value.date;const{renderValues:Ge}=Qt(e,{parsedView:me,times:Z,parsedValue:Xe}),{rootRef:be,__initCalendar:Se,__renderCalendar:Ie}=$t(e,pe,{scrollArea:s,pane:g}),{days:Le,intervals:Fe,intervalFormatter:ut,styleDefault:ge,scrollToTimeX:ce,timeDurationWidth:J,timeStartPosX:h,widthToMinutes:X}=Ha(e,{weekdaySkips:xe,times:Z,scrollArea:s,parsedStart:Ne,parsedEnd:it,maxDays:U,size:B,headerColumnRef:m}),{move:K}=pt(e,{parsedView:me,parsedValue:Xe,weekdaySkips:xe,direction:M,maxDays:U,times:Z,emittedValue:F,emit:a}),{getDefaultMouseEventHandlers:te}=Gt(a,Q),{checkChange:oe}=aa(a,{days:Le,lastStart:_e,lastEnd:De}),{isKeyCode:se}=Rt(),{tryFocus:ue}=na(e,{rootRef:be,focusRef:C,focusValue:O,datesRef:A,days:Le,parsedView:me,parsedValue:Xe,emittedValue:F,weekdaySkips:xe,direction:M,times:Z}),qe=x(()=>{const W=parseInt(e.resourceHeight,10);return W===0?"auto":W}),re=x(()=>parseInt(e.resourceMinHeight,10)),Ye=x(()=>parseInt(e.intervalHeaderHeight,10));ne([Le],oe,{deep:!0,immediate:!0}),ne(()=>e.modelValue,(W,le)=>{if(F.value!==W){if(e.animated===!0){const ie=j(he(W)),fe=j(he(le));M.value=ie>=fe?"next":"prev"}F.value=W}C.value=W}),ne(F,(W,le)=>{if(F.value!==e.modelValue){if(e.animated===!0){const ie=j(he(W)),fe=j(he(le));M.value=ie>=fe?"next":"prev"}a("update:model-value",W)}}),ne(C,W=>{W&&(O.value=Ae(W))}),ne(O,W=>{A.value[C.value]?A.value[C.value].focus():ue()}),Ut(()=>{A.value={},L.value={}}),Vt(()=>{Se()});function Re(){F.value=et()}function We(W=1){K(W)}function at(W=1){K(-W)}function ze({width:W,height:le}){B.width=W,B.height=le}function Ee(W){return W.date===F.value}function gt(){const W={height:p(Ye.value)};return i("div",{ref:f,roll:"presentation",class:{"q-calendar-resource__head":!0,"q-calendar__sticky":e.noSticky!==!0},style:W},[Ue(),ft()])}function Ue(){const W=t["head-resources"],le=p(Ye.value),ie={timestamps:Fe,date:e.modelValue,resources:e.modelResources};return i("div",{class:{"q-calendar-resource__head--resources":!0,"q-calendar__sticky":e.noSticky!==!0},style:{height:le},...te("-head-resources",fe=>({scope:ie,event:fe}))},[W&&W({scope:ie})])}function ft(){return i("div",{ref:m,class:{"q-calendar-resource__head--intervals":!0}},[Fe.value.map(W=>W.map((le,ie)=>ct(le,ie)))])}function ct(W,le){const ie=t["interval-label"],fe=e.noActiveDate!==!0&&Ee(W),ke=p(ee.value),ye=p(Ye.value),Be=e.shortIntervalLabel,c=ut.value(W,Be),q={timestamp:W,index:le,label:c};q.droppable=S.value===c;const l=e.intervalStyle||tt,_={width:ke,maxWidth:ke,minWidth:ke,height:ye,...l({scope:q})},u=typeof e.intervalClass=="function"?e.intervalClass({scope:q}):{},d=e.focusable===!0&&e.focusType.includes("interval");return i("div",{key:c,tabindex:d===!0?0:-1,class:{"q-calendar-resource__head--interval":!0,...u,"q-active-date":fe,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":d===!0},style:_,onDragenter:v=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc(v,"interval",q)===!0?S.value=c:S.value="")},onDragover:v=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc(v,"interval",q)===!0?S.value=c:S.value="")},onDragleave:v=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc(v,"interval",q)===!0?S.value=c:S.value="")},onDrop:v=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc(v,"interval",q)===!0?S.value=c:S.value="")},onFocus:v=>{d===!0&&(C.value=c)},...te("-interval",v=>({scope:q,event:v}))},[ie?ie({scope:q}):c,Qe()])}function rt(){return i("div",{class:"q-calendar-resource__body"},[ot()])}function ot(){return i("div",{ref:s,class:{"q-calendar-resource__scroll-area":!0,"q-calendar__scroll":!0}},[yt()])}function vt(){return i("div",{},"No resources have been defined")}function yt(){return i("div",{class:"q-calendar-resource__day--container"},[gt(),e.modelResources===void 0&&vt(),e.modelResources!==void 0&&kt()])}function kt(){return i("div",{class:"q-calendar-resource__resources--body"},lt())}function lt(W=void 0,le=0,ie=!0){return W===void 0&&(W=e.modelResources),W.map((fe,ke)=>$e(fe,ke,le,fe.children!==void 0?fe.expanded:ie))}function $e(W,le,ie=0,fe=!0){const ke={};ke.height=qe.value==="auto"?qe.value:p(qe.value),re.value>0&&(ke.minHeight=p(re.value));const ye=i("div",{key:W[e.resourceKey]+"-"+le,class:{"q-calendar-resource__resource--row":!0},style:ke},[Ze(W,le,ie,fe),Me(W,le)]);return W.children!==void 0?[ye,i("div",{class:{"q-calendar__child":!0,"q-calendar__child--expanded":fe===!0,"q-calendar__child--collapsed":fe!==!0}},[lt(W.children,ie+1,fe===!1?fe:W.expanded)])]:[ye]}function Ze(W,le,ie=0,fe=!0){const ke=t["resource-label"],ye={};ye.height=W.height!==void 0?p(parseInt(W.height,10)):qe.value?p(qe.value):"auto",re.value>0&&(ye.minHeight=p(re.value));const Be=e.resourceStyle||ge,c=W[e.resourceLabel],q=e.focusable===!0&&e.focusType.includes("resource")&&fe===!0,l={resource:W,timestamps:Fe,resourceIndex:le,indentLevel:ie,label:c},_=W[e.resourceKey];l.droppable=T.value===_;const u=typeof e.resourceClass=="function"?e.resourceClass({scope:l}):{};return i("div",{key:W[e.resourceKey]+"-"+le,ref:d=>{L.value[W[e.resourceKey]]=d},tabindex:q===!0?0:-1,class:{"q-calendar-resource__resource":ie===0,"q-calendar-resource__resource--section":ie!==0,...u,"q-calendar__sticky":e.noSticky!==!0,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":q===!0},style:{...ye,...Be({scope:l})},onDragenter:d=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc(d,"resource",l)===!0?T.value=_:T.value="")},onDragover:d=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc(d,"resource",l)===!0?T.value=_:T.value="")},onDragleave:d=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc(d,"resource",l)===!0?T.value=_:T.value="")},onDrop:d=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc(d,"resource",l)===!0?T.value=_:T.value="")},onKeydown:d=>{se(d,[13,32])&&(d.stopPropagation(),d.preventDefault())},onKeyup:d=>{se(d,[13,32])&&Q.value.onClickResource!==void 0&&a("click-resource",{scope:l,event:d})},...te("-resource",d=>({scope:l,event:d}))},[[i("div",{class:{"q-calendar__parent":W.children!==void 0,"q-calendar__parent--expanded":W.children!==void 0&&W.expanded===!0,"q-calendar__parent--collapsed":W.children!==void 0&&W.expanded!==!0},onClick:d=>{d.stopPropagation(),W.expanded=!W.expanded,a("resource-expanded",{expanded:W.expanded,scope:l})}}),i("div",{class:{"q-calendar-resource__resource--text":!0,"q-calendar__ellipsis":!0},style:{paddingLeft:10*ie+2+"px"}},[ke?ke({scope:l}):c]),Qe()]])}function Me(W,le){const ie=t["resource-intervals"],fe={resource:W,timestamps:Fe,resourceIndex:le,timeStartPosX:h,timeDurationWidth:J};return i("div",{class:"q-calendar-resource__resource--intervals"},[Fe.value.map(ke=>ke.map(ye=>Je(W,ye,le))),ie&&ie({scope:fe})])}function Je(W,le,ie){const fe=t["resource-interval"],ke=e.noActiveDate!==!0&&Ee(le),ye={activeDate:ke,resource:W,timestamp:le,resourceIndex:ie},Be=W[e.resourceKey],c=le.time+"-"+Be;ye.droppable=V.value===c;const q=e.focusable===!0&&e.focusType.includes("time"),l=e.intervalStyle||tt,_=p(ee.value),u={width:_,maxWidth:_,minWidth:_,...l({scope:ye})};return u.height=W.height!==void 0?p(parseInt(W.height,10)):qe.value>0?p(qe.value):"auto",re.value>0&&(u.minHeight=p(re.value)),i("div",{key:c,ref:d=>{A.value[W[e.resourceKey]]=d},tabindex:q===!0?0:-1,class:{"q-calendar-resource__resource--interval":!0,"q-active-date":ke,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":q===!0},style:u,onDragenter:d=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc(d,"time",ye)===!0?V.value=c:V.value="")},onDragover:d=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc(d,"time",ye)===!0?V.value=c:V.value="")},onDragleave:d=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc(d,"time",ye)===!0?V.value=c:V.value="")},onDrop:d=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc(d,"time",ye)===!0?V.value=c:V.value="")},onFocus:d=>{q===!0&&(C.value=c)},...te("-time",d=>({scope:ye,event:d}))},[fe&&fe({scope:ye}),Qe()])}function pe(){const{start:W,end:le,maxDays:ie}=Ge.value;(z.value!==W.date||G.value!==le.date||U.value!==ie)&&(z.value=W.date,G.value=le.date,U.value=ie);const fe=B.width>0,ke=Ot(i("div",{class:"q-calendar-resource",key:z.value},[fe===!0&&rt()]),[[mt,ze]]);if(e.animated===!0){const ye="q-calendar--"+(M.value==="prev"?e.transitionPrev:e.transitionNext);return i(Yt,{name:ye,appear:!0},()=>ke)}return ke}return r({prev:at,next:We,move:K,moveToToday:Re,updateCurrent:Te,timeStartPosX:h,timeDurationWidth:J,widthToMinutes:X,scrollToTimeX:ce}),()=>Ie()}}),wa=xt({name:"QCalendarScheduler",directives:[mt],props:{...Zt,..._n,...Sa,...fa,...Lt,...ya,...Mt},emits:["update:model-value","update:model-resources","resource-expanded",...ta,...Jt,...He("-date"),...He("-day-resource"),...He("-head-resources"),...He("-head-day"),...He("-resource")],setup(e,{slots:t,emit:a,expose:r}){const s=w(null),g=w(null),f=w(null),m=w(null),C=w(null),O=w({}),A=w({}),L=w({}),M=w({}),z=w("next"),G=w(e.modelValue||et()),U=w("0000-00-00"),F=w(0),B=w(e.modelValue),S=Ct({width:0,height:0}),T=w(!1),V=w(!1),_e=w(null),De=w(null);ne(()=>e.view,()=>{F.value=0});const me=x(()=>e.view==="month"?"month-interval":e.view),ee=Et();if(ee===null)throw new Error("current instance is null");const{emitListeners:N}=ea(ee),{isSticky:Q}=Ta(e),{times:Z,setCurrent:k,updateCurrent:Te}=jt(e);Te(),k();const{weekdaySkips:xe,parsedStart:Ne,parsedEnd:it,dayFormatter:tt,weekdayFormatter:Xe,ariaDateFormatter:Ge,dayStyleDefault:be,getRelativeClasses:Se}=Xt(e,{startDate:G,endDate:U,times:Z}),Ie=x(()=>Ae(e.modelValue,Z.now)||Ne.value||Z.today);C.value=Ie.value,m.value=Ie.value.date;const{renderValues:Le}=Qt(e,{parsedView:me,parsedValue:Ie,times:Z}),{rootRef:Fe,scrollWidth:ut,__initCalendar:ge,__renderCalendar:ce}=$t(e,D,{scrollArea:s,pane:g}),{days:J,parsedCellWidth:h,styleDefault:X}=Ha(e,{weekdaySkips:xe,times:Z,scrollArea:s,parsedStart:Ne,parsedEnd:it,maxDays:F,size:S,headerColumnRef:f}),{move:K}=pt(e,{parsedView:me,parsedValue:Ie,weekdaySkips:xe,direction:z,maxDays:F,times:Z,emittedValue:B,emit:a}),{getDefaultMouseEventHandlers:te}=Gt(a,N),{checkChange:oe}=aa(a,{days:J,lastStart:_e,lastEnd:De}),{isKeyCode:se}=Rt(),{tryFocus:ue}=na(e,{rootRef:Fe,focusRef:m,focusValue:C,datesRef:O,days:J,parsedView:me,parsedValue:Ie,emittedValue:B,weekdaySkips:xe,direction:z,times:Z}),qe=x(()=>me.value==="day"&&parseInt(e.columnCount,10)>1?parseInt(e.columnCount,10):me.value==="day"&&e.maxDays&&e.maxDays>1?e.maxDays:J.value.length),re=x(()=>Fe.value?parseInt(getComputedStyle(Fe.value).getPropertyValue("--calendar-resources-width"),10):0),Ye=x(()=>{const n=parseInt(e.resourceHeight,10);return n===0?"auto":n}),Re=x(()=>parseInt(e.resourceMinHeight,10)),We=x(()=>{if(Fe.value){const n=S.width||Fe.value.getBoundingClientRect().width;if(n&&re.value&&qe.value)return(n-ut.value-re.value)/qe.value+"px"}return 100/qe.value+"%"});ne([J],oe,{deep:!0,immediate:!0}),ne(()=>e.modelValue,(n,y)=>{if(B.value!==e.modelValue){if(e.animated===!0){const b=j(he(n)),H=j(he(y));z.value=b>=H?"next":"prev"}B.value=n}m.value=n}),ne(B,(n,y)=>{if(B.value!==e.modelValue){if(e.animated===!0){const b=j(he(n)),H=j(he(y));z.value=b>=H?"next":"prev"}a("update:model-value",n)}}),ne(m,n=>{n&&(C.value=Ae(n))}),ne(C,n=>{O.value[m.value]?O.value[m.value].focus():ue()}),ne(()=>e.maxDays,n=>{F.value=n}),Ut(()=>{O.value={},L.value={},M.value={},A.value={}}),Vt(()=>{ge()});function at(){B.value=et()}function ze(n=1){K(n)}function Ee(n=1){K(-n)}function gt({width:n,height:y}){S.width=n,S.height=y}function Ue(n){return n.date===B.value}function ft(){return i("div",{roll:"presentation",class:{"q-calendar-scheduler__head":!0,"q-calendar__sticky":Q.value===!0},style:{marginRight:ut.value+"px"}},[ct(),rt()])}function ct(){const n=t["head-resources"],y={days:J.value,timestamps:J.value,date:e.modelValue,resources:e.modelResources};return i("div",{class:{"q-calendar-scheduler__head--resources":!0,"q-calendar__sticky":Q.value===!0},...te("-head-resources",b=>({scope:y,event:b}))},[n&&n({scope:y})])}function rt(){return i("div",{ref:f,class:{"q-calendar-scheduler__head--days__column":!0}},[ot(),vt()])}function ot(){return i("div",{class:{"q-calendar-scheduler__head--days__weekdays":!0}},[...yt()])}function vt(){const n=t["head-days-events"];return ba(()=>{if(M.value&&parseInt(e.columnCount,10)===0&&window)try{const y=window.getComputedStyle(M.value);L.value.parentElement.style.height=y.height,L.value.style.height=y.height}catch{}}),i("div",{class:{"q-calendar-scheduler__head--days__event":!0}},[n&&i("div",{ref:L,style:{position:"absolute",left:0,top:0,right:0,overflow:"hidden",zIndex:1}},[n({scope:{timestamps:J.value,days:J.value,ref:M}})]),...kt()])}function yt(){return J.value.length===1&&parseInt(e.columnCount,10)>0?Array.apply(null,new Array(parseInt(e.columnCount,10))).map((n,y)=>y+parseInt(e.columnIndexStart,10)).map(n=>lt(J.value[0],n)):J.value.map(n=>lt(n))}function kt(){return J.value.length===1&&parseInt(e.columnCount,10)>0?Array.apply(null,new Array(parseInt(e.columnCount,10))).map((n,y)=>y+parseInt(e.columnIndexStart,10)).map(n=>Ze(J.value[0],n)):J.value.map(n=>Ze(n))}function lt(n,y){const b=t["head-day"],H=t["head-date"],I=e.noActiveDate!==!0&&Ue(n),E={timestamp:n,activeDate:I,droppable:T.value===n.date,disabled:e.disabledWeekdays?e.disabledWeekdays.includes(n.weekday):!1};y!==void 0&&(E.columnIndex=y);const ve=Q.value===!0?p(h.value):We.value,$=e.weekdayStyle||be,dt={width:ve,maxWidth:ve,minWidth:ve,...$({scope:E})};Q.value===!0&&(dt.minWidth=ve);const o=typeof e.weekdayClass=="function"?e.weekdayClass({scope:E}):{},R=e.focusable===!0&&e.focusType.includes("weekday"),P=n.date+(y!==void 0?"-"+y:""),Y={key:P,ref:ae=>{O.value[P]=ae},tabindex:R===!0?0:-1,class:{"q-calendar-scheduler__head--day":!0,...o,...Se(n),"q-active-date":I,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":R===!0},style:dt,onFocus:ae=>{R===!0&&(m.value=P)},onKeydown:ae=>{n.disabled!==!0&&se(ae,[13,32])&&(ae.stopPropagation(),ae.preventDefault())},onKeyup:ae=>{n.disabled!==!0&&se(ae,[13,32])&&(B.value=n.date)},...te("-head-day",ae=>({scope:E,event:ae})),onDragenter:ae=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc(ae,"head-day",E)===!0?T.value=n.date:T.value="")},onDragover:ae=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc(ae,"head-day",E)===!0?T.value=n.date:T.value="")},onDragleave:ae=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc(ae,"head-day",E)===!0?T.value=n.date:T.value="")},onDrop:ae=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc(ae,"head-day",E)===!0?T.value=n.date:T.value="")}};return i("div",Y,[b!==void 0&&b({scope:E}),b===void 0&&le(n,y),b===void 0&&$e(n),b===void 0&&H&&H({scope:E}),b===void 0&&ie(n,y),Qe()])}function $e(n){if(e.dateHeader==="stacked")return[e.noDefaultHeaderText!==!0&&Me(n),e.noDefaultHeaderBtn!==!0&&pe(n)];if(e.dateHeader==="inline")return e.weekdayAlign==="left"&&e.dateAlign==="right"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderText!==!0&&Me(n),e.noDefaultHeaderBtn!==!0&&pe(n)]):e.weekdayAlign==="right"&&e.dateAlign==="left"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderText!==!0&&Me(n),e.noDefaultHeaderBtn!==!0&&pe(n)]):i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderText!==!0&&Me(n),e.noDefaultHeaderBtn!==!0&&pe(n)]);if(e.dateHeader==="inverted")return e.weekdayAlign==="left"&&e.dateAlign==="right"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderBtn!==!0&&pe(n),e.noDefaultHeaderText!==!0&&Me(n)]):e.weekdayAlign==="right"&&e.dateAlign==="left"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderBtn!==!0&&pe(n),e.noDefaultHeaderText!==!0&&Me(n)]):i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderBtn!==!0&&pe(n),e.noDefaultHeaderText!==!0&&Me(n)])}function Ze(n,y){const b=t["head-day-event"],H=e.noActiveDate!==!0&&Ue(n),I={timestamp:n,activeDate:H,droppable:T.value===n.date,disabled:e.disabledWeekdays?e.disabledWeekdays.includes(n.weekday):!1};y!==void 0&&(I.columnIndex=y);const E=Q.value===!0?p(h.value):We.value,ve={width:E,maxWidth:E,minWidth:E};return Q.value===!0&&(ve.minWidth=E),i("div",{key:"event-"+n.date+(y!==void 0?"-"+y:""),class:{"q-calendar-scheduler__head--day__event":!0,...Se(n),"q-active-date":H},style:ve},[b&&b({scope:I})])}function Me(n){const y=t["head-weekday-label"],b=e.shortWeekdayLabel===!0,H={timestamp:n,shortWeekdayLabel:b},I={class:{"q-calendar-scheduler__head--weekday":!0,["q-calendar__"+e.weekdayAlign]:!0,"q-calendar__ellipsis":!0}};return i("div",I,y&&y({scope:H})||Je(n,b))}function Je(n,y){const b=Xe.value(n,y||e.weekdayBreakpoints[0]>0&&h.value<=e.weekdayBreakpoints[0]);return i("span",{class:"q-calendar-scheduler__head--weekday-label q-calendar__ellipsis"},e.weekdayBreakpoints[1]>0&&h.value<=e.weekdayBreakpoints[1]?sa(b,e.minWeekdayLabel):b)}function pe(n){const y={class:{"q-calendar-scheduler__head--date":!0,["q-calendar__"+e.dateAlign]:!0}};return i("div",y,W(n))}function W(n){const y=e.noActiveDate!==!0&&Ue(n),b=tt.value(n,!1),H=t["head-day-label"],I=t["head-day-button"],E={dayLabel:b,timestamp:n,activeDate:y},ve={class:{"q-calendar-scheduler__head--day__label":!0,"q-calendar__button":!0,"q-calendar__button--round":e.dateType==="round","q-calendar__button--rounded":e.dateType==="rounded","q-calendar__button--bordered":n.current===!0,"q-calendar__focusable":!0},disabled:n.disabled,onKeydown:$=>{n.disabled!==!0&&se($,[13,32])&&($.stopPropagation(),$.preventDefault())},onKeyup:$=>{n.disabled!==!0&&se($,[13,32])&&(B.value=n.date,N.value.onClickDate!==void 0&&a("click-date",{scope:E}))},...te("-date",($,dt)=>((dt==="click-date"||dt==="contextmenu-date")&&(B.value=n.date,dt==="click-date"&&$.preventDefault()),{scope:E,event:$}))};return e.noAria!==!0&&(ve.ariaLabel=Ge.value(n)),I?I({scope:E}):va(e,ve,H?H({scope:E}):b)}function le(n,y){const b=t["column-header-before"];if(b)return i("div",{class:"q-calendar-scheduler__column-header--before"},[b({scope:{timestamp:n,columnIndex:y}})])}function ie(n,y){const b=t["column-header-after"];if(b)return i("div",{class:"q-calendar-scheduler__column-header--after"},[b({scope:{timestamp:n,columnIndex:y}})])}function fe(){return i("div",{class:"q-calendar-scheduler__body"},[ke()])}function ke(){return Q.value===!0?i("div",{ref:s,class:{"q-calendar-scheduler__scroll-area":!0,"q-calendar__scroll":!0}},[Q.value!==!0&&_(),Be()]):e.noScroll===!0?ye():i("div",{ref:s,class:{"q-calendar-scheduler__scroll-area":!0,"q-calendar__scroll":!0}},[ye()])}function ye(){return i("div",{ref:g,class:"q-calendar-scheduler__pane"},[Be()])}function Be(){return i("div",{class:"q-calendar-scheduler__day--container"},[Q.value===!0&&e.noHeader!==!0&&ft(),c()])}function c(n=void 0,y=0,b=!0){return n===void 0&&(n=e.modelResources),n.map((H,I)=>q(H,I,y,H.children!==void 0?H.expanded:b))}function q(n,y,b=0,H=!0){const I={};I.height=n.height!==void 0?p(parseInt(n.height,10)):Ye.value?p(Ye.value):"auto",Re.value>0&&(I.minHeight=p(Re.value));const E=i("div",{key:n[e.resourceKey]+"-"+y,class:{"q-calendar-scheduler__resource--row":!0},style:I},[l(n,y,b,H),_(n,y,b,H)]);return n.children!==void 0?[E,i("div",{class:{"q-calendar__child":!0,"q-calendar__child--expanded":H===!0,"q-calendar__child--collapsed":H!==!0}},[c(n.children,b+1,H===!1?H:n.expanded)])]:[E]}function l(n,y,b=0,H=!0){const I=t["resource-label"],E={};E.height=n.height!==void 0?p(parseInt(n.height,10)):Ye.value?p(Ye.value):"auto",parseInt(e.resourceMinHeight,10)>0&&(E.minHeight=p(parseInt(e.resourceMinHeight,10)));const ve=e.resourceStyle||X,$=n[e.resourceLabel],dt=e.focusable===!0&&e.focusType.includes("resource")&&H===!0,o={resource:n,timestamps:J.value,days:J.value,resourceIndex:y,indentLevel:b,label:$},R=n[e.resourceKey];o.droppable=V.value===R;const P=typeof e.resourceClass=="function"?e.resourceClass({scope:o}):{};return i("div",{key:n[e.resourceKey]+"-"+y,ref:Y=>{A.value[n[e.resourceKey]]=Y},tabindex:dt===!0?0:-1,class:{"q-calendar-scheduler__resource":b===0,"q-calendar-scheduler__resource--section":b!==0,...P,"q-calendar__sticky":Q.value===!0,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":dt===!0},style:{...E,...ve({scope:o})},onDragenter:Y=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc(Y,"resource",o)===!0?V.value=R:V.value="")},onDragover:Y=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc(Y,"resource",o)===!0?V.value=R:V.value="")},onDragleave:Y=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc(Y,"resource",o)===!0?V.value=R:V.value="")},onDrop:Y=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc(Y,"resource",o)===!0?V.value=R:V.value="")},onKeydown:Y=>{se(Y,[13,32])&&(Y.stopPropagation(),Y.preventDefault())},onKeyup:Y=>{se(Y,[13,32])&&N.value.onClickResource!==void 0&&a("click-resource",{scope:o,event:Y})},...te("-resource",Y=>({scope:o,event:Y}))},[[i("div",{class:{"q-calendar__parent":n.children!==void 0,"q-calendar__parent--expanded":n.children!==void 0&&n.expanded===!0,"q-calendar__parent--collapsed":n.children!==void 0&&n.expanded!==!0},onClick:Y=>{Y.stopPropagation(),n.expanded=!n.expanded,a("resource-expanded",{expanded:n.expanded,scope:o})}}),i("div",{class:{"q-calendar-scheduler__resource--text":!0,"q-calendar__ellipsis":!0},style:{paddingLeft:10*b+2+"px"}},[I?I({scope:o}):$]),Qe()]])}function _(n,y,b=0,H=!0){const I=t["resource-days"],E=Q.value===!0?p(h.value):We.value,ve={resource:n,resourceIndex:y,indentLevel:b,expanded:H,cellWidth:E,timestamps:J.value,days:J.value},$={};return $.height=parseInt(e.resourceHeight,10)>0?p(parseInt(e.resourceHeight,10)):"auto",parseInt(e.resourceMinHeight,10)>0&&($.minHeight=p(parseInt(e.resourceMinHeight,10))),i("div",{class:"q-calendar-scheduler__resource--days",style:$},[...u(n,y,b,H),I&&I({scope:ve})])}function u(n,y,b=0,H=!0){return J.value.length===1&&parseInt(e.columnCount,10)>0?Array.apply(null,new Array(parseInt(e.columnCount,10))).map((I,E)=>E+parseInt(e.columnIndexStart,10)).map(I=>d(J.value[0],I,n,y,b,H)):J.value.map(I=>d(I,void 0,n,y,b,H))}function d(n,y,b,H,I=0,E=!0){const ve=t.day,$=e.dayStyle||be,dt=e.noActiveDate!==!0&&Ie.value.date===n.date,o=n.date+":"+b[e.resourceKey]+(y!==void 0?":"+y:""),R=V.value===o,P={timestamp:n,columnIndex:y,resource:b,resourceIndex:H,indentLevel:I,activeDate:dt,droppable:R},Y=Q.value===!0?p(h.value):We.value,ae={width:Y,maxWidth:Y,...$({scope:P})};ae.height=parseInt(e.resourceHeight,10)>0?p(parseInt(e.resourceHeight,10)):"auto",parseInt(e.resourceMinHeight,10)>0&&(ae.minHeight=p(parseInt(e.resourceMinHeight,10)));const de=typeof e.dayClass=="function"?e.dayClass({scope:P}):{},Pe=e.focusable===!0&&e.focusType.includes("day")&&E===!0;return i("div",{key:n.date+(y!==void 0?":"+y:""),tabindex:Pe===!0?0:-1,class:{"q-calendar-scheduler__day":I===0,"q-calendar-scheduler__day--section":I!==0,...de,...Se(n),"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":Pe===!0},style:ae,onDragenter:we=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc(we,"day",P)===!0?V.value=o:V.value="")},onDragover:we=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc(we,"day",P)===!0?V.value=o:V.value="")},onDragleave:we=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc(we,"day",P)===!0?V.value=o:V.value="")},onDrop:we=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc(we,"day",P)===!0?V.value=o:V.value="")},onKeydown:we=>{se(we,[13,32])&&(we.stopPropagation(),we.preventDefault())},onKeyup:we=>{se(we,[13,32])&&(B.value=P.timestamp.date,N.value.onClickResource!==void 0&&a("click-resource",{scope:P,event:we}))},...te("-day-resource",we=>({scope:P,event:we}))},[ve&&ve({scope:P}),Qe()])}function v(){return i("div",{},"No resources have been defined")}function D(){const{start:n,end:y,maxDays:b}=Le.value;(G.value!==n.date||U.value!==y.date||F.value!==b)&&(G.value=n.date,U.value=y.date,F.value=b);const H=S.width>0,I=e.modelResources&&e.modelResources.length>0,E=Ot(i("div",{key:G.value,class:"q-calendar-scheduler"},[H===!0&&I===!0&&Q.value!==!0&&e.noHeader!==!0&&ft(),H===!0&&I===!0&&fe(),I===!1&&v()]),[[mt,gt]]);if(e.animated===!0){const ve="q-calendar--"+(z.value==="prev"?e.transitionPrev:e.transitionNext);return i(Yt,{name:ve,appear:!0},()=>E)}return E}return r({prev:Ee,next:ze,move:K,moveToToday:at,updateCurrent:Te}),()=>ce()}});const Dn={modelValue:{type:String,default:et(),validator:e=>e===""||qa(e)},modelTasks:{type:Array,default:[]},modelTitle:{type:Array,default:[]},modelFooter:{type:Array,default:[]},taskKey:{type:[String,Number],default:"id"},weekdays:{type:Array,default:()=>[0,1,2,3,4,5,6]},dateType:{type:String,default:"round",validator:e=>["round","rounded","square"].includes(e)},dateHeader:{type:String,default:"stacked",validator:e=>["stacked","inline","inverted"].includes(e)},weekdayAlign:{type:String,default:"center",validator:e=>["left","center","right"].includes(e)},dateAlign:{type:String,default:"center",validator:e=>["left","center","right"].includes(e)},view:{type:String,validator:e=>["day","week","month"].includes(e)},viewCount:{type:Number,default:1,validator:e=>Ve(e)&&e>0},bordered:Boolean,dark:Boolean,noAria:Boolean,noActiveDate:Boolean,shortWeekdayLabel:Boolean,noHeader:Boolean,noDefaultHeaderText:Boolean,noDefaultHeaderBtn:Boolean,cellWidth:[Number,String],minWeekdayLabel:{type:[Number,String],default:2},weekdayBreakpoints:{type:Array,default:()=>[75,35],validator:e=>e.length===2},locale:{type:String,default:"en-US"},animated:Boolean,transitionPrev:{type:String,default:"slide-right"},transitionNext:{type:String,default:"slide-left"},disabledDays:Array,disabledBefore:String,disabledAfter:String,disabledWeekdays:{type:Array,default:()=>[]},weekdayClass:Function,dayClass:Function,footerDayClass:Function,dragEnterFunc:{type:Function},dragOverFunc:{type:Function},dragLeaveFunc:{type:Function},dropFunc:{type:Function},hoverable:Boolean,focusable:Boolean,focusType:{type:Array,default:["date"],validator:e=>{let t=!0;return e.forEach(a=>{["day","date","weekday","interval","resource","task"].includes(a)!==!0&&(t=!1)}),t}},taskWidth:{type:Number,default:200,validator:e=>Ve(e)&&e>0}};function Jn(e,t,{weekdaySkips:a,times:r}){const s=x(()=>{if(e.view==="day")return Ae(e.modelValue);if(e.view==="week")return It(Ae(e.modelValue),e.weekdays,r.today);if(e.view==="month")return Pt(Ae(e.modelValue),e.weekdays,r.today);throw new Error(`QCalendarTask: unknown 'view' type (${e.view})`)}),g=x(()=>{if(e.view==="day"){if(e.viewCount===1)return s.value;let m=Ce(s.value);return m=Oe(m,{day:e.viewCount-1}),m}else if(e.view==="week"){if(e.viewCount===1)return qt(Ae(e.modelValue),e.weekdays,r.today);{let m=Ce(s.value);return m=Oe(m,{day:(e.viewCount-1)*Ft}),qt(m,e.weekdays,r.today)}}else if(e.view==="month"){if(e.viewCount===1)return At(Ae(e.modelValue),e.weekdays,r.today);{let m=Ce(s.value);return m=Oe(m,{month:e.viewCount}),At(m,e.weekdays,r.today)}}else throw new Error(`QCalendarTask: unknown 'view' type (${e.view})`)});return{days:x(()=>ca(s.value,g.value,r.today,a.value,e.disabledBefore,e.disabledAfter,e.disabledWeekdays,e.disabledDays,Number.MAX_SAFE_INTEGER)),parsedStartDate:s,parsedEndDate:g}}var Da=xt({name:"QCalendarTask",directives:[mt],props:{...Lt,...Mt,...Dn},emits:["update:model-value","update:model-tasks","update:model-title","update:model-footer","task-expanded",...ta,...Jt,...He("-date"),...He("-day"),...He("-head-day")],setup(e,{slots:t,emit:a,expose:r}){const s=w(null),g=w(null),f=w("next"),m=w(e.modelValue||et()),C=w("0000-00-00"),O=w(0),A=w(e.modelValue),L=w(null),M=w(null),z=w({}),G=Ct({width:0,height:0}),U=w(!1),F=w(null),B=w(null);ne(()=>e.view,()=>{O.value=0});const S=x(()=>e.view==="month"?"month-interval":e.view),T=Et();if(T===null)throw new Error("current instance is null");const{emitListeners:V}=ea(T),{times:_e,setCurrent:De,updateCurrent:me}=jt(e);me(),De();const{weekdaySkips:ee,parsedStart:N,dayFormatter:Q,weekdayFormatter:Z,ariaDateFormatter:k,dayStyleDefault:Te,getRelativeClasses:xe}=Xt(e,{startDate:m,endDate:C,times:_e}),Ne=x(()=>Ae(e.modelValue,_e.now)||N.value||_e.today);M.value=Ne.value,L.value=Ne.value.date;const{renderValues:it}=Qt(e,{parsedView:S,times:_e,parsedValue:Ne}),{rootRef:tt,__initCalendar:Xe,__renderCalendar:Ge}=$t(e,_,{scrollArea:s,pane:g}),{days:be,parsedStartDate:Se,parsedEndDate:Ie}=Jn(e,a,{weekdaySkips:ee,times:_e}),{move:Le}=pt(e,{parsedView:S,parsedValue:Ne,weekdaySkips:ee,direction:f,maxDays:O,times:_e,emittedValue:A,emit:a}),{getDefaultMouseEventHandlers:Fe}=Gt(a,V),{checkChange:ut}=aa(a,{days:be,lastStart:F,lastEnd:B}),{isKeyCode:ge}=Rt(),{tryFocus:ce}=na(e,{rootRef:tt,focusRef:L,focusValue:M,datesRef:z,days:be,parsedView:S,parsedValue:Ne,emittedValue:A,weekdaySkips:ee,direction:f,times:_e}),J=w(!0),h=x(()=>e.cellWidth!==void 0?parseInt(e.cellWidth,10):150),X=x(()=>e.focusable===!0&&e.focusType.includes("day")&&isMiniMode.value!==!0),K=x(()=>e.focusable===!0&&e.focusType.includes("date")&&X.value!==!0),te=x(()=>e.focusable===!0&&e.focusType.includes("weekday")),oe=x(()=>parseInt(e.dayHeight,10)),se=x(()=>parseInt(e.dayMinHeight,10));ne([be],ut,{deep:!0,immediate:!0}),ne(()=>e.modelValue,(u,d)=>{if(A.value!==u){if(e.animated===!0){const v=j(he(u)),D=j(he(d));f.value=v>=D?"next":"prev"}A.value=u}L.value=u}),ne(A,(u,d)=>{if(A.value!==e.modelValue){if(e.animated===!0){const v=j(he(u)),D=j(he(d));f.value=v>=D?"next":"prev"}a("update:model-value",u)}}),ne(L,u=>{u&&(M.value=Ae(u))}),ne(M,u=>{z.value[L.value]?z.value[L.value].focus():ce()}),Ut(()=>{z.value={}}),Vt(()=>{Xe()});function ue(){A.value=et()}function qe(u=1){Le(u)}function re(u=1){Le(-u)}function Ye({width:u,height:d}){G.width=u,G.height=d}function Re(u){return u.date===A.value}function We(u,d,v){const D=t.day,n=e.dayStyle||Te,y=e.noActiveDate!==!0&&Ne.value.date===u.date,b={timestamp:u,task:d,taskIndex:v,activeDate:y},H=p(h.value),I={width:H,minWidth:H,maxWidth:H,...n({scope:b})},E=typeof e.dayClass=="function"?e.dayClass({scope:b}):{};return i("div",{tabindex:X.value===!0?0:-1,class:{"q-calendar-task__task--day":!0,...E,...xe(u),"q-active-date":y===!0,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":X.value===!0},style:I,onFocus:ve=>{X.value},...Fe("-day",ve=>({scope:b,event:ve})),onDragenter:ve=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc(ve,"day",b)===!0?dragOverResource.value=dragValue:dragOverResource.value="")},onDragover:ve=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc(ve,"day",b)===!0?dragOverResource.value=dragValue:dragOverResource.value="")},onDragleave:ve=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc(ve,"day",b)===!0?dragOverResource.value=dragValue:dragOverResource.value="")},onDrop:ve=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc(ve,"day",b)===!0?dragOverResource.value=dragValue:dragOverResource.value="")}},[D&&D({scope:b}),Qe()])}function at(u,d){return be.value.map(v=>We(v,u,d))}function ze(u,d){const v=t.days,D={timestamps:be.value,days:be.value,task:u,taskIndex:d,cellWidth:h.value};return i("div",{class:"q-calendar-task__task--days-row"},[at(u,d),v&&v({scope:D})])}function Ee(u,d,v=0,D=!0){const n=t.task,y={start:Se.value,end:Ie.value,task:u,taskIndex:d,expanded:D},b=p(e.taskWidth),H={width:b,minWidth:b,maxWidth:b},I=e.focusable===!0&&e.focusType.includes("task");return i("div",{class:{"q-calendar-task__task--item":!0,"q-calendar__sticky":J.value===!0,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":I===!0},style:H},[i("div",{style:{flexDirection:"column",justifyContent:"center",alignItems:"center",width:10+10*v+"px"}},[i("div",{class:{"q-calendar__parent":u.children!==void 0,"q-calendar__parent--expanded":u.children!==void 0&&u.expanded===!0,"q-calendar__parent--collapsed":u.children!==void 0&&u.expanded!==!0},onClick:E=>{E.stopPropagation(),u.expanded=!u.expanded,a("task-expanded",{expanded:u.expanded,scope:y})}})]),n&&n({scope:y}),Qe()])}function gt(u,d,v=0,D=!0){const n=u.height!==void 0?p(parseInt(u.height,10)):oe.value>0?p(oe.value):"auto",y=se.value>0?p(se.value):void 0,b={height:n};y!==void 0&&(b.minHeight=y);const H=i("div",{key:u[e.taskKey]+"-"+d,class:{"q-calendar-task__task":v===0,"q-calendar-task__task--section":v!==0},style:b},[Ee(u,d,v,D),ze(u,d)]);return u.children!==void 0?[H,i("div",{class:{"q-calendar__child":!0,"q-calendar__child--expanded":D===!0,"q-calendar__child--collapsed":D!==!0}},[Ue(u.children,v+1,D===!1?D:u.expanded)])]:[H]}function Ue(u=void 0,d=0,v=!0){return u===void 0&&(u=e.modelTasks),u.map((D,n)=>gt(D,n,d,D.children!==void 0?D.expanded:v))}function ft(){return i("div",{class:{"q-calendar-task__task--container":!0,"q-calendar__sticky":J.value===!0}},[Ue()])}function ct(u,d){const v=t["footer-task"],D={start:Se.value,end:Ie.value,footer:u,index:d},n=p(e.taskWidth),y={width:n,minWidth:n,maxWidth:n};return i("div",{class:{"q-calendar-task__footer--task":!0,"q-calendar__sticky":J.value===!0},style:y},[v&&v({scope:D})])}function rt(u,d,v){const D=t["footer-day"],n={timestamp:u,footer:d,index:v},y=p(h.value),b={width:y,minWidth:y,maxWidth:y},H=typeof e.footerDayClass=="function"?e.footerDayClass({scope:n}):{};return i("div",{class:{"q-calendar-task__footer--day":!0,...H,...xe(u),"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":X.value===!0},style:b},[D&&D({scope:n})])}function ot(u,d){return i("div",{class:"q-calendar-task__footer--day-wrapper"},[be.value.map(v=>rt(v,u,d))])}function vt(){const u=e.focusable===!0&&e.focusType.includes("task");return e.modelFooter.map((d,v)=>i("div",{class:{"q-calendar-task__footer--wrapper":!0,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":u===!0}},{default:()=>[ct(d,v),ot(d,v)]}))}function yt(){return i("div",{class:{"q-calendar-task__footer":!0,"q-calendar__sticky":J.value===!0}},vt())}function kt(){return i("div",{class:{"q-calendar-task__container":!0}},[e.noHeader!==!0&&c(),ft(),yt()])}function lt(){const u=t["head-tasks"],d={start:Se.value,end:Ie.value},v=p(parseInt(e.taskWidth,10)),D={width:v,minWidth:v,maxWidth:v};return i("div",{class:{"q-calendar-task__head--tasks":!0,"q-calendar__sticky":J.value===!0},style:D},[u&&u({scope:d})])}function $e(u,d){const v=t["title-task"],D=p(parseInt(e.taskWidth,10)),n={width:D,minWidth:D,maxWidth:D},y={start:Se.value,end:Ie.value,cellWidth:D,title:u,index:d};return i("div",{class:{"q-calendar-task__title--task":!0,"q-calendar__sticky":J.value===!0},style:n},[v&&v({scope:y})])}function Ze(u){const d=t["head-weekday-label"],D={activeDate:e.noActiveDate!==!0&&Re(u),timestamp:u,disabled:e.disabledWeekdays?e.disabledWeekdays.includes(u.weekday):!1},n={class:{"q-calendar-task__head--weekday":!0,["q-calendar__"+e.weekdayAlign]:!0,"q-calendar__ellipsis":!0}};return i("div",n,d&&d({scope:D})||Me(u,e.shortWeekdayLabel))}function Me(u,d){const v=Z.value(u,d||e.weekdayBreakpoints[0]>0&&h.value<=e.weekdayBreakpoints[0]);return i("span",{class:"q-calendar__ellipsis"},e.weekdayBreakpoints[1]>0&&h.value<=e.weekdayBreakpoints[1]?sa(v,e.minWeekdayLabel):v)}function Je(u){const d={class:{"q-calendar-task__head--date":!0,["q-calendar__"+e.dateAlign]:!0}};return i("div",d,pe(u))}function pe(u){const d=e.noActiveDate!==!0&&Re(u),v=Q.value(u,!1),D=t["head-day-label"],n=t["head-day-button"],y={dayLabel:v,timestamp:u,activeDate:d},H={key:u.date,tabindex:K.value===!0?0:-1,class:{"q-calendar-task__head--day__label":!0,"q-calendar__button":!0,"q-calendar__button--round":e.dateType==="round","q-calendar__button--rounded":e.dateType==="rounded","q-calendar__button--bordered":u.current===!0,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":K.value===!0},disabled:u.disabled,onKeydown:I=>{u.disabled!==!0&&ge(I,[13,32])&&(I.stopPropagation(),I.preventDefault())},onKeyup:I=>{u.disabled!==!0&&ge(I,[13,32])&&(A.value=u.date,V.value.onClickDate!==void 0&&a("click-date",{scope:y}))},...Fe("-date",(I,E)=>((E==="click-date"||E==="contextmenu-date")&&(A.value=u.date,E==="click-date"&&I.preventDefault()),{scope:y,event:I}))};return e.noAria!==!0&&(H.ariaLabel=k.value(u)),n?n({scope:y}):va(e,H,D?D({scope:y}):v)}function W(u){if(e.dateHeader==="stacked")return[e.noDefaultHeaderText!==!0&&Ze(u),e.noDefaultHeaderBtn!==!0&&Je(u)];if(e.dateHeader==="inline")return e.weekdayAlign==="left"&&e.dateAlign==="right"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderText!==!0&&Ze(u),e.noDefaultHeaderBtn!==!0&&Je(u)]):e.weekdayAlign==="right"&&e.dateAlign==="left"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderText!==!0&&Ze(u),e.noDefaultHeaderBtn!==!0&&Je(u)]):i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderText!==!0&&Ze(u),e.noDefaultHeaderBtn!==!0&&Je(u)]);if(e.dateHeader==="inverted")return e.weekdayAlign==="left"&&e.dateAlign==="right"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderBtn!==!0&&Je(u),e.noDefaultHeaderText!==!0&&Ze(u)]):e.weekdayAlign==="right"&&e.dateAlign==="left"?i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderBtn!==!0&&Je(u),e.noDefaultHeaderText!==!0&&Ze(u)]):i("div",{class:"q-calendar__header--inline"},[e.noDefaultHeaderBtn!==!0&&Je(u),e.noDefaultHeaderText!==!0&&Ze(u)])}function le(u,d,v){const D=t["title-day"],n=p(h.value),y={width:n,minWidth:n,maxWidth:n},b={timestamp:u,title:d,index:v,cellWidth:h.value},H=typeof e.dayClass=="function"?e.dayClass({scope:b}):{},I=e.focusable===!0&&e.focusType.includes("day");return i("div",{class:{"q-calendar-task__title--day":!0,...H,...xe(u),"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":I===!0},style:y},[D&&D({scope:b}),Qe()])}function ie(u){const d=t["head-day"],v=t["head-date"],D=e.noActiveDate!==!0&&Re(u),n={timestamp:u,activeDate:D,droppable:U.value=u.date,disabled:e.disabledWeekdays?e.disabledWeekdays.includes(u.weekday):!1},y=e.weekdayStyle||Te,b=typeof e.weekdayClass=="function"?e.weekdayClass({scope:n}):{},H=p(h.value),I={width:H,minWidth:H,maxWidth:H,...y({scope:n})},E=u.date,ve={key:E,ref:$=>{z.value[E]=$},tabindex:te.value===!0?0:-1,class:{"q-calendar-task__head--day":!0,...b,...xe(u),"q-active-date":D,"q-calendar__hoverable":e.hoverable===!0,"q-calendar__focusable":te.value===!0},style:I,onFocus:$=>{te.value===!0&&(L.value=E)},onKeydown:$=>{u.disabled!==!0&&ge($,[13,32])&&($.stopPropagation(),$.preventDefault())},onKeyup:$=>{u.disabled!==!0&&ge($,[13,32])&&(A.value=u.date)},...Fe("-head-day",$=>({scope:n,event:$})),onDragenter:$=>{e.dragEnterFunc!==void 0&&typeof e.dragEnterFunc=="function"&&(e.dragEnterFunc($,"head-day",n)===!0?U.value=u.date:U.value="")},onDragover:$=>{e.dragOverFunc!==void 0&&typeof e.dragOverFunc=="function"&&(e.dragOverFunc($,"head-day",n)===!0?U.value=u.date:U.value="")},onDragleave:$=>{e.dragLeaveFunc!==void 0&&typeof e.dragLeaveFunc=="function"&&(e.dragLeaveFunc($,"head-day",n)===!0?U.value=u.date:U.value="")},onDrop:$=>{e.dropFunc!==void 0&&typeof e.dropFunc=="function"&&(e.dropFunc($,"head-day",n)===!0?U.value=u.date:U.value="")}};return i("div",ve,[d!==void 0&&d({scope:n}),d===void 0&&W(u),d===void 0&&v&&v({scope:n}),Qe()])}function fe(){return be.value.map(u=>ie(u))}function ke(u,d){return be.value.map(v=>le(v,u,d))}function ye(){return i("div",{class:{"q-calendar-task__head--days":!0}},[...fe()])}function Be(u,d){return i("div",{class:{"q-calendar-task__title--days":!0}},[...ke(u,d)])}function c(){return i("div",{roll:"presentation",class:{"q-calendar-task__head":!0,"q-calendar__sticky":J.value===!0},style:{}},[i("div",{style:{position:"relative",display:"flex"}},[lt(),ye()]),e.modelTitle.map((u,d)=>i("div",{class:"q-calendar-task__title",style:{position:"relative",display:"flex"}},[$e(u,d),Be(u,d)]))])}function q(){return i("div",{class:"q-calendar-task__body"},[l()])}function l(){return i("div",{ref:s,class:{"q-calendar-task__scroll-area":!0,"q-calendar__scroll":!0}},[kt()])}function _(){const{start:u,end:d}=it.value;m.value=u.date,C.value=d.date;const v=G.width>0,D=Ot(i("div",{key:m.value,class:"q-calendar-task"},[v===!0&&q()]),[[mt,Ye]]);if(e.animated===!0){const n="q-calendar--"+(f.value==="prev"?e.transitionPrev:e.transitionNext);return i(Yt,{name:n,appear:!0},()=>D)}return D}return r({prev:re,next:qe,move:Le,moveToToday:ue,updateCurrent:me}),()=>Ge()}}),Wa=xt({name:"QCalendar",props:{mode:{type:String,validator:e=>["day","month","agenda","resource","scheduler","task"].includes(e),default:"day"},...Zt,...wn,...Lt,...ya,...Mt,...Ba,..._n,...mn,...fa,...Dn},setup(e,{attrs:t,slots:a,expose:r}){const s=w(null),g=x(()=>{switch(e.mode){case"agenda":return ma;case"resource":return ka;case"scheduler":return wa;case"month":return ga;case"day":return la;case"task":return Da;case"day":default:return la}});function f(){s.value.moveToToday()}function m(T=-1){s.value.move(T)}function C(T=1){s.value.next(T)}function O(T=1){s.value.prev(T)}function A(){s.value.updateCurrent()}function L(T,V=!0){return s.value.timeStartPos(T,V)}function M(T,V=!0){return s.value.timeStartPosX(T,V)}function z(T){return s.value.timeDurationWidth(T)}function G(T){return s.value.timeDurationHeight(T)}function U(T){return s.value.heightToMinutes(T)}function F(T){return s.value.widthToMinutes(minutes)}function B(T){return s.value.scrollToTime(T)}function S(T){return s.value.scrollToTimeX(T)}return r({prev:O,next:C,move:m,moveToToday:f,updateCurrent:A,timeStartPos:L,timeStartPosX:M,timeDurationWidth:z,timeDurationHeight:G,heightToMinutes:U,widthToMinutes:F,scrollToTime:B,scrollToTimeX:S}),()=>i(g.value,{ref:s,...e,...t},a)}});const pn="4.0.0-beta.16";var tu={version:pn,QCalendar:Wa,QCalendarAgenda:ma,QCalendarDay:la,QCalendarMonth:ga,QCalendarResource:ka,QCalendarScheduler:wa,QCalendarTask:Da,PARSE_REGEX:Ia,PARSE_DATE:Fn,PARSE_TIME:Ua,DAYS_IN_MONTH:Va,DAYS_IN_MONTH_LEAP:Ya,DAYS_IN_MONTH_MIN:$a,DAYS_IN_MONTH_MAX:Za,MONTH_MAX:Dt,MONTH_MIN:Fa,DAY_MIN:oa,DAYS_IN_WEEK:Ft,MINUTES_IN_HOUR:Nt,HOURS_IN_DAY:_a,FIRST_HOUR:qn,MILLISECONDS_IN_MINUTE:Cn,MILLISECONDS_IN_HOUR:Hn,MILLISECONDS_IN_DAY:Xa,MILLISECONDS_IN_WEEK:ja,Timestamp:Sn,TimeObject:Tn,today:et,getStartOfWeek:It,getEndOfWeek:qt,getStartOfMonth:Pt,getEndOfMonth:At,parseTime:Aa,validateTimestamp:qa,parsed:he,parseTimestamp:Ae,parseDate:Qa,getDayIdentifier:j,getTimeIdentifier:St,getDayTimeIdentifier:wt,diffTimestamp:Ga,updateRelative:bt,updateMinutes:Ja,updateWeekday:xa,updateDayOfYear:pa,updateWorkWeek:On,updateDisabled:en,updateFormatted:st,getDayOfYear:La,getWorkWeek:Ra,getWeekday:Ma,isLeapYear:tn,daysInMonth:ht,copyTimestamp:Ce,padNumber:nt,getDate:da,getTime:Kt,getDateTime:zt,nextDay:_t,prevDay:Ca,moveRelativeDays:Ea,relativeDays:Tt,findWeekday:ia,getWeekdaySkips:an,createDayList:ca,createIntervalList:nn,createNativeLocaleFormatter:Wt,makeDate:un,makeDateTime:rn,validateNumber:Ve,maxTimestamp:In,minTimestamp:Ln,isBetweenDates:ln,isOverlappingDates:Rn,daysBetween:on,weeksBetween:Pn,addToDate:Oe,compareTimestamps:Wn,compareDate:An,compareTime:xn,compareDateTime:En,getWeekdayFormatter:fn,getWeekdayNames:Kn,getMonthFormatter:vn,getMonthNames:zn,convertToUnit:p,indexOf:Un,install(e,t){e.component(Wa.name,Wa),e.component(ma.name,ma),e.component(la.name,la),e.component(ga.name,ga),e.component(ka.name,ka),e.component(wa.name,wa),e.component(Da.name,Da)}};export{tu as P,ga as Q,et as t};
+ */
+const PARSE_REGEX = /^(\d{4})-(\d{1,2})(-(\d{1,2}))?([^\d]+(\d{1,2}))?(:(\d{1,2}))?(:(\d{1,2}))?(.(\d{1,3}))?$/;
+const PARSE_DATE = /^(\d{4})-(\d{1,2})(-(\d{1,2}))/;
+const PARSE_TIME = /(\d\d?)(:(\d\d?)|)(:(\d\d?)|)/;
+const DAYS_IN_MONTH = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const DAYS_IN_MONTH_LEAP = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const DAYS_IN_MONTH_MIN = 28;
+const DAYS_IN_MONTH_MAX = 31;
+const MONTH_MAX = 12;
+const MONTH_MIN = 1;
+const DAY_MIN = 1;
+const DAYS_IN_WEEK = 7;
+const MINUTES_IN_HOUR = 60;
+const HOURS_IN_DAY = 24;
+const FIRST_HOUR = 0;
+const MILLISECONDS_IN_MINUTE = 6e4;
+const MILLISECONDS_IN_HOUR = 36e5;
+const MILLISECONDS_IN_DAY = 864e5;
+const MILLISECONDS_IN_WEEK = 6048e5;
+const Timestamp = {
+  date: "",
+  time: "",
+  year: 0,
+  month: 0,
+  day: 0,
+  weekday: 0,
+  hour: 0,
+  minute: 0,
+  doy: 0,
+  workweek: 0,
+  hasDay: false,
+  hasTime: false,
+  past: false,
+  current: false,
+  future: false,
+  disabled: false,
+  currentWeekday: false
+};
+const TimeObject = {
+  hour: 0,
+  minute: 0
+};
+function today() {
+  const d = new Date(), month = "" + (d.getMonth() + 1), day = "" + d.getDate(), year = d.getFullYear();
+  return [year, padNumber(month, 2), padNumber(day, 2)].join("-");
+}
+function getStartOfWeek(timestamp, weekdays, today2) {
+  let start = copyTimestamp(timestamp);
+  if (start.day === 1 || start.weekday === 0) {
+    while (!weekdays.includes(start.weekday)) {
+      start = nextDay(start);
+    }
+  }
+  start = findWeekday(start, weekdays[0], prevDay);
+  start = updateFormatted(start);
+  if (today2) {
+    start = updateRelative(start, today2, start.hasTime);
+  }
+  return start;
+}
+function getEndOfWeek(timestamp, weekdays, today2) {
+  let end = copyTimestamp(timestamp);
+  const lastDay = daysInMonth(end.year, end.month);
+  if (lastDay === end.day || end.weekday === 6) {
+    while (!weekdays.includes(end.weekday)) {
+      end = prevDay(end);
+    }
+  }
+  end = findWeekday(end, weekdays[weekdays.length - 1], nextDay);
+  end = updateFormatted(end);
+  if (today2) {
+    end = updateRelative(end, today2, end.hasTime);
+  }
+  return end;
+}
+function getStartOfMonth(timestamp) {
+  const start = copyTimestamp(timestamp);
+  start.day = DAY_MIN;
+  updateFormatted(start);
+  return start;
+}
+function getEndOfMonth(timestamp) {
+  const end = copyTimestamp(timestamp);
+  end.day = daysInMonth(end.year, end.month);
+  updateFormatted(end);
+  return end;
+}
+function parseTime(input) {
+  const type = Object.prototype.toString.call(input);
+  switch (type) {
+    case "[object Number]":
+      return input;
+    case "[object String]": {
+      const parts = PARSE_TIME.exec(input);
+      if (!parts) {
+        return false;
+      }
+      return parseInt(parts[1], 10) * 60 + parseInt(parts[3] || 0, 10);
+    }
+    case "[object Object]":
+      if (typeof input.hour !== "number" || typeof input.minute !== "number") {
+        return false;
+      }
+      return input.hour * 60 + input.minute;
+  }
+  return false;
+}
+function validateTimestamp(input) {
+  return !!PARSE_REGEX.exec(input);
+}
+function compareTimestamps(ts1, ts2) {
+  return JSON.stringify(ts1) === JSON.stringify(ts2);
+}
+function compareDate(ts1, ts2) {
+  return getDate(ts1) === getDate(ts2);
+}
+function compareTime(ts1, ts2) {
+  return getTime(ts1) === getTime(ts2);
+}
+function compareDateTime(ts1, ts2) {
+  return getDateTime(ts1) === getDateTime(ts2);
+}
+function parsed(input) {
+  const parts = PARSE_REGEX.exec(input);
+  if (!parts)
+    return null;
+  return {
+    date: input,
+    time: padNumber(parseInt(parts[6], 10) || 0, 2) + ":" + padNumber(parseInt(parts[8], 10) || 0, 2),
+    year: parseInt(parts[1], 10),
+    month: parseInt(parts[2], 10),
+    day: parseInt(parts[4], 10) || 1,
+    hour: !isNaN(parseInt(parts[6], 10)) ? parseInt(parts[6], 10) : 0,
+    minute: !isNaN(parseInt(parts[8], 10)) ? parseInt(parts[8], 10) : 0,
+    weekday: 0,
+    doy: 0,
+    workweek: 0,
+    hasDay: !!parts[4],
+    hasTime: true,
+    past: false,
+    current: false,
+    future: false,
+    disabled: false
+  };
+}
+function parseTimestamp(input, now) {
+  let timestamp = parsed(input);
+  if (timestamp === null)
+    return null;
+  timestamp = updateFormatted(timestamp);
+  if (now) {
+    updateRelative(timestamp, now, timestamp.hasTime);
+  }
+  return timestamp;
+}
+function parseDate(date, utc = false) {
+  const UTC = !!utc ? "UTC" : "";
+  return updateFormatted({
+    date: padNumber(date[`get${UTC}FullYear`](), 4) + "-" + padNumber(date[`get${UTC}Month`]() + 1, 2) + "-" + padNumber(date[`get${UTC}Date`](), 2),
+    time: padNumber(date[`get${UTC}Hours`]() || 0, 2) + ":" + padNumber(date[`get${UTC}Minutes`]() || 0, 2),
+    year: date[`get${UTC}FullYear`](),
+    month: date[`get${UTC}Month`]() + 1,
+    day: date[`get${UTC}Date`](),
+    hour: date[`get${UTC}Hours`](),
+    minute: date[`get${UTC}Minutes`](),
+    weekday: 0,
+    doy: 0,
+    workweek: 0,
+    hasDay: true,
+    hasTime: true,
+    past: false,
+    current: false,
+    future: false,
+    disabled: false
+  });
+}
+function getDayIdentifier(timestamp) {
+  return timestamp.year * 1e8 + timestamp.month * 1e6 + timestamp.day * 1e4;
+}
+function getTimeIdentifier(timestamp) {
+  return timestamp.hour * 100 + timestamp.minute;
+}
+function getDayTimeIdentifier(timestamp) {
+  return getDayIdentifier(timestamp) + getTimeIdentifier(timestamp);
+}
+function diffTimestamp(ts1, ts2, strict) {
+  const utc1 = Date.UTC(ts1.year, ts1.month - 1, ts1.day, ts1.hour, ts1.minute);
+  const utc2 = Date.UTC(ts2.year, ts2.month - 1, ts2.day, ts2.hour, ts2.minute);
+  if (strict === true && utc2 < utc1) {
+    return 0;
+  }
+  return utc2 - utc1;
+}
+function updateRelative(timestamp, now, time = false) {
+  let a = getDayIdentifier(now);
+  let b = getDayIdentifier(timestamp);
+  let current = a === b;
+  if (timestamp.hasTime && time && current) {
+    a = getTimeIdentifier(now);
+    b = getTimeIdentifier(timestamp);
+    current = a === b;
+  }
+  timestamp.past = b < a;
+  timestamp.current = current;
+  timestamp.future = b > a;
+  timestamp.currentWeekday = timestamp.weekday === now.weekday;
+  return timestamp;
+}
+function updateMinutes(timestamp, minutes2, now) {
+  timestamp.hasTime = true;
+  timestamp.hour = Math.floor(minutes2 / MINUTES_IN_HOUR);
+  timestamp.minute = minutes2 % MINUTES_IN_HOUR;
+  timestamp.time = getTime(timestamp);
+  if (now) {
+    updateRelative(timestamp, now, true);
+  }
+  return timestamp;
+}
+function updateWeekday(timestamp) {
+  timestamp.weekday = getWeekday(timestamp);
+  return timestamp;
+}
+function updateDayOfYear(timestamp) {
+  timestamp.doy = getDayOfYear(timestamp);
+  return timestamp;
+}
+function updateWorkWeek(timestamp) {
+  timestamp.workweek = getWorkWeek(timestamp);
+  return timestamp;
+}
+function updateDisabled(timestamp, disabledBefore, disabledAfter, disabledWeekdays, disabledDays) {
+  const t = getDayIdentifier(timestamp);
+  if (disabledBefore !== void 0) {
+    const before = getDayIdentifier(parsed(disabledBefore));
+    if (t <= before) {
+      timestamp.disabled = true;
+    }
+  }
+  if (timestamp.disabled !== true && disabledAfter !== void 0) {
+    const after = getDayIdentifier(parsed(disabledAfter));
+    if (t >= after) {
+      timestamp.disabled = true;
+    }
+  }
+  if (timestamp.disabled !== true && Array.isArray(disabledWeekdays) && disabledWeekdays.length > 0) {
+    for (const weekday in disabledWeekdays) {
+      if (disabledWeekdays[weekday] === timestamp.weekday) {
+        timestamp.disabled = true;
+        break;
+      }
+    }
+  }
+  if (timestamp.disabled !== true && Array.isArray(disabledDays) && disabledDays.length > 0) {
+    for (const day in disabledDays) {
+      if (Array.isArray(disabledDays[day]) && disabledDays[day].length === 2) {
+        const start = parsed(disabledDays[day][0]);
+        const end = parsed(disabledDays[day][1]);
+        if (isBetweenDates(timestamp, start, end)) {
+          timestamp.disabled = true;
+          break;
+        }
+      } else {
+        const d = getDayIdentifier(parseTimestamp(disabledDays[day] + " 00:00"));
+        if (d === t) {
+          timestamp.disabled = true;
+          break;
+        }
+      }
+    }
+  }
+  return timestamp;
+}
+function updateFormatted(timestamp) {
+  timestamp.hasTime = true;
+  timestamp.time = getTime(timestamp);
+  timestamp.date = getDate(timestamp);
+  timestamp.weekday = getWeekday(timestamp);
+  timestamp.doy = getDayOfYear(timestamp);
+  timestamp.workweek = getWorkWeek(timestamp);
+  return timestamp;
+}
+function getDayOfYear(timestamp) {
+  if (timestamp.year === 0)
+    return;
+  return (Date.UTC(timestamp.year, timestamp.month - 1, timestamp.day) - Date.UTC(timestamp.year, 0, 0)) / 24 / 60 / 60 / 1e3;
+}
+function getWorkWeek(timestamp) {
+  if (timestamp.year === 0) {
+    timestamp = parseTimestamp(today());
+  }
+  const date = makeDate(timestamp);
+  if (isNaN(date))
+    return 0;
+  const weekday = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  weekday.setDate(weekday.getDate() - (weekday.getDay() + 6) % 7 + 3);
+  const firstThursday = new Date(weekday.getFullYear(), 0, 4);
+  firstThursday.setDate(firstThursday.getDate() - (firstThursday.getDay() + 6) % 7 + 3);
+  const ds = weekday.getTimezoneOffset() - firstThursday.getTimezoneOffset();
+  weekday.setHours(weekday.getHours() - ds);
+  const weekDiff = (weekday - firstThursday) / MILLISECONDS_IN_WEEK;
+  return 1 + Math.floor(weekDiff);
+}
+function getWeekday(timestamp) {
+  let weekday = timestamp.weekday;
+  if (timestamp.hasDay) {
+    const floor = Math.floor;
+    const day = timestamp.day;
+    const month = (timestamp.month + 9) % MONTH_MAX + 1;
+    const century = floor(timestamp.year / 100);
+    const year = timestamp.year % 100 - (timestamp.month <= 2 ? 1 : 0);
+    weekday = ((day + floor(2.6 * month - 0.2) - 2 * century + year + floor(year / 4) + floor(century / 4)) % 7 + 7) % 7;
+  }
+  return weekday;
+}
+function isLeapYear(year) {
+  return (year % 4 === 0 ^ year % 100 === 0 ^ year % 400 === 0) === 1;
+}
+function daysInMonth(year, month) {
+  return isLeapYear(year) ? DAYS_IN_MONTH_LEAP[month] : DAYS_IN_MONTH[month];
+}
+function copyTimestamp(timestamp) {
+  return { ...timestamp };
+}
+function padNumber(x, length) {
+  let padded = String(x);
+  while (padded.length < length) {
+    padded = "0" + padded;
+  }
+  return padded;
+}
+function getDate(timestamp) {
+  let str = `${padNumber(timestamp.year, 4)}-${padNumber(timestamp.month, 2)}`;
+  if (timestamp.hasDay)
+    str += `-${padNumber(timestamp.day, 2)}`;
+  return str;
+}
+function getTime(timestamp) {
+  if (!timestamp.hasTime) {
+    return "";
+  }
+  return `${padNumber(timestamp.hour, 2)}:${padNumber(timestamp.minute, 2)}`;
+}
+function getDateTime(timestamp) {
+  return getDate(timestamp) + " " + (timestamp.hasTime ? getTime(timestamp) : "00:00");
+}
+function nextDay(timestamp) {
+  ++timestamp.day;
+  timestamp.weekday = (timestamp.weekday + 1) % DAYS_IN_WEEK;
+  if (timestamp.day > DAYS_IN_MONTH_MIN && timestamp.day > daysInMonth(timestamp.year, timestamp.month)) {
+    timestamp.day = DAY_MIN;
+    ++timestamp.month;
+    if (timestamp.month > MONTH_MAX) {
+      timestamp.month = MONTH_MIN;
+      ++timestamp.year;
+    }
+  }
+  return timestamp;
+}
+function prevDay(timestamp) {
+  timestamp.day--;
+  timestamp.weekday = (timestamp.weekday + 6) % DAYS_IN_WEEK;
+  if (timestamp.day < DAY_MIN) {
+    timestamp.month--;
+    if (timestamp.month < MONTH_MIN) {
+      timestamp.year--;
+      timestamp.month = MONTH_MAX;
+    }
+    timestamp.day = daysInMonth(timestamp.year, timestamp.month);
+  }
+  return timestamp;
+}
+function moveRelativeDays(timestamp, mover = nextDay, days = 1, allowedWeekdays = [0, 1, 2, 3, 4, 5, 6]) {
+  return relativeDays(timestamp, mover, days, allowedWeekdays);
+}
+function relativeDays(timestamp, mover = nextDay, days = 1, allowedWeekdays = [0, 1, 2, 3, 4, 5, 6]) {
+  if (!allowedWeekdays.includes(timestamp.weekday) && timestamp.weekday === 0 && mover === nextDay) {
+    ++days;
+  }
+  while (--days >= 0) {
+    timestamp = mover(timestamp);
+    if (allowedWeekdays.length < 7 && !allowedWeekdays.includes(timestamp.weekday)) {
+      ++days;
+    }
+  }
+  return timestamp;
+}
+function findWeekday(timestamp, weekday, mover = nextDay, maxDays = 6) {
+  while (timestamp.weekday !== weekday && --maxDays >= 0)
+    timestamp = mover(timestamp);
+  return timestamp;
+}
+function getWeekdaySkips(weekdays) {
+  const skips = [1, 1, 1, 1, 1, 1, 1];
+  const filled = [0, 0, 0, 0, 0, 0, 0];
+  for (let i = 0; i < weekdays.length; ++i) {
+    filled[weekdays[i]] = 1;
+  }
+  for (let k = 0; k < DAYS_IN_WEEK; ++k) {
+    let skip = 1;
+    for (let j = 1; j < DAYS_IN_WEEK; ++j) {
+      const next = (k + j) % DAYS_IN_WEEK;
+      if (filled[next]) {
+        break;
+      }
+      ++skip;
+    }
+    skips[k] = filled[k] * skip;
+  }
+  return skips;
+}
+function createDayList(start, end, now, weekdaySkips, disabledBefore, disabledAfter, disabledWeekdays = [], disabledDays = [], max = 42, min = 0) {
+  const stop = getDayIdentifier(end);
+  const days = [];
+  let current = copyTimestamp(start);
+  let currentIdentifier = 0;
+  let stopped = currentIdentifier === stop;
+  if (stop < getDayIdentifier(start)) {
+    return days;
+  }
+  while ((!stopped || days.length < min) && days.length < max) {
+    currentIdentifier = getDayIdentifier(current);
+    stopped = stopped || currentIdentifier > stop && days.length >= min;
+    if (stopped) {
+      break;
+    }
+    if (weekdaySkips[current.weekday] === 0) {
+      current = relativeDays(current, nextDay);
+      continue;
+    }
+    const day = copyTimestamp(current);
+    updateFormatted(day);
+    updateRelative(day, now);
+    updateDisabled(day, disabledBefore, disabledAfter, disabledWeekdays, disabledDays);
+    days.push(day);
+    current = relativeDays(current, nextDay);
+  }
+  return days;
+}
+function createIntervalList(timestamp, first, minutes2, count, now) {
+  const intervals = [];
+  for (let i = 0; i < count; ++i) {
+    const mins = (first + i) * minutes2;
+    const ts = copyTimestamp(timestamp);
+    intervals.push(updateMinutes(ts, mins, now));
+  }
+  return intervals;
+}
+function createNativeLocaleFormatter(locale, cb) {
+  const emptyFormatter = (_t, _s) => "";
+  if (typeof Intl === "undefined" || typeof Intl.DateTimeFormat === "undefined") {
+    return emptyFormatter;
+  }
+  return (timestamp, short) => {
+    try {
+      const intlFormatter = new Intl.DateTimeFormat(locale || void 0, cb(timestamp, short));
+      return intlFormatter.format(makeDateTime(timestamp));
+    } catch (e) {
+      console.error(`Intl.DateTimeFormat: ${e.message} -> ${getDateTime(timestamp)}`);
+      return emptyFormatter;
+    }
+  };
+}
+function makeDate(timestamp, utc = true) {
+  if (utc)
+    return new Date(Date.UTC(timestamp.year, timestamp.month - 1, timestamp.day, 0, 0));
+  return new Date(timestamp.year, timestamp.month - 1, timestamp.day, 0, 0);
+}
+function makeDateTime(timestamp, utc = true) {
+  if (utc)
+    return new Date(Date.UTC(timestamp.year, timestamp.month - 1, timestamp.day, timestamp.hour, timestamp.minute));
+  return new Date(timestamp.year, timestamp.month - 1, timestamp.day, timestamp.hour, timestamp.minute);
+}
+function validateNumber(input) {
+  return isFinite(parseInt(input, 10));
+}
+function maxTimestamp(timestamps, useTime = false) {
+  const func = useTime === true ? getDayTimeIdentifier : getDayIdentifier;
+  return timestamps.reduce((prev, cur) => {
+    return Math.max(func(prev), func(cur)) === func(prev) ? prev : cur;
+  });
+}
+function minTimestamp(timestamps, useTime = false) {
+  const func = useTime === true ? getDayTimeIdentifier : getDayIdentifier;
+  return timestamps.reduce((prev, cur) => {
+    return Math.min(func(prev), func(cur)) === func(prev) ? prev : cur;
+  });
+}
+function isBetweenDates(timestamp, startTimestamp, endTimestamp, useTime) {
+  const cd = getDayIdentifier(timestamp) + (useTime === true ? getTimeIdentifier(timestamp) : 0);
+  const sd = getDayIdentifier(startTimestamp) + (useTime === true ? getTimeIdentifier(startTimestamp) : 0);
+  const ed = getDayIdentifier(endTimestamp) + (useTime === true ? getTimeIdentifier(endTimestamp) : 0);
+  return cd >= sd && cd <= ed;
+}
+function isOverlappingDates(startTimestamp, endTimestamp, firstTimestamp, lastTimestamp) {
+  const start = getDayIdentifier(startTimestamp);
+  const end = getDayIdentifier(endTimestamp);
+  const first = getDayIdentifier(firstTimestamp);
+  const last = getDayIdentifier(lastTimestamp);
+  return start >= first && start <= last || end >= first && end <= last || first >= start && end >= last;
+}
+function addToDate(timestamp, options) {
+  const ts = copyTimestamp(timestamp);
+  let minType;
+  __forEachObject(options, (value, key) => {
+    if (ts[key] !== void 0) {
+      ts[key] += parseInt(value, 10);
+      const indexType = NORMALIZE_TYPES.indexOf(key);
+      if (indexType !== -1) {
+        if (minType === void 0) {
+          minType = indexType;
+        } else {
+          minType = Math.min(indexType, minType);
+        }
+      }
+    }
+  });
+  if (minType !== void 0) {
+    __normalize(ts, NORMALIZE_TYPES[minType]);
+  }
+  updateFormatted(ts);
+  return ts;
+}
+const NORMALIZE_TYPES = ["minute", "hour", "day", "month"];
+function __forEachObject(obj, cb) {
+  Object.keys(obj).forEach((k) => cb(obj[k], k));
+}
+function __normalizeMinute(ts) {
+  if (ts.minute >= MINUTES_IN_HOUR || ts.minute < 0) {
+    const hours = Math.floor(ts.minute / MINUTES_IN_HOUR);
+    ts.minute -= hours * MINUTES_IN_HOUR;
+    ts.hour += hours;
+    __normalizeHour(ts);
+  }
+  return ts;
+}
+function __normalizeHour(ts) {
+  if (ts.hour >= HOURS_IN_DAY || ts.hour < 0) {
+    const days = Math.floor(ts.hour / HOURS_IN_DAY);
+    ts.hour -= days * HOURS_IN_DAY;
+    ts.day += days;
+    __normalizeDay(ts);
+  }
+  return ts;
+}
+function __normalizeDay(ts) {
+  __normalizeMonth(ts);
+  let dim = daysInMonth(ts.year, ts.month);
+  if (ts.day > dim) {
+    ++ts.month;
+    if (ts.month > MONTH_MAX) {
+      __normalizeMonth(ts);
+    }
+    let days = ts.day - dim;
+    dim = daysInMonth(ts.year, ts.month);
+    do {
+      if (days > dim) {
+        ++ts.month;
+        if (ts.month > MONTH_MAX) {
+          __normalizeMonth(ts);
+        }
+        days -= dim;
+        dim = daysInMonth(ts.year, ts.month);
+      }
+    } while (days > dim);
+    ts.day = days;
+  } else if (ts.day <= 0) {
+    let days = -1 * ts.day;
+    --ts.month;
+    if (ts.month <= 0) {
+      __normalizeMonth(ts);
+    }
+    dim = daysInMonth(ts.year, ts.month);
+    do {
+      if (days > dim) {
+        days -= dim;
+        --ts.month;
+        if (ts.month <= 0) {
+          __normalizeMonth(ts);
+        }
+        dim = daysInMonth(ts.year, ts.month);
+      }
+    } while (days > dim);
+    ts.day = dim - days;
+  }
+  return ts;
+}
+function __normalizeMonth(ts) {
+  if (ts.month > MONTH_MAX) {
+    const years = Math.floor(ts.month / MONTH_MAX);
+    ts.month = ts.month % MONTH_MAX;
+    ts.year += years;
+  } else if (ts.month < MONTH_MIN) {
+    ts.month += MONTH_MAX;
+    --ts.year;
+  }
+  return ts;
+}
+function __normalize(ts, type) {
+  switch (type) {
+    case "minute":
+      return __normalizeMinute(ts);
+    case "hour":
+      return __normalizeHour(ts);
+    case "day":
+      return __normalizeDay(ts);
+    case "month":
+      return __normalizeMonth(ts);
+  }
+}
+function daysBetween(ts1, ts2) {
+  const diff = diffTimestamp(ts1, ts2, true);
+  return Math.floor(diff / MILLISECONDS_IN_DAY);
+}
+function weeksBetween(ts1, ts2) {
+  let t1 = copyTimestamp(ts1);
+  let t2 = copyTimestamp(ts2);
+  t1 = findWeekday(t1, 0);
+  t2 = findWeekday(t2, 6);
+  return Math.ceil(daysBetween(t1, t2) / DAYS_IN_WEEK);
+}
+const weekdayDateMap = {
+  Sun: new Date("2020-01-05T00:00:00.000Z"),
+  Mon: new Date("2020-01-06T00:00:00.000Z"),
+  Tue: new Date("2020-01-07T00:00:00.000Z"),
+  Wed: new Date("2020-01-08T00:00:00.000Z"),
+  Thu: new Date("2020-01-09T00:00:00.000Z"),
+  Fri: new Date("2020-01-10T00:00:00.000Z"),
+  Sat: new Date("2020-01-11T00:00:00.000Z")
+};
+function getWeekdayFormatter() {
+  const emptyFormatter = (_d, _t) => "";
+  const options = {
+    long: { timeZone: "UTC", weekday: "long" },
+    short: { timeZone: "UTC", weekday: "short" },
+    narrow: { timeZone: "UTC", weekday: "narrow" }
+  };
+  if (typeof Intl === "undefined" || typeof Intl.DateTimeFormat === "undefined") {
+    return emptyFormatter;
+  }
+  function weekdayFormatter(weekday, type, locale) {
+    try {
+      const intlFormatter = new Intl.DateTimeFormat(locale || void 0, options[type] || options["long"]);
+      return intlFormatter.format(weekdayDateMap[weekday]);
+    } catch (e) {
+      console.error(`Intl.DateTimeFormat: ${e.message} -> day of week: ${weekday}`);
+      return emptyFormatter;
+    }
+  }
+  return weekdayFormatter;
+}
+function getWeekdayNames(type, locale) {
+  const shortWeekdays = Object.keys(weekdayDateMap);
+  const weekdayFormatter = getWeekdayFormatter();
+  return shortWeekdays.map((weekday) => weekdayFormatter(weekday, type, locale));
+}
+function getMonthFormatter() {
+  const emptyFormatter = (_m, _t) => "";
+  const options = {
+    long: { timeZone: "UTC", month: "long" },
+    short: { timeZone: "UTC", month: "short" },
+    narrow: { timeZone: "UTC", month: "narrow" }
+  };
+  if (typeof Intl === "undefined" || typeof Intl.DateTimeFormat === "undefined") {
+    return emptyFormatter;
+  }
+  function monthFormatter(month, type, locale) {
+    try {
+      const intlFormatter = new Intl.DateTimeFormat(locale || void 0, options[type] || options["long"]);
+      const date = new Date();
+      date.setDate(1);
+      date.setMonth(month);
+      return intlFormatter.format(date);
+    } catch (e) {
+      console.error(`Intl.DateTimeFormat: ${e.message} -> month: ${month}`);
+      return emptyFormatter;
+    }
+  }
+  return monthFormatter;
+}
+function getMonthNames(type, locale) {
+  const monthFormatter = getMonthFormatter();
+  return [...Array(12).keys()].map((month) => monthFormatter(month, type, locale));
+}
+function convertToUnit(input, unit = "px") {
+  if (input == null || input === "") {
+    return void 0;
+  } else if (isNaN(input)) {
+    return String(input);
+  } else if (input === "auto") {
+    return input;
+  } else {
+    return `${Number(input)}${unit}`;
+  }
+}
+function indexOf(array, cb) {
+  for (let i = 0; i < array.length; i++) {
+    if (cb(array[i], i) === true) {
+      return i;
+    }
+  }
+  return -1;
+}
+function minCharWidth(str, count) {
+  if (count === 0)
+    return str;
+  return str.slice(0, count);
+}
+var ResizeObserver$1 = {
+  name: "ResizeObserver",
+  mounted(el, { modifiers, value }) {
+    if (!value)
+      return;
+    const opts = {};
+    opts.callback = value;
+    opts.size = { width: 0, height: 0 };
+    opts.observer = new ResizeObserver((entries) => {
+      const rect = entries[0].contentRect;
+      if (rect.width !== opts.size.width || rect.height !== opts.size.height) {
+        opts.size.width = rect.width;
+        opts.size.height = rect.height;
+        opts.callback(opts.size);
+      }
+    });
+    opts.observer.observe(el);
+    el.__onResizeObserver = opts;
+  },
+  beforeUnmount(el) {
+    if (!el.__onResizeObserver)
+      return;
+    const { observer } = el.__onResizeObserver;
+    observer.unobserve(el);
+    delete el.__onResizeObserver;
+  }
+};
+function useCalendar(props, renderFunc, {
+  scrollArea,
+  pane
+}) {
+  if (!renderFunc) {
+    const msg = "[error: renderCalendar] no renderFunc has been supplied to useCalendar";
+    console.error(msg);
+    throw new Error(msg);
+  }
+  const size = reactive({ width: 0, height: 0 }), rootRef = ref(null);
+  function __onResize({ width, height }) {
+    size.width = width;
+    size.height = height;
+  }
+  const scrollWidth = computed(() => {
+    return props.noScroll !== true ? scrollArea.value && pane.value && size.height ? scrollArea.value.offsetWidth - pane.value.offsetWidth : 0 : 0;
+  });
+  function __initCalendar() {
+  }
+  function __renderCalendar() {
+    const data = {
+      ref: rootRef,
+      role: "complementary",
+      lang: props.locale,
+      class: {
+        "q-calendar--dark": props.dark === true,
+        "q-calendar": true,
+        "q-calendar__bordered": props.bordered === true
+      }
+    };
+    return withDirectives(
+      h("div", data, [
+        renderFunc()
+      ]),
+      [[
+        ResizeObserver$1,
+        __onResize
+      ]]
+    );
+  }
+  return {
+    rootRef,
+    scrollWidth,
+    __initCalendar,
+    __renderCalendar
+  };
+}
+const useCommonProps = {
+  modelValue: {
+    type: String,
+    default: today(),
+    validator: (v) => v === "" || validateTimestamp(v)
+  },
+  weekdays: {
+    type: Array,
+    default: () => [0, 1, 2, 3, 4, 5, 6]
+  },
+  dateType: {
+    type: String,
+    default: "round",
+    validator: (v) => ["round", "rounded", "square"].includes(v)
+  },
+  weekdayAlign: {
+    type: String,
+    default: "center",
+    validator: (v) => ["left", "center", "right"].includes(v)
+  },
+  dateAlign: {
+    type: String,
+    default: "center",
+    validator: (v) => ["left", "center", "right"].includes(v)
+  },
+  bordered: Boolean,
+  dark: Boolean,
+  noAria: Boolean,
+  noActiveDate: Boolean,
+  noHeader: Boolean,
+  noScroll: Boolean,
+  shortWeekdayLabel: Boolean,
+  noDefaultHeaderText: Boolean,
+  noDefaultHeaderBtn: Boolean,
+  minWeekdayLabel: {
+    type: [Number, String],
+    default: 1
+  },
+  weekdayBreakpoints: {
+    type: Array,
+    default: () => [75, 35],
+    validator: (v) => v.length === 2
+  },
+  locale: {
+    type: String,
+    default: "en-US"
+  },
+  animated: Boolean,
+  transitionPrev: {
+    type: String,
+    default: "slide-right"
+  },
+  transitionNext: {
+    type: String,
+    default: "slide-left"
+  },
+  disabledDays: Array,
+  disabledBefore: String,
+  disabledAfter: String,
+  disabledWeekdays: {
+    type: Array,
+    default: () => []
+  },
+  dragEnterFunc: {
+    type: Function
+  },
+  dragOverFunc: {
+    type: Function
+  },
+  dragLeaveFunc: {
+    type: Function
+  },
+  dropFunc: {
+    type: Function
+  },
+  selectedDates: {
+    type: Array,
+    default: () => []
+  },
+  selectedStartEndDates: {
+    type: Array,
+    default: () => []
+  },
+  hoverable: Boolean,
+  focusable: Boolean,
+  focusType: {
+    type: Array,
+    default: ["date"],
+    validator: (v) => {
+      let val = true;
+      v.forEach((type) => {
+        if (["day", "date", "weekday", "interval", "time", "resource", "task"].includes(type) !== true) {
+          val = false;
+        }
+      });
+      return val;
+    }
+  }
+};
+function useCommon(props, {
+  startDate,
+  endDate,
+  times
+}) {
+  const weekdaySkips = computed(() => getWeekdaySkips(props.weekdays));
+  const parsedStart = computed(() => parseTimestamp(startDate.value));
+  const parsedEnd = computed(() => {
+    if (endDate.value === "0000-00-00") {
+      return endOfWeek(parsedStart.value);
+    }
+    return parseTimestamp(endDate.value);
+  });
+  const dayFormatter = computed(() => {
+    const options = { timeZone: "UTC", day: "numeric" };
+    return createNativeLocaleFormatter(
+      props.locale,
+      (_tms, _short) => options
+    );
+  });
+  const weekdayFormatter = computed(() => {
+    const longOptions = { timeZone: "UTC", weekday: "long" };
+    const shortOptions = { timeZone: "UTC", weekday: "short" };
+    return createNativeLocaleFormatter(
+      props.locale,
+      (_tms, short) => short ? shortOptions : longOptions
+    );
+  });
+  const ariaDateFormatter = computed(() => {
+    const longOptions = { timeZone: "UTC", dateStyle: "full" };
+    return createNativeLocaleFormatter(
+      props.locale,
+      (_tms) => longOptions
+    );
+  });
+  function arrayHasDate(arr, timestamp) {
+    return arr && arr.length > 0 && arr.includes(timestamp.date);
+  }
+  function checkDays(arr, timestamp) {
+    const days = {
+      firstDay: false,
+      betweenDays: false,
+      lastDay: false
+    };
+    if (arr && arr.length === 2) {
+      const current = getDayIdentifier(timestamp);
+      const first = getDayIdentifier(parsed(arr[0]));
+      const last = getDayIdentifier(parsed(arr[1]));
+      days.firstDay = first === current;
+      days.lastDay = last === current;
+      days.betweenDays = first < current && last > current;
+    }
+    return days;
+  }
+  function getRelativeClasses(timestamp, outside = false, selectedDays = [], startEndDays = [], hover = false) {
+    const isSelected = arrayHasDate(selectedDays, timestamp);
+    const { firstDay, lastDay, betweenDays } = checkDays(startEndDays, timestamp);
+    return {
+      "q-past-day": firstDay !== true && betweenDays !== true && lastDay !== true && isSelected !== true && outside !== true && timestamp.past,
+      "q-future-day": firstDay !== true && betweenDays !== true && lastDay !== true && isSelected !== true && outside !== true && timestamp.future,
+      "q-outside": outside,
+      "q-current-day": timestamp.current,
+      "q-selected": isSelected,
+      "q-range-first": firstDay === true,
+      "q-range": betweenDays === true,
+      "q-range-last": lastDay === true,
+      "q-range-hover": hover === true && (firstDay === true || lastDay === true || betweenDays === true),
+      "q-disabled-day disabled": timestamp.disabled === true
+    };
+  }
+  function startOfWeek(timestamp) {
+    return getStartOfWeek(timestamp, props.weekdays, times.today);
+  }
+  function endOfWeek(timestamp) {
+    return getEndOfWeek(timestamp, props.weekdays, times.today);
+  }
+  function dayStyleDefault(timestamp) {
+    return void 0;
+  }
+  return {
+    weekdaySkips,
+    parsedStart,
+    parsedEnd,
+    dayFormatter,
+    weekdayFormatter,
+    ariaDateFormatter,
+    arrayHasDate,
+    checkDays,
+    getRelativeClasses,
+    startOfWeek,
+    endOfWeek,
+    dayStyleDefault
+  };
+}
+function scrollTo(scrollTarget, offset) {
+  if (scrollTarget === window) {
+    window.scrollTo(window.pageXOffset || window.scrollX || document.body.scrollLeft || 0, offset);
+    return;
+  }
+  scrollTarget.scrollTop = offset;
+}
+function scrollToHorizontal(scrollTarget, offset) {
+  if (scrollTarget === window) {
+    window.scrollTo(offset, window.pageYOffset || window.scrollY || document.body.scrollTop || 0);
+    return;
+  }
+  scrollTarget.scrollLeft = offset;
+}
+function getVerticalScrollPosition(scrollTarget) {
+  return scrollTarget === window ? window.pageYOffset || window.scrollY || document.body.scrollTop || 0 : scrollTarget.scrollTop;
+}
+function getHorizontalScrollPosition(scrollTarget) {
+  return scrollTarget === window ? window.pageXOffset || window.scrollX || document.body.scrollLeft || 0 : scrollTarget.scrollLeft;
+}
+function animVerticalScrollTo(el, to, duration = 0) {
+  const prevTime = arguments[3] === void 0 ? performance.now() : arguments[3];
+  const pos = getVerticalScrollPosition(el);
+  if (duration <= 0) {
+    if (pos !== to) {
+      scrollTo(el, to);
+    }
+    return;
+  }
+  requestAnimationFrame((nowTime) => {
+    const frameTime = nowTime - prevTime;
+    const newPos = pos + (to - pos) / Math.max(frameTime, duration) * frameTime;
+    scrollTo(el, newPos);
+    if (newPos !== to) {
+      animVerticalScrollTo(el, to, duration - frameTime, nowTime);
+    }
+  });
+}
+function animHorizontalScrollTo(el, to, duration = 0) {
+  const prevTime = arguments[3] === void 0 ? performance.now() : arguments[3];
+  const pos = getHorizontalScrollPosition(el);
+  if (duration <= 0) {
+    if (pos !== to) {
+      scrollToHorizontal(el, to);
+    }
+    return;
+  }
+  requestAnimationFrame((nowTime) => {
+    const frameTime = nowTime - prevTime;
+    const newPos = pos + (to - pos) / Math.max(frameTime, duration) * frameTime;
+    setHorizontalScroll(el, newPos);
+    if (newPos !== to) {
+      animHorizontalScrollTo(el, to, duration - frameTime, nowTime);
+    }
+  });
+}
+const useIntervalProps = {
+  view: {
+    type: String,
+    validator: (v) => ["day", "week", "month", "month-interval"].includes(v),
+    default: "day"
+  },
+  shortIntervalLabel: Boolean,
+  intervalHeight: {
+    type: [Number, String],
+    default: 40,
+    validator: validateNumber
+  },
+  intervalMinutes: {
+    type: [Number, String],
+    default: 60,
+    validator: validateNumber
+  },
+  intervalStart: {
+    type: [Number, String],
+    default: 0,
+    validator: validateNumber
+  },
+  intervalCount: {
+    type: [Number, String],
+    default: 24,
+    validator: validateNumber
+  },
+  intervalStyle: {
+    type: Function,
+    default: null
+  },
+  intervalClass: {
+    type: Function,
+    default: null
+  },
+  weekdayStyle: {
+    type: Function,
+    default: null
+  },
+  weekdayClass: {
+    type: Function,
+    default: null
+  },
+  showIntervalLabel: {
+    type: Function,
+    default: null
+  },
+  hour24Format: Boolean,
+  timeClicksClamped: Boolean,
+  dateHeader: {
+    type: String,
+    default: "stacked",
+    validator: (v) => ["stacked", "inline", "inverted"].includes(v)
+  }
+};
+const useSchedulerProps = {
+  view: {
+    type: String,
+    validator: (v) => ["day", "week", "month", "month-interval"].includes(v),
+    default: "day"
+  },
+  modelResources: {
+    type: Array
+  },
+  resourceKey: {
+    type: [String, Number],
+    default: "id"
+  },
+  resourceLabel: {
+    type: [String, Number],
+    default: "label"
+  },
+  resourceHeight: {
+    type: [Number, String],
+    default: 0,
+    validator: validateNumber
+  },
+  resourceMinHeight: {
+    type: [Number, String],
+    default: 70,
+    validator: validateNumber
+  },
+  resourceStyle: {
+    type: Function,
+    default: null
+  },
+  resourceClass: {
+    type: Function,
+    default: null
+  },
+  weekdayStyle: {
+    type: Function,
+    default: null
+  },
+  weekdayClass: {
+    type: Function,
+    default: null
+  },
+  dayStyle: {
+    type: Function,
+    default: null
+  },
+  dayClass: {
+    type: Function,
+    default: null
+  },
+  dateHeader: {
+    type: String,
+    default: "stacked",
+    validator: (v) => ["stacked", "inline", "inverted"].includes(v)
+  }
+};
+const useAgendaProps = {
+  view: {
+    type: String,
+    validator: (v) => ["day", "week", "month", "month-interval"].includes(v),
+    default: "day"
+  },
+  leftColumnOptions: {
+    type: Array
+  },
+  rightColumnOptions: {
+    type: Array
+  },
+  columnOptionsId: {
+    type: String
+  },
+  columnOptionsLabel: {
+    type: String
+  },
+  weekdayStyle: {
+    type: Function,
+    default: null
+  },
+  weekdayClass: {
+    type: Function,
+    default: null
+  },
+  dayStyle: {
+    type: Function,
+    default: null
+  },
+  dayClass: {
+    type: Function,
+    default: null
+  },
+  dateHeader: {
+    type: String,
+    default: "stacked",
+    validator: (v) => ["stacked", "inline", "inverted"].includes(v)
+  },
+  dayHeight: {
+    type: [Number, String],
+    default: 0,
+    validator: validateNumber
+  },
+  dayMinHeight: {
+    type: [Number, String],
+    default: 40,
+    validator: validateNumber
+  }
+};
+const useResourceProps = {
+  modelResources: {
+    type: Array
+  },
+  resourceKey: {
+    type: [String, Number],
+    default: "id"
+  },
+  resourceLabel: {
+    type: [String, Number],
+    default: "label"
+  },
+  resourceHeight: {
+    type: [Number, String],
+    default: 0,
+    validator: validateNumber
+  },
+  resourceMinHeight: {
+    type: [Number, String],
+    default: 70,
+    validator: validateNumber
+  },
+  resourceStyle: {
+    type: Function,
+    default: null
+  },
+  resourceClass: {
+    type: Function,
+    default: null
+  },
+  cellWidth: {
+    type: [Number, String],
+    default: 100
+  },
+  intervalHeaderHeight: {
+    type: [Number, String],
+    default: 20,
+    validator: validateNumber
+  },
+  noSticky: Boolean
+};
+function useInterval(props, {
+  weekdaySkips,
+  times,
+  scrollArea,
+  parsedStart,
+  parsedEnd,
+  maxDays,
+  size,
+  headerColumnRef
+}) {
+  const parsedIntervalStart = computed(() => parseInt(props.intervalStart, 10));
+  const parsedIntervalMinutes = computed(() => parseInt(props.intervalMinutes, 10));
+  const parsedIntervalCount = computed(() => parseInt(props.intervalCount, 10));
+  const parsedIntervalHeight = computed(() => parseFloat(props.intervalHeight));
+  const parsedCellWidth = computed(() => {
+    let width = 0;
+    if (props.cellWidth) {
+      width = props.cellWidth;
+    } else if (size.width > 0 && headerColumnRef.value) {
+      width = headerColumnRef.value.offsetWidth / (props.columnCount > 1 ? props.columnCount : maxDays.value);
+    }
+    return width;
+  });
+  const parsedStartMinute = computed(() => parsedIntervalStart.value * parsedIntervalMinutes.value);
+  const bodyHeight = computed(() => parsedIntervalCount.value * parsedIntervalHeight.value);
+  const bodyWidth = computed(() => parsedIntervalCount.value * parsedCellWidth.value);
+  const parsedWeekStart = computed(() => startOfWeek(parsedStart.value));
+  const parsedWeekEnd = computed(() => endOfWeek(parsedEnd.value));
+  const days = computed(() => {
+    return createDayList(
+      parsedStart.value,
+      parsedEnd.value,
+      times.today,
+      weekdaySkips.value,
+      props.disabledBefore,
+      props.disabledAfter,
+      props.disabledWeekdays,
+      props.disabledDays,
+      maxDays.value
+    );
+  });
+  const intervals = computed(() => {
+    return days.value.map((day) => createIntervalList(
+      day,
+      parsedIntervalStart.value,
+      parsedIntervalMinutes.value,
+      parsedIntervalCount.value,
+      times.now
+    ));
+  });
+  function startOfWeek(timestamp) {
+    return getStartOfWeek(timestamp, props.weekdays, times.today);
+  }
+  function endOfWeek(timestamp) {
+    return getEndOfWeek(timestamp, props.weekdays, times.today);
+  }
+  function arrayHasDateTime(arr, timestamp) {
+    return arr && arr.length > 0 && arr.includes(getDateTime(timestamp));
+  }
+  function checkIntervals(arr, timestamp) {
+    const days2 = {
+      firstDay: false,
+      betweenDays: false,
+      lastDay: false
+    };
+    if (arr && arr.length === 2) {
+      const current = getDayTimeIdentifier(timestamp);
+      const first = getDayTimeIdentifier(parsed(arr[0]));
+      const last = getDayTimeIdentifier(parsed(arr[1]));
+      days2.firstDay = first === current;
+      days2.lastDay = last === current;
+      days2.betweenDays = first < current && last > current;
+    }
+    return days2;
+  }
+  function getIntervalClasses(interval, selectedDays = [], startEndDays = []) {
+    const isSelected = arrayHasDateTime(selectedDays, interval);
+    const { firstDay, lastDay, betweenDays } = checkIntervals(startEndDays, interval);
+    return {
+      "q-selected": isSelected,
+      "q-range-first": firstDay === true,
+      "q-range": betweenDays === true,
+      "q-range-last": lastDay === true,
+      "q-disabled-interval disabled": interval.disabled === true
+    };
+  }
+  function getResourceClasses(interval, selectedDays = [], startEndDays = []) {
+    return [];
+  }
+  const intervalFormatter = computed(() => {
+    const longOptions = { timeZone: "UTC", hour12: !props.hour24Format, hour: "2-digit", minute: "2-digit" };
+    const shortOptions = { timeZone: "UTC", hour12: !props.hour24Format, hour: "numeric", minute: "2-digit" };
+    const shortHourOptions = { timeZone: "UTC", hour12: !props.hour24Format, hour: "numeric" };
+    return createNativeLocaleFormatter(
+      props.locale,
+      (tms, short) => short ? tms.minute === 0 ? shortHourOptions : shortOptions : longOptions
+    );
+  });
+  const ariaDateTimeFormatter = computed(() => {
+    const longOptions = { timeZone: "UTC", dateStyle: "full", timeStyle: "short" };
+    return createNativeLocaleFormatter(
+      props.locale,
+      (_tms) => longOptions
+    );
+  });
+  function showIntervalLabelDefault(interval) {
+    const first = intervals.value[0][0];
+    const isFirst = first.hour === interval.hour && first.minute === interval.minute;
+    return !isFirst && interval.minute === 0;
+  }
+  function showResourceLabelDefault(resource) {
+  }
+  function styleDefault(interval) {
+    return void 0;
+  }
+  function getTimestampAtEventInterval(e, day, clamp = false, now = void 0) {
+    let timestamp = copyTimestamp(day);
+    const bounds = e.currentTarget.getBoundingClientRect();
+    const touchEvent = e;
+    const mouseEvent = e;
+    const touches = touchEvent.changedTouches || touchEvent.touches;
+    const clientY = touches && touches[0] ? touches[0].clientY : mouseEvent.clientY;
+    const addIntervals = (clientY - bounds.top) / parsedIntervalHeight.value;
+    const addMinutes = Math.floor((clamp ? Math.floor(addIntervals) : addIntervals) * parsedIntervalMinutes.value);
+    if (addMinutes !== 0) {
+      timestamp = addToDate(timestamp, { minute: addMinutes });
+    }
+    if (now) {
+      updateRelative(timestamp, now, true);
+    }
+    return timestamp;
+  }
+  function getTimestampAtEvent(e, day, clamp = false, now = void 0) {
+    let timestamp = copyTimestamp(day);
+    const bounds = e.currentTarget.getBoundingClientRect();
+    const touchEvent = e;
+    const mouseEvent = e;
+    const touches = touchEvent.changedTouches || touchEvent.touches;
+    const clientY = touches && touches[0] ? touches[0].clientY : mouseEvent.clientY;
+    const addIntervals = (clientY - bounds.top) / parsedIntervalHeight.value;
+    const addMinutes = Math.floor((clamp ? Math.floor(addIntervals) : addIntervals) * parsedIntervalMinutes.value);
+    if (addMinutes !== 0) {
+      timestamp = addToDate(timestamp, { minute: addMinutes });
+    }
+    if (now) {
+      updateRelative(timestamp, now, true);
+    }
+    return timestamp;
+  }
+  function getTimestampAtEventX(e, day, clamp = false, now = void 0) {
+    let timestamp = copyTimestamp(day);
+    const bounds = e.currentTarget.getBoundingClientRect();
+    const touchEvent = e;
+    const mouseEvent = e;
+    const touches = touchEvent.changedTouches || touchEvent.touches;
+    const clientX = touches && touches[0] ? touches[0].clientX : mouseEvent.clientX;
+    const addIntervals = (clientX - bounds.left) / parsedCellWidth.value;
+    const addMinutes = Math.floor((clamp ? Math.floor(addIntervals) : addIntervals) * parsedIntervalMinutes.value);
+    if (addMinutes !== 0) {
+      timestamp = addToDate(timestamp, { minute: addMinutes });
+    }
+    if (now) {
+      updateRelative(timestamp, now, true);
+    }
+    return timestamp;
+  }
+  function getScopeForSlot(timestamp, columnIndex) {
+    const scope = { timestamp };
+    scope.timeStartPos = timeStartPos;
+    scope.timeDurationHeight = timeDurationHeight;
+    if (columnIndex !== void 0) {
+      scope.columnIndex = columnIndex;
+    }
+    return scope;
+  }
+  function getScopeForSlotX(timestamp, index) {
+    const scope = { timestamp: copyTimestamp(timestamp) };
+    scope.timeStartPosX = timeStartPosX;
+    scope.timeDurationWidth = timeDurationWidth;
+    if (index !== void 0) {
+      scope.index = index;
+    }
+    return scope;
+  }
+  function scrollToTime(time, duration = 0) {
+    const y = timeStartPos(time);
+    if (y === false || !scrollArea.value) {
+      return false;
+    }
+    animVerticalScrollTo(scrollArea.value, y, duration);
+    return true;
+  }
+  function scrollToTimeX(time, duration = 0) {
+    const x = timeStartPosX(time);
+    if (x === false || !scrollArea.value) {
+      return false;
+    }
+    animHorizontalScrollTo(scrollArea.value, x, duration);
+    return true;
+  }
+  function timeDurationHeight(minutes2) {
+    return minutes2 / parsedIntervalMinutes.value * parsedIntervalHeight.value;
+  }
+  function timeDurationWidth(minutes2) {
+    return minutes2 / parsedIntervalMinutes.value * parsedCellWidth.value;
+  }
+  function heightToMinutes(height) {
+    return parseInt(height, 10) * parsedIntervalMinutes.value / parsedIntervalHeight.value;
+  }
+  function widthToMinutes(width) {
+    return parseInt(width, 10) * parsedIntervalMinutes.value / parsedCellWidth.value;
+  }
+  function timeStartPos(time, clamp = true) {
+    const minutes2 = parseTime(time);
+    if (minutes2 === false)
+      return false;
+    const min = parsedStartMinute.value;
+    const gap = parsedIntervalCount.value * parsedIntervalMinutes.value;
+    const delta = (minutes2 - min) / gap;
+    let y = delta * bodyHeight.value;
+    if (clamp) {
+      if (y < 0) {
+        y = 0;
+      }
+      if (y > bodyHeight.value) {
+        y = bodyHeight.value;
+      }
+    }
+    return y;
+  }
+  function timeStartPosX(time, clamp = true) {
+    const minutes2 = parseTime(time);
+    if (minutes2 === false)
+      return false;
+    const min = parsedStartMinute.value;
+    const gap = parsedIntervalCount.value * parsedIntervalMinutes.value;
+    const delta = (minutes2 - min) / gap;
+    let x = delta * bodyWidth.value;
+    if (clamp) {
+      if (x < 0) {
+        x = 0;
+      }
+      if (x > bodyWidth.value) {
+        x = bodyWidth.value;
+      }
+    }
+    return x;
+  }
+  return {
+    parsedIntervalStart,
+    parsedIntervalMinutes,
+    parsedIntervalCount,
+    parsedIntervalHeight,
+    parsedCellWidth,
+    parsedStartMinute,
+    bodyHeight,
+    bodyWidth,
+    parsedWeekStart,
+    parsedWeekEnd,
+    days,
+    intervals,
+    intervalFormatter,
+    ariaDateTimeFormatter,
+    arrayHasDateTime,
+    checkIntervals,
+    getIntervalClasses,
+    getResourceClasses,
+    showIntervalLabelDefault,
+    showResourceLabelDefault,
+    styleDefault,
+    getTimestampAtEventInterval,
+    getTimestampAtEvent,
+    getTimestampAtEventX,
+    getScopeForSlot,
+    getScopeForSlotX,
+    scrollToTime,
+    scrollToTimeX,
+    timeDurationHeight,
+    timeDurationWidth,
+    heightToMinutes,
+    widthToMinutes,
+    timeStartPos,
+    timeStartPosX
+  };
+}
+const useColumnProps = {
+  columnCount: {
+    type: [Number, String],
+    default: 0,
+    validator: validateNumber
+  },
+  columnIndexStart: {
+    type: [Number, String],
+    default: 0,
+    validator: validateNumber
+  }
+};
+const useMaxDaysProps = {
+  maxDays: {
+    type: Number,
+    default: 1
+  }
+};
+const useTimesProps = {
+  now: {
+    type: String,
+    validator: (v) => v === "" || validateTimestamp(v),
+    default: ""
+  }
+};
+function useTimes(props) {
+  const times = reactive({
+    now: parseTimestamp("0000-00-00 00:00"),
+    today: parseTimestamp("0000-00-00")
+  });
+  const parsedNow = computed(() => props.now ? parseTimestamp(props.now) : getNow());
+  watch(() => parsedNow, (val) => updateCurrent());
+  function setCurrent() {
+    times.now.current = times.today.current = true;
+    times.now.past = times.today.past = false;
+    times.now.future = times.today.future = false;
+  }
+  function updateCurrent() {
+    const now = parsedNow.value || getNow();
+    updateDay(now, times.now);
+    updateTime(now, times.now);
+    updateDay(now, times.today);
+  }
+  function getNow() {
+    return parseDate(new Date());
+  }
+  function updateDay(now, target) {
+    if (now.date !== target.date) {
+      target.year = now.year;
+      target.month = now.month;
+      target.day = now.day;
+      target.weekday = now.weekday;
+      target.date = now.date;
+    }
+  }
+  function updateTime(now, target) {
+    if (now.time !== target.time) {
+      target.hour = now.hour;
+      target.minute = now.minute;
+      target.time = now.time;
+    }
+  }
+  return {
+    times,
+    parsedNow,
+    setCurrent,
+    updateCurrent,
+    getNow,
+    updateDay,
+    updateTime
+  };
+}
+function useRenderValues(props, {
+  parsedView,
+  parsedValue,
+  times
+}) {
+  const renderValues = computed(() => {
+    const around = parsedValue.value;
+    let maxDays = props.maxDays;
+    let start = around;
+    let end = around;
+    switch (parsedView.value) {
+      case "month":
+        start = getStartOfMonth(around);
+        end = getEndOfMonth(around);
+        maxDays = daysInMonth(start.year, start.month);
+        break;
+      case "week":
+      case "week-agenda":
+      case "week-scheduler":
+        start = getStartOfWeek(around, props.weekdays, times.today);
+        end = getEndOfWeek(start, props.weekdays, times.today);
+        maxDays = props.weekdays.length;
+        break;
+      case "day":
+      case "scheduler":
+      case "agenda":
+        end = moveRelativeDays(copyTimestamp(end), nextDay, maxDays > 1 ? maxDays - 1 : maxDays, props.weekdays);
+        updateFormatted(end);
+        break;
+      case "month-interval":
+      case "month-scheduler":
+      case "month-agenda":
+        start = getStartOfMonth(around);
+        end = getEndOfMonth(around);
+        updateFormatted(end);
+        maxDays = daysInMonth(start.year, start.month);
+        break;
+      case "resource":
+        maxDays = 1;
+        end = moveRelativeDays(copyTimestamp(end), nextDay, maxDays, props.weekdays);
+        updateFormatted(end);
+        break;
+    }
+    return { start, end, maxDays };
+  });
+  return {
+    renderValues
+  };
+}
+const toCamelCase = (str) => str.replace(/(-\w)/g, (m) => m[1].toUpperCase());
+let $listeners, $emit;
+function getMouseEventHandlers(events, getEvent) {
+  const on = {};
+  for (const eventName in events) {
+    const eventOptions = events[eventName];
+    const eventKey = toCamelCase("on-" + eventName);
+    if ($listeners === void 0) {
+      console.warn("$listeners has not been set up");
+      return;
+    }
+    if ($listeners.value[eventKey] === void 0)
+      continue;
+    const key = "on" + eventOptions.event.charAt(0).toUpperCase() + eventOptions.event.slice(1);
+    const handler = (event) => {
+      const mouseEvent = event;
+      if (eventOptions.button === void 0 || mouseEvent.buttons > 0 && mouseEvent.button === eventOptions.button) {
+        if (eventOptions.prevent) {
+          mouseEvent.preventDefault();
+        }
+        if (eventOptions.stop) {
+          mouseEvent.stopPropagation();
+        }
+        $emit(eventName, getEvent(mouseEvent, eventName));
+      }
+      return eventOptions.result;
+    };
+    if (key in on) {
+      if (Array.isArray(on[key])) {
+        on[key].push(handler);
+      } else {
+        on[key] = [on[key], handler];
+      }
+    } else {
+      on[key] = handler;
+    }
+  }
+  return on;
+}
+function getDefaultMouseEventHandlers(suffix, getEvent) {
+  return getMouseEventHandlers(getMouseEventName(suffix), getEvent);
+}
+function getMouseEventName(suffix) {
+  return {
+    ["click" + suffix]: { event: "click" },
+    ["contextmenu" + suffix]: { event: "contextmenu", prevent: true, result: false },
+    ["mousedown" + suffix]: { event: "mousedown" },
+    ["mousemove" + suffix]: { event: "mousemove" },
+    ["mouseup" + suffix]: { event: "mouseup" },
+    ["mouseenter" + suffix]: { event: "mouseenter" },
+    ["mouseleave" + suffix]: { event: "mouseleave" },
+    ["touchstart" + suffix]: { event: "touchstart" },
+    ["touchmove" + suffix]: { event: "touchmove" },
+    ["touchend" + suffix]: { event: "touchend" }
+  };
+}
+function getRawMouseEvents(suffix) {
+  return Object.keys(getMouseEventName(suffix));
+}
+function useMouse(emit, listeners) {
+  $emit = emit;
+  $listeners = listeners;
+  return {
+    getMouseEventHandlers,
+    getDefaultMouseEventHandlers,
+    getMouseEventName,
+    getRawMouseEvents
+  };
+}
+const useMoveEmits = [
+  "moved"
+];
+function useMove(props, {
+  parsedView,
+  parsedValue,
+  weekdaySkips,
+  direction,
+  maxDays,
+  times,
+  emittedValue,
+  emit
+}) {
+  function move(amount = 1) {
+    if (amount === 0) {
+      emittedValue.value = today();
+      return;
+    }
+    let moved = copyTimestamp(parsedValue.value);
+    const forward = amount > 0;
+    const mover = forward ? nextDay : prevDay;
+    const limit = forward ? DAYS_IN_MONTH_MAX : DAY_MIN;
+    let count = forward ? amount : -amount;
+    direction.value = forward ? "next" : "prev";
+    const dayCount = weekdaySkips.value.filter((x) => x !== 0).length;
+    while (--count >= 0) {
+      switch (parsedView.value) {
+        case "month":
+          moved.day = limit;
+          mover(moved);
+          updateWeekday(moved);
+          while (weekdaySkips.value[moved.weekday] === 0) {
+            moved = addToDate(moved, { day: forward === true ? 1 : -1 });
+          }
+          break;
+        case "week":
+        case "week-agenda":
+        case "week-scheduler":
+          relativeDays(moved, mover, dayCount, props.weekdays);
+          break;
+        case "day":
+        case "scheduler":
+        case "agenda":
+          relativeDays(moved, mover, maxDays.value, props.weekdays);
+          break;
+        case "month-interval":
+        case "month-agenda":
+        case "month-scheduler":
+          moved.day = limit;
+          mover(moved);
+          break;
+        case "resource":
+          relativeDays(moved, mover, maxDays.value, props.weekdays);
+          break;
+      }
+    }
+    updateWeekday(moved);
+    updateFormatted(moved);
+    updateDayOfYear(moved);
+    updateRelative(moved, times.now);
+    emittedValue.value = moved.date;
+    emit("moved", moved);
+  }
+  return {
+    move
+  };
+}
+const listenerRE = /^on[A-Z]/;
+function useEmitListeners(vm = getCurrentInstance()) {
+  return {
+    emitListeners: computed(() => {
+      const acc = {};
+      if (vm.vnode !== void 0 && vm.vnode !== null && vm.vnode.props !== null) {
+        Object.keys(vm.vnode.props).forEach((key) => {
+          if (listenerRE.test(key) === true) {
+            acc[key] = true;
+          }
+        });
+      }
+      return acc;
+    })
+  };
+}
+function useFocusHelper() {
+  return [
+    h("span", {
+      ariaHidden: "true",
+      class: "q-calendar__focus-helper"
+    })
+  ];
+}
+function useButton(props, data, slotData) {
+  const isFocusable = props.focusable === true && props.focusType.includes("date") === true;
+  data.tabindex = isFocusable === true ? 0 : -1;
+  return h("button", data, [
+    slotData,
+    isFocusable === true && useFocusHelper()
+  ]);
+}
+const useCellWidthProps = {
+  cellWidth: [Number, String]
+};
+function useCellWidth(props) {
+  const isSticky = computed(() => props.cellWidth !== void 0);
+  return {
+    isSticky
+  };
+}
+const useCheckChangeEmits = [
+  "change"
+];
+function useCheckChange(emit, {
+  days,
+  lastStart,
+  lastEnd
+}) {
+  function checkChange() {
+    if (days.value && days.value.length > 0) {
+      const start = days.value[0].date;
+      const end = days.value[days.value.length - 1].date;
+      if (lastStart.value === null || lastEnd.value === null || start !== lastStart.value || end !== lastEnd.value) {
+        lastStart.value = start;
+        lastEnd.value = end;
+        emit("change", { start, end, days: days.value });
+        return true;
+      }
+    }
+    return false;
+  }
+  return {
+    checkChange
+  };
+}
+function useEvents() {
+  function createEvent(name, { bubbles = false, cancelable = false } = {}) {
+    try {
+      return new CustomEvent(name, { bubbles, cancelable });
+    } catch (e) {
+      const evt = document.createEvent("Event");
+      evt.initEvent(name, bubbles, cancelable);
+      return evt;
+    }
+  }
+  function isKeyCode2(evt, keyCodes) {
+    return [].concat(keyCodes).includes(evt.keyCode);
+  }
+  return {
+    createEvent,
+    isKeyCode: isKeyCode2
+  };
+}
+const { isKeyCode } = useEvents();
+const useNavigationProps = {
+  useNavigation: Boolean
+};
+function useKeyboard(props, {
+  rootRef,
+  focusRef,
+  focusValue,
+  datesRef,
+  days,
+  parsedView,
+  parsedValue,
+  emittedValue,
+  weekdaySkips,
+  direction,
+  times
+}) {
+  let initialized = false;
+  onBeforeUnmount(() => {
+    endNavigation();
+  });
+  watch(() => props.useNavigation, (val) => {
+    if (val === true) {
+      startNavigation();
+    } else {
+      endNavigation();
+    }
+  });
+  if (props.useNavigation === true) {
+    startNavigation();
+  }
+  function startNavigation() {
+    if (initialized === true)
+      return;
+    if (document) {
+      initialized = true;
+      document.addEventListener("keyup", onKeyUp);
+      document.addEventListener("keydown", onKeyDown);
+    }
+  }
+  function endNavigation() {
+    if (document) {
+      document.removeEventListener("keyup", onKeyUp);
+      document.removeEventListener("keydown", onKeyDown);
+      initialized = false;
+    }
+  }
+  function canNavigate(e) {
+    if (e === void 0) {
+      return false;
+    }
+    if (document) {
+      const el = document.activeElement;
+      if (el !== document.body && rootRef.value.contains(el) === true) {
+        return true;
+      }
+    }
+    return false;
+  }
+  function tryFocus() {
+    let count = 0;
+    const interval = setInterval(() => {
+      if (datesRef.value[focusRef.value]) {
+        datesRef.value[focusRef.value].focus();
+        if (++count === 50 || document.activeElement === datesRef.value[focusRef.value]) {
+          clearInterval(interval);
+        }
+      } else {
+        clearInterval(interval);
+      }
+    }, 250);
+  }
+  function onKeyDown(e) {
+    if (canNavigate(e) && isKeyCode(e, [33, 34, 35, 36, 37, 38, 39, 40])) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  }
+  function onKeyUp(e) {
+    if (canNavigate(e) && isKeyCode(e, [33, 34, 35, 36, 37, 38, 39, 40])) {
+      switch (e.keyCode) {
+        case 33:
+          onPgUp();
+          break;
+        case 34:
+          onPgDown();
+          break;
+        case 35:
+          onEnd();
+          break;
+        case 36:
+          onHome();
+          break;
+        case 37:
+          onLeftArrow();
+          break;
+        case 38:
+          onUpArrow();
+          break;
+        case 39:
+          onRightArrow();
+          break;
+        case 40:
+          onDownArrow();
+          break;
+      }
+    }
+  }
+  function onUpArrow(e) {
+    let tm = copyTimestamp(focusValue.value);
+    if (parsedView.value === "month") {
+      tm = addToDate(tm, { day: -7 });
+      if (focusValue.value.month !== tm.month) {
+        direction.value = "prev";
+        emittedValue.value = tm.date;
+        return;
+      }
+    } else if (parsedView.value === "day" || parsedView.value === "week" || parsedView.value === "month-interval") {
+      tm = addToDate(tm, { minute: parseInt(props.intervalMinutes) });
+    }
+    direction.value = "prev";
+    focusRef.value = tm.date;
+  }
+  function onDownArrow(e) {
+    let tm = copyTimestamp(focusValue.value);
+    if (parsedView.value === "month") {
+      tm = addToDate(tm, { day: 7 });
+      if (focusValue.value.month !== tm.month) {
+        direction.value = "next";
+        emittedValue.value = tm.date;
+        return;
+      }
+    } else if (parsedView.value === "day" || parsedView.value === "week" || parsedView.value === "month-interval") {
+      tm = addToDate(tm, { minute: parseInt(props.intervalMinutes) });
+    }
+    direction.value = "next";
+    focusRef.value = tm.date;
+  }
+  function onLeftArrow(e) {
+    let tm = copyTimestamp(focusValue.value);
+    direction.value = "prev";
+    do {
+      tm = addToDate(tm, { day: -1 });
+    } while (weekdaySkips.value[tm.weekday] === 0);
+    if (parsedView.value === "month" || parsedView.value === "month-interval") {
+      if (focusValue.value.month !== tm.month) {
+        emittedValue.value = tm.date;
+        return;
+      }
+    } else if (parsedView.value === "week") {
+      if (tm.weekday > focusValue.value.weekday) {
+        emittedValue.value = tm.date;
+        return;
+      }
+    } else if (parsedView.value === "day") {
+      emittedValue.value = tm.date;
+      return;
+    }
+    focusRef.value = tm.date;
+  }
+  function onRightArrow(e) {
+    let tm = copyTimestamp(focusValue.value);
+    direction.value = "next";
+    do {
+      tm = addToDate(tm, { day: 1 });
+    } while (weekdaySkips.value[tm.weekday] === 0);
+    if (parsedView.value === "month" || parsedView.value === "month-interval") {
+      if (focusValue.value.month !== tm.month) {
+        emittedValue.value = tm.date;
+        return;
+      }
+    } else if (parsedView.value === "week") {
+      if (tm.weekday < focusValue.value.weekday) {
+        emittedValue.value = tm.date;
+        return;
+      }
+    } else if (parsedView.value === "day") {
+      emittedValue.value = tm.date;
+      return;
+    }
+    focusRef.value = tm.date;
+  }
+  function onPgUp(e) {
+    let tm = copyTimestamp(focusValue.value);
+    if (parsedView.value === "month" || parsedView.value === "month-interval") {
+      tm = addToDate(tm, { month: -1 });
+      const next = tm.day <= 15 ? 1 : -1;
+      while (weekdaySkips.value[tm.weekday] === 0) {
+        tm = addToDate(tm, { day: next });
+      }
+    } else if (parsedView.value === "day") {
+      tm = addToDate(tm, { day: -1 });
+    } else if (parsedView.value === "week") {
+      tm = addToDate(tm, { day: -7 });
+    }
+    direction.value = "prev";
+    focusRef.value = tm.date;
+  }
+  function onPgDown(e) {
+    let tm = copyTimestamp(focusValue.value);
+    if (parsedView.value === "month" || parsedView.value === "month-interval") {
+      tm = addToDate(tm, { month: 1 });
+      const next = tm.day <= 15 ? 1 : -1;
+      while (weekdaySkips.value[tm.weekday] === 0) {
+        tm = addToDate(tm, { day: next });
+      }
+    } else if (parsedView.value === "day") {
+      tm = addToDate(tm, { day: 1 });
+    } else if (parsedView.value === "week") {
+      tm = addToDate(tm, { day: 7 });
+    }
+    direction.value = "next";
+    focusRef.value = tm.date;
+  }
+  function onHome(e) {
+    let tm = copyTimestamp(focusValue.value);
+    if (parsedView.value === "month" || parsedView.value === "month-interval") {
+      tm = getStartOfMonth(tm);
+    } else if (parsedView.value === "week") {
+      tm = getStartOfWeek(tm, props.weekdays, times.today);
+    }
+    while (weekdaySkips.value[tm.weekday] === 0) {
+      tm = addToDate(tm, { day: -1 });
+    }
+    focusRef.value = tm.date;
+  }
+  function onEnd(e) {
+    let tm = copyTimestamp(focusValue.value);
+    if (parsedView.value === "month" || parsedView.value === "month-interval") {
+      tm = getEndOfMonth(tm);
+    } else if (parsedView.value === "week") {
+      tm = getEndOfWeek(tm, props.weekdays, times.today);
+    }
+    while (weekdaySkips.value[tm.weekday] === 0) {
+      tm = addToDate(tm, { day: -1 });
+    }
+    focusRef.value = tm.date;
+  }
+  return {
+    startNavigation,
+    endNavigation,
+    tryFocus
+  };
+}
+var QCalendarAgenda = defineComponent({
+  name: "QCalendarAgenda",
+  directives: [ResizeObserver$1],
+  props: {
+    ...useCommonProps,
+    ...useAgendaProps,
+    ...useColumnProps,
+    ...useMaxDaysProps,
+    ...useTimesProps,
+    ...useCellWidthProps,
+    ...useNavigationProps
+  },
+  emits: [
+    "update:model-value",
+    ...useCheckChangeEmits,
+    ...useMoveEmits,
+    ...getRawMouseEvents("-date"),
+    ...getRawMouseEvents("-head-day"),
+    ...getRawMouseEvents("-time")
+  ],
+  setup(props, { slots, emit, expose }) {
+    const scrollArea = ref(null), pane = ref(null), headerColumnRef = ref(null), focusRef = ref(null), focusValue = ref(null), datesRef = ref({}), headDayEventsParentRef = ref({}), headDayEventsChildRef = ref({}), direction = ref("next"), startDate = ref(today()), endDate = ref("0000-00-00"), maxDaysRendered = ref(0), emittedValue = ref(props.modelValue), size = reactive({ width: 0, height: 0 }), dragOverHeadDayRef = ref(false), lastStart = ref(null), lastEnd = ref(null);
+    watch(() => props.view, () => {
+      maxDaysRendered.value = 0;
+    });
+    const parsedView = computed(() => {
+      if (props.view === "month") {
+        return "month-interval";
+      }
+      return props.view;
+    });
+    const vm = getCurrentInstance();
+    if (vm === null) {
+      throw new Error("current instance is null");
+    }
+    const { emitListeners } = useEmitListeners(vm);
+    const {
+      isSticky
+    } = useCellWidth(props);
+    watch(isSticky, (val) => {
+    });
+    const {
+      times,
+      setCurrent,
+      updateCurrent
+    } = useTimes(props);
+    updateCurrent();
+    setCurrent();
+    const {
+      weekdaySkips,
+      parsedStart,
+      parsedEnd,
+      dayFormatter,
+      weekdayFormatter,
+      ariaDateFormatter,
+      dayStyleDefault,
+      getRelativeClasses
+    } = useCommon(props, { startDate, endDate, times });
+    const parsedValue = computed(() => {
+      return parseTimestamp(props.modelValue, times.now) || parsedStart.value || times.today;
+    });
+    focusValue.value = parsedValue.value;
+    focusRef.value = parsedValue.value.date;
+    const { renderValues } = useRenderValues(props, {
+      parsedView,
+      parsedValue,
+      times
+    });
+    const {
+      rootRef,
+      scrollWidth,
+      __initCalendar,
+      __renderCalendar
+    } = useCalendar(props, __renderAgenda, {
+      scrollArea,
+      pane
+    });
+    const {
+      days,
+      parsedCellWidth,
+      getScopeForSlot
+    } = useInterval(props, {
+      weekdaySkips,
+      times,
+      scrollArea,
+      parsedStart,
+      parsedEnd,
+      maxDays: maxDaysRendered,
+      size,
+      headerColumnRef
+    });
+    const { move } = useMove(props, {
+      parsedView,
+      parsedValue,
+      weekdaySkips,
+      direction,
+      maxDays: maxDaysRendered,
+      times,
+      emittedValue,
+      emit
+    });
+    const {
+      getDefaultMouseEventHandlers: getDefaultMouseEventHandlers2
+    } = useMouse(emit, emitListeners);
+    const {
+      checkChange
+    } = useCheckChange(emit, { days, lastStart, lastEnd });
+    const {
+      isKeyCode: isKeyCode2
+    } = useEvents();
+    const { tryFocus } = useKeyboard(props, {
+      rootRef,
+      focusRef,
+      focusValue,
+      datesRef,
+      days,
+      parsedView,
+      parsedValue,
+      emittedValue,
+      weekdaySkips,
+      direction,
+      times
+    });
+    const parsedColumnCount = computed(() => {
+      return days.value.length + (isLeftColumnOptionsValid.value === true ? props.leftColumnOptions.length : 0) + (isRightColumnOptionsValid.value === true ? props.rightColumnOptions.length : 0) + days.value.length === 1 && parseInt(props.columnCount, 10) > 0 ? parseInt(props.columnCount, 10) : 0;
+    });
+    const isLeftColumnOptionsValid = computed(() => {
+      return props.leftColumnOptions !== void 0 && Array.isArray(props.leftColumnOptions);
+    });
+    const isRightColumnOptionsValid = computed(() => {
+      return props.rightColumnOptions !== void 0 && Array.isArray(props.rightColumnOptions);
+    });
+    const computedWidth = computed(() => {
+      if (rootRef.value) {
+        const width = size.width || rootRef.value.getBoundingClientRect().width;
+        if (width && parsedColumnCount.value) {
+          return (width - scrollWidth.value) / parsedColumnCount.value + "px";
+        }
+      }
+      return 100 / parsedColumnCount.value + "%";
+    });
+    watch([days], checkChange, { deep: true, immediate: true });
+    watch(() => props.modelValue, (val, oldVal) => {
+      if (emittedValue.value !== val) {
+        if (props.animated === true) {
+          const v1 = getDayIdentifier(parsed(val));
+          const v2 = getDayIdentifier(parsed(oldVal));
+          direction.value = v1 >= v2 ? "next" : "prev";
+        }
+        emittedValue.value = val;
+      }
+      focusRef.value = val;
+    });
+    watch(emittedValue, (val, oldVal) => {
+      if (emittedValue.value !== props.modelValue) {
+        if (props.animated === true) {
+          const v1 = getDayIdentifier(parsed(val));
+          const v2 = getDayIdentifier(parsed(oldVal));
+          direction.value = v1 >= v2 ? "next" : "prev";
+        }
+        emit("update:model-value", val);
+      }
+    });
+    watch(focusRef, (val) => {
+      if (val) {
+        focusValue.value = parseTimestamp(val);
+      }
+    });
+    watch(focusValue, (val) => {
+      if (datesRef.value[focusRef.value]) {
+        datesRef.value[focusRef.value].focus();
+      } else {
+        tryFocus();
+      }
+    });
+    watch(() => props.maxDays, (val) => {
+      maxDaysRendered.value = val;
+    });
+    onBeforeUpdate(() => {
+      datesRef.value = {};
+    });
+    onMounted(() => {
+      __initCalendar();
+    });
+    function moveToToday() {
+      emittedValue.value = today();
+    }
+    function next(amount = 1) {
+      move(amount);
+    }
+    function prev(amount = 1) {
+      move(-amount);
+    }
+    function __onResize({ width, height }) {
+      size.width = width;
+      size.height = height;
+    }
+    function __isActiveDate(day) {
+      return day.date === emittedValue.value;
+    }
+    function __renderHeadColumn(column, index) {
+      const slot = slots["head-column"];
+      const scope = { column, index, days: days.value };
+      const width = isSticky.value === true ? props.cellWidth : computedWidth.value;
+      const isFocusable = props.focusable === true && props.focusType.includes("weekday");
+      const id = props.columnOptionsId !== void 0 ? column[props.columnOptionsId] : void 0;
+      const style = {
+        maxWidth: width,
+        width
+      };
+      return h("div", {
+        key: id,
+        tabindex: isFocusable === true ? 0 : -1,
+        class: {
+          "q-calendar-agenda__head--day": true,
+          "q-column-day": true,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isFocusable === true
+        },
+        style,
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "head-column", scope) === true ? dragOverHeadDayRef.value = id : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "head-column", scope) === true ? dragOverHeadDayRef.value = id : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "head-column", scope) === true ? dragOverHeadDayRef.value = id : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "head-column", scope) === true ? dragOverHeadDayRef.value = id : dragOverHeadDayRef.value = "";
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-head-column", (event, eventName) => {
+          return { scope: { column, index }, event };
+        })
+      }, [
+        props.noDefaultHeaderText !== true && __renderHeadColumnLabel(column),
+        slot && slot(scope),
+        useFocusHelper()
+      ]);
+    }
+    function __renderHeadColumnLabel(column) {
+      const slot = slots["head-column-label"];
+      const scope = { column };
+      const label = props.columnOptionsLabel !== void 0 ? column[props.columnOptionsLabel] : column.label;
+      const vNode = h("div", {
+        class: {
+          "q-calendar-agenda__head--weekday": true,
+          ["q-calendar__" + props.weekdayAlign]: true,
+          ellipsis: true
+        },
+        style: {
+          alignSelf: "center"
+        }
+      }, [
+        slot && slot({ scope }),
+        !slot && h("span", {
+          class: "ellipsis"
+        }, label)
+      ]);
+      return props.dateHeader === "stacked" ? vNode : h("div", {
+        class: "q-calendar__header--inline",
+        style: {
+          height: "100%"
+        }
+      }, [
+        vNode
+      ]);
+    }
+    function __renderHead() {
+      return h("div", {
+        roll: "presentation",
+        class: {
+          "q-calendar-agenda__head": true,
+          "q-calendar__sticky": isSticky.value === true
+        },
+        style: {
+          marginRight: scrollWidth.value + "px"
+        }
+      }, [
+        __renderHeadDaysColumn()
+      ]);
+    }
+    function __renderHeadDaysColumn() {
+      return h("div", {
+        ref: headerColumnRef,
+        class: {
+          "q-calendar-agenda__head--days__column": true
+        }
+      }, [
+        __renderHeadDaysRow(),
+        __renderHeadDaysEventsRow()
+      ]);
+    }
+    function __renderHeadDaysRow() {
+      return h("div", {
+        class: {
+          "q-calendar-agenda__head--days__weekdays": true
+        }
+      }, [
+        ...__renderHeadDays()
+      ]);
+    }
+    function __renderHeadDaysEventsRow() {
+      const slot = slots["head-days-events"];
+      nextTick(() => {
+        if (headDayEventsChildRef.value && props.columnCount === 0 && window) {
+          try {
+            const styles = window.getComputedStyle(headDayEventsChildRef.value);
+            headDayEventsParentRef.value.parentElement.style.height = styles.height;
+            headDayEventsParentRef.value.style.height = styles.height;
+          } catch (e) {
+          }
+        }
+      });
+      return h("div", {
+        class: {
+          "q-calendar-agenda__head--days__event": true
+        }
+      }, [
+        slot && h("div", {
+          ref: headDayEventsParentRef,
+          style: {
+            position: "absolute",
+            left: 0,
+            top: 0,
+            right: 0,
+            overflow: "hidden",
+            zIndex: 1
+          }
+        }, [
+          slot({ scope: { days: days.value, ref: headDayEventsChildRef } })
+        ]),
+        ...__renderHeadDaysEvents()
+      ]);
+    }
+    function __renderHeadDays() {
+      if (days.value.length === 1 && parseInt(props.columnCount, 10) > 0) {
+        return [
+          isLeftColumnOptionsValid.value === true && props.leftColumnOptions.map((column, index) => __renderHeadColumn(column, index)),
+          Array.apply(null, new Array(parseInt(props.columnCount, 10))).map((_, i) => i + parseInt(props.columnIndexStart, 10)).map((columnIndex) => __renderHeadDay(days.value[0], columnIndex)),
+          isRightColumnOptionsValid.value === true && props.rightColumnOptions.map((column, index) => __renderHeadColumn(column, index))
+        ];
+      } else {
+        return [
+          isLeftColumnOptionsValid.value === true && props.leftColumnOptions.map((column, index) => __renderHeadColumn(column, index)),
+          days.value.map((day) => __renderHeadDay(day)),
+          isRightColumnOptionsValid.value === true && props.rightColumnOptions.map((column, index) => __renderHeadColumn(column, index))
+        ];
+      }
+    }
+    function __renderHeadDaysEvents() {
+      if (days.value.length === 1 && parseInt(props.columnCount, 10) > 0) {
+        return [
+          Array.apply(null, new Array(parseInt(props.columnCount, 10))).map((_, i) => i + parseInt(props.columnIndexStart, 10)).map((columnIndex) => __renderHeadDayEvent(days.value[0], columnIndex))
+        ];
+      } else {
+        return days.value.map((day) => __renderHeadDayEvent(day));
+      }
+    }
+    function __renderHeadDay(day, columnIndex) {
+      const headDaySlot = slots["head-day"];
+      const headDateSlot = slots["head-date"];
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const scope = getScopeForSlot(day, columnIndex);
+      scope.activeDate = activeDate;
+      scope.droppable = dragOverHeadDayRef.value === day.date;
+      scope.disabled = props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false;
+      const width = isSticky.value === true ? props.cellWidth : computedWidth.value;
+      const styler = props.weekdayStyle || dayStyleDefault;
+      const style = {
+        width,
+        maxWidth: width,
+        ...styler({ scope })
+      };
+      if (isSticky.value === true) {
+        style.minWidth = width;
+      }
+      const weekdayClass = typeof props.weekdayClass === "function" ? props.weekdayClass({ scope }) : {};
+      const isFocusable = props.focusable === true && props.focusType.includes("weekday");
+      const data = {
+        key: day.date + (columnIndex !== void 0 ? "-" + columnIndex : ""),
+        ref: (el) => {
+          datesRef.value[day.date] = el;
+        },
+        tabindex: isFocusable === true ? 0 : -1,
+        class: {
+          "q-calendar-agenda__head--day": true,
+          ...weekdayClass,
+          ...getRelativeClasses(day),
+          "q-active-date": activeDate,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isFocusable === true
+        },
+        style,
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        },
+        onFocus: (e) => {
+          if (isFocusable === true) {
+            focusRef.value = day.date;
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-head-day", (event) => {
+          return { scope, event };
+        })
+      };
+      return h("div", data, [
+        headDaySlot !== void 0 && headDaySlot({ scope }),
+        headDaySlot === void 0 && __renderDateHeader(day),
+        headDaySlot === void 0 && headDateSlot && headDateSlot({ scope }),
+        useFocusHelper()
+      ]);
+    }
+    function __renderDateHeader(day) {
+      if (props.dateHeader === "stacked") {
+        return [
+          props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+          props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+        ];
+      } else if (props.dateHeader === "inline") {
+        if (props.weekdayAlign === "left" && props.dateAlign === "right") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+          ]);
+        } else if (props.weekdayAlign === "right" && props.dateAlign === "left") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+          ]);
+        } else {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+          ]);
+        }
+      } else if (props.dateHeader === "inverted") {
+        if (props.weekdayAlign === "left" && props.dateAlign === "right") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day),
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day)
+          ]);
+        } else if (props.weekdayAlign === "right" && props.dateAlign === "left") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day),
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day)
+          ]);
+        } else {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day),
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day)
+          ]);
+        }
+      }
+    }
+    function __renderHeadDayEvent(day, columnIndex) {
+      const headDayEventSlot = slots["head-day-event"];
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const scope = getScopeForSlot(day, columnIndex);
+      scope.activeDate = activeDate;
+      scope.disabled = props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false;
+      const width = isSticky.value === true ? props.cellWidth : computedWidth.value;
+      const style = {
+        width,
+        maxWidth: width
+      };
+      if (isSticky.value === true) {
+        style.minWidth = width;
+      }
+      return h("div", {
+        key: "event-" + day.date + (columnIndex !== void 0 ? "-" + columnIndex : ""),
+        class: {
+          "q-calendar-agenda__head--day__event": true,
+          ...getRelativeClasses(day),
+          "q-active-date": activeDate
+        },
+        style
+      }, [
+        headDayEventSlot && headDayEventSlot({ scope })
+      ]);
+    }
+    function __renderHeadWeekday(day) {
+      const slot = slots["head-weekday-label"];
+      const scope = getScopeForSlot(day);
+      scope.shortWeekdayLabel = props.shortWeekdayLabel;
+      const data = {
+        class: {
+          "q-calendar-agenda__head--weekday": true,
+          ["q-calendar__" + props.weekdayAlign]: true,
+          "q-calendar__ellipsis": true
+        }
+      };
+      return h("div", data, slot && slot({ scope }) || __renderHeadWeekdayLabel(day, props.shortWeekdayLabel));
+    }
+    function __renderHeadWeekdayLabel(day, shortWeekdayLabel) {
+      const weekdayLabel = weekdayFormatter.value(day, shortWeekdayLabel || props.weekdayBreakpoints[0] > 0 && parsedCellWidth.value <= props.weekdayBreakpoints[0]);
+      return h("span", {
+        class: "q-calendar__ellipsis"
+      }, props.weekdayBreakpoints[1] > 0 && parsedCellWidth.value <= props.weekdayBreakpoints[1] ? minCharWidth(weekdayLabel, props.minWeekdayLabel) : weekdayLabel);
+    }
+    function __renderHeadDayDate(day) {
+      const data = {
+        class: {
+          "q-calendar-agenda__head--date": true,
+          ["q-calendar__" + props.dateAlign]: true
+        }
+      };
+      return h("div", data, __renderHeadDayBtn(day));
+    }
+    function __renderHeadDayBtn(day) {
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const dayLabel = dayFormatter.value(day, false);
+      const headDayLabelSlot = slots["head-day-label"];
+      const headDayButtonSlot = slots["head-day-button"];
+      const scope = {
+        dayLabel,
+        timestamp: day,
+        activeDate,
+        disabled: props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false
+      };
+      const data = {
+        class: {
+          "q-calendar-agenda__head--day__label": true,
+          "q-calendar__button": true,
+          "q-calendar__button--round": props.dateType === "round",
+          "q-calendar__button--rounded": props.dateType === "rounded",
+          "q-calendar__button--bordered": day.current === true,
+          "q-calendar__focusable": true
+        },
+        disabled: day.disabled,
+        onKeydown: (e) => {
+          if (day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        },
+        onKeyup: (e) => {
+          if (day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            emittedValue.value = day.date;
+            if (emitListeners.value.onClickDate !== void 0) {
+              emit("click-date", { scope });
+            }
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-date", (event, eventName) => {
+          if (eventName === "click-date" || eventName === "contextmenu-date") {
+            emittedValue.value = day.date;
+            if (eventName === "click-date") {
+              event.preventDefault();
+            }
+          }
+          return { scope, event };
+        })
+      };
+      if (props.noAria !== true) {
+        data.ariaLabel = ariaDateFormatter.value(day);
+      }
+      return headDayButtonSlot ? headDayButtonSlot({ scope }) : useButton(props, data, headDayLabelSlot ? headDayLabelSlot({ scope }) : dayLabel);
+    }
+    function __renderBody() {
+      return h("div", {
+        class: "q-calendar-agenda__body"
+      }, [
+        __renderScrollArea()
+      ]);
+    }
+    function __renderScrollArea() {
+      if (isSticky.value === true) {
+        return h("div", {
+          ref: scrollArea,
+          class: {
+            "q-calendar-agenda__scroll-area": true,
+            "q-calendar__scroll": true
+          }
+        }, [
+          __renderDayContainer()
+        ]);
+      } else if (props.noScroll === true) {
+        return __renderPane();
+      } else {
+        return h("div", {
+          ref: scrollArea,
+          class: {
+            "q-calendar-agenda__scroll-area": true,
+            "q-calendar__scroll": true
+          }
+        }, [
+          __renderPane()
+        ]);
+      }
+    }
+    function __renderPane() {
+      return h("div", {
+        ref: pane,
+        class: "q-calendar-agenda__pane"
+      }, [
+        __renderDayContainer()
+      ]);
+    }
+    function __renderDayContainer() {
+      const slot = slots["day-container"];
+      return h("div", {
+        class: "q-calendar-agenda__day-container"
+      }, [
+        isSticky.value === true && props.noHeader !== true && __renderHead(),
+        h("div", {
+          style: {
+            display: "flex",
+            flexDirection: "row",
+            height: "100%"
+          }
+        }, [
+          ...__renderDays()
+        ]),
+        slot && slot({ scope: { days: days.value } })
+      ]);
+    }
+    function __renderDays() {
+      if (days.value.length === 1 && parseInt(props.columnCount, 10) > 0) {
+        return [
+          isLeftColumnOptionsValid.value === true && props.leftColumnOptions.map((column, index) => __renderColumn(column, index)),
+          Array.apply(null, new Array(parseInt(props.columnCount, 10))).map((_, i) => i + parseInt(props.columnIndexStart, 10)).map((i) => __renderDay(days.value[0], 0, i)),
+          isRightColumnOptionsValid.value === true && props.rightColumnOptions.map((column, index) => __renderColumn(column, index))
+        ];
+      } else {
+        return [
+          isLeftColumnOptionsValid.value === true && props.leftColumnOptions.map((column, index) => __renderColumn(column, index)),
+          days.value.map((day, index) => __renderDay(day)),
+          isRightColumnOptionsValid.value === true && props.rightColumnOptions.map((column, index) => __renderColumn(column, index))
+        ];
+      }
+    }
+    function __renderColumn(column, index) {
+      const slot = slots.column;
+      const scope = { column, days: days.value, index };
+      const width = isSticky.value === true ? props.cellWidth : computedWidth.value;
+      const isFocusable = props.focusable === true && props.focusType.includes("day");
+      const id = props.columnOptionsId !== void 0 ? column[props.columnOptionsId] : void 0;
+      return h("div", {
+        key: id,
+        tabindex: isFocusable === true ? 0 : -1,
+        class: {
+          "q-calendar-agenda__day": true,
+          "q-column-day": true,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isFocusable === true
+        },
+        style: {
+          maxWidth: width,
+          width
+        },
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "column", scope) === true ? dragOverHeadDayRef.value = id : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "column", scope) === true ? dragOverHeadDayRef.value = id : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "column", scope) === true ? dragOverHeadDayRef.value = id : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "column", scope) === true ? dragOverHeadDayRef.value = id : dragOverHeadDayRef.value = "";
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-column", (event, eventName) => {
+          return { scope, event };
+        })
+      }, [
+        slot && slot({ scope })
+      ]);
+    }
+    function __renderDay(day, dayIndex, columnIndex) {
+      const slot = slots.day;
+      const scope = getScopeForSlot(day, columnIndex);
+      const width = isSticky.value === true ? props.cellWidth : computedWidth.value;
+      const style = {
+        width,
+        maxWidth: width
+      };
+      if (isSticky.value === true) {
+        style.minWidth = width;
+      }
+      style.height = parseInt(props.dayHeight, 10) > 0 ? convertToUnit(parseInt(props.dayHeight, 10)) : "auto";
+      if (parseInt(props.dayMinHeight, 10) > 0) {
+        style.minHeight = convertToUnit(parseInt(props.dayMinHeight, 10));
+      }
+      return h("div", {
+        key: day.date + (columnIndex !== void 0 ? ":" + columnIndex : ""),
+        class: {
+          "q-calendar-agenda__day": true,
+          ...getRelativeClasses(day)
+        },
+        style
+      }, [
+        slot && slot({ scope })
+      ]);
+    }
+    function __renderAgenda() {
+      const { start, end, maxDays } = renderValues.value;
+      if (startDate.value !== start.date || endDate.value !== end.date || maxDaysRendered.value !== maxDays) {
+        startDate.value = start.date;
+        endDate.value = end.date;
+        maxDaysRendered.value = maxDays;
+      }
+      const hasWidth = size.width > 0;
+      const agenda = withDirectives(h("div", {
+        class: "q-calendar-agenda",
+        key: startDate.value
+      }, [
+        hasWidth === true && isSticky.value !== true && props.noHeader !== true && __renderHead(),
+        hasWidth === true && __renderBody()
+      ]), [[
+        ResizeObserver$1,
+        __onResize
+      ]]);
+      if (props.animated === true) {
+        const transition = "q-calendar--" + (direction.value === "prev" ? props.transitionPrev : props.transitionNext);
+        return h(Transition, {
+          name: transition,
+          appear: true
+        }, () => agenda);
+      }
+      return agenda;
+    }
+    expose({
+      prev,
+      next,
+      move,
+      moveToToday,
+      updateCurrent
+    });
+    return () => __renderCalendar();
+  }
+});
+var QCalendarDay = defineComponent({
+  name: "QCalendarDay",
+  directives: [ResizeObserver$1],
+  props: {
+    ...useCommonProps,
+    ...useIntervalProps,
+    ...useColumnProps,
+    ...useMaxDaysProps,
+    ...useTimesProps,
+    ...useCellWidthProps,
+    ...useNavigationProps
+  },
+  emits: [
+    "update:model-value",
+    ...useCheckChangeEmits,
+    ...useMoveEmits,
+    ...getRawMouseEvents("-date"),
+    ...getRawMouseEvents("-interval"),
+    ...getRawMouseEvents("-head-intervals"),
+    ...getRawMouseEvents("-head-day"),
+    ...getRawMouseEvents("-time")
+  ],
+  setup(props, { slots, emit, expose }) {
+    const scrollArea = ref(null), pane = ref(null), headerColumnRef = ref(null), focusRef = ref(null), focusValue = ref(null), datesRef = ref({}), headDayEventsParentRef = ref({}), headDayEventsChildRef = ref({}), direction = ref("next"), startDate = ref(props.modelValue || today()), endDate = ref("0000-00-00"), maxDaysRendered = ref(0), emittedValue = ref(props.modelValue), size = reactive({ width: 0, height: 0 }), dragOverHeadDayRef = ref(false), dragOverInterval = ref(false), lastStart = ref(null), lastEnd = ref(null);
+    watch(() => props.view, () => {
+      maxDaysRendered.value = 0;
+    });
+    const parsedView = computed(() => {
+      if (props.view === "month") {
+        return "month-interval";
+      }
+      return props.view;
+    });
+    const vm = getCurrentInstance();
+    if (vm === null) {
+      throw new Error("current instance is null");
+    }
+    const { emitListeners } = useEmitListeners(vm);
+    const {
+      isSticky
+    } = useCellWidth(props);
+    const {
+      times,
+      setCurrent,
+      updateCurrent
+    } = useTimes(props);
+    updateCurrent();
+    setCurrent();
+    const {
+      weekdaySkips,
+      parsedStart,
+      parsedEnd,
+      dayFormatter,
+      weekdayFormatter,
+      ariaDateFormatter,
+      dayStyleDefault,
+      getRelativeClasses
+    } = useCommon(props, { startDate, endDate, times });
+    const parsedValue = computed(() => {
+      return parseTimestamp(props.modelValue, times.now) || parsedStart.value || times.today;
+    });
+    focusValue.value = parsedValue.value;
+    focusRef.value = parsedValue.value.date;
+    const { renderValues } = useRenderValues(props, {
+      parsedView,
+      parsedValue,
+      times
+    });
+    const {
+      rootRef,
+      scrollWidth,
+      __initCalendar,
+      __renderCalendar
+    } = useCalendar(props, __renderDaily, {
+      scrollArea,
+      pane
+    });
+    const {
+      days,
+      intervals,
+      intervalFormatter,
+      ariaDateTimeFormatter,
+      parsedCellWidth,
+      getIntervalClasses,
+      showIntervalLabelDefault,
+      styleDefault,
+      getTimestampAtEventInterval,
+      getTimestampAtEvent,
+      getScopeForSlot,
+      scrollToTime,
+      heightToMinutes,
+      timeDurationHeight,
+      timeStartPos
+    } = useInterval(props, {
+      weekdaySkips,
+      times,
+      scrollArea,
+      parsedStart,
+      parsedEnd,
+      maxDays: maxDaysRendered,
+      size,
+      headerColumnRef
+    });
+    const { move } = useMove(props, {
+      parsedView,
+      parsedValue,
+      weekdaySkips,
+      direction,
+      maxDays: maxDaysRendered,
+      times,
+      emittedValue,
+      emit
+    });
+    const {
+      getDefaultMouseEventHandlers: getDefaultMouseEventHandlers2
+    } = useMouse(emit, emitListeners);
+    const {
+      checkChange
+    } = useCheckChange(emit, { days, lastStart, lastEnd });
+    const {
+      isKeyCode: isKeyCode2
+    } = useEvents();
+    const { tryFocus } = useKeyboard(props, {
+      rootRef,
+      focusRef,
+      focusValue,
+      datesRef,
+      days,
+      parsedView,
+      parsedValue,
+      emittedValue,
+      weekdaySkips,
+      direction,
+      times
+    });
+    const parsedColumnCount = computed(() => {
+      if (parsedView.value === "day" && parseInt(props.columnCount, 10) > 1) {
+        return parseInt(props.columnCount, 10);
+      } else if (parsedView.value === "day" && props.maxDays && props.maxDays > 1) {
+        return props.maxDays;
+      }
+      return days.value.length;
+    });
+    const intervalsWidth = computed(() => {
+      if (rootRef.value) {
+        return parseInt(getComputedStyle(rootRef.value).getPropertyValue("--calendar-intervals-width"), 10);
+      }
+      return 0;
+    });
+    const computedWidth = computed(() => {
+      if (rootRef.value) {
+        const width = size.width || rootRef.value.getBoundingClientRect().width;
+        if (width && intervalsWidth.value && parsedColumnCount.value) {
+          return (width - scrollWidth.value - intervalsWidth.value) / parsedColumnCount.value + "px";
+        }
+      }
+      return 100 / parsedColumnCount.value + "%";
+    });
+    watch([days], checkChange, { deep: true, immediate: true });
+    watch(() => props.modelValue, (val, oldVal) => {
+      if (emittedValue.value !== props.modelValue) {
+        if (props.animated === true) {
+          const v1 = getDayIdentifier(parsed(val));
+          const v2 = getDayIdentifier(parsed(oldVal));
+          direction.value = v1 >= v2 ? "next" : "prev";
+        }
+        emittedValue.value = val;
+      }
+      focusRef.value = val;
+    });
+    watch(emittedValue, (val, oldVal) => {
+      if (emittedValue.value !== props.modelValue) {
+        if (props.animated === true) {
+          const v1 = getDayIdentifier(parsed(val));
+          const v2 = getDayIdentifier(parsed(oldVal));
+          direction.value = v1 >= v2 ? "next" : "prev";
+        }
+        emit("update:model-value", val);
+      }
+    });
+    watch(focusRef, (val) => {
+      if (val) {
+        focusValue.value = parseTimestamp(val);
+      }
+    });
+    watch(focusValue, (val) => {
+      if (datesRef.value[focusRef.value]) {
+        datesRef.value[focusRef.value].focus();
+      } else {
+        tryFocus();
+      }
+    });
+    watch(() => props.maxDays, (val) => {
+      maxDaysRendered.value = val;
+    });
+    onBeforeUpdate(() => {
+      datesRef.value = {};
+      headDayEventsParentRef.value = {};
+      headDayEventsChildRef.value = {};
+    });
+    onMounted(() => {
+      __initCalendar();
+    });
+    function moveToToday() {
+      emittedValue.value = today();
+    }
+    function next(amount = 1) {
+      move(amount);
+    }
+    function prev(amount = 1) {
+      move(-amount);
+    }
+    function __onResize({ width, height }) {
+      size.width = width;
+      size.height = height;
+    }
+    function __isActiveDate(day) {
+      return day.date === emittedValue.value;
+    }
+    function __renderHead() {
+      return h("div", {
+        roll: "presentation",
+        class: {
+          "q-calendar-day__head": true,
+          "q-calendar__sticky": isSticky.value === true
+        },
+        style: {
+          marginRight: scrollWidth.value + "px"
+        }
+      }, [
+        __renderHeadIntervals(),
+        __renderHeadDaysColumn()
+      ]);
+    }
+    function __renderHeadIntervals() {
+      const slot = slots["head-intervals"];
+      const scope = {
+        timestamps: days.value,
+        days: days.value,
+        date: props.modelValue
+      };
+      return h("div", {
+        class: {
+          "q-calendar-day__head--intervals": true,
+          "q-calendar__sticky": isSticky.value === true
+        },
+        ...getDefaultMouseEventHandlers2("-head-intervals", (event) => {
+          return { scope, event };
+        })
+      }, [
+        slot && slot({ scope })
+      ]);
+    }
+    function __renderHeadDaysColumn() {
+      return h("div", {
+        ref: headerColumnRef,
+        class: {
+          "q-calendar-day__head--days__column": true
+        }
+      }, [
+        __renderHeadDaysRow(),
+        __renderHeadDaysEventsRow()
+      ]);
+    }
+    function __renderHeadDaysRow() {
+      return h("div", {
+        class: {
+          "q-calendar-day__head--days__weekdays": true
+        }
+      }, [
+        ...__renderHeadDays()
+      ]);
+    }
+    function __renderHeadDaysEventsRow() {
+      const slot = slots["head-days-events"];
+      nextTick(() => {
+        if (headDayEventsChildRef.value && parseInt(props.columnCount, 10) === 0 && window) {
+          try {
+            const styles = window.getComputedStyle(headDayEventsChildRef.value);
+            headDayEventsParentRef.value.parentElement.style.height = styles.height;
+            headDayEventsParentRef.value.style.height = styles.height;
+          } catch (e) {
+          }
+        }
+      });
+      return h("div", {
+        class: {
+          "q-calendar-day__head--days__event": true
+        }
+      }, [
+        slot && h("div", {
+          ref: headDayEventsParentRef,
+          style: {
+            position: "absolute",
+            left: 0,
+            top: 0,
+            right: 0,
+            overflow: "hidden",
+            zIndex: 1
+          }
+        }, [
+          slot({ scope: { days: days.value, ref: headDayEventsChildRef } })
+        ]),
+        ...__renderHeadDaysEvents()
+      ]);
+    }
+    function __renderHeadDays() {
+      if (days.value.length === 1 && parseInt(props.columnCount, 10) > 0) {
+        return Array.apply(null, new Array(parseInt(props.columnCount, 10))).map((_, i) => i + parseInt(props.columnIndexStart, 10)).map((columnIndex) => __renderHeadDay(days.value[0], columnIndex));
+      } else {
+        return days.value.map((day) => __renderHeadDay(day));
+      }
+    }
+    function __renderHeadDaysEvents() {
+      if (days.value.length === 1 && parseInt(props.columnCount, 10) > 0) {
+        return Array.apply(null, new Array(parseInt(props.columnCount, 10))).map((_, i) => i + parseInt(props.columnIndexStart, 10)).map((columnIndex) => __renderHeadDayEvent(days.value[0], columnIndex));
+      } else {
+        return days.value.map((day) => __renderHeadDayEvent(day));
+      }
+    }
+    function __renderHeadDay(day, columnIndex) {
+      const headDaySlot = slots["head-day"];
+      const headDateSlot = slots["head-date"];
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const scope = getScopeForSlot(day, columnIndex);
+      scope.activeDate = activeDate;
+      scope.droppable = dragOverHeadDayRef.value === day.date;
+      scope.disabled = props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false;
+      const width = isSticky.value === true ? props.cellWidth : computedWidth.value;
+      const styler = props.weekdayStyle || dayStyleDefault;
+      const style = {
+        width,
+        maxWidth: width,
+        minWidth: width,
+        ...styler({ scope })
+      };
+      if (isSticky.value === true) {
+        style.minWidth = width;
+      }
+      const weekdayClass = typeof props.weekdayClass === "function" ? props.weekdayClass({ scope }) : {};
+      const isFocusable = props.focusable === true && props.focusType.includes("weekday");
+      const key = day.date + (columnIndex !== void 0 ? "-" + columnIndex : "");
+      const data = {
+        key,
+        ref: (el) => {
+          datesRef.value[key] = el;
+        },
+        tabindex: isFocusable === true ? 0 : -1,
+        class: {
+          "q-calendar-day__head--day": true,
+          ...weekdayClass,
+          ...getRelativeClasses(day),
+          "q-active-date": activeDate,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isFocusable === true
+        },
+        style,
+        onFocus: (e) => {
+          if (isFocusable === true) {
+            focusRef.value = key;
+          }
+        },
+        onKeydown: (e) => {
+          if (day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        },
+        onKeyup: (e) => {
+          if (day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            emittedValue.value = day.date;
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-head-day", (event) => {
+          return { scope, event };
+        }),
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        }
+      };
+      return h("div", data, [
+        headDaySlot !== void 0 && headDaySlot({ scope }),
+        headDaySlot === void 0 && __renderColumnHeaderBefore(day, columnIndex),
+        headDaySlot === void 0 && __renderDateHeader(day),
+        headDaySlot === void 0 && headDateSlot && headDateSlot({ scope }),
+        headDaySlot === void 0 && __renderColumnHeaderAfter(day, columnIndex),
+        useFocusHelper()
+      ]);
+    }
+    function __renderDateHeader(day) {
+      if (props.dateHeader === "stacked") {
+        return [
+          props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+          props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+        ];
+      } else if (props.dateHeader === "inline") {
+        if (props.weekdayAlign === "left" && props.dateAlign === "right") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+          ]);
+        } else if (props.weekdayAlign === "right" && props.dateAlign === "left") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+          ]);
+        } else {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+          ]);
+        }
+      } else if (props.dateHeader === "inverted") {
+        if (props.weekdayAlign === "left" && props.dateAlign === "right") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day),
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day)
+          ]);
+        } else if (props.weekdayAlign === "right" && props.dateAlign === "left") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day),
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day)
+          ]);
+        } else {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day),
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day)
+          ]);
+        }
+      }
+    }
+    function __renderHeadDayEvent(day, columnIndex) {
+      const headDayEventSlot = slots["head-day-event"];
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const scope = getScopeForSlot(day, columnIndex);
+      scope.activeDate = activeDate;
+      scope.disabled = props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false;
+      const width = isSticky.value === true ? convertToUnit(parsedCellWidth.value) : computedWidth.value;
+      const style = {
+        width,
+        maxWidth: width,
+        minWidth: width
+      };
+      if (isSticky.value === true) {
+        style.minWidth = width;
+      }
+      return h("div", {
+        key: "event-" + day.date + (columnIndex !== void 0 ? "-" + columnIndex : ""),
+        class: {
+          "q-calendar-day__head--day__event": true,
+          ...getRelativeClasses(day),
+          "q-active-date": activeDate
+        },
+        style
+      }, [
+        headDayEventSlot && headDayEventSlot({ scope })
+      ]);
+    }
+    function __renderHeadWeekday(day) {
+      const slot = slots["head-weekday-label"];
+      const shortWeekdayLabel = props.shortWeekdayLabel === true;
+      const scope = getScopeForSlot(day);
+      scope.shortWeekdayLabel = props.shortWeekdayLabel;
+      scope.disabled = props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false;
+      const data = {
+        class: {
+          "q-calendar-day__head--weekday": true,
+          ["q-calendar__" + props.weekdayAlign]: true,
+          "q-calendar__ellipsis": true
+        }
+      };
+      return h("div", data, slot && slot({ scope }) || __renderHeadWeekdayLabel(day, shortWeekdayLabel));
+    }
+    function __renderHeadWeekdayLabel(day, shortWeekdayLabel) {
+      const weekdayLabel = weekdayFormatter.value(day, shortWeekdayLabel || props.weekdayBreakpoints[0] > 0 && parsedCellWidth.value <= props.weekdayBreakpoints[0]);
+      return h("span", {
+        class: "q-calendar-day__head--weekday-label q-calendar__ellipsis"
+      }, props.weekdayBreakpoints[1] > 0 && parsedCellWidth.value <= props.weekdayBreakpoints[1] ? minCharWidth(weekdayLabel, props.minWeekdayLabel) : weekdayLabel);
+    }
+    function __renderHeadDayDate(day) {
+      const data = {
+        class: {
+          "q-calendar-day__head--date": true,
+          ["q-calendar__" + props.dateAlign]: true
+        }
+      };
+      return h("div", data, __renderHeadDayBtn(day));
+    }
+    function __renderHeadDayBtn(day) {
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const dayLabel = dayFormatter.value(day, false);
+      const headDayLabelSlot = slots["head-day-label"];
+      const headDayButtonSlot = slots["head-day-button"];
+      const scope = {
+        dayLabel,
+        timestamp: day,
+        activeDate,
+        disabled: props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false
+      };
+      const data = {
+        class: {
+          "q-calendar-day__head--day__label": true,
+          "q-calendar__button": true,
+          "q-calendar__button--round": props.dateType === "round",
+          "q-calendar__button--rounded": props.dateType === "rounded",
+          "q-calendar__button--bordered": day.current === true,
+          "q-calendar__focusable": true
+        },
+        disabled: day.disabled,
+        onKeydown: (e) => {
+          if (day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        },
+        onKeyup: (e) => {
+          if (day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            emittedValue.value = day.date;
+            if (emitListeners.value.onClickDate !== void 0) {
+              emit("click-date", { scope });
+            }
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-date", (event, eventName) => {
+          if (eventName === "click-date" || eventName === "contextmenu-date") {
+            emittedValue.value = day.date;
+            if (eventName === "click-date") {
+              event.preventDefault();
+            }
+          }
+          return { scope, event };
+        })
+      };
+      if (props.noAria !== true) {
+        data.ariaLabel = ariaDateFormatter.value(day);
+      }
+      return headDayButtonSlot ? headDayButtonSlot({ scope }) : useButton(props, data, headDayLabelSlot ? headDayLabelSlot({ scope }) : dayLabel);
+    }
+    function __renderColumnHeaderBefore(day, columnIndex) {
+      const slot = slots["column-header-before"];
+      if (slot) {
+        const scope = { timestamp: day, columnIndex };
+        return h("div", {
+          class: "q-calendar-day__column-header--before"
+        }, [
+          slot({ scope })
+        ]);
+      }
+    }
+    function __renderColumnHeaderAfter(day, columnIndex) {
+      const slot = slots["column-header-after"];
+      if (slot) {
+        const scope = { timestamp: day, columnIndex };
+        return h("div", {
+          class: "q-calendar-day__column-header--after"
+        }, [
+          slot({ scope })
+        ]);
+      }
+    }
+    function __renderBody() {
+      return h("div", {
+        class: "q-calendar-day__body"
+      }, [
+        __renderScrollArea()
+      ]);
+    }
+    function __renderScrollArea() {
+      if (isSticky.value === true) {
+        return h("div", {
+          ref: scrollArea,
+          class: {
+            "q-calendar-day__scroll-area": true,
+            "q-calendar__scroll": true
+          }
+        }, [
+          isSticky.value !== true && __renderBodyIntervals(),
+          __renderDayContainer()
+        ]);
+      } else if (props.noScroll === true) {
+        return __renderPane();
+      } else {
+        return h("div", {
+          ref: scrollArea,
+          class: {
+            "q-calendar-day__scroll-area": true,
+            "q-calendar__scroll": true
+          }
+        }, [
+          __renderPane()
+        ]);
+      }
+    }
+    function __renderPane() {
+      return h("div", {
+        ref: pane,
+        class: "q-calendar-day__pane"
+      }, [
+        __renderBodyIntervals(),
+        __renderDayContainer()
+      ]);
+    }
+    function __renderDayContainer() {
+      const slot = slots["day-container"];
+      return h("div", {
+        class: "q-calendar-day__day-container"
+      }, [
+        isSticky.value === true && props.noHeader !== true && __renderHead(),
+        h("div", {
+          style: {
+            display: "flex",
+            flexDirection: "row"
+          }
+        }, [
+          isSticky.value === true && __renderBodyIntervals(),
+          ...__renderDays()
+        ]),
+        slot && slot({ scope: { days: days.value } })
+      ]);
+    }
+    function __renderDays() {
+      if (days.value.length === 1 && parseInt(props.columnCount, 10) > 0) {
+        return Array.apply(null, new Array(parseInt(props.columnCount, 10))).map((_, i) => i + parseInt(props.columnIndexStart, 10)).map((i) => __renderDay(days.value[0], 0, i));
+      } else {
+        return days.value.map((day, index) => __renderDay(day, index));
+      }
+    }
+    function __renderDay(day, dayIndex, columnIndex) {
+      const slot = slots["day-body"];
+      const scope = getScopeForSlot(day, columnIndex);
+      const width = isSticky.value === true ? props.cellWidth : computedWidth.value;
+      const style = {
+        width,
+        maxWidth: width,
+        minWidth: width
+      };
+      if (isSticky.value === true) {
+        style.minWidth = width;
+      }
+      return h("div", {
+        key: day.date + (columnIndex !== void 0 ? ":" + columnIndex : ""),
+        class: {
+          "q-calendar-day__day": true,
+          ...getRelativeClasses(day)
+        },
+        style
+      }, [
+        ...__renderDayIntervals(dayIndex, columnIndex),
+        slot && slot({ scope })
+      ]);
+    }
+    function __renderDayIntervals(index, columnIndex) {
+      return intervals.value[index].map((interval) => __renderDayInterval(interval, columnIndex));
+    }
+    function __renderDayInterval(interval, columnIndex) {
+      const height = convertToUnit(props.intervalHeight);
+      const styler = props.intervalStyle || styleDefault;
+      const slotDayInterval = slots["day-interval"];
+      const scope = getScopeForSlot(interval, columnIndex);
+      scope.droppable = dragOverInterval.value === getDayTimeIdentifier(interval);
+      const intervalClass = typeof props.intervalClass === "function" ? props.intervalClass({ scope }) : {};
+      const isFocusable = props.focusable === true && props.focusType.includes("interval");
+      const dateTime = getDateTime(interval);
+      const data = {
+        key: dateTime,
+        tabindex: isFocusable === true ? 0 : -1,
+        class: {
+          "q-calendar-day__day-interval": interval.minute === 0,
+          "q-calendar-day__day-interval--section": interval.minute !== 0,
+          ...intervalClass,
+          ...getIntervalClasses(interval, props.selectedDates, props.selectedStartEndDates),
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isFocusable === true
+        },
+        style: {
+          height,
+          ...styler({ scope })
+        },
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "interval", scope) === true ? dragOverInterval.value = getDayTimeIdentifier(interval) : dragOverInterval.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "interval", scope) === true ? dragOverInterval.value = getDayTimeIdentifier(interval) : dragOverInterval.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "interval", scope) === true ? dragOverInterval.value = getDayTimeIdentifier(interval) : dragOverInterval.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "interval", scope) === true ? dragOverInterval.value = getDayTimeIdentifier(interval) : dragOverInterval.value = "";
+          }
+        },
+        onKeydown: (event) => {
+          if (isKeyCode2(event, [13, 32])) {
+            event.stopPropagation();
+            event.preventDefault();
+          }
+        },
+        onKeyup: (event) => {
+          if (isKeyCode2(event, [13, 32])) {
+            const scope2 = getScopeForSlot(interval, columnIndex);
+            emittedValue.value = scope2.timestamp.date;
+            if (emitListeners.value.onClickTime !== void 0) {
+              emit("click-time", { scope: scope2, event });
+            }
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-time", (event) => {
+          const scope2 = getScopeForSlot(getTimestampAtEventInterval(event, interval, props.timeClicksClamped, times.now), columnIndex);
+          return { scope: scope2, event };
+        })
+      };
+      if (props.noAria !== true) {
+        data.ariaLabel = ariaDateTimeFormatter.value(interval);
+      }
+      const children = slotDayInterval ? slotDayInterval({ scope }) : void 0;
+      return h("div", data, [children, useFocusHelper()]);
+    }
+    function __renderBodyIntervals() {
+      const data = {
+        ariaHidden: "true",
+        class: {
+          "q-calendar-day__intervals-column": true,
+          "q-calendar__ellipsis": true,
+          "q-calendar__sticky": isSticky.value === true
+        },
+        ...getDefaultMouseEventHandlers2("-interval", (event) => {
+          const timestamp = getTimestampAtEvent(event, parsedStart.value, props.timeClicksClamped, times.now);
+          return { scope: { timestamp }, event };
+        })
+      };
+      return h("div", data, __renderIntervalLabels());
+    }
+    function __renderIntervalLabels() {
+      return intervals.value[0].map((interval) => __renderIntervalLabel(interval));
+    }
+    function __renderIntervalLabel(interval) {
+      const slotIntervalLabel = slots["interval-label"];
+      const height = convertToUnit(props.intervalHeight);
+      const short = props.shortIntervalLabel;
+      const shower = props.showIntervalLabel || showIntervalLabelDefault;
+      const show = shower(interval);
+      const label = show ? intervalFormatter.value(interval, short) : void 0;
+      return h("div", {
+        key: interval.time,
+        class: {
+          "q-calendar-day__interval": interval.minute === 0,
+          "q-calendar-day__interval--section": interval.minute !== 0
+        },
+        style: {
+          height
+        }
+      }, [
+        h("div", {
+          class: "q-calendar-day__interval--text q-calendar__overflow-wrap"
+        }, [
+          slotIntervalLabel ? slotIntervalLabel({ scope: { timestamp: interval, label } }) : label
+        ])
+      ]);
+    }
+    function __renderDaily() {
+      const { start, end, maxDays } = renderValues.value;
+      if (startDate.value !== start.date || endDate.value !== end.date || maxDaysRendered.value !== maxDays) {
+        startDate.value = start.date;
+        endDate.value = end.date;
+        maxDaysRendered.value = maxDays;
+      }
+      const hasWidth = size.width > 0;
+      const daily = withDirectives(h("div", {
+        key: startDate.value,
+        class: "q-calendar-day"
+      }, [
+        hasWidth === true && isSticky.value !== true && props.noHeader !== true && __renderHead(),
+        hasWidth && __renderBody()
+      ]), [[
+        ResizeObserver$1,
+        __onResize
+      ]]);
+      if (props.animated === true) {
+        const transition = "q-calendar--" + (direction.value === "prev" ? props.transitionPrev : props.transitionNext);
+        return h(Transition, {
+          name: transition,
+          appear: true
+        }, () => daily);
+      }
+      return daily;
+    }
+    expose({
+      prev,
+      next,
+      move,
+      moveToToday,
+      updateCurrent,
+      timeStartPos,
+      timeDurationHeight,
+      heightToMinutes,
+      scrollToTime
+    });
+    return () => __renderCalendar();
+  }
+});
+const useMonthProps = {
+  dayHeight: {
+    type: [Number, String],
+    default: 0,
+    validator: validateNumber
+  },
+  dayMinHeight: {
+    type: [Number, String],
+    default: 0,
+    validator: validateNumber
+  },
+  dayStyle: {
+    type: Function,
+    default: null
+  },
+  dayClass: {
+    type: Function,
+    default: null
+  },
+  weekdayStyle: {
+    type: Function,
+    default: null
+  },
+  weekdayClass: {
+    type: Function,
+    default: null
+  },
+  dayPadding: String,
+  minWeeks: {
+    type: [Number, String],
+    validator: validateNumber,
+    default: 1
+  },
+  shortMonthLabel: Boolean,
+  showWorkWeeks: Boolean,
+  showMonthLabel: {
+    type: Boolean,
+    default: true
+  },
+  showDayOfYearLabel: Boolean,
+  enableOutsideDays: Boolean,
+  noOutsideDays: Boolean,
+  hover: Boolean,
+  miniMode: {
+    type: [Boolean, String],
+    validator: (v) => [true, false, "auto"].includes(v)
+  },
+  breakpoint: {
+    type: [Number, String],
+    default: "md",
+    validator: (v) => ["xs", "sm", "md", "lg", "xl"].includes(v) || validateNumber(v)
+  },
+  monthLabelSize: {
+    type: String,
+    default: "sm",
+    validator: (v) => ["xxs", "xs", "sm", "md", "lg", "xl", "xxl"].includes(v) || !!v && v.length > 0
+  }
+};
+function useMonth(props, emit, {
+  weekdaySkips,
+  times,
+  parsedStart,
+  parsedEnd,
+  size,
+  headerColumnRef
+}) {
+  const parsedMinWeeks = computed(() => parseInt(props.minWeeks, 10));
+  const parsedMinDays = computed(() => parsedMinWeeks.value * props.weekdays.length);
+  const parsedMonthStart = computed(() => __getStartOfWeek(__getStartOfMonth(parsedStart.value)));
+  const parsedMonthEnd = computed(() => __getEndOfWeek(__getEndOfMonth(parsedEnd.value)));
+  const parsedCellWidth = computed(() => {
+    let width = 0;
+    if (props.cellWidth) {
+      width = props.cellWidth;
+    } else if (size.width > 0 && headerColumnRef.value) {
+      width = headerColumnRef.value.offsetWidth / props.weekdays.length;
+    }
+    return width;
+  });
+  const days = computed(() => {
+    return createDayList(
+      parsedMonthStart.value,
+      parsedMonthEnd.value,
+      times.today,
+      weekdaySkips.value,
+      props.disabledBefore,
+      props.disabledAfter,
+      props.disabledWeekdays,
+      props.disabledDays,
+      Number.MAX_SAFE_INTEGER,
+      parsedMinDays.value
+    );
+  });
+  const todayWeek = computed(() => {
+    const day = times.today;
+    const start = __getStartOfWeek(day);
+    const end = __getEndOfWeek(day);
+    return createDayList(
+      start,
+      end,
+      day,
+      weekdaySkips,
+      props.disabledBefore,
+      props.disabledAfter,
+      props.disabledWeekdays,
+      props.disabledDays,
+      props.weekdays.length,
+      props.weekdays.length
+    );
+  });
+  const monthFormatter = computed(() => {
+    const longOptions = { timeZone: "UTC", month: "long" };
+    const shortOptions = { timeZone: "UTC", month: "short" };
+    return createNativeLocaleFormatter(
+      props.locale,
+      (_tms, short) => short ? shortOptions : longOptions
+    );
+  });
+  const parsedBreakpoint = computed(() => {
+    switch (props.breakpoint) {
+      case "xs":
+        return 300;
+      case "sm":
+        return 350;
+      case "md":
+        return 400;
+      case "lg":
+        return 450;
+      case "xl":
+        return 500;
+      default:
+        return parseInt(props.breakpoint, 10);
+    }
+  });
+  const parsedMonthLabelSize = computed(() => {
+    switch (props.monthLabelSize) {
+      case "xxs":
+        return ".4em";
+      case "xs":
+        return ".6em";
+      case "sm":
+        return ".8em";
+      case "md":
+        return "1.0em";
+      case "lg":
+        return "1.2em";
+      case "xl":
+        return "1.4em";
+      case "xxl":
+        return "1.6em";
+      default:
+        return props.monthLabelSize;
+    }
+  });
+  let firstTime = true;
+  const isMiniMode2 = computed(() => {
+    const val = props.miniMode === true || props.miniMode === "auto" && props.breakpoint !== void 0 && size.width < parsedBreakpoint.value;
+    if (firstTime === true) {
+      firstTime = false;
+      emit("mini-mode", val);
+    }
+    return val;
+  });
+  watch(isMiniMode2, (val) => {
+    emit("mini-mode", val);
+  });
+  function __getStartOfWeek(day) {
+    return getStartOfWeek(day, props.weekdays, times.today);
+  }
+  function __getEndOfWeek(day) {
+    return getEndOfWeek(day, props.weekdays, times.today);
+  }
+  function __getStartOfMonth(day) {
+    return getStartOfMonth(day);
+  }
+  function __getEndOfMonth(day) {
+    return getEndOfMonth(day);
+  }
+  function isOutside(day) {
+    const dayIdentifier = getDayIdentifier(day);
+    return dayIdentifier < getDayIdentifier(parsedStart.value) || dayIdentifier > getDayIdentifier(parsedEnd.value);
+  }
+  return {
+    parsedCellWidth,
+    parsedMinWeeks,
+    parsedMinDays,
+    parsedMonthStart,
+    parsedMonthEnd,
+    parsedBreakpoint,
+    parsedMonthLabelSize,
+    days,
+    todayWeek,
+    isMiniMode: isMiniMode2,
+    monthFormatter,
+    isOutside
+  };
+}
+var QCalendarMonth = defineComponent({
+  name: "QCalendarMonth",
+  directives: [ResizeObserver$1],
+  props: {
+    ...useCommonProps,
+    ...useMonthProps,
+    ...useTimesProps,
+    ...useCellWidthProps,
+    ...useNavigationProps
+  },
+  emits: [
+    "update:model-value",
+    ...useCheckChangeEmits,
+    ...useMoveEmits,
+    "mini-mode",
+    ...getRawMouseEvents("-date"),
+    ...getRawMouseEvents("-day"),
+    ...getRawMouseEvents("-head-workweek"),
+    ...getRawMouseEvents("-head-day"),
+    ...getRawMouseEvents("-workweek")
+  ],
+  setup(props, { slots, emit, expose }) {
+    const scrollArea = ref(null), pane = ref(null), headerColumnRef = ref(null), focusRef = ref(null), focusValue = ref(null), datesRef = ref({}), weekEventRef = ref([]), weekRef = ref([]), direction = ref("next"), startDate = ref(props.modelValue || today()), endDate = ref("0000-00-00"), maxDaysRendered = ref(0), emittedValue = ref(props.modelValue), size = reactive({ width: 0, height: 0 }), dragOverHeadDayRef = ref(false), dragOverDayRef = ref(false), lastStart = ref(null), lastEnd = ref(null);
+    const parsedView = computed(() => {
+      return "month";
+    });
+    const vm = getCurrentInstance();
+    if (vm === null) {
+      throw new Error("current instance is null");
+    }
+    const { emitListeners } = useEmitListeners(vm);
+    const {
+      isSticky
+    } = useCellWidth(props);
+    watch(isSticky, (val) => {
+    });
+    const {
+      times,
+      setCurrent,
+      updateCurrent
+    } = useTimes(props);
+    updateCurrent();
+    setCurrent();
+    const {
+      weekdaySkips,
+      parsedStart,
+      parsedEnd,
+      dayFormatter,
+      weekdayFormatter,
+      ariaDateFormatter,
+      dayStyleDefault,
+      getRelativeClasses
+    } = useCommon(props, { startDate, endDate, times });
+    const parsedValue = computed(() => {
+      return parseTimestamp(props.modelValue, times.now) || parsedStart.value || times.today;
+    });
+    focusValue.value = parsedValue.value;
+    focusRef.value = parsedValue.value.date;
+    const computedStyles = computed(() => {
+      const style = {};
+      if (props.dayPadding !== void 0) {
+        style.padding = props.dayPadding;
+      }
+      style.minWidth = computedWidth.value;
+      style.maxWidth = computedWidth.value;
+      style.width = computedWidth.value;
+      return style;
+    });
+    const { renderValues } = useRenderValues(props, {
+      parsedView,
+      times,
+      parsedValue
+    });
+    const {
+      rootRef,
+      __initCalendar,
+      __renderCalendar
+    } = useCalendar(props, __renderMonth, {
+      scrollArea,
+      pane
+    });
+    const {
+      days,
+      todayWeek,
+      isMiniMode: isMiniMode2,
+      parsedCellWidth,
+      parsedMonthLabelSize,
+      isOutside,
+      monthFormatter
+    } = useMonth(props, emit, {
+      weekdaySkips,
+      times,
+      parsedStart,
+      parsedEnd,
+      size,
+      headerColumnRef
+    });
+    const { move } = useMove(props, {
+      parsedView,
+      parsedValue,
+      weekdaySkips,
+      direction,
+      maxDays: maxDaysRendered,
+      times,
+      emittedValue,
+      emit
+    });
+    const {
+      getDefaultMouseEventHandlers: getDefaultMouseEventHandlers2
+    } = useMouse(emit, emitListeners);
+    const {
+      checkChange
+    } = useCheckChange(emit, { days, lastStart, lastEnd });
+    const {
+      isKeyCode: isKeyCode2
+    } = useEvents();
+    const { tryFocus } = useKeyboard(props, {
+      rootRef,
+      focusRef,
+      focusValue,
+      datesRef,
+      days,
+      parsedView,
+      parsedValue,
+      emittedValue,
+      weekdaySkips,
+      direction,
+      times
+    });
+    const workweekWidth = computed(() => {
+      if (rootRef.value) {
+        return props.showWorkWeeks === true ? parseInt(getComputedStyle(rootRef.value).getPropertyValue(isMiniMode2.value === true ? "--calendar-mini-work-week-width" : "--calendar-work-week-width"), 10) : 0;
+      }
+      return 0;
+    });
+    const parsedColumnCount = computed(() => {
+      return props.weekdays.length;
+    });
+    const computedWidth = computed(() => {
+      if (rootRef.value) {
+        const width = size.width || rootRef.value.getBoundingClientRect().width;
+        if (width && parsedColumnCount.value) {
+          return (width - workweekWidth.value) / parsedColumnCount.value + "px";
+        }
+      }
+      return 100 / parsedColumnCount.value + "%";
+    });
+    const isDayFocusable = computed(() => {
+      return props.focusable === true && props.focusType.includes("day") && isMiniMode2.value !== true;
+    });
+    const isDateFocusable = computed(() => {
+      return props.focusable === true && props.focusType.includes("date") && isDayFocusable.value !== true;
+    });
+    watch([days], checkChange, { deep: true, immediate: true });
+    watch(() => props.modelValue, (val, oldVal) => {
+      if (emittedValue.value !== val) {
+        if (props.animated === true) {
+          const v1 = getDayIdentifier(parsed(val));
+          const v2 = getDayIdentifier(parsed(oldVal));
+          direction.value = v1 >= v2 ? "next" : "prev";
+        }
+        emittedValue.value = val;
+      }
+      focusRef.value = val;
+    });
+    watch(emittedValue, (val, oldVal) => {
+      if (emittedValue.value !== props.modelValue) {
+        if (props.animated === true) {
+          const v1 = getDayIdentifier(parsed(val));
+          const v2 = getDayIdentifier(parsed(oldVal));
+          direction.value = v1 >= v2 ? "next" : "prev";
+        }
+        emit("update:model-value", val);
+      }
+    });
+    watch(focusRef, (val) => {
+      if (val) {
+        focusValue.value = parseTimestamp(val);
+        if (emittedValue.value !== val) {
+          emittedValue.value = val;
+        }
+      }
+    });
+    watch(focusValue, (val) => {
+      if (datesRef.value[focusRef.value]) {
+        datesRef.value[focusRef.value].focus();
+      } else {
+        tryFocus();
+      }
+    });
+    onBeforeUpdate(() => {
+      datesRef.value = {};
+      weekEventRef.value = [];
+      weekRef.value = [];
+      nextTick(() => {
+        __adjustForWeekEvents();
+      });
+    });
+    onMounted(() => {
+      __initCalendar();
+      __adjustForWeekEvents();
+    });
+    function moveToToday() {
+      emittedValue.value = today();
+    }
+    function next(amount = 1) {
+      move(amount);
+    }
+    function prev(amount = 1) {
+      move(-amount);
+    }
+    function __onResize({ width, height }) {
+      size.width = width;
+      size.height = height;
+    }
+    function __isActiveDate(day) {
+      return day.date === emittedValue.value;
+    }
+    function isCurrentWeek(week) {
+      for (let i = 0; i < week.length; ++i) {
+        if (week[i].current === true) {
+          return { timestamp: week[i] };
+        }
+      }
+      return { timestamp: false };
+    }
+    function __adjustForWeekEvents() {
+      if (isMiniMode2.value === true)
+        return;
+      if (props.dayHeight !== 0)
+        return;
+      const slotWeek = slots.week;
+      if (slotWeek === void 0)
+        return;
+      if (window) {
+        for (const row in weekEventRef.value) {
+          const weekEvent = weekEventRef.value[row];
+          if (weekEvent === void 0)
+            continue;
+          const wrapper = weekRef.value[row];
+          if (wrapper === void 0)
+            continue;
+          const styles = window.getComputedStyle(weekEvent);
+          const margin = parseFloat(styles.marginTop, 10) + parseFloat(styles.marginBottom, 10);
+          if (weekEvent.clientHeight + margin > wrapper.clientHeight) {
+            wrapper.style.height = weekEvent.clientHeight + margin + "px";
+          }
+        }
+      }
+    }
+    function __renderBody() {
+      return h("div", {
+        class: "q-calendar-month__body"
+      }, [
+        ...__renderWeeks()
+      ]);
+    }
+    function __renderHead() {
+      return h("div", {
+        role: "presentation",
+        class: "q-calendar-month__head"
+      }, [
+        props.showWorkWeeks === true && __renderWorkWeekHead(),
+        h("div", {
+          class: "q-calendar-month__head--wrapper"
+        }, [
+          __renderHeadDaysRow()
+        ])
+      ]);
+    }
+    function __renderHeadDaysRow() {
+      return h("div", {
+        ref: headerColumnRef,
+        class: {
+          "q-calendar-month__head--weekdays": true
+        }
+      }, [
+        ...__renderHeadDays()
+      ]);
+    }
+    function __renderWorkWeekHead() {
+      const slot = slots["head-workweek"];
+      const scope = {
+        start: parsedStart.value,
+        end: parsedEnd.value,
+        miniMode: isMiniMode2.value
+      };
+      return h("div", {
+        class: "q-calendar-month__head--workweek",
+        ...getDefaultMouseEventHandlers2("-head-workweek", (event) => {
+          return { scope, event };
+        })
+      }, slot ? slot({ scope }) : "#");
+    }
+    function __renderHeadDays() {
+      return todayWeek.value.map((day, index) => __renderHeadDay(day, index));
+    }
+    function __renderHeadDay(day, index) {
+      const headDaySlot = slots["head-day"];
+      const filteredDays = days.value.filter((day2) => day2.weekday === day.weekday);
+      const weekday = filteredDays[0].weekday;
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const scope = {
+        activeDate,
+        weekday,
+        timestamp: day,
+        days: filteredDays,
+        index,
+        miniMode: isMiniMode2.value,
+        droppable: dragOverHeadDayRef.value === day.weekday,
+        disabled: props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false
+      };
+      const weekdayClass = typeof props.weekdayClass === "function" ? props.weekdayClass({ scope }) : {};
+      const isFocusable = props.focusable === true && props.focusType.includes("weekday");
+      const width = computedWidth.value;
+      const styler = props.weekdayStyle || dayStyleDefault;
+      const style = {
+        width,
+        maxWidth: width,
+        minWidth: width,
+        ...styler({ scope })
+      };
+      const data = {
+        key: day.date + (index !== void 0 ? "-" + index : ""),
+        tabindex: isFocusable === true ? 0 : -1,
+        class: {
+          "q-calendar-month__head--weekday": true,
+          ...weekdayClass,
+          "q-disabled-day disabled": scope.disabled === true,
+          ["q-calendar__" + props.weekdayAlign]: true,
+          "q-calendar__ellipsis": true,
+          "q-calendar__focusable": isFocusable === true
+        },
+        style,
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.weekday : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.weekday : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.weekday : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.weekday : dragOverHeadDayRef.value = "";
+          }
+        },
+        onFocus: (e) => {
+          if (isFocusable === true) {
+            focusRef.value = day.date;
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-head-day", (event) => {
+          return { scope, event };
+        })
+      };
+      if (props.noAria !== true) {
+        data.ariaLabel = weekdayFormatter.value(day, false);
+      }
+      return h("div", data, [
+        headDaySlot === void 0 && __renderHeadWeekdayLabel(day, props.shortWeekdayLabel || isMiniMode2.value),
+        headDaySlot !== void 0 && headDaySlot({ scope }),
+        __renderHeadDayEvent(day, index),
+        isFocusable === true && useFocusHelper()
+      ]);
+    }
+    function __renderHeadDayEvent(day, index) {
+      const headDayEventSlot = slots["head-day-event"];
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const filteredDays = days.value.filter((day2) => day2.weekday === day.weekday);
+      const weekday = filteredDays[0].weekday;
+      const scope = {
+        weekday,
+        timestamp: day,
+        days: filteredDays,
+        index,
+        miniMode: isMiniMode2.value,
+        activeDate,
+        disabled: props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false
+      };
+      const width = computedWidth.value;
+      const styler = props.weekdayStyle || dayStyleDefault;
+      const style = {
+        width,
+        maxWidth: width,
+        minWidth: width,
+        ...styler({ scope })
+      };
+      return h("div", {
+        key: "event-" + day.date + (index !== void 0 ? "-" + index : ""),
+        class: {
+          "q-calendar-month__head--event": true
+        },
+        style
+      }, [
+        headDayEventSlot !== void 0 && headDayEventSlot({ scope })
+      ]);
+    }
+    function __renderHeadWeekdayLabel(day, shortWeekdayLabel) {
+      const weekdayLabel = weekdayFormatter.value(day, shortWeekdayLabel || props.weekdayBreakpoints[0] > 0 && parsedCellWidth.value <= props.weekdayBreakpoints[0]);
+      return h("span", {
+        class: "q-calendar__ellipsis"
+      }, isMiniMode2.value === true && props.shortWeekdayLabel === true || props.weekdayBreakpoints[1] > 0 && parsedCellWidth.value <= props.weekdayBreakpoints[1] ? minCharWidth(weekdayLabel, props.minWeekdayLabel) : weekdayLabel);
+    }
+    function __renderWeeks() {
+      const weekDays = props.weekdays.length;
+      const weeks = [];
+      for (let i = 0; i < days.value.length; i += weekDays) {
+        weeks.push(__renderWeek(days.value.slice(i, i + weekDays), i / weekDays));
+      }
+      return weeks;
+    }
+    function __renderWeek(week, weekNum) {
+      const slotWeek = slots.week;
+      const weekdays = props.weekdays;
+      const scope = { week, weekdays, miniMode: isMiniMode2.value };
+      const style = {};
+      style.height = props.dayHeight > 0 && isMiniMode2.value !== true ? convertToUnit(parseInt(props.dayHeight, 10)) : "auto";
+      if (props.dayMinHeight > 0 && isMiniMode2.value !== true) {
+        style.minHeight = convertToUnit(parseInt(props.dayMinHeight, 10));
+      }
+      const useAutoHeight = parseInt(props.dayHeight, 10) === 0 && parseInt(props.dayMinHeight, 10) === 0;
+      return h("div", {
+        key: week[0].date,
+        ref: (el) => {
+          weekRef.value[weekNum] = el;
+        },
+        class: {
+          "q-calendar-month__week--wrapper": true,
+          "q-calendar-month__week--auto-height": useAutoHeight
+        },
+        style
+      }, [
+        props.showWorkWeeks === true ? __renderWorkWeekGutter(week) : void 0,
+        h("div", {
+          class: "q-calendar-month__week"
+        }, [
+          h("div", {
+            class: "q-calendar-month__week--days"
+          }, week.map((day, index) => __renderDay(day))),
+          isMiniMode2.value !== true && slotWeek !== void 0 ? h("div", {
+            ref: (el) => {
+              weekEventRef.value[weekNum] = el;
+            },
+            class: "q-calendar-month__week--events"
+          }, slotWeek({ scope })) : void 0
+        ])
+      ]);
+    }
+    function __renderWorkWeekGutter(week) {
+      const slot = slots.workweek;
+      const day = week.length > 2 ? week[2] : week[0];
+      const { timestamp } = isCurrentWeek(week);
+      const workweekLabel = Number(day.workweek).toLocaleString(props.locale);
+      const scope = { workweekLabel, week, miniMode: isMiniMode2.value };
+      return h("div", {
+        key: day.workweek,
+        class: {
+          "q-calendar-month__workweek": true,
+          ...getRelativeClasses(timestamp !== false ? timestamp : day, false)
+        },
+        ...getDefaultMouseEventHandlers2("-workweek", (event) => {
+          return { scope, event };
+        })
+      }, slot ? slot({ scope }) : workweekLabel);
+    }
+    function __renderDay(day) {
+      const slot = slots.day;
+      const styler = props.dayStyle || dayStyleDefault;
+      const outside = isOutside(day);
+      const activeDate = props.noActiveDate !== true && parsedValue.value.date === day.date;
+      const hasMonth = outside === false && props.showMonthLabel === true && days.value.find((d) => d.month === day.month).day === day.day;
+      const scope = {
+        outside,
+        timestamp: day,
+        miniMode: isMiniMode2.value,
+        activeDate,
+        hasMonth,
+        droppable: dragOverDayRef.value === day.date,
+        disabled: props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false
+      };
+      const style = Object.assign({ ...computedStyles.value }, styler({ scope }));
+      const dayClass = typeof props.dayClass === "function" ? props.dayClass({ scope }) : {};
+      const data = {
+        key: day.date,
+        ref: (el) => {
+          if (isDayFocusable.value === true) {
+            datesRef.value[day.date] = el;
+          }
+        },
+        tabindex: isDayFocusable.value === true ? 0 : -1,
+        class: {
+          "q-calendar-month__day": true,
+          ...dayClass,
+          ...getRelativeClasses(day, outside, props.selectedDates, props.selectedStartEndDates, props.hover),
+          "q-active-date": activeDate === true,
+          disabled: props.enableOutsideDays !== true && outside === true,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isDayFocusable.value === true
+        },
+        style,
+        onFocus: (e) => {
+          if (isDayFocusable.value === true) {
+            focusRef.value = day.date;
+          }
+        },
+        onKeydown: (e) => {
+          if (outside !== true && day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        },
+        onKeyup: (event) => {
+          if (outside !== true && day.disabled !== true && isKeyCode2(event, [13, 32])) {
+            event.stopPropagation();
+            event.preventDefault();
+            if (emitListeners.value.onClickDay !== void 0 && isMiniMode2.value !== true) {
+              emit("click-day", { scope, event });
+            }
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-day", (event) => {
+          return { scope, event };
+        })
+      };
+      const dragAndDrop = {
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "day", scope) === true ? dragOverDayRef.value = day.date : dragOverDayRef.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "day", scope) === true ? dragOverDayRef.value = day.date : dragOverDayRef.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "day", scope) === true ? dragOverDayRef.value = day.date : dragOverDayRef.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "day", scope) === true ? dragOverDayRef.value = day.date : dragOverDayRef.value = "";
+          }
+        }
+      };
+      if (outside !== true) {
+        Object.assign(data, dragAndDrop);
+      }
+      if (props.noAria !== true) {
+        data.ariaLabel = ariaDateFormatter.value(day);
+      }
+      return h("div", data, [
+        __renderDayLabelContainer(day, outside, hasMonth),
+        h("div", {
+          class: {
+            "q-calendar-month__day--content": true
+          }
+        }, slot ? slot({ scope }) : void 0),
+        isDayFocusable.value === true && useFocusHelper()
+      ]);
+    }
+    function __renderDayLabelContainer(day, outside, hasMonth) {
+      let dayOfYearLabel, monthLabel;
+      const children = [__renderDayLabel(day, outside)];
+      if (isMiniMode2.value !== true && hasMonth === true && size.width > 340) {
+        monthLabel = __renderDayMonth(day, outside);
+      }
+      if (isMiniMode2.value !== true && props.showDayOfYearLabel === true && monthLabel === void 0 && size.width > 300) {
+        dayOfYearLabel = __renderDayOfYearLabel(day, outside);
+      }
+      if (props.dateAlign === "left") {
+        dayOfYearLabel !== void 0 && children.push(dayOfYearLabel);
+        monthLabel !== void 0 && children.push(monthLabel);
+      } else if (props.dateAlign === "right") {
+        dayOfYearLabel !== void 0 && children.unshift(dayOfYearLabel);
+        monthLabel !== void 0 && children.unshift(monthLabel);
+      } else {
+        dayOfYearLabel = void 0;
+        monthLabel = void 0;
+      }
+      const data = {
+        class: {
+          "q-calendar-month__day--label__wrapper": true,
+          "q-calendar__ellipsis": true,
+          ["q-calendar__" + props.dateAlign]: dayOfYearLabel === void 0 && monthLabel === void 0,
+          "q-calendar__justify": dayOfYearLabel !== void 0 || monthLabel !== void 0
+        }
+      };
+      return h("div", data, children);
+    }
+    function __renderDayLabel(day, outside) {
+      if (outside === true && props.noOutsideDays === true) {
+        return;
+      }
+      const dayLabel = dayFormatter.value(day, false);
+      const dayLabelSlot = slots["head-day-label"];
+      const dayBtnSlot = slots["head-day-button"];
+      const selectedDate = props.selectedDates && props.selectedDates.length > 0 && props.selectedDates.includes(day.date);
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const scope = {
+        dayLabel,
+        timestamp: day,
+        outside,
+        activeDate,
+        selectedDate,
+        miniMode: isMiniMode2.value,
+        disabled: props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false
+      };
+      const data = {
+        key: day.date,
+        ref: (el) => {
+          if (isDateFocusable.value === true) {
+            datesRef.value[day.date] = el;
+          }
+        },
+        tabindex: isDateFocusable.value === true ? 0 : -1,
+        class: {
+          "q-calendar-month__day--label": true,
+          "q-calendar__button": true,
+          "q-calendar__button--round": props.dateType === "round",
+          "q-calendar__button--rounded": props.dateType === "rounded",
+          "q-calendar__button--bordered": day.current === true,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isDateFocusable.value === true
+        },
+        disabled: day.disabled === true || props.enableOutsideDays !== true && outside === true,
+        onFocus: (e) => {
+          if (isDateFocusable.value === true) {
+            focusRef.value = day.date;
+          }
+        },
+        onKeydown: (e) => {
+          if (outside !== true && day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        },
+        onKeyup: (event) => {
+          if (isDateFocusable.value === true && outside !== true && day.disabled !== true && isKeyCode2(event, [13, 32])) {
+            event.stopPropagation();
+            event.preventDefault();
+            emittedValue.value = day.date;
+            if (emitListeners.value.onClickDate !== void 0) {
+              emit("click-date", { scope, event });
+            }
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-date", (event, eventName) => {
+          event.stopPropagation();
+          if (eventName === "click-date" || eventName === "contextmenu-date") {
+            emittedValue.value = day.date;
+          }
+          return { scope, event };
+        })
+      };
+      if (props.noAria !== true) {
+        data.ariaLabel = ariaDateFormatter.value(day);
+      }
+      return [
+        dayBtnSlot ? dayBtnSlot({ scope }) : useButton(props, data, dayLabelSlot ? dayLabelSlot({ scope }) : dayLabel),
+        isDateFocusable.value === true && useFocusHelper()
+      ];
+    }
+    function __renderDayOfYearLabel(day, outside) {
+      if (outside === true && props.noOutsideDays === true) {
+        return;
+      }
+      const slot = slots["day-of-year"];
+      const scope = { timestamp: day };
+      return h("span", {
+        class: {
+          "q-calendar-month__day--day-of-year": true,
+          "q-calendar__ellipsis": true
+        }
+      }, slot ? slot({ scope }) : day.doy);
+    }
+    function __renderDayMonth(day, outside) {
+      if (outside === true && props.noOutsideDays === true) {
+        return;
+      }
+      const slot = slots["month-label"];
+      const monthLabel = monthFormatter.value(day, props.shortMonthLabel || size.width < 500);
+      const scope = { monthLabel, timestamp: day, miniMode: isMiniMode2.value };
+      const style = {};
+      if (isMiniMode2.value !== true && parsedMonthLabelSize.value !== void 0) {
+        style.fontSize = parsedMonthLabelSize.value;
+      }
+      return h("span", {
+        class: "q-calendar-month__day--month q-calendar__ellipsis",
+        style
+      }, [
+        slot ? slot({ scope }) : isMiniMode2.value !== true ? monthLabel : void 0
+      ]);
+    }
+    function __renderMonth() {
+      const { start, end } = renderValues.value;
+      startDate.value = start.date;
+      endDate.value = end.date;
+      const hasWidth = size.width > 0;
+      const weekly = withDirectives(h("div", {
+        class: {
+          "q-calendar-mini": isMiniMode2.value === true,
+          "q-calendar-month": true
+        },
+        key: startDate.value
+      }, [
+        hasWidth === true && props.noHeader !== true && __renderHead(),
+        hasWidth === true && __renderBody()
+      ]), [[
+        ResizeObserver$1,
+        __onResize
+      ]]);
+      if (props.animated === true) {
+        const transition = "q-calendar--" + (direction.value === "prev" ? props.transitionPrev : props.transitionNext);
+        return h(Transition, {
+          name: transition,
+          appear: true
+        }, () => weekly);
+      }
+      return weekly;
+    }
+    expose({
+      prev,
+      next,
+      move,
+      moveToToday,
+      updateCurrent
+    });
+    return () => __renderCalendar();
+  }
+});
+var QCalendarResource = defineComponent({
+  name: "QCalendarResource",
+  props: {
+    ...useCommonProps,
+    ...useResourceProps,
+    ...useIntervalProps,
+    ...useColumnProps,
+    ...useMaxDaysProps,
+    ...useTimesProps,
+    ...useNavigationProps
+  },
+  emits: [
+    "update:model-value",
+    "update:model-resources",
+    "resource-expanded",
+    ...useCheckChangeEmits,
+    ...useMoveEmits,
+    ...getRawMouseEvents("-date"),
+    ...getRawMouseEvents("-interval"),
+    ...getRawMouseEvents("-head-day"),
+    ...getRawMouseEvents("-time"),
+    ...getRawMouseEvents("-head-resources"),
+    ...getRawMouseEvents("-resource")
+  ],
+  setup(props, { slots, emit, expose }) {
+    const scrollArea = ref(null), pane = ref(null), headerRef = ref(null), headerColumnRef = ref(null), focusRef = ref(null), focusValue = ref(null), datesRef = ref({}), resourcesRef = ref({}), direction = ref("next"), startDate = ref(today()), endDate = ref("0000-00-00"), maxDaysRendered = ref(0), emittedValue = ref(props.modelValue), size = reactive({ width: 0, height: 0 }), dragOverHeadDayRef = ref(false), dragOverResource2 = ref(false), dragOverResourceInterval = ref(false), lastStart = ref(null), lastEnd = ref(null);
+    watch(() => props.view, () => {
+      maxDaysRendered.value = 0;
+    });
+    const parsedView = computed(() => {
+      if (props.view === "month") {
+        return "month-interval";
+      }
+      return props.view;
+    });
+    const parsedCellWidth = computed(() => {
+      return parseInt(props.cellWidth, 10);
+    });
+    const vm = getCurrentInstance();
+    if (vm === null) {
+      throw new Error("current instance is null");
+    }
+    const { emitListeners } = useEmitListeners(vm);
+    const {
+      times,
+      setCurrent,
+      updateCurrent
+    } = useTimes(props);
+    updateCurrent();
+    setCurrent();
+    const {
+      weekdaySkips,
+      parsedStart,
+      parsedEnd,
+      dayStyleDefault
+    } = useCommon(props, { startDate, endDate, times });
+    const parsedValue = computed(() => {
+      return parseTimestamp(props.modelValue, times.now) || parsedStart.value || times.today;
+    });
+    focusValue.value = parsedValue.value;
+    focusRef.value = parsedValue.value.date;
+    const { renderValues } = useRenderValues(props, {
+      parsedView,
+      times,
+      parsedValue
+    });
+    const {
+      rootRef,
+      __initCalendar,
+      __renderCalendar
+    } = useCalendar(props, __renderResource, {
+      scrollArea,
+      pane
+    });
+    const {
+      days,
+      intervals,
+      intervalFormatter,
+      styleDefault,
+      scrollToTimeX,
+      timeDurationWidth,
+      timeStartPosX,
+      widthToMinutes
+    } = useInterval(props, {
+      weekdaySkips,
+      times,
+      scrollArea,
+      parsedStart,
+      parsedEnd,
+      maxDays: maxDaysRendered,
+      size,
+      headerColumnRef
+    });
+    const { move } = useMove(props, {
+      parsedView,
+      parsedValue,
+      weekdaySkips,
+      direction,
+      maxDays: maxDaysRendered,
+      times,
+      emittedValue,
+      emit
+    });
+    const {
+      getDefaultMouseEventHandlers: getDefaultMouseEventHandlers2
+    } = useMouse(emit, emitListeners);
+    const {
+      checkChange
+    } = useCheckChange(emit, { days, lastStart, lastEnd });
+    const {
+      isKeyCode: isKeyCode2
+    } = useEvents();
+    const { tryFocus } = useKeyboard(props, {
+      rootRef,
+      focusRef,
+      focusValue,
+      datesRef,
+      days,
+      parsedView,
+      parsedValue,
+      emittedValue,
+      weekdaySkips,
+      direction,
+      times
+    });
+    const parsedResourceHeight = computed(() => {
+      const height = parseInt(props.resourceHeight, 10);
+      if (height === 0) {
+        return "auto";
+      }
+      return height;
+    });
+    const parsedResourceMinHeight = computed(() => {
+      return parseInt(props.resourceMinHeight, 10);
+    });
+    const parsedIntervalHeaderHeight = computed(() => {
+      return parseInt(props.intervalHeaderHeight, 10);
+    });
+    watch([days], checkChange, { deep: true, immediate: true });
+    watch(() => props.modelValue, (val, oldVal) => {
+      if (emittedValue.value !== val) {
+        if (props.animated === true) {
+          const v1 = getDayIdentifier(parsed(val));
+          const v2 = getDayIdentifier(parsed(oldVal));
+          direction.value = v1 >= v2 ? "next" : "prev";
+        }
+        emittedValue.value = val;
+      }
+      focusRef.value = val;
+    });
+    watch(emittedValue, (val, oldVal) => {
+      if (emittedValue.value !== props.modelValue) {
+        if (props.animated === true) {
+          const v1 = getDayIdentifier(parsed(val));
+          const v2 = getDayIdentifier(parsed(oldVal));
+          direction.value = v1 >= v2 ? "next" : "prev";
+        }
+        emit("update:model-value", val);
+      }
+    });
+    watch(focusRef, (val) => {
+      if (val) {
+        focusValue.value = parseTimestamp(val);
+      }
+    });
+    watch(focusValue, (val) => {
+      if (datesRef.value[focusRef.value]) {
+        datesRef.value[focusRef.value].focus();
+      } else {
+        tryFocus();
+      }
+    });
+    onBeforeUpdate(() => {
+      datesRef.value = {};
+      resourcesRef.value = {};
+    });
+    onMounted(() => {
+      __initCalendar();
+    });
+    function moveToToday() {
+      emittedValue.value = today();
+    }
+    function next(amount = 1) {
+      move(amount);
+    }
+    function prev(amount = 1) {
+      move(-amount);
+    }
+    function __onResize({ width, height }) {
+      size.width = width;
+      size.height = height;
+    }
+    function __isActiveDate(day) {
+      return day.date === emittedValue.value;
+    }
+    function __renderHead() {
+      const style = {
+        height: convertToUnit(parsedIntervalHeaderHeight.value)
+      };
+      return h("div", {
+        ref: headerRef,
+        roll: "presentation",
+        class: {
+          "q-calendar-resource__head": true,
+          "q-calendar__sticky": props.noSticky !== true
+        },
+        style
+      }, [
+        __renderHeadResource(),
+        __renderHeadIntervals()
+      ]);
+    }
+    function __renderHeadResource() {
+      const slot = slots["head-resources"];
+      const height = convertToUnit(parsedIntervalHeaderHeight.value);
+      const scope = {
+        timestamps: intervals,
+        date: props.modelValue,
+        resources: props.modelResources
+      };
+      return h("div", {
+        class: {
+          "q-calendar-resource__head--resources": true,
+          "q-calendar__sticky": props.noSticky !== true
+        },
+        style: {
+          height
+        },
+        ...getDefaultMouseEventHandlers2("-head-resources", (event) => {
+          return { scope, event };
+        })
+      }, [
+        slot && slot({ scope })
+      ]);
+    }
+    function __renderHeadIntervals() {
+      return h("div", {
+        ref: headerColumnRef,
+        class: {
+          "q-calendar-resource__head--intervals": true
+        }
+      }, [
+        intervals.value.map((intervals2) => intervals2.map((interval, index) => __renderHeadInterval(interval, index)))
+      ]);
+    }
+    function __renderHeadInterval(interval, index) {
+      const slot = slots["interval-label"];
+      const activeDate = props.noActiveDate !== true && __isActiveDate(interval);
+      const width = convertToUnit(parsedCellWidth.value);
+      const height = convertToUnit(parsedIntervalHeaderHeight.value);
+      const short = props.shortIntervalLabel;
+      const label = intervalFormatter.value(interval, short);
+      const scope = {
+        timestamp: interval,
+        index,
+        label
+      };
+      scope.droppable = dragOverHeadDayRef.value === label;
+      const styler = props.intervalStyle || dayStyleDefault;
+      const style = {
+        width,
+        maxWidth: width,
+        minWidth: width,
+        height,
+        ...styler({ scope })
+      };
+      const intervalClass = typeof props.intervalClass === "function" ? props.intervalClass({ scope }) : {};
+      const isFocusable = props.focusable === true && props.focusType.includes("interval");
+      return h("div", {
+        key: label,
+        tabindex: isFocusable === true ? 0 : -1,
+        class: {
+          "q-calendar-resource__head--interval": true,
+          ...intervalClass,
+          "q-active-date": activeDate,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isFocusable === true
+        },
+        style,
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "interval", scope) === true ? dragOverHeadDayRef.value = label : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "interval", scope) === true ? dragOverHeadDayRef.value = label : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "interval", scope) === true ? dragOverHeadDayRef.value = label : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "interval", scope) === true ? dragOverHeadDayRef.value = label : dragOverHeadDayRef.value = "";
+          }
+        },
+        onFocus: (e) => {
+          if (isFocusable === true) {
+            focusRef.value = label;
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-interval", (event) => {
+          return { scope, event };
+        })
+      }, [
+        slot ? slot({ scope }) : label,
+        useFocusHelper()
+      ]);
+    }
+    function __renderBody() {
+      return h("div", {
+        class: "q-calendar-resource__body"
+      }, [
+        __renderScrollArea()
+      ]);
+    }
+    function __renderScrollArea() {
+      return h("div", {
+        ref: scrollArea,
+        class: {
+          "q-calendar-resource__scroll-area": true,
+          "q-calendar__scroll": true
+        }
+      }, [
+        __renderDayContainer()
+      ]);
+    }
+    function __renderResourcesError() {
+      return h("div", {}, "No resources have been defined");
+    }
+    function __renderDayContainer() {
+      return h("div", {
+        class: "q-calendar-resource__day--container"
+      }, [
+        __renderHead(),
+        props.modelResources === void 0 && __renderResourcesError(),
+        props.modelResources !== void 0 && __renderBodyResources()
+      ]);
+    }
+    function __renderBodyResources() {
+      const data = {
+        class: "q-calendar-resource__resources--body"
+      };
+      return h("div", data, __renderResources());
+    }
+    function __renderResources(resources = void 0, indentLevel = 0, expanded = true) {
+      if (resources === void 0) {
+        resources = props.modelResources;
+      }
+      return resources.map((resource, resourceIndex) => {
+        return __renderResourceRow(resource, resourceIndex, indentLevel, resource.children !== void 0 ? resource.expanded : expanded);
+      });
+    }
+    function __renderResourceRow(resource, resourceIndex, indentLevel = 0, expanded = true) {
+      const style = {};
+      style.height = parsedResourceHeight.value === "auto" ? parsedResourceHeight.value : convertToUnit(parsedResourceHeight.value);
+      if (parsedResourceMinHeight.value > 0) {
+        style.minHeight = convertToUnit(parsedResourceMinHeight.value);
+      }
+      const resourceRow = h("div", {
+        key: resource[props.resourceKey] + "-" + resourceIndex,
+        class: {
+          "q-calendar-resource__resource--row": true
+        },
+        style
+      }, [
+        __renderResourceLabel(resource, resourceIndex, indentLevel, expanded),
+        __renderResourceIntervals(resource, resourceIndex)
+      ]);
+      if (resource.children !== void 0) {
+        return [
+          resourceRow,
+          h("div", {
+            class: {
+              "q-calendar__child": true,
+              "q-calendar__child--expanded": expanded === true,
+              "q-calendar__child--collapsed": expanded !== true
+            }
+          }, [
+            __renderResources(resource.children, indentLevel + 1, expanded === false ? expanded : resource.expanded)
+          ])
+        ];
+      }
+      return [resourceRow];
+    }
+    function __renderResourceLabel(resource, resourceIndex, indentLevel = 0, expanded = true) {
+      const slotResourceLabel = slots["resource-label"];
+      const style = {};
+      style.height = resource.height !== void 0 ? convertToUnit(parseInt(resource.height, 10)) : parsedResourceHeight.value ? convertToUnit(parsedResourceHeight.value) : "auto";
+      if (parsedResourceMinHeight.value > 0) {
+        style.minHeight = convertToUnit(parsedResourceMinHeight.value);
+      }
+      const styler = props.resourceStyle || styleDefault;
+      const label = resource[props.resourceLabel];
+      const isFocusable = props.focusable === true && props.focusType.includes("resource") && expanded === true;
+      const scope = {
+        resource,
+        timestamps: intervals,
+        resourceIndex,
+        indentLevel,
+        label
+      };
+      const dragValue2 = resource[props.resourceKey];
+      scope.droppable = dragOverResource2.value === dragValue2;
+      const resourceClass = typeof props.resourceClass === "function" ? props.resourceClass({ scope }) : {};
+      return h("div", {
+        key: resource[props.resourceKey] + "-" + resourceIndex,
+        ref: (el) => {
+          resourcesRef.value[resource[props.resourceKey]] = el;
+        },
+        tabindex: isFocusable === true ? 0 : -1,
+        class: {
+          "q-calendar-resource__resource": indentLevel === 0,
+          "q-calendar-resource__resource--section": indentLevel !== 0,
+          ...resourceClass,
+          "q-calendar__sticky": props.noSticky !== true,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isFocusable === true
+        },
+        style: {
+          ...style,
+          ...styler({ scope })
+        },
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "resource", scope) === true ? dragOverResource2.value = dragValue2 : dragOverResource2.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "resource", scope) === true ? dragOverResource2.value = dragValue2 : dragOverResource2.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "resource", scope) === true ? dragOverResource2.value = dragValue2 : dragOverResource2.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "resource", scope) === true ? dragOverResource2.value = dragValue2 : dragOverResource2.value = "";
+          }
+        },
+        onKeydown: (event) => {
+          if (isKeyCode2(event, [13, 32])) {
+            event.stopPropagation();
+            event.preventDefault();
+          }
+        },
+        onKeyup: (event) => {
+          if (isKeyCode2(event, [13, 32])) {
+            if (emitListeners.value.onClickResource !== void 0) {
+              emit("click-resource", { scope, event });
+            }
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-resource", (event) => {
+          return { scope, event };
+        })
+      }, [
+        [
+          h("div", {
+            class: {
+              "q-calendar__parent": resource.children !== void 0,
+              "q-calendar__parent--expanded": resource.children !== void 0 && resource.expanded === true,
+              "q-calendar__parent--collapsed": resource.children !== void 0 && resource.expanded !== true
+            },
+            onClick: (e) => {
+              e.stopPropagation();
+              resource.expanded = !resource.expanded;
+              emit("resource-expanded", { expanded: resource.expanded, scope });
+            }
+          }),
+          h("div", {
+            class: {
+              "q-calendar-resource__resource--text": true,
+              "q-calendar__ellipsis": true
+            },
+            style: {
+              paddingLeft: 10 * indentLevel + 2 + "px"
+            }
+          }, [
+            slotResourceLabel ? slotResourceLabel({ scope }) : label
+          ]),
+          useFocusHelper()
+        ]
+      ]);
+    }
+    function __renderResourceIntervals(resource, resourceIndex) {
+      const slot = slots["resource-intervals"];
+      const scope = {
+        resource,
+        timestamps: intervals,
+        resourceIndex,
+        timeStartPosX,
+        timeDurationWidth
+      };
+      return h("div", {
+        class: "q-calendar-resource__resource--intervals"
+      }, [
+        intervals.value.map((intervals2) => intervals2.map((interval) => __renderResourceInterval(resource, interval, resourceIndex))),
+        slot && slot({ scope })
+      ]);
+    }
+    function __renderResourceInterval(resource, interval, resourceIndex) {
+      const slot = slots["resource-interval"];
+      const activeDate = props.noActiveDate !== true && __isActiveDate(interval);
+      const scope = {
+        activeDate,
+        resource,
+        timestamp: interval,
+        resourceIndex
+      };
+      const resourceKey = resource[props.resourceKey];
+      const dragValue2 = interval.time + "-" + resourceKey;
+      scope.droppable = dragOverResourceInterval.value === dragValue2;
+      const isFocusable = props.focusable === true && props.focusType.includes("time");
+      const styler = props.intervalStyle || dayStyleDefault;
+      const width = convertToUnit(parsedCellWidth.value);
+      const style = {
+        width,
+        maxWidth: width,
+        minWidth: width,
+        ...styler({ scope })
+      };
+      style.height = resource.height !== void 0 ? convertToUnit(parseInt(resource.height, 10)) : parsedResourceHeight.value > 0 ? convertToUnit(parsedResourceHeight.value) : "auto";
+      if (parsedResourceMinHeight.value > 0) {
+        style.minHeight = convertToUnit(parsedResourceMinHeight.value);
+      }
+      return h("div", {
+        key: dragValue2,
+        ref: (el) => {
+          datesRef.value[resource[props.resourceKey]] = el;
+        },
+        tabindex: isFocusable === true ? 0 : -1,
+        class: {
+          "q-calendar-resource__resource--interval": true,
+          "q-active-date": activeDate,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isFocusable === true
+        },
+        style,
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "time", scope) === true ? dragOverResourceInterval.value = dragValue2 : dragOverResourceInterval.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "time", scope) === true ? dragOverResourceInterval.value = dragValue2 : dragOverResourceInterval.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "time", scope) === true ? dragOverResourceInterval.value = dragValue2 : dragOverResourceInterval.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "time", scope) === true ? dragOverResourceInterval.value = dragValue2 : dragOverResourceInterval.value = "";
+          }
+        },
+        onFocus: (e) => {
+          if (isFocusable === true) {
+            focusRef.value = dragValue2;
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-time", (event) => {
+          return { scope, event };
+        })
+      }, [
+        slot && slot({ scope }),
+        useFocusHelper()
+      ]);
+    }
+    function __renderResource() {
+      const { start, end, maxDays } = renderValues.value;
+      if (startDate.value !== start.date || endDate.value !== end.date || maxDaysRendered.value !== maxDays) {
+        startDate.value = start.date;
+        endDate.value = end.date;
+        maxDaysRendered.value = maxDays;
+      }
+      const hasWidth = size.width > 0;
+      const resource = withDirectives(h("div", {
+        class: "q-calendar-resource",
+        key: startDate.value
+      }, [
+        hasWidth === true && __renderBody()
+      ]), [[
+        ResizeObserver$1,
+        __onResize
+      ]]);
+      if (props.animated === true) {
+        const transition = "q-calendar--" + (direction.value === "prev" ? props.transitionPrev : props.transitionNext);
+        return h(Transition, {
+          name: transition,
+          appear: true
+        }, () => resource);
+      }
+      return resource;
+    }
+    expose({
+      prev,
+      next,
+      move,
+      moveToToday,
+      updateCurrent,
+      timeStartPosX,
+      timeDurationWidth,
+      widthToMinutes,
+      scrollToTimeX
+    });
+    return () => __renderCalendar();
+  }
+});
+var QCalendarScheduler = defineComponent({
+  name: "QCalendarScheduler",
+  directives: [ResizeObserver$1],
+  props: {
+    ...useCommonProps,
+    ...useSchedulerProps,
+    ...useColumnProps,
+    ...useMaxDaysProps,
+    ...useTimesProps,
+    ...useCellWidthProps,
+    ...useNavigationProps
+  },
+  emits: [
+    "update:model-value",
+    "update:model-resources",
+    "resource-expanded",
+    ...useCheckChangeEmits,
+    ...useMoveEmits,
+    ...getRawMouseEvents("-date"),
+    ...getRawMouseEvents("-day-resource"),
+    ...getRawMouseEvents("-head-resources"),
+    ...getRawMouseEvents("-head-day"),
+    ...getRawMouseEvents("-resource")
+  ],
+  setup(props, { slots, emit, expose }) {
+    const scrollArea = ref(null), pane = ref(null), headerColumnRef = ref(null), focusRef = ref(null), focusValue = ref(null), datesRef = ref({}), resourcesRef = ref({}), headDayEventsParentRef = ref({}), headDayEventsChildRef = ref({}), direction = ref("next"), startDate = ref(props.modelValue || today()), endDate = ref("0000-00-00"), maxDaysRendered = ref(0), emittedValue = ref(props.modelValue), size = reactive({ width: 0, height: 0 }), dragOverHeadDayRef = ref(false), dragOverResource2 = ref(false), lastStart = ref(null), lastEnd = ref(null);
+    watch(() => props.view, () => {
+      maxDaysRendered.value = 0;
+    });
+    const parsedView = computed(() => {
+      if (props.view === "month") {
+        return "month-interval";
+      }
+      return props.view;
+    });
+    const vm = getCurrentInstance();
+    if (vm === null) {
+      throw new Error("current instance is null");
+    }
+    const { emitListeners } = useEmitListeners(vm);
+    const {
+      isSticky
+    } = useCellWidth(props);
+    const {
+      times,
+      setCurrent,
+      updateCurrent
+    } = useTimes(props);
+    updateCurrent();
+    setCurrent();
+    const {
+      weekdaySkips,
+      parsedStart,
+      parsedEnd,
+      dayFormatter,
+      weekdayFormatter,
+      ariaDateFormatter,
+      dayStyleDefault,
+      getRelativeClasses
+    } = useCommon(props, { startDate, endDate, times });
+    const parsedValue = computed(() => {
+      return parseTimestamp(props.modelValue, times.now) || parsedStart.value || times.today;
+    });
+    focusValue.value = parsedValue.value;
+    focusRef.value = parsedValue.value.date;
+    const { renderValues } = useRenderValues(props, {
+      parsedView,
+      parsedValue,
+      times
+    });
+    const {
+      rootRef,
+      scrollWidth,
+      __initCalendar,
+      __renderCalendar
+    } = useCalendar(props, __renderScheduler, {
+      scrollArea,
+      pane
+    });
+    const {
+      days,
+      parsedCellWidth,
+      styleDefault
+    } = useInterval(props, {
+      weekdaySkips,
+      times,
+      scrollArea,
+      parsedStart,
+      parsedEnd,
+      maxDays: maxDaysRendered,
+      size,
+      headerColumnRef
+    });
+    const { move } = useMove(props, {
+      parsedView,
+      parsedValue,
+      weekdaySkips,
+      direction,
+      maxDays: maxDaysRendered,
+      times,
+      emittedValue,
+      emit
+    });
+    const {
+      getDefaultMouseEventHandlers: getDefaultMouseEventHandlers2
+    } = useMouse(emit, emitListeners);
+    const {
+      checkChange
+    } = useCheckChange(emit, { days, lastStart, lastEnd });
+    const {
+      isKeyCode: isKeyCode2
+    } = useEvents();
+    const { tryFocus } = useKeyboard(props, {
+      rootRef,
+      focusRef,
+      focusValue,
+      datesRef,
+      days,
+      parsedView,
+      parsedValue,
+      emittedValue,
+      weekdaySkips,
+      direction,
+      times
+    });
+    const parsedColumnCount = computed(() => {
+      if (parsedView.value === "day" && parseInt(props.columnCount, 10) > 1) {
+        return parseInt(props.columnCount, 10);
+      } else if (parsedView.value === "day" && props.maxDays && props.maxDays > 1) {
+        return props.maxDays;
+      }
+      return days.value.length;
+    });
+    const resourcesWidth = computed(() => {
+      if (rootRef.value) {
+        return parseInt(getComputedStyle(rootRef.value).getPropertyValue("--calendar-resources-width"), 10);
+      }
+      return 0;
+    });
+    const parsedResourceHeight = computed(() => {
+      const height = parseInt(props.resourceHeight, 10);
+      if (height === 0) {
+        return "auto";
+      }
+      return height;
+    });
+    const parsedResourceMinHeight = computed(() => {
+      return parseInt(props.resourceMinHeight, 10);
+    });
+    const computedWidth = computed(() => {
+      if (rootRef.value) {
+        const width = size.width || rootRef.value.getBoundingClientRect().width;
+        if (width && resourcesWidth.value && parsedColumnCount.value) {
+          return (width - scrollWidth.value - resourcesWidth.value) / parsedColumnCount.value + "px";
+        }
+      }
+      return 100 / parsedColumnCount.value + "%";
+    });
+    watch([days], checkChange, { deep: true, immediate: true });
+    watch(() => props.modelValue, (val, oldVal) => {
+      if (emittedValue.value !== props.modelValue) {
+        if (props.animated === true) {
+          const v1 = getDayIdentifier(parsed(val));
+          const v2 = getDayIdentifier(parsed(oldVal));
+          direction.value = v1 >= v2 ? "next" : "prev";
+        }
+        emittedValue.value = val;
+      }
+      focusRef.value = val;
+    });
+    watch(emittedValue, (val, oldVal) => {
+      if (emittedValue.value !== props.modelValue) {
+        if (props.animated === true) {
+          const v1 = getDayIdentifier(parsed(val));
+          const v2 = getDayIdentifier(parsed(oldVal));
+          direction.value = v1 >= v2 ? "next" : "prev";
+        }
+        emit("update:model-value", val);
+      }
+    });
+    watch(focusRef, (val) => {
+      if (val) {
+        focusValue.value = parseTimestamp(val);
+      }
+    });
+    watch(focusValue, (val) => {
+      if (datesRef.value[focusRef.value]) {
+        datesRef.value[focusRef.value].focus();
+      } else {
+        tryFocus();
+      }
+    });
+    watch(() => props.maxDays, (val) => {
+      maxDaysRendered.value = val;
+    });
+    onBeforeUpdate(() => {
+      datesRef.value = {};
+      headDayEventsParentRef.value = {};
+      headDayEventsChildRef.value = {};
+      resourcesRef.value = {};
+    });
+    onMounted(() => {
+      __initCalendar();
+    });
+    function moveToToday() {
+      emittedValue.value = today();
+    }
+    function next(amount = 1) {
+      move(amount);
+    }
+    function prev(amount = 1) {
+      move(-amount);
+    }
+    function __onResize({ width, height }) {
+      size.width = width;
+      size.height = height;
+    }
+    function __isActiveDate(day) {
+      return day.date === emittedValue.value;
+    }
+    function __renderHead() {
+      return h("div", {
+        roll: "presentation",
+        class: {
+          "q-calendar-scheduler__head": true,
+          "q-calendar__sticky": isSticky.value === true
+        },
+        style: {
+          marginRight: scrollWidth.value + "px"
+        }
+      }, [
+        __renderHeadResources(),
+        __renderHeadDaysColumn()
+      ]);
+    }
+    function __renderHeadResources() {
+      const slot = slots["head-resources"];
+      const scope = {
+        days: days.value,
+        timestamps: days.value,
+        date: props.modelValue,
+        resources: props.modelResources
+      };
+      return h("div", {
+        class: {
+          "q-calendar-scheduler__head--resources": true,
+          "q-calendar__sticky": isSticky.value === true
+        },
+        ...getDefaultMouseEventHandlers2("-head-resources", (event) => {
+          return { scope, event };
+        })
+      }, [
+        slot && slot({ scope })
+      ]);
+    }
+    function __renderHeadDaysColumn() {
+      return h("div", {
+        ref: headerColumnRef,
+        class: {
+          "q-calendar-scheduler__head--days__column": true
+        }
+      }, [
+        __renderHeadDaysRow(),
+        __renderHeadDaysEventsRow()
+      ]);
+    }
+    function __renderHeadDaysRow() {
+      return h("div", {
+        class: {
+          "q-calendar-scheduler__head--days__weekdays": true
+        }
+      }, [
+        ...__renderHeadDays()
+      ]);
+    }
+    function __renderHeadDaysEventsRow() {
+      const slot = slots["head-days-events"];
+      nextTick(() => {
+        if (headDayEventsChildRef.value && parseInt(props.columnCount, 10) === 0 && window) {
+          try {
+            const styles = window.getComputedStyle(headDayEventsChildRef.value);
+            headDayEventsParentRef.value.parentElement.style.height = styles.height;
+            headDayEventsParentRef.value.style.height = styles.height;
+          } catch (e) {
+          }
+        }
+      });
+      return h("div", {
+        class: {
+          "q-calendar-scheduler__head--days__event": true
+        }
+      }, [
+        slot && h("div", {
+          ref: headDayEventsParentRef,
+          style: {
+            position: "absolute",
+            left: 0,
+            top: 0,
+            right: 0,
+            overflow: "hidden",
+            zIndex: 1
+          }
+        }, [
+          slot({ scope: {
+            timestamps: days.value,
+            days: days.value,
+            ref: headDayEventsChildRef
+          } })
+        ]),
+        ...__renderHeadDaysEvents()
+      ]);
+    }
+    function __renderHeadDays() {
+      if (days.value.length === 1 && parseInt(props.columnCount, 10) > 0) {
+        return Array.apply(null, new Array(parseInt(props.columnCount, 10))).map((_, i) => i + parseInt(props.columnIndexStart, 10)).map((columnIndex) => __renderHeadDay(days.value[0], columnIndex));
+      } else {
+        return days.value.map((day) => __renderHeadDay(day));
+      }
+    }
+    function __renderHeadDaysEvents() {
+      if (days.value.length === 1 && parseInt(props.columnCount, 10) > 0) {
+        return Array.apply(null, new Array(parseInt(props.columnCount, 10))).map((_, i) => i + parseInt(props.columnIndexStart, 10)).map((columnIndex) => __renderHeadDayEvent(days.value[0], columnIndex));
+      } else {
+        return days.value.map((day) => __renderHeadDayEvent(day));
+      }
+    }
+    function __renderHeadDay(day, columnIndex) {
+      const headDaySlot = slots["head-day"];
+      const headDateSlot = slots["head-date"];
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const scope = {
+        timestamp: day,
+        activeDate,
+        droppable: dragOverHeadDayRef.value === day.date,
+        disabled: props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false
+      };
+      if (columnIndex !== void 0) {
+        scope.columnIndex = columnIndex;
+      }
+      const width = isSticky.value === true ? convertToUnit(parsedCellWidth.value) : computedWidth.value;
+      const styler = props.weekdayStyle || dayStyleDefault;
+      const style = {
+        width,
+        maxWidth: width,
+        minWidth: width,
+        ...styler({ scope })
+      };
+      if (isSticky.value === true) {
+        style.minWidth = width;
+      }
+      const weekdayClass = typeof props.weekdayClass === "function" ? props.weekdayClass({ scope }) : {};
+      const isFocusable = props.focusable === true && props.focusType.includes("weekday");
+      const key = day.date + (columnIndex !== void 0 ? "-" + columnIndex : "");
+      const data = {
+        key,
+        ref: (el) => {
+          datesRef.value[key] = el;
+        },
+        tabindex: isFocusable === true ? 0 : -1,
+        class: {
+          "q-calendar-scheduler__head--day": true,
+          ...weekdayClass,
+          ...getRelativeClasses(day),
+          "q-active-date": activeDate,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isFocusable === true
+        },
+        style,
+        onFocus: (e) => {
+          if (isFocusable === true) {
+            focusRef.value = key;
+          }
+        },
+        onKeydown: (e) => {
+          if (day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        },
+        onKeyup: (e) => {
+          if (day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            emittedValue.value = day.date;
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-head-day", (event) => {
+          return { scope, event };
+        }),
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        }
+      };
+      return h("div", data, [
+        headDaySlot !== void 0 && headDaySlot({ scope }),
+        headDaySlot === void 0 && __renderColumnHeaderBefore(day, columnIndex),
+        headDaySlot === void 0 && __renderDateHeader(day),
+        headDaySlot === void 0 && headDateSlot && headDateSlot({ scope }),
+        headDaySlot === void 0 && __renderColumnHeaderAfter(day, columnIndex),
+        useFocusHelper()
+      ]);
+    }
+    function __renderDateHeader(day) {
+      if (props.dateHeader === "stacked") {
+        return [
+          props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+          props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+        ];
+      } else if (props.dateHeader === "inline") {
+        if (props.weekdayAlign === "left" && props.dateAlign === "right") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+          ]);
+        } else if (props.weekdayAlign === "right" && props.dateAlign === "left") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+          ]);
+        } else {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+          ]);
+        }
+      } else if (props.dateHeader === "inverted") {
+        if (props.weekdayAlign === "left" && props.dateAlign === "right") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day),
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day)
+          ]);
+        } else if (props.weekdayAlign === "right" && props.dateAlign === "left") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day),
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day)
+          ]);
+        } else {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day),
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day)
+          ]);
+        }
+      }
+    }
+    function __renderHeadDayEvent(day, columnIndex) {
+      const headDayEventSlot = slots["head-day-event"];
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const scope = {
+        timestamp: day,
+        activeDate,
+        droppable: dragOverHeadDayRef.value === day.date,
+        disabled: props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false
+      };
+      if (columnIndex !== void 0) {
+        scope.columnIndex = columnIndex;
+      }
+      const width = isSticky.value === true ? convertToUnit(parsedCellWidth.value) : computedWidth.value;
+      const style = {
+        width,
+        maxWidth: width,
+        minWidth: width
+      };
+      if (isSticky.value === true) {
+        style.minWidth = width;
+      }
+      return h("div", {
+        key: "event-" + day.date + (columnIndex !== void 0 ? "-" + columnIndex : ""),
+        class: {
+          "q-calendar-scheduler__head--day__event": true,
+          ...getRelativeClasses(day),
+          "q-active-date": activeDate
+        },
+        style
+      }, [
+        headDayEventSlot && headDayEventSlot({ scope })
+      ]);
+    }
+    function __renderHeadWeekday(day) {
+      const slot = slots["head-weekday-label"];
+      const shortWeekdayLabel = props.shortWeekdayLabel === true;
+      const scope = { timestamp: day, shortWeekdayLabel };
+      const data = {
+        class: {
+          "q-calendar-scheduler__head--weekday": true,
+          ["q-calendar__" + props.weekdayAlign]: true,
+          "q-calendar__ellipsis": true
+        }
+      };
+      return h("div", data, slot && slot({ scope }) || __renderHeadWeekdayLabel(day, shortWeekdayLabel));
+    }
+    function __renderHeadWeekdayLabel(day, shortWeekdayLabel) {
+      const weekdayLabel = weekdayFormatter.value(day, shortWeekdayLabel || props.weekdayBreakpoints[0] > 0 && parsedCellWidth.value <= props.weekdayBreakpoints[0]);
+      return h("span", {
+        class: "q-calendar-scheduler__head--weekday-label q-calendar__ellipsis"
+      }, props.weekdayBreakpoints[1] > 0 && parsedCellWidth.value <= props.weekdayBreakpoints[1] ? minCharWidth(weekdayLabel, props.minWeekdayLabel) : weekdayLabel);
+    }
+    function __renderHeadDayDate(day) {
+      const data = {
+        class: {
+          "q-calendar-scheduler__head--date": true,
+          ["q-calendar__" + props.dateAlign]: true
+        }
+      };
+      return h("div", data, __renderHeadDayBtn(day));
+    }
+    function __renderHeadDayBtn(day) {
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const dayLabel = dayFormatter.value(day, false);
+      const headDayLabelSlot = slots["head-day-label"];
+      const headDayButtonSlot = slots["head-day-button"];
+      const scope = {
+        dayLabel,
+        timestamp: day,
+        activeDate
+      };
+      const data = {
+        class: {
+          "q-calendar-scheduler__head--day__label": true,
+          "q-calendar__button": true,
+          "q-calendar__button--round": props.dateType === "round",
+          "q-calendar__button--rounded": props.dateType === "rounded",
+          "q-calendar__button--bordered": day.current === true,
+          "q-calendar__focusable": true
+        },
+        disabled: day.disabled,
+        onKeydown: (e) => {
+          if (day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        },
+        onKeyup: (e) => {
+          if (day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            emittedValue.value = day.date;
+            if (emitListeners.value.onClickDate !== void 0) {
+              emit("click-date", { scope });
+            }
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-date", (event, eventName) => {
+          if (eventName === "click-date" || eventName === "contextmenu-date") {
+            emittedValue.value = day.date;
+            if (eventName === "click-date") {
+              event.preventDefault();
+            }
+          }
+          return { scope, event };
+        })
+      };
+      if (props.noAria !== true) {
+        data.ariaLabel = ariaDateFormatter.value(day);
+      }
+      return headDayButtonSlot ? headDayButtonSlot({ scope }) : useButton(props, data, headDayLabelSlot ? headDayLabelSlot({ scope }) : dayLabel);
+    }
+    function __renderColumnHeaderBefore(day, columnIndex) {
+      const slot = slots["column-header-before"];
+      if (slot) {
+        const scope = { timestamp: day, columnIndex };
+        return h("div", {
+          class: "q-calendar-scheduler__column-header--before"
+        }, [
+          slot({ scope })
+        ]);
+      }
+    }
+    function __renderColumnHeaderAfter(day, columnIndex) {
+      const slot = slots["column-header-after"];
+      if (slot) {
+        const scope = { timestamp: day, columnIndex };
+        return h("div", {
+          class: "q-calendar-scheduler__column-header--after"
+        }, [
+          slot({ scope })
+        ]);
+      }
+    }
+    function __renderBody() {
+      return h("div", {
+        class: "q-calendar-scheduler__body"
+      }, [
+        __renderScrollArea()
+      ]);
+    }
+    function __renderScrollArea() {
+      if (isSticky.value === true) {
+        return h("div", {
+          ref: scrollArea,
+          class: {
+            "q-calendar-scheduler__scroll-area": true,
+            "q-calendar__scroll": true
+          }
+        }, [
+          isSticky.value !== true && __renderDayResources(),
+          __renderDayContainer()
+        ]);
+      } else if (props.noScroll === true) {
+        return __renderPane();
+      } else {
+        return h("div", {
+          ref: scrollArea,
+          class: {
+            "q-calendar-scheduler__scroll-area": true,
+            "q-calendar__scroll": true
+          }
+        }, [
+          __renderPane()
+        ]);
+      }
+    }
+    function __renderPane() {
+      return h("div", {
+        ref: pane,
+        class: "q-calendar-scheduler__pane"
+      }, [
+        __renderDayContainer()
+      ]);
+    }
+    function __renderDayContainer() {
+      return h("div", {
+        class: "q-calendar-scheduler__day--container"
+      }, [
+        isSticky.value === true && props.noHeader !== true && __renderHead(),
+        __renderResources()
+      ]);
+    }
+    function __renderResources(resources = void 0, indentLevel = 0, expanded = true) {
+      if (resources === void 0) {
+        resources = props.modelResources;
+      }
+      return resources.map((resource, resourceIndex) => {
+        return __renderResourceRow(resource, resourceIndex, indentLevel, resource.children !== void 0 ? resource.expanded : expanded);
+      });
+    }
+    function __renderResourceRow(resource, resourceIndex, indentLevel = 0, expanded = true) {
+      const style = {};
+      style.height = resource.height !== void 0 ? convertToUnit(parseInt(resource.height, 10)) : parsedResourceHeight.value ? convertToUnit(parsedResourceHeight.value) : "auto";
+      if (parsedResourceMinHeight.value > 0) {
+        style.minHeight = convertToUnit(parsedResourceMinHeight.value);
+      }
+      const resourceRow = h("div", {
+        key: resource[props.resourceKey] + "-" + resourceIndex,
+        class: {
+          "q-calendar-scheduler__resource--row": true
+        },
+        style
+      }, [
+        __renderResource(resource, resourceIndex, indentLevel, expanded),
+        __renderDayResources(resource, resourceIndex, indentLevel, expanded)
+      ]);
+      if (resource.children !== void 0) {
+        return [
+          resourceRow,
+          h("div", {
+            class: {
+              "q-calendar__child": true,
+              "q-calendar__child--expanded": expanded === true,
+              "q-calendar__child--collapsed": expanded !== true
+            }
+          }, [
+            __renderResources(resource.children, indentLevel + 1, expanded === false ? expanded : resource.expanded)
+          ])
+        ];
+      }
+      return [resourceRow];
+    }
+    function __renderResource(resource, resourceIndex, indentLevel = 0, expanded = true) {
+      const slotResourceLabel = slots["resource-label"];
+      const style = {};
+      style.height = resource.height !== void 0 ? convertToUnit(parseInt(resource.height, 10)) : parsedResourceHeight.value ? convertToUnit(parsedResourceHeight.value) : "auto";
+      if (parseInt(props.resourceMinHeight, 10) > 0) {
+        style.minHeight = convertToUnit(parseInt(props.resourceMinHeight, 10));
+      }
+      const styler = props.resourceStyle || styleDefault;
+      const label = resource[props.resourceLabel];
+      const isFocusable = props.focusable === true && props.focusType.includes("resource") && expanded === true;
+      const scope = {
+        resource,
+        timestamps: days.value,
+        days: days.value,
+        resourceIndex,
+        indentLevel,
+        label
+      };
+      const dragValue2 = resource[props.resourceKey];
+      scope.droppable = dragOverResource2.value === dragValue2;
+      const resourceClass = typeof props.resourceClass === "function" ? props.resourceClass({ scope }) : {};
+      return h("div", {
+        key: resource[props.resourceKey] + "-" + resourceIndex,
+        ref: (el) => {
+          resourcesRef.value[resource[props.resourceKey]] = el;
+        },
+        tabindex: isFocusable === true ? 0 : -1,
+        class: {
+          "q-calendar-scheduler__resource": indentLevel === 0,
+          "q-calendar-scheduler__resource--section": indentLevel !== 0,
+          ...resourceClass,
+          "q-calendar__sticky": isSticky.value === true,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isFocusable === true
+        },
+        style: {
+          ...style,
+          ...styler({ scope })
+        },
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "resource", scope) === true ? dragOverResource2.value = dragValue2 : dragOverResource2.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "resource", scope) === true ? dragOverResource2.value = dragValue2 : dragOverResource2.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "resource", scope) === true ? dragOverResource2.value = dragValue2 : dragOverResource2.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "resource", scope) === true ? dragOverResource2.value = dragValue2 : dragOverResource2.value = "";
+          }
+        },
+        onKeydown: (event) => {
+          if (isKeyCode2(event, [13, 32])) {
+            event.stopPropagation();
+            event.preventDefault();
+          }
+        },
+        onKeyup: (event) => {
+          if (isKeyCode2(event, [13, 32])) {
+            if (emitListeners.value.onClickResource !== void 0) {
+              emit("click-resource", { scope, event });
+            }
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-resource", (event) => {
+          return { scope, event };
+        })
+      }, [
+        [
+          h("div", {
+            class: {
+              "q-calendar__parent": resource.children !== void 0,
+              "q-calendar__parent--expanded": resource.children !== void 0 && resource.expanded === true,
+              "q-calendar__parent--collapsed": resource.children !== void 0 && resource.expanded !== true
+            },
+            onClick: (e) => {
+              e.stopPropagation();
+              resource.expanded = !resource.expanded;
+              emit("resource-expanded", { expanded: resource.expanded, scope });
+            }
+          }),
+          h("div", {
+            class: {
+              "q-calendar-scheduler__resource--text": true,
+              "q-calendar__ellipsis": true
+            },
+            style: {
+              paddingLeft: 10 * indentLevel + 2 + "px"
+            }
+          }, [
+            slotResourceLabel ? slotResourceLabel({ scope }) : label
+          ]),
+          useFocusHelper()
+        ]
+      ]);
+    }
+    function __renderDayResources(resource, resourceIndex, indentLevel = 0, expanded = true) {
+      const slot = slots["resource-days"];
+      const width = isSticky.value === true ? convertToUnit(parsedCellWidth.value) : computedWidth.value;
+      const scope = {
+        resource,
+        resourceIndex,
+        indentLevel,
+        expanded,
+        cellWidth: width,
+        timestamps: days.value,
+        days: days.value
+      };
+      const style = {};
+      style.height = parseInt(props.resourceHeight, 10) > 0 ? convertToUnit(parseInt(props.resourceHeight, 10)) : "auto";
+      if (parseInt(props.resourceMinHeight, 10) > 0) {
+        style.minHeight = convertToUnit(parseInt(props.resourceMinHeight, 10));
+      }
+      const data = {
+        class: "q-calendar-scheduler__resource--days",
+        style
+      };
+      return h(
+        "div",
+        data,
+        [
+          ...__renderDays(resource, resourceIndex, indentLevel, expanded),
+          slot && slot({ scope })
+        ]
+      );
+    }
+    function __renderDays(resource, resourceIndex, indentLevel = 0, expanded = true) {
+      if (days.value.length === 1 && parseInt(props.columnCount, 10) > 0) {
+        return Array.apply(null, new Array(parseInt(props.columnCount, 10))).map((_, i) => i + parseInt(props.columnIndexStart, 10)).map((columnIndex) => __renderDay(days.value[0], columnIndex, resource, resourceIndex, indentLevel, expanded));
+      } else {
+        return days.value.map((day) => __renderDay(day, void 0, resource, resourceIndex, indentLevel, expanded));
+      }
+    }
+    function __renderDay(day, columnIndex, resource, resourceIndex, indentLevel = 0, expanded = true) {
+      const slot = slots.day;
+      const styler = props.dayStyle || dayStyleDefault;
+      const activeDate = props.noActiveDate !== true && parsedValue.value.date === day.date;
+      const dragValue2 = day.date + ":" + resource[props.resourceKey] + (columnIndex !== void 0 ? ":" + columnIndex : "");
+      const droppable = dragOverResource2.value === dragValue2;
+      const scope = { timestamp: day, columnIndex, resource, resourceIndex, indentLevel, activeDate, droppable };
+      const width = isSticky.value === true ? convertToUnit(parsedCellWidth.value) : computedWidth.value;
+      const style = {
+        width,
+        maxWidth: width,
+        ...styler({ scope })
+      };
+      style.height = parseInt(props.resourceHeight, 10) > 0 ? convertToUnit(parseInt(props.resourceHeight, 10)) : "auto";
+      if (parseInt(props.resourceMinHeight, 10) > 0) {
+        style.minHeight = convertToUnit(parseInt(props.resourceMinHeight, 10));
+      }
+      const dayClass = typeof props.dayClass === "function" ? props.dayClass({ scope }) : {};
+      const isFocusable = props.focusable === true && props.focusType.includes("day") && expanded === true;
+      return h("div", {
+        key: day.date + (columnIndex !== void 0 ? ":" + columnIndex : ""),
+        tabindex: isFocusable === true ? 0 : -1,
+        class: {
+          "q-calendar-scheduler__day": indentLevel === 0,
+          "q-calendar-scheduler__day--section": indentLevel !== 0,
+          ...dayClass,
+          ...getRelativeClasses(day),
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isFocusable === true
+        },
+        style,
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "day", scope) === true ? dragOverResource2.value = dragValue2 : dragOverResource2.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "day", scope) === true ? dragOverResource2.value = dragValue2 : dragOverResource2.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "day", scope) === true ? dragOverResource2.value = dragValue2 : dragOverResource2.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "day", scope) === true ? dragOverResource2.value = dragValue2 : dragOverResource2.value = "";
+          }
+        },
+        onKeydown: (event) => {
+          if (isKeyCode2(event, [13, 32])) {
+            event.stopPropagation();
+            event.preventDefault();
+          }
+        },
+        onKeyup: (event) => {
+          if (isKeyCode2(event, [13, 32])) {
+            emittedValue.value = scope.timestamp.date;
+            if (emitListeners.value.onClickResource !== void 0) {
+              emit("click-resource", { scope, event });
+            }
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-day-resource", (event) => {
+          return { scope, event };
+        })
+      }, [
+        slot && slot({ scope }),
+        useFocusHelper()
+      ]);
+    }
+    function __renderResourcesError() {
+      return h("div", {}, "No resources have been defined");
+    }
+    function __renderScheduler() {
+      const { start, end, maxDays } = renderValues.value;
+      if (startDate.value !== start.date || endDate.value !== end.date || maxDaysRendered.value !== maxDays) {
+        startDate.value = start.date;
+        endDate.value = end.date;
+        maxDaysRendered.value = maxDays;
+      }
+      const hasWidth = size.width > 0;
+      const hasResources = props.modelResources && props.modelResources.length > 0;
+      const scheduler = withDirectives(h("div", {
+        key: startDate.value,
+        class: "q-calendar-scheduler"
+      }, [
+        hasWidth === true && hasResources === true && isSticky.value !== true && props.noHeader !== true && __renderHead(),
+        hasWidth === true && hasResources === true && __renderBody(),
+        hasResources === false && __renderResourcesError()
+      ]), [[
+        ResizeObserver$1,
+        __onResize
+      ]]);
+      if (props.animated === true) {
+        const transition = "q-calendar--" + (direction.value === "prev" ? props.transitionPrev : props.transitionNext);
+        return h(Transition, {
+          name: transition,
+          appear: true
+        }, () => scheduler);
+      }
+      return scheduler;
+    }
+    expose({
+      prev,
+      next,
+      move,
+      moveToToday,
+      updateCurrent
+    });
+    return () => __renderCalendar();
+  }
+});
+const useTaskProps = {
+  modelValue: {
+    type: String,
+    default: today(),
+    validator: (v) => v === "" || validateTimestamp(v)
+  },
+  modelTasks: {
+    type: Array,
+    default: []
+  },
+  modelTitle: {
+    type: Array,
+    default: []
+  },
+  modelFooter: {
+    type: Array,
+    default: []
+  },
+  taskKey: {
+    type: [String, Number],
+    default: "id"
+  },
+  weekdays: {
+    type: Array,
+    default: () => [0, 1, 2, 3, 4, 5, 6]
+  },
+  dateType: {
+    type: String,
+    default: "round",
+    validator: (v) => ["round", "rounded", "square"].includes(v)
+  },
+  dateHeader: {
+    type: String,
+    default: "stacked",
+    validator: (v) => ["stacked", "inline", "inverted"].includes(v)
+  },
+  weekdayAlign: {
+    type: String,
+    default: "center",
+    validator: (v) => ["left", "center", "right"].includes(v)
+  },
+  dateAlign: {
+    type: String,
+    default: "center",
+    validator: (v) => ["left", "center", "right"].includes(v)
+  },
+  view: {
+    type: String,
+    validator: (v) => ["day", "week", "month"].includes(v)
+  },
+  viewCount: {
+    type: Number,
+    default: 1,
+    validator: (v) => validateNumber(v) && v > 0
+  },
+  bordered: Boolean,
+  dark: Boolean,
+  noAria: Boolean,
+  noActiveDate: Boolean,
+  shortWeekdayLabel: Boolean,
+  noHeader: Boolean,
+  noDefaultHeaderText: Boolean,
+  noDefaultHeaderBtn: Boolean,
+  cellWidth: [Number, String],
+  minWeekdayLabel: {
+    type: [Number, String],
+    default: 2
+  },
+  weekdayBreakpoints: {
+    type: Array,
+    default: () => [75, 35],
+    validator: (v) => v.length === 2
+  },
+  locale: {
+    type: String,
+    default: "en-US"
+  },
+  animated: Boolean,
+  transitionPrev: {
+    type: String,
+    default: "slide-right"
+  },
+  transitionNext: {
+    type: String,
+    default: "slide-left"
+  },
+  disabledDays: Array,
+  disabledBefore: String,
+  disabledAfter: String,
+  disabledWeekdays: {
+    type: Array,
+    default: () => []
+  },
+  weekdayClass: Function,
+  dayClass: Function,
+  footerDayClass: Function,
+  dragEnterFunc: {
+    type: Function
+  },
+  dragOverFunc: {
+    type: Function
+  },
+  dragLeaveFunc: {
+    type: Function
+  },
+  dropFunc: {
+    type: Function
+  },
+  hoverable: Boolean,
+  focusable: Boolean,
+  focusType: {
+    type: Array,
+    default: ["date"],
+    validator: (v) => {
+      let val = true;
+      v.forEach((type) => {
+        if (["day", "date", "weekday", "interval", "resource", "task"].includes(type) !== true) {
+          val = false;
+        }
+      });
+      return val;
+    }
+  },
+  taskWidth: {
+    type: Number,
+    default: 200,
+    validator: (v) => validateNumber(v) && v > 0
+  }
+};
+function useTask(props, emit, {
+  weekdaySkips,
+  times
+}) {
+  const parsedStartDate = computed(() => {
+    if (props.view === "day") {
+      return parseTimestamp(props.modelValue);
+    } else if (props.view === "week") {
+      return getStartOfWeek(parseTimestamp(props.modelValue), props.weekdays, times.today);
+    } else if (props.view === "month") {
+      return getStartOfMonth(parseTimestamp(props.modelValue), props.weekdays, times.today);
+    } else {
+      throw new Error(`QCalendarTask: unknown 'view' type (${props.view})`);
+    }
+  });
+  const parsedEndDate = computed(() => {
+    if (props.view === "day") {
+      if (props.viewCount === 1) {
+        return parsedStartDate.value;
+      }
+      let end = copyTimestamp(parsedStartDate.value);
+      end = addToDate(end, { day: props.viewCount - 1 });
+      return end;
+    } else if (props.view === "week") {
+      if (props.viewCount === 1) {
+        return getEndOfWeek(parseTimestamp(props.modelValue), props.weekdays, times.today);
+      } else {
+        let end = copyTimestamp(parsedStartDate.value);
+        end = addToDate(end, { day: (props.viewCount - 1) * DAYS_IN_WEEK });
+        return getEndOfWeek(end, props.weekdays, times.today);
+      }
+    } else if (props.view === "month") {
+      if (props.viewCount === 1) {
+        return getEndOfMonth(parseTimestamp(props.modelValue), props.weekdays, times.today);
+      } else {
+        let end = copyTimestamp(parsedStartDate.value);
+        end = addToDate(end, { month: props.viewCount });
+        return getEndOfMonth(end, props.weekdays, times.today);
+      }
+    } else {
+      throw new Error(`QCalendarTask: unknown 'view' type (${props.view})`);
+    }
+  });
+  const days = computed(() => {
+    return createDayList(
+      parsedStartDate.value,
+      parsedEndDate.value,
+      times.today,
+      weekdaySkips.value,
+      props.disabledBefore,
+      props.disabledAfter,
+      props.disabledWeekdays,
+      props.disabledDays,
+      Number.MAX_SAFE_INTEGER
+    );
+  });
+  return {
+    days,
+    parsedStartDate,
+    parsedEndDate
+  };
+}
+var QCalendarTask = defineComponent({
+  name: "QCalendarTask",
+  directives: [ResizeObserver$1],
+  props: {
+    ...useTimesProps,
+    ...useNavigationProps,
+    ...useTaskProps
+  },
+  emits: [
+    "update:model-value",
+    "update:model-tasks",
+    "update:model-title",
+    "update:model-footer",
+    "task-expanded",
+    ...useCheckChangeEmits,
+    ...useMoveEmits,
+    ...getRawMouseEvents("-date"),
+    ...getRawMouseEvents("-day"),
+    ...getRawMouseEvents("-head-day")
+  ],
+  setup(props, { slots, emit, expose }) {
+    const scrollArea = ref(null), pane = ref(null), direction = ref("next"), startDate = ref(props.modelValue || today()), endDate = ref("0000-00-00"), maxDaysRendered = ref(0), emittedValue = ref(props.modelValue), focusRef = ref(null), focusValue = ref(null), datesRef = ref({}), size = reactive({ width: 0, height: 0 }), dragOverHeadDayRef = ref(false), lastStart = ref(null), lastEnd = ref(null);
+    watch(() => props.view, () => {
+      maxDaysRendered.value = 0;
+    });
+    const parsedView = computed(() => {
+      if (props.view === "month") {
+        return "month-interval";
+      }
+      return props.view;
+    });
+    const vm = getCurrentInstance();
+    if (vm === null) {
+      throw new Error("current instance is null");
+    }
+    const { emitListeners } = useEmitListeners(vm);
+    const {
+      times,
+      setCurrent,
+      updateCurrent
+    } = useTimes(props);
+    updateCurrent();
+    setCurrent();
+    const {
+      weekdaySkips,
+      parsedStart,
+      dayFormatter,
+      weekdayFormatter,
+      ariaDateFormatter,
+      dayStyleDefault,
+      getRelativeClasses
+    } = useCommon(props, { startDate, endDate, times });
+    const parsedValue = computed(() => {
+      return parseTimestamp(props.modelValue, times.now) || parsedStart.value || times.today;
+    });
+    focusValue.value = parsedValue.value;
+    focusRef.value = parsedValue.value.date;
+    const { renderValues } = useRenderValues(props, {
+      parsedView,
+      times,
+      parsedValue
+    });
+    const {
+      rootRef,
+      __initCalendar,
+      __renderCalendar
+    } = useCalendar(props, __renderTask, {
+      scrollArea,
+      pane
+    });
+    const {
+      days,
+      parsedStartDate,
+      parsedEndDate
+    } = useTask(props, emit, {
+      weekdaySkips,
+      times
+    });
+    const { move } = useMove(props, {
+      parsedView,
+      parsedValue,
+      weekdaySkips,
+      direction,
+      maxDays: maxDaysRendered,
+      times,
+      emittedValue,
+      emit
+    });
+    const {
+      getDefaultMouseEventHandlers: getDefaultMouseEventHandlers2
+    } = useMouse(emit, emitListeners);
+    const {
+      checkChange
+    } = useCheckChange(emit, { days, lastStart, lastEnd });
+    const {
+      isKeyCode: isKeyCode2
+    } = useEvents();
+    const { tryFocus } = useKeyboard(props, {
+      rootRef,
+      focusRef,
+      focusValue,
+      datesRef,
+      days,
+      parsedView,
+      parsedValue,
+      emittedValue,
+      weekdaySkips,
+      direction,
+      times
+    });
+    const isSticky = ref(true);
+    const parsedCellWidth = computed(() => {
+      if (props.cellWidth !== void 0) {
+        return parseInt(props.cellWidth, 10);
+      }
+      return 150;
+    });
+    const isDayFocusable = computed(() => {
+      return props.focusable === true && props.focusType.includes("day") && isMiniMode.value !== true;
+    });
+    const isDateFocusable = computed(() => {
+      return props.focusable === true && props.focusType.includes("date") && isDayFocusable.value !== true;
+    });
+    const isWeekdayFocusable = computed(() => {
+      return props.focusable === true && props.focusType.includes("weekday");
+    });
+    const parsedHeight = computed(() => {
+      return parseInt(props.dayHeight, 10);
+    });
+    const parsedMinHeight = computed(() => {
+      return parseInt(props.dayMinHeight, 10);
+    });
+    watch([days], checkChange, { deep: true, immediate: true });
+    watch(() => props.modelValue, (val, oldVal) => {
+      if (emittedValue.value !== val) {
+        if (props.animated === true) {
+          const v1 = getDayIdentifier(parsed(val));
+          const v2 = getDayIdentifier(parsed(oldVal));
+          direction.value = v1 >= v2 ? "next" : "prev";
+        }
+        emittedValue.value = val;
+      }
+      focusRef.value = val;
+    });
+    watch(emittedValue, (val, oldVal) => {
+      if (emittedValue.value !== props.modelValue) {
+        if (props.animated === true) {
+          const v1 = getDayIdentifier(parsed(val));
+          const v2 = getDayIdentifier(parsed(oldVal));
+          direction.value = v1 >= v2 ? "next" : "prev";
+        }
+        emit("update:model-value", val);
+      }
+    });
+    watch(focusRef, (val) => {
+      if (val) {
+        focusValue.value = parseTimestamp(val);
+      }
+    });
+    watch(focusValue, (val) => {
+      if (datesRef.value[focusRef.value]) {
+        datesRef.value[focusRef.value].focus();
+      } else {
+        tryFocus();
+      }
+    });
+    onBeforeUpdate(() => {
+      datesRef.value = {};
+    });
+    onMounted(() => {
+      __initCalendar();
+    });
+    function moveToToday() {
+      emittedValue.value = today();
+    }
+    function next(amount = 1) {
+      move(amount);
+    }
+    function prev(amount = 1) {
+      move(-amount);
+    }
+    function __onResize({ width, height }) {
+      size.width = width;
+      size.height = height;
+    }
+    function __isActiveDate(day) {
+      return day.date === emittedValue.value;
+    }
+    function __renderTaskDay(day, task, taskIndex) {
+      const slot = slots.day;
+      const styler = props.dayStyle || dayStyleDefault;
+      const activeDate = props.noActiveDate !== true && parsedValue.value.date === day.date;
+      const scope = {
+        timestamp: day,
+        task,
+        taskIndex,
+        activeDate
+      };
+      const width = convertToUnit(parsedCellWidth.value);
+      const style = {
+        width,
+        minWidth: width,
+        maxWidth: width,
+        ...styler({ scope })
+      };
+      const dayClass = typeof props.dayClass === "function" ? props.dayClass({ scope }) : {};
+      return h("div", {
+        tabindex: isDayFocusable.value === true ? 0 : -1,
+        class: {
+          "q-calendar-task__task--day": true,
+          ...dayClass,
+          ...getRelativeClasses(day),
+          "q-active-date": activeDate === true,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isDayFocusable.value === true
+        },
+        style,
+        onFocus: (e) => {
+          if (isDayFocusable.value === true)
+            ;
+        },
+        ...getDefaultMouseEventHandlers2("-day", (event) => {
+          return { scope, event };
+        }),
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "day", scope) === true ? dragOverResource.value = dragValue : dragOverResource.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "day", scope) === true ? dragOverResource.value = dragValue : dragOverResource.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "day", scope) === true ? dragOverResource.value = dragValue : dragOverResource.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "day", scope) === true ? dragOverResource.value = dragValue : dragOverResource.value = "";
+          }
+        }
+      }, [
+        slot && slot({ scope }),
+        useFocusHelper()
+      ]);
+    }
+    function __renderTaskDays(task, taskIndex) {
+      return days.value.map((day) => __renderTaskDay(day, task, taskIndex));
+    }
+    function __renderTaskDaysRow(task, taskIndex) {
+      const slot = slots.days;
+      const scope = {
+        timestamps: days.value,
+        days: days.value,
+        task,
+        taskIndex,
+        cellWidth: parsedCellWidth.value
+      };
+      return h("div", {
+        class: "q-calendar-task__task--days-row"
+      }, [
+        __renderTaskDays(task, taskIndex),
+        slot && slot({ scope })
+      ]);
+    }
+    function __renderTaskItem(task, taskIndex, indentLevel = 0, expanded = true) {
+      const slot = slots.task;
+      const scope = {
+        start: parsedStartDate.value,
+        end: parsedEndDate.value,
+        task,
+        taskIndex,
+        expanded
+      };
+      const width = convertToUnit(props.taskWidth);
+      const style = {
+        width,
+        minWidth: width,
+        maxWidth: width
+      };
+      const isFocusable = props.focusable === true && props.focusType.includes("task");
+      return h("div", {
+        class: {
+          "q-calendar-task__task--item": true,
+          "q-calendar__sticky": isSticky.value === true,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isFocusable === true
+        },
+        style
+      }, [
+        h("div", {
+          style: {
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            width: 10 + 10 * indentLevel + "px"
+          }
+        }, [
+          h("div", {
+            class: {
+              "q-calendar__parent": task.children !== void 0,
+              "q-calendar__parent--expanded": task.children !== void 0 && task.expanded === true,
+              "q-calendar__parent--collapsed": task.children !== void 0 && task.expanded !== true
+            },
+            onClick: (e) => {
+              e.stopPropagation();
+              task.expanded = !task.expanded;
+              emit("task-expanded", { expanded: task.expanded, scope });
+            }
+          })
+        ]),
+        slot && slot({ scope }),
+        useFocusHelper()
+      ]);
+    }
+    function __renderTaskRow(task, taskIndex, indentLevel = 0, expanded = true) {
+      const height = task.height !== void 0 ? convertToUnit(parseInt(task.height, 10)) : parsedHeight.value > 0 ? convertToUnit(parsedHeight.value) : "auto";
+      const minHeight = parsedMinHeight.value > 0 ? convertToUnit(parsedMinHeight.value) : void 0;
+      const style = {
+        height
+      };
+      if (minHeight !== void 0) {
+        style.minHeight = minHeight;
+      }
+      const taskRow = h("div", {
+        key: task[props.taskKey] + "-" + taskIndex,
+        class: {
+          "q-calendar-task__task": indentLevel === 0,
+          "q-calendar-task__task--section": indentLevel !== 0
+        },
+        style
+      }, [
+        __renderTaskItem(task, taskIndex, indentLevel, expanded),
+        __renderTaskDaysRow(task, taskIndex)
+      ]);
+      if (task.children !== void 0) {
+        return [
+          taskRow,
+          h("div", {
+            class: {
+              "q-calendar__child": true,
+              "q-calendar__child--expanded": expanded === true,
+              "q-calendar__child--collapsed": expanded !== true
+            }
+          }, [
+            __renderTasks(task.children, indentLevel + 1, expanded === false ? expanded : task.expanded)
+          ])
+        ];
+      }
+      return [taskRow];
+    }
+    function __renderTasks(tasks = void 0, indentLevel = 0, expanded = true) {
+      if (tasks === void 0) {
+        tasks = props.modelTasks;
+      }
+      return tasks.map((task, taskIndex) => {
+        return __renderTaskRow(task, taskIndex, indentLevel, task.children !== void 0 ? task.expanded : expanded);
+      });
+    }
+    function __renderTasksContainer() {
+      return h("div", {
+        class: {
+          "q-calendar-task__task--container": true,
+          "q-calendar__sticky": isSticky.value === true
+        }
+      }, [
+        __renderTasks()
+      ]);
+    }
+    function __renderFooterTask(task, index) {
+      const slot = slots["footer-task"];
+      const scope = {
+        start: parsedStartDate.value,
+        end: parsedEndDate.value,
+        footer: task,
+        index
+      };
+      const width = convertToUnit(props.taskWidth);
+      const style = {
+        width,
+        minWidth: width,
+        maxWidth: width
+      };
+      return h("div", {
+        class: {
+          "q-calendar-task__footer--task": true,
+          "q-calendar__sticky": isSticky.value === true
+        },
+        style
+      }, [
+        slot && slot({ scope })
+      ]);
+    }
+    function __renderFooterDay(day, task, index) {
+      const slot = slots["footer-day"];
+      const scope = {
+        timestamp: day,
+        footer: task,
+        index
+      };
+      const width = convertToUnit(parsedCellWidth.value);
+      const style = {
+        width,
+        minWidth: width,
+        maxWidth: width
+      };
+      const footerDayClass = typeof props.footerDayClass === "function" ? props.footerDayClass({ scope }) : {};
+      return h("div", {
+        class: {
+          "q-calendar-task__footer--day": true,
+          ...footerDayClass,
+          ...getRelativeClasses(day),
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isDayFocusable.value === true
+        },
+        style
+      }, [
+        slot && slot({ scope })
+      ]);
+    }
+    function __renderFooterDays(task, index) {
+      return h("div", {
+        class: "q-calendar-task__footer--day-wrapper"
+      }, [
+        days.value.map((day) => __renderFooterDay(day, task, index))
+      ]);
+    }
+    function __renderFooterRows() {
+      const isFocusable = props.focusable === true && props.focusType.includes("task");
+      return props.modelFooter.map((task, index) => {
+        return h("div", {
+          class: {
+            "q-calendar-task__footer--wrapper": true,
+            "q-calendar__hoverable": props.hoverable === true,
+            "q-calendar__focusable": isFocusable === true
+          }
+        }, {
+          default: () => [
+            __renderFooterTask(task, index),
+            __renderFooterDays(task, index)
+          ]
+        });
+      });
+    }
+    function __renderFooter() {
+      return h("div", {
+        class: {
+          "q-calendar-task__footer": true,
+          "q-calendar__sticky": isSticky.value === true
+        }
+      }, __renderFooterRows());
+    }
+    function __renderContainer() {
+      return h("div", {
+        class: {
+          "q-calendar-task__container": true
+        }
+      }, [
+        props.noHeader !== true && __renderHead(),
+        __renderTasksContainer(),
+        __renderFooter()
+      ]);
+    }
+    function __renderHeadTask() {
+      const slot = slots["head-tasks"];
+      const scope = {
+        start: parsedStartDate.value,
+        end: parsedEndDate.value
+      };
+      const width = convertToUnit(parseInt(props.taskWidth, 10));
+      const style = {
+        width,
+        minWidth: width,
+        maxWidth: width
+      };
+      return h("div", {
+        class: {
+          "q-calendar-task__head--tasks": true,
+          "q-calendar__sticky": isSticky.value === true
+        },
+        style
+      }, [
+        slot && slot({ scope })
+      ]);
+    }
+    function __renderTitleTask(title, index) {
+      const slot = slots["title-task"];
+      const width = convertToUnit(parseInt(props.taskWidth, 10));
+      const style = {
+        width,
+        minWidth: width,
+        maxWidth: width
+      };
+      const scope = {
+        start: parsedStartDate.value,
+        end: parsedEndDate.value,
+        cellWidth: width,
+        title,
+        index
+      };
+      return h("div", {
+        class: {
+          "q-calendar-task__title--task": true,
+          "q-calendar__sticky": isSticky.value === true
+        },
+        style
+      }, [
+        slot && slot({ scope })
+      ]);
+    }
+    function __renderHeadWeekday(day) {
+      const slot = slots["head-weekday-label"];
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const scope = {
+        activeDate,
+        timestamp: day,
+        disabled: props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false
+      };
+      const data = {
+        class: {
+          "q-calendar-task__head--weekday": true,
+          ["q-calendar__" + props.weekdayAlign]: true,
+          "q-calendar__ellipsis": true
+        }
+      };
+      return h("div", data, slot && slot({ scope }) || __renderHeadWeekdayLabel(day, props.shortWeekdayLabel));
+    }
+    function __renderHeadWeekdayLabel(day, shortWeekdayLabel) {
+      const weekdayLabel = weekdayFormatter.value(day, shortWeekdayLabel || props.weekdayBreakpoints[0] > 0 && parsedCellWidth.value <= props.weekdayBreakpoints[0]);
+      return h("span", {
+        class: "q-calendar__ellipsis"
+      }, props.weekdayBreakpoints[1] > 0 && parsedCellWidth.value <= props.weekdayBreakpoints[1] ? minCharWidth(weekdayLabel, props.minWeekdayLabel) : weekdayLabel);
+    }
+    function __renderHeadDayDate(day) {
+      const data = {
+        class: {
+          "q-calendar-task__head--date": true,
+          ["q-calendar__" + props.dateAlign]: true
+        }
+      };
+      return h("div", data, __renderHeadDayBtn(day));
+    }
+    function __renderHeadDayBtn(day) {
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const dayLabel = dayFormatter.value(day, false);
+      const headDayLabelSlot = slots["head-day-label"];
+      const headDayButtonSlot = slots["head-day-button"];
+      const scope = { dayLabel, timestamp: day, activeDate };
+      const key = day.date;
+      const data = {
+        key,
+        tabindex: isDateFocusable.value === true ? 0 : -1,
+        class: {
+          "q-calendar-task__head--day__label": true,
+          "q-calendar__button": true,
+          "q-calendar__button--round": props.dateType === "round",
+          "q-calendar__button--rounded": props.dateType === "rounded",
+          "q-calendar__button--bordered": day.current === true,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isDateFocusable.value === true
+        },
+        disabled: day.disabled,
+        onKeydown: (e) => {
+          if (day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        },
+        onKeyup: (e) => {
+          if (day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            emittedValue.value = day.date;
+            if (emitListeners.value.onClickDate !== void 0) {
+              emit("click-date", { scope });
+            }
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-date", (event, eventName) => {
+          if (eventName === "click-date" || eventName === "contextmenu-date") {
+            emittedValue.value = day.date;
+            if (eventName === "click-date") {
+              event.preventDefault();
+            }
+          }
+          return { scope, event };
+        })
+      };
+      if (props.noAria !== true) {
+        data.ariaLabel = ariaDateFormatter.value(day);
+      }
+      return headDayButtonSlot ? headDayButtonSlot({ scope }) : useButton(props, data, headDayLabelSlot ? headDayLabelSlot({ scope }) : dayLabel);
+    }
+    function __renderDateHeader(day) {
+      if (props.dateHeader === "stacked") {
+        return [
+          props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+          props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+        ];
+      } else if (props.dateHeader === "inline") {
+        if (props.weekdayAlign === "left" && props.dateAlign === "right") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+          ]);
+        } else if (props.weekdayAlign === "right" && props.dateAlign === "left") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+          ]);
+        } else {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day),
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day)
+          ]);
+        }
+      } else if (props.dateHeader === "inverted") {
+        if (props.weekdayAlign === "left" && props.dateAlign === "right") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day),
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day)
+          ]);
+        } else if (props.weekdayAlign === "right" && props.dateAlign === "left") {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day),
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day)
+          ]);
+        } else {
+          return h("div", {
+            class: "q-calendar__header--inline"
+          }, [
+            props.noDefaultHeaderBtn !== true && __renderHeadDayDate(day),
+            props.noDefaultHeaderText !== true && __renderHeadWeekday(day)
+          ]);
+        }
+      }
+    }
+    function __renderTitleDay(day, title, index) {
+      const slot = slots["title-day"];
+      const width = convertToUnit(parsedCellWidth.value);
+      const style = {
+        width,
+        minWidth: width,
+        maxWidth: width
+      };
+      const scope = {
+        timestamp: day,
+        title,
+        index,
+        cellWidth: parsedCellWidth.value
+      };
+      const dayClass = typeof props.dayClass === "function" ? props.dayClass({ scope }) : {};
+      const isFocusable = props.focusable === true && props.focusType.includes("day");
+      return h("div", {
+        class: {
+          "q-calendar-task__title--day": true,
+          ...dayClass,
+          ...getRelativeClasses(day),
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isFocusable === true
+        },
+        style
+      }, [
+        slot && slot({ scope }),
+        useFocusHelper()
+      ]);
+    }
+    function __renderHeadDay(day) {
+      const headDaySlot = slots["head-day"];
+      const headDateSlot = slots["head-date"];
+      const activeDate = props.noActiveDate !== true && __isActiveDate(day);
+      const scope = {
+        timestamp: day,
+        activeDate,
+        droppable: dragOverHeadDayRef.value = day.date,
+        disabled: props.disabledWeekdays ? props.disabledWeekdays.includes(day.weekday) : false
+      };
+      const styler = props.weekdayStyle || dayStyleDefault;
+      const weekdayClass = typeof props.weekdayClass === "function" ? props.weekdayClass({ scope }) : {};
+      const width = convertToUnit(parsedCellWidth.value);
+      const style = {
+        width,
+        minWidth: width,
+        maxWidth: width,
+        ...styler({ scope })
+      };
+      const key = day.date;
+      const data = {
+        key,
+        ref: (el) => {
+          datesRef.value[key] = el;
+        },
+        tabindex: isWeekdayFocusable.value === true ? 0 : -1,
+        class: {
+          "q-calendar-task__head--day": true,
+          ...weekdayClass,
+          ...getRelativeClasses(day),
+          "q-active-date": activeDate,
+          "q-calendar__hoverable": props.hoverable === true,
+          "q-calendar__focusable": isWeekdayFocusable.value === true
+        },
+        style,
+        onFocus: (e) => {
+          if (isWeekdayFocusable.value === true) {
+            focusRef.value = key;
+          }
+        },
+        onKeydown: (e) => {
+          if (day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        },
+        onKeyup: (e) => {
+          if (day.disabled !== true && isKeyCode2(e, [13, 32])) {
+            emittedValue.value = day.date;
+          }
+        },
+        ...getDefaultMouseEventHandlers2("-head-day", (event) => {
+          return { scope, event };
+        }),
+        onDragenter: (e) => {
+          if (props.dragEnterFunc !== void 0 && typeof props.dragEnterFunc === "function") {
+            props.dragEnterFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragover: (e) => {
+          if (props.dragOverFunc !== void 0 && typeof props.dragOverFunc === "function") {
+            props.dragOverFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDragleave: (e) => {
+          if (props.dragLeaveFunc !== void 0 && typeof props.dragLeaveFunc === "function") {
+            props.dragLeaveFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        },
+        onDrop: (e) => {
+          if (props.dropFunc !== void 0 && typeof props.dropFunc === "function") {
+            props.dropFunc(e, "head-day", scope) === true ? dragOverHeadDayRef.value = day.date : dragOverHeadDayRef.value = "";
+          }
+        }
+      };
+      return h("div", data, [
+        headDaySlot !== void 0 && headDaySlot({ scope }),
+        headDaySlot === void 0 && __renderDateHeader(day),
+        headDaySlot === void 0 && headDateSlot && headDateSlot({ scope }),
+        useFocusHelper()
+      ]);
+    }
+    function __renderHeadDays() {
+      return days.value.map((day) => __renderHeadDay(day));
+    }
+    function __renderTitleDays(title, index) {
+      return days.value.map((day) => __renderTitleDay(day, title, index));
+    }
+    function __renderHeadDaysRow() {
+      return h("div", {
+        class: {
+          "q-calendar-task__head--days": true
+        }
+      }, [
+        ...__renderHeadDays()
+      ]);
+    }
+    function __renderTitleDaysRow(title, index) {
+      return h("div", {
+        class: {
+          "q-calendar-task__title--days": true
+        }
+      }, [
+        ...__renderTitleDays(title, index)
+      ]);
+    }
+    function __renderHead() {
+      return h("div", {
+        roll: "presentation",
+        class: {
+          "q-calendar-task__head": true,
+          "q-calendar__sticky": isSticky.value === true
+        },
+        style: {}
+      }, [
+        h("div", {
+          style: {
+            position: "relative",
+            display: "flex"
+          }
+        }, [
+          __renderHeadTask(),
+          __renderHeadDaysRow()
+        ]),
+        props.modelTitle.map((title, index) => h("div", {
+          class: "q-calendar-task__title",
+          style: {
+            position: "relative",
+            display: "flex"
+          }
+        }, [
+          __renderTitleTask(title, index),
+          __renderTitleDaysRow(title, index)
+        ]))
+      ]);
+    }
+    function __renderBody() {
+      return h("div", {
+        class: "q-calendar-task__body"
+      }, [
+        __renderScrollArea()
+      ]);
+    }
+    function __renderScrollArea() {
+      return h("div", {
+        ref: scrollArea,
+        class: {
+          "q-calendar-task__scroll-area": true,
+          "q-calendar__scroll": true
+        }
+      }, [
+        __renderContainer()
+      ]);
+    }
+    function __renderTask() {
+      const { start, end } = renderValues.value;
+      startDate.value = start.date;
+      endDate.value = end.date;
+      const hasWidth = size.width > 0;
+      const weekly = withDirectives(h("div", {
+        key: startDate.value,
+        class: "q-calendar-task"
+      }, [
+        hasWidth === true && __renderBody()
+      ]), [[
+        ResizeObserver$1,
+        __onResize
+      ]]);
+      if (props.animated === true) {
+        const transition = "q-calendar--" + (direction.value === "prev" ? props.transitionPrev : props.transitionNext);
+        return h(Transition, {
+          name: transition,
+          appear: true
+        }, () => weekly);
+      }
+      return weekly;
+    }
+    expose({
+      prev,
+      next,
+      move,
+      moveToToday,
+      updateCurrent
+    });
+    return () => __renderCalendar();
+  }
+});
+var QCalendar = defineComponent({
+  name: "QCalendar",
+  props: {
+    mode: {
+      type: String,
+      validator: (v) => ["day", "month", "agenda", "resource", "scheduler", "task"].includes(v),
+      default: "day"
+    },
+    ...useCommonProps,
+    ...useMonthProps,
+    ...useTimesProps,
+    ...useCellWidthProps,
+    ...useNavigationProps,
+    ...useIntervalProps,
+    ...useSchedulerProps,
+    ...useResourceProps,
+    ...useMaxDaysProps,
+    ...useTaskProps
+  },
+  setup(props, { attrs, slots, expose }) {
+    const calendar = ref(null);
+    const component = computed(() => {
+      switch (props.mode) {
+        case "agenda":
+          return QCalendarAgenda;
+        case "resource":
+          return QCalendarResource;
+        case "scheduler":
+          return QCalendarScheduler;
+        case "month":
+          return QCalendarMonth;
+        case "day":
+          return QCalendarDay;
+        case "task":
+          return QCalendarTask;
+        case "day":
+        default:
+          return QCalendarDay;
+      }
+    });
+    function moveToToday() {
+      calendar.value.moveToToday();
+    }
+    function move(amount = -1) {
+      calendar.value.move(amount);
+    }
+    function next(amount = 1) {
+      calendar.value.next(amount);
+    }
+    function prev(amount = 1) {
+      calendar.value.prev(amount);
+    }
+    function updateCurrent() {
+      calendar.value.updateCurrent();
+    }
+    function timeStartPos(time, clamp = true) {
+      return calendar.value.timeStartPos(time, clamp);
+    }
+    function timeStartPosX(time, clamp = true) {
+      return calendar.value.timeStartPosX(time, clamp);
+    }
+    function timeDurationWidth(minutes2) {
+      return calendar.value.timeDurationWidth(minutes2);
+    }
+    function timeDurationHeight(minutes2) {
+      return calendar.value.timeDurationHeight(minutes2);
+    }
+    function heightToMinutes(height) {
+      return calendar.value.heightToMinutes(height);
+    }
+    function widthToMinutes(width) {
+      return calendar.value.widthToMinutes(minutes);
+    }
+    function scrollToTime(time) {
+      return calendar.value.scrollToTime(time);
+    }
+    function scrollToTimeX(time) {
+      return calendar.value.scrollToTimeX(time);
+    }
+    expose({
+      prev,
+      next,
+      move,
+      moveToToday,
+      updateCurrent,
+      timeStartPos,
+      timeStartPosX,
+      timeDurationWidth,
+      timeDurationHeight,
+      heightToMinutes,
+      widthToMinutes,
+      scrollToTime,
+      scrollToTimeX
+    });
+    return () => h(component.value, { ref: calendar, ...props, ...attrs }, slots);
+  }
+});
+const version = "4.0.0-beta.16";
+var Plugin = {
+  version,
+  QCalendar,
+  QCalendarAgenda,
+  QCalendarDay,
+  QCalendarMonth,
+  QCalendarResource,
+  QCalendarScheduler,
+  QCalendarTask,
+  PARSE_REGEX,
+  PARSE_DATE,
+  PARSE_TIME,
+  DAYS_IN_MONTH,
+  DAYS_IN_MONTH_LEAP,
+  DAYS_IN_MONTH_MIN,
+  DAYS_IN_MONTH_MAX,
+  MONTH_MAX,
+  MONTH_MIN,
+  DAY_MIN,
+  DAYS_IN_WEEK,
+  MINUTES_IN_HOUR,
+  HOURS_IN_DAY,
+  FIRST_HOUR,
+  MILLISECONDS_IN_MINUTE,
+  MILLISECONDS_IN_HOUR,
+  MILLISECONDS_IN_DAY,
+  MILLISECONDS_IN_WEEK,
+  Timestamp,
+  TimeObject,
+  today,
+  getStartOfWeek,
+  getEndOfWeek,
+  getStartOfMonth,
+  getEndOfMonth,
+  parseTime,
+  validateTimestamp,
+  parsed,
+  parseTimestamp,
+  parseDate,
+  getDayIdentifier,
+  getTimeIdentifier,
+  getDayTimeIdentifier,
+  diffTimestamp,
+  updateRelative,
+  updateMinutes,
+  updateWeekday,
+  updateDayOfYear,
+  updateWorkWeek,
+  updateDisabled,
+  updateFormatted,
+  getDayOfYear,
+  getWorkWeek,
+  getWeekday,
+  isLeapYear,
+  daysInMonth,
+  copyTimestamp,
+  padNumber,
+  getDate,
+  getTime,
+  getDateTime,
+  nextDay,
+  prevDay,
+  moveRelativeDays,
+  relativeDays,
+  findWeekday,
+  getWeekdaySkips,
+  createDayList,
+  createIntervalList,
+  createNativeLocaleFormatter,
+  makeDate,
+  makeDateTime,
+  validateNumber,
+  maxTimestamp,
+  minTimestamp,
+  isBetweenDates,
+  isOverlappingDates,
+  daysBetween,
+  weeksBetween,
+  addToDate,
+  compareTimestamps,
+  compareDate,
+  compareTime,
+  compareDateTime,
+  getWeekdayFormatter,
+  getWeekdayNames,
+  getMonthFormatter,
+  getMonthNames,
+  convertToUnit,
+  indexOf,
+  install(app, options) {
+    app.component(QCalendar.name, QCalendar);
+    app.component(QCalendarAgenda.name, QCalendarAgenda);
+    app.component(QCalendarDay.name, QCalendarDay);
+    app.component(QCalendarMonth.name, QCalendarMonth);
+    app.component(QCalendarResource.name, QCalendarResource);
+    app.component(QCalendarScheduler.name, QCalendarScheduler);
+    app.component(QCalendarTask.name, QCalendarTask);
+  }
+};
+export { Plugin as P, QCalendarMonth as Q, today as t };

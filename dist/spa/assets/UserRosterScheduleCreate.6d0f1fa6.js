@@ -1,1 +1,469 @@
-import{a as A,Q as E}from"./QToolbarTitle.1a75cd00.js";import{Q as J}from"./QSpace.7d6f905e.js";import{A as j,r as c,B as F,i as H,o as L,E as oe,m as n,K as O,L as m,Q as G,l as o,R as I,b8 as S,U as v,G as T,S as x,bp as K,q as d,af as te,n as i,F as Q,b7 as C,y as U,M as P,ae as se,aD as z,N as W}from"./index.e647c85a.js";import{Q as V}from"./QSelect.853d535e.js";import{C as Y}from"./ClosePopup.ef2f7039.js";import{u as X,r as f}from"./index.esm.4557c89b.js";import{a as k,m as ae}from"./axios.ccd3a804.js";import{u as w}from"./debug.805a8aef.js";import{o as ue,p as h,b as de,q as Z}from"./help.c0f85e41.js";import{a as ee}from"./helpers.2defcd01.js";import{_ as ne}from"./DateField.75075dac.js";const re={class:"row q-col-gutter-md"},ie={class:"row q-col-gutter-md"},ce={class:"col-xs-12 col-sm-6"},me=d("div",{class:"q-mb-sm"},"Start and end times",-1),pe={class:"row q-col-gutter-md q-mb-md"},_e={class:"col-xs-12 col-sm-6"},ve=d("div",{class:"q-mb-sm"},"Capacity for this timeslot:",-1),ge={key:0,class:"row q-col-gutter-md"},fe={key:0},Ee=j({__name:"UserRosterScheduleEdit",setup(le){const y=c(!1),t=F({id:null,day:null,start_time:null,end_time:null,active:!0,user_id:null,user:null,user_postcoderegion_group_id:null,capacity:{products:[]}}),p=c(!1),b=c(),q=c(),g=H("bus"),_=c(),u=X({user_postcoderegion_group_id:{required:f},day:{required:f},start_time:{required:f},end_time:{required:f}},t),M=()=>{_.value=!1,p.value=!0,k.put(`/userrosterschedule/${t.id}`,t).then(()=>{de("positive","Schedule updated"),g.emit("getSchedule"),y.value=!1,p.value=!1}).catch(r=>{p.value=!1,_.value=r.response.data,w(r)})},$=r=>r?h.filter(a=>a.value>r&&a.value<=r+3):h,B=r=>{r.qty||(r.qty=0)};return L(()=>{g.on("editUserRosterSchedule",async r=>{b.value=await ee(),k.get(`/userrosterschedule/${r}`).then(a=>{Object.assign(t,a.data),k.get(`/userpostcoderegiongroup/index/${t.user_id}`).then(e=>{q.value=e.data.map(l=>({value:l.id,label:l.name}))}).catch(e=>{w(e)}),y.value=!0}).catch(a=>{w(a)})})}),oe(()=>{g.off("editUserRosterSchedule")}),(r,a)=>(n(),O(z,{modelValue:y.value,"onUpdate:modelValue":a[5]||(a[5]=e=>y.value=e)},{default:m(()=>[t.day&&t.user?(n(),O(G,{key:0,class:"modal"},{default:m(()=>[o(E,null,{default:m(()=>[o(A,null,{default:m(()=>[I(S(v(ue)(t.day,"dddd DD/MM/YYYY"))+" - "+S(t.user.fullname),1)]),_:1}),o(J),T(o(x,{icon:"close",flat:"",round:"",dense:""},null,512),[[Y]])]),_:1}),o(K),o(P,null,{default:m(()=>[d("div",re,[o(V,{modelValue:t.user_postcoderegion_group_id,"onUpdate:modelValue":a[0]||(a[0]=e=>t.user_postcoderegion_group_id=e),label:"Select the pickup area",options:q.value,"map-options":"","emit-value":"",error:v(u).user_postcoderegion_group_id.$invalid,filled:"",class:"col-xs-12 col-sm-6"},null,8,["modelValue","options","error"])]),d("div",ie,[d("div",ce,[me,d("div",pe,[o(V,{modelValue:t.start_time,"onUpdate:modelValue":a[1]||(a[1]=e=>t.start_time=e),outlined:"",dense:"",options:v(h),"map-options":"","emit-value":"",label:"Start Time","options-cover":"",class:"col-xs-12 col-sm-6"},null,8,["modelValue","options"]),o(V,{modelValue:t.end_time,"onUpdate:modelValue":a[2]||(a[2]=e=>t.end_time=e),outlined:"",dense:"",options:$(t.start_time),"map-options":"","emit-value":"",label:"End Time","options-cover":"",class:"col-xs-12 col-sm-6"},null,8,["modelValue","options"])]),o(te,{modelValue:t.active,"onUpdate:modelValue":a[3]||(a[3]=e=>t.active=e),label:"Active"},null,8,["modelValue"])]),d("div",_e,[ve,t.capacity.products?(n(),i("div",ge,[(n(!0),i(Q,null,C(t.capacity.products,(e,l)=>(n(),i("div",{key:l,class:"col-xs-12 col-sm-6"},[o(W,{modelValue:e.qty,"onUpdate:modelValue":s=>e.qty=s,outlined:"",dense:"",label:v(Z)(e.product_category_id,b.value),"options-cover":"",onBlur:s=>B(e),class:"q-mb-md"},null,8,["modelValue","onUpdate:modelValue","label","onBlur"])]))),128))])):U("",!0)])]),_.value?(n(),i("div",fe,[d("ul",null,[(n(!0),i(Q,null,C(_.value.errors,(e,l)=>(n(),i("li",{key:l,class:"text-negative"},S(e.message),1))),128))])])):U("",!0)]),_:1}),o(se,{align:"right"},{default:m(()=>[T(o(x,{label:"Cancel",flat:"",color:"secondary"},null,512),[[Y]]),o(x,{disable:p.value||v(u).$invalid,label:"Update",color:"primary",onClick:a[4]||(a[4]=e=>M()),loading:p.value},null,8,["disable","loading"])]),_:1})]),_:1})):U("",!0)]),_:1},8,["modelValue"]))}}),ye={class:"row q-col-gutter-md q-mb-lg"},be={class:"col-xs-12 col-sm-6"},Ve={class:"row q-col-gutter-md"},he={class:"col-xs-12 col-sm-6"},qe=d("div",{class:"q-mb-sm"},"Start and end times",-1),$e={class:"row q-col-gutter-md"},Se={class:"col-xs-12 col-sm-6"},xe=d("div",{class:"q-mb-sm"},"Capacity for this timeslot:",-1),Ue={key:0,class:"row q-col-gutter-md"},ke={key:0},we={class:"q-mt-lg flex"},Je=j({__name:"UserRosterScheduleCreate",setup(le){const y=c(),t=H("bus"),p=c(!1),b=c(),q=c(),g=c(),_=c(!1),D={user_id:null,day:null,start_time:null,end_time:null,active:!0,user_postcoderegion_group_id:null,capacity:{products:[]}},u=F(JSON.parse(JSON.stringify(D))),$=X({user_id:{required:f},day:{required:f},start_time:{required:f},end_time:{required:f},user_postcoderegion_group_id:{required:f}},u,{$scope:!1}),B=()=>{g.value=!1,_.value=!0,k.post("/userrosterschedule",u).then(()=>{t.emit("getSchedule"),p.value=!1,_.value=!1}).catch(e=>{_.value=!1,g.value=e.response.data,w(e)})},r=e=>e?h.filter(l=>l.value>e&&l.value<=e+3):h,a=e=>{e.qty||(e.qty=0)};return L(async()=>{t.on("newUserRosterSchedule",async e=>{y.value=e.user,g.value=null,b.value=await ee(),k.get(`/userpostcoderegiongroup/index/${y.value.id}`).then(l=>{q.value=l.data.map(s=>({value:s.id,label:s.name}))}).catch(l=>{w(l)}),Object.assign(u,JSON.parse(JSON.stringify(D)));for(const l of b.value)u.capacity.products.push({product_category_id:l.value,qty:0});u.day=ae(e.day).format("DD/MM/YYYY"),u.user_id=y.value.id,p.value=!0})}),(e,l)=>(n(),O(z,{modelValue:p.value,"onUpdate:modelValue":l[5]||(l[5]=s=>p.value=s)},{default:m(()=>[o(G,{class:"modal"},{default:m(()=>[o(E,null,{default:m(()=>[o(A,null,{default:m(()=>[I("Add a new "+S(e.$t("schedule.name"))+" entry",1)]),_:1}),o(J),T(o(x,{icon:"close",flat:"",round:"",dense:""},null,512),[[Y]])]),_:1}),o(K),o(P,null,{default:m(()=>[d("div",ye,[o(V,{modelValue:u.user_postcoderegion_group_id,"onUpdate:modelValue":l[0]||(l[0]=s=>u.user_postcoderegion_group_id=s),label:"Select the pickup area",options:q.value,"map-options":"","emit-value":"",error:v($).user_postcoderegion_group_id.$invalid,filled:"",class:"col-xs-12 col-sm-6"},null,8,["modelValue","options","error"]),d("div",be,[o(ne,{modelValue:u.day,"onUpdate:modelValue":l[1]||(l[1]=s=>u.day=s),label:"Date",invalid:v($).day.$invalid,outlined:!0},null,8,["modelValue","invalid"])])]),d("div",Ve,[d("div",he,[qe,d("div",$e,[o(V,{modelValue:u.start_time,"onUpdate:modelValue":l[2]||(l[2]=s=>u.start_time=s),outlined:"",dense:"",options:v(h),"map-options":"","emit-value":"",label:"Start Time","options-cover":"",class:"col-xs-12 col-sm-6"},null,8,["modelValue","options"]),o(V,{modelValue:u.end_time,"onUpdate:modelValue":l[3]||(l[3]=s=>u.end_time=s),outlined:"",dense:"",options:r(u.start_time),"map-options":"","emit-value":"",label:"End Time","options-cover":"",class:"col-xs-12 col-sm-6"},null,8,["modelValue","options"])])]),d("div",Se,[xe,u.capacity.products?(n(),i("div",Ue,[(n(!0),i(Q,null,C(u.capacity.products,(s,N)=>(n(),i("div",{key:N,class:"col-xs-12 col-sm-6"},[o(W,{modelValue:s.qty,"onUpdate:modelValue":R=>s.qty=R,outlined:"",dense:"",label:v(Z)(s.product_category_id,b.value),"options-cover":"",onBlur:R=>a(s),class:"q-mb-md"},null,8,["modelValue","onUpdate:modelValue","label","onBlur"])]))),128))])):U("",!0)])]),g.value?(n(),i("div",ke,[d("ul",null,[(n(!0),i(Q,null,C(g.value.errors,(s,N)=>(n(),i("li",{key:N,class:"text-negative"},S(s.message),1))),128))])])):U("",!0),d("div",we,[o(x,{onClick:l[4]||(l[4]=s=>B()),disable:v($).$invalid||_.value,icon:"add_circle",label:"Add",color:"primary",class:"full-width",loading:_.value},null,8,["disable","loading"])])]),_:1})]),_:1})]),_:1},8,["modelValue"]))}});export{Ee as _,Je as a};
+import { a as QToolbarTitle, Q as QToolbar } from "./QToolbarTitle.1a75cd00.js";
+import { Q as QSpace } from "./QSpace.7d6f905e.js";
+import { A as defineComponent, r as ref, B as reactive, i as inject, o as onMounted, E as onBeforeUnmount, m as openBlock, K as createBlock, L as withCtx, Q as QCard, l as createVNode, R as createTextVNode, b8 as toDisplayString, U as unref, G as withDirectives, S as QBtn, bp as QSeparator, q as createBaseVNode, af as QToggle, n as createElementBlock, F as Fragment, b7 as renderList, y as createCommentVNode, M as QCardSection, ae as QCardActions, aD as QDialog, N as QInput } from "./index.e647c85a.js";
+import { Q as QSelect } from "./QSelect.853d535e.js";
+import { C as ClosePopup } from "./ClosePopup.ef2f7039.js";
+import { u as useVuelidate, r as required } from "./index.esm.4557c89b.js";
+import { a as api, m as moment } from "./axios.ccd3a804.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { o as dbDateDisplay, p as hourOptions, b as doNotify, q as categoryDisplay } from "./help.c0f85e41.js";
+import { a as productCategoriesVisibleCapacity } from "./helpers.2defcd01.js";
+import { _ as _sfc_main$2 } from "./DateField.75075dac.js";
+const _hoisted_1$1 = { class: "row q-col-gutter-md" };
+const _hoisted_2$1 = { class: "row q-col-gutter-md" };
+const _hoisted_3$1 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_4$1 = /* @__PURE__ */ createBaseVNode("div", { class: "q-mb-sm" }, "Start and end times", -1);
+const _hoisted_5$1 = { class: "row q-col-gutter-md q-mb-md" };
+const _hoisted_6$1 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_7$1 = /* @__PURE__ */ createBaseVNode("div", { class: "q-mb-sm" }, "Capacity for this timeslot:", -1);
+const _hoisted_8$1 = {
+  key: 0,
+  class: "row q-col-gutter-md"
+};
+const _hoisted_9$1 = { key: 0 };
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "UserRosterScheduleEdit",
+  setup(__props) {
+    const show = ref(false);
+    const model = reactive({
+      id: null,
+      day: null,
+      start_time: null,
+      end_time: null,
+      active: true,
+      user_id: null,
+      user: null,
+      user_postcoderegion_group_id: null,
+      capacity: { products: [] }
+    });
+    const loading = ref(false);
+    const categories = ref();
+    const userpostcoderegiongroups = ref();
+    const bus = inject("bus");
+    const errors = ref();
+    const rules = {
+      user_postcoderegion_group_id: { required },
+      day: { required },
+      start_time: { required },
+      end_time: { required }
+    };
+    const $v = useVuelidate(rules, model);
+    const save = () => {
+      errors.value = false;
+      loading.value = true;
+      api.put(`/userrosterschedule/${model.id}`, model).then(() => {
+        doNotify("positive", "Schedule updated");
+        bus.emit("getSchedule");
+        show.value = false;
+        loading.value = false;
+      }).catch((error) => {
+        loading.value = false;
+        errors.value = error.response.data;
+        useMixinDebug(error);
+      });
+    };
+    const endHourOptions = (hour) => {
+      if (!hour) {
+        return hourOptions;
+      }
+      return hourOptions.filter((o) => o.value > hour && o.value <= hour + 3);
+    };
+    const checkQty = (val) => {
+      if (!val.qty) {
+        val.qty = 0;
+      }
+    };
+    onMounted(() => {
+      bus.on("editUserRosterSchedule", async (id) => {
+        categories.value = await productCategoriesVisibleCapacity();
+        api.get(`/userrosterschedule/${id}`).then((response) => {
+          Object.assign(model, response.data);
+          api.get(`/userpostcoderegiongroup/index/${model.user_id}`).then((response2) => {
+            userpostcoderegiongroups.value = response2.data.map((o) => {
+              return { value: o.id, label: o.name };
+            });
+          }).catch((error) => {
+            useMixinDebug(error);
+          });
+          show.value = true;
+        }).catch((error) => {
+          useMixinDebug(error);
+        });
+      });
+    });
+    onBeforeUnmount(() => {
+      bus.off("editUserRosterSchedule");
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QDialog, {
+        modelValue: show.value,
+        "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => show.value = $event)
+      }, {
+        default: withCtx(() => [
+          model.day && model.user ? (openBlock(), createBlock(QCard, {
+            key: 0,
+            class: "modal"
+          }, {
+            default: withCtx(() => [
+              createVNode(QToolbar, null, {
+                default: withCtx(() => [
+                  createVNode(QToolbarTitle, null, {
+                    default: withCtx(() => [
+                      createTextVNode(toDisplayString(unref(dbDateDisplay)(model.day, "dddd DD/MM/YYYY")) + " - " + toDisplayString(model.user.fullname), 1)
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QSpace),
+                  withDirectives(createVNode(QBtn, {
+                    icon: "close",
+                    flat: "",
+                    round: "",
+                    dense: ""
+                  }, null, 512), [
+                    [ClosePopup]
+                  ])
+                ]),
+                _: 1
+              }),
+              createVNode(QSeparator),
+              createVNode(QCardSection, null, {
+                default: withCtx(() => [
+                  createBaseVNode("div", _hoisted_1$1, [
+                    createVNode(QSelect, {
+                      modelValue: model.user_postcoderegion_group_id,
+                      "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => model.user_postcoderegion_group_id = $event),
+                      label: "Select the pickup area",
+                      options: userpostcoderegiongroups.value,
+                      "map-options": "",
+                      "emit-value": "",
+                      error: unref($v).user_postcoderegion_group_id.$invalid,
+                      filled: "",
+                      class: "col-xs-12 col-sm-6"
+                    }, null, 8, ["modelValue", "options", "error"])
+                  ]),
+                  createBaseVNode("div", _hoisted_2$1, [
+                    createBaseVNode("div", _hoisted_3$1, [
+                      _hoisted_4$1,
+                      createBaseVNode("div", _hoisted_5$1, [
+                        createVNode(QSelect, {
+                          modelValue: model.start_time,
+                          "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => model.start_time = $event),
+                          outlined: "",
+                          dense: "",
+                          options: unref(hourOptions),
+                          "map-options": "",
+                          "emit-value": "",
+                          label: "Start Time",
+                          "options-cover": "",
+                          class: "col-xs-12 col-sm-6"
+                        }, null, 8, ["modelValue", "options"]),
+                        createVNode(QSelect, {
+                          modelValue: model.end_time,
+                          "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => model.end_time = $event),
+                          outlined: "",
+                          dense: "",
+                          options: endHourOptions(model.start_time),
+                          "map-options": "",
+                          "emit-value": "",
+                          label: "End Time",
+                          "options-cover": "",
+                          class: "col-xs-12 col-sm-6"
+                        }, null, 8, ["modelValue", "options"])
+                      ]),
+                      createVNode(QToggle, {
+                        modelValue: model.active,
+                        "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => model.active = $event),
+                        label: "Active"
+                      }, null, 8, ["modelValue"])
+                    ]),
+                    createBaseVNode("div", _hoisted_6$1, [
+                      _hoisted_7$1,
+                      model.capacity.products ? (openBlock(), createElementBlock("div", _hoisted_8$1, [
+                        (openBlock(true), createElementBlock(Fragment, null, renderList(model.capacity.products, (c, cindex) => {
+                          return openBlock(), createElementBlock("div", {
+                            key: cindex,
+                            class: "col-xs-12 col-sm-6"
+                          }, [
+                            createVNode(QInput, {
+                              modelValue: c.qty,
+                              "onUpdate:modelValue": ($event) => c.qty = $event,
+                              outlined: "",
+                              dense: "",
+                              label: unref(categoryDisplay)(c.product_category_id, categories.value),
+                              "options-cover": "",
+                              onBlur: ($event) => checkQty(c),
+                              class: "q-mb-md"
+                            }, null, 8, ["modelValue", "onUpdate:modelValue", "label", "onBlur"])
+                          ]);
+                        }), 128))
+                      ])) : createCommentVNode("", true)
+                    ])
+                  ]),
+                  errors.value ? (openBlock(), createElementBlock("div", _hoisted_9$1, [
+                    createBaseVNode("ul", null, [
+                      (openBlock(true), createElementBlock(Fragment, null, renderList(errors.value.errors, (e, index) => {
+                        return openBlock(), createElementBlock("li", {
+                          key: index,
+                          class: "text-negative"
+                        }, toDisplayString(e.message), 1);
+                      }), 128))
+                    ])
+                  ])) : createCommentVNode("", true)
+                ]),
+                _: 1
+              }),
+              createVNode(QCardActions, { align: "right" }, {
+                default: withCtx(() => [
+                  withDirectives(createVNode(QBtn, {
+                    label: "Cancel",
+                    flat: "",
+                    color: "secondary"
+                  }, null, 512), [
+                    [ClosePopup]
+                  ]),
+                  createVNode(QBtn, {
+                    disable: loading.value || unref($v).$invalid,
+                    label: "Update",
+                    color: "primary",
+                    onClick: _cache[4] || (_cache[4] = ($event) => save()),
+                    loading: loading.value
+                  }, null, 8, ["disable", "loading"])
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })) : createCommentVNode("", true)
+        ]),
+        _: 1
+      }, 8, ["modelValue"]);
+    };
+  }
+});
+const _hoisted_1 = { class: "row q-col-gutter-md q-mb-lg" };
+const _hoisted_2 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_3 = { class: "row q-col-gutter-md" };
+const _hoisted_4 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_5 = /* @__PURE__ */ createBaseVNode("div", { class: "q-mb-sm" }, "Start and end times", -1);
+const _hoisted_6 = { class: "row q-col-gutter-md" };
+const _hoisted_7 = { class: "col-xs-12 col-sm-6" };
+const _hoisted_8 = /* @__PURE__ */ createBaseVNode("div", { class: "q-mb-sm" }, "Capacity for this timeslot:", -1);
+const _hoisted_9 = {
+  key: 0,
+  class: "row q-col-gutter-md"
+};
+const _hoisted_10 = { key: 0 };
+const _hoisted_11 = { class: "q-mt-lg flex" };
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "UserRosterScheduleCreate",
+  setup(__props) {
+    const user = ref();
+    const bus = inject("bus");
+    const show = ref(false);
+    const categories = ref();
+    const userpostcoderegiongroups = ref();
+    const errors = ref();
+    const loading = ref(false);
+    const schema = {
+      user_id: null,
+      day: null,
+      start_time: null,
+      end_time: null,
+      active: true,
+      user_postcoderegion_group_id: null,
+      capacity: { products: [] }
+    };
+    const newSchedule = reactive(JSON.parse(JSON.stringify(schema)));
+    const rules = {
+      user_id: { required },
+      day: { required },
+      start_time: { required },
+      end_time: { required },
+      user_postcoderegion_group_id: { required }
+    };
+    const $v = useVuelidate(rules, newSchedule, { $scope: false });
+    const addSchedule = () => {
+      errors.value = false;
+      loading.value = true;
+      api.post("/userrosterschedule", newSchedule).then(() => {
+        bus.emit("getSchedule");
+        show.value = false;
+        loading.value = false;
+      }).catch((error) => {
+        loading.value = false;
+        errors.value = error.response.data;
+        useMixinDebug(error);
+      });
+    };
+    const endHourOptions = (hour) => {
+      if (!hour) {
+        return hourOptions;
+      }
+      return hourOptions.filter((o) => o.value > hour && o.value <= hour + 3);
+    };
+    const checkQty = (val) => {
+      if (!val.qty) {
+        val.qty = 0;
+      }
+    };
+    onMounted(async () => {
+      bus.on("newUserRosterSchedule", async (data) => {
+        user.value = data.user;
+        errors.value = null;
+        categories.value = await productCategoriesVisibleCapacity();
+        api.get(`/userpostcoderegiongroup/index/${user.value.id}`).then((response) => {
+          userpostcoderegiongroups.value = response.data.map((o) => {
+            return { value: o.id, label: o.name };
+          });
+        }).catch((error) => {
+          useMixinDebug(error);
+        });
+        Object.assign(newSchedule, JSON.parse(JSON.stringify(schema)));
+        for (const c of categories.value) {
+          newSchedule.capacity.products.push({ product_category_id: c.value, qty: 0 });
+        }
+        newSchedule.day = moment(data.day).format("DD/MM/YYYY");
+        newSchedule.user_id = user.value.id;
+        show.value = true;
+      });
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QDialog, {
+        modelValue: show.value,
+        "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => show.value = $event)
+      }, {
+        default: withCtx(() => [
+          createVNode(QCard, { class: "modal" }, {
+            default: withCtx(() => [
+              createVNode(QToolbar, null, {
+                default: withCtx(() => [
+                  createVNode(QToolbarTitle, null, {
+                    default: withCtx(() => [
+                      createTextVNode("Add a new " + toDisplayString(_ctx.$t("schedule.name")) + " entry", 1)
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QSpace),
+                  withDirectives(createVNode(QBtn, {
+                    icon: "close",
+                    flat: "",
+                    round: "",
+                    dense: ""
+                  }, null, 512), [
+                    [ClosePopup]
+                  ])
+                ]),
+                _: 1
+              }),
+              createVNode(QSeparator),
+              createVNode(QCardSection, null, {
+                default: withCtx(() => [
+                  createBaseVNode("div", _hoisted_1, [
+                    createVNode(QSelect, {
+                      modelValue: newSchedule.user_postcoderegion_group_id,
+                      "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => newSchedule.user_postcoderegion_group_id = $event),
+                      label: "Select the pickup area",
+                      options: userpostcoderegiongroups.value,
+                      "map-options": "",
+                      "emit-value": "",
+                      error: unref($v).user_postcoderegion_group_id.$invalid,
+                      filled: "",
+                      class: "col-xs-12 col-sm-6"
+                    }, null, 8, ["modelValue", "options", "error"]),
+                    createBaseVNode("div", _hoisted_2, [
+                      createVNode(_sfc_main$2, {
+                        modelValue: newSchedule.day,
+                        "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => newSchedule.day = $event),
+                        label: "Date",
+                        invalid: unref($v).day.$invalid,
+                        outlined: true
+                      }, null, 8, ["modelValue", "invalid"])
+                    ])
+                  ]),
+                  createBaseVNode("div", _hoisted_3, [
+                    createBaseVNode("div", _hoisted_4, [
+                      _hoisted_5,
+                      createBaseVNode("div", _hoisted_6, [
+                        createVNode(QSelect, {
+                          modelValue: newSchedule.start_time,
+                          "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => newSchedule.start_time = $event),
+                          outlined: "",
+                          dense: "",
+                          options: unref(hourOptions),
+                          "map-options": "",
+                          "emit-value": "",
+                          label: "Start Time",
+                          "options-cover": "",
+                          class: "col-xs-12 col-sm-6"
+                        }, null, 8, ["modelValue", "options"]),
+                        createVNode(QSelect, {
+                          modelValue: newSchedule.end_time,
+                          "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => newSchedule.end_time = $event),
+                          outlined: "",
+                          dense: "",
+                          options: endHourOptions(newSchedule.start_time),
+                          "map-options": "",
+                          "emit-value": "",
+                          label: "End Time",
+                          "options-cover": "",
+                          class: "col-xs-12 col-sm-6"
+                        }, null, 8, ["modelValue", "options"])
+                      ])
+                    ]),
+                    createBaseVNode("div", _hoisted_7, [
+                      _hoisted_8,
+                      newSchedule.capacity.products ? (openBlock(), createElementBlock("div", _hoisted_9, [
+                        (openBlock(true), createElementBlock(Fragment, null, renderList(newSchedule.capacity.products, (c, cindex) => {
+                          return openBlock(), createElementBlock("div", {
+                            key: cindex,
+                            class: "col-xs-12 col-sm-6"
+                          }, [
+                            createVNode(QInput, {
+                              modelValue: c.qty,
+                              "onUpdate:modelValue": ($event) => c.qty = $event,
+                              outlined: "",
+                              dense: "",
+                              label: unref(categoryDisplay)(c.product_category_id, categories.value),
+                              "options-cover": "",
+                              onBlur: ($event) => checkQty(c),
+                              class: "q-mb-md"
+                            }, null, 8, ["modelValue", "onUpdate:modelValue", "label", "onBlur"])
+                          ]);
+                        }), 128))
+                      ])) : createCommentVNode("", true)
+                    ])
+                  ]),
+                  errors.value ? (openBlock(), createElementBlock("div", _hoisted_10, [
+                    createBaseVNode("ul", null, [
+                      (openBlock(true), createElementBlock(Fragment, null, renderList(errors.value.errors, (e, index) => {
+                        return openBlock(), createElementBlock("li", {
+                          key: index,
+                          class: "text-negative"
+                        }, toDisplayString(e.message), 1);
+                      }), 128))
+                    ])
+                  ])) : createCommentVNode("", true),
+                  createBaseVNode("div", _hoisted_11, [
+                    createVNode(QBtn, {
+                      onClick: _cache[4] || (_cache[4] = ($event) => addSchedule()),
+                      disable: unref($v).$invalid || loading.value,
+                      icon: "add_circle",
+                      label: "Add",
+                      color: "primary",
+                      class: "full-width",
+                      loading: loading.value
+                    }, null, 8, ["disable", "loading"])
+                  ])
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      }, 8, ["modelValue"]);
+    };
+  }
+});
+export { _sfc_main$1 as _, _sfc_main as a };

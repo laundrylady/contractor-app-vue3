@@ -1,1 +1,497 @@
-import{V as ge,aN as ke,ab as qe,aP as xe,ac as Te,aR as Be,i as Ce,W as H,r as k,g as o,aT as Se,br as $e,w as i,D as Z,o as De,E as Oe,G as Me,h as D,am as p,X as We,j as Le,bs as Pe,Y as Ae}from"./index.e647c85a.js";import{T as N}from"./TouchPan.9e1ee92a.js";import{b as O}from"./format.8e90d58d.js";const ee=150;var Ve=ge({name:"QDrawer",inheritAttrs:!1,props:{...ke,...qe,side:{type:String,default:"left",validator:a=>["left","right"].includes(a)},width:{type:Number,default:300},mini:Boolean,miniToOverlay:Boolean,miniWidth:{type:Number,default:57},breakpoint:{type:Number,default:1023},showIfAbove:Boolean,behavior:{type:String,validator:a=>["default","desktop","mobile"].includes(a),default:"default"},bordered:Boolean,elevated:Boolean,overlay:Boolean,persistent:Boolean,noSwipeOpen:Boolean,noSwipeClose:Boolean,noSwipeBackdrop:Boolean},emits:[...xe,"onLayout","miniState"],setup(a,{slots:M,emit:b,attrs:R}){const f=Le(),{proxy:{$q:d}}=f,ae=Te(a,d),{preventBodyScroll:W}=Pe(),{registerTimeout:j,removeTimeout:te}=Be(),t=Ce(Ae,H);if(t===H)return console.error("QDrawer needs to be child of QLayout"),H;let L,y=null,q;const r=k(a.behavior==="mobile"||a.behavior!=="desktop"&&t.totalWidth.value<=a.breakpoint),x=o(()=>a.mini===!0&&r.value!==!0),s=o(()=>x.value===!0?a.miniWidth:a.width),u=k(a.showIfAbove===!0&&r.value===!1?!0:a.modelValue===!0),E=o(()=>a.persistent!==!0&&(r.value===!0||oe.value===!0));function U(e,l){if(le(),e!==!1&&t.animate(),v(0),r.value===!0){const n=t.instances[S.value];n!==void 0&&n.belowBreakpoint===!0&&n.hide(!1),m(1),t.isContainer.value!==!0&&W(!0)}else m(0),e!==!1&&F(!1);j(()=>{e!==!1&&F(!0),l!==!0&&b("show",e)},ee)}function X(e,l){ue(),e!==!1&&t.animate(),m(0),v(w.value*s.value),V(),l!==!0?j(()=>{b("hide",e)},ee):te()}const{show:P,hide:T}=Se({showing:u,hideOnRouteChange:E,handleShow:U,handleHide:X}),{addToHistory:le,removeFromHistory:ue}=$e(u,T,E),C={belowBreakpoint:r,hide:T},c=o(()=>a.side==="right"),w=o(()=>(d.lang.rtl===!0?-1:1)*(c.value===!0?1:-1)),G=k(0),g=k(!1),A=k(!1),K=k(s.value*w.value),S=o(()=>c.value===!0?"left":"right"),_=o(()=>u.value===!0&&r.value===!1&&a.overlay===!1?a.miniToOverlay===!0?a.miniWidth:s.value:0),z=o(()=>a.overlay===!0||a.miniToOverlay===!0||t.view.value.indexOf(c.value?"R":"L")>-1||d.platform.is.ios===!0&&t.isContainer.value===!0),B=o(()=>a.overlay===!1&&u.value===!0&&r.value===!1),oe=o(()=>a.overlay===!0&&u.value===!0&&r.value===!1),re=o(()=>"fullscreen q-drawer__backdrop"+(u.value===!1&&g.value===!1?" hidden":"")),ie=o(()=>({backgroundColor:`rgba(0,0,0,${G.value*.4})`})),Y=o(()=>c.value===!0?t.rows.value.top[2]==="r":t.rows.value.top[0]==="l"),ne=o(()=>c.value===!0?t.rows.value.bottom[2]==="r":t.rows.value.bottom[0]==="l"),se=o(()=>{const e={};return t.header.space===!0&&Y.value===!1&&(z.value===!0?e.top=`${t.header.offset}px`:t.header.space===!0&&(e.top=`${t.header.size}px`)),t.footer.space===!0&&ne.value===!1&&(z.value===!0?e.bottom=`${t.footer.offset}px`:t.footer.space===!0&&(e.bottom=`${t.footer.size}px`)),e}),ve=o(()=>{const e={width:`${s.value}px`,transform:`translateX(${K.value}px)`};return r.value===!0?e:Object.assign(e,se.value)}),de=o(()=>"q-drawer__content fit "+(t.isContainer.value!==!0?"scroll":"overflow-auto")),ce=o(()=>`q-drawer q-drawer--${a.side}`+(A.value===!0?" q-drawer--mini-animate":"")+(a.bordered===!0?" q-drawer--bordered":"")+(ae.value===!0?" q-drawer--dark q-dark":"")+(g.value===!0?" no-transition":u.value===!0?"":" q-layout--prevent-focus")+(r.value===!0?" fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding":` q-drawer--${x.value===!0?"mini":"standard"}`+(z.value===!0||B.value!==!0?" fixed":"")+(a.overlay===!0||a.miniToOverlay===!0?" q-drawer--on-top":"")+(Y.value===!0?" q-drawer--top-padding":""))),fe=o(()=>{const e=d.lang.rtl===!0?a.side:S.value;return[[N,ye,void 0,{[e]:!0,mouse:!0}]]}),me=o(()=>{const e=d.lang.rtl===!0?S.value:a.side;return[[N,J,void 0,{[e]:!0,mouse:!0}]]}),he=o(()=>{const e=d.lang.rtl===!0?S.value:a.side;return[[N,J,void 0,{[e]:!0,mouse:!0,mouseAllDir:!0}]]});function I(){we(r,a.behavior==="mobile"||a.behavior!=="desktop"&&t.totalWidth.value<=a.breakpoint)}i(r,e=>{e===!0?(L=u.value,u.value===!0&&T(!1)):a.overlay===!1&&a.behavior!=="mobile"&&L!==!1&&(u.value===!0?(v(0),m(0),V()):P(!1))}),i(()=>a.side,(e,l)=>{t.instances[l]===C&&(t.instances[l]=void 0,t[l].space=!1,t[l].offset=0),t.instances[e]=C,t[e].size=s.value,t[e].space=B.value,t[e].offset=_.value}),i(t.totalWidth,()=>{(t.isContainer.value===!0||document.qScrollPrevented!==!0)&&I()}),i(()=>a.behavior+a.breakpoint,I),i(t.isContainer,e=>{u.value===!0&&W(e!==!0),e===!0&&I()}),i(t.scrollbarWidth,()=>{v(u.value===!0?0:void 0)}),i(_,e=>{h("offset",e)}),i(B,e=>{b("onLayout",e),h("space",e)}),i(c,()=>{v()}),i(s,e=>{v(),Q(a.miniToOverlay,e)}),i(()=>a.miniToOverlay,e=>{Q(e,s.value)}),i(()=>d.lang.rtl,()=>{v()}),i(()=>a.mini,()=>{a.modelValue===!0&&(be(),t.animate())}),i(x,e=>{b("miniState",e)});function v(e){e===void 0?Z(()=>{e=u.value===!0?0:s.value,v(w.value*e)}):(t.isContainer.value===!0&&c.value===!0&&(r.value===!0||Math.abs(e)===s.value)&&(e+=w.value*t.scrollbarWidth.value),K.value=e)}function m(e){G.value=e}function F(e){const l=e===!0?"remove":t.isContainer.value!==!0?"add":"";l!==""&&document.body.classList[l]("q-body--drawer-toggle")}function be(){y!==null&&clearTimeout(y),f.proxy&&f.proxy.$el&&f.proxy.$el.classList.add("q-drawer--mini-animate"),A.value=!0,y=setTimeout(()=>{y=null,A.value=!1,f&&f.proxy&&f.proxy.$el&&f.proxy.$el.classList.remove("q-drawer--mini-animate")},150)}function ye(e){if(u.value!==!1)return;const l=s.value,n=O(e.distance.x,0,l);if(e.isFinal===!0){n>=Math.min(75,l)===!0?P():(t.animate(),m(0),v(w.value*l)),g.value=!1;return}v((d.lang.rtl===!0?c.value!==!0:c.value)?Math.max(l-n,0):Math.min(0,n-l)),m(O(n/l,0,1)),e.isFirst===!0&&(g.value=!0)}function J(e){if(u.value!==!0)return;const l=s.value,n=e.direction===a.side,$=(d.lang.rtl===!0?n!==!0:n)?O(e.distance.x,0,l):0;if(e.isFinal===!0){Math.abs($)<Math.min(75,l)===!0?(t.animate(),m(1),v(0)):T(),g.value=!1;return}v(w.value*$),m(O(1-$/l,0,1)),e.isFirst===!0&&(g.value=!0)}function V(){W(!1),F(!0)}function h(e,l){t.update(a.side,e,l)}function we(e,l){e.value!==l&&(e.value=l)}function Q(e,l){h("size",e===!0?a.miniWidth:l)}return t.instances[a.side]=C,Q(a.miniToOverlay,s.value),h("space",B.value),h("offset",_.value),a.showIfAbove===!0&&a.modelValue!==!0&&u.value===!0&&a["onUpdate:modelValue"]!==void 0&&b("update:modelValue",!0),De(()=>{b("onLayout",B.value),b("miniState",x.value),L=a.showIfAbove===!0;const e=()=>{(u.value===!0?U:X)(!1,!0)};if(t.totalWidth.value!==0){Z(e);return}q=i(t.totalWidth,()=>{q(),q=void 0,u.value===!1&&a.showIfAbove===!0&&r.value===!1?P(!1):e()})}),Oe(()=>{q!==void 0&&q(),y!==null&&(clearTimeout(y),y=null),u.value===!0&&V(),t.instances[a.side]===C&&(t.instances[a.side]=void 0,h("size",0),h("offset",0),h("space",!1))}),()=>{const e=[];r.value===!0&&(a.noSwipeOpen===!1&&e.push(Me(D("div",{key:"open",class:`q-drawer__opener fixed-${a.side}`,"aria-hidden":"true"}),fe.value)),e.push(p("div",{ref:"backdrop",class:re.value,style:ie.value,"aria-hidden":"true",onClick:T},void 0,"backdrop",a.noSwipeBackdrop!==!0&&u.value===!0,()=>he.value)));const l=x.value===!0&&M.mini!==void 0,n=[D("div",{...R,key:""+l,class:[de.value,R.class]},l===!0?M.mini():We(M.default))];return a.elevated===!0&&u.value===!0&&n.push(D("div",{class:"q-layout__shadow absolute-full overflow-hidden no-pointer-events"})),e.push(p("aside",{ref:"content",class:ce.value,style:ve.value},n,"contentclose",a.noSwipeClose!==!0&&r.value===!0,()=>me.value)),D("div",{class:"q-drawer-container"},e)}}});export{Ve as Q};
+import { V as createComponent, aN as useModelToggleProps, ab as useDarkProps, aP as useModelToggleEmits, ac as useDark, aR as useTimeout, i as inject, W as emptyRenderFn, r as ref, g as computed, aT as useModelToggle, br as useHistory, w as watch, D as nextTick, o as onMounted, E as onBeforeUnmount, G as withDirectives, h, am as hDir, X as hSlot, j as getCurrentInstance, bs as usePreventScroll, Y as layoutKey } from "./index.e647c85a.js";
+import { T as TouchPan } from "./TouchPan.9e1ee92a.js";
+import { b as between } from "./format.8e90d58d.js";
+const duration = 150;
+var QDrawer = createComponent({
+  name: "QDrawer",
+  inheritAttrs: false,
+  props: {
+    ...useModelToggleProps,
+    ...useDarkProps,
+    side: {
+      type: String,
+      default: "left",
+      validator: (v) => ["left", "right"].includes(v)
+    },
+    width: {
+      type: Number,
+      default: 300
+    },
+    mini: Boolean,
+    miniToOverlay: Boolean,
+    miniWidth: {
+      type: Number,
+      default: 57
+    },
+    breakpoint: {
+      type: Number,
+      default: 1023
+    },
+    showIfAbove: Boolean,
+    behavior: {
+      type: String,
+      validator: (v) => ["default", "desktop", "mobile"].includes(v),
+      default: "default"
+    },
+    bordered: Boolean,
+    elevated: Boolean,
+    overlay: Boolean,
+    persistent: Boolean,
+    noSwipeOpen: Boolean,
+    noSwipeClose: Boolean,
+    noSwipeBackdrop: Boolean
+  },
+  emits: [
+    ...useModelToggleEmits,
+    "onLayout",
+    "miniState"
+  ],
+  setup(props, { slots, emit, attrs }) {
+    const vm = getCurrentInstance();
+    const { proxy: { $q } } = vm;
+    const isDark = useDark(props, $q);
+    const { preventBodyScroll } = usePreventScroll();
+    const { registerTimeout, removeTimeout } = useTimeout();
+    const $layout = inject(layoutKey, emptyRenderFn);
+    if ($layout === emptyRenderFn) {
+      console.error("QDrawer needs to be child of QLayout");
+      return emptyRenderFn;
+    }
+    let lastDesktopState, timerMini = null, layoutTotalWidthWatcher;
+    const belowBreakpoint = ref(
+      props.behavior === "mobile" || props.behavior !== "desktop" && $layout.totalWidth.value <= props.breakpoint
+    );
+    const isMini = computed(
+      () => props.mini === true && belowBreakpoint.value !== true
+    );
+    const size = computed(() => isMini.value === true ? props.miniWidth : props.width);
+    const showing = ref(
+      props.showIfAbove === true && belowBreakpoint.value === false ? true : props.modelValue === true
+    );
+    const hideOnRouteChange = computed(
+      () => props.persistent !== true && (belowBreakpoint.value === true || onScreenOverlay.value === true)
+    );
+    function handleShow(evt, noEvent) {
+      addToHistory();
+      evt !== false && $layout.animate();
+      applyPosition(0);
+      if (belowBreakpoint.value === true) {
+        const otherInstance = $layout.instances[otherSide.value];
+        if (otherInstance !== void 0 && otherInstance.belowBreakpoint === true) {
+          otherInstance.hide(false);
+        }
+        applyBackdrop(1);
+        $layout.isContainer.value !== true && preventBodyScroll(true);
+      } else {
+        applyBackdrop(0);
+        evt !== false && setScrollable(false);
+      }
+      registerTimeout(() => {
+        evt !== false && setScrollable(true);
+        noEvent !== true && emit("show", evt);
+      }, duration);
+    }
+    function handleHide(evt, noEvent) {
+      removeFromHistory();
+      evt !== false && $layout.animate();
+      applyBackdrop(0);
+      applyPosition(stateDirection.value * size.value);
+      cleanup();
+      if (noEvent !== true) {
+        registerTimeout(() => {
+          emit("hide", evt);
+        }, duration);
+      } else {
+        removeTimeout();
+      }
+    }
+    const { show, hide } = useModelToggle({
+      showing,
+      hideOnRouteChange,
+      handleShow,
+      handleHide
+    });
+    const { addToHistory, removeFromHistory } = useHistory(showing, hide, hideOnRouteChange);
+    const instance = {
+      belowBreakpoint,
+      hide
+    };
+    const rightSide = computed(() => props.side === "right");
+    const stateDirection = computed(
+      () => ($q.lang.rtl === true ? -1 : 1) * (rightSide.value === true ? 1 : -1)
+    );
+    const flagBackdropBg = ref(0);
+    const flagPanning = ref(false);
+    const flagMiniAnimate = ref(false);
+    const flagContentPosition = ref(
+      size.value * stateDirection.value
+    );
+    const otherSide = computed(() => rightSide.value === true ? "left" : "right");
+    const offset = computed(() => showing.value === true && belowBreakpoint.value === false && props.overlay === false ? props.miniToOverlay === true ? props.miniWidth : size.value : 0);
+    const fixed = computed(
+      () => props.overlay === true || props.miniToOverlay === true || $layout.view.value.indexOf(rightSide.value ? "R" : "L") > -1 || $q.platform.is.ios === true && $layout.isContainer.value === true
+    );
+    const onLayout = computed(
+      () => props.overlay === false && showing.value === true && belowBreakpoint.value === false
+    );
+    const onScreenOverlay = computed(
+      () => props.overlay === true && showing.value === true && belowBreakpoint.value === false
+    );
+    const backdropClass = computed(
+      () => "fullscreen q-drawer__backdrop" + (showing.value === false && flagPanning.value === false ? " hidden" : "")
+    );
+    const backdropStyle = computed(() => ({
+      backgroundColor: `rgba(0,0,0,${flagBackdropBg.value * 0.4})`
+    }));
+    const headerSlot = computed(() => rightSide.value === true ? $layout.rows.value.top[2] === "r" : $layout.rows.value.top[0] === "l");
+    const footerSlot = computed(() => rightSide.value === true ? $layout.rows.value.bottom[2] === "r" : $layout.rows.value.bottom[0] === "l");
+    const aboveStyle = computed(() => {
+      const css = {};
+      if ($layout.header.space === true && headerSlot.value === false) {
+        if (fixed.value === true) {
+          css.top = `${$layout.header.offset}px`;
+        } else if ($layout.header.space === true) {
+          css.top = `${$layout.header.size}px`;
+        }
+      }
+      if ($layout.footer.space === true && footerSlot.value === false) {
+        if (fixed.value === true) {
+          css.bottom = `${$layout.footer.offset}px`;
+        } else if ($layout.footer.space === true) {
+          css.bottom = `${$layout.footer.size}px`;
+        }
+      }
+      return css;
+    });
+    const style = computed(() => {
+      const style2 = {
+        width: `${size.value}px`,
+        transform: `translateX(${flagContentPosition.value}px)`
+      };
+      return belowBreakpoint.value === true ? style2 : Object.assign(style2, aboveStyle.value);
+    });
+    const contentClass = computed(
+      () => "q-drawer__content fit " + ($layout.isContainer.value !== true ? "scroll" : "overflow-auto")
+    );
+    const classes = computed(
+      () => `q-drawer q-drawer--${props.side}` + (flagMiniAnimate.value === true ? " q-drawer--mini-animate" : "") + (props.bordered === true ? " q-drawer--bordered" : "") + (isDark.value === true ? " q-drawer--dark q-dark" : "") + (flagPanning.value === true ? " no-transition" : showing.value === true ? "" : " q-layout--prevent-focus") + (belowBreakpoint.value === true ? " fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding" : ` q-drawer--${isMini.value === true ? "mini" : "standard"}` + (fixed.value === true || onLayout.value !== true ? " fixed" : "") + (props.overlay === true || props.miniToOverlay === true ? " q-drawer--on-top" : "") + (headerSlot.value === true ? " q-drawer--top-padding" : ""))
+    );
+    const openDirective = computed(() => {
+      const dir = $q.lang.rtl === true ? props.side : otherSide.value;
+      return [[
+        TouchPan,
+        onOpenPan,
+        void 0,
+        {
+          [dir]: true,
+          mouse: true
+        }
+      ]];
+    });
+    const contentCloseDirective = computed(() => {
+      const dir = $q.lang.rtl === true ? otherSide.value : props.side;
+      return [[
+        TouchPan,
+        onClosePan,
+        void 0,
+        {
+          [dir]: true,
+          mouse: true
+        }
+      ]];
+    });
+    const backdropCloseDirective = computed(() => {
+      const dir = $q.lang.rtl === true ? otherSide.value : props.side;
+      return [[
+        TouchPan,
+        onClosePan,
+        void 0,
+        {
+          [dir]: true,
+          mouse: true,
+          mouseAllDir: true
+        }
+      ]];
+    });
+    function updateBelowBreakpoint() {
+      updateLocal(belowBreakpoint, props.behavior === "mobile" || props.behavior !== "desktop" && $layout.totalWidth.value <= props.breakpoint);
+    }
+    watch(belowBreakpoint, (val) => {
+      if (val === true) {
+        lastDesktopState = showing.value;
+        showing.value === true && hide(false);
+      } else if (props.overlay === false && props.behavior !== "mobile" && lastDesktopState !== false) {
+        if (showing.value === true) {
+          applyPosition(0);
+          applyBackdrop(0);
+          cleanup();
+        } else {
+          show(false);
+        }
+      }
+    });
+    watch(() => props.side, (newSide, oldSide) => {
+      if ($layout.instances[oldSide] === instance) {
+        $layout.instances[oldSide] = void 0;
+        $layout[oldSide].space = false;
+        $layout[oldSide].offset = 0;
+      }
+      $layout.instances[newSide] = instance;
+      $layout[newSide].size = size.value;
+      $layout[newSide].space = onLayout.value;
+      $layout[newSide].offset = offset.value;
+    });
+    watch($layout.totalWidth, () => {
+      if ($layout.isContainer.value === true || document.qScrollPrevented !== true) {
+        updateBelowBreakpoint();
+      }
+    });
+    watch(
+      () => props.behavior + props.breakpoint,
+      updateBelowBreakpoint
+    );
+    watch($layout.isContainer, (val) => {
+      showing.value === true && preventBodyScroll(val !== true);
+      val === true && updateBelowBreakpoint();
+    });
+    watch($layout.scrollbarWidth, () => {
+      applyPosition(showing.value === true ? 0 : void 0);
+    });
+    watch(offset, (val) => {
+      updateLayout("offset", val);
+    });
+    watch(onLayout, (val) => {
+      emit("onLayout", val);
+      updateLayout("space", val);
+    });
+    watch(rightSide, () => {
+      applyPosition();
+    });
+    watch(size, (val) => {
+      applyPosition();
+      updateSizeOnLayout(props.miniToOverlay, val);
+    });
+    watch(() => props.miniToOverlay, (val) => {
+      updateSizeOnLayout(val, size.value);
+    });
+    watch(() => $q.lang.rtl, () => {
+      applyPosition();
+    });
+    watch(() => props.mini, () => {
+      if (props.modelValue === true) {
+        animateMini();
+        $layout.animate();
+      }
+    });
+    watch(isMini, (val) => {
+      emit("miniState", val);
+    });
+    function applyPosition(position) {
+      if (position === void 0) {
+        nextTick(() => {
+          position = showing.value === true ? 0 : size.value;
+          applyPosition(stateDirection.value * position);
+        });
+      } else {
+        if ($layout.isContainer.value === true && rightSide.value === true && (belowBreakpoint.value === true || Math.abs(position) === size.value)) {
+          position += stateDirection.value * $layout.scrollbarWidth.value;
+        }
+        flagContentPosition.value = position;
+      }
+    }
+    function applyBackdrop(x) {
+      flagBackdropBg.value = x;
+    }
+    function setScrollable(v) {
+      const action = v === true ? "remove" : $layout.isContainer.value !== true ? "add" : "";
+      action !== "" && document.body.classList[action]("q-body--drawer-toggle");
+    }
+    function animateMini() {
+      timerMini !== null && clearTimeout(timerMini);
+      if (vm.proxy && vm.proxy.$el) {
+        vm.proxy.$el.classList.add("q-drawer--mini-animate");
+      }
+      flagMiniAnimate.value = true;
+      timerMini = setTimeout(() => {
+        timerMini = null;
+        flagMiniAnimate.value = false;
+        if (vm && vm.proxy && vm.proxy.$el) {
+          vm.proxy.$el.classList.remove("q-drawer--mini-animate");
+        }
+      }, 150);
+    }
+    function onOpenPan(evt) {
+      if (showing.value !== false) {
+        return;
+      }
+      const width = size.value, position = between(evt.distance.x, 0, width);
+      if (evt.isFinal === true) {
+        const opened = position >= Math.min(75, width);
+        if (opened === true) {
+          show();
+        } else {
+          $layout.animate();
+          applyBackdrop(0);
+          applyPosition(stateDirection.value * width);
+        }
+        flagPanning.value = false;
+        return;
+      }
+      applyPosition(
+        ($q.lang.rtl === true ? rightSide.value !== true : rightSide.value) ? Math.max(width - position, 0) : Math.min(0, position - width)
+      );
+      applyBackdrop(
+        between(position / width, 0, 1)
+      );
+      if (evt.isFirst === true) {
+        flagPanning.value = true;
+      }
+    }
+    function onClosePan(evt) {
+      if (showing.value !== true) {
+        return;
+      }
+      const width = size.value, dir = evt.direction === props.side, position = ($q.lang.rtl === true ? dir !== true : dir) ? between(evt.distance.x, 0, width) : 0;
+      if (evt.isFinal === true) {
+        const opened = Math.abs(position) < Math.min(75, width);
+        if (opened === true) {
+          $layout.animate();
+          applyBackdrop(1);
+          applyPosition(0);
+        } else {
+          hide();
+        }
+        flagPanning.value = false;
+        return;
+      }
+      applyPosition(stateDirection.value * position);
+      applyBackdrop(between(1 - position / width, 0, 1));
+      if (evt.isFirst === true) {
+        flagPanning.value = true;
+      }
+    }
+    function cleanup() {
+      preventBodyScroll(false);
+      setScrollable(true);
+    }
+    function updateLayout(prop, val) {
+      $layout.update(props.side, prop, val);
+    }
+    function updateLocal(prop, val) {
+      if (prop.value !== val) {
+        prop.value = val;
+      }
+    }
+    function updateSizeOnLayout(miniToOverlay, size2) {
+      updateLayout("size", miniToOverlay === true ? props.miniWidth : size2);
+    }
+    $layout.instances[props.side] = instance;
+    updateSizeOnLayout(props.miniToOverlay, size.value);
+    updateLayout("space", onLayout.value);
+    updateLayout("offset", offset.value);
+    if (props.showIfAbove === true && props.modelValue !== true && showing.value === true && props["onUpdate:modelValue"] !== void 0) {
+      emit("update:modelValue", true);
+    }
+    onMounted(() => {
+      emit("onLayout", onLayout.value);
+      emit("miniState", isMini.value);
+      lastDesktopState = props.showIfAbove === true;
+      const fn = () => {
+        const action = showing.value === true ? handleShow : handleHide;
+        action(false, true);
+      };
+      if ($layout.totalWidth.value !== 0) {
+        nextTick(fn);
+        return;
+      }
+      layoutTotalWidthWatcher = watch($layout.totalWidth, () => {
+        layoutTotalWidthWatcher();
+        layoutTotalWidthWatcher = void 0;
+        if (showing.value === false && props.showIfAbove === true && belowBreakpoint.value === false) {
+          show(false);
+        } else {
+          fn();
+        }
+      });
+    });
+    onBeforeUnmount(() => {
+      layoutTotalWidthWatcher !== void 0 && layoutTotalWidthWatcher();
+      if (timerMini !== null) {
+        clearTimeout(timerMini);
+        timerMini = null;
+      }
+      showing.value === true && cleanup();
+      if ($layout.instances[props.side] === instance) {
+        $layout.instances[props.side] = void 0;
+        updateLayout("size", 0);
+        updateLayout("offset", 0);
+        updateLayout("space", false);
+      }
+    });
+    return () => {
+      const child = [];
+      if (belowBreakpoint.value === true) {
+        props.noSwipeOpen === false && child.push(
+          withDirectives(
+            h("div", {
+              key: "open",
+              class: `q-drawer__opener fixed-${props.side}`,
+              "aria-hidden": "true"
+            }),
+            openDirective.value
+          )
+        );
+        child.push(
+          hDir(
+            "div",
+            {
+              ref: "backdrop",
+              class: backdropClass.value,
+              style: backdropStyle.value,
+              "aria-hidden": "true",
+              onClick: hide
+            },
+            void 0,
+            "backdrop",
+            props.noSwipeBackdrop !== true && showing.value === true,
+            () => backdropCloseDirective.value
+          )
+        );
+      }
+      const mini = isMini.value === true && slots.mini !== void 0;
+      const content = [
+        h(
+          "div",
+          {
+            ...attrs,
+            key: "" + mini,
+            class: [
+              contentClass.value,
+              attrs.class
+            ]
+          },
+          mini === true ? slots.mini() : hSlot(slots.default)
+        )
+      ];
+      if (props.elevated === true && showing.value === true) {
+        content.push(
+          h("div", {
+            class: "q-layout__shadow absolute-full overflow-hidden no-pointer-events"
+          })
+        );
+      }
+      child.push(
+        hDir(
+          "aside",
+          { ref: "content", class: classes.value, style: style.value },
+          content,
+          "contentclose",
+          props.noSwipeClose !== true && belowBreakpoint.value === true,
+          () => contentCloseDirective.value
+        )
+      );
+      return h("div", { class: "q-drawer-container" }, child);
+    };
+  }
+});
+export { QDrawer as Q };

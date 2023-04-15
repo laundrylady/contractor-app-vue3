@@ -1,1 +1,30 @@
-import{a as e}from"./axios.ccd3a804.js";import{u as n}from"./debug.805a8aef.js";const r=()=>new Promise(function(o){navigator.geolocation?navigator.geolocation.getCurrentPosition(t=>{o({lat:t.coords.latitude,lng:t.coords.longitude})}):o({lat:-26.606107,lng:152.9340755})}),i=async()=>await r(),g=async()=>{const o=sessionStorage.getItem("postcodeRegionGroups");return o?JSON.parse(o):e.get("/postcoderegiongroup/index").then(t=>(sessionStorage.setItem("postcodeRegionGroups",JSON.stringify(t.data)),t.data)).catch(t=>{n(t)})};export{i as a,g};
+import { a as api } from "./axios.ccd3a804.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+const getLocationPromise = () => {
+  return new Promise(function(resolve) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((location) => {
+        resolve({ lat: location.coords.latitude, lng: location.coords.longitude });
+      });
+    } else {
+      resolve({ lat: -26.606107, lng: 152.9340755 });
+    }
+  });
+};
+const getCurrentLocation = async () => {
+  const latLng = await getLocationPromise();
+  return latLng;
+};
+const getPostcodeRegionGroups = async () => {
+  const groups = sessionStorage.getItem("postcodeRegionGroups");
+  if (groups) {
+    return JSON.parse(groups);
+  }
+  return api.get("/postcoderegiongroup/index").then((response) => {
+    sessionStorage.setItem("postcodeRegionGroups", JSON.stringify(response.data));
+    return response.data;
+  }).catch((error) => {
+    useMixinDebug(error);
+  });
+};
+export { getCurrentLocation as a, getPostcodeRegionGroups as g };

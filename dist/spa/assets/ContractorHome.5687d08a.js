@@ -1,1 +1,589 @@
-import{A as M,r as A,m as l,n as _,l as e,L as a,R as r,bp as Q,S as C,ad as T,i as z,B as H,o as R,E as Y,w as j,J as D,K as f,y as i,q as d,O as b,b8 as c,U as y,t as J,F as B,b7 as V}from"./index.e647c85a.js";import{a as K,Q as w}from"./QBreadcrumbs.14144362.js";import{Q as S}from"./QBadge.5efaf9f7.js";import{Q as O}from"./QHeader.001fd0f6.js";import{a as m,Q as o}from"./QItemSection.99659658.js";import{Q as q}from"./QList.2f0afc60.js";import{Q as E}from"./rtl.4f5e13e8.js";import{Q as G}from"./QDrawer.bdde26ac.js";import{Q as W}from"./QPage.660fce82.js";import{Q as X,a as Z}from"./QLayout.2e2ab899.js";import{a as ee,m as L}from"./axios.ccd3a804.js";import{Q as v,_ as ae}from"./QRouteTab.037f3cc2.js";import{_ as N}from"./PostcodeRegionDisplay.24757491.js";import{_ as x}from"./UserAvatar.d3fe9aaa.js";import{u as te}from"./debug.805a8aef.js";import{l as U}from"./help.c0f85e41.js";import{Q as le}from"./format.8e90d58d.js";import{Q as oe}from"./QTabs.4874b266.js";import"./QResizeObserver.97b49885.js";import"./TouchPan.9e1ee92a.js";import"./touch.70a9dd44.js";const se=M({__name:"ContractorNav",props:{model:null},setup(s){const g=A("details");return(k,p)=>(l(),_("div",null,[e(C,{color:"black",outline:"",icon:"menu",class:"lt-sm"},{default:a(()=>[e(le,{"auto-close":""},{default:a(()=>[e(q,{style:{"min-width":"100px"}},{default:a(()=>[e(m,{clickable:"",to:{name:"team-edit",params:{id:s.model.id}}},{default:a(()=>[e(o,null,{default:a(()=>[r("Details")]),_:1})]),_:1},8,["to"]),e(m,{clickable:"",to:{name:"team-users",params:{id:s.model.id}}},{default:a(()=>[e(o,null,{default:a(()=>[r("Users")]),_:1})]),_:1},8,["to"]),e(Q),e(m,{clickable:"",to:{name:"team-documents",params:{id:s.model.id}}},{default:a(()=>[e(o,null,{default:a(()=>[r("Documents")]),_:1})]),_:1},8,["to"]),e(Q),e(m,{clickable:"",to:{name:"team-sms",params:{id:s.model.id}}},{default:a(()=>[e(o,null,{default:a(()=>[r("SMS Notifications")]),_:1})]),_:1},8,["to"]),e(m,{clickable:"",to:{name:"team-notifications",params:{id:s.model.id}}},{default:a(()=>[e(o,null,{default:a(()=>[r("Email Notifications")]),_:1})]),_:1},8,["to"]),e(Q),e(m,{clickable:"",to:{name:"team-audit",params:{id:s.model.id}}},{default:a(()=>[e(o,null,{default:a(()=>[r("Audit")]),_:1})]),_:1},8,["to"])]),_:1})]),_:1})]),_:1}),e(oe,{modelValue:g.value,"onUpdate:modelValue":p[0]||(p[0]=t=>g.value=t),align:"left","active-bg-color":"primary","active-color":"white"},{default:a(()=>[e(v,{to:{name:"contractor-dashboard",params:{id:s.model.id}},label:"Dashboard",icon:"dashboard"},null,8,["to"]),e(v,{to:{name:"contractor-postcoderegion-groups",params:{id:s.model.id}},label:"Pickup Locations",icon:"place"},null,8,["to"]),e(v,{to:{name:"contractor-roster",params:{id:s.model.id}},label:"Roster",icon:"schedule"},null,8,["to"]),e(v,{to:{name:"contractor-orders",params:{id:s.model.id}},label:k.$t("order.namePlural"),icon:"event"},null,8,["to","label"]),e(v,{to:{name:"contractor-edit",params:{id:s.model.id}},label:"Details",icon:"info"},null,8,["to"]),e(v,{to:{name:"contractor-documents",params:{id:s.model.id}},label:"Documents",icon:"attach_file"},null,8,["to"]),e(v,{to:{name:"contractor-sms",params:{id:s.model.id}},label:"SMS",icon:"chat"},null,8,["to"]),e(v,{to:{name:"contractor-notifications",params:{id:s.model.id}},label:"Emails",icon:"mail"},null,8,["to"]),e(v,{to:{name:"contractor-audit",params:{id:s.model.id}},label:"Audit",icon:"bolt"},null,8,["to"])]),_:1},8,["modelValue"])]))}}),ne={class:"q-pl-md q-pr-md q-pt-md"},re={class:"flex"},ie={class:"q-mb-lg"},de={class:"row items-center q-mb-lg"},ue={class:"col-xs-12 col-sm-9"},me={class:"flex items-center"},ce={class:"text-h4"},fe={key:0,class:"q-mr-sm"},_e={key:0,class:"col-xs-2 col-sm-3 text-right"},ve=d("br",null,null,-1),pe={key:0,class:"text-right q-pa-sm"},be=["href"],ge=["href"],he={key:2},ke={key:0},ye={key:3},Qe={key:0},qe={class:"text-grey"},Ye=M({__name:"ContractorHome",setup(s){const g=T(),k=z("bus"),p=H({left:!0,right:!0}),t=A(),$=async()=>{ee.get(`/user/${g.params.id}?feed=true`).then(u=>{t.value=u.data,document.title=t.value.fullname}).catch(u=>{te(u)})};return R(async()=>{await $(),k.on("getContractor",()=>{$()})}),Y(()=>{k.off("getContractor")}),j(()=>g.params.id,u=>{g.name==="contractor-dashboard"&&u&&$()}),(u,h)=>{const F=D("router-link"),P=D("router-view");return t.value&&t.value.id?(l(),f(X,{key:0,view:"lHh Lpr lFf",container:"",class:"layout-height"},{default:a(()=>[e(O,{class:J({"page-title text-black":!u.$q.dark.isActive,"bg-dark":u.$q.dark.isActive}),bordered:""},{default:a(()=>[d("div",ne,[d("div",re,[e(K,{class:"q-mb-md"},{separator:a(()=>[e(b,{size:"1.5em",name:"chevron_right"})]),default:a(()=>[e(w,{label:"Home",icon:"home",to:{name:"appDashboard"}}),e(w,{label:u.$t("contractor.namePlural"),to:{name:"contractors"}},null,8,["label"]),e(w,{label:t.value.fullname},null,8,["label"])]),_:1})]),d("div",ie,[d("div",de,[d("div",ue,[d("div",me,[e(x,{user:t.value,class:"q-mr-sm",size:"48px"},null,8,["user"]),d("div",null,[d("div",ce,[u.$q.screen.lt.lg?(l(),f(C,{key:0,onClick:h[0]||(h[0]=n=>p.left=!p.left),icon:"menu",color:"primary",outline:"",class:"q-mr-md"})):i("",!0),r(" "+c(t.value.fullname),1)]),d("div",null,[t.value.contractor_start_date?(l(),_("span",fe,"Since "+c(t.value.contractor_start_date),1)):i("",!0),r(),t.value.contractor_status==="active"?(l(),f(S,{key:1,color:"positive",label:"Active",class:"q-mr-sm"})):i("",!0),t.value.contractor_insurance_expiry&&y(L)(t.value.contractor_insurance_expiry,"DD/MM/YYYY").isBefore(y(L)())?(l(),f(S,{key:2,color:"negative"},{default:a(()=>[e(b,{name:"warning",class:"q-mr-sm"}),r(" Insurance Expired")]),_:1})):i("",!0)])])])]),u.$q.screen.xs?i("",!0):(l(),_("div",_e,[d("div",null,[r(" Last data update"),ve,d("strong",null,c(y(U)(t.value.updated_at)),1)])]))]),e(se,{model:t.value},null,8,["model"])])])]),_:1},8,["class"]),e(G,{modelValue:p.left,"onUpdate:modelValue":h[2]||(h[2]=n=>p.left=n),width:300,side:"left",bordered:""},{default:a(()=>[u.$q.screen.xs?(l(),_("div",pe,[e(C,{onClick:h[1]||(h[1]=n=>p.left=!1),icon:"close",flat:"",round:"",dense:""})])):i("",!0),t.value.lat&&t.value.lng?(l(),f(ae,{key:1,"lat-lng":{lat:parseFloat(t.value.lat),lng:parseFloat(t.value.lng)}},null,8,["lat-lng"])):i("",!0),e(q,{dense:"",class:"q-mt-md"},{default:a(()=>[e(m,null,{default:a(()=>[e(o,{side:""},{default:a(()=>[e(b,{name:"engineering"})]),_:1}),e(o,null,{default:a(()=>[r(c(t.value.fullname),1)]),_:1})]),_:1}),e(m,null,{default:a(()=>[e(o,{side:""},{default:a(()=>[e(b,{name:"mail"})]),_:1}),e(o,null,{default:a(()=>[d("a",{href:`mailto:${t.value.email}`,class:"link"},c(t.value.email),9,be)]),_:1})]),_:1}),e(m,null,{default:a(()=>[e(o,{side:""},{default:a(()=>[e(b,{name:"phone"})]),_:1}),e(o,null,{default:a(()=>[d("a",{href:`tel:${t.value.mobile}`,class:"link"},c(t.value.mobile),9,ge)]),_:1})]),_:1}),e(m,null,{default:a(()=>[e(o,{side:""},{default:a(()=>[e(b,{name:"attach_money"})]),_:1}),e(o,null,{default:a(()=>[r(" Commission rate "+c(t.value.contractor_commission_rate)+"% ",1)]),_:1})]),_:1}),e(m,null,{default:a(()=>[e(o,{side:""},{default:a(()=>[e(b,{name:"place"})]),_:1}),e(o,null,{default:a(()=>[t.value.postcoderegionsuburb?(l(),f(N,{key:0,postcoderegions:[t.value.postcoderegionsuburb]},null,8,["postcoderegions"])):i("",!0)]),_:1})]),_:1})]),_:1}),e(Q,{class:"q-mt-sm q-mb-sm"}),t.value.teams&&t.value.teams.length?(l(),_("div",he,[e(q,null,{default:a(()=>[e(E,{header:"",class:"text-uppercase"},{default:a(()=>[r(c(u.$t("team.namePlural")),1)]),_:1}),(l(!0),_(B,null,V(t.value.teams,n=>(l(),f(m,{key:n.id},{default:a(()=>[e(o,null,{default:a(()=>[e(F,{to:{name:"team-dashboard",params:{id:n.id}},target:"_blank",class:"link"},{default:a(()=>[r(c(n.name),1)]),_:2},1032,["to"]),n.suburbpostcoderegion?(l(),_("div",ke,[e(N,{postcoderegions:[n.suburbpostcoderegion]},null,8,["postcoderegions"])])):i("",!0)]),_:2},1024)]),_:2},1024))),128))]),_:1})])):i("",!0),t.value.feed?(l(),_("div",ye,[t.value.feed.length?(l(),_("div",Qe,[e(q,null,{default:a(()=>[e(E,{header:""},{default:a(()=>[r("FEED")]),_:1}),(l(!0),_(B,null,V(t.value.feed,(n,I)=>(l(),f(m,{key:I},{default:a(()=>[e(o,{avatar:""},{default:a(()=>[n.sendingUser?i("",!0):(l(),f(x,{key:0,user:n.user},null,8,["user"])),n.sendingUser?(l(),f(x,{key:1,user:n.sendingUser},null,8,["user"])):i("",!0)]),_:2},1024),e(o,null,{default:a(()=>[d("div",qe,c(y(U)(n.created_at)),1),r(" "+c(n.activity),1)]),_:2},1024)]),_:2},1024))),128))]),_:1})])):i("",!0)])):i("",!0)]),_:1},8,["modelValue"]),e(Z,null,{default:a(()=>[e(W,{padding:""},{default:a(()=>[e(P,{model:t.value},null,8,["model"])]),_:1})]),_:1})]),_:1})):i("",!0)}}});export{Ye as default};
+import { A as defineComponent, r as ref, m as openBlock, n as createElementBlock, l as createVNode, L as withCtx, R as createTextVNode, bp as QSeparator, S as QBtn, ad as useRoute, i as inject, B as reactive, o as onMounted, E as onBeforeUnmount, w as watch, J as resolveComponent, K as createBlock, y as createCommentVNode, q as createBaseVNode, O as QIcon, b8 as toDisplayString, U as unref, t as normalizeClass, F as Fragment, b7 as renderList } from "./index.e647c85a.js";
+import { a as QBreadcrumbs, Q as QBreadcrumbsEl } from "./QBreadcrumbs.14144362.js";
+import { Q as QBadge } from "./QBadge.5efaf9f7.js";
+import { Q as QHeader } from "./QHeader.001fd0f6.js";
+import { a as QItem, Q as QItemSection } from "./QItemSection.99659658.js";
+import { Q as QList } from "./QList.2f0afc60.js";
+import { Q as QItemLabel } from "./rtl.4f5e13e8.js";
+import { Q as QDrawer } from "./QDrawer.bdde26ac.js";
+import { Q as QPage } from "./QPage.660fce82.js";
+import { Q as QLayout, a as QPageContainer } from "./QLayout.2e2ab899.js";
+import { a as api, m as moment } from "./axios.ccd3a804.js";
+import { Q as QRouteTab, _ as _sfc_main$3 } from "./QRouteTab.037f3cc2.js";
+import { _ as _sfc_main$4 } from "./PostcodeRegionDisplay.24757491.js";
+import { _ as _sfc_main$2 } from "./UserAvatar.d3fe9aaa.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { l as fromNowTz } from "./help.c0f85e41.js";
+import { Q as QMenu } from "./format.8e90d58d.js";
+import { Q as QTabs } from "./QTabs.4874b266.js";
+import "./QResizeObserver.97b49885.js";
+import "./TouchPan.9e1ee92a.js";
+import "./touch.70a9dd44.js";
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "ContractorNav",
+  props: {
+    model: null
+  },
+  setup(__props) {
+    const currentTab = ref("details");
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock("div", null, [
+        createVNode(QBtn, {
+          color: "black",
+          outline: "",
+          icon: "menu",
+          class: "lt-sm"
+        }, {
+          default: withCtx(() => [
+            createVNode(QMenu, { "auto-close": "" }, {
+              default: withCtx(() => [
+                createVNode(QList, { style: { "min-width": "100px" } }, {
+                  default: withCtx(() => [
+                    createVNode(QItem, {
+                      clickable: "",
+                      to: { name: "team-edit", params: { id: __props.model.id } }
+                    }, {
+                      default: withCtx(() => [
+                        createVNode(QItemSection, null, {
+                          default: withCtx(() => [
+                            createTextVNode("Details")
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    }, 8, ["to"]),
+                    createVNode(QItem, {
+                      clickable: "",
+                      to: { name: "team-users", params: { id: __props.model.id } }
+                    }, {
+                      default: withCtx(() => [
+                        createVNode(QItemSection, null, {
+                          default: withCtx(() => [
+                            createTextVNode("Users")
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    }, 8, ["to"]),
+                    createVNode(QSeparator),
+                    createVNode(QItem, {
+                      clickable: "",
+                      to: { name: "team-documents", params: { id: __props.model.id } }
+                    }, {
+                      default: withCtx(() => [
+                        createVNode(QItemSection, null, {
+                          default: withCtx(() => [
+                            createTextVNode("Documents")
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    }, 8, ["to"]),
+                    createVNode(QSeparator),
+                    createVNode(QItem, {
+                      clickable: "",
+                      to: { name: "team-sms", params: { id: __props.model.id } }
+                    }, {
+                      default: withCtx(() => [
+                        createVNode(QItemSection, null, {
+                          default: withCtx(() => [
+                            createTextVNode("SMS Notifications")
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    }, 8, ["to"]),
+                    createVNode(QItem, {
+                      clickable: "",
+                      to: { name: "team-notifications", params: { id: __props.model.id } }
+                    }, {
+                      default: withCtx(() => [
+                        createVNode(QItemSection, null, {
+                          default: withCtx(() => [
+                            createTextVNode("Email Notifications")
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    }, 8, ["to"]),
+                    createVNode(QSeparator),
+                    createVNode(QItem, {
+                      clickable: "",
+                      to: { name: "team-audit", params: { id: __props.model.id } }
+                    }, {
+                      default: withCtx(() => [
+                        createVNode(QItemSection, null, {
+                          default: withCtx(() => [
+                            createTextVNode("Audit")
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    }, 8, ["to"])
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ]),
+          _: 1
+        }),
+        createVNode(QTabs, {
+          modelValue: currentTab.value,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => currentTab.value = $event),
+          align: "left",
+          "active-bg-color": "primary",
+          "active-color": "white"
+        }, {
+          default: withCtx(() => [
+            createVNode(QRouteTab, {
+              to: { name: "contractor-dashboard", params: { id: __props.model.id } },
+              label: "Dashboard",
+              icon: "dashboard"
+            }, null, 8, ["to"]),
+            createVNode(QRouteTab, {
+              to: { name: "contractor-postcoderegion-groups", params: { id: __props.model.id } },
+              label: "Pickup Locations",
+              icon: "place"
+            }, null, 8, ["to"]),
+            createVNode(QRouteTab, {
+              to: { name: "contractor-roster", params: { id: __props.model.id } },
+              label: "Roster",
+              icon: "schedule"
+            }, null, 8, ["to"]),
+            createVNode(QRouteTab, {
+              to: { name: "contractor-orders", params: { id: __props.model.id } },
+              label: _ctx.$t("order.namePlural"),
+              icon: "event"
+            }, null, 8, ["to", "label"]),
+            createVNode(QRouteTab, {
+              to: { name: "contractor-edit", params: { id: __props.model.id } },
+              label: "Details",
+              icon: "info"
+            }, null, 8, ["to"]),
+            createVNode(QRouteTab, {
+              to: { name: "contractor-documents", params: { id: __props.model.id } },
+              label: "Documents",
+              icon: "attach_file"
+            }, null, 8, ["to"]),
+            createVNode(QRouteTab, {
+              to: { name: "contractor-sms", params: { id: __props.model.id } },
+              label: "SMS",
+              icon: "chat"
+            }, null, 8, ["to"]),
+            createVNode(QRouteTab, {
+              to: { name: "contractor-notifications", params: { id: __props.model.id } },
+              label: "Emails",
+              icon: "mail"
+            }, null, 8, ["to"]),
+            createVNode(QRouteTab, {
+              to: { name: "contractor-audit", params: { id: __props.model.id } },
+              label: "Audit",
+              icon: "bolt"
+            }, null, 8, ["to"])
+          ]),
+          _: 1
+        }, 8, ["modelValue"])
+      ]);
+    };
+  }
+});
+const _hoisted_1 = { class: "q-pl-md q-pr-md q-pt-md" };
+const _hoisted_2 = { class: "flex" };
+const _hoisted_3 = { class: "q-mb-lg" };
+const _hoisted_4 = { class: "row items-center q-mb-lg" };
+const _hoisted_5 = { class: "col-xs-12 col-sm-9" };
+const _hoisted_6 = { class: "flex items-center" };
+const _hoisted_7 = { class: "text-h4" };
+const _hoisted_8 = {
+  key: 0,
+  class: "q-mr-sm"
+};
+const _hoisted_9 = {
+  key: 0,
+  class: "col-xs-2 col-sm-3 text-right"
+};
+const _hoisted_10 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_11 = {
+  key: 0,
+  class: "text-right q-pa-sm"
+};
+const _hoisted_12 = ["href"];
+const _hoisted_13 = ["href"];
+const _hoisted_14 = { key: 2 };
+const _hoisted_15 = { key: 0 };
+const _hoisted_16 = { key: 3 };
+const _hoisted_17 = { key: 0 };
+const _hoisted_18 = { class: "text-grey" };
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "ContractorHome",
+  setup(__props) {
+    const route = useRoute();
+    const bus = inject("bus");
+    const drawer = reactive({ left: true, right: true });
+    const model = ref();
+    const getContractor = async () => {
+      api.get(`/user/${route.params.id}?feed=true`).then((response) => {
+        model.value = response.data;
+        document.title = model.value.fullname;
+      }).catch((response) => {
+        useMixinDebug(response);
+      });
+    };
+    onMounted(async () => {
+      await getContractor();
+      bus.on("getContractor", () => {
+        getContractor();
+      });
+    });
+    onBeforeUnmount(() => {
+      bus.off("getContractor");
+    });
+    watch(() => route.params.id, (newVal) => {
+      if (route.name === "contractor-dashboard") {
+        if (newVal) {
+          getContractor();
+        }
+      }
+    });
+    return (_ctx, _cache) => {
+      const _component_router_link = resolveComponent("router-link");
+      const _component_router_view = resolveComponent("router-view");
+      return model.value && model.value.id ? (openBlock(), createBlock(QLayout, {
+        key: 0,
+        view: "lHh Lpr lFf",
+        container: "",
+        class: "layout-height"
+      }, {
+        default: withCtx(() => [
+          createVNode(QHeader, {
+            class: normalizeClass({ "page-title text-black": !_ctx.$q.dark.isActive, "bg-dark": _ctx.$q.dark.isActive }),
+            bordered: ""
+          }, {
+            default: withCtx(() => [
+              createBaseVNode("div", _hoisted_1, [
+                createBaseVNode("div", _hoisted_2, [
+                  createVNode(QBreadcrumbs, { class: "q-mb-md" }, {
+                    separator: withCtx(() => [
+                      createVNode(QIcon, {
+                        size: "1.5em",
+                        name: "chevron_right"
+                      })
+                    ]),
+                    default: withCtx(() => [
+                      createVNode(QBreadcrumbsEl, {
+                        label: "Home",
+                        icon: "home",
+                        to: { name: "appDashboard" }
+                      }),
+                      createVNode(QBreadcrumbsEl, {
+                        label: _ctx.$t("contractor.namePlural"),
+                        to: { name: "contractors" }
+                      }, null, 8, ["label"]),
+                      createVNode(QBreadcrumbsEl, {
+                        label: model.value.fullname
+                      }, null, 8, ["label"])
+                    ]),
+                    _: 1
+                  })
+                ]),
+                createBaseVNode("div", _hoisted_3, [
+                  createBaseVNode("div", _hoisted_4, [
+                    createBaseVNode("div", _hoisted_5, [
+                      createBaseVNode("div", _hoisted_6, [
+                        createVNode(_sfc_main$2, {
+                          user: model.value,
+                          class: "q-mr-sm",
+                          size: "48px"
+                        }, null, 8, ["user"]),
+                        createBaseVNode("div", null, [
+                          createBaseVNode("div", _hoisted_7, [
+                            _ctx.$q.screen.lt.lg ? (openBlock(), createBlock(QBtn, {
+                              key: 0,
+                              onClick: _cache[0] || (_cache[0] = ($event) => drawer.left = !drawer.left),
+                              icon: "menu",
+                              color: "primary",
+                              outline: "",
+                              class: "q-mr-md"
+                            })) : createCommentVNode("", true),
+                            createTextVNode(" " + toDisplayString(model.value.fullname), 1)
+                          ]),
+                          createBaseVNode("div", null, [
+                            model.value.contractor_start_date ? (openBlock(), createElementBlock("span", _hoisted_8, "Since " + toDisplayString(model.value.contractor_start_date), 1)) : createCommentVNode("", true),
+                            createTextVNode(),
+                            model.value.contractor_status === "active" ? (openBlock(), createBlock(QBadge, {
+                              key: 1,
+                              color: "positive",
+                              label: "Active",
+                              class: "q-mr-sm"
+                            })) : createCommentVNode("", true),
+                            model.value.contractor_insurance_expiry && unref(moment)(model.value.contractor_insurance_expiry, "DD/MM/YYYY").isBefore(unref(moment)()) ? (openBlock(), createBlock(QBadge, {
+                              key: 2,
+                              color: "negative"
+                            }, {
+                              default: withCtx(() => [
+                                createVNode(QIcon, {
+                                  name: "warning",
+                                  class: "q-mr-sm"
+                                }),
+                                createTextVNode(" Insurance Expired")
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ])
+                        ])
+                      ])
+                    ]),
+                    !_ctx.$q.screen.xs ? (openBlock(), createElementBlock("div", _hoisted_9, [
+                      createBaseVNode("div", null, [
+                        createTextVNode(" Last data update"),
+                        _hoisted_10,
+                        createBaseVNode("strong", null, toDisplayString(unref(fromNowTz)(model.value.updated_at)), 1)
+                      ])
+                    ])) : createCommentVNode("", true)
+                  ]),
+                  createVNode(_sfc_main$1, { model: model.value }, null, 8, ["model"])
+                ])
+              ])
+            ]),
+            _: 1
+          }, 8, ["class"]),
+          createVNode(QDrawer, {
+            modelValue: drawer.left,
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => drawer.left = $event),
+            width: 300,
+            side: "left",
+            bordered: ""
+          }, {
+            default: withCtx(() => [
+              _ctx.$q.screen.xs ? (openBlock(), createElementBlock("div", _hoisted_11, [
+                createVNode(QBtn, {
+                  onClick: _cache[1] || (_cache[1] = ($event) => drawer.left = false),
+                  icon: "close",
+                  flat: "",
+                  round: "",
+                  dense: ""
+                })
+              ])) : createCommentVNode("", true),
+              model.value.lat && model.value.lng ? (openBlock(), createBlock(_sfc_main$3, {
+                key: 1,
+                "lat-lng": { lat: parseFloat(model.value.lat), lng: parseFloat(model.value.lng) }
+              }, null, 8, ["lat-lng"])) : createCommentVNode("", true),
+              createVNode(QList, {
+                dense: "",
+                class: "q-mt-md"
+              }, {
+                default: withCtx(() => [
+                  createVNode(QItem, null, {
+                    default: withCtx(() => [
+                      createVNode(QItemSection, { side: "" }, {
+                        default: withCtx(() => [
+                          createVNode(QIcon, { name: "engineering" })
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QItemSection, null, {
+                        default: withCtx(() => [
+                          createTextVNode(toDisplayString(model.value.fullname), 1)
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QItem, null, {
+                    default: withCtx(() => [
+                      createVNode(QItemSection, { side: "" }, {
+                        default: withCtx(() => [
+                          createVNode(QIcon, { name: "mail" })
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QItemSection, null, {
+                        default: withCtx(() => [
+                          createBaseVNode("a", {
+                            href: `mailto:${model.value.email}`,
+                            class: "link"
+                          }, toDisplayString(model.value.email), 9, _hoisted_12)
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QItem, null, {
+                    default: withCtx(() => [
+                      createVNode(QItemSection, { side: "" }, {
+                        default: withCtx(() => [
+                          createVNode(QIcon, { name: "phone" })
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QItemSection, null, {
+                        default: withCtx(() => [
+                          createBaseVNode("a", {
+                            href: `tel:${model.value.mobile}`,
+                            class: "link"
+                          }, toDisplayString(model.value.mobile), 9, _hoisted_13)
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QItem, null, {
+                    default: withCtx(() => [
+                      createVNode(QItemSection, { side: "" }, {
+                        default: withCtx(() => [
+                          createVNode(QIcon, { name: "attach_money" })
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QItemSection, null, {
+                        default: withCtx(() => [
+                          createTextVNode(" Commission rate " + toDisplayString(model.value.contractor_commission_rate) + "% ", 1)
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QItem, null, {
+                    default: withCtx(() => [
+                      createVNode(QItemSection, { side: "" }, {
+                        default: withCtx(() => [
+                          createVNode(QIcon, { name: "place" })
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QItemSection, null, {
+                        default: withCtx(() => [
+                          model.value.postcoderegionsuburb ? (openBlock(), createBlock(_sfc_main$4, {
+                            key: 0,
+                            postcoderegions: [model.value.postcoderegionsuburb]
+                          }, null, 8, ["postcoderegions"])) : createCommentVNode("", true)
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              }),
+              createVNode(QSeparator, { class: "q-mt-sm q-mb-sm" }),
+              model.value.teams && model.value.teams.length ? (openBlock(), createElementBlock("div", _hoisted_14, [
+                createVNode(QList, null, {
+                  default: withCtx(() => [
+                    createVNode(QItemLabel, {
+                      header: "",
+                      class: "text-uppercase"
+                    }, {
+                      default: withCtx(() => [
+                        createTextVNode(toDisplayString(_ctx.$t("team.namePlural")), 1)
+                      ]),
+                      _: 1
+                    }),
+                    (openBlock(true), createElementBlock(Fragment, null, renderList(model.value.teams, (t) => {
+                      return openBlock(), createBlock(QItem, {
+                        key: t.id
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(QItemSection, null, {
+                            default: withCtx(() => [
+                              createVNode(_component_router_link, {
+                                to: { name: "team-dashboard", params: { id: t.id } },
+                                target: "_blank",
+                                class: "link"
+                              }, {
+                                default: withCtx(() => [
+                                  createTextVNode(toDisplayString(t.name), 1)
+                                ]),
+                                _: 2
+                              }, 1032, ["to"]),
+                              t.suburbpostcoderegion ? (openBlock(), createElementBlock("div", _hoisted_15, [
+                                createVNode(_sfc_main$4, {
+                                  postcoderegions: [t.suburbpostcoderegion]
+                                }, null, 8, ["postcoderegions"])
+                              ])) : createCommentVNode("", true)
+                            ]),
+                            _: 2
+                          }, 1024)
+                        ]),
+                        _: 2
+                      }, 1024);
+                    }), 128))
+                  ]),
+                  _: 1
+                })
+              ])) : createCommentVNode("", true),
+              model.value.feed ? (openBlock(), createElementBlock("div", _hoisted_16, [
+                model.value.feed.length ? (openBlock(), createElementBlock("div", _hoisted_17, [
+                  createVNode(QList, null, {
+                    default: withCtx(() => [
+                      createVNode(QItemLabel, { header: "" }, {
+                        default: withCtx(() => [
+                          createTextVNode("FEED")
+                        ]),
+                        _: 1
+                      }),
+                      (openBlock(true), createElementBlock(Fragment, null, renderList(model.value.feed, (f, index) => {
+                        return openBlock(), createBlock(QItem, { key: index }, {
+                          default: withCtx(() => [
+                            createVNode(QItemSection, { avatar: "" }, {
+                              default: withCtx(() => [
+                                !f.sendingUser ? (openBlock(), createBlock(_sfc_main$2, {
+                                  key: 0,
+                                  user: f.user
+                                }, null, 8, ["user"])) : createCommentVNode("", true),
+                                f.sendingUser ? (openBlock(), createBlock(_sfc_main$2, {
+                                  key: 1,
+                                  user: f.sendingUser
+                                }, null, 8, ["user"])) : createCommentVNode("", true)
+                              ]),
+                              _: 2
+                            }, 1024),
+                            createVNode(QItemSection, null, {
+                              default: withCtx(() => [
+                                createBaseVNode("div", _hoisted_18, toDisplayString(unref(fromNowTz)(f.created_at)), 1),
+                                createTextVNode(" " + toDisplayString(f.activity), 1)
+                              ]),
+                              _: 2
+                            }, 1024)
+                          ]),
+                          _: 2
+                        }, 1024);
+                      }), 128))
+                    ]),
+                    _: 1
+                  })
+                ])) : createCommentVNode("", true)
+              ])) : createCommentVNode("", true)
+            ]),
+            _: 1
+          }, 8, ["modelValue"]),
+          createVNode(QPageContainer, null, {
+            default: withCtx(() => [
+              createVNode(QPage, { padding: "" }, {
+                default: withCtx(() => [
+                  createVNode(_component_router_view, { model: model.value }, null, 8, ["model"])
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      })) : createCommentVNode("", true);
+    };
+  }
+});
+export { _sfc_main as default };

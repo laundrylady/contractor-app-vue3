@@ -1,1 +1,3428 @@
-var ut=Object.defineProperty;var ht=(s,e,t)=>e in s?ut(s,e,{enumerable:!0,configurable:!0,writable:!0,value:t}):s[e]=t;var Ae=(s,e,t)=>(ht(s,typeof e!="symbol"?e+"":e,t),t);import{V as Ie,r as g,g as k,o as we,E as De,h as te,j as ze,A as ae,I as ft,m as x,n as he,l as a,L as c,K as S,aE as dt,y as B,O as w,bp as fe,u as pt,bg as mt,R as N,b8 as z,i as ke,W as ce,a5 as yt,w as Q,a7 as gt,Y as vt,B as _t,G as Qe,S as $,aD as re,f as bt,Q as de,M as j,q as M,ad as wt,J as Ce,U as y,bq as kt,t as F}from"./index.e647c85a.js";import{Q as ue}from"./QSpace.7d6f905e.js";import{Q as Et}from"./UserAvatar.d3fe9aaa.js";import{Q as pe,a as xt}from"./QToolbarTitle.1a75cd00.js";import{Q as Fe}from"./QHeader.001fd0f6.js";import{a as I,Q as _}from"./QItemSection.99659658.js";import{Q as Rt}from"./QList.2f0afc60.js";import{Q as At}from"./QDrawer.bdde26ac.js";import{b as Ct}from"./format.8e90d58d.js";import{Q as Me,a as Ue}from"./QLayout.2e2ab899.js";import{a as J,u as Ot,m as Tt}from"./axios.ccd3a804.js";import{u as He}from"./use-quasar.ae4f72e4.js";import{_ as Oe}from"./AppLogo.885260bb.js";import{Q as Te}from"./rtl.4f5e13e8.js";import{Q as St}from"./QSelect.853d535e.js";import{Q as Bt}from"./QPage.660fce82.js";import{Q as Nt}from"./QResizeObserver.97b49885.js";import{C as Ke}from"./ClosePopup.ef2f7039.js";import{u as me}from"./debug.805a8aef.js";import Lt from"./OrderEdit.8ae2012c.js";import"./TouchPan.9e1ee92a.js";import"./touch.70a9dd44.js";import"./QTime.f6ad59d2.js";import"./DateField.75075dac.js";import"./QExpansionItem.0ce2aff8.js";import"./CountryField.01d37ae9.js";import"./index.esm.4557c89b.js";import"./PostcodeRegionField.1ba1a165.js";import"./OrderContractorManagement.e1decb4c.js";import"./QLinearProgress.c48fac34.js";import"./GlobalNotes.e0541d73.js";import"./help.c0f85e41.js";import"./StatusTag.c8d66888.js";import"./QBadge.5efaf9f7.js";import"./QMarkupTable.981d9979.js";import"./helpers.2defcd01.js";import"./vue-i18n.runtime.esm-bundler.bec1d6a0.js";const Ee=XMLHttpRequest,Ye=Ee.prototype.open,qt=["top","right","bottom","left"];let oe=[],X=0;function Pt({p:s,pos:e,active:t,horiz:i,reverse:n,dir:o}){let r=1,l=1;return i===!0?(n===!0&&(r=-1),e==="bottom"&&(l=-1),{transform:`translate3d(${r*(s-100)}%,${t?0:l*-200}%,0)`}):(n===!0&&(l=-1),e==="right"&&(r=-1),{transform:`translate3d(${t?0:o*r*-200}%,${l*(s-100)}%,0)`})}function Vt(s,e){return typeof e!="number"&&(s<25?e=Math.random()*3+3:s<65?e=Math.random()*3:s<85?e=Math.random()*2:s<99?e=.6:e=0),Ct(s+e,0,100)}function $t(s){X++,oe.push(s),!(X>1)&&(Ee.prototype.open=function(e,t){const i=[],n=()=>{oe.forEach(r=>{(r.hijackFilter.value===null||r.hijackFilter.value(t)===!0)&&(r.start(),i.push(r.stop))})},o=()=>{i.forEach(r=>{r()})};this.addEventListener("loadstart",n,{once:!0}),this.addEventListener("loadend",o,{once:!0}),Ye.apply(this,arguments)})}function It(s){oe=oe.filter(e=>e.start!==s),X=Math.max(0,X-1),X===0&&(Ee.prototype.open=Ye)}var Dt=Ie({name:"QAjaxBar",props:{position:{type:String,default:"top",validator:s=>qt.includes(s)},size:{type:String,default:"2px"},color:String,skipHijack:Boolean,reverse:Boolean,hijackFilter:Function},emits:["start","stop"],setup(s,{emit:e}){const{proxy:t}=ze(),i=g(0),n=g(!1),o=g(!0);let r=0,l=null,p;const f=k(()=>`q-loading-bar q-loading-bar--${s.position}`+(s.color!==void 0?` bg-${s.color}`:"")+(o.value===!0?"":" no-transition")),h=k(()=>s.position==="top"||s.position==="bottom"),u=k(()=>h.value===!0?"height":"width"),b=k(()=>{const E=n.value,V=Pt({p:i.value,pos:s.position,active:E,horiz:h.value,reverse:t.$q.lang.rtl===!0&&["top","bottom"].includes(s.position)?s.reverse===!1:s.reverse,dir:t.$q.lang.rtl===!0?-1:1});return V[u.value]=s.size,V.opacity=E?1:0,V}),C=k(()=>n.value===!0?{role:"progressbar","aria-valuemin":0,"aria-valuemax":100,"aria-valuenow":i.value}:{"aria-hidden":"true"});function H(E=300){const V=p;return p=Math.max(0,E)||0,r++,r>1?(V===0&&E>0?K():l!==null&&V>0&&E<=0&&(clearTimeout(l),l=null),r):(l!==null&&clearTimeout(l),e("start"),i.value=0,l=setTimeout(()=>{l=null,o.value=!0,E>0&&K()},n.value===!0?500:1),n.value!==!0&&(n.value=!0,o.value=!1),r)}function R(E){return r>0&&(i.value=Vt(i.value,E)),r}function P(){if(r=Math.max(0,r-1),r>0)return r;l!==null&&(clearTimeout(l),l=null),e("stop");const E=()=>{o.value=!0,i.value=100,l=setTimeout(()=>{l=null,n.value=!1},1e3)};return i.value===0?l=setTimeout(E,1):E(),r}function K(){i.value<100&&(l=setTimeout(()=>{l=null,R(),K()},p))}let G;return we(()=>{s.skipHijack!==!0&&(G=!0,$t({start:H,stop:P,hijackFilter:k(()=>s.hijackFilter||null)}))}),De(()=>{l!==null&&clearTimeout(l),G===!0&&It(H)}),Object.assign(t,{start:H,stop:P,increment:R}),()=>te("div",{class:f.value,style:b.value,...C.value})}}),zt="/portal/assets/logo.216a049a.png";const Qt=ae({__name:"HeaderSearch",setup(s){const e=g(),t=g(),i=g(),n=ft(),o=(f,h)=>{h==="contractor"&&n.push({name:"contractor-dashboard",params:{id:f.value}}).catch(),h==="team"&&n.push({name:"team-dashboard",params:{id:f.value}}).catch(),h==="order"&&n.push({name:"order-edit",params:{id:f.value}}).catch(),e.value=null,t.value=!1},r=async(f,h)=>{t.value=!0;const u=await J.post("/search",{keyword:h});if(u.data.length===1)return o(u.data[0],u.data[0].type),!0;f&&f(()=>{i.value=u.data,t.value=!1})},l=(f,h)=>{if(f.length<2)return!1;r(h,f)},p=f=>{o(f,f.type),e.value=null};return(f,h)=>(x(),he("div",null,[a(St,{modelValue:e.value,"onUpdate:modelValue":[h[0]||(h[0]=u=>e.value=u),p],modelModifiers:{trim:!0},placeholder:"Keyword search",disabled:t.value,loading:t.value,borderless:"",class:"gt-xs",style:{width:"500px"},"use-input":"",options:i.value,onFilter:l,"hide-dropdown-icon":"","input-debounce":300},{loading:c(()=>[t.value?(x(),S(dt,{key:0})):B("",!0)]),prepend:c(()=>[a(w,{name:"search"})]),option:c(u=>[a(fe),a(I,pt(mt(u.itemProps)),{default:c(()=>[u.opt.type==="contractor"?(x(),S(_,{key:0,avatar:""},{default:c(()=>[a(w,{name:"engineering",size:"32px"})]),_:1})):B("",!0),u.opt.type==="user"?(x(),S(_,{key:1,avatar:""},{default:c(()=>[a(w,{name:"account_circle",size:"32px"})]),_:1})):B("",!0),u.opt.type==="team"?(x(),S(_,{key:2,avatar:""},{default:c(()=>[a(w,{name:"group",size:"32px"})]),_:1})):B("",!0),u.opt.type==="order"?(x(),S(_,{key:3,avatar:""},{default:c(()=>[a(w,{name:"shopping_cart",size:"32px"})]),_:1})):B("",!0),a(_,null,{default:c(()=>[a(Te,null,{default:c(()=>[N(z(u.opt.label),1)]),_:2},1024),a(Te,{caption:""},{default:c(()=>[N(z(u.opt.sublabel),1)]),_:2},1024)]),_:2},1024)]),_:2},1040)]),_:1},8,["modelValue","disabled","loading","options"])]))}});var Ft=Ie({name:"QFooter",props:{modelValue:{type:Boolean,default:!0},reveal:Boolean,bordered:Boolean,elevated:Boolean,heightHint:{type:[String,Number],default:50}},emits:["reveal","focusin"],setup(s,{slots:e,emit:t}){const{proxy:{$q:i}}=ze(),n=ke(vt,ce);if(n===ce)return console.error("QFooter needs to be child of QLayout"),ce;const o=g(parseInt(s.heightHint,10)),r=g(!0),l=g(yt.value===!0||n.isContainer.value===!0?0:window.innerHeight),p=k(()=>s.reveal===!0||n.view.value.indexOf("F")>-1||i.platform.is.ios&&n.isContainer.value===!0),f=k(()=>n.isContainer.value===!0?n.containerHeight.value:l.value),h=k(()=>{if(s.modelValue!==!0)return 0;if(p.value===!0)return r.value===!0?o.value:0;const m=n.scroll.value.position+f.value+o.value-n.height.value;return m>0?m:0}),u=k(()=>s.modelValue!==!0||p.value===!0&&r.value!==!0),b=k(()=>s.modelValue===!0&&u.value===!0&&s.reveal===!0),C=k(()=>"q-footer q-layout__section--marginal "+(p.value===!0?"fixed":"absolute")+"-bottom"+(s.bordered===!0?" q-footer--bordered":"")+(u.value===!0?" q-footer--hidden":"")+(s.modelValue!==!0?" q-layout--prevent-focus"+(p.value!==!0?" hidden":""):"")),H=k(()=>{const m=n.rows.value.bottom,O={};return m[0]==="l"&&n.left.space===!0&&(O[i.lang.rtl===!0?"right":"left"]=`${n.left.size}px`),m[2]==="r"&&n.right.space===!0&&(O[i.lang.rtl===!0?"left":"right"]=`${n.right.size}px`),O});function R(m,O){n.update("footer",m,O)}function P(m,O){m.value!==O&&(m.value=O)}function K({height:m}){P(o,m),R("size",m)}function G(){if(s.reveal!==!0)return;const{direction:m,position:O,inflectionPoint:ct}=n.scroll.value;P(r,m==="up"||O-ct<100||n.height.value-f.value-O-o.value<300)}function E(m){b.value===!0&&P(r,!0),t("focusin",m)}Q(()=>s.modelValue,m=>{R("space",m),P(r,!0),n.animate()}),Q(h,m=>{R("offset",m)}),Q(()=>s.reveal,m=>{m===!1&&P(r,s.modelValue)}),Q(r,m=>{n.animate(),t("reveal",m)}),Q([o,n.scroll,n.height],G),Q(()=>i.screen.height,m=>{n.isContainer.value!==!0&&P(l,m)});const V={};return n.instances.footer=V,s.modelValue===!0&&R("size",o.value),R("space",s.modelValue),R("offset",h.value),De(()=>{n.instances.footer===V&&(n.instances.footer=void 0,R("size",0),R("offset",0),R("space",!1))}),()=>{const m=gt(e.default,[te(Nt,{debounce:0,onResize:K})]);return s.elevated===!0&&m.push(te("div",{class:"q-layout__shadow absolute-full overflow-hidden no-pointer-events"})),te("footer",{class:C.value,style:H.value,onFocusin:E},m)}}});const Mt=["src"],Ut=["src"],Ht=ae({__name:"MediaViewer",setup(s){const e=_t({rotate:0,zoom:1}),t=He(),i=ke("bus"),n=g(),o=g(),r=g(),l=g(!1),p=g(),f=h=>{h==="rotateForward"&&(e.rotate+=90,e.rotate>360&&(e.rotate=90)),h==="rotateBackwards"&&p.value&&(p.value.style.transform=`rotate(${e.rotate}deg)`),h==="zoomIn"&&(e.zoom+=.2),h==="zoomOut"&&(e.zoom-=.2),p.value&&(p.value.style.transform=`scale(${e.zoom}) rotate(${e.rotate}deg)`)};return we(()=>{i.on("view-file",h=>{Object.assign(e,{rotate:0,zoom:1}),r.value=!1,n.value=h,t.loading.show({message:"Loading asset..."}),o.value=!1,n.value.type==="photo"?J.get(`/photo/${n.value.model.id}?original=1`).then(u=>{J.get(`/photo/loadoriginaldata/${n.value.model.id}`).then(b=>{o.value="data:"+u.data.image_file_uri.original.type+";base64,"+b.data.raw}),t.loading.hide(),l.value=!0}).catch(u=>{t.loading.hide(),me(u)}):n.value.type==="pdfUrl"?(window.open(n.value.url),t.loading.hide()):J.get(`/attachment/${n.value.model.id}?original=1`).then(u=>{n.value=u.data,n.value.file_file_uri.original.type!=="application/pdf"?(o.value=`data:${u.data.file_file_uri.original.type};base64,${u.data.file_file_uri.original.data.content}`,t.loading.hide(),l.value=!0):(r.value=`data:application/pdf;base64,${u.data.file_file_uri.original.data}`,window.open(n.value.file_file_uri.original.uri)),t.loading.hide()}).catch(u=>{me(u)})})}),(h,u)=>(x(),S(re,{modelValue:l.value,"onUpdate:modelValue":u[3]||(u[3]=b=>l.value=b),maximized:""},{default:c(()=>[a(Me,{view:"Lhh lpR fff",container:"",class:"bg-black"},{default:c(()=>[a(Fe,{class:"bg-secondary"},{default:c(()=>[a(pe,null,{default:c(()=>[a(xt,null,{default:c(()=>[N(z(n.value.name),1)]),_:1}),Qe(a($,{flat:"",round:"",dense:"",icon:"close"},null,512),[[Ke]])]),_:1})]),_:1}),a(Ue,null,{default:c(()=>[a(Bt,{class:"items-center flex justify-center"},{default:c(()=>[r.value?(x(),he("iframe",{key:0,src:r.value,width:"100%",class:"pdfIframe"},null,8,Mt)):B("",!0),o.value&&!r.value?(x(),he("img",{key:1,src:o.value,style:{"max-width":"100%"},ref_key:"viewerImage",ref:p},null,8,Ut)):B("",!0)]),_:1})]),_:1}),a(Ft,{class:"bg-primary text-white"},{default:c(()=>[r.value?B("",!0):(x(),S(pe,{key:0,inset:"",class:"row justify-center"},{default:c(()=>[a($,{onClick:u[0]||(u[0]=b=>f("rotateForward")),icon:"refresh"}),a($,{onClick:u[1]||(u[1]=b=>f("zoomIn")),icon:"zoom_in"}),a($,{onClick:u[2]||(u[2]=b=>f("zoomOut")),icon:"zoom_out"})]),_:1}))]),_:1})]),_:1})]),_:1},8,["modelValue"]))}}),Kt={class:"text-right q-mb-sm"},Yt=ae({__name:"OrderEditModal",setup(s){const e=ke("bus"),t=g(!1),i=g(),n=g(),o=(r={})=>{J.get(`/order/${n.value}`).then(l=>{r.onlyTotals&&i.value?(i.value.total_price=l.data.total_price,i.value.total_price_gst=l.data.total_price_gst,i.value.grand_total_price=l.data.grand_total_price,l.data.products.length!==i.value.products.length&&(i.value.products=l.data.products)):i.value=l.data,t.value=!0}).catch(l=>{me(l)})};return we(()=>{e.on("editOrderModal",r=>{n.value=r,o()})}),bt(()=>{e.off("editOrderModal")}),(r,l)=>(x(),S(re,{modelValue:t.value,"onUpdate:modelValue":l[0]||(l[0]=p=>t.value=p)},{default:c(()=>[a(de,{class:"modal-lg"},{default:c(()=>[a(j,null,{default:c(()=>[M("div",Kt,[Qe(a($,{round:"",dense:"",flat:"",icon:"close"},null,512),[[Ke]])]),i.value?(x(),S(Lt,{key:0,model:i.value,"onUpdate:order":o,"no-notes":!0},null,8,["model"])):B("",!0)]),_:1})]),_:1})]),_:1},8,["modelValue"]))}}),jt=()=>{const s=Ot();return{user:k(()=>s.data)}},q=Object.create(null);q.open="0";q.close="1";q.ping="2";q.pong="3";q.message="4";q.upgrade="5";q.noop="6";const se=Object.create(null);Object.keys(q).forEach(s=>{se[q[s]]=s});const Wt={type:"error",data:"parser error"},Jt=typeof Blob=="function"||typeof Blob!="undefined"&&Object.prototype.toString.call(Blob)==="[object BlobConstructor]",Xt=typeof ArrayBuffer=="function",Gt=s=>typeof ArrayBuffer.isView=="function"?ArrayBuffer.isView(s):s&&s.buffer instanceof ArrayBuffer,je=({type:s,data:e},t,i)=>Jt&&e instanceof Blob?t?i(e):Se(e,i):Xt&&(e instanceof ArrayBuffer||Gt(e))?t?i(e):Se(new Blob([e]),i):i(q[s]+(e||"")),Se=(s,e)=>{const t=new FileReader;return t.onload=function(){const i=t.result.split(",")[1];e("b"+(i||""))},t.readAsDataURL(s)},Be="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",W=typeof Uint8Array=="undefined"?[]:new Uint8Array(256);for(let s=0;s<Be.length;s++)W[Be.charCodeAt(s)]=s;const Zt=s=>{let e=s.length*.75,t=s.length,i,n=0,o,r,l,p;s[s.length-1]==="="&&(e--,s[s.length-2]==="="&&e--);const f=new ArrayBuffer(e),h=new Uint8Array(f);for(i=0;i<t;i+=4)o=W[s.charCodeAt(i)],r=W[s.charCodeAt(i+1)],l=W[s.charCodeAt(i+2)],p=W[s.charCodeAt(i+3)],h[n++]=o<<2|r>>4,h[n++]=(r&15)<<4|l>>2,h[n++]=(l&3)<<6|p&63;return f},es=typeof ArrayBuffer=="function",We=(s,e)=>{if(typeof s!="string")return{type:"message",data:Je(s,e)};const t=s.charAt(0);return t==="b"?{type:"message",data:ts(s.substring(1),e)}:se[t]?s.length>1?{type:se[t],data:s.substring(1)}:{type:se[t]}:Wt},ts=(s,e)=>{if(es){const t=Zt(s);return Je(t,e)}else return{base64:!0,data:s}},Je=(s,e)=>{switch(e){case"blob":return s instanceof ArrayBuffer?new Blob([s]):s;case"arraybuffer":default:return s}},Xe=String.fromCharCode(30),ss=(s,e)=>{const t=s.length,i=new Array(t);let n=0;s.forEach((o,r)=>{je(o,!1,l=>{i[r]=l,++n===t&&e(i.join(Xe))})})},is=(s,e)=>{const t=s.split(Xe),i=[];for(let n=0;n<t.length;n++){const o=We(t[n],e);if(i.push(o),o.type==="error")break}return i},Ge=4;function v(s){if(s)return ns(s)}function ns(s){for(var e in v.prototype)s[e]=v.prototype[e];return s}v.prototype.on=v.prototype.addEventListener=function(s,e){return this._callbacks=this._callbacks||{},(this._callbacks["$"+s]=this._callbacks["$"+s]||[]).push(e),this};v.prototype.once=function(s,e){function t(){this.off(s,t),e.apply(this,arguments)}return t.fn=e,this.on(s,t),this};v.prototype.off=v.prototype.removeListener=v.prototype.removeAllListeners=v.prototype.removeEventListener=function(s,e){if(this._callbacks=this._callbacks||{},arguments.length==0)return this._callbacks={},this;var t=this._callbacks["$"+s];if(!t)return this;if(arguments.length==1)return delete this._callbacks["$"+s],this;for(var i,n=0;n<t.length;n++)if(i=t[n],i===e||i.fn===e){t.splice(n,1);break}return t.length===0&&delete this._callbacks["$"+s],this};v.prototype.emit=function(s){this._callbacks=this._callbacks||{};for(var e=new Array(arguments.length-1),t=this._callbacks["$"+s],i=1;i<arguments.length;i++)e[i-1]=arguments[i];if(t){t=t.slice(0);for(var i=0,n=t.length;i<n;++i)t[i].apply(this,e)}return this};v.prototype.emitReserved=v.prototype.emit;v.prototype.listeners=function(s){return this._callbacks=this._callbacks||{},this._callbacks["$"+s]||[]};v.prototype.hasListeners=function(s){return!!this.listeners(s).length};const A=(()=>typeof self!="undefined"?self:typeof window!="undefined"?window:Function("return this")())();function Ze(s,...e){return e.reduce((t,i)=>(s.hasOwnProperty(i)&&(t[i]=s[i]),t),{})}const rs=A.setTimeout,os=A.clearTimeout;function le(s,e){e.useNativeTimers?(s.setTimeoutFn=rs.bind(A),s.clearTimeoutFn=os.bind(A)):(s.setTimeoutFn=A.setTimeout.bind(A),s.clearTimeoutFn=A.clearTimeout.bind(A))}const as=1.33;function ls(s){return typeof s=="string"?cs(s):Math.ceil((s.byteLength||s.size)*as)}function cs(s){let e=0,t=0;for(let i=0,n=s.length;i<n;i++)e=s.charCodeAt(i),e<128?t+=1:e<2048?t+=2:e<55296||e>=57344?t+=3:(i++,t+=4);return t}class us extends Error{constructor(e,t,i){super(e),this.description=t,this.context=i,this.type="TransportError"}}class et extends v{constructor(e){super(),this.writable=!1,le(this,e),this.opts=e,this.query=e.query,this.socket=e.socket}onError(e,t,i){return super.emitReserved("error",new us(e,t,i)),this}open(){return this.readyState="opening",this.doOpen(),this}close(){return(this.readyState==="opening"||this.readyState==="open")&&(this.doClose(),this.onClose()),this}send(e){this.readyState==="open"&&this.write(e)}onOpen(){this.readyState="open",this.writable=!0,super.emitReserved("open")}onData(e){const t=We(e,this.socket.binaryType);this.onPacket(t)}onPacket(e){super.emitReserved("packet",e)}onClose(e){this.readyState="closed",super.emitReserved("close",e)}pause(e){}}const tt="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_".split(""),ye=64,hs={};let Ne=0,Z=0,Le;function qe(s){let e="";do e=tt[s%ye]+e,s=Math.floor(s/ye);while(s>0);return e}function st(){const s=qe(+new Date);return s!==Le?(Ne=0,Le=s):s+"."+qe(Ne++)}for(;Z<ye;Z++)hs[tt[Z]]=Z;function it(s){let e="";for(let t in s)s.hasOwnProperty(t)&&(e.length&&(e+="&"),e+=encodeURIComponent(t)+"="+encodeURIComponent(s[t]));return e}function fs(s){let e={},t=s.split("&");for(let i=0,n=t.length;i<n;i++){let o=t[i].split("=");e[decodeURIComponent(o[0])]=decodeURIComponent(o[1])}return e}let nt=!1;try{nt=typeof XMLHttpRequest!="undefined"&&"withCredentials"in new XMLHttpRequest}catch{}const ds=nt;function rt(s){const e=s.xdomain;try{if(typeof XMLHttpRequest!="undefined"&&(!e||ds))return new XMLHttpRequest}catch{}if(!e)try{return new A[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP")}catch{}}function ps(){}const ms=function(){return new rt({xdomain:!1}).responseType!=null}();class ys extends et{constructor(e){if(super(e),this.polling=!1,typeof location!="undefined"){const i=location.protocol==="https:";let n=location.port;n||(n=i?"443":"80"),this.xd=typeof location!="undefined"&&e.hostname!==location.hostname||n!==e.port,this.xs=e.secure!==i}const t=e&&e.forceBase64;this.supportsBinary=ms&&!t}get name(){return"polling"}doOpen(){this.poll()}pause(e){this.readyState="pausing";const t=()=>{this.readyState="paused",e()};if(this.polling||!this.writable){let i=0;this.polling&&(i++,this.once("pollComplete",function(){--i||t()})),this.writable||(i++,this.once("drain",function(){--i||t()}))}else t()}poll(){this.polling=!0,this.doPoll(),this.emitReserved("poll")}onData(e){const t=i=>{if(this.readyState==="opening"&&i.type==="open"&&this.onOpen(),i.type==="close")return this.onClose({description:"transport closed by the server"}),!1;this.onPacket(i)};is(e,this.socket.binaryType).forEach(t),this.readyState!=="closed"&&(this.polling=!1,this.emitReserved("pollComplete"),this.readyState==="open"&&this.poll())}doClose(){const e=()=>{this.write([{type:"close"}])};this.readyState==="open"?e():this.once("open",e)}write(e){this.writable=!1,ss(e,t=>{this.doWrite(t,()=>{this.writable=!0,this.emitReserved("drain")})})}uri(){let e=this.query||{};const t=this.opts.secure?"https":"http";let i="";this.opts.timestampRequests!==!1&&(e[this.opts.timestampParam]=st()),!this.supportsBinary&&!e.sid&&(e.b64=1),this.opts.port&&(t==="https"&&Number(this.opts.port)!==443||t==="http"&&Number(this.opts.port)!==80)&&(i=":"+this.opts.port);const n=it(e),o=this.opts.hostname.indexOf(":")!==-1;return t+"://"+(o?"["+this.opts.hostname+"]":this.opts.hostname)+i+this.opts.path+(n.length?"?"+n:"")}request(e={}){return Object.assign(e,{xd:this.xd,xs:this.xs},this.opts),new L(this.uri(),e)}doWrite(e,t){const i=this.request({method:"POST",data:e});i.on("success",t),i.on("error",(n,o)=>{this.onError("xhr post error",n,o)})}doPoll(){const e=this.request();e.on("data",this.onData.bind(this)),e.on("error",(t,i)=>{this.onError("xhr poll error",t,i)}),this.pollXhr=e}}class L extends v{constructor(e,t){super(),le(this,t),this.opts=t,this.method=t.method||"GET",this.uri=e,this.async=t.async!==!1,this.data=t.data!==void 0?t.data:null,this.create()}create(){const e=Ze(this.opts,"agent","pfx","key","passphrase","cert","ca","ciphers","rejectUnauthorized","autoUnref");e.xdomain=!!this.opts.xd,e.xscheme=!!this.opts.xs;const t=this.xhr=new rt(e);try{t.open(this.method,this.uri,this.async);try{if(this.opts.extraHeaders){t.setDisableHeaderCheck&&t.setDisableHeaderCheck(!0);for(let i in this.opts.extraHeaders)this.opts.extraHeaders.hasOwnProperty(i)&&t.setRequestHeader(i,this.opts.extraHeaders[i])}}catch{}if(this.method==="POST")try{t.setRequestHeader("Content-type","text/plain;charset=UTF-8")}catch{}try{t.setRequestHeader("Accept","*/*")}catch{}"withCredentials"in t&&(t.withCredentials=this.opts.withCredentials),this.opts.requestTimeout&&(t.timeout=this.opts.requestTimeout),t.onreadystatechange=()=>{t.readyState===4&&(t.status===200||t.status===1223?this.onLoad():this.setTimeoutFn(()=>{this.onError(typeof t.status=="number"?t.status:0)},0))},t.send(this.data)}catch(i){this.setTimeoutFn(()=>{this.onError(i)},0);return}typeof document!="undefined"&&(this.index=L.requestsCount++,L.requests[this.index]=this)}onError(e){this.emitReserved("error",e,this.xhr),this.cleanup(!0)}cleanup(e){if(!(typeof this.xhr=="undefined"||this.xhr===null)){if(this.xhr.onreadystatechange=ps,e)try{this.xhr.abort()}catch{}typeof document!="undefined"&&delete L.requests[this.index],this.xhr=null}}onLoad(){const e=this.xhr.responseText;e!==null&&(this.emitReserved("data",e),this.emitReserved("success"),this.cleanup())}abort(){this.cleanup()}}L.requestsCount=0;L.requests={};if(typeof document!="undefined"){if(typeof attachEvent=="function")attachEvent("onunload",Pe);else if(typeof addEventListener=="function"){const s="onpagehide"in A?"pagehide":"unload";addEventListener(s,Pe,!1)}}function Pe(){for(let s in L.requests)L.requests.hasOwnProperty(s)&&L.requests[s].abort()}const ot=(()=>typeof Promise=="function"&&typeof Promise.resolve=="function"?e=>Promise.resolve().then(e):(e,t)=>t(e,0))(),ee=A.WebSocket||A.MozWebSocket,Ve=!0,gs="arraybuffer",$e=typeof navigator!="undefined"&&typeof navigator.product=="string"&&navigator.product.toLowerCase()==="reactnative";class vs extends et{constructor(e){super(e),this.supportsBinary=!e.forceBase64}get name(){return"websocket"}doOpen(){if(!this.check())return;const e=this.uri(),t=this.opts.protocols,i=$e?{}:Ze(this.opts,"agent","perMessageDeflate","pfx","key","passphrase","cert","ca","ciphers","rejectUnauthorized","localAddress","protocolVersion","origin","maxPayload","family","checkServerIdentity");this.opts.extraHeaders&&(i.headers=this.opts.extraHeaders);try{this.ws=Ve&&!$e?t?new ee(e,t):new ee(e):new ee(e,t,i)}catch(n){return this.emitReserved("error",n)}this.ws.binaryType=this.socket.binaryType||gs,this.addEventListeners()}addEventListeners(){this.ws.onopen=()=>{this.opts.autoUnref&&this.ws._socket.unref(),this.onOpen()},this.ws.onclose=e=>this.onClose({description:"websocket connection closed",context:e}),this.ws.onmessage=e=>this.onData(e.data),this.ws.onerror=e=>this.onError("websocket error",e)}write(e){this.writable=!1;for(let t=0;t<e.length;t++){const i=e[t],n=t===e.length-1;je(i,this.supportsBinary,o=>{const r={};try{Ve&&this.ws.send(o)}catch{}n&&ot(()=>{this.writable=!0,this.emitReserved("drain")},this.setTimeoutFn)})}}doClose(){typeof this.ws!="undefined"&&(this.ws.close(),this.ws=null)}uri(){let e=this.query||{};const t=this.opts.secure?"wss":"ws";let i="";this.opts.port&&(t==="wss"&&Number(this.opts.port)!==443||t==="ws"&&Number(this.opts.port)!==80)&&(i=":"+this.opts.port),this.opts.timestampRequests&&(e[this.opts.timestampParam]=st()),this.supportsBinary||(e.b64=1);const n=it(e),o=this.opts.hostname.indexOf(":")!==-1;return t+"://"+(o?"["+this.opts.hostname+"]":this.opts.hostname)+i+this.opts.path+(n.length?"?"+n:"")}check(){return!!ee}}const _s={websocket:vs,polling:ys},bs=/^(?:(?![^:@\/?#]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@\/?#]*)(?::([^:@\/?#]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/,ws=["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"];function ge(s){const e=s,t=s.indexOf("["),i=s.indexOf("]");t!=-1&&i!=-1&&(s=s.substring(0,t)+s.substring(t,i).replace(/:/g,";")+s.substring(i,s.length));let n=bs.exec(s||""),o={},r=14;for(;r--;)o[ws[r]]=n[r]||"";return t!=-1&&i!=-1&&(o.source=e,o.host=o.host.substring(1,o.host.length-1).replace(/;/g,":"),o.authority=o.authority.replace("[","").replace("]","").replace(/;/g,":"),o.ipv6uri=!0),o.pathNames=ks(o,o.path),o.queryKey=Es(o,o.query),o}function ks(s,e){const t=/\/{2,9}/g,i=e.replace(t,"/").split("/");return(e.slice(0,1)=="/"||e.length===0)&&i.splice(0,1),e.slice(-1)=="/"&&i.splice(i.length-1,1),i}function Es(s,e){const t={};return e.replace(/(?:^|&)([^&=]*)=?([^&]*)/g,function(i,n,o){n&&(t[n]=o)}),t}class D extends v{constructor(e,t={}){super(),this.writeBuffer=[],e&&typeof e=="object"&&(t=e,e=null),e?(e=ge(e),t.hostname=e.host,t.secure=e.protocol==="https"||e.protocol==="wss",t.port=e.port,e.query&&(t.query=e.query)):t.host&&(t.hostname=ge(t.host).host),le(this,t),this.secure=t.secure!=null?t.secure:typeof location!="undefined"&&location.protocol==="https:",t.hostname&&!t.port&&(t.port=this.secure?"443":"80"),this.hostname=t.hostname||(typeof location!="undefined"?location.hostname:"localhost"),this.port=t.port||(typeof location!="undefined"&&location.port?location.port:this.secure?"443":"80"),this.transports=t.transports||["polling","websocket"],this.writeBuffer=[],this.prevBufferLen=0,this.opts=Object.assign({path:"/engine.io",agent:!1,withCredentials:!1,upgrade:!0,timestampParam:"t",rememberUpgrade:!1,addTrailingSlash:!0,rejectUnauthorized:!0,perMessageDeflate:{threshold:1024},transportOptions:{},closeOnBeforeunload:!0},t),this.opts.path=this.opts.path.replace(/\/$/,"")+(this.opts.addTrailingSlash?"/":""),typeof this.opts.query=="string"&&(this.opts.query=fs(this.opts.query)),this.id=null,this.upgrades=null,this.pingInterval=null,this.pingTimeout=null,this.pingTimeoutTimer=null,typeof addEventListener=="function"&&(this.opts.closeOnBeforeunload&&(this.beforeunloadEventListener=()=>{this.transport&&(this.transport.removeAllListeners(),this.transport.close())},addEventListener("beforeunload",this.beforeunloadEventListener,!1)),this.hostname!=="localhost"&&(this.offlineEventListener=()=>{this.onClose("transport close",{description:"network connection lost"})},addEventListener("offline",this.offlineEventListener,!1))),this.open()}createTransport(e){const t=Object.assign({},this.opts.query);t.EIO=Ge,t.transport=e,this.id&&(t.sid=this.id);const i=Object.assign({},this.opts.transportOptions[e],this.opts,{query:t,socket:this,hostname:this.hostname,secure:this.secure,port:this.port});return new _s[e](i)}open(){let e;if(this.opts.rememberUpgrade&&D.priorWebsocketSuccess&&this.transports.indexOf("websocket")!==-1)e="websocket";else if(this.transports.length===0){this.setTimeoutFn(()=>{this.emitReserved("error","No transports available")},0);return}else e=this.transports[0];this.readyState="opening";try{e=this.createTransport(e)}catch{this.transports.shift(),this.open();return}e.open(),this.setTransport(e)}setTransport(e){this.transport&&this.transport.removeAllListeners(),this.transport=e,e.on("drain",this.onDrain.bind(this)).on("packet",this.onPacket.bind(this)).on("error",this.onError.bind(this)).on("close",t=>this.onClose("transport close",t))}probe(e){let t=this.createTransport(e),i=!1;D.priorWebsocketSuccess=!1;const n=()=>{i||(t.send([{type:"ping",data:"probe"}]),t.once("packet",u=>{if(!i)if(u.type==="pong"&&u.data==="probe"){if(this.upgrading=!0,this.emitReserved("upgrading",t),!t)return;D.priorWebsocketSuccess=t.name==="websocket",this.transport.pause(()=>{i||this.readyState!=="closed"&&(h(),this.setTransport(t),t.send([{type:"upgrade"}]),this.emitReserved("upgrade",t),t=null,this.upgrading=!1,this.flush())})}else{const b=new Error("probe error");b.transport=t.name,this.emitReserved("upgradeError",b)}}))};function o(){i||(i=!0,h(),t.close(),t=null)}const r=u=>{const b=new Error("probe error: "+u);b.transport=t.name,o(),this.emitReserved("upgradeError",b)};function l(){r("transport closed")}function p(){r("socket closed")}function f(u){t&&u.name!==t.name&&o()}const h=()=>{t.removeListener("open",n),t.removeListener("error",r),t.removeListener("close",l),this.off("close",p),this.off("upgrading",f)};t.once("open",n),t.once("error",r),t.once("close",l),this.once("close",p),this.once("upgrading",f),t.open()}onOpen(){if(this.readyState="open",D.priorWebsocketSuccess=this.transport.name==="websocket",this.emitReserved("open"),this.flush(),this.readyState==="open"&&this.opts.upgrade){let e=0;const t=this.upgrades.length;for(;e<t;e++)this.probe(this.upgrades[e])}}onPacket(e){if(this.readyState==="opening"||this.readyState==="open"||this.readyState==="closing")switch(this.emitReserved("packet",e),this.emitReserved("heartbeat"),e.type){case"open":this.onHandshake(JSON.parse(e.data));break;case"ping":this.resetPingTimeout(),this.sendPacket("pong"),this.emitReserved("ping"),this.emitReserved("pong");break;case"error":const t=new Error("server error");t.code=e.data,this.onError(t);break;case"message":this.emitReserved("data",e.data),this.emitReserved("message",e.data);break}}onHandshake(e){this.emitReserved("handshake",e),this.id=e.sid,this.transport.query.sid=e.sid,this.upgrades=this.filterUpgrades(e.upgrades),this.pingInterval=e.pingInterval,this.pingTimeout=e.pingTimeout,this.maxPayload=e.maxPayload,this.onOpen(),this.readyState!=="closed"&&this.resetPingTimeout()}resetPingTimeout(){this.clearTimeoutFn(this.pingTimeoutTimer),this.pingTimeoutTimer=this.setTimeoutFn(()=>{this.onClose("ping timeout")},this.pingInterval+this.pingTimeout),this.opts.autoUnref&&this.pingTimeoutTimer.unref()}onDrain(){this.writeBuffer.splice(0,this.prevBufferLen),this.prevBufferLen=0,this.writeBuffer.length===0?this.emitReserved("drain"):this.flush()}flush(){if(this.readyState!=="closed"&&this.transport.writable&&!this.upgrading&&this.writeBuffer.length){const e=this.getWritablePackets();this.transport.send(e),this.prevBufferLen=e.length,this.emitReserved("flush")}}getWritablePackets(){if(!(this.maxPayload&&this.transport.name==="polling"&&this.writeBuffer.length>1))return this.writeBuffer;let t=1;for(let i=0;i<this.writeBuffer.length;i++){const n=this.writeBuffer[i].data;if(n&&(t+=ls(n)),i>0&&t>this.maxPayload)return this.writeBuffer.slice(0,i);t+=2}return this.writeBuffer}write(e,t,i){return this.sendPacket("message",e,t,i),this}send(e,t,i){return this.sendPacket("message",e,t,i),this}sendPacket(e,t,i,n){if(typeof t=="function"&&(n=t,t=void 0),typeof i=="function"&&(n=i,i=null),this.readyState==="closing"||this.readyState==="closed")return;i=i||{},i.compress=i.compress!==!1;const o={type:e,data:t,options:i};this.emitReserved("packetCreate",o),this.writeBuffer.push(o),n&&this.once("flush",n),this.flush()}close(){const e=()=>{this.onClose("forced close"),this.transport.close()},t=()=>{this.off("upgrade",t),this.off("upgradeError",t),e()},i=()=>{this.once("upgrade",t),this.once("upgradeError",t)};return(this.readyState==="opening"||this.readyState==="open")&&(this.readyState="closing",this.writeBuffer.length?this.once("drain",()=>{this.upgrading?i():e()}):this.upgrading?i():e()),this}onError(e){D.priorWebsocketSuccess=!1,this.emitReserved("error",e),this.onClose("transport error",e)}onClose(e,t){(this.readyState==="opening"||this.readyState==="open"||this.readyState==="closing")&&(this.clearTimeoutFn(this.pingTimeoutTimer),this.transport.removeAllListeners("close"),this.transport.close(),this.transport.removeAllListeners(),typeof removeEventListener=="function"&&(removeEventListener("beforeunload",this.beforeunloadEventListener,!1),removeEventListener("offline",this.offlineEventListener,!1)),this.readyState="closed",this.id=null,this.emitReserved("close",e,t),this.writeBuffer=[],this.prevBufferLen=0)}filterUpgrades(e){const t=[];let i=0;const n=e.length;for(;i<n;i++)~this.transports.indexOf(e[i])&&t.push(e[i]);return t}}D.protocol=Ge;function xs(s,e="",t){let i=s;t=t||typeof location!="undefined"&&location,s==null&&(s=t.protocol+"//"+t.host),typeof s=="string"&&(s.charAt(0)==="/"&&(s.charAt(1)==="/"?s=t.protocol+s:s=t.host+s),/^(https?|wss?):\/\//.test(s)||(typeof t!="undefined"?s=t.protocol+"//"+s:s="https://"+s),i=ge(s)),i.port||(/^(http|ws)$/.test(i.protocol)?i.port="80":/^(http|ws)s$/.test(i.protocol)&&(i.port="443")),i.path=i.path||"/";const o=i.host.indexOf(":")!==-1?"["+i.host+"]":i.host;return i.id=i.protocol+"://"+o+":"+i.port+e,i.href=i.protocol+"://"+o+(t&&t.port===i.port?"":":"+i.port),i}const Rs=typeof ArrayBuffer=="function",As=s=>typeof ArrayBuffer.isView=="function"?ArrayBuffer.isView(s):s.buffer instanceof ArrayBuffer,at=Object.prototype.toString,Cs=typeof Blob=="function"||typeof Blob!="undefined"&&at.call(Blob)==="[object BlobConstructor]",Os=typeof File=="function"||typeof File!="undefined"&&at.call(File)==="[object FileConstructor]";function xe(s){return Rs&&(s instanceof ArrayBuffer||As(s))||Cs&&s instanceof Blob||Os&&s instanceof File}function ie(s,e){if(!s||typeof s!="object")return!1;if(Array.isArray(s)){for(let t=0,i=s.length;t<i;t++)if(ie(s[t]))return!0;return!1}if(xe(s))return!0;if(s.toJSON&&typeof s.toJSON=="function"&&arguments.length===1)return ie(s.toJSON(),!0);for(const t in s)if(Object.prototype.hasOwnProperty.call(s,t)&&ie(s[t]))return!0;return!1}function Ts(s){const e=[],t=s.data,i=s;return i.data=ve(t,e),i.attachments=e.length,{packet:i,buffers:e}}function ve(s,e){if(!s)return s;if(xe(s)){const t={_placeholder:!0,num:e.length};return e.push(s),t}else if(Array.isArray(s)){const t=new Array(s.length);for(let i=0;i<s.length;i++)t[i]=ve(s[i],e);return t}else if(typeof s=="object"&&!(s instanceof Date)){const t={};for(const i in s)Object.prototype.hasOwnProperty.call(s,i)&&(t[i]=ve(s[i],e));return t}return s}function Ss(s,e){return s.data=_e(s.data,e),delete s.attachments,s}function _e(s,e){if(!s)return s;if(s&&s._placeholder===!0){if(typeof s.num=="number"&&s.num>=0&&s.num<e.length)return e[s.num];throw new Error("illegal attachments")}else if(Array.isArray(s))for(let t=0;t<s.length;t++)s[t]=_e(s[t],e);else if(typeof s=="object")for(const t in s)Object.prototype.hasOwnProperty.call(s,t)&&(s[t]=_e(s[t],e));return s}const Bs=5;var d;(function(s){s[s.CONNECT=0]="CONNECT",s[s.DISCONNECT=1]="DISCONNECT",s[s.EVENT=2]="EVENT",s[s.ACK=3]="ACK",s[s.CONNECT_ERROR=4]="CONNECT_ERROR",s[s.BINARY_EVENT=5]="BINARY_EVENT",s[s.BINARY_ACK=6]="BINARY_ACK"})(d||(d={}));class Ns{constructor(e){this.replacer=e}encode(e){return(e.type===d.EVENT||e.type===d.ACK)&&ie(e)?this.encodeAsBinary({type:e.type===d.EVENT?d.BINARY_EVENT:d.BINARY_ACK,nsp:e.nsp,data:e.data,id:e.id}):[this.encodeAsString(e)]}encodeAsString(e){let t=""+e.type;return(e.type===d.BINARY_EVENT||e.type===d.BINARY_ACK)&&(t+=e.attachments+"-"),e.nsp&&e.nsp!=="/"&&(t+=e.nsp+","),e.id!=null&&(t+=e.id),e.data!=null&&(t+=JSON.stringify(e.data,this.replacer)),t}encodeAsBinary(e){const t=Ts(e),i=this.encodeAsString(t.packet),n=t.buffers;return n.unshift(i),n}}class Re extends v{constructor(e){super(),this.reviver=e}add(e){let t;if(typeof e=="string"){if(this.reconstructor)throw new Error("got plaintext data when reconstructing a packet");t=this.decodeString(e);const i=t.type===d.BINARY_EVENT;i||t.type===d.BINARY_ACK?(t.type=i?d.EVENT:d.ACK,this.reconstructor=new Ls(t),t.attachments===0&&super.emitReserved("decoded",t)):super.emitReserved("decoded",t)}else if(xe(e)||e.base64)if(this.reconstructor)t=this.reconstructor.takeBinaryData(e),t&&(this.reconstructor=null,super.emitReserved("decoded",t));else throw new Error("got binary data when not reconstructing a packet");else throw new Error("Unknown type: "+e)}decodeString(e){let t=0;const i={type:Number(e.charAt(0))};if(d[i.type]===void 0)throw new Error("unknown packet type "+i.type);if(i.type===d.BINARY_EVENT||i.type===d.BINARY_ACK){const o=t+1;for(;e.charAt(++t)!=="-"&&t!=e.length;);const r=e.substring(o,t);if(r!=Number(r)||e.charAt(t)!=="-")throw new Error("Illegal attachments");i.attachments=Number(r)}if(e.charAt(t+1)==="/"){const o=t+1;for(;++t&&!(e.charAt(t)===","||t===e.length););i.nsp=e.substring(o,t)}else i.nsp="/";const n=e.charAt(t+1);if(n!==""&&Number(n)==n){const o=t+1;for(;++t;){const r=e.charAt(t);if(r==null||Number(r)!=r){--t;break}if(t===e.length)break}i.id=Number(e.substring(o,t+1))}if(e.charAt(++t)){const o=this.tryParse(e.substr(t));if(Re.isPayloadValid(i.type,o))i.data=o;else throw new Error("invalid payload")}return i}tryParse(e){try{return JSON.parse(e,this.reviver)}catch{return!1}}static isPayloadValid(e,t){switch(e){case d.CONNECT:return typeof t=="object";case d.DISCONNECT:return t===void 0;case d.CONNECT_ERROR:return typeof t=="string"||typeof t=="object";case d.EVENT:case d.BINARY_EVENT:return Array.isArray(t)&&t.length>0;case d.ACK:case d.BINARY_ACK:return Array.isArray(t)}}destroy(){this.reconstructor&&(this.reconstructor.finishedReconstruction(),this.reconstructor=null)}}class Ls{constructor(e){this.packet=e,this.buffers=[],this.reconPack=e}takeBinaryData(e){if(this.buffers.push(e),this.buffers.length===this.reconPack.attachments){const t=Ss(this.reconPack,this.buffers);return this.finishedReconstruction(),t}return null}finishedReconstruction(){this.reconPack=null,this.buffers=[]}}var qs=Object.freeze(Object.defineProperty({__proto__:null,protocol:Bs,get PacketType(){return d},Encoder:Ns,Decoder:Re},Symbol.toStringTag,{value:"Module"}));function T(s,e,t){return s.on(e,t),function(){s.off(e,t)}}const Ps=Object.freeze({connect:1,connect_error:1,disconnect:1,disconnecting:1,newListener:1,removeListener:1});class lt extends v{constructor(e,t,i){super(),this.connected=!1,this.recovered=!1,this.receiveBuffer=[],this.sendBuffer=[],this._queue=[],this._queueSeq=0,this.ids=0,this.acks={},this.flags={},this.io=e,this.nsp=t,i&&i.auth&&(this.auth=i.auth),this._opts=Object.assign({},i),this.io._autoConnect&&this.open()}get disconnected(){return!this.connected}subEvents(){if(this.subs)return;const e=this.io;this.subs=[T(e,"open",this.onopen.bind(this)),T(e,"packet",this.onpacket.bind(this)),T(e,"error",this.onerror.bind(this)),T(e,"close",this.onclose.bind(this))]}get active(){return!!this.subs}connect(){return this.connected?this:(this.subEvents(),this.io._reconnecting||this.io.open(),this.io._readyState==="open"&&this.onopen(),this)}open(){return this.connect()}send(...e){return e.unshift("message"),this.emit.apply(this,e),this}emit(e,...t){if(Ps.hasOwnProperty(e))throw new Error('"'+e.toString()+'" is a reserved event name');if(t.unshift(e),this._opts.retries&&!this.flags.fromQueue&&!this.flags.volatile)return this._addToQueue(t),this;const i={type:d.EVENT,data:t};if(i.options={},i.options.compress=this.flags.compress!==!1,typeof t[t.length-1]=="function"){const r=this.ids++,l=t.pop();this._registerAckCallback(r,l),i.id=r}const n=this.io.engine&&this.io.engine.transport&&this.io.engine.transport.writable;return this.flags.volatile&&(!n||!this.connected)||(this.connected?(this.notifyOutgoingListeners(i),this.packet(i)):this.sendBuffer.push(i)),this.flags={},this}_registerAckCallback(e,t){var i;const n=(i=this.flags.timeout)!==null&&i!==void 0?i:this._opts.ackTimeout;if(n===void 0){this.acks[e]=t;return}const o=this.io.setTimeoutFn(()=>{delete this.acks[e];for(let r=0;r<this.sendBuffer.length;r++)this.sendBuffer[r].id===e&&this.sendBuffer.splice(r,1);t.call(this,new Error("operation has timed out"))},n);this.acks[e]=(...r)=>{this.io.clearTimeoutFn(o),t.apply(this,[null,...r])}}emitWithAck(e,...t){const i=this.flags.timeout!==void 0||this._opts.ackTimeout!==void 0;return new Promise((n,o)=>{t.push((r,l)=>i?r?o(r):n(l):n(r)),this.emit(e,...t)})}_addToQueue(e){let t;typeof e[e.length-1]=="function"&&(t=e.pop());const i={id:this._queueSeq++,tryCount:0,pending:!1,args:e,flags:Object.assign({fromQueue:!0},this.flags)};e.push((n,...o)=>i!==this._queue[0]?void 0:(n!==null?i.tryCount>this._opts.retries&&(this._queue.shift(),t&&t(n)):(this._queue.shift(),t&&t(null,...o)),i.pending=!1,this._drainQueue())),this._queue.push(i),this._drainQueue()}_drainQueue(e=!1){if(!this.connected||this._queue.length===0)return;const t=this._queue[0];t.pending&&!e||(t.pending=!0,t.tryCount++,this.flags=t.flags,this.emit.apply(this,t.args))}packet(e){e.nsp=this.nsp,this.io._packet(e)}onopen(){typeof this.auth=="function"?this.auth(e=>{this._sendConnectPacket(e)}):this._sendConnectPacket(this.auth)}_sendConnectPacket(e){this.packet({type:d.CONNECT,data:this._pid?Object.assign({pid:this._pid,offset:this._lastOffset},e):e})}onerror(e){this.connected||this.emitReserved("connect_error",e)}onclose(e,t){this.connected=!1,delete this.id,this.emitReserved("disconnect",e,t)}onpacket(e){if(e.nsp===this.nsp)switch(e.type){case d.CONNECT:e.data&&e.data.sid?this.onconnect(e.data.sid,e.data.pid):this.emitReserved("connect_error",new Error("It seems you are trying to reach a Socket.IO server in v2.x with a v3.x client, but they are not compatible (more information here: https://socket.io/docs/v3/migrating-from-2-x-to-3-0/)"));break;case d.EVENT:case d.BINARY_EVENT:this.onevent(e);break;case d.ACK:case d.BINARY_ACK:this.onack(e);break;case d.DISCONNECT:this.ondisconnect();break;case d.CONNECT_ERROR:this.destroy();const i=new Error(e.data.message);i.data=e.data.data,this.emitReserved("connect_error",i);break}}onevent(e){const t=e.data||[];e.id!=null&&t.push(this.ack(e.id)),this.connected?this.emitEvent(t):this.receiveBuffer.push(Object.freeze(t))}emitEvent(e){if(this._anyListeners&&this._anyListeners.length){const t=this._anyListeners.slice();for(const i of t)i.apply(this,e)}super.emit.apply(this,e),this._pid&&e.length&&typeof e[e.length-1]=="string"&&(this._lastOffset=e[e.length-1])}ack(e){const t=this;let i=!1;return function(...n){i||(i=!0,t.packet({type:d.ACK,id:e,data:n}))}}onack(e){const t=this.acks[e.id];typeof t=="function"&&(t.apply(this,e.data),delete this.acks[e.id])}onconnect(e,t){this.id=e,this.recovered=t&&this._pid===t,this._pid=t,this.connected=!0,this.emitBuffered(),this.emitReserved("connect"),this._drainQueue(!0)}emitBuffered(){this.receiveBuffer.forEach(e=>this.emitEvent(e)),this.receiveBuffer=[],this.sendBuffer.forEach(e=>{this.notifyOutgoingListeners(e),this.packet(e)}),this.sendBuffer=[]}ondisconnect(){this.destroy(),this.onclose("io server disconnect")}destroy(){this.subs&&(this.subs.forEach(e=>e()),this.subs=void 0),this.io._destroy(this)}disconnect(){return this.connected&&this.packet({type:d.DISCONNECT}),this.destroy(),this.connected&&this.onclose("io client disconnect"),this}close(){return this.disconnect()}compress(e){return this.flags.compress=e,this}get volatile(){return this.flags.volatile=!0,this}timeout(e){return this.flags.timeout=e,this}onAny(e){return this._anyListeners=this._anyListeners||[],this._anyListeners.push(e),this}prependAny(e){return this._anyListeners=this._anyListeners||[],this._anyListeners.unshift(e),this}offAny(e){if(!this._anyListeners)return this;if(e){const t=this._anyListeners;for(let i=0;i<t.length;i++)if(e===t[i])return t.splice(i,1),this}else this._anyListeners=[];return this}listenersAny(){return this._anyListeners||[]}onAnyOutgoing(e){return this._anyOutgoingListeners=this._anyOutgoingListeners||[],this._anyOutgoingListeners.push(e),this}prependAnyOutgoing(e){return this._anyOutgoingListeners=this._anyOutgoingListeners||[],this._anyOutgoingListeners.unshift(e),this}offAnyOutgoing(e){if(!this._anyOutgoingListeners)return this;if(e){const t=this._anyOutgoingListeners;for(let i=0;i<t.length;i++)if(e===t[i])return t.splice(i,1),this}else this._anyOutgoingListeners=[];return this}listenersAnyOutgoing(){return this._anyOutgoingListeners||[]}notifyOutgoingListeners(e){if(this._anyOutgoingListeners&&this._anyOutgoingListeners.length){const t=this._anyOutgoingListeners.slice();for(const i of t)i.apply(this,e.data)}}}function U(s){s=s||{},this.ms=s.min||100,this.max=s.max||1e4,this.factor=s.factor||2,this.jitter=s.jitter>0&&s.jitter<=1?s.jitter:0,this.attempts=0}U.prototype.duration=function(){var s=this.ms*Math.pow(this.factor,this.attempts++);if(this.jitter){var e=Math.random(),t=Math.floor(e*this.jitter*s);s=(Math.floor(e*10)&1)==0?s-t:s+t}return Math.min(s,this.max)|0};U.prototype.reset=function(){this.attempts=0};U.prototype.setMin=function(s){this.ms=s};U.prototype.setMax=function(s){this.max=s};U.prototype.setJitter=function(s){this.jitter=s};class be extends v{constructor(e,t){var i;super(),this.nsps={},this.subs=[],e&&typeof e=="object"&&(t=e,e=void 0),t=t||{},t.path=t.path||"/socket.io",this.opts=t,le(this,t),this.reconnection(t.reconnection!==!1),this.reconnectionAttempts(t.reconnectionAttempts||1/0),this.reconnectionDelay(t.reconnectionDelay||1e3),this.reconnectionDelayMax(t.reconnectionDelayMax||5e3),this.randomizationFactor((i=t.randomizationFactor)!==null&&i!==void 0?i:.5),this.backoff=new U({min:this.reconnectionDelay(),max:this.reconnectionDelayMax(),jitter:this.randomizationFactor()}),this.timeout(t.timeout==null?2e4:t.timeout),this._readyState="closed",this.uri=e;const n=t.parser||qs;this.encoder=new n.Encoder,this.decoder=new n.Decoder,this._autoConnect=t.autoConnect!==!1,this._autoConnect&&this.open()}reconnection(e){return arguments.length?(this._reconnection=!!e,this):this._reconnection}reconnectionAttempts(e){return e===void 0?this._reconnectionAttempts:(this._reconnectionAttempts=e,this)}reconnectionDelay(e){var t;return e===void 0?this._reconnectionDelay:(this._reconnectionDelay=e,(t=this.backoff)===null||t===void 0||t.setMin(e),this)}randomizationFactor(e){var t;return e===void 0?this._randomizationFactor:(this._randomizationFactor=e,(t=this.backoff)===null||t===void 0||t.setJitter(e),this)}reconnectionDelayMax(e){var t;return e===void 0?this._reconnectionDelayMax:(this._reconnectionDelayMax=e,(t=this.backoff)===null||t===void 0||t.setMax(e),this)}timeout(e){return arguments.length?(this._timeout=e,this):this._timeout}maybeReconnectOnOpen(){!this._reconnecting&&this._reconnection&&this.backoff.attempts===0&&this.reconnect()}open(e){if(~this._readyState.indexOf("open"))return this;this.engine=new D(this.uri,this.opts);const t=this.engine,i=this;this._readyState="opening",this.skipReconnect=!1;const n=T(t,"open",function(){i.onopen(),e&&e()}),o=T(t,"error",r=>{i.cleanup(),i._readyState="closed",this.emitReserved("error",r),e?e(r):i.maybeReconnectOnOpen()});if(this._timeout!==!1){const r=this._timeout;r===0&&n();const l=this.setTimeoutFn(()=>{n(),t.close(),t.emit("error",new Error("timeout"))},r);this.opts.autoUnref&&l.unref(),this.subs.push(function(){clearTimeout(l)})}return this.subs.push(n),this.subs.push(o),this}connect(e){return this.open(e)}onopen(){this.cleanup(),this._readyState="open",this.emitReserved("open");const e=this.engine;this.subs.push(T(e,"ping",this.onping.bind(this)),T(e,"data",this.ondata.bind(this)),T(e,"error",this.onerror.bind(this)),T(e,"close",this.onclose.bind(this)),T(this.decoder,"decoded",this.ondecoded.bind(this)))}onping(){this.emitReserved("ping")}ondata(e){try{this.decoder.add(e)}catch(t){this.onclose("parse error",t)}}ondecoded(e){ot(()=>{this.emitReserved("packet",e)},this.setTimeoutFn)}onerror(e){this.emitReserved("error",e)}socket(e,t){let i=this.nsps[e];return i?this._autoConnect&&!i.active&&i.connect():(i=new lt(this,e,t),this.nsps[e]=i),i}_destroy(e){const t=Object.keys(this.nsps);for(const i of t)if(this.nsps[i].active)return;this._close()}_packet(e){const t=this.encoder.encode(e);for(let i=0;i<t.length;i++)this.engine.write(t[i],e.options)}cleanup(){this.subs.forEach(e=>e()),this.subs.length=0,this.decoder.destroy()}_close(){this.skipReconnect=!0,this._reconnecting=!1,this.onclose("forced close"),this.engine&&this.engine.close()}disconnect(){return this._close()}onclose(e,t){this.cleanup(),this.backoff.reset(),this._readyState="closed",this.emitReserved("close",e,t),this._reconnection&&!this.skipReconnect&&this.reconnect()}reconnect(){if(this._reconnecting||this.skipReconnect)return this;const e=this;if(this.backoff.attempts>=this._reconnectionAttempts)this.backoff.reset(),this.emitReserved("reconnect_failed"),this._reconnecting=!1;else{const t=this.backoff.duration();this._reconnecting=!0;const i=this.setTimeoutFn(()=>{e.skipReconnect||(this.emitReserved("reconnect_attempt",e.backoff.attempts),!e.skipReconnect&&e.open(n=>{n?(e._reconnecting=!1,e.reconnect(),this.emitReserved("reconnect_error",n)):e.onreconnect()}))},t);this.opts.autoUnref&&i.unref(),this.subs.push(function(){clearTimeout(i)})}}onreconnect(){const e=this.backoff.attempts;this._reconnecting=!1,this.backoff.reset(),this.emitReserved("reconnect",e)}}const Y={};function ne(s,e){typeof s=="object"&&(e=s,s=void 0),e=e||{};const t=xs(s,e.path||"/socket.io"),i=t.source,n=t.id,o=t.path,r=Y[n]&&o in Y[n].nsps,l=e.forceNew||e["force new connection"]||e.multiplex===!1||r;let p;return l?p=new be(i,e):(Y[n]||(Y[n]=new be(i,e)),p=Y[n]),t.query&&!e.query&&(e.query=t.queryKey),p.socket(t.path,e)}Object.assign(ne,{Manager:be,Socket:lt,io:ne,connect:ne});class Vs{constructor(){Ae(this,"socket");let e="";e=`https://${window.location.hostname}`,this.socket=ne(e)}}const $s=new Vs().socket,Is={class:"q-pa-md text-center"},Ds=M("img",{src:zt,style:{"max-width":"100%","max-height":"115px"}},null,-1),zs=M("p",null,"Your session has timed out!",-1),Qs=M("p",null,"Please refresh the page.",-1),Fs=M("p",null,"Your session has timed out.",-1),Ci=ae({__name:"AppLayout",setup(s){const{user:e}=jt(),t=He(),i=wt(),n=g(!t.screen.xs),o=g(!1),r=g(!1);setInterval(()=>{r.value=!!(e.value&&e.value.lastRequest&&Tt().diff(e.value.lastRequest,"minutes")>=120)},1e3);const l=k(()=>{var f;return(f=i.name)==null?void 0:f.toString()}),p=()=>{window.location.href="/api/auth/logout?from=portal"};return $s.on("newRelease",()=>{setTimeout(()=>{t.notify({icon:"warning",message:"A new version of the system has been deployed.<br/>Click refresh below to ensure you have the most up-to-date version of the system.",html:!0,color:"primary",multiLine:!0,timeout:0,actions:[{label:"Refresh Now",color:"white",handler:()=>{window.location.reload()}}]})},5e3)}),(f,h)=>{const u=Ce("router-link"),b=Ce("router-view");return y(e)&&y(e).id?(x(),S(Me,{key:0,view:"lHh LpR fFf"},{default:c(()=>[a(Fe,{class:"bg-white text-black shadow"},{default:c(()=>[a(pe,{style:{height:"65px"}},{default:c(()=>[y(t).screen.lt.lg?(x(),S($,{key:0,flat:"",dense:"",round:"",onClick:h[0]||(h[0]=C=>n.value=!n.value),"aria-label":"Menu"},{default:c(()=>[a(w,{name:"menu",size:"24px"})]),_:1})):B("",!0),a(Qt,{class:"q-ml-md"}),a(ue),a($,{flat:"",onClick:h[1]||(h[1]=C=>p()),title:"Sign Out"},{default:c(()=>[a(w,{name:"exit_to_app",size:"24px"})]),_:1}),a($,{flat:"",class:"q-mr-xs gt-sm",title:y(e).email,to:{name:"profile"}},{default:c(()=>[a(kt,null,{default:c(()=>[a(Et,{src:"/api/user/useravatar?fetch=thumb"})]),_:1})]),_:1},8,["title"])]),_:1})]),_:1}),a(At,{modelValue:n.value,"onUpdate:modelValue":h[2]||(h[2]=C=>n.value=C),mini:o.value,width:200,class:"bg-dark text-white",bordered:""},{default:c(()=>[M("div",Is,[a(u,{to:{name:"appDashboard"},class:"link text-black"},{default:c(()=>[Ds]),_:1})]),a(Rt,{"no-border":""},{default:c(()=>[a(I,{to:{name:"appDashboard"},clickable:"",title:"Dashboard",class:F({"text-white":y(i).name!=="appDashboard"})},{default:c(()=>[a(_,{avatar:""},{default:c(()=>[a(w,{name:"dashboard"})]),_:1}),a(_,null,{default:c(()=>[N("Dashboard")]),_:1})]),_:1},8,["class"]),a(I,{to:{name:"contractors"},clickable:"",title:f.$t("contractor.namePlural"),"active-class":"text-primary",class:F({"text-primary":y(l)&&y(l).match("contractor")&&!y(l).match("reporting")})},{default:c(()=>[a(_,{avatar:""},{default:c(()=>[a(w,{name:"engineering"})]),_:1}),a(_,null,{default:c(()=>[N(z(f.$t("contractor.namePlural")),1)]),_:1})]),_:1},8,["title","class"]),a(I,{to:{name:"teams"},clickable:"",title:f.$t("team.namePlural"),"active-class":"text-primary",class:F({"text-primary":y(l)&&y(l).match("team")})},{default:c(()=>[a(_,{avatar:""},{default:c(()=>[a(w,{name:"group"})]),_:1}),a(_,null,{default:c(()=>[N(z(f.$t("team.namePlural")),1)]),_:1})]),_:1},8,["title","class"]),a(I,{to:{name:"orders"},clickable:"",title:f.$t("order.namePlural"),"active-class":"text-primary",class:F({"text-primary":y(l)&&(y(l).match("order")||y(l).match("bookingmanager"))&&!y(l).match("team")&&!y(l).match("contractor")&&!y(l).match("reporting")})},{default:c(()=>[a(_,{avatar:""},{default:c(()=>[a(w,{name:"event"})]),_:1}),a(_,null,{default:c(()=>[N(z(f.$t("order.namePlural")),1)]),_:1})]),_:1},8,["title","class"]),a(I,{to:{name:"userrosterscheduler"},clickable:"",title:f.$t("scheduler.name"),"active-class":"text-primary",class:F({"text-primary":y(l)&&y(l).match("scheduler")&&!y(l).match("team")&&!y(l).match("contractor")})},{default:c(()=>[a(_,{avatar:""},{default:c(()=>[a(w,{name:"calendar_month"})]),_:1}),a(_,null,{default:c(()=>[N(z(f.$t("scheduler.name")),1)]),_:1})]),_:1},8,["title","class"]),a(I,{to:{name:"reporting"},clickable:"",title:"Reporting","active-class":"text-primary",class:F({"text-primary":y(l)&&y(l).match("reporting")})},{default:c(()=>[a(_,{avatar:""},{default:c(()=>[a(w,{name:"bar_chart"})]),_:1}),a(_,null,{default:c(()=>[N("Reporting")]),_:1})]),_:1},8,["class"]),a(I,{to:{name:"settings"},clickable:"",title:"Settings","active-class":"text-primary"},{default:c(()=>[a(_,{avatar:""},{default:c(()=>[a(w,{name:"settings"})]),_:1}),a(_,null,{default:c(()=>[N("Settings")]),_:1})]),_:1})]),_:1})]),_:1},8,["modelValue","mini"]),a(Ue,null,{default:c(()=>[a(Dt,{position:"top",color:"primary",size:"2px"}),a(b)]),_:1}),a(re,{modelValue:r.value,"onUpdate:modelValue":h[3]||(h[3]=C=>r.value=C),persistent:""},{default:c(()=>[a(de,{style:{"min-width":"30vw"}},{default:c(()=>[a(j,{class:"row"},{default:c(()=>[a(Oe),a(ue),a(w,{name:"lock",size:"24px",class:"text-grey"})]),_:1}),a(fe),a(j,null,{default:c(()=>[zs,Qs]),_:1})]),_:1})]),_:1},8,["modelValue"]),a(Ht),a(Yt),a(re,{modelValue:r.value,"onUpdate:modelValue":h[4]||(h[4]=C=>r.value=C),persistent:""},{default:c(()=>[a(de,{style:{"min-width":"30vw"}},{default:c(()=>[a(j,{class:"row"},{default:c(()=>[a(Oe),a(ue),a(w,{name:"lock",size:"24px",class:"text-grey"})]),_:1}),a(fe),a(j,null,{default:c(()=>[Fs,a($,{to:{name:"signin"},color:"primary",label:"Sign In"})]),_:1})]),_:1})]),_:1},8,["modelValue"])]),_:1})):B("",!0)}}});export{Ci as default};
+var __defProp = Object.defineProperty;
+var __defNormalProp = (obj, key, value2) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value: value2 }) : obj[key] = value2;
+var __publicField = (obj, key, value2) => {
+  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value2);
+  return value2;
+};
+import { V as createComponent, r as ref, g as computed, o as onMounted, E as onBeforeUnmount, h, j as getCurrentInstance, A as defineComponent, I as useRouter, m as openBlock, n as createElementBlock, l as createVNode, L as withCtx, K as createBlock, aE as QSpinner, y as createCommentVNode, O as QIcon, bp as QSeparator, u as normalizeProps, bg as guardReactiveProps, R as createTextVNode, b8 as toDisplayString, i as inject, W as emptyRenderFn, a5 as isRuntimeSsrPreHydration, w as watch, a7 as hMergeSlot, Y as layoutKey, B as reactive, G as withDirectives, S as QBtn, aD as QDialog, f as onUnmounted, Q as QCard, M as QCardSection, q as createBaseVNode, ad as useRoute, J as resolveComponent, U as unref, bq as QAvatar, t as normalizeClass } from "./index.e647c85a.js";
+import { Q as QSpace } from "./QSpace.7d6f905e.js";
+import { Q as QImg } from "./UserAvatar.d3fe9aaa.js";
+import { Q as QToolbar, a as QToolbarTitle } from "./QToolbarTitle.1a75cd00.js";
+import { Q as QHeader } from "./QHeader.001fd0f6.js";
+import { a as QItem, Q as QItemSection } from "./QItemSection.99659658.js";
+import { Q as QList } from "./QList.2f0afc60.js";
+import { Q as QDrawer } from "./QDrawer.bdde26ac.js";
+import { b as between } from "./format.8e90d58d.js";
+import { Q as QLayout, a as QPageContainer } from "./QLayout.2e2ab899.js";
+import { a as api, u as useUserStore, m as moment } from "./axios.ccd3a804.js";
+import { u as useQuasar } from "./use-quasar.ae4f72e4.js";
+import { _ as _sfc_main$5 } from "./AppLogo.885260bb.js";
+import { Q as QItemLabel } from "./rtl.4f5e13e8.js";
+import { Q as QSelect } from "./QSelect.853d535e.js";
+import { Q as QPage } from "./QPage.660fce82.js";
+import { Q as QResizeObserver } from "./QResizeObserver.97b49885.js";
+import { C as ClosePopup } from "./ClosePopup.ef2f7039.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import _sfc_main$4 from "./OrderEdit.8ae2012c.js";
+import "./TouchPan.9e1ee92a.js";
+import "./touch.70a9dd44.js";
+import "./QTime.f6ad59d2.js";
+import "./DateField.75075dac.js";
+import "./QExpansionItem.0ce2aff8.js";
+import "./CountryField.01d37ae9.js";
+import "./index.esm.4557c89b.js";
+import "./PostcodeRegionField.1ba1a165.js";
+import "./OrderContractorManagement.e1decb4c.js";
+import "./QLinearProgress.c48fac34.js";
+import "./GlobalNotes.e0541d73.js";
+import "./help.c0f85e41.js";
+import "./StatusTag.c8d66888.js";
+import "./QBadge.5efaf9f7.js";
+import "./QMarkupTable.981d9979.js";
+import "./helpers.2defcd01.js";
+import "./vue-i18n.runtime.esm-bundler.bec1d6a0.js";
+const xhr = XMLHttpRequest, open = xhr.prototype.open, positionValues = ["top", "right", "bottom", "left"];
+let stack = [];
+let highjackCount = 0;
+function translate({ p, pos, active, horiz, reverse, dir }) {
+  let x = 1, y = 1;
+  if (horiz === true) {
+    if (reverse === true) {
+      x = -1;
+    }
+    if (pos === "bottom") {
+      y = -1;
+    }
+    return { transform: `translate3d(${x * (p - 100)}%,${active ? 0 : y * -200}%,0)` };
+  }
+  if (reverse === true) {
+    y = -1;
+  }
+  if (pos === "right") {
+    x = -1;
+  }
+  return { transform: `translate3d(${active ? 0 : dir * x * -200}%,${y * (p - 100)}%,0)` };
+}
+function inc(p, amount) {
+  if (typeof amount !== "number") {
+    if (p < 25) {
+      amount = Math.random() * 3 + 3;
+    } else if (p < 65) {
+      amount = Math.random() * 3;
+    } else if (p < 85) {
+      amount = Math.random() * 2;
+    } else if (p < 99) {
+      amount = 0.6;
+    } else {
+      amount = 0;
+    }
+  }
+  return between(p + amount, 0, 100);
+}
+function highjackAjax(stackEntry) {
+  highjackCount++;
+  stack.push(stackEntry);
+  if (highjackCount > 1) {
+    return;
+  }
+  xhr.prototype.open = function(_, url2) {
+    const stopStack = [];
+    const loadStart = () => {
+      stack.forEach((entry) => {
+        if (entry.hijackFilter.value === null || entry.hijackFilter.value(url2) === true) {
+          entry.start();
+          stopStack.push(entry.stop);
+        }
+      });
+    };
+    const loadEnd = () => {
+      stopStack.forEach((stop) => {
+        stop();
+      });
+    };
+    this.addEventListener("loadstart", loadStart, { once: true });
+    this.addEventListener("loadend", loadEnd, { once: true });
+    open.apply(this, arguments);
+  };
+}
+function restoreAjax(start) {
+  stack = stack.filter((entry) => entry.start !== start);
+  highjackCount = Math.max(0, highjackCount - 1);
+  if (highjackCount === 0) {
+    xhr.prototype.open = open;
+  }
+}
+var QAjaxBar = createComponent({
+  name: "QAjaxBar",
+  props: {
+    position: {
+      type: String,
+      default: "top",
+      validator: (val) => positionValues.includes(val)
+    },
+    size: {
+      type: String,
+      default: "2px"
+    },
+    color: String,
+    skipHijack: Boolean,
+    reverse: Boolean,
+    hijackFilter: Function
+  },
+  emits: ["start", "stop"],
+  setup(props, { emit }) {
+    const { proxy } = getCurrentInstance();
+    const progress = ref(0);
+    const onScreen = ref(false);
+    const animate = ref(true);
+    let sessions = 0, timer = null, speed;
+    const classes = computed(
+      () => `q-loading-bar q-loading-bar--${props.position}` + (props.color !== void 0 ? ` bg-${props.color}` : "") + (animate.value === true ? "" : " no-transition")
+    );
+    const horizontal = computed(() => props.position === "top" || props.position === "bottom");
+    const sizeProp = computed(() => horizontal.value === true ? "height" : "width");
+    const style = computed(() => {
+      const active = onScreen.value;
+      const obj = translate({
+        p: progress.value,
+        pos: props.position,
+        active,
+        horiz: horizontal.value,
+        reverse: proxy.$q.lang.rtl === true && ["top", "bottom"].includes(props.position) ? props.reverse === false : props.reverse,
+        dir: proxy.$q.lang.rtl === true ? -1 : 1
+      });
+      obj[sizeProp.value] = props.size;
+      obj.opacity = active ? 1 : 0;
+      return obj;
+    });
+    const attributes = computed(() => onScreen.value === true ? {
+      role: "progressbar",
+      "aria-valuemin": 0,
+      "aria-valuemax": 100,
+      "aria-valuenow": progress.value
+    } : { "aria-hidden": "true" });
+    function start(newSpeed = 300) {
+      const oldSpeed = speed;
+      speed = Math.max(0, newSpeed) || 0;
+      sessions++;
+      if (sessions > 1) {
+        if (oldSpeed === 0 && newSpeed > 0) {
+          planNextStep();
+        } else if (timer !== null && oldSpeed > 0 && newSpeed <= 0) {
+          clearTimeout(timer);
+          timer = null;
+        }
+        return sessions;
+      }
+      timer !== null && clearTimeout(timer);
+      emit("start");
+      progress.value = 0;
+      timer = setTimeout(() => {
+        timer = null;
+        animate.value = true;
+        newSpeed > 0 && planNextStep();
+      }, onScreen.value === true ? 500 : 1);
+      if (onScreen.value !== true) {
+        onScreen.value = true;
+        animate.value = false;
+      }
+      return sessions;
+    }
+    function increment(amount) {
+      if (sessions > 0) {
+        progress.value = inc(progress.value, amount);
+      }
+      return sessions;
+    }
+    function stop() {
+      sessions = Math.max(0, sessions - 1);
+      if (sessions > 0) {
+        return sessions;
+      }
+      if (timer !== null) {
+        clearTimeout(timer);
+        timer = null;
+      }
+      emit("stop");
+      const end = () => {
+        animate.value = true;
+        progress.value = 100;
+        timer = setTimeout(() => {
+          timer = null;
+          onScreen.value = false;
+        }, 1e3);
+      };
+      if (progress.value === 0) {
+        timer = setTimeout(end, 1);
+      } else {
+        end();
+      }
+      return sessions;
+    }
+    function planNextStep() {
+      if (progress.value < 100) {
+        timer = setTimeout(() => {
+          timer = null;
+          increment();
+          planNextStep();
+        }, speed);
+      }
+    }
+    let hijacked;
+    onMounted(() => {
+      if (props.skipHijack !== true) {
+        hijacked = true;
+        highjackAjax({
+          start,
+          stop,
+          hijackFilter: computed(() => props.hijackFilter || null)
+        });
+      }
+    });
+    onBeforeUnmount(() => {
+      timer !== null && clearTimeout(timer);
+      hijacked === true && restoreAjax(start);
+    });
+    Object.assign(proxy, { start, stop, increment });
+    return () => h("div", {
+      class: classes.value,
+      style: style.value,
+      ...attributes.value
+    });
+  }
+});
+var _imports_0 = "/portal/assets/logo.216a049a.png";
+const _sfc_main$3 = /* @__PURE__ */ defineComponent({
+  __name: "HeaderSearch",
+  setup(__props) {
+    const keyword = ref();
+    const loading = ref();
+    const results = ref();
+    const router = useRouter();
+    const doNav = (model, type) => {
+      if (type === "contractor") {
+        router.push({ name: "contractor-dashboard", params: { id: model.value } }).catch();
+      }
+      if (type === "team") {
+        router.push({ name: "team-dashboard", params: { id: model.value } }).catch();
+      }
+      if (type === "order") {
+        router.push({ name: "order-edit", params: { id: model.value } }).catch();
+      }
+      keyword.value = null;
+      loading.value = false;
+    };
+    const search = async (update, searchKeyword) => {
+      loading.value = true;
+      const result = await api.post("/search", { keyword: searchKeyword });
+      if (result.data.length === 1) {
+        doNav(result.data[0], result.data[0].type);
+        return true;
+      }
+      if (update) {
+        update(() => {
+          results.value = result.data;
+          loading.value = false;
+        });
+      }
+    };
+    const filter = (val, update) => {
+      if (val.length < 2) {
+        return false;
+      }
+      search(update, val);
+    };
+    const handleChange = (newVal) => {
+      doNav(newVal, newVal.type);
+      keyword.value = null;
+    };
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock("div", null, [
+        createVNode(QSelect, {
+          modelValue: keyword.value,
+          "onUpdate:modelValue": [
+            _cache[0] || (_cache[0] = ($event) => keyword.value = $event),
+            handleChange
+          ],
+          modelModifiers: { trim: true },
+          placeholder: "Keyword search",
+          disabled: loading.value,
+          loading: loading.value,
+          borderless: "",
+          class: "gt-xs",
+          style: { "width": "500px" },
+          "use-input": "",
+          options: results.value,
+          onFilter: filter,
+          "hide-dropdown-icon": "",
+          "input-debounce": 300
+        }, {
+          loading: withCtx(() => [
+            loading.value ? (openBlock(), createBlock(QSpinner, { key: 0 })) : createCommentVNode("", true)
+          ]),
+          prepend: withCtx(() => [
+            createVNode(QIcon, { name: "search" })
+          ]),
+          option: withCtx((scope) => [
+            createVNode(QSeparator),
+            createVNode(QItem, normalizeProps(guardReactiveProps(scope.itemProps)), {
+              default: withCtx(() => [
+                scope.opt.type === "contractor" ? (openBlock(), createBlock(QItemSection, {
+                  key: 0,
+                  avatar: ""
+                }, {
+                  default: withCtx(() => [
+                    createVNode(QIcon, {
+                      name: "engineering",
+                      size: "32px"
+                    })
+                  ]),
+                  _: 1
+                })) : createCommentVNode("", true),
+                scope.opt.type === "user" ? (openBlock(), createBlock(QItemSection, {
+                  key: 1,
+                  avatar: ""
+                }, {
+                  default: withCtx(() => [
+                    createVNode(QIcon, {
+                      name: "account_circle",
+                      size: "32px"
+                    })
+                  ]),
+                  _: 1
+                })) : createCommentVNode("", true),
+                scope.opt.type === "team" ? (openBlock(), createBlock(QItemSection, {
+                  key: 2,
+                  avatar: ""
+                }, {
+                  default: withCtx(() => [
+                    createVNode(QIcon, {
+                      name: "group",
+                      size: "32px"
+                    })
+                  ]),
+                  _: 1
+                })) : createCommentVNode("", true),
+                scope.opt.type === "order" ? (openBlock(), createBlock(QItemSection, {
+                  key: 3,
+                  avatar: ""
+                }, {
+                  default: withCtx(() => [
+                    createVNode(QIcon, {
+                      name: "shopping_cart",
+                      size: "32px"
+                    })
+                  ]),
+                  _: 1
+                })) : createCommentVNode("", true),
+                createVNode(QItemSection, null, {
+                  default: withCtx(() => [
+                    createVNode(QItemLabel, null, {
+                      default: withCtx(() => [
+                        createTextVNode(toDisplayString(scope.opt.label), 1)
+                      ]),
+                      _: 2
+                    }, 1024),
+                    createVNode(QItemLabel, { caption: "" }, {
+                      default: withCtx(() => [
+                        createTextVNode(toDisplayString(scope.opt.sublabel), 1)
+                      ]),
+                      _: 2
+                    }, 1024)
+                  ]),
+                  _: 2
+                }, 1024)
+              ]),
+              _: 2
+            }, 1040)
+          ]),
+          _: 1
+        }, 8, ["modelValue", "disabled", "loading", "options"])
+      ]);
+    };
+  }
+});
+var QFooter = createComponent({
+  name: "QFooter",
+  props: {
+    modelValue: {
+      type: Boolean,
+      default: true
+    },
+    reveal: Boolean,
+    bordered: Boolean,
+    elevated: Boolean,
+    heightHint: {
+      type: [String, Number],
+      default: 50
+    }
+  },
+  emits: ["reveal", "focusin"],
+  setup(props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance();
+    const $layout = inject(layoutKey, emptyRenderFn);
+    if ($layout === emptyRenderFn) {
+      console.error("QFooter needs to be child of QLayout");
+      return emptyRenderFn;
+    }
+    const size = ref(parseInt(props.heightHint, 10));
+    const revealed = ref(true);
+    const windowHeight = ref(
+      isRuntimeSsrPreHydration.value === true || $layout.isContainer.value === true ? 0 : window.innerHeight
+    );
+    const fixed = computed(
+      () => props.reveal === true || $layout.view.value.indexOf("F") > -1 || $q.platform.is.ios && $layout.isContainer.value === true
+    );
+    const containerHeight = computed(() => $layout.isContainer.value === true ? $layout.containerHeight.value : windowHeight.value);
+    const offset = computed(() => {
+      if (props.modelValue !== true) {
+        return 0;
+      }
+      if (fixed.value === true) {
+        return revealed.value === true ? size.value : 0;
+      }
+      const offset2 = $layout.scroll.value.position + containerHeight.value + size.value - $layout.height.value;
+      return offset2 > 0 ? offset2 : 0;
+    });
+    const hidden = computed(
+      () => props.modelValue !== true || fixed.value === true && revealed.value !== true
+    );
+    const revealOnFocus = computed(
+      () => props.modelValue === true && hidden.value === true && props.reveal === true
+    );
+    const classes = computed(
+      () => "q-footer q-layout__section--marginal " + (fixed.value === true ? "fixed" : "absolute") + "-bottom" + (props.bordered === true ? " q-footer--bordered" : "") + (hidden.value === true ? " q-footer--hidden" : "") + (props.modelValue !== true ? " q-layout--prevent-focus" + (fixed.value !== true ? " hidden" : "") : "")
+    );
+    const style = computed(() => {
+      const view = $layout.rows.value.bottom, css = {};
+      if (view[0] === "l" && $layout.left.space === true) {
+        css[$q.lang.rtl === true ? "right" : "left"] = `${$layout.left.size}px`;
+      }
+      if (view[2] === "r" && $layout.right.space === true) {
+        css[$q.lang.rtl === true ? "left" : "right"] = `${$layout.right.size}px`;
+      }
+      return css;
+    });
+    function updateLayout(prop, val) {
+      $layout.update("footer", prop, val);
+    }
+    function updateLocal(prop, val) {
+      if (prop.value !== val) {
+        prop.value = val;
+      }
+    }
+    function onResize({ height }) {
+      updateLocal(size, height);
+      updateLayout("size", height);
+    }
+    function updateRevealed() {
+      if (props.reveal !== true) {
+        return;
+      }
+      const { direction, position, inflectionPoint } = $layout.scroll.value;
+      updateLocal(revealed, direction === "up" || position - inflectionPoint < 100 || $layout.height.value - containerHeight.value - position - size.value < 300);
+    }
+    function onFocusin(evt) {
+      if (revealOnFocus.value === true) {
+        updateLocal(revealed, true);
+      }
+      emit("focusin", evt);
+    }
+    watch(() => props.modelValue, (val) => {
+      updateLayout("space", val);
+      updateLocal(revealed, true);
+      $layout.animate();
+    });
+    watch(offset, (val) => {
+      updateLayout("offset", val);
+    });
+    watch(() => props.reveal, (val) => {
+      val === false && updateLocal(revealed, props.modelValue);
+    });
+    watch(revealed, (val) => {
+      $layout.animate();
+      emit("reveal", val);
+    });
+    watch([size, $layout.scroll, $layout.height], updateRevealed);
+    watch(() => $q.screen.height, (val) => {
+      $layout.isContainer.value !== true && updateLocal(windowHeight, val);
+    });
+    const instance = {};
+    $layout.instances.footer = instance;
+    props.modelValue === true && updateLayout("size", size.value);
+    updateLayout("space", props.modelValue);
+    updateLayout("offset", offset.value);
+    onBeforeUnmount(() => {
+      if ($layout.instances.footer === instance) {
+        $layout.instances.footer = void 0;
+        updateLayout("size", 0);
+        updateLayout("offset", 0);
+        updateLayout("space", false);
+      }
+    });
+    return () => {
+      const child = hMergeSlot(slots.default, [
+        h(QResizeObserver, {
+          debounce: 0,
+          onResize
+        })
+      ]);
+      props.elevated === true && child.push(
+        h("div", {
+          class: "q-layout__shadow absolute-full overflow-hidden no-pointer-events"
+        })
+      );
+      return h("footer", {
+        class: classes.value,
+        style: style.value,
+        onFocusin
+      }, child);
+    };
+  }
+});
+const _hoisted_1$2 = ["src"];
+const _hoisted_2$1 = ["src"];
+const _sfc_main$2 = /* @__PURE__ */ defineComponent({
+  __name: "MediaViewer",
+  setup(__props) {
+    const rotateZoom = reactive({
+      rotate: 0,
+      zoom: 1
+    });
+    const $q = useQuasar();
+    const bus = inject("bus");
+    const data = ref();
+    const src = ref();
+    const pdfSrc = ref();
+    const showModal = ref(false);
+    const viewerImage = ref();
+    const rotateZoomFunc = (action) => {
+      if (action === "rotateForward") {
+        rotateZoom.rotate += 90;
+        if (rotateZoom.rotate > 360) {
+          rotateZoom.rotate = 90;
+        }
+      }
+      if (action === "rotateBackwards") {
+        if (viewerImage.value) {
+          viewerImage.value.style.transform = `rotate(${rotateZoom.rotate}deg)`;
+        }
+      }
+      if (action === "zoomIn") {
+        rotateZoom.zoom += 0.2;
+      }
+      if (action === "zoomOut") {
+        rotateZoom.zoom -= 0.2;
+      }
+      if (viewerImage.value) {
+        viewerImage.value.style.transform = `scale(${rotateZoom.zoom}) rotate(${rotateZoom.rotate}deg)`;
+      }
+    };
+    onMounted(() => {
+      bus.on("view-file", (eventData) => {
+        Object.assign(rotateZoom, { rotate: 0, zoom: 1 });
+        pdfSrc.value = false;
+        data.value = eventData;
+        $q.loading.show({ message: "Loading asset..." });
+        src.value = false;
+        if (data.value.type === "photo") {
+          api.get(`/photo/${data.value.model.id}?original=1`).then((response) => {
+            api.get(`/photo/loadoriginaldata/${data.value.model.id}`).then((res) => {
+              src.value = "data:" + response.data.image_file_uri.original.type + ";base64," + res.data.raw;
+            });
+            $q.loading.hide();
+            showModal.value = true;
+          }).catch((error) => {
+            $q.loading.hide();
+            useMixinDebug(error);
+          });
+        } else if (data.value.type === "pdfUrl") {
+          window.open(data.value.url);
+          $q.loading.hide();
+        } else {
+          api.get(`/attachment/${data.value.model.id}?original=1`).then((response) => {
+            data.value = response.data;
+            if (data.value.file_file_uri.original.type !== "application/pdf") {
+              src.value = `data:${response.data.file_file_uri.original.type};base64,${response.data.file_file_uri.original.data.content}`;
+              $q.loading.hide();
+              showModal.value = true;
+            } else {
+              pdfSrc.value = `data:application/pdf;base64,${response.data.file_file_uri.original.data}`;
+              window.open(data.value.file_file_uri.original.uri);
+            }
+            $q.loading.hide();
+          }).catch((error) => {
+            useMixinDebug(error);
+          });
+        }
+      });
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QDialog, {
+        modelValue: showModal.value,
+        "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => showModal.value = $event),
+        maximized: ""
+      }, {
+        default: withCtx(() => [
+          createVNode(QLayout, {
+            view: "Lhh lpR fff",
+            container: "",
+            class: "bg-black"
+          }, {
+            default: withCtx(() => [
+              createVNode(QHeader, { class: "bg-secondary" }, {
+                default: withCtx(() => [
+                  createVNode(QToolbar, null, {
+                    default: withCtx(() => [
+                      createVNode(QToolbarTitle, null, {
+                        default: withCtx(() => [
+                          createTextVNode(toDisplayString(data.value.name), 1)
+                        ]),
+                        _: 1
+                      }),
+                      withDirectives(createVNode(QBtn, {
+                        flat: "",
+                        round: "",
+                        dense: "",
+                        icon: "close"
+                      }, null, 512), [
+                        [ClosePopup]
+                      ])
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              }),
+              createVNode(QPageContainer, null, {
+                default: withCtx(() => [
+                  createVNode(QPage, { class: "items-center flex justify-center" }, {
+                    default: withCtx(() => [
+                      pdfSrc.value ? (openBlock(), createElementBlock("iframe", {
+                        key: 0,
+                        src: pdfSrc.value,
+                        width: "100%",
+                        class: "pdfIframe"
+                      }, null, 8, _hoisted_1$2)) : createCommentVNode("", true),
+                      src.value && !pdfSrc.value ? (openBlock(), createElementBlock("img", {
+                        key: 1,
+                        src: src.value,
+                        style: { "max-width": "100%" },
+                        ref_key: "viewerImage",
+                        ref: viewerImage
+                      }, null, 8, _hoisted_2$1)) : createCommentVNode("", true)
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              }),
+              createVNode(QFooter, { class: "bg-primary text-white" }, {
+                default: withCtx(() => [
+                  !pdfSrc.value ? (openBlock(), createBlock(QToolbar, {
+                    key: 0,
+                    inset: "",
+                    class: "row justify-center"
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QBtn, {
+                        onClick: _cache[0] || (_cache[0] = ($event) => rotateZoomFunc("rotateForward")),
+                        icon: "refresh"
+                      }),
+                      createVNode(QBtn, {
+                        onClick: _cache[1] || (_cache[1] = ($event) => rotateZoomFunc("zoomIn")),
+                        icon: "zoom_in"
+                      }),
+                      createVNode(QBtn, {
+                        onClick: _cache[2] || (_cache[2] = ($event) => rotateZoomFunc("zoomOut")),
+                        icon: "zoom_out"
+                      })
+                    ]),
+                    _: 1
+                  })) : createCommentVNode("", true)
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      }, 8, ["modelValue"]);
+    };
+  }
+});
+const _hoisted_1$1 = { class: "text-right q-mb-sm" };
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "OrderEditModal",
+  setup(__props) {
+    const bus = inject("bus");
+    const show = ref(false);
+    const model = ref();
+    const id = ref();
+    const getOrder = (data = {}) => {
+      api.get(`/order/${id.value}`).then((response) => {
+        if (data.onlyTotals && model.value) {
+          model.value.total_price = response.data.total_price;
+          model.value.total_price_gst = response.data.total_price_gst;
+          model.value.grand_total_price = response.data.grand_total_price;
+          if (response.data.products.length !== model.value.products.length) {
+            model.value.products = response.data.products;
+          }
+        } else {
+          model.value = response.data;
+        }
+        show.value = true;
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+    };
+    onMounted(() => {
+      bus.on("editOrderModal", (orderId) => {
+        id.value = orderId;
+        getOrder();
+      });
+    });
+    onUnmounted(() => {
+      bus.off("editOrderModal");
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QDialog, {
+        modelValue: show.value,
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => show.value = $event)
+      }, {
+        default: withCtx(() => [
+          createVNode(QCard, { class: "modal-lg" }, {
+            default: withCtx(() => [
+              createVNode(QCardSection, null, {
+                default: withCtx(() => [
+                  createBaseVNode("div", _hoisted_1$1, [
+                    withDirectives(createVNode(QBtn, {
+                      round: "",
+                      dense: "",
+                      flat: "",
+                      icon: "close"
+                    }, null, 512), [
+                      [ClosePopup]
+                    ])
+                  ]),
+                  model.value ? (openBlock(), createBlock(_sfc_main$4, {
+                    key: 0,
+                    model: model.value,
+                    "onUpdate:order": getOrder,
+                    "no-notes": true
+                  }, null, 8, ["model"])) : createCommentVNode("", true)
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      }, 8, ["modelValue"]);
+    };
+  }
+});
+const useMixinSecurity = () => {
+  const store = useUserStore();
+  const user = computed(() => store.data);
+  return { user };
+};
+const PACKET_TYPES = /* @__PURE__ */ Object.create(null);
+PACKET_TYPES["open"] = "0";
+PACKET_TYPES["close"] = "1";
+PACKET_TYPES["ping"] = "2";
+PACKET_TYPES["pong"] = "3";
+PACKET_TYPES["message"] = "4";
+PACKET_TYPES["upgrade"] = "5";
+PACKET_TYPES["noop"] = "6";
+const PACKET_TYPES_REVERSE = /* @__PURE__ */ Object.create(null);
+Object.keys(PACKET_TYPES).forEach((key) => {
+  PACKET_TYPES_REVERSE[PACKET_TYPES[key]] = key;
+});
+const ERROR_PACKET = { type: "error", data: "parser error" };
+const withNativeBlob$1 = typeof Blob === "function" || typeof Blob !== "undefined" && Object.prototype.toString.call(Blob) === "[object BlobConstructor]";
+const withNativeArrayBuffer$2 = typeof ArrayBuffer === "function";
+const isView$1 = (obj) => {
+  return typeof ArrayBuffer.isView === "function" ? ArrayBuffer.isView(obj) : obj && obj.buffer instanceof ArrayBuffer;
+};
+const encodePacket = ({ type, data }, supportsBinary, callback) => {
+  if (withNativeBlob$1 && data instanceof Blob) {
+    if (supportsBinary) {
+      return callback(data);
+    } else {
+      return encodeBlobAsBase64(data, callback);
+    }
+  } else if (withNativeArrayBuffer$2 && (data instanceof ArrayBuffer || isView$1(data))) {
+    if (supportsBinary) {
+      return callback(data);
+    } else {
+      return encodeBlobAsBase64(new Blob([data]), callback);
+    }
+  }
+  return callback(PACKET_TYPES[type] + (data || ""));
+};
+const encodeBlobAsBase64 = (data, callback) => {
+  const fileReader = new FileReader();
+  fileReader.onload = function() {
+    const content = fileReader.result.split(",")[1];
+    callback("b" + (content || ""));
+  };
+  return fileReader.readAsDataURL(data);
+};
+const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+const lookup$1 = typeof Uint8Array === "undefined" ? [] : new Uint8Array(256);
+for (let i2 = 0; i2 < chars.length; i2++) {
+  lookup$1[chars.charCodeAt(i2)] = i2;
+}
+const decode$1 = (base64) => {
+  let bufferLength = base64.length * 0.75, len = base64.length, i2, p = 0, encoded1, encoded2, encoded3, encoded4;
+  if (base64[base64.length - 1] === "=") {
+    bufferLength--;
+    if (base64[base64.length - 2] === "=") {
+      bufferLength--;
+    }
+  }
+  const arraybuffer = new ArrayBuffer(bufferLength), bytes = new Uint8Array(arraybuffer);
+  for (i2 = 0; i2 < len; i2 += 4) {
+    encoded1 = lookup$1[base64.charCodeAt(i2)];
+    encoded2 = lookup$1[base64.charCodeAt(i2 + 1)];
+    encoded3 = lookup$1[base64.charCodeAt(i2 + 2)];
+    encoded4 = lookup$1[base64.charCodeAt(i2 + 3)];
+    bytes[p++] = encoded1 << 2 | encoded2 >> 4;
+    bytes[p++] = (encoded2 & 15) << 4 | encoded3 >> 2;
+    bytes[p++] = (encoded3 & 3) << 6 | encoded4 & 63;
+  }
+  return arraybuffer;
+};
+const withNativeArrayBuffer$1 = typeof ArrayBuffer === "function";
+const decodePacket = (encodedPacket, binaryType) => {
+  if (typeof encodedPacket !== "string") {
+    return {
+      type: "message",
+      data: mapBinary(encodedPacket, binaryType)
+    };
+  }
+  const type = encodedPacket.charAt(0);
+  if (type === "b") {
+    return {
+      type: "message",
+      data: decodeBase64Packet(encodedPacket.substring(1), binaryType)
+    };
+  }
+  const packetType = PACKET_TYPES_REVERSE[type];
+  if (!packetType) {
+    return ERROR_PACKET;
+  }
+  return encodedPacket.length > 1 ? {
+    type: PACKET_TYPES_REVERSE[type],
+    data: encodedPacket.substring(1)
+  } : {
+    type: PACKET_TYPES_REVERSE[type]
+  };
+};
+const decodeBase64Packet = (data, binaryType) => {
+  if (withNativeArrayBuffer$1) {
+    const decoded = decode$1(data);
+    return mapBinary(decoded, binaryType);
+  } else {
+    return { base64: true, data };
+  }
+};
+const mapBinary = (data, binaryType) => {
+  switch (binaryType) {
+    case "blob":
+      return data instanceof ArrayBuffer ? new Blob([data]) : data;
+    case "arraybuffer":
+    default:
+      return data;
+  }
+};
+const SEPARATOR = String.fromCharCode(30);
+const encodePayload = (packets, callback) => {
+  const length2 = packets.length;
+  const encodedPackets = new Array(length2);
+  let count = 0;
+  packets.forEach((packet, i2) => {
+    encodePacket(packet, false, (encodedPacket) => {
+      encodedPackets[i2] = encodedPacket;
+      if (++count === length2) {
+        callback(encodedPackets.join(SEPARATOR));
+      }
+    });
+  });
+};
+const decodePayload = (encodedPayload, binaryType) => {
+  const encodedPackets = encodedPayload.split(SEPARATOR);
+  const packets = [];
+  for (let i2 = 0; i2 < encodedPackets.length; i2++) {
+    const decodedPacket = decodePacket(encodedPackets[i2], binaryType);
+    packets.push(decodedPacket);
+    if (decodedPacket.type === "error") {
+      break;
+    }
+  }
+  return packets;
+};
+const protocol$1 = 4;
+function Emitter(obj) {
+  if (obj)
+    return mixin(obj);
+}
+function mixin(obj) {
+  for (var key in Emitter.prototype) {
+    obj[key] = Emitter.prototype[key];
+  }
+  return obj;
+}
+Emitter.prototype.on = Emitter.prototype.addEventListener = function(event, fn) {
+  this._callbacks = this._callbacks || {};
+  (this._callbacks["$" + event] = this._callbacks["$" + event] || []).push(fn);
+  return this;
+};
+Emitter.prototype.once = function(event, fn) {
+  function on2() {
+    this.off(event, on2);
+    fn.apply(this, arguments);
+  }
+  on2.fn = fn;
+  this.on(event, on2);
+  return this;
+};
+Emitter.prototype.off = Emitter.prototype.removeListener = Emitter.prototype.removeAllListeners = Emitter.prototype.removeEventListener = function(event, fn) {
+  this._callbacks = this._callbacks || {};
+  if (0 == arguments.length) {
+    this._callbacks = {};
+    return this;
+  }
+  var callbacks = this._callbacks["$" + event];
+  if (!callbacks)
+    return this;
+  if (1 == arguments.length) {
+    delete this._callbacks["$" + event];
+    return this;
+  }
+  var cb;
+  for (var i2 = 0; i2 < callbacks.length; i2++) {
+    cb = callbacks[i2];
+    if (cb === fn || cb.fn === fn) {
+      callbacks.splice(i2, 1);
+      break;
+    }
+  }
+  if (callbacks.length === 0) {
+    delete this._callbacks["$" + event];
+  }
+  return this;
+};
+Emitter.prototype.emit = function(event) {
+  this._callbacks = this._callbacks || {};
+  var args = new Array(arguments.length - 1), callbacks = this._callbacks["$" + event];
+  for (var i2 = 1; i2 < arguments.length; i2++) {
+    args[i2 - 1] = arguments[i2];
+  }
+  if (callbacks) {
+    callbacks = callbacks.slice(0);
+    for (var i2 = 0, len = callbacks.length; i2 < len; ++i2) {
+      callbacks[i2].apply(this, args);
+    }
+  }
+  return this;
+};
+Emitter.prototype.emitReserved = Emitter.prototype.emit;
+Emitter.prototype.listeners = function(event) {
+  this._callbacks = this._callbacks || {};
+  return this._callbacks["$" + event] || [];
+};
+Emitter.prototype.hasListeners = function(event) {
+  return !!this.listeners(event).length;
+};
+const globalThisShim = (() => {
+  if (typeof self !== "undefined") {
+    return self;
+  } else if (typeof window !== "undefined") {
+    return window;
+  } else {
+    return Function("return this")();
+  }
+})();
+function pick(obj, ...attr) {
+  return attr.reduce((acc, k) => {
+    if (obj.hasOwnProperty(k)) {
+      acc[k] = obj[k];
+    }
+    return acc;
+  }, {});
+}
+const NATIVE_SET_TIMEOUT = globalThisShim.setTimeout;
+const NATIVE_CLEAR_TIMEOUT = globalThisShim.clearTimeout;
+function installTimerFunctions(obj, opts) {
+  if (opts.useNativeTimers) {
+    obj.setTimeoutFn = NATIVE_SET_TIMEOUT.bind(globalThisShim);
+    obj.clearTimeoutFn = NATIVE_CLEAR_TIMEOUT.bind(globalThisShim);
+  } else {
+    obj.setTimeoutFn = globalThisShim.setTimeout.bind(globalThisShim);
+    obj.clearTimeoutFn = globalThisShim.clearTimeout.bind(globalThisShim);
+  }
+}
+const BASE64_OVERHEAD = 1.33;
+function byteLength(obj) {
+  if (typeof obj === "string") {
+    return utf8Length(obj);
+  }
+  return Math.ceil((obj.byteLength || obj.size) * BASE64_OVERHEAD);
+}
+function utf8Length(str) {
+  let c = 0, length2 = 0;
+  for (let i2 = 0, l = str.length; i2 < l; i2++) {
+    c = str.charCodeAt(i2);
+    if (c < 128) {
+      length2 += 1;
+    } else if (c < 2048) {
+      length2 += 2;
+    } else if (c < 55296 || c >= 57344) {
+      length2 += 3;
+    } else {
+      i2++;
+      length2 += 4;
+    }
+  }
+  return length2;
+}
+class TransportError extends Error {
+  constructor(reason, description, context) {
+    super(reason);
+    this.description = description;
+    this.context = context;
+    this.type = "TransportError";
+  }
+}
+class Transport extends Emitter {
+  constructor(opts) {
+    super();
+    this.writable = false;
+    installTimerFunctions(this, opts);
+    this.opts = opts;
+    this.query = opts.query;
+    this.socket = opts.socket;
+  }
+  onError(reason, description, context) {
+    super.emitReserved("error", new TransportError(reason, description, context));
+    return this;
+  }
+  open() {
+    this.readyState = "opening";
+    this.doOpen();
+    return this;
+  }
+  close() {
+    if (this.readyState === "opening" || this.readyState === "open") {
+      this.doClose();
+      this.onClose();
+    }
+    return this;
+  }
+  send(packets) {
+    if (this.readyState === "open") {
+      this.write(packets);
+    }
+  }
+  onOpen() {
+    this.readyState = "open";
+    this.writable = true;
+    super.emitReserved("open");
+  }
+  onData(data) {
+    const packet = decodePacket(data, this.socket.binaryType);
+    this.onPacket(packet);
+  }
+  onPacket(packet) {
+    super.emitReserved("packet", packet);
+  }
+  onClose(details) {
+    this.readyState = "closed";
+    super.emitReserved("close", details);
+  }
+  pause(onPause) {
+  }
+}
+const alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_".split(""), length = 64, map = {};
+let seed = 0, i = 0, prev;
+function encode$1(num) {
+  let encoded = "";
+  do {
+    encoded = alphabet[num % length] + encoded;
+    num = Math.floor(num / length);
+  } while (num > 0);
+  return encoded;
+}
+function yeast() {
+  const now = encode$1(+new Date());
+  if (now !== prev)
+    return seed = 0, prev = now;
+  return now + "." + encode$1(seed++);
+}
+for (; i < length; i++)
+  map[alphabet[i]] = i;
+function encode(obj) {
+  let str = "";
+  for (let i2 in obj) {
+    if (obj.hasOwnProperty(i2)) {
+      if (str.length)
+        str += "&";
+      str += encodeURIComponent(i2) + "=" + encodeURIComponent(obj[i2]);
+    }
+  }
+  return str;
+}
+function decode(qs) {
+  let qry = {};
+  let pairs = qs.split("&");
+  for (let i2 = 0, l = pairs.length; i2 < l; i2++) {
+    let pair = pairs[i2].split("=");
+    qry[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+  }
+  return qry;
+}
+let value = false;
+try {
+  value = typeof XMLHttpRequest !== "undefined" && "withCredentials" in new XMLHttpRequest();
+} catch (err) {
+}
+const hasCORS = value;
+function XHR(opts) {
+  const xdomain = opts.xdomain;
+  try {
+    if ("undefined" !== typeof XMLHttpRequest && (!xdomain || hasCORS)) {
+      return new XMLHttpRequest();
+    }
+  } catch (e) {
+  }
+  if (!xdomain) {
+    try {
+      return new globalThisShim[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
+    } catch (e) {
+    }
+  }
+}
+function empty() {
+}
+const hasXHR2 = function() {
+  const xhr2 = new XHR({
+    xdomain: false
+  });
+  return null != xhr2.responseType;
+}();
+class Polling extends Transport {
+  constructor(opts) {
+    super(opts);
+    this.polling = false;
+    if (typeof location !== "undefined") {
+      const isSSL = "https:" === location.protocol;
+      let port = location.port;
+      if (!port) {
+        port = isSSL ? "443" : "80";
+      }
+      this.xd = typeof location !== "undefined" && opts.hostname !== location.hostname || port !== opts.port;
+      this.xs = opts.secure !== isSSL;
+    }
+    const forceBase64 = opts && opts.forceBase64;
+    this.supportsBinary = hasXHR2 && !forceBase64;
+  }
+  get name() {
+    return "polling";
+  }
+  doOpen() {
+    this.poll();
+  }
+  pause(onPause) {
+    this.readyState = "pausing";
+    const pause = () => {
+      this.readyState = "paused";
+      onPause();
+    };
+    if (this.polling || !this.writable) {
+      let total = 0;
+      if (this.polling) {
+        total++;
+        this.once("pollComplete", function() {
+          --total || pause();
+        });
+      }
+      if (!this.writable) {
+        total++;
+        this.once("drain", function() {
+          --total || pause();
+        });
+      }
+    } else {
+      pause();
+    }
+  }
+  poll() {
+    this.polling = true;
+    this.doPoll();
+    this.emitReserved("poll");
+  }
+  onData(data) {
+    const callback = (packet) => {
+      if ("opening" === this.readyState && packet.type === "open") {
+        this.onOpen();
+      }
+      if ("close" === packet.type) {
+        this.onClose({ description: "transport closed by the server" });
+        return false;
+      }
+      this.onPacket(packet);
+    };
+    decodePayload(data, this.socket.binaryType).forEach(callback);
+    if ("closed" !== this.readyState) {
+      this.polling = false;
+      this.emitReserved("pollComplete");
+      if ("open" === this.readyState) {
+        this.poll();
+      }
+    }
+  }
+  doClose() {
+    const close = () => {
+      this.write([{ type: "close" }]);
+    };
+    if ("open" === this.readyState) {
+      close();
+    } else {
+      this.once("open", close);
+    }
+  }
+  write(packets) {
+    this.writable = false;
+    encodePayload(packets, (data) => {
+      this.doWrite(data, () => {
+        this.writable = true;
+        this.emitReserved("drain");
+      });
+    });
+  }
+  uri() {
+    let query = this.query || {};
+    const schema = this.opts.secure ? "https" : "http";
+    let port = "";
+    if (false !== this.opts.timestampRequests) {
+      query[this.opts.timestampParam] = yeast();
+    }
+    if (!this.supportsBinary && !query.sid) {
+      query.b64 = 1;
+    }
+    if (this.opts.port && ("https" === schema && Number(this.opts.port) !== 443 || "http" === schema && Number(this.opts.port) !== 80)) {
+      port = ":" + this.opts.port;
+    }
+    const encodedQuery = encode(query);
+    const ipv6 = this.opts.hostname.indexOf(":") !== -1;
+    return schema + "://" + (ipv6 ? "[" + this.opts.hostname + "]" : this.opts.hostname) + port + this.opts.path + (encodedQuery.length ? "?" + encodedQuery : "");
+  }
+  request(opts = {}) {
+    Object.assign(opts, { xd: this.xd, xs: this.xs }, this.opts);
+    return new Request(this.uri(), opts);
+  }
+  doWrite(data, fn) {
+    const req = this.request({
+      method: "POST",
+      data
+    });
+    req.on("success", fn);
+    req.on("error", (xhrStatus, context) => {
+      this.onError("xhr post error", xhrStatus, context);
+    });
+  }
+  doPoll() {
+    const req = this.request();
+    req.on("data", this.onData.bind(this));
+    req.on("error", (xhrStatus, context) => {
+      this.onError("xhr poll error", xhrStatus, context);
+    });
+    this.pollXhr = req;
+  }
+}
+class Request extends Emitter {
+  constructor(uri, opts) {
+    super();
+    installTimerFunctions(this, opts);
+    this.opts = opts;
+    this.method = opts.method || "GET";
+    this.uri = uri;
+    this.async = false !== opts.async;
+    this.data = void 0 !== opts.data ? opts.data : null;
+    this.create();
+  }
+  create() {
+    const opts = pick(this.opts, "agent", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "autoUnref");
+    opts.xdomain = !!this.opts.xd;
+    opts.xscheme = !!this.opts.xs;
+    const xhr2 = this.xhr = new XHR(opts);
+    try {
+      xhr2.open(this.method, this.uri, this.async);
+      try {
+        if (this.opts.extraHeaders) {
+          xhr2.setDisableHeaderCheck && xhr2.setDisableHeaderCheck(true);
+          for (let i2 in this.opts.extraHeaders) {
+            if (this.opts.extraHeaders.hasOwnProperty(i2)) {
+              xhr2.setRequestHeader(i2, this.opts.extraHeaders[i2]);
+            }
+          }
+        }
+      } catch (e) {
+      }
+      if ("POST" === this.method) {
+        try {
+          xhr2.setRequestHeader("Content-type", "text/plain;charset=UTF-8");
+        } catch (e) {
+        }
+      }
+      try {
+        xhr2.setRequestHeader("Accept", "*/*");
+      } catch (e) {
+      }
+      if ("withCredentials" in xhr2) {
+        xhr2.withCredentials = this.opts.withCredentials;
+      }
+      if (this.opts.requestTimeout) {
+        xhr2.timeout = this.opts.requestTimeout;
+      }
+      xhr2.onreadystatechange = () => {
+        if (4 !== xhr2.readyState)
+          return;
+        if (200 === xhr2.status || 1223 === xhr2.status) {
+          this.onLoad();
+        } else {
+          this.setTimeoutFn(() => {
+            this.onError(typeof xhr2.status === "number" ? xhr2.status : 0);
+          }, 0);
+        }
+      };
+      xhr2.send(this.data);
+    } catch (e) {
+      this.setTimeoutFn(() => {
+        this.onError(e);
+      }, 0);
+      return;
+    }
+    if (typeof document !== "undefined") {
+      this.index = Request.requestsCount++;
+      Request.requests[this.index] = this;
+    }
+  }
+  onError(err) {
+    this.emitReserved("error", err, this.xhr);
+    this.cleanup(true);
+  }
+  cleanup(fromError) {
+    if ("undefined" === typeof this.xhr || null === this.xhr) {
+      return;
+    }
+    this.xhr.onreadystatechange = empty;
+    if (fromError) {
+      try {
+        this.xhr.abort();
+      } catch (e) {
+      }
+    }
+    if (typeof document !== "undefined") {
+      delete Request.requests[this.index];
+    }
+    this.xhr = null;
+  }
+  onLoad() {
+    const data = this.xhr.responseText;
+    if (data !== null) {
+      this.emitReserved("data", data);
+      this.emitReserved("success");
+      this.cleanup();
+    }
+  }
+  abort() {
+    this.cleanup();
+  }
+}
+Request.requestsCount = 0;
+Request.requests = {};
+if (typeof document !== "undefined") {
+  if (typeof attachEvent === "function") {
+    attachEvent("onunload", unloadHandler);
+  } else if (typeof addEventListener === "function") {
+    const terminationEvent = "onpagehide" in globalThisShim ? "pagehide" : "unload";
+    addEventListener(terminationEvent, unloadHandler, false);
+  }
+}
+function unloadHandler() {
+  for (let i2 in Request.requests) {
+    if (Request.requests.hasOwnProperty(i2)) {
+      Request.requests[i2].abort();
+    }
+  }
+}
+const nextTick = (() => {
+  const isPromiseAvailable = typeof Promise === "function" && typeof Promise.resolve === "function";
+  if (isPromiseAvailable) {
+    return (cb) => Promise.resolve().then(cb);
+  } else {
+    return (cb, setTimeoutFn) => setTimeoutFn(cb, 0);
+  }
+})();
+const WebSocket = globalThisShim.WebSocket || globalThisShim.MozWebSocket;
+const usingBrowserWebSocket = true;
+const defaultBinaryType = "arraybuffer";
+const isReactNative = typeof navigator !== "undefined" && typeof navigator.product === "string" && navigator.product.toLowerCase() === "reactnative";
+class WS extends Transport {
+  constructor(opts) {
+    super(opts);
+    this.supportsBinary = !opts.forceBase64;
+  }
+  get name() {
+    return "websocket";
+  }
+  doOpen() {
+    if (!this.check()) {
+      return;
+    }
+    const uri = this.uri();
+    const protocols = this.opts.protocols;
+    const opts = isReactNative ? {} : pick(this.opts, "agent", "perMessageDeflate", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "localAddress", "protocolVersion", "origin", "maxPayload", "family", "checkServerIdentity");
+    if (this.opts.extraHeaders) {
+      opts.headers = this.opts.extraHeaders;
+    }
+    try {
+      this.ws = usingBrowserWebSocket && !isReactNative ? protocols ? new WebSocket(uri, protocols) : new WebSocket(uri) : new WebSocket(uri, protocols, opts);
+    } catch (err) {
+      return this.emitReserved("error", err);
+    }
+    this.ws.binaryType = this.socket.binaryType || defaultBinaryType;
+    this.addEventListeners();
+  }
+  addEventListeners() {
+    this.ws.onopen = () => {
+      if (this.opts.autoUnref) {
+        this.ws._socket.unref();
+      }
+      this.onOpen();
+    };
+    this.ws.onclose = (closeEvent) => this.onClose({
+      description: "websocket connection closed",
+      context: closeEvent
+    });
+    this.ws.onmessage = (ev) => this.onData(ev.data);
+    this.ws.onerror = (e) => this.onError("websocket error", e);
+  }
+  write(packets) {
+    this.writable = false;
+    for (let i2 = 0; i2 < packets.length; i2++) {
+      const packet = packets[i2];
+      const lastPacket = i2 === packets.length - 1;
+      encodePacket(packet, this.supportsBinary, (data) => {
+        const opts = {};
+        try {
+          if (usingBrowserWebSocket) {
+            this.ws.send(data);
+          }
+        } catch (e) {
+        }
+        if (lastPacket) {
+          nextTick(() => {
+            this.writable = true;
+            this.emitReserved("drain");
+          }, this.setTimeoutFn);
+        }
+      });
+    }
+  }
+  doClose() {
+    if (typeof this.ws !== "undefined") {
+      this.ws.close();
+      this.ws = null;
+    }
+  }
+  uri() {
+    let query = this.query || {};
+    const schema = this.opts.secure ? "wss" : "ws";
+    let port = "";
+    if (this.opts.port && ("wss" === schema && Number(this.opts.port) !== 443 || "ws" === schema && Number(this.opts.port) !== 80)) {
+      port = ":" + this.opts.port;
+    }
+    if (this.opts.timestampRequests) {
+      query[this.opts.timestampParam] = yeast();
+    }
+    if (!this.supportsBinary) {
+      query.b64 = 1;
+    }
+    const encodedQuery = encode(query);
+    const ipv6 = this.opts.hostname.indexOf(":") !== -1;
+    return schema + "://" + (ipv6 ? "[" + this.opts.hostname + "]" : this.opts.hostname) + port + this.opts.path + (encodedQuery.length ? "?" + encodedQuery : "");
+  }
+  check() {
+    return !!WebSocket;
+  }
+}
+const transports = {
+  websocket: WS,
+  polling: Polling
+};
+const re = /^(?:(?![^:@\/?#]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@\/?#]*)(?::([^:@\/?#]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/;
+const parts = [
+  "source",
+  "protocol",
+  "authority",
+  "userInfo",
+  "user",
+  "password",
+  "host",
+  "port",
+  "relative",
+  "path",
+  "directory",
+  "file",
+  "query",
+  "anchor"
+];
+function parse(str) {
+  const src = str, b = str.indexOf("["), e = str.indexOf("]");
+  if (b != -1 && e != -1) {
+    str = str.substring(0, b) + str.substring(b, e).replace(/:/g, ";") + str.substring(e, str.length);
+  }
+  let m = re.exec(str || ""), uri = {}, i2 = 14;
+  while (i2--) {
+    uri[parts[i2]] = m[i2] || "";
+  }
+  if (b != -1 && e != -1) {
+    uri.source = src;
+    uri.host = uri.host.substring(1, uri.host.length - 1).replace(/;/g, ":");
+    uri.authority = uri.authority.replace("[", "").replace("]", "").replace(/;/g, ":");
+    uri.ipv6uri = true;
+  }
+  uri.pathNames = pathNames(uri, uri["path"]);
+  uri.queryKey = queryKey(uri, uri["query"]);
+  return uri;
+}
+function pathNames(obj, path) {
+  const regx = /\/{2,9}/g, names = path.replace(regx, "/").split("/");
+  if (path.slice(0, 1) == "/" || path.length === 0) {
+    names.splice(0, 1);
+  }
+  if (path.slice(-1) == "/") {
+    names.splice(names.length - 1, 1);
+  }
+  return names;
+}
+function queryKey(uri, query) {
+  const data = {};
+  query.replace(/(?:^|&)([^&=]*)=?([^&]*)/g, function($0, $1, $2) {
+    if ($1) {
+      data[$1] = $2;
+    }
+  });
+  return data;
+}
+class Socket$1 extends Emitter {
+  constructor(uri, opts = {}) {
+    super();
+    this.writeBuffer = [];
+    if (uri && "object" === typeof uri) {
+      opts = uri;
+      uri = null;
+    }
+    if (uri) {
+      uri = parse(uri);
+      opts.hostname = uri.host;
+      opts.secure = uri.protocol === "https" || uri.protocol === "wss";
+      opts.port = uri.port;
+      if (uri.query)
+        opts.query = uri.query;
+    } else if (opts.host) {
+      opts.hostname = parse(opts.host).host;
+    }
+    installTimerFunctions(this, opts);
+    this.secure = null != opts.secure ? opts.secure : typeof location !== "undefined" && "https:" === location.protocol;
+    if (opts.hostname && !opts.port) {
+      opts.port = this.secure ? "443" : "80";
+    }
+    this.hostname = opts.hostname || (typeof location !== "undefined" ? location.hostname : "localhost");
+    this.port = opts.port || (typeof location !== "undefined" && location.port ? location.port : this.secure ? "443" : "80");
+    this.transports = opts.transports || ["polling", "websocket"];
+    this.writeBuffer = [];
+    this.prevBufferLen = 0;
+    this.opts = Object.assign({
+      path: "/engine.io",
+      agent: false,
+      withCredentials: false,
+      upgrade: true,
+      timestampParam: "t",
+      rememberUpgrade: false,
+      addTrailingSlash: true,
+      rejectUnauthorized: true,
+      perMessageDeflate: {
+        threshold: 1024
+      },
+      transportOptions: {},
+      closeOnBeforeunload: true
+    }, opts);
+    this.opts.path = this.opts.path.replace(/\/$/, "") + (this.opts.addTrailingSlash ? "/" : "");
+    if (typeof this.opts.query === "string") {
+      this.opts.query = decode(this.opts.query);
+    }
+    this.id = null;
+    this.upgrades = null;
+    this.pingInterval = null;
+    this.pingTimeout = null;
+    this.pingTimeoutTimer = null;
+    if (typeof addEventListener === "function") {
+      if (this.opts.closeOnBeforeunload) {
+        this.beforeunloadEventListener = () => {
+          if (this.transport) {
+            this.transport.removeAllListeners();
+            this.transport.close();
+          }
+        };
+        addEventListener("beforeunload", this.beforeunloadEventListener, false);
+      }
+      if (this.hostname !== "localhost") {
+        this.offlineEventListener = () => {
+          this.onClose("transport close", {
+            description: "network connection lost"
+          });
+        };
+        addEventListener("offline", this.offlineEventListener, false);
+      }
+    }
+    this.open();
+  }
+  createTransport(name) {
+    const query = Object.assign({}, this.opts.query);
+    query.EIO = protocol$1;
+    query.transport = name;
+    if (this.id)
+      query.sid = this.id;
+    const opts = Object.assign({}, this.opts.transportOptions[name], this.opts, {
+      query,
+      socket: this,
+      hostname: this.hostname,
+      secure: this.secure,
+      port: this.port
+    });
+    return new transports[name](opts);
+  }
+  open() {
+    let transport;
+    if (this.opts.rememberUpgrade && Socket$1.priorWebsocketSuccess && this.transports.indexOf("websocket") !== -1) {
+      transport = "websocket";
+    } else if (0 === this.transports.length) {
+      this.setTimeoutFn(() => {
+        this.emitReserved("error", "No transports available");
+      }, 0);
+      return;
+    } else {
+      transport = this.transports[0];
+    }
+    this.readyState = "opening";
+    try {
+      transport = this.createTransport(transport);
+    } catch (e) {
+      this.transports.shift();
+      this.open();
+      return;
+    }
+    transport.open();
+    this.setTransport(transport);
+  }
+  setTransport(transport) {
+    if (this.transport) {
+      this.transport.removeAllListeners();
+    }
+    this.transport = transport;
+    transport.on("drain", this.onDrain.bind(this)).on("packet", this.onPacket.bind(this)).on("error", this.onError.bind(this)).on("close", (reason) => this.onClose("transport close", reason));
+  }
+  probe(name) {
+    let transport = this.createTransport(name);
+    let failed = false;
+    Socket$1.priorWebsocketSuccess = false;
+    const onTransportOpen = () => {
+      if (failed)
+        return;
+      transport.send([{ type: "ping", data: "probe" }]);
+      transport.once("packet", (msg) => {
+        if (failed)
+          return;
+        if ("pong" === msg.type && "probe" === msg.data) {
+          this.upgrading = true;
+          this.emitReserved("upgrading", transport);
+          if (!transport)
+            return;
+          Socket$1.priorWebsocketSuccess = "websocket" === transport.name;
+          this.transport.pause(() => {
+            if (failed)
+              return;
+            if ("closed" === this.readyState)
+              return;
+            cleanup();
+            this.setTransport(transport);
+            transport.send([{ type: "upgrade" }]);
+            this.emitReserved("upgrade", transport);
+            transport = null;
+            this.upgrading = false;
+            this.flush();
+          });
+        } else {
+          const err = new Error("probe error");
+          err.transport = transport.name;
+          this.emitReserved("upgradeError", err);
+        }
+      });
+    };
+    function freezeTransport() {
+      if (failed)
+        return;
+      failed = true;
+      cleanup();
+      transport.close();
+      transport = null;
+    }
+    const onerror = (err) => {
+      const error = new Error("probe error: " + err);
+      error.transport = transport.name;
+      freezeTransport();
+      this.emitReserved("upgradeError", error);
+    };
+    function onTransportClose() {
+      onerror("transport closed");
+    }
+    function onclose() {
+      onerror("socket closed");
+    }
+    function onupgrade(to) {
+      if (transport && to.name !== transport.name) {
+        freezeTransport();
+      }
+    }
+    const cleanup = () => {
+      transport.removeListener("open", onTransportOpen);
+      transport.removeListener("error", onerror);
+      transport.removeListener("close", onTransportClose);
+      this.off("close", onclose);
+      this.off("upgrading", onupgrade);
+    };
+    transport.once("open", onTransportOpen);
+    transport.once("error", onerror);
+    transport.once("close", onTransportClose);
+    this.once("close", onclose);
+    this.once("upgrading", onupgrade);
+    transport.open();
+  }
+  onOpen() {
+    this.readyState = "open";
+    Socket$1.priorWebsocketSuccess = "websocket" === this.transport.name;
+    this.emitReserved("open");
+    this.flush();
+    if ("open" === this.readyState && this.opts.upgrade) {
+      let i2 = 0;
+      const l = this.upgrades.length;
+      for (; i2 < l; i2++) {
+        this.probe(this.upgrades[i2]);
+      }
+    }
+  }
+  onPacket(packet) {
+    if ("opening" === this.readyState || "open" === this.readyState || "closing" === this.readyState) {
+      this.emitReserved("packet", packet);
+      this.emitReserved("heartbeat");
+      switch (packet.type) {
+        case "open":
+          this.onHandshake(JSON.parse(packet.data));
+          break;
+        case "ping":
+          this.resetPingTimeout();
+          this.sendPacket("pong");
+          this.emitReserved("ping");
+          this.emitReserved("pong");
+          break;
+        case "error":
+          const err = new Error("server error");
+          err.code = packet.data;
+          this.onError(err);
+          break;
+        case "message":
+          this.emitReserved("data", packet.data);
+          this.emitReserved("message", packet.data);
+          break;
+      }
+    }
+  }
+  onHandshake(data) {
+    this.emitReserved("handshake", data);
+    this.id = data.sid;
+    this.transport.query.sid = data.sid;
+    this.upgrades = this.filterUpgrades(data.upgrades);
+    this.pingInterval = data.pingInterval;
+    this.pingTimeout = data.pingTimeout;
+    this.maxPayload = data.maxPayload;
+    this.onOpen();
+    if ("closed" === this.readyState)
+      return;
+    this.resetPingTimeout();
+  }
+  resetPingTimeout() {
+    this.clearTimeoutFn(this.pingTimeoutTimer);
+    this.pingTimeoutTimer = this.setTimeoutFn(() => {
+      this.onClose("ping timeout");
+    }, this.pingInterval + this.pingTimeout);
+    if (this.opts.autoUnref) {
+      this.pingTimeoutTimer.unref();
+    }
+  }
+  onDrain() {
+    this.writeBuffer.splice(0, this.prevBufferLen);
+    this.prevBufferLen = 0;
+    if (0 === this.writeBuffer.length) {
+      this.emitReserved("drain");
+    } else {
+      this.flush();
+    }
+  }
+  flush() {
+    if ("closed" !== this.readyState && this.transport.writable && !this.upgrading && this.writeBuffer.length) {
+      const packets = this.getWritablePackets();
+      this.transport.send(packets);
+      this.prevBufferLen = packets.length;
+      this.emitReserved("flush");
+    }
+  }
+  getWritablePackets() {
+    const shouldCheckPayloadSize = this.maxPayload && this.transport.name === "polling" && this.writeBuffer.length > 1;
+    if (!shouldCheckPayloadSize) {
+      return this.writeBuffer;
+    }
+    let payloadSize = 1;
+    for (let i2 = 0; i2 < this.writeBuffer.length; i2++) {
+      const data = this.writeBuffer[i2].data;
+      if (data) {
+        payloadSize += byteLength(data);
+      }
+      if (i2 > 0 && payloadSize > this.maxPayload) {
+        return this.writeBuffer.slice(0, i2);
+      }
+      payloadSize += 2;
+    }
+    return this.writeBuffer;
+  }
+  write(msg, options, fn) {
+    this.sendPacket("message", msg, options, fn);
+    return this;
+  }
+  send(msg, options, fn) {
+    this.sendPacket("message", msg, options, fn);
+    return this;
+  }
+  sendPacket(type, data, options, fn) {
+    if ("function" === typeof data) {
+      fn = data;
+      data = void 0;
+    }
+    if ("function" === typeof options) {
+      fn = options;
+      options = null;
+    }
+    if ("closing" === this.readyState || "closed" === this.readyState) {
+      return;
+    }
+    options = options || {};
+    options.compress = false !== options.compress;
+    const packet = {
+      type,
+      data,
+      options
+    };
+    this.emitReserved("packetCreate", packet);
+    this.writeBuffer.push(packet);
+    if (fn)
+      this.once("flush", fn);
+    this.flush();
+  }
+  close() {
+    const close = () => {
+      this.onClose("forced close");
+      this.transport.close();
+    };
+    const cleanupAndClose = () => {
+      this.off("upgrade", cleanupAndClose);
+      this.off("upgradeError", cleanupAndClose);
+      close();
+    };
+    const waitForUpgrade = () => {
+      this.once("upgrade", cleanupAndClose);
+      this.once("upgradeError", cleanupAndClose);
+    };
+    if ("opening" === this.readyState || "open" === this.readyState) {
+      this.readyState = "closing";
+      if (this.writeBuffer.length) {
+        this.once("drain", () => {
+          if (this.upgrading) {
+            waitForUpgrade();
+          } else {
+            close();
+          }
+        });
+      } else if (this.upgrading) {
+        waitForUpgrade();
+      } else {
+        close();
+      }
+    }
+    return this;
+  }
+  onError(err) {
+    Socket$1.priorWebsocketSuccess = false;
+    this.emitReserved("error", err);
+    this.onClose("transport error", err);
+  }
+  onClose(reason, description) {
+    if ("opening" === this.readyState || "open" === this.readyState || "closing" === this.readyState) {
+      this.clearTimeoutFn(this.pingTimeoutTimer);
+      this.transport.removeAllListeners("close");
+      this.transport.close();
+      this.transport.removeAllListeners();
+      if (typeof removeEventListener === "function") {
+        removeEventListener("beforeunload", this.beforeunloadEventListener, false);
+        removeEventListener("offline", this.offlineEventListener, false);
+      }
+      this.readyState = "closed";
+      this.id = null;
+      this.emitReserved("close", reason, description);
+      this.writeBuffer = [];
+      this.prevBufferLen = 0;
+    }
+  }
+  filterUpgrades(upgrades) {
+    const filteredUpgrades = [];
+    let i2 = 0;
+    const j = upgrades.length;
+    for (; i2 < j; i2++) {
+      if (~this.transports.indexOf(upgrades[i2]))
+        filteredUpgrades.push(upgrades[i2]);
+    }
+    return filteredUpgrades;
+  }
+}
+Socket$1.protocol = protocol$1;
+function url(uri, path = "", loc) {
+  let obj = uri;
+  loc = loc || typeof location !== "undefined" && location;
+  if (null == uri)
+    uri = loc.protocol + "//" + loc.host;
+  if (typeof uri === "string") {
+    if ("/" === uri.charAt(0)) {
+      if ("/" === uri.charAt(1)) {
+        uri = loc.protocol + uri;
+      } else {
+        uri = loc.host + uri;
+      }
+    }
+    if (!/^(https?|wss?):\/\//.test(uri)) {
+      if ("undefined" !== typeof loc) {
+        uri = loc.protocol + "//" + uri;
+      } else {
+        uri = "https://" + uri;
+      }
+    }
+    obj = parse(uri);
+  }
+  if (!obj.port) {
+    if (/^(http|ws)$/.test(obj.protocol)) {
+      obj.port = "80";
+    } else if (/^(http|ws)s$/.test(obj.protocol)) {
+      obj.port = "443";
+    }
+  }
+  obj.path = obj.path || "/";
+  const ipv6 = obj.host.indexOf(":") !== -1;
+  const host = ipv6 ? "[" + obj.host + "]" : obj.host;
+  obj.id = obj.protocol + "://" + host + ":" + obj.port + path;
+  obj.href = obj.protocol + "://" + host + (loc && loc.port === obj.port ? "" : ":" + obj.port);
+  return obj;
+}
+const withNativeArrayBuffer = typeof ArrayBuffer === "function";
+const isView = (obj) => {
+  return typeof ArrayBuffer.isView === "function" ? ArrayBuffer.isView(obj) : obj.buffer instanceof ArrayBuffer;
+};
+const toString = Object.prototype.toString;
+const withNativeBlob = typeof Blob === "function" || typeof Blob !== "undefined" && toString.call(Blob) === "[object BlobConstructor]";
+const withNativeFile = typeof File === "function" || typeof File !== "undefined" && toString.call(File) === "[object FileConstructor]";
+function isBinary(obj) {
+  return withNativeArrayBuffer && (obj instanceof ArrayBuffer || isView(obj)) || withNativeBlob && obj instanceof Blob || withNativeFile && obj instanceof File;
+}
+function hasBinary(obj, toJSON) {
+  if (!obj || typeof obj !== "object") {
+    return false;
+  }
+  if (Array.isArray(obj)) {
+    for (let i2 = 0, l = obj.length; i2 < l; i2++) {
+      if (hasBinary(obj[i2])) {
+        return true;
+      }
+    }
+    return false;
+  }
+  if (isBinary(obj)) {
+    return true;
+  }
+  if (obj.toJSON && typeof obj.toJSON === "function" && arguments.length === 1) {
+    return hasBinary(obj.toJSON(), true);
+  }
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key) && hasBinary(obj[key])) {
+      return true;
+    }
+  }
+  return false;
+}
+function deconstructPacket(packet) {
+  const buffers = [];
+  const packetData = packet.data;
+  const pack = packet;
+  pack.data = _deconstructPacket(packetData, buffers);
+  pack.attachments = buffers.length;
+  return { packet: pack, buffers };
+}
+function _deconstructPacket(data, buffers) {
+  if (!data)
+    return data;
+  if (isBinary(data)) {
+    const placeholder = { _placeholder: true, num: buffers.length };
+    buffers.push(data);
+    return placeholder;
+  } else if (Array.isArray(data)) {
+    const newData = new Array(data.length);
+    for (let i2 = 0; i2 < data.length; i2++) {
+      newData[i2] = _deconstructPacket(data[i2], buffers);
+    }
+    return newData;
+  } else if (typeof data === "object" && !(data instanceof Date)) {
+    const newData = {};
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        newData[key] = _deconstructPacket(data[key], buffers);
+      }
+    }
+    return newData;
+  }
+  return data;
+}
+function reconstructPacket(packet, buffers) {
+  packet.data = _reconstructPacket(packet.data, buffers);
+  delete packet.attachments;
+  return packet;
+}
+function _reconstructPacket(data, buffers) {
+  if (!data)
+    return data;
+  if (data && data._placeholder === true) {
+    const isIndexValid = typeof data.num === "number" && data.num >= 0 && data.num < buffers.length;
+    if (isIndexValid) {
+      return buffers[data.num];
+    } else {
+      throw new Error("illegal attachments");
+    }
+  } else if (Array.isArray(data)) {
+    for (let i2 = 0; i2 < data.length; i2++) {
+      data[i2] = _reconstructPacket(data[i2], buffers);
+    }
+  } else if (typeof data === "object") {
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        data[key] = _reconstructPacket(data[key], buffers);
+      }
+    }
+  }
+  return data;
+}
+const protocol = 5;
+var PacketType;
+(function(PacketType2) {
+  PacketType2[PacketType2["CONNECT"] = 0] = "CONNECT";
+  PacketType2[PacketType2["DISCONNECT"] = 1] = "DISCONNECT";
+  PacketType2[PacketType2["EVENT"] = 2] = "EVENT";
+  PacketType2[PacketType2["ACK"] = 3] = "ACK";
+  PacketType2[PacketType2["CONNECT_ERROR"] = 4] = "CONNECT_ERROR";
+  PacketType2[PacketType2["BINARY_EVENT"] = 5] = "BINARY_EVENT";
+  PacketType2[PacketType2["BINARY_ACK"] = 6] = "BINARY_ACK";
+})(PacketType || (PacketType = {}));
+class Encoder {
+  constructor(replacer) {
+    this.replacer = replacer;
+  }
+  encode(obj) {
+    if (obj.type === PacketType.EVENT || obj.type === PacketType.ACK) {
+      if (hasBinary(obj)) {
+        return this.encodeAsBinary({
+          type: obj.type === PacketType.EVENT ? PacketType.BINARY_EVENT : PacketType.BINARY_ACK,
+          nsp: obj.nsp,
+          data: obj.data,
+          id: obj.id
+        });
+      }
+    }
+    return [this.encodeAsString(obj)];
+  }
+  encodeAsString(obj) {
+    let str = "" + obj.type;
+    if (obj.type === PacketType.BINARY_EVENT || obj.type === PacketType.BINARY_ACK) {
+      str += obj.attachments + "-";
+    }
+    if (obj.nsp && "/" !== obj.nsp) {
+      str += obj.nsp + ",";
+    }
+    if (null != obj.id) {
+      str += obj.id;
+    }
+    if (null != obj.data) {
+      str += JSON.stringify(obj.data, this.replacer);
+    }
+    return str;
+  }
+  encodeAsBinary(obj) {
+    const deconstruction = deconstructPacket(obj);
+    const pack = this.encodeAsString(deconstruction.packet);
+    const buffers = deconstruction.buffers;
+    buffers.unshift(pack);
+    return buffers;
+  }
+}
+class Decoder extends Emitter {
+  constructor(reviver) {
+    super();
+    this.reviver = reviver;
+  }
+  add(obj) {
+    let packet;
+    if (typeof obj === "string") {
+      if (this.reconstructor) {
+        throw new Error("got plaintext data when reconstructing a packet");
+      }
+      packet = this.decodeString(obj);
+      const isBinaryEvent = packet.type === PacketType.BINARY_EVENT;
+      if (isBinaryEvent || packet.type === PacketType.BINARY_ACK) {
+        packet.type = isBinaryEvent ? PacketType.EVENT : PacketType.ACK;
+        this.reconstructor = new BinaryReconstructor(packet);
+        if (packet.attachments === 0) {
+          super.emitReserved("decoded", packet);
+        }
+      } else {
+        super.emitReserved("decoded", packet);
+      }
+    } else if (isBinary(obj) || obj.base64) {
+      if (!this.reconstructor) {
+        throw new Error("got binary data when not reconstructing a packet");
+      } else {
+        packet = this.reconstructor.takeBinaryData(obj);
+        if (packet) {
+          this.reconstructor = null;
+          super.emitReserved("decoded", packet);
+        }
+      }
+    } else {
+      throw new Error("Unknown type: " + obj);
+    }
+  }
+  decodeString(str) {
+    let i2 = 0;
+    const p = {
+      type: Number(str.charAt(0))
+    };
+    if (PacketType[p.type] === void 0) {
+      throw new Error("unknown packet type " + p.type);
+    }
+    if (p.type === PacketType.BINARY_EVENT || p.type === PacketType.BINARY_ACK) {
+      const start = i2 + 1;
+      while (str.charAt(++i2) !== "-" && i2 != str.length) {
+      }
+      const buf = str.substring(start, i2);
+      if (buf != Number(buf) || str.charAt(i2) !== "-") {
+        throw new Error("Illegal attachments");
+      }
+      p.attachments = Number(buf);
+    }
+    if ("/" === str.charAt(i2 + 1)) {
+      const start = i2 + 1;
+      while (++i2) {
+        const c = str.charAt(i2);
+        if ("," === c)
+          break;
+        if (i2 === str.length)
+          break;
+      }
+      p.nsp = str.substring(start, i2);
+    } else {
+      p.nsp = "/";
+    }
+    const next = str.charAt(i2 + 1);
+    if ("" !== next && Number(next) == next) {
+      const start = i2 + 1;
+      while (++i2) {
+        const c = str.charAt(i2);
+        if (null == c || Number(c) != c) {
+          --i2;
+          break;
+        }
+        if (i2 === str.length)
+          break;
+      }
+      p.id = Number(str.substring(start, i2 + 1));
+    }
+    if (str.charAt(++i2)) {
+      const payload = this.tryParse(str.substr(i2));
+      if (Decoder.isPayloadValid(p.type, payload)) {
+        p.data = payload;
+      } else {
+        throw new Error("invalid payload");
+      }
+    }
+    return p;
+  }
+  tryParse(str) {
+    try {
+      return JSON.parse(str, this.reviver);
+    } catch (e) {
+      return false;
+    }
+  }
+  static isPayloadValid(type, payload) {
+    switch (type) {
+      case PacketType.CONNECT:
+        return typeof payload === "object";
+      case PacketType.DISCONNECT:
+        return payload === void 0;
+      case PacketType.CONNECT_ERROR:
+        return typeof payload === "string" || typeof payload === "object";
+      case PacketType.EVENT:
+      case PacketType.BINARY_EVENT:
+        return Array.isArray(payload) && payload.length > 0;
+      case PacketType.ACK:
+      case PacketType.BINARY_ACK:
+        return Array.isArray(payload);
+    }
+  }
+  destroy() {
+    if (this.reconstructor) {
+      this.reconstructor.finishedReconstruction();
+      this.reconstructor = null;
+    }
+  }
+}
+class BinaryReconstructor {
+  constructor(packet) {
+    this.packet = packet;
+    this.buffers = [];
+    this.reconPack = packet;
+  }
+  takeBinaryData(binData) {
+    this.buffers.push(binData);
+    if (this.buffers.length === this.reconPack.attachments) {
+      const packet = reconstructPacket(this.reconPack, this.buffers);
+      this.finishedReconstruction();
+      return packet;
+    }
+    return null;
+  }
+  finishedReconstruction() {
+    this.reconPack = null;
+    this.buffers = [];
+  }
+}
+var parser = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  protocol,
+  get PacketType() {
+    return PacketType;
+  },
+  Encoder,
+  Decoder
+}, Symbol.toStringTag, { value: "Module" }));
+function on(obj, ev, fn) {
+  obj.on(ev, fn);
+  return function subDestroy() {
+    obj.off(ev, fn);
+  };
+}
+const RESERVED_EVENTS = Object.freeze({
+  connect: 1,
+  connect_error: 1,
+  disconnect: 1,
+  disconnecting: 1,
+  newListener: 1,
+  removeListener: 1
+});
+class Socket extends Emitter {
+  constructor(io, nsp, opts) {
+    super();
+    this.connected = false;
+    this.recovered = false;
+    this.receiveBuffer = [];
+    this.sendBuffer = [];
+    this._queue = [];
+    this._queueSeq = 0;
+    this.ids = 0;
+    this.acks = {};
+    this.flags = {};
+    this.io = io;
+    this.nsp = nsp;
+    if (opts && opts.auth) {
+      this.auth = opts.auth;
+    }
+    this._opts = Object.assign({}, opts);
+    if (this.io._autoConnect)
+      this.open();
+  }
+  get disconnected() {
+    return !this.connected;
+  }
+  subEvents() {
+    if (this.subs)
+      return;
+    const io = this.io;
+    this.subs = [
+      on(io, "open", this.onopen.bind(this)),
+      on(io, "packet", this.onpacket.bind(this)),
+      on(io, "error", this.onerror.bind(this)),
+      on(io, "close", this.onclose.bind(this))
+    ];
+  }
+  get active() {
+    return !!this.subs;
+  }
+  connect() {
+    if (this.connected)
+      return this;
+    this.subEvents();
+    if (!this.io["_reconnecting"])
+      this.io.open();
+    if ("open" === this.io._readyState)
+      this.onopen();
+    return this;
+  }
+  open() {
+    return this.connect();
+  }
+  send(...args) {
+    args.unshift("message");
+    this.emit.apply(this, args);
+    return this;
+  }
+  emit(ev, ...args) {
+    if (RESERVED_EVENTS.hasOwnProperty(ev)) {
+      throw new Error('"' + ev.toString() + '" is a reserved event name');
+    }
+    args.unshift(ev);
+    if (this._opts.retries && !this.flags.fromQueue && !this.flags.volatile) {
+      this._addToQueue(args);
+      return this;
+    }
+    const packet = {
+      type: PacketType.EVENT,
+      data: args
+    };
+    packet.options = {};
+    packet.options.compress = this.flags.compress !== false;
+    if ("function" === typeof args[args.length - 1]) {
+      const id = this.ids++;
+      const ack = args.pop();
+      this._registerAckCallback(id, ack);
+      packet.id = id;
+    }
+    const isTransportWritable = this.io.engine && this.io.engine.transport && this.io.engine.transport.writable;
+    const discardPacket = this.flags.volatile && (!isTransportWritable || !this.connected);
+    if (discardPacket)
+      ;
+    else if (this.connected) {
+      this.notifyOutgoingListeners(packet);
+      this.packet(packet);
+    } else {
+      this.sendBuffer.push(packet);
+    }
+    this.flags = {};
+    return this;
+  }
+  _registerAckCallback(id, ack) {
+    var _a;
+    const timeout = (_a = this.flags.timeout) !== null && _a !== void 0 ? _a : this._opts.ackTimeout;
+    if (timeout === void 0) {
+      this.acks[id] = ack;
+      return;
+    }
+    const timer = this.io.setTimeoutFn(() => {
+      delete this.acks[id];
+      for (let i2 = 0; i2 < this.sendBuffer.length; i2++) {
+        if (this.sendBuffer[i2].id === id) {
+          this.sendBuffer.splice(i2, 1);
+        }
+      }
+      ack.call(this, new Error("operation has timed out"));
+    }, timeout);
+    this.acks[id] = (...args) => {
+      this.io.clearTimeoutFn(timer);
+      ack.apply(this, [null, ...args]);
+    };
+  }
+  emitWithAck(ev, ...args) {
+    const withErr = this.flags.timeout !== void 0 || this._opts.ackTimeout !== void 0;
+    return new Promise((resolve, reject) => {
+      args.push((arg1, arg2) => {
+        if (withErr) {
+          return arg1 ? reject(arg1) : resolve(arg2);
+        } else {
+          return resolve(arg1);
+        }
+      });
+      this.emit(ev, ...args);
+    });
+  }
+  _addToQueue(args) {
+    let ack;
+    if (typeof args[args.length - 1] === "function") {
+      ack = args.pop();
+    }
+    const packet = {
+      id: this._queueSeq++,
+      tryCount: 0,
+      pending: false,
+      args,
+      flags: Object.assign({ fromQueue: true }, this.flags)
+    };
+    args.push((err, ...responseArgs) => {
+      if (packet !== this._queue[0]) {
+        return;
+      }
+      const hasError = err !== null;
+      if (hasError) {
+        if (packet.tryCount > this._opts.retries) {
+          this._queue.shift();
+          if (ack) {
+            ack(err);
+          }
+        }
+      } else {
+        this._queue.shift();
+        if (ack) {
+          ack(null, ...responseArgs);
+        }
+      }
+      packet.pending = false;
+      return this._drainQueue();
+    });
+    this._queue.push(packet);
+    this._drainQueue();
+  }
+  _drainQueue(force = false) {
+    if (!this.connected || this._queue.length === 0) {
+      return;
+    }
+    const packet = this._queue[0];
+    if (packet.pending && !force) {
+      return;
+    }
+    packet.pending = true;
+    packet.tryCount++;
+    this.flags = packet.flags;
+    this.emit.apply(this, packet.args);
+  }
+  packet(packet) {
+    packet.nsp = this.nsp;
+    this.io._packet(packet);
+  }
+  onopen() {
+    if (typeof this.auth == "function") {
+      this.auth((data) => {
+        this._sendConnectPacket(data);
+      });
+    } else {
+      this._sendConnectPacket(this.auth);
+    }
+  }
+  _sendConnectPacket(data) {
+    this.packet({
+      type: PacketType.CONNECT,
+      data: this._pid ? Object.assign({ pid: this._pid, offset: this._lastOffset }, data) : data
+    });
+  }
+  onerror(err) {
+    if (!this.connected) {
+      this.emitReserved("connect_error", err);
+    }
+  }
+  onclose(reason, description) {
+    this.connected = false;
+    delete this.id;
+    this.emitReserved("disconnect", reason, description);
+  }
+  onpacket(packet) {
+    const sameNamespace = packet.nsp === this.nsp;
+    if (!sameNamespace)
+      return;
+    switch (packet.type) {
+      case PacketType.CONNECT:
+        if (packet.data && packet.data.sid) {
+          this.onconnect(packet.data.sid, packet.data.pid);
+        } else {
+          this.emitReserved("connect_error", new Error("It seems you are trying to reach a Socket.IO server in v2.x with a v3.x client, but they are not compatible (more information here: https://socket.io/docs/v3/migrating-from-2-x-to-3-0/)"));
+        }
+        break;
+      case PacketType.EVENT:
+      case PacketType.BINARY_EVENT:
+        this.onevent(packet);
+        break;
+      case PacketType.ACK:
+      case PacketType.BINARY_ACK:
+        this.onack(packet);
+        break;
+      case PacketType.DISCONNECT:
+        this.ondisconnect();
+        break;
+      case PacketType.CONNECT_ERROR:
+        this.destroy();
+        const err = new Error(packet.data.message);
+        err.data = packet.data.data;
+        this.emitReserved("connect_error", err);
+        break;
+    }
+  }
+  onevent(packet) {
+    const args = packet.data || [];
+    if (null != packet.id) {
+      args.push(this.ack(packet.id));
+    }
+    if (this.connected) {
+      this.emitEvent(args);
+    } else {
+      this.receiveBuffer.push(Object.freeze(args));
+    }
+  }
+  emitEvent(args) {
+    if (this._anyListeners && this._anyListeners.length) {
+      const listeners = this._anyListeners.slice();
+      for (const listener of listeners) {
+        listener.apply(this, args);
+      }
+    }
+    super.emit.apply(this, args);
+    if (this._pid && args.length && typeof args[args.length - 1] === "string") {
+      this._lastOffset = args[args.length - 1];
+    }
+  }
+  ack(id) {
+    const self2 = this;
+    let sent = false;
+    return function(...args) {
+      if (sent)
+        return;
+      sent = true;
+      self2.packet({
+        type: PacketType.ACK,
+        id,
+        data: args
+      });
+    };
+  }
+  onack(packet) {
+    const ack = this.acks[packet.id];
+    if ("function" === typeof ack) {
+      ack.apply(this, packet.data);
+      delete this.acks[packet.id];
+    }
+  }
+  onconnect(id, pid) {
+    this.id = id;
+    this.recovered = pid && this._pid === pid;
+    this._pid = pid;
+    this.connected = true;
+    this.emitBuffered();
+    this.emitReserved("connect");
+    this._drainQueue(true);
+  }
+  emitBuffered() {
+    this.receiveBuffer.forEach((args) => this.emitEvent(args));
+    this.receiveBuffer = [];
+    this.sendBuffer.forEach((packet) => {
+      this.notifyOutgoingListeners(packet);
+      this.packet(packet);
+    });
+    this.sendBuffer = [];
+  }
+  ondisconnect() {
+    this.destroy();
+    this.onclose("io server disconnect");
+  }
+  destroy() {
+    if (this.subs) {
+      this.subs.forEach((subDestroy) => subDestroy());
+      this.subs = void 0;
+    }
+    this.io["_destroy"](this);
+  }
+  disconnect() {
+    if (this.connected) {
+      this.packet({ type: PacketType.DISCONNECT });
+    }
+    this.destroy();
+    if (this.connected) {
+      this.onclose("io client disconnect");
+    }
+    return this;
+  }
+  close() {
+    return this.disconnect();
+  }
+  compress(compress) {
+    this.flags.compress = compress;
+    return this;
+  }
+  get volatile() {
+    this.flags.volatile = true;
+    return this;
+  }
+  timeout(timeout) {
+    this.flags.timeout = timeout;
+    return this;
+  }
+  onAny(listener) {
+    this._anyListeners = this._anyListeners || [];
+    this._anyListeners.push(listener);
+    return this;
+  }
+  prependAny(listener) {
+    this._anyListeners = this._anyListeners || [];
+    this._anyListeners.unshift(listener);
+    return this;
+  }
+  offAny(listener) {
+    if (!this._anyListeners) {
+      return this;
+    }
+    if (listener) {
+      const listeners = this._anyListeners;
+      for (let i2 = 0; i2 < listeners.length; i2++) {
+        if (listener === listeners[i2]) {
+          listeners.splice(i2, 1);
+          return this;
+        }
+      }
+    } else {
+      this._anyListeners = [];
+    }
+    return this;
+  }
+  listenersAny() {
+    return this._anyListeners || [];
+  }
+  onAnyOutgoing(listener) {
+    this._anyOutgoingListeners = this._anyOutgoingListeners || [];
+    this._anyOutgoingListeners.push(listener);
+    return this;
+  }
+  prependAnyOutgoing(listener) {
+    this._anyOutgoingListeners = this._anyOutgoingListeners || [];
+    this._anyOutgoingListeners.unshift(listener);
+    return this;
+  }
+  offAnyOutgoing(listener) {
+    if (!this._anyOutgoingListeners) {
+      return this;
+    }
+    if (listener) {
+      const listeners = this._anyOutgoingListeners;
+      for (let i2 = 0; i2 < listeners.length; i2++) {
+        if (listener === listeners[i2]) {
+          listeners.splice(i2, 1);
+          return this;
+        }
+      }
+    } else {
+      this._anyOutgoingListeners = [];
+    }
+    return this;
+  }
+  listenersAnyOutgoing() {
+    return this._anyOutgoingListeners || [];
+  }
+  notifyOutgoingListeners(packet) {
+    if (this._anyOutgoingListeners && this._anyOutgoingListeners.length) {
+      const listeners = this._anyOutgoingListeners.slice();
+      for (const listener of listeners) {
+        listener.apply(this, packet.data);
+      }
+    }
+  }
+}
+function Backoff(opts) {
+  opts = opts || {};
+  this.ms = opts.min || 100;
+  this.max = opts.max || 1e4;
+  this.factor = opts.factor || 2;
+  this.jitter = opts.jitter > 0 && opts.jitter <= 1 ? opts.jitter : 0;
+  this.attempts = 0;
+}
+Backoff.prototype.duration = function() {
+  var ms = this.ms * Math.pow(this.factor, this.attempts++);
+  if (this.jitter) {
+    var rand = Math.random();
+    var deviation = Math.floor(rand * this.jitter * ms);
+    ms = (Math.floor(rand * 10) & 1) == 0 ? ms - deviation : ms + deviation;
+  }
+  return Math.min(ms, this.max) | 0;
+};
+Backoff.prototype.reset = function() {
+  this.attempts = 0;
+};
+Backoff.prototype.setMin = function(min) {
+  this.ms = min;
+};
+Backoff.prototype.setMax = function(max) {
+  this.max = max;
+};
+Backoff.prototype.setJitter = function(jitter) {
+  this.jitter = jitter;
+};
+class Manager extends Emitter {
+  constructor(uri, opts) {
+    var _a;
+    super();
+    this.nsps = {};
+    this.subs = [];
+    if (uri && "object" === typeof uri) {
+      opts = uri;
+      uri = void 0;
+    }
+    opts = opts || {};
+    opts.path = opts.path || "/socket.io";
+    this.opts = opts;
+    installTimerFunctions(this, opts);
+    this.reconnection(opts.reconnection !== false);
+    this.reconnectionAttempts(opts.reconnectionAttempts || Infinity);
+    this.reconnectionDelay(opts.reconnectionDelay || 1e3);
+    this.reconnectionDelayMax(opts.reconnectionDelayMax || 5e3);
+    this.randomizationFactor((_a = opts.randomizationFactor) !== null && _a !== void 0 ? _a : 0.5);
+    this.backoff = new Backoff({
+      min: this.reconnectionDelay(),
+      max: this.reconnectionDelayMax(),
+      jitter: this.randomizationFactor()
+    });
+    this.timeout(null == opts.timeout ? 2e4 : opts.timeout);
+    this._readyState = "closed";
+    this.uri = uri;
+    const _parser = opts.parser || parser;
+    this.encoder = new _parser.Encoder();
+    this.decoder = new _parser.Decoder();
+    this._autoConnect = opts.autoConnect !== false;
+    if (this._autoConnect)
+      this.open();
+  }
+  reconnection(v) {
+    if (!arguments.length)
+      return this._reconnection;
+    this._reconnection = !!v;
+    return this;
+  }
+  reconnectionAttempts(v) {
+    if (v === void 0)
+      return this._reconnectionAttempts;
+    this._reconnectionAttempts = v;
+    return this;
+  }
+  reconnectionDelay(v) {
+    var _a;
+    if (v === void 0)
+      return this._reconnectionDelay;
+    this._reconnectionDelay = v;
+    (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setMin(v);
+    return this;
+  }
+  randomizationFactor(v) {
+    var _a;
+    if (v === void 0)
+      return this._randomizationFactor;
+    this._randomizationFactor = v;
+    (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setJitter(v);
+    return this;
+  }
+  reconnectionDelayMax(v) {
+    var _a;
+    if (v === void 0)
+      return this._reconnectionDelayMax;
+    this._reconnectionDelayMax = v;
+    (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setMax(v);
+    return this;
+  }
+  timeout(v) {
+    if (!arguments.length)
+      return this._timeout;
+    this._timeout = v;
+    return this;
+  }
+  maybeReconnectOnOpen() {
+    if (!this._reconnecting && this._reconnection && this.backoff.attempts === 0) {
+      this.reconnect();
+    }
+  }
+  open(fn) {
+    if (~this._readyState.indexOf("open"))
+      return this;
+    this.engine = new Socket$1(this.uri, this.opts);
+    const socket2 = this.engine;
+    const self2 = this;
+    this._readyState = "opening";
+    this.skipReconnect = false;
+    const openSubDestroy = on(socket2, "open", function() {
+      self2.onopen();
+      fn && fn();
+    });
+    const errorSub = on(socket2, "error", (err) => {
+      self2.cleanup();
+      self2._readyState = "closed";
+      this.emitReserved("error", err);
+      if (fn) {
+        fn(err);
+      } else {
+        self2.maybeReconnectOnOpen();
+      }
+    });
+    if (false !== this._timeout) {
+      const timeout = this._timeout;
+      if (timeout === 0) {
+        openSubDestroy();
+      }
+      const timer = this.setTimeoutFn(() => {
+        openSubDestroy();
+        socket2.close();
+        socket2.emit("error", new Error("timeout"));
+      }, timeout);
+      if (this.opts.autoUnref) {
+        timer.unref();
+      }
+      this.subs.push(function subDestroy() {
+        clearTimeout(timer);
+      });
+    }
+    this.subs.push(openSubDestroy);
+    this.subs.push(errorSub);
+    return this;
+  }
+  connect(fn) {
+    return this.open(fn);
+  }
+  onopen() {
+    this.cleanup();
+    this._readyState = "open";
+    this.emitReserved("open");
+    const socket2 = this.engine;
+    this.subs.push(on(socket2, "ping", this.onping.bind(this)), on(socket2, "data", this.ondata.bind(this)), on(socket2, "error", this.onerror.bind(this)), on(socket2, "close", this.onclose.bind(this)), on(this.decoder, "decoded", this.ondecoded.bind(this)));
+  }
+  onping() {
+    this.emitReserved("ping");
+  }
+  ondata(data) {
+    try {
+      this.decoder.add(data);
+    } catch (e) {
+      this.onclose("parse error", e);
+    }
+  }
+  ondecoded(packet) {
+    nextTick(() => {
+      this.emitReserved("packet", packet);
+    }, this.setTimeoutFn);
+  }
+  onerror(err) {
+    this.emitReserved("error", err);
+  }
+  socket(nsp, opts) {
+    let socket2 = this.nsps[nsp];
+    if (!socket2) {
+      socket2 = new Socket(this, nsp, opts);
+      this.nsps[nsp] = socket2;
+    } else if (this._autoConnect && !socket2.active) {
+      socket2.connect();
+    }
+    return socket2;
+  }
+  _destroy(socket2) {
+    const nsps = Object.keys(this.nsps);
+    for (const nsp of nsps) {
+      const socket3 = this.nsps[nsp];
+      if (socket3.active) {
+        return;
+      }
+    }
+    this._close();
+  }
+  _packet(packet) {
+    const encodedPackets = this.encoder.encode(packet);
+    for (let i2 = 0; i2 < encodedPackets.length; i2++) {
+      this.engine.write(encodedPackets[i2], packet.options);
+    }
+  }
+  cleanup() {
+    this.subs.forEach((subDestroy) => subDestroy());
+    this.subs.length = 0;
+    this.decoder.destroy();
+  }
+  _close() {
+    this.skipReconnect = true;
+    this._reconnecting = false;
+    this.onclose("forced close");
+    if (this.engine)
+      this.engine.close();
+  }
+  disconnect() {
+    return this._close();
+  }
+  onclose(reason, description) {
+    this.cleanup();
+    this.backoff.reset();
+    this._readyState = "closed";
+    this.emitReserved("close", reason, description);
+    if (this._reconnection && !this.skipReconnect) {
+      this.reconnect();
+    }
+  }
+  reconnect() {
+    if (this._reconnecting || this.skipReconnect)
+      return this;
+    const self2 = this;
+    if (this.backoff.attempts >= this._reconnectionAttempts) {
+      this.backoff.reset();
+      this.emitReserved("reconnect_failed");
+      this._reconnecting = false;
+    } else {
+      const delay = this.backoff.duration();
+      this._reconnecting = true;
+      const timer = this.setTimeoutFn(() => {
+        if (self2.skipReconnect)
+          return;
+        this.emitReserved("reconnect_attempt", self2.backoff.attempts);
+        if (self2.skipReconnect)
+          return;
+        self2.open((err) => {
+          if (err) {
+            self2._reconnecting = false;
+            self2.reconnect();
+            this.emitReserved("reconnect_error", err);
+          } else {
+            self2.onreconnect();
+          }
+        });
+      }, delay);
+      if (this.opts.autoUnref) {
+        timer.unref();
+      }
+      this.subs.push(function subDestroy() {
+        clearTimeout(timer);
+      });
+    }
+  }
+  onreconnect() {
+    const attempt = this.backoff.attempts;
+    this._reconnecting = false;
+    this.backoff.reset();
+    this.emitReserved("reconnect", attempt);
+  }
+}
+const cache = {};
+function lookup(uri, opts) {
+  if (typeof uri === "object") {
+    opts = uri;
+    uri = void 0;
+  }
+  opts = opts || {};
+  const parsed = url(uri, opts.path || "/socket.io");
+  const source = parsed.source;
+  const id = parsed.id;
+  const path = parsed.path;
+  const sameNamespace = cache[id] && path in cache[id]["nsps"];
+  const newConnection = opts.forceNew || opts["force new connection"] || false === opts.multiplex || sameNamespace;
+  let io;
+  if (newConnection) {
+    io = new Manager(source, opts);
+  } else {
+    if (!cache[id]) {
+      cache[id] = new Manager(source, opts);
+    }
+    io = cache[id];
+  }
+  if (parsed.query && !opts.query) {
+    opts.query = parsed.queryKey;
+  }
+  return io.socket(parsed.path, opts);
+}
+Object.assign(lookup, {
+  Manager,
+  Socket,
+  io: lookup,
+  connect: lookup
+});
+class SocketIOService {
+  constructor() {
+    __publicField(this, "socket");
+    let url2 = "";
+    {
+      url2 = `https://${window.location.hostname}`;
+    }
+    this.socket = lookup(url2);
+  }
+}
+const socket = new SocketIOService().socket;
+const _hoisted_1 = { class: "q-pa-md text-center" };
+const _hoisted_2 = /* @__PURE__ */ createBaseVNode("img", {
+  src: _imports_0,
+  style: { "max-width": "100%", "max-height": "115px" }
+}, null, -1);
+const _hoisted_3 = /* @__PURE__ */ createBaseVNode("p", null, "Your session has timed out!", -1);
+const _hoisted_4 = /* @__PURE__ */ createBaseVNode("p", null, "Please refresh the page.", -1);
+const _hoisted_5 = /* @__PURE__ */ createBaseVNode("p", null, "Your session has timed out.", -1);
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "AppLayout",
+  setup(__props) {
+    const { user } = useMixinSecurity();
+    const $q = useQuasar();
+    const route = useRoute();
+    const leftDrawerOpen = ref(!$q.screen.xs);
+    const leftMini = ref(false);
+    const isLocked = ref(false);
+    setInterval(() => {
+      isLocked.value = !!(user.value && user.value.lastRequest && moment().diff(user.value.lastRequest, "minutes") >= 120);
+    }, 1e3);
+    const currentRoute = computed(() => {
+      var _a;
+      return (_a = route.name) == null ? void 0 : _a.toString();
+    });
+    const logout = () => {
+      window.location.href = "/api/auth/logout?from=portal";
+    };
+    socket.on("newRelease", () => {
+      setTimeout(() => {
+        $q.notify({
+          icon: "warning",
+          message: "A new version of the system has been deployed.<br/>Click refresh below to ensure you have the most up-to-date version of the system.",
+          html: true,
+          color: "primary",
+          multiLine: true,
+          timeout: 0,
+          actions: [
+            {
+              label: "Refresh Now",
+              color: "white",
+              handler: () => {
+                window.location.reload();
+              }
+            }
+          ]
+        });
+      }, 5e3);
+    });
+    return (_ctx, _cache) => {
+      const _component_router_link = resolveComponent("router-link");
+      const _component_router_view = resolveComponent("router-view");
+      return unref(user) && unref(user).id ? (openBlock(), createBlock(QLayout, {
+        key: 0,
+        view: "lHh LpR fFf"
+      }, {
+        default: withCtx(() => [
+          createVNode(QHeader, { class: "bg-white text-black shadow" }, {
+            default: withCtx(() => [
+              createVNode(QToolbar, { style: { "height": "65px" } }, {
+                default: withCtx(() => [
+                  unref($q).screen.lt.lg ? (openBlock(), createBlock(QBtn, {
+                    key: 0,
+                    flat: "",
+                    dense: "",
+                    round: "",
+                    onClick: _cache[0] || (_cache[0] = ($event) => leftDrawerOpen.value = !leftDrawerOpen.value),
+                    "aria-label": "Menu"
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QIcon, {
+                        name: "menu",
+                        size: "24px"
+                      })
+                    ]),
+                    _: 1
+                  })) : createCommentVNode("", true),
+                  createVNode(_sfc_main$3, { class: "q-ml-md" }),
+                  createVNode(QSpace),
+                  createVNode(QBtn, {
+                    flat: "",
+                    onClick: _cache[1] || (_cache[1] = ($event) => logout()),
+                    title: "Sign Out"
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QIcon, {
+                        name: "exit_to_app",
+                        size: "24px"
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QBtn, {
+                    flat: "",
+                    class: "q-mr-xs gt-sm",
+                    title: unref(user).email,
+                    to: { name: "profile" }
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QAvatar, null, {
+                        default: withCtx(() => [
+                          createVNode(QImg, { src: "/api/user/useravatar?fetch=thumb" })
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }, 8, ["title"])
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          }),
+          createVNode(QDrawer, {
+            modelValue: leftDrawerOpen.value,
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => leftDrawerOpen.value = $event),
+            mini: leftMini.value,
+            width: 200,
+            class: "bg-dark text-white",
+            bordered: ""
+          }, {
+            default: withCtx(() => [
+              createBaseVNode("div", _hoisted_1, [
+                createVNode(_component_router_link, {
+                  to: { name: "appDashboard" },
+                  class: "link text-black"
+                }, {
+                  default: withCtx(() => [
+                    _hoisted_2
+                  ]),
+                  _: 1
+                })
+              ]),
+              createVNode(QList, { "no-border": "" }, {
+                default: withCtx(() => [
+                  createVNode(QItem, {
+                    to: { name: "appDashboard" },
+                    clickable: "",
+                    title: "Dashboard",
+                    class: normalizeClass({ "text-white": unref(route).name !== "appDashboard" })
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QItemSection, { avatar: "" }, {
+                        default: withCtx(() => [
+                          createVNode(QIcon, { name: "dashboard" })
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QItemSection, null, {
+                        default: withCtx(() => [
+                          createTextVNode("Dashboard")
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }, 8, ["class"]),
+                  createVNode(QItem, {
+                    to: { name: "contractors" },
+                    clickable: "",
+                    title: _ctx.$t("contractor.namePlural"),
+                    "active-class": "text-primary",
+                    class: normalizeClass({ "text-primary": unref(currentRoute) && unref(currentRoute).match("contractor") && !unref(currentRoute).match("reporting") })
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QItemSection, { avatar: "" }, {
+                        default: withCtx(() => [
+                          createVNode(QIcon, { name: "engineering" })
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QItemSection, null, {
+                        default: withCtx(() => [
+                          createTextVNode(toDisplayString(_ctx.$t("contractor.namePlural")), 1)
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }, 8, ["title", "class"]),
+                  createVNode(QItem, {
+                    to: { name: "teams" },
+                    clickable: "",
+                    title: _ctx.$t("team.namePlural"),
+                    "active-class": "text-primary",
+                    class: normalizeClass({ "text-primary": unref(currentRoute) && unref(currentRoute).match("team") })
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QItemSection, { avatar: "" }, {
+                        default: withCtx(() => [
+                          createVNode(QIcon, { name: "group" })
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QItemSection, null, {
+                        default: withCtx(() => [
+                          createTextVNode(toDisplayString(_ctx.$t("team.namePlural")), 1)
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }, 8, ["title", "class"]),
+                  createVNode(QItem, {
+                    to: { name: "orders" },
+                    clickable: "",
+                    title: _ctx.$t("order.namePlural"),
+                    "active-class": "text-primary",
+                    class: normalizeClass({ "text-primary": unref(currentRoute) && (unref(currentRoute).match("order") || unref(currentRoute).match("bookingmanager")) && !unref(currentRoute).match("team") && !unref(currentRoute).match("contractor") && !unref(currentRoute).match("reporting") })
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QItemSection, { avatar: "" }, {
+                        default: withCtx(() => [
+                          createVNode(QIcon, { name: "event" })
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QItemSection, null, {
+                        default: withCtx(() => [
+                          createTextVNode(toDisplayString(_ctx.$t("order.namePlural")), 1)
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }, 8, ["title", "class"]),
+                  createVNode(QItem, {
+                    to: { name: "userrosterscheduler" },
+                    clickable: "",
+                    title: _ctx.$t("scheduler.name"),
+                    "active-class": "text-primary",
+                    class: normalizeClass({ "text-primary": unref(currentRoute) && unref(currentRoute).match("scheduler") && !unref(currentRoute).match("team") && !unref(currentRoute).match("contractor") })
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QItemSection, { avatar: "" }, {
+                        default: withCtx(() => [
+                          createVNode(QIcon, { name: "calendar_month" })
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QItemSection, null, {
+                        default: withCtx(() => [
+                          createTextVNode(toDisplayString(_ctx.$t("scheduler.name")), 1)
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }, 8, ["title", "class"]),
+                  createVNode(QItem, {
+                    to: { name: "reporting" },
+                    clickable: "",
+                    title: "Reporting",
+                    "active-class": "text-primary",
+                    class: normalizeClass({ "text-primary": unref(currentRoute) && unref(currentRoute).match("reporting") })
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QItemSection, { avatar: "" }, {
+                        default: withCtx(() => [
+                          createVNode(QIcon, { name: "bar_chart" })
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QItemSection, null, {
+                        default: withCtx(() => [
+                          createTextVNode("Reporting")
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }, 8, ["class"]),
+                  createVNode(QItem, {
+                    to: { name: "settings" },
+                    clickable: "",
+                    title: "Settings",
+                    "active-class": "text-primary"
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QItemSection, { avatar: "" }, {
+                        default: withCtx(() => [
+                          createVNode(QIcon, { name: "settings" })
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(QItemSection, null, {
+                        default: withCtx(() => [
+                          createTextVNode("Settings")
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          }, 8, ["modelValue", "mini"]),
+          createVNode(QPageContainer, null, {
+            default: withCtx(() => [
+              createVNode(QAjaxBar, {
+                position: "top",
+                color: "primary",
+                size: "2px"
+              }),
+              createVNode(_component_router_view)
+            ]),
+            _: 1
+          }),
+          createVNode(QDialog, {
+            modelValue: isLocked.value,
+            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => isLocked.value = $event),
+            persistent: ""
+          }, {
+            default: withCtx(() => [
+              createVNode(QCard, { style: { "min-width": "30vw" } }, {
+                default: withCtx(() => [
+                  createVNode(QCardSection, { class: "row" }, {
+                    default: withCtx(() => [
+                      createVNode(_sfc_main$5),
+                      createVNode(QSpace),
+                      createVNode(QIcon, {
+                        name: "lock",
+                        size: "24px",
+                        class: "text-grey"
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QSeparator),
+                  createVNode(QCardSection, null, {
+                    default: withCtx(() => [
+                      _hoisted_3,
+                      _hoisted_4
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          }, 8, ["modelValue"]),
+          createVNode(_sfc_main$2),
+          createVNode(_sfc_main$1),
+          createVNode(QDialog, {
+            modelValue: isLocked.value,
+            "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => isLocked.value = $event),
+            persistent: ""
+          }, {
+            default: withCtx(() => [
+              createVNode(QCard, { style: { "min-width": "30vw" } }, {
+                default: withCtx(() => [
+                  createVNode(QCardSection, { class: "row" }, {
+                    default: withCtx(() => [
+                      createVNode(_sfc_main$5),
+                      createVNode(QSpace),
+                      createVNode(QIcon, {
+                        name: "lock",
+                        size: "24px",
+                        class: "text-grey"
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QSeparator),
+                  createVNode(QCardSection, null, {
+                    default: withCtx(() => [
+                      _hoisted_5,
+                      createVNode(QBtn, {
+                        to: { name: "signin" },
+                        color: "primary",
+                        label: "Sign In"
+                      })
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          }, 8, ["modelValue"])
+        ]),
+        _: 1
+      })) : createCommentVNode("", true);
+    };
+  }
+});
+export { _sfc_main as default };

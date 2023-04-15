@@ -1,1 +1,114 @@
-import{A as v,r as s,o as h,w as g,m as c,K as m,L as p,l as $,O as A,aE as B,y as k}from"./index.e647c85a.js";import{Q as V}from"./QSelect.853d535e.js";import{a as u}from"./axios.ccd3a804.js";import{u as f}from"./debug.805a8aef.js";const L=v({__name:"PostcodeRegionField",props:{modelValue:null,invalid:{type:Boolean},label:null,dark:{type:Boolean},outlined:{type:Boolean},disabled:{type:Boolean},multiple:{type:Boolean},dense:{type:Boolean},borderless:{type:Boolean},filled:{type:Boolean},placeholder:null,nowatch:{type:Boolean},state:null},emits:["update:modelValue","selectedLocation"],setup(l,{emit:r}){const o=l,d=s(!1),n=s(),y=e=>{r("update:modelValue",e);const a=n.value?n.value.find(t=>t.value===e):null;r("selectedLocation",a?a.label:null)},b=(e,a)=>{e.length<2||(d.value=!0,u.get(`/public/postcoderegion/index?keyword=${e}${o.state?`&state=${o.state}`:""}`).then(t=>{a(()=>{n.value=t.data.map(i=>({value:i.id,label:`${i.locality} (${i.state} ${i.postcode})`})),d.value=!1})}).catch(t=>{d.value=!1,f(t)}))};return h(()=>{o.modelValue&&(Array.isArray(o.modelValue)&&o.modelValue.length||!Array.isArray(o.modelValue))&&u.get(`/public/postcoderegion/${o.modelValue}`).then(e=>{Array.isArray(e.data)?(n.value=e.data.map(a=>({value:a.id,label:`${a.locality} (${a.state} ${a.postcode})`})),d.value=!1):(n.value=[{value:e.data.id,label:`${e.data.locality} (${e.data.state} ${e.data.postcode})`}],d.value=!1)})}),g(()=>o.modelValue,(e,a)=>{!o.nowatch&&e&&e!==a&&(Array.isArray(e)&&e.length||!Array.isArray(e))&&u.get(`/public/postcoderegion/${e}`).then(t=>{n.value=[{value:t.data.id,label:`${t.data.locality} (${t.data.state} ${t.data.postcode})`}]}).catch(t=>{f(t)})}),(e,a)=>(c(),m(V,{label:l.label,"model-value":l.modelValue,"onUpdate:modelValue":y,options:n.value,onFilter:b,"use-input":"","emit-value":"","map-options":"",dark:l.dark,color:l.dark?"white":"",error:l.invalid,"hide-dropdown-icon":"","input-debounce":"350",autocomplete:"postcode-filter",outlined:l.outlined,disable:l.disabled,ref:"qSelectPostcodeRegion",borderless:l.borderless,dense:l.dense,class:"q-pb-none",filled:l.filled,loading:d.value,multiple:l.multiple,placeholder:l.placeholder},{prepend:p(()=>[$(A,{name:"place",color:"info"})]),loading:p(()=>[d.value?(c(),m(B,{key:0})):k("",!0)]),_:1},8,["label","model-value","options","dark","color","error","outlined","disable","borderless","dense","filled","loading","multiple","placeholder"]))}});export{L as _};
+import { A as defineComponent, r as ref, o as onMounted, w as watch, m as openBlock, K as createBlock, L as withCtx, l as createVNode, O as QIcon, aE as QSpinner, y as createCommentVNode } from "./index.e647c85a.js";
+import { Q as QSelect } from "./QSelect.853d535e.js";
+import { a as api } from "./axios.ccd3a804.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "PostcodeRegionField",
+  props: {
+    modelValue: null,
+    invalid: { type: Boolean },
+    label: null,
+    dark: { type: Boolean },
+    outlined: { type: Boolean },
+    disabled: { type: Boolean },
+    multiple: { type: Boolean },
+    dense: { type: Boolean },
+    borderless: { type: Boolean },
+    filled: { type: Boolean },
+    placeholder: null,
+    nowatch: { type: Boolean },
+    state: null
+  },
+  emits: ["update:modelValue", "selectedLocation"],
+  setup(__props, { emit: emits }) {
+    const props = __props;
+    const loading = ref(false);
+    const postcodes = ref();
+    const handleChange = (val) => {
+      emits("update:modelValue", val);
+      const found = postcodes.value ? postcodes.value.find((o) => o.value === val) : null;
+      emits("selectedLocation", found ? found.label : null);
+    };
+    const filterPostcodes = (val, update) => {
+      if (val.length < 2) {
+        return;
+      }
+      loading.value = true;
+      api.get(`/public/postcoderegion/index?keyword=${val}${props.state ? `&state=${props.state}` : ""}`).then((response) => {
+        update(() => {
+          postcodes.value = response.data.map((o) => {
+            return { value: o.id, label: `${o.locality} (${o.state} ${o.postcode})` };
+          });
+          loading.value = false;
+        });
+      }).catch((error) => {
+        loading.value = false;
+        useMixinDebug(error);
+      });
+    };
+    onMounted(() => {
+      if (props.modelValue && (Array.isArray(props.modelValue) && props.modelValue.length || !Array.isArray(props.modelValue))) {
+        api.get(`/public/postcoderegion/${props.modelValue}`).then((res) => {
+          if (Array.isArray(res.data)) {
+            postcodes.value = res.data.map((o) => {
+              return { value: o.id, label: `${o.locality} (${o.state} ${o.postcode})` };
+            });
+            loading.value = false;
+          } else {
+            postcodes.value = [{ value: res.data.id, label: `${res.data.locality} (${res.data.state} ${res.data.postcode})` }];
+            loading.value = false;
+          }
+        });
+      }
+    });
+    watch(() => props.modelValue, (newVal, oldVal) => {
+      if (!props.nowatch && newVal && newVal !== oldVal && (Array.isArray(newVal) && newVal.length || !Array.isArray(newVal))) {
+        api.get(`/public/postcoderegion/${newVal}`).then((res) => {
+          postcodes.value = [{ value: res.data.id, label: `${res.data.locality} (${res.data.state} ${res.data.postcode})` }];
+        }).catch((error) => {
+          useMixinDebug(error);
+        });
+      }
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QSelect, {
+        label: __props.label,
+        "model-value": __props.modelValue,
+        "onUpdate:modelValue": handleChange,
+        options: postcodes.value,
+        onFilter: filterPostcodes,
+        "use-input": "",
+        "emit-value": "",
+        "map-options": "",
+        dark: __props.dark,
+        color: __props.dark ? "white" : "",
+        error: __props.invalid,
+        "hide-dropdown-icon": "",
+        "input-debounce": "350",
+        autocomplete: "postcode-filter",
+        outlined: __props.outlined,
+        disable: __props.disabled,
+        ref: "qSelectPostcodeRegion",
+        borderless: __props.borderless,
+        dense: __props.dense,
+        class: "q-pb-none",
+        filled: __props.filled,
+        loading: loading.value,
+        multiple: __props.multiple,
+        placeholder: __props.placeholder
+      }, {
+        prepend: withCtx(() => [
+          createVNode(QIcon, {
+            name: "place",
+            color: "info"
+          })
+        ]),
+        loading: withCtx(() => [
+          loading.value ? (openBlock(), createBlock(QSpinner, { key: 0 })) : createCommentVNode("", true)
+        ]),
+        _: 1
+      }, 8, ["label", "model-value", "options", "dark", "color", "error", "outlined", "disable", "borderless", "dense", "filled", "loading", "multiple", "placeholder"]);
+    };
+  }
+});
+export { _sfc_main as _ };

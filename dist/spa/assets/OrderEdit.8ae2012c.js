@@ -1,1 +1,1229 @@
-import{A as Z,g as R,r as U,B as re,o as J,m as i,K as $,L as a,n as _,F as S,b7 as D,t as se,l as e,bq as ce,R as b,b8 as n,q as l,U as t,N as K,S as P,y as p,O as de,G as ie,i as ee,E as me,Q as T,M as N,aD as _e,aE as pe,J as ve,af as fe,ae as oe,bp as be,b9 as ge}from"./index.e647c85a.js";import{Q as H}from"./QSelect.853d535e.js";import{Q as he}from"./QTime.f6ad59d2.js";import{Q as j}from"./QExpansionItem.0ce2aff8.js";import{a as C,Q as V}from"./QItemSection.99659658.js";import{Q as G}from"./QList.2f0afc60.js";import{Q as ye}from"./rtl.4f5e13e8.js";import{u as xe,r as z}from"./index.esm.4557c89b.js";import{a as E}from"./axios.ccd3a804.js";import{_ as ke,a as $e}from"./CountryField.01d37ae9.js";import{_ as qe}from"./DateField.75075dac.js";import{_ as Ve}from"./PostcodeRegionField.1ba1a165.js";import{_ as we,a as Ae}from"./OrderContractorManagement.e1decb4c.js";import{_ as Qe}from"./GlobalNotes.e0541d73.js";import{Q as Ue}from"./format.8e90d58d.js";import{C as ne}from"./ClosePopup.ef2f7039.js";import{u as M}from"./debug.805a8aef.js";import{g as Ie,a as y,c as te,d as ae,b as ue,e as Te,h as Pe,f as Se,i as Ce,j as De,k as Oe}from"./help.c0f85e41.js";import{_ as le}from"./StatusTag.c8d66888.js";import{_ as Be}from"./UserAvatar.d3fe9aaa.js";import{Q as Ne,a as Ee}from"./QToolbarTitle.1a75cd00.js";import{Q as Me}from"./QSpace.7d6f905e.js";import{Q as Fe}from"./QMarkupTable.981d9979.js";import{u as Le}from"./use-quasar.ae4f72e4.js";import{p as ze}from"./helpers.2defcd01.js";import{u as Ke}from"./vue-i18n.runtime.esm-bundler.bec1d6a0.js";import"./TouchPan.9e1ee92a.js";import"./touch.70a9dd44.js";import"./QLinearProgress.c48fac34.js";import"./QBadge.5efaf9f7.js";const Ge={class:"text-grey"},je={class:"text-h6"},Re={class:"row"},Ze={class:"text-h6 q-pa-sm bg-grey-2"},Je={class:"text-grey"},Xe=Z({__name:"OrderProductManagement",props:{model:null},emits:["update:products"],setup(u,{emit:q}){const h=u,x=R(()=>h.model),v=U(),w=U([26,35,36]),d=U(),A={order_id:null,name:null,product_id:null,cost:null,price:null,qty:1,notes:null,product:{},tax:!1},k=U(!1),s=re(JSON.parse(JSON.stringify(A))),O=["Washing","Ironing","Other","Delivery"].reduce((c,g,m)=>({...c,[g]:m}),{}),X=R(()=>{if(v.value){const c=JSON.parse(JSON.stringify(v.value)),g=h.model.products.map(m=>m.product_id);for(const m of c)m.data=m.data.filter(Q=>g.indexOf(Q.id)===-1);return c.filter(m=>m.data.length).sort((m,Q)=>O[m.key]-O[Q.key])}return[]}),B=()=>{const c=x.value.products.findIndex(g=>g.product_id===26);c!==-1?x.value.products.splice(c,0,{product:s.product,name:s.name,product_id:s.product_id,cost:s.cost,price:s.price,qty:s.qty,notes:s.notes,tax:s.tax}):x.value.products.push({product:s.product,name:s.name,product_id:s.product_id,cost:s.cost,price:s.price,qty:s.qty,notes:s.notes,tax:s.tax})},Y=c=>{te("This will remove the product from the order permenantly").onOk(()=>{x.value.products.splice(c,1),o()})},W=c=>{s.product=c,s.product_id=c.id,s.name=c.name,s.cost=c.unit_cost,s.price=c.unit_price,s.qty=c.unit_minimum,s.tax=c.tax,setTimeout(()=>{if(B(),!x.value.products.find(g=>g.product_id===26)){const g=d.value.find(m=>m.id===26);g&&(s.product=g,s.product_id=g.id,s.name=g.name,s.cost=g.unit_cost,s.price=g.unit_price,s.qty=g.unit_minimum,s.tax=g.tax,B())}o(),Object.assign(s,JSON.parse(JSON.stringify(A)))},100)},f=c=>{c.qty>1&&(c.qty=parseFloat(c.qty.toString())-1),o()},r=c=>{c.qty=parseFloat(c.qty.toString())+1,o()},F=()=>{o()},o=()=>{if(!h.model.id)return!0;k.value=!0,E.put(`/order/${h.model.id}?cp=true`,x.value).then(()=>{k.value=!1,q("update:products")}).catch(c=>{M(c)})};return J(()=>{E.get("/product/index").then(c=>{d.value=c.data,v.value=Ie(c.data.filter(g=>h.model.productcategories.find(m=>m.id===g.product_category_id)||g.productcategory.name==="Delivery"),"productcategory.name")}).catch(c=>{M(c)})}),(c,g)=>(i(),$(G,{separator:"",bordered:""},{default:a(()=>[(i(!0),_(S,null,D(u.model.products,(m,Q)=>(i(),$(C,{key:Q,class:se({"bg-grey-1":Q%2!==0})},{default:a(()=>[e(V,{avatar:"",class:"cursor-move"},{default:a(()=>[e(ce,{icon:m.product.productcategory.icon,size:"48px"},null,8,["icon"])]),_:2},1024),e(V,null,{default:a(()=>[b(n(m.name)+" ",1),l("div",Ge,"Price per "+n(m.product.unit_measurement)+": "+n(t(y)(m.price)),1)]),_:2},1024),w.value.indexOf(m.product_id)===-1?(i(),$(V,{key:0,class:"col-xs-12 col-sm-3"},{default:a(()=>[e(K,{modelValue:m.qty,"onUpdate:modelValue":[L=>m.qty=L,F],type:"number",min:"1",borderless:"",label:`${m.product.unit_measurement.toUpperCase()}S`,filled:"",debounce:500},{prepend:a(()=>[e(P,{onClick:L=>f(m),color:"primary",icon:"remove",dense:"",disable:k.value},null,8,["onClick","disable"])]),append:a(()=>[e(P,{onClick:L=>r(m),color:"primary",icon:"add",dense:"",disable:k.value},null,8,["onClick","disable"])]),_:2},1032,["modelValue","onUpdate:modelValue","label"])]),_:2},1024)):p("",!0),w.value.indexOf(m.product_id)===-1?(i(),$(V,{key:1,side:""},{default:a(()=>[e(P,{onClick:L=>Y(Q),icon:"delete",color:"negative",title:"Remove Product",flat:"",disable:k.value},null,8,["onClick","disable"])]),_:2},1024)):p("",!0)]),_:2},1032,["class"]))),128)),u.model.id?(i(),$(C,{key:0},{default:a(()=>[e(V),e(V,{class:"text-right"},{default:a(()=>[l("div",null,[l("div",null,"Subtotal: "+n(t(y)(u.model.total_price)),1),l("div",null,"GST: "+n(t(y)(u.model.total_price_gst)),1),l("div",je,"Total: "+n(t(y)(u.model.grand_total_price)),1)])]),_:1})]),_:1})):p("",!0),e(C,null,{default:a(()=>[e(V,null,{default:a(()=>[e(P,{label:s.product_id?`${s.name}`:`Add a ${c.$t("product.name")}`,outline:"","no-caps":"",color:"primary",icon:"add_circle",disable:k.value},{default:a(()=>[e(Ue,{anchor:"center middle",self:"center middle",class:"soft-shadow"},{default:a(()=>[l("div",Re,[(i(!0),_(S,null,D(t(X),m=>(i(),_("div",{class:"col-xs-12",key:m.key},[l("div",Ze,[e(de,{name:m.data[0].productcategory.icon,size:"32px"},null,8,["name"]),b(" "+n(m.key),1)]),e(G,{separator:""},{default:a(()=>[(i(!0),_(S,null,D(m.data,Q=>ie((i(),$(C,{onClick:L=>W(Q),clickable:"",key:Q.id},{default:a(()=>[e(V,null,{default:a(()=>[b(n(Q.name)+" ",1),l("div",Je,n(t(y)(Q.unit_price))+" per "+n(Q.unit_measurement),1)]),_:2},1024)]),_:2},1032,["onClick"])),[[ne]])),128))]),_:2},1024)]))),128))])]),_:1})]),_:1},8,["label","disable"])]),_:1})]),_:1})]),_:1}))}});var Ye="data:image/webp;base64,UklGRiIEAABXRUJQVlA4WAoAAAAQAAAARwAARwAAQUxQSFECAAABkENr2yFJX1V3j23bNqK1bdvezAxn0rVt27Zt79hW9XZ9SfH/FmlETAD8l3M2fsldh06cPm3cwPaxniYqVuGD889/qGg2i4ii0Fj84siSLr48c5z/6P3fBVTd9GpNdxem+JiVrwTUuPH6FG92QlZ9E1FH4eFEFzbsx76woM6tZ9sZGIjY3oQMlixy1Yvr/ATZFA5F6mMcV4jMPsjVwzSnGhl+10k745w6ZPpTB624cdXI+OsMjToXIPM3QzSJfIwEtzloYLcNKbbM1GBsEwn8kqIq5DkS3WGjglspUqntqSL2K5I9aa9sJdKt76Eo4BUh3GlSMlqgVBCvwLQfKYtzFER8I4UnbOQGC7R+RMjlI+3WfjI254nhUhn/D9T2GqSSK6jddpTq2kztvZ/UUDO1gkipiUi9IkFqOrmaFKlp5KplxonUyuKlBgrUfoRJtW+k9tpLKraY2mVbKc8X1DZzUqYj1OaD7BJijR3lujbReucv5/uK1naDHLealDACFHZvoPQmUInLdUp5oHiqmU5xujKfh3TWGZXBxFYqv9JApcsZIpYVnBpoV0Ljth+o5hebKZR1Aw1dDhFoW8BrAVEPmBM3O4K2ue9YO+EHWnf6xNb5UNC+w2uGLCdCQc+MWyIrbVt8Qd+QbS1slC9wBL0dZnxl4PedbgbQn0veUafXrxV+wKZtz5MNepSsSzUAsw7ddxZYtGl7m5dmBKZN8XNO/mhT0/hu+4gAHti3iei3bO/t9wUVNdVlP15f3jy/o58RyBoc/SITUlLiw7xsefhPBwBWUDggqgEAAPAKAJ0BKkgASAA+7XKwUimnJKKj60EwHYlkAMxHE9AmcBtoOeE0wDeYP+Dk3sIAwYjq9Kxnof/Us4woeFGha+kkAGxAk2NG/4MaZGnYMiFBIDNoIz/AL0tZ6SnZLII8AAD+6+rf/+xLt/bb3iv+tvxz5iqNYARXAPiaUq7xmiHMLr7ssIlwUCPo3WVw/4dP/ZyyE1k/nVUMM5W/0z+tFipTqh1ZRCYYgb7SOzOLhNJ0cDPWz6+Aej2uUJWMmKoD9u5DoNhmH13RETbn4rNBLSalv0eaUcCX9eeROWAVLKlaQHAU9h55jFSFgbIlL1tJwPoBculgZt10qBjT8GD6zaIYB+nMcQZRfQoFV828G6qqrEqc+VKqo+bKrU5eE+xZExG9ujYdbbaT1jdNX9fyNcSWykWokCc3KTmcW8/GO4UxiGAT69hJ8z/32SKFy91ka5zQxYtOvzQEHCrz9h51PgaQvnMy+SzHLujw+Lf5nfIqv2RLJqOUHTleUd0qq+zNm4AzfcmYG+MeLyizWMtQx+reAxi1qtcmMzdsJp1D3y0ErFiyAiG7QAAAAA==";const We={class:"row q-col-gutter-md q-mb-lg q-mt-xs"},He={class:"col-xs-12 col-sm-2"},et=l("div",{class:"text-bold"},"To",-1),tt={class:"col-xs-12 col-sm-4"},lt=l("div",{class:"text-bold"},"Reference",-1),ot={class:"col-xs-12 col-sm-2"},at=l("div",{class:"text-bold"},"Invoice Number",-1),st={class:"col-xs-12 col-sm-2"},dt=l("div",{class:"text-bold"},"Issue Date",-1),it={class:"col-xs-12 col-sm-2"},nt=l("div",{class:"text-bold"},"Due Date",-1),ut=l("thead",null,[l("tr",null,[l("th",{style:{width:"60px"}},"Qty"),l("th",{class:"text-left"},"Product"),l("th",{style:{width:"85px"}},"Amount"),l("th",{style:{width:"80px"}},"Tax"),l("th",{style:{width:"100px"}},"Total")])],-1),rt={class:"text-center"},ct={class:"text-left"},mt=l("td",null,null,-1),_t=l("td",null,null,-1),pt={class:"text-bold"},vt={class:"text-bold"},ft={class:"text-bold"},bt=l("td",null,null,-1),gt=l("td",null,null,-1),ht=l("td",null,null,-1),yt=l("span",{class:"text-bold text-positive"},"Paid:",-1),xt=l("br",null,null,-1),kt=l("span",{class:"text-bold text-negative"},"DUE:",-1),$t=l("br",null,null,-1),qt=Z({__name:"XeroInvoiceView",setup(u){const q=ee("bus"),h=U(!1),x=U(),v=U(),w=Le(),d=()=>{w.loading.show({message:"Loading invoice..."}),E.get(`/xero/invoice/${x.value}`).then(A=>{v.value=A.data.data[0],h.value=!0,w.loading.hide()}).catch(A=>{M(A),w.loading.hide()})};return J(()=>{q.on("xeroInvoiceView",A=>{x.value=A,d()})}),me(()=>{q.off("xeroInvoiceView")}),(A,k)=>(i(),$(_e,{modelValue:h.value,"onUpdate:modelValue":k[0]||(k[0]=s=>h.value=s)},{default:a(()=>[v.value&&v.value.reference?(i(),$(T,{key:0,class:"modal"},{default:a(()=>[e(Ne,{class:"bg-primary text-white"},{default:a(()=>[e(Ee,{class:"col-grow"},{default:a(()=>[b(n(v.value.reference),1)]),_:1}),e(Me),e(le,{status:v.value.status,class:"q-mr-xs"},null,8,["status"]),ie(e(P,{dense:"",round:"",flat:"",icon:"close"},null,512),[[ne]])]),_:1}),e(N,null,{default:a(()=>[l("div",We,[l("div",He,[et,b(" "+n(v.value.contact.name),1)]),l("div",tt,[lt,b(" "+n(v.value.reference),1)]),l("div",ot,[at,b(" #"+n(v.value.invoiceNumber),1)]),l("div",st,[dt,b(" "+n(t(ae)(v.value.date)),1)]),l("div",it,[nt,b(" "+n(t(ae)(v.value.dueDate)),1)])]),e(Fe,{flat:"",bordered:"","wrap-cells":""},{default:a(()=>[ut,l("tbody",null,[(i(!0),_(S,null,D(v.value.lineItems,s=>(i(),_("tr",{key:s.lineItemID},[l("td",rt,n(s.quantity),1),l("td",ct,n(s.description),1),l("td",null,n(t(y)(s.lineAmount)),1),l("td",null,n(t(y)(s.taxAmount)),1),l("td",null,n(t(y)(s.taxAmount+s.lineAmount)),1)]))),128)),l("tr",null,[mt,_t,l("td",pt,n(t(y)(v.value.subTotal)),1),l("td",vt,n(t(y)(v.value.totalTax)),1),l("td",ft,n(t(y)(v.value.total)),1)])]),l("tfoot",null,[l("tr",null,[bt,gt,ht,l("td",null,[yt,xt,b(n(t(y)(v.value.amountPaid)),1)]),l("td",null,[kt,$t,b(n(t(y)(v.value.amountDue)),1)])])])]),_:1})]),_:1})]),_:1})):p("",!0)]),_:1},8,["modelValue"]))}}),Vt={class:"q-pa-md"},wt={class:"row q-col-gutter-md items-center"},At=l("div",{class:"col-xs-12 col-sm-2"},[l("img",{src:Ye,style:{"max-width":"100%"}})],-1),Qt={class:"col-xs-12 col-sm-10"},Ut={key:0},It={key:1},Tt={class:"q-mb-xs"},Pt=l("br",null,null,-1),St={key:0,class:"q-mt-xs"},Ct={key:1,class:"q-mt-xs text-negative"},Dt=Z({__name:"XeroInvoice",props:{invoiceId:null,type:null,type_id:null,dataType:null},setup(u){const q=u,h=ee("bus"),x=U(!1),v=U(!1),w=U(),d=()=>{v.value=!0,x.value=!1,E.get(`/xero/invoice/${q.invoiceId}`).then(s=>{s.data.data&&s.data.data[0]?w.value=s.data.data[0]:x.value=s.data.error,v.value=!1})},A=()=>{te("This will repush this to invoice to Xero").onOk(()=>{E.post("/xeroqueue/requeue",{type:q.type,type_id:q.type_id,data:q.dataType?{type:q.dataType}:null}).then(()=>{ue("positive","Xero invoice push queued")}).catch(s=>{M(s)})})},k=s=>{h.emit("xeroInvoiceView",s)};return J(()=>{d()}),(s,I)=>(i(),_("div",Vt,[e(qt),l("div",wt,[At,l("div",Qt,[v.value?(i(),_("div",Ut,[e(pe),b(" Loading Xero invoice... ")])):p("",!0),!v.value&&w.value?(i(),_("div",It,[l("div",Tt,[b("Xero Invoice ID:"),Pt,b(n(u.invoiceId),1)]),l("a",{class:"link",onClick:I[0]||(I[0]=O=>k(u.invoiceId))},"#"+n(w.value.invoiceNumber),1),x.value?p("",!0):(i(),_("div",St,[e(le,{status:w.value.status},null,8,["status"]),e(P,{onClick:I[1]||(I[1]=O=>A()),label:"Re-push to Xero",color:"grey",class:"q-ml-xs",flat:""})])),x.value?(i(),_("div",Ct,[b(" Error retrieving invoice: "),l("div",null,n(x.value),1)])):p("",!0)])):p("",!0)])])]))}}),Ot={key:0,class:"row q-col-gutter-md q-mb-lg"},Bt={class:"col-xs-12 col-sm-4"},Nt=l("div",{class:"text-h6"},"Total Amount",-1),Et={class:"text-center q-mt-sm"},Mt={class:"col-xs-12 col-sm-4"},Ft=l("div",{class:"text-h6"},"Total Owing",-1),Lt={class:"text-center q-mt-sm"},zt={key:0,class:"col-xs-12 col-sm-4"},Kt=l("div",{class:"text-h6"},"Commission Paid",-1),Gt={class:"text-center q-mt-sm"},jt={class:"row q-col-gutter-md q-mb-md"},Rt={key:0,class:"row q-col-gutter-md"},Zt={class:"col-xs-12 col-sm-8"},Jt={class:"row q-col-gutter-md q-mb-md"},Xt={key:0},Yt=l("div",{class:"text-bold text-grey q-mt-md"},"Deliver To",-1),Wt={key:1},Ht={key:2},el=l("div",{class:"text-bold text-grey q-mt-md"},"Products",-1),tl={key:3,class:"q-mt-lg q-mb-md"},ll={class:"col-xs-12 col-sm-4"},ol=l("div",{class:"text-bold text-grey q-mb-xs"},"Agreed Pickup Time",-1),al=l("p",null,"The time below has been agreed upon by the customer and contractor.",-1),sl={class:"row q-col-gutter-md"},dl={class:"row q-col-gutter-md"},il={key:0},nl={key:1,class:"q-mt-xl"},ul={key:0},rl={key:1},cl={class:"text-grey-7 text-caption"},ml={key:0},_l={key:0,class:"q-ml-xs q-mr-xs"},Kl=Z({__name:"OrderEdit",props:{model:null,noNotes:{type:Boolean},futureRecurring:null},emits:["update:order"],setup(u,{emit:q}){const h=u,x=ee("bus"),v=Ke(),w=U(),d=R(()=>h.model),A={team_id:{required:z},scheduled_pickup_date:{required:z},scheduled_pickup_time:{required:z},status:{required:z},productcategories:{required:z}},k=U(!1),s=U(!1),I=xe(A,d,{$scope:!1}),O=()=>{k.value=!0,E.put(`/order/${h.model.id}`,d.value).then(()=>{ue("positive","Saved"),q("update:order"),x.emit("getDashboardStats"),k.value=!1}).catch(f=>{k.value=!1,M(f)})},X=()=>{q("update:order",{onlyTotals:!0})},B=R(()=>{const f=parseFloat(h.model.grand_total_price.toString()),r=h.model.payments.reduce((F,o)=>F+o.total,0);return{owing:f-r,totalPayments:r}}),Y=()=>{s.value=!0,document.location=`/api/orderpayment/session/${h.model.id}`},W=()=>{te(`This will push the ${v.t("order.name")} to Xero`).onOk(()=>{E.get(`/order/pushtoxero/${h.model.id}`).then(()=>{q("update:order")}).catch(f=>{M(f)})})};return J(async()=>{w.value=await ze()}),(f,r)=>{const F=ve("router-link");return i(),_(S,null,[u.model&&u.model.products.length?(i(),_("div",Ot,[l("div",Bt,[e(T,{class:"bg-secondary text-white"},{default:a(()=>[e(N,null,{default:a(()=>[Nt,l("div",Et,n(t(y)(u.model.grand_total_price)),1)]),_:1})]),_:1})]),l("div",Mt,[e(T,{class:se(["text-white",{"bg-positive":t(B).owing<=0,"bg-negative":t(B).owing>0}])},{default:a(()=>[e(N,null,{default:a(()=>[Ft,l("div",Lt,n(t(y)(t(B).owing)),1)]),_:1})]),_:1},8,["class"])]),u.model.commission_paid_amount&&u.model.commission_paid_amount_gst?(i(),_("div",zt,[e(T,{class:"text-white bg-primary"},{default:a(()=>[e(N,null,{default:a(()=>[Kt,l("div",Gt,n(t(y)(u.model.commission_paid_amount))+" / "+n(t(y)(u.model.commission_paid_amount_gst)),1)]),_:1})]),_:1})])):p("",!0)])):p("",!0),e(T,null,{default:a(()=>[e(G,null,{default:a(()=>[e(j,{group:"orderEdit",label:f.$t("order.details"),"header-class":"text-h6","default-opened":!u.model.products||!u.model.products.length||u.model.recurring_order,caption:"Update the booking details"},{default:a(()=>[e(T,null,{default:a(()=>[e(N,null,{default:a(()=>[l("div",jt,[e(we,{modelValue:t(d).team_id,"onUpdate:modelValue":r[0]||(r[0]=o=>t(d).team_id=o),label:f.$t("team.name"),status:"active",class:"col-xs-12 col-sm-8",error:t(I).team_id.$invalid,disabled:!0},null,8,["modelValue","label","error"]),e(H,{modelValue:t(d).status,"onUpdate:modelValue":r[1]||(r[1]=o=>t(d).status=o),label:f.$t("order.status"),error:t(I).status.$invalid,"map-options":"",options:t(Te),"emit-value":"",class:"col-xs-12 col-sm-4"},null,8,["modelValue","label","error","options"])]),t(d).team_id?(i(),_("div",Rt,[l("div",Zt,[l("div",Jt,[e(qe,{modelValue:t(d).scheduled_pickup_date,"onUpdate:modelValue":r[2]||(r[2]=o=>t(d).scheduled_pickup_date=o),label:f.$t("order.scheduledPickupDate"),invalid:t(I).scheduled_pickup_date.$invalid,class:"col-xs-12 col-sm-6"},null,8,["modelValue","label","invalid"]),e(H,{modelValue:t(d).scheduled_pickup_time,"onUpdate:modelValue":r[3]||(r[3]=o=>t(d).scheduled_pickup_time=o),label:f.$t("order.scheduledPickupTime"),invalid:t(I).scheduled_pickup_time,options:t(Pe),"emit-value":"","map-options":"",class:"col-xs-12 col-sm-6"},null,8,["modelValue","label","invalid","options"])]),t(d).recurring_parent_id?p("",!0):(i(),_("div",Xt,[e(fe,{modelValue:t(d).recurring_order,"onUpdate:modelValue":r[4]||(r[4]=o=>t(d).recurring_order=o),label:f.$t("order.recurring")},null,8,["modelValue","label"]),t(d).recurring_order?(i(),$(H,{key:0,modelValue:t(d).recurring,"onUpdate:modelValue":r[5]||(r[5]=o=>t(d).recurring=o),label:f.$t("order.recurringFrequency"),options:["Week","Fortnite","Month"],"bottom-slots":""},null,8,["modelValue","label"])):p("",!0)])),Yt,t(d).address1?(i(),_("div",Wt,n(t(d).address1),1)):p("",!0),l("div",null,n(t(d).address2),1),t(d).suburbpostcoderegion?(i(),_("div",Ht,n(t(d).suburbpostcoderegion.locality)+" "+n(t(d).suburbpostcoderegion.state)+" "+n(t(d).suburbpostcoderegion.postcode),1)):p("",!0),el,(i(!0),_(S,null,D(t(d).productcategories,o=>(i(),_("div",{key:o.id},[o.meta?(i(),$(ge,{key:0,modelValue:o.meta.pivot_active,"onUpdate:modelValue":c=>o.meta.pivot_active=c,label:o.name},null,8,["modelValue","onUpdate:modelValue","label"])):p("",!0)]))),128)),t(d).scheduled_pickup_time?(i(),_("div",tl,[e(Ae,{modelValue:t(d).contractor_user_id,"onUpdate:modelValue":r[6]||(r[6]=o=>t(d).contractor_user_id=o),team_id:t(d).team_id,scheduled_pickup_date:t(d).scheduled_pickup_date,scheduled_pickup_time:t(d).scheduled_pickup_time,reassign:!0,productcategories:u.model.productcategories},null,8,["modelValue","team_id","scheduled_pickup_date","scheduled_pickup_time","productcategories"])])):p("",!0)]),l("div",ll,[ol,al,e(he,{modelValue:t(d).agreed_pickup_time,"onUpdate:modelValue":r[7]||(r[7]=o=>t(d).agreed_pickup_time=o),color:"secondary"},null,8,["modelValue"])])])):p("",!0)]),_:1}),e(oe,{align:"right"},{default:a(()=>[e(P,{disable:k.value||t(I).$invalid,label:f.$t("actions.update"),color:"primary",onClick:r[8]||(r[8]=o=>O())},null,8,["disable","label"])]),_:1})]),_:1})]),_:1},8,["label","default-opened"]),e(j,{group:"orderEdit",label:`${f.$t("order.products")} (${u.model.products.length})`,caption:" Create, update and delete products for this booking","header-class":"text-h6","default-opened":!!(u.model.products&&u.model.products.length&&!u.model.recurring_order)},{default:a(()=>[e(T,null,{default:a(()=>[e(Xe,{model:u.model,"onUpdate:products":X},null,8,["model"])]),_:1})]),_:1},8,["label","default-opened"]),e(j,{group:"orderEdit",label:f.$t("order.invoiceConfiguration"),caption:"Invoice configuration","header-class":"text-h6"},{default:a(()=>[e(T,null,{default:a(()=>[e(N,null,{default:a(()=>[l("div",sl,[e(K,{modelValue:t(d).invoice_name,"onUpdate:modelValue":r[9]||(r[9]=o=>t(d).invoice_name=o),label:f.$t("team.invoiceName"),class:"col-xs-12 col-sm-6","bottom-slots":""},null,8,["modelValue","label"]),e(K,{modelValue:t(d).invoice_po,"onUpdate:modelValue":r[10]||(r[10]=o=>t(d).invoice_po=o),label:f.$t("team.invoicePo"),class:"col-xs-12 col-sm-6","bottom-slots":""},null,8,["modelValue","label"])]),e(ke,{model:t(d),addressfields:{address1:"invoice_address1",address2:"invoice_address2",suburb_postcode_region_id:"invoice_address_suburb_postcode_region_id",lat:"lat",lng:"lng",country_id:"invoice_address_country_id"},placeholder:f.$t("address.search"),filled:!0},null,8,["model","placeholder"]),e(K,{modelValue:t(d).invoice_address1,"onUpdate:modelValue":r[11]||(r[11]=o=>t(d).invoice_address1=o),label:f.$t("address.line1"),"bottom-slots":""},null,8,["modelValue","label"]),e(K,{modelValue:t(d).invoice_address2,"onUpdate:modelValue":r[12]||(r[12]=o=>t(d).invoice_address2=o),label:f.$t("address.line2"),"bottom-slots":""},null,8,["modelValue","label"]),l("div",dl,[e(Ve,{modelValue:t(d).invoice_address_suburb_postcode_region_id,"onUpdate:modelValue":r[13]||(r[13]=o=>t(d).invoice_address_suburb_postcode_region_id=o),label:f.$t("address.suburb"),class:"col-xs-12 col-sm-6"},null,8,["modelValue","label"]),e($e,{modelValue:t(d).invoice_address_country_id,"onUpdate:modelValue":r[14]||(r[14]=o=>t(d).invoice_address_country_id=o),label:f.$t("address.country"),class:"col-xs-12 col-sm-6"},null,8,["modelValue","label"])])]),_:1}),e(oe,{align:"right"},{default:a(()=>[e(P,{disable:k.value||t(I).$invalid,label:f.$t("actions.update"),color:"primary",onClick:r[15]||(r[15]=o=>O())},null,8,["disable","label"])]),_:1})]),_:1})]),_:1},8,["label"]),u.model&&u.model.products.length?(i(),$(j,{key:0,group:"orderEdit",label:f.$t("order.payments"),caption:"Payments","header-class":"text-h6"},{default:a(()=>[e(T,null,{default:a(()=>[e(N,null,{default:a(()=>[e(G,{separator:""},{default:a(()=>[u.model.payments.length?p("",!0):(i(),$(C,{key:0},{default:a(()=>[e(V,null,{default:a(()=>[b(" No payments found ")]),_:1})]),_:1})),(i(!0),_(S,null,D(u.model.payments,o=>(i(),$(C,{key:o.id},{default:a(()=>[e(V,{avatar:""},{default:a(()=>[e(Be,{user:o.user},null,8,["user"])]),_:2},1024),e(V,null,{default:a(()=>[l("div",null,n(t(Se)(o.created_at)),1)]),_:2},1024),e(V,{side:""},{default:a(()=>[b(n(t(y)(o.grand_total)),1)]),_:2},1024)]),_:2},1024))),128)),t(B).owing>0?(i(),$(C,{key:1},{default:a(()=>[e(V,null,{default:a(()=>[e(P,{onClick:r[16]||(r[16]=o=>Y()),label:"Make Payment",color:"primary",push:"",disable:s.value,loading:s.value},null,8,["disable","loading"])]),_:1})]),_:1})):p("",!0),u.model.status==="paid"&&!u.model.xero_id?(i(),$(C,{key:2},{default:a(()=>[e(V,null,{default:a(()=>[e(P,{onClick:r[17]||(r[17]=o=>W()),label:"Push to Xero",color:"blue",push:""})]),_:1})]),_:1})):p("",!0)]),_:1}),u.model.xero_id?(i(),_("div",il,[e(be,{class:"q-mt-md"}),e(Dt,{"invoice-id":u.model.xero_id,type:"Order",type_id:u.model.id},null,8,["invoice-id","type_id"])])):p("",!0)]),_:1})]),_:1})]),_:1},8,["label"])):p("",!0)]),_:1})]),_:1}),u.noNotes?p("",!0):(i(),_("div",nl,[e(Qe,{notable_id:u.model.id,notable_type:"Order",nobox:!0},null,8,["notable_id"])])),u.futureRecurring&&u.futureRecurring.length?(i(),$(T,{key:2,class:"q-mb-md"},{default:a(()=>[e(G,{separator:""},{default:a(()=>[e(ye,{header:""},{default:a(()=>[b("FUTURE BOOKINGS")]),_:1}),(i(!0),_(S,null,D(u.futureRecurring,o=>(i(),$(C,{key:o.id},{default:a(()=>[l("div",null,[l("div",null,[e(F,{to:{name:"order-edit",params:{id:o.id}},target:"_blank",class:"link"},{default:a(()=>[b(n(t(Ce)(o.scheduled_pickup_date))+" "+n(o.scheduled_pickup_date)+" (",1),o.agreed_pickup_time?p("",!0):(i(),_("span",ul,n(t(De)(o.scheduled_pickup_time)),1)),o.agreed_pickup_time?(i(),_("span",rl,n(t(Oe)(o.agreed_pickup_time)),1)):p("",!0),b(")")]),_:2},1032,["to"]),e(le,{status:o.status,small:!0,class:"q-ml-xs"},null,8,["status"])]),l("div",cl,[e(de,{name:"settings",color:"grey-7"}),b(),o.productcategories?(i(),_("span",ml,[(i(!0),_(S,null,D(o.productcategories,(c,g)=>(i(),_("span",{key:c.id},[b(n(c.name),1),g+1!==o.productcategories.length?(i(),_("span",_l,"&")):p("",!0)]))),128)),b(" pickup with "+n(o.team.name),1)])):p("",!0)])])]),_:2},1024))),128))]),_:1})]),_:1})):p("",!0)],64)}}});export{Kl as default};
+import { A as defineComponent, g as computed, r as ref, B as reactive, o as onMounted, m as openBlock, K as createBlock, L as withCtx, n as createElementBlock, F as Fragment, b7 as renderList, t as normalizeClass, l as createVNode, bq as QAvatar, R as createTextVNode, b8 as toDisplayString, q as createBaseVNode, U as unref, N as QInput, S as QBtn, y as createCommentVNode, O as QIcon, G as withDirectives, i as inject, E as onBeforeUnmount, Q as QCard, M as QCardSection, aD as QDialog, aE as QSpinner, J as resolveComponent, af as QToggle, ae as QCardActions, bp as QSeparator, b9 as QCheckbox } from "./index.e647c85a.js";
+import { Q as QSelect } from "./QSelect.853d535e.js";
+import { Q as QTime } from "./QTime.f6ad59d2.js";
+import { Q as QExpansionItem } from "./QExpansionItem.0ce2aff8.js";
+import { a as QItem, Q as QItemSection } from "./QItemSection.99659658.js";
+import { Q as QList } from "./QList.2f0afc60.js";
+import { Q as QItemLabel } from "./rtl.4f5e13e8.js";
+import { u as useVuelidate, r as required } from "./index.esm.4557c89b.js";
+import { a as api } from "./axios.ccd3a804.js";
+import { _ as _sfc_main$9, a as _sfc_main$b } from "./CountryField.01d37ae9.js";
+import { _ as _sfc_main$7 } from "./DateField.75075dac.js";
+import { _ as _sfc_main$a } from "./PostcodeRegionField.1ba1a165.js";
+import { _ as _sfc_main$6, a as _sfc_main$8 } from "./OrderContractorManagement.e1decb4c.js";
+import { _ as _sfc_main$5 } from "./GlobalNotes.e0541d73.js";
+import { Q as QMenu } from "./format.8e90d58d.js";
+import { C as ClosePopup } from "./ClosePopup.ef2f7039.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { g as groupBy, a as currencyFormat, c as confirmDelete, d as dateTz, b as doNotify, e as globalStatusList, h as hourBookingOptions, f as dateTimeTz, i as displayDateDay, j as hourBookingDisplay, k as hourAgreedDisplay } from "./help.c0f85e41.js";
+import { _ as _sfc_main$4 } from "./StatusTag.c8d66888.js";
+import { _ as _sfc_main$c } from "./UserAvatar.d3fe9aaa.js";
+import { Q as QToolbar, a as QToolbarTitle } from "./QToolbarTitle.1a75cd00.js";
+import { Q as QSpace } from "./QSpace.7d6f905e.js";
+import { Q as QMarkupTable } from "./QMarkupTable.981d9979.js";
+import { u as useQuasar } from "./use-quasar.ae4f72e4.js";
+import { p as productCategoriesVisibleBooking } from "./helpers.2defcd01.js";
+import { u as useI18n } from "./vue-i18n.runtime.esm-bundler.bec1d6a0.js";
+import "./TouchPan.9e1ee92a.js";
+import "./touch.70a9dd44.js";
+import "./QLinearProgress.c48fac34.js";
+import "./QBadge.5efaf9f7.js";
+const _hoisted_1$3 = { class: "text-grey" };
+const _hoisted_2$3 = { class: "text-h6" };
+const _hoisted_3$3 = { class: "row" };
+const _hoisted_4$3 = { class: "text-h6 q-pa-sm bg-grey-2" };
+const _hoisted_5$3 = { class: "text-grey" };
+const _sfc_main$3 = /* @__PURE__ */ defineComponent({
+  __name: "OrderProductManagement",
+  props: {
+    model: null
+  },
+  emits: ["update:products"],
+  setup(__props, { emit: emits }) {
+    const props = __props;
+    const localModel = computed(() => props.model);
+    const productList = ref();
+    const nonEditableProducts = ref([26, 35, 36]);
+    const rawProductList = ref();
+    const schema = {
+      order_id: null,
+      name: null,
+      product_id: null,
+      cost: null,
+      price: null,
+      qty: 1,
+      notes: null,
+      product: {},
+      tax: false
+    };
+    const loading = ref(false);
+    const newProduct = reactive(JSON.parse(JSON.stringify(schema)));
+    const productCategoryOrder = ["Washing", "Ironing", "Other", "Delivery"];
+    const sortByObject = productCategoryOrder.reduce((obj, item, index) => {
+      return {
+        ...obj,
+        [item]: index
+      };
+    }, {});
+    const productListFiltered = computed(() => {
+      if (productList.value) {
+        const productListTmp = JSON.parse(JSON.stringify(productList.value));
+        const currentProductIds = props.model.products.map((o) => o.product_id);
+        for (const g of productListTmp) {
+          g.data = g.data.filter((o) => currentProductIds.indexOf(o.id) === -1);
+        }
+        return productListTmp.filter((o) => o.data.length).sort((a, b) => sortByObject[a.key] - sortByObject[b.key]);
+      }
+      return [];
+    });
+    const addProduct = () => {
+      const delivery = localModel.value.products.findIndex((o) => o.product_id === 26);
+      if (delivery !== -1) {
+        localModel.value.products.splice(delivery, 0, {
+          product: newProduct.product,
+          name: newProduct.name,
+          product_id: newProduct.product_id,
+          cost: newProduct.cost,
+          price: newProduct.price,
+          qty: newProduct.qty,
+          notes: newProduct.notes,
+          tax: newProduct.tax
+        });
+      } else {
+        localModel.value.products.push({
+          product: newProduct.product,
+          name: newProduct.name,
+          product_id: newProduct.product_id,
+          cost: newProduct.cost,
+          price: newProduct.price,
+          qty: newProduct.qty,
+          notes: newProduct.notes,
+          tax: newProduct.tax
+        });
+      }
+    };
+    const removeProduct = (index) => {
+      confirmDelete("This will remove the product from the order permenantly").onOk(() => {
+        localModel.value.products.splice(index, 1);
+        save();
+      });
+    };
+    const selectProduct = (product) => {
+      newProduct.product = product;
+      newProduct.product_id = product.id;
+      newProduct.name = product.name;
+      newProduct.cost = product.unit_cost;
+      newProduct.price = product.unit_price;
+      newProduct.qty = product.unit_minimum;
+      newProduct.tax = product.tax;
+      setTimeout(() => {
+        addProduct();
+        if (!localModel.value.products.find((o) => o.product_id === 26)) {
+          const delivery = rawProductList.value.find((o) => o.id === 26);
+          if (delivery) {
+            newProduct.product = delivery;
+            newProduct.product_id = delivery.id;
+            newProduct.name = delivery.name;
+            newProduct.cost = delivery.unit_cost;
+            newProduct.price = delivery.unit_price;
+            newProduct.qty = delivery.unit_minimum;
+            newProduct.tax = delivery.tax;
+            addProduct();
+          }
+        }
+        save();
+        Object.assign(newProduct, JSON.parse(JSON.stringify(schema)));
+      }, 100);
+    };
+    const minusQty = (product) => {
+      if (product.qty > 1) {
+        product.qty = parseFloat(product.qty.toString()) - 1;
+      }
+      save();
+    };
+    const plusQty = (product) => {
+      product.qty = parseFloat(product.qty.toString()) + 1;
+      save();
+    };
+    const manualQty = () => {
+      save();
+    };
+    const save = () => {
+      if (!props.model.id) {
+        return true;
+      }
+      loading.value = true;
+      api.put(`/order/${props.model.id}?cp=true`, localModel.value).then(() => {
+        loading.value = false;
+        emits("update:products");
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+    };
+    onMounted(() => {
+      api.get("/product/index").then((response) => {
+        rawProductList.value = response.data;
+        productList.value = groupBy(response.data.filter((o) => props.model.productcategories.find((p) => p.id === o.product_category_id) || o.productcategory.name === "Delivery"), "productcategory.name");
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QList, {
+        separator: "",
+        bordered: ""
+      }, {
+        default: withCtx(() => [
+          (openBlock(true), createElementBlock(Fragment, null, renderList(__props.model.products, (p, index) => {
+            return openBlock(), createBlock(QItem, {
+              key: index,
+              class: normalizeClass({ "bg-grey-1": index % 2 !== 0 })
+            }, {
+              default: withCtx(() => [
+                createVNode(QItemSection, {
+                  avatar: "",
+                  class: "cursor-move"
+                }, {
+                  default: withCtx(() => [
+                    createVNode(QAvatar, {
+                      icon: p.product.productcategory.icon,
+                      size: "48px"
+                    }, null, 8, ["icon"])
+                  ]),
+                  _: 2
+                }, 1024),
+                createVNode(QItemSection, null, {
+                  default: withCtx(() => [
+                    createTextVNode(toDisplayString(p.name) + " ", 1),
+                    createBaseVNode("div", _hoisted_1$3, "Price per " + toDisplayString(p.product.unit_measurement) + ": " + toDisplayString(unref(currencyFormat)(p.price)), 1)
+                  ]),
+                  _: 2
+                }, 1024),
+                nonEditableProducts.value.indexOf(p.product_id) === -1 ? (openBlock(), createBlock(QItemSection, {
+                  key: 0,
+                  class: "col-xs-12 col-sm-3"
+                }, {
+                  default: withCtx(() => [
+                    createVNode(QInput, {
+                      modelValue: p.qty,
+                      "onUpdate:modelValue": [($event) => p.qty = $event, manualQty],
+                      type: "number",
+                      min: "1",
+                      borderless: "",
+                      label: `${p.product.unit_measurement.toUpperCase()}S`,
+                      filled: "",
+                      debounce: 500
+                    }, {
+                      prepend: withCtx(() => [
+                        createVNode(QBtn, {
+                          onClick: ($event) => minusQty(p),
+                          color: "primary",
+                          icon: "remove",
+                          dense: "",
+                          disable: loading.value
+                        }, null, 8, ["onClick", "disable"])
+                      ]),
+                      append: withCtx(() => [
+                        createVNode(QBtn, {
+                          onClick: ($event) => plusQty(p),
+                          color: "primary",
+                          icon: "add",
+                          dense: "",
+                          disable: loading.value
+                        }, null, 8, ["onClick", "disable"])
+                      ]),
+                      _: 2
+                    }, 1032, ["modelValue", "onUpdate:modelValue", "label"])
+                  ]),
+                  _: 2
+                }, 1024)) : createCommentVNode("", true),
+                nonEditableProducts.value.indexOf(p.product_id) === -1 ? (openBlock(), createBlock(QItemSection, {
+                  key: 1,
+                  side: ""
+                }, {
+                  default: withCtx(() => [
+                    createVNode(QBtn, {
+                      onClick: ($event) => removeProduct(index),
+                      icon: "delete",
+                      color: "negative",
+                      title: "Remove Product",
+                      flat: "",
+                      disable: loading.value
+                    }, null, 8, ["onClick", "disable"])
+                  ]),
+                  _: 2
+                }, 1024)) : createCommentVNode("", true)
+              ]),
+              _: 2
+            }, 1032, ["class"]);
+          }), 128)),
+          __props.model.id ? (openBlock(), createBlock(QItem, { key: 0 }, {
+            default: withCtx(() => [
+              createVNode(QItemSection),
+              createVNode(QItemSection, { class: "text-right" }, {
+                default: withCtx(() => [
+                  createBaseVNode("div", null, [
+                    createBaseVNode("div", null, "Subtotal: " + toDisplayString(unref(currencyFormat)(__props.model.total_price)), 1),
+                    createBaseVNode("div", null, "GST: " + toDisplayString(unref(currencyFormat)(__props.model.total_price_gst)), 1),
+                    createBaseVNode("div", _hoisted_2$3, "Total: " + toDisplayString(unref(currencyFormat)(__props.model.grand_total_price)), 1)
+                  ])
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })) : createCommentVNode("", true),
+          createVNode(QItem, null, {
+            default: withCtx(() => [
+              createVNode(QItemSection, null, {
+                default: withCtx(() => [
+                  createVNode(QBtn, {
+                    label: !newProduct.product_id ? `Add a ${_ctx.$t("product.name")}` : `${newProduct.name}`,
+                    outline: "",
+                    "no-caps": "",
+                    color: "primary",
+                    icon: "add_circle",
+                    disable: loading.value
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(QMenu, {
+                        anchor: "center middle",
+                        self: "center middle",
+                        class: "soft-shadow"
+                      }, {
+                        default: withCtx(() => [
+                          createBaseVNode("div", _hoisted_3$3, [
+                            (openBlock(true), createElementBlock(Fragment, null, renderList(unref(productListFiltered), (p) => {
+                              return openBlock(), createElementBlock("div", {
+                                class: "col-xs-12",
+                                key: p.key
+                              }, [
+                                createBaseVNode("div", _hoisted_4$3, [
+                                  createVNode(QIcon, {
+                                    name: p.data[0].productcategory.icon,
+                                    size: "32px"
+                                  }, null, 8, ["name"]),
+                                  createTextVNode(" " + toDisplayString(p.key), 1)
+                                ]),
+                                createVNode(QList, { separator: "" }, {
+                                  default: withCtx(() => [
+                                    (openBlock(true), createElementBlock(Fragment, null, renderList(p.data, (d) => {
+                                      return withDirectives((openBlock(), createBlock(QItem, {
+                                        onClick: ($event) => selectProduct(d),
+                                        clickable: "",
+                                        key: d.id
+                                      }, {
+                                        default: withCtx(() => [
+                                          createVNode(QItemSection, null, {
+                                            default: withCtx(() => [
+                                              createTextVNode(toDisplayString(d.name) + " ", 1),
+                                              createBaseVNode("div", _hoisted_5$3, toDisplayString(unref(currencyFormat)(d.unit_price)) + " per " + toDisplayString(d.unit_measurement), 1)
+                                            ]),
+                                            _: 2
+                                          }, 1024)
+                                        ]),
+                                        _: 2
+                                      }, 1032, ["onClick"])), [
+                                        [ClosePopup]
+                                      ]);
+                                    }), 128))
+                                  ]),
+                                  _: 2
+                                }, 1024)
+                              ]);
+                            }), 128))
+                          ])
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }, 8, ["label", "disable"])
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      });
+    };
+  }
+});
+var _imports_0 = "data:image/webp;base64,UklGRiIEAABXRUJQVlA4WAoAAAAQAAAARwAARwAAQUxQSFECAAABkENr2yFJX1V3j23bNqK1bdvezAxn0rVt27Zt79hW9XZ9SfH/FmlETAD8l3M2fsldh06cPm3cwPaxniYqVuGD889/qGg2i4ii0Fj84siSLr48c5z/6P3fBVTd9GpNdxem+JiVrwTUuPH6FG92QlZ9E1FH4eFEFzbsx76woM6tZ9sZGIjY3oQMlixy1Yvr/ATZFA5F6mMcV4jMPsjVwzSnGhl+10k745w6ZPpTB624cdXI+OsMjToXIPM3QzSJfIwEtzloYLcNKbbM1GBsEwn8kqIq5DkS3WGjglspUqntqSL2K5I9aa9sJdKt76Eo4BUh3GlSMlqgVBCvwLQfKYtzFER8I4UnbOQGC7R+RMjlI+3WfjI254nhUhn/D9T2GqSSK6jddpTq2kztvZ/UUDO1gkipiUi9IkFqOrmaFKlp5KplxonUyuKlBgrUfoRJtW+k9tpLKraY2mVbKc8X1DZzUqYj1OaD7BJijR3lujbReucv5/uK1naDHLealDACFHZvoPQmUInLdUp5oHiqmU5xujKfh3TWGZXBxFYqv9JApcsZIpYVnBpoV0Ljth+o5hebKZR1Aw1dDhFoW8BrAVEPmBM3O4K2ue9YO+EHWnf6xNb5UNC+w2uGLCdCQc+MWyIrbVt8Qd+QbS1slC9wBL0dZnxl4PedbgbQn0veUafXrxV+wKZtz5MNepSsSzUAsw7ddxZYtGl7m5dmBKZN8XNO/mhT0/hu+4gAHti3iei3bO/t9wUVNdVlP15f3jy/o58RyBoc/SITUlLiw7xsefhPBwBWUDggqgEAAPAKAJ0BKkgASAA+7XKwUimnJKKj60EwHYlkAMxHE9AmcBtoOeE0wDeYP+Dk3sIAwYjq9Kxnof/Us4woeFGha+kkAGxAk2NG/4MaZGnYMiFBIDNoIz/AL0tZ6SnZLII8AAD+6+rf/+xLt/bb3iv+tvxz5iqNYARXAPiaUq7xmiHMLr7ssIlwUCPo3WVw/4dP/ZyyE1k/nVUMM5W/0z+tFipTqh1ZRCYYgb7SOzOLhNJ0cDPWz6+Aej2uUJWMmKoD9u5DoNhmH13RETbn4rNBLSalv0eaUcCX9eeROWAVLKlaQHAU9h55jFSFgbIlL1tJwPoBculgZt10qBjT8GD6zaIYB+nMcQZRfQoFV828G6qqrEqc+VKqo+bKrU5eE+xZExG9ujYdbbaT1jdNX9fyNcSWykWokCc3KTmcW8/GO4UxiGAT69hJ8z/32SKFy91ka5zQxYtOvzQEHCrz9h51PgaQvnMy+SzHLujw+Lf5nfIqv2RLJqOUHTleUd0qq+zNm4AzfcmYG+MeLyizWMtQx+reAxi1qtcmMzdsJp1D3y0ErFiyAiG7QAAAAA==";
+const _hoisted_1$2 = { class: "row q-col-gutter-md q-mb-lg q-mt-xs" };
+const _hoisted_2$2 = { class: "col-xs-12 col-sm-2" };
+const _hoisted_3$2 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold" }, "To", -1);
+const _hoisted_4$2 = { class: "col-xs-12 col-sm-4" };
+const _hoisted_5$2 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold" }, "Reference", -1);
+const _hoisted_6$2 = { class: "col-xs-12 col-sm-2" };
+const _hoisted_7$2 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold" }, "Invoice Number", -1);
+const _hoisted_8$2 = { class: "col-xs-12 col-sm-2" };
+const _hoisted_9$2 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold" }, "Issue Date", -1);
+const _hoisted_10$2 = { class: "col-xs-12 col-sm-2" };
+const _hoisted_11$1 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold" }, "Due Date", -1);
+const _hoisted_12$1 = /* @__PURE__ */ createBaseVNode("thead", null, [
+  /* @__PURE__ */ createBaseVNode("tr", null, [
+    /* @__PURE__ */ createBaseVNode("th", { style: { "width": "60px" } }, "Qty"),
+    /* @__PURE__ */ createBaseVNode("th", { class: "text-left" }, "Product"),
+    /* @__PURE__ */ createBaseVNode("th", { style: { "width": "85px" } }, "Amount"),
+    /* @__PURE__ */ createBaseVNode("th", { style: { "width": "80px" } }, "Tax"),
+    /* @__PURE__ */ createBaseVNode("th", { style: { "width": "100px" } }, "Total")
+  ])
+], -1);
+const _hoisted_13$1 = { class: "text-center" };
+const _hoisted_14$1 = { class: "text-left" };
+const _hoisted_15$1 = /* @__PURE__ */ createBaseVNode("td", null, null, -1);
+const _hoisted_16$1 = /* @__PURE__ */ createBaseVNode("td", null, null, -1);
+const _hoisted_17$1 = { class: "text-bold" };
+const _hoisted_18$1 = { class: "text-bold" };
+const _hoisted_19$1 = { class: "text-bold" };
+const _hoisted_20$1 = /* @__PURE__ */ createBaseVNode("td", null, null, -1);
+const _hoisted_21$1 = /* @__PURE__ */ createBaseVNode("td", null, null, -1);
+const _hoisted_22$1 = /* @__PURE__ */ createBaseVNode("td", null, null, -1);
+const _hoisted_23$1 = /* @__PURE__ */ createBaseVNode("span", { class: "text-bold text-positive" }, "Paid:", -1);
+const _hoisted_24$1 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_25$1 = /* @__PURE__ */ createBaseVNode("span", { class: "text-bold text-negative" }, "DUE:", -1);
+const _hoisted_26$1 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _sfc_main$2 = /* @__PURE__ */ defineComponent({
+  __name: "XeroInvoiceView",
+  setup(__props) {
+    const bus = inject("bus");
+    const showModal = ref(false);
+    const id = ref();
+    const model = ref();
+    const $q = useQuasar();
+    const getInvoice = () => {
+      $q.loading.show({ message: "Loading invoice..." });
+      api.get(`/xero/invoice/${id.value}`).then((response) => {
+        model.value = response.data.data[0];
+        showModal.value = true;
+        $q.loading.hide();
+      }).catch((error) => {
+        useMixinDebug(error);
+        $q.loading.hide();
+      });
+    };
+    onMounted(() => {
+      bus.on("xeroInvoiceView", (invoiceId) => {
+        id.value = invoiceId;
+        getInvoice();
+      });
+    });
+    onBeforeUnmount(() => {
+      bus.off("xeroInvoiceView");
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(QDialog, {
+        modelValue: showModal.value,
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => showModal.value = $event)
+      }, {
+        default: withCtx(() => [
+          model.value && model.value.reference ? (openBlock(), createBlock(QCard, {
+            key: 0,
+            class: "modal"
+          }, {
+            default: withCtx(() => [
+              createVNode(QToolbar, { class: "bg-primary text-white" }, {
+                default: withCtx(() => [
+                  createVNode(QToolbarTitle, { class: "col-grow" }, {
+                    default: withCtx(() => [
+                      createTextVNode(toDisplayString(model.value.reference), 1)
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(QSpace),
+                  createVNode(_sfc_main$4, {
+                    status: model.value.status,
+                    class: "q-mr-xs"
+                  }, null, 8, ["status"]),
+                  withDirectives(createVNode(QBtn, {
+                    dense: "",
+                    round: "",
+                    flat: "",
+                    icon: "close"
+                  }, null, 512), [
+                    [ClosePopup]
+                  ])
+                ]),
+                _: 1
+              }),
+              createVNode(QCardSection, null, {
+                default: withCtx(() => [
+                  createBaseVNode("div", _hoisted_1$2, [
+                    createBaseVNode("div", _hoisted_2$2, [
+                      _hoisted_3$2,
+                      createTextVNode(" " + toDisplayString(model.value.contact.name), 1)
+                    ]),
+                    createBaseVNode("div", _hoisted_4$2, [
+                      _hoisted_5$2,
+                      createTextVNode(" " + toDisplayString(model.value.reference), 1)
+                    ]),
+                    createBaseVNode("div", _hoisted_6$2, [
+                      _hoisted_7$2,
+                      createTextVNode(" #" + toDisplayString(model.value.invoiceNumber), 1)
+                    ]),
+                    createBaseVNode("div", _hoisted_8$2, [
+                      _hoisted_9$2,
+                      createTextVNode(" " + toDisplayString(unref(dateTz)(model.value.date)), 1)
+                    ]),
+                    createBaseVNode("div", _hoisted_10$2, [
+                      _hoisted_11$1,
+                      createTextVNode(" " + toDisplayString(unref(dateTz)(model.value.dueDate)), 1)
+                    ])
+                  ]),
+                  createVNode(QMarkupTable, {
+                    flat: "",
+                    bordered: "",
+                    "wrap-cells": ""
+                  }, {
+                    default: withCtx(() => [
+                      _hoisted_12$1,
+                      createBaseVNode("tbody", null, [
+                        (openBlock(true), createElementBlock(Fragment, null, renderList(model.value.lineItems, (l) => {
+                          return openBlock(), createElementBlock("tr", {
+                            key: l.lineItemID
+                          }, [
+                            createBaseVNode("td", _hoisted_13$1, toDisplayString(l.quantity), 1),
+                            createBaseVNode("td", _hoisted_14$1, toDisplayString(l.description), 1),
+                            createBaseVNode("td", null, toDisplayString(unref(currencyFormat)(l.lineAmount)), 1),
+                            createBaseVNode("td", null, toDisplayString(unref(currencyFormat)(l.taxAmount)), 1),
+                            createBaseVNode("td", null, toDisplayString(unref(currencyFormat)(l.taxAmount + l.lineAmount)), 1)
+                          ]);
+                        }), 128)),
+                        createBaseVNode("tr", null, [
+                          _hoisted_15$1,
+                          _hoisted_16$1,
+                          createBaseVNode("td", _hoisted_17$1, toDisplayString(unref(currencyFormat)(model.value.subTotal)), 1),
+                          createBaseVNode("td", _hoisted_18$1, toDisplayString(unref(currencyFormat)(model.value.totalTax)), 1),
+                          createBaseVNode("td", _hoisted_19$1, toDisplayString(unref(currencyFormat)(model.value.total)), 1)
+                        ])
+                      ]),
+                      createBaseVNode("tfoot", null, [
+                        createBaseVNode("tr", null, [
+                          _hoisted_20$1,
+                          _hoisted_21$1,
+                          _hoisted_22$1,
+                          createBaseVNode("td", null, [
+                            _hoisted_23$1,
+                            _hoisted_24$1,
+                            createTextVNode(toDisplayString(unref(currencyFormat)(model.value.amountPaid)), 1)
+                          ]),
+                          createBaseVNode("td", null, [
+                            _hoisted_25$1,
+                            _hoisted_26$1,
+                            createTextVNode(toDisplayString(unref(currencyFormat)(model.value.amountDue)), 1)
+                          ])
+                        ])
+                      ])
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })) : createCommentVNode("", true)
+        ]),
+        _: 1
+      }, 8, ["modelValue"]);
+    };
+  }
+});
+const _hoisted_1$1 = { class: "q-pa-md" };
+const _hoisted_2$1 = { class: "row q-col-gutter-md items-center" };
+const _hoisted_3$1 = /* @__PURE__ */ createBaseVNode("div", { class: "col-xs-12 col-sm-2" }, [
+  /* @__PURE__ */ createBaseVNode("img", {
+    src: _imports_0,
+    style: { "max-width": "100%" }
+  })
+], -1);
+const _hoisted_4$1 = { class: "col-xs-12 col-sm-10" };
+const _hoisted_5$1 = { key: 0 };
+const _hoisted_6$1 = { key: 1 };
+const _hoisted_7$1 = { class: "q-mb-xs" };
+const _hoisted_8$1 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_9$1 = {
+  key: 0,
+  class: "q-mt-xs"
+};
+const _hoisted_10$1 = {
+  key: 1,
+  class: "q-mt-xs text-negative"
+};
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "XeroInvoice",
+  props: {
+    invoiceId: null,
+    type: null,
+    type_id: null,
+    dataType: null
+  },
+  setup(__props) {
+    const props = __props;
+    const bus = inject("bus");
+    const error = ref(false);
+    const loading = ref(false);
+    const model = ref();
+    const getInvoice = () => {
+      loading.value = true;
+      error.value = false;
+      api.get(`/xero/invoice/${props.invoiceId}`).then((response) => {
+        if (response.data.data && response.data.data[0]) {
+          model.value = response.data.data[0];
+        } else {
+          error.value = response.data.error;
+        }
+        loading.value = false;
+      });
+    };
+    const requeue = () => {
+      confirmDelete("This will repush this to invoice to Xero").onOk(() => {
+        api.post("/xeroqueue/requeue", {
+          type: props.type,
+          type_id: props.type_id,
+          data: props.dataType ? { type: props.dataType } : null
+        }).then(() => {
+          doNotify("positive", "Xero invoice push queued");
+        }).catch((error2) => {
+          useMixinDebug(error2);
+        });
+      });
+    };
+    const viewInvoice = (invoiceID) => {
+      bus.emit("xeroInvoiceView", invoiceID);
+    };
+    onMounted(() => {
+      getInvoice();
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock("div", _hoisted_1$1, [
+        createVNode(_sfc_main$2),
+        createBaseVNode("div", _hoisted_2$1, [
+          _hoisted_3$1,
+          createBaseVNode("div", _hoisted_4$1, [
+            loading.value ? (openBlock(), createElementBlock("div", _hoisted_5$1, [
+              createVNode(QSpinner),
+              createTextVNode(" Loading Xero invoice... ")
+            ])) : createCommentVNode("", true),
+            !loading.value && model.value ? (openBlock(), createElementBlock("div", _hoisted_6$1, [
+              createBaseVNode("div", _hoisted_7$1, [
+                createTextVNode("Xero Invoice ID:"),
+                _hoisted_8$1,
+                createTextVNode(toDisplayString(__props.invoiceId), 1)
+              ]),
+              createBaseVNode("a", {
+                class: "link",
+                onClick: _cache[0] || (_cache[0] = ($event) => viewInvoice(__props.invoiceId))
+              }, "#" + toDisplayString(model.value.invoiceNumber), 1),
+              !error.value ? (openBlock(), createElementBlock("div", _hoisted_9$1, [
+                createVNode(_sfc_main$4, {
+                  status: model.value.status
+                }, null, 8, ["status"]),
+                createVNode(QBtn, {
+                  onClick: _cache[1] || (_cache[1] = ($event) => requeue()),
+                  label: "Re-push to Xero",
+                  color: "grey",
+                  class: "q-ml-xs",
+                  flat: ""
+                })
+              ])) : createCommentVNode("", true),
+              error.value ? (openBlock(), createElementBlock("div", _hoisted_10$1, [
+                createTextVNode(" Error retrieving invoice: "),
+                createBaseVNode("div", null, toDisplayString(error.value), 1)
+              ])) : createCommentVNode("", true)
+            ])) : createCommentVNode("", true)
+          ])
+        ])
+      ]);
+    };
+  }
+});
+const _hoisted_1 = {
+  key: 0,
+  class: "row q-col-gutter-md q-mb-lg"
+};
+const _hoisted_2 = { class: "col-xs-12 col-sm-4" };
+const _hoisted_3 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6" }, "Total Amount", -1);
+const _hoisted_4 = { class: "text-center q-mt-sm" };
+const _hoisted_5 = { class: "col-xs-12 col-sm-4" };
+const _hoisted_6 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6" }, "Total Owing", -1);
+const _hoisted_7 = { class: "text-center q-mt-sm" };
+const _hoisted_8 = {
+  key: 0,
+  class: "col-xs-12 col-sm-4"
+};
+const _hoisted_9 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6" }, "Commission Paid", -1);
+const _hoisted_10 = { class: "text-center q-mt-sm" };
+const _hoisted_11 = { class: "row q-col-gutter-md q-mb-md" };
+const _hoisted_12 = {
+  key: 0,
+  class: "row q-col-gutter-md"
+};
+const _hoisted_13 = { class: "col-xs-12 col-sm-8" };
+const _hoisted_14 = { class: "row q-col-gutter-md q-mb-md" };
+const _hoisted_15 = { key: 0 };
+const _hoisted_16 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold text-grey q-mt-md" }, "Deliver To", -1);
+const _hoisted_17 = { key: 1 };
+const _hoisted_18 = { key: 2 };
+const _hoisted_19 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold text-grey q-mt-md" }, "Products", -1);
+const _hoisted_20 = {
+  key: 3,
+  class: "q-mt-lg q-mb-md"
+};
+const _hoisted_21 = { class: "col-xs-12 col-sm-4" };
+const _hoisted_22 = /* @__PURE__ */ createBaseVNode("div", { class: "text-bold text-grey q-mb-xs" }, "Agreed Pickup Time", -1);
+const _hoisted_23 = /* @__PURE__ */ createBaseVNode("p", null, "The time below has been agreed upon by the customer and contractor.", -1);
+const _hoisted_24 = { class: "row q-col-gutter-md" };
+const _hoisted_25 = { class: "row q-col-gutter-md" };
+const _hoisted_26 = { key: 0 };
+const _hoisted_27 = {
+  key: 1,
+  class: "q-mt-xl"
+};
+const _hoisted_28 = { key: 0 };
+const _hoisted_29 = { key: 1 };
+const _hoisted_30 = { class: "text-grey-7 text-caption" };
+const _hoisted_31 = { key: 0 };
+const _hoisted_32 = {
+  key: 0,
+  class: "q-ml-xs q-mr-xs"
+};
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "OrderEdit",
+  props: {
+    model: null,
+    noNotes: { type: Boolean },
+    futureRecurring: null
+  },
+  emits: ["update:order"],
+  setup(__props, { emit: emits }) {
+    const props = __props;
+    const bus = inject("bus");
+    const i18n = useI18n();
+    const categories = ref();
+    const localModel = computed(() => props.model);
+    const rules = {
+      team_id: { required },
+      scheduled_pickup_date: { required },
+      scheduled_pickup_time: { required },
+      status: { required },
+      productcategories: { required }
+    };
+    const loading = ref(false);
+    const loadingPayment = ref(false);
+    const $v = useVuelidate(rules, localModel, { $scope: false });
+    const save = () => {
+      loading.value = true;
+      api.put(`/order/${props.model.id}`, localModel.value).then(() => {
+        doNotify("positive", "Saved");
+        emits("update:order");
+        bus.emit("getDashboardStats");
+        loading.value = false;
+      }).catch((error) => {
+        loading.value = false;
+        useMixinDebug(error);
+      });
+    };
+    const updateProducts = () => {
+      emits("update:order", { onlyTotals: true });
+    };
+    const paymentsOwing = computed(() => {
+      const grandTotal = parseFloat(props.model.grand_total_price.toString());
+      const paymentTotal = props.model.payments.reduce((previousValue, currentValue) => {
+        return previousValue + currentValue.total;
+      }, 0);
+      return { owing: grandTotal - paymentTotal, totalPayments: paymentTotal };
+    });
+    const doPayment = () => {
+      loadingPayment.value = true;
+      document.location = `/api/orderpayment/session/${props.model.id}`;
+    };
+    const pushToXero = () => {
+      confirmDelete(`This will push the ${i18n.t("order.name")} to Xero`).onOk(() => {
+        api.get(`/order/pushtoxero/${props.model.id}`).then(() => {
+          emits("update:order");
+        }).catch((error) => {
+          useMixinDebug(error);
+        });
+      });
+    };
+    onMounted(async () => {
+      categories.value = await productCategoriesVisibleBooking();
+    });
+    return (_ctx, _cache) => {
+      const _component_router_link = resolveComponent("router-link");
+      return openBlock(), createElementBlock(Fragment, null, [
+        __props.model && __props.model.products.length ? (openBlock(), createElementBlock("div", _hoisted_1, [
+          createBaseVNode("div", _hoisted_2, [
+            createVNode(QCard, { class: "bg-secondary text-white" }, {
+              default: withCtx(() => [
+                createVNode(QCardSection, null, {
+                  default: withCtx(() => [
+                    _hoisted_3,
+                    createBaseVNode("div", _hoisted_4, toDisplayString(unref(currencyFormat)(__props.model.grand_total_price)), 1)
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ]),
+          createBaseVNode("div", _hoisted_5, [
+            createVNode(QCard, {
+              class: normalizeClass(["text-white", { "bg-positive": unref(paymentsOwing).owing <= 0, "bg-negative": unref(paymentsOwing).owing > 0 }])
+            }, {
+              default: withCtx(() => [
+                createVNode(QCardSection, null, {
+                  default: withCtx(() => [
+                    _hoisted_6,
+                    createBaseVNode("div", _hoisted_7, toDisplayString(unref(currencyFormat)(unref(paymentsOwing).owing)), 1)
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            }, 8, ["class"])
+          ]),
+          __props.model.commission_paid_amount && __props.model.commission_paid_amount_gst ? (openBlock(), createElementBlock("div", _hoisted_8, [
+            createVNode(QCard, { class: "text-white bg-primary" }, {
+              default: withCtx(() => [
+                createVNode(QCardSection, null, {
+                  default: withCtx(() => [
+                    _hoisted_9,
+                    createBaseVNode("div", _hoisted_10, toDisplayString(unref(currencyFormat)(__props.model.commission_paid_amount)) + " / " + toDisplayString(unref(currencyFormat)(__props.model.commission_paid_amount_gst)), 1)
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ])) : createCommentVNode("", true)
+        ])) : createCommentVNode("", true),
+        createVNode(QCard, null, {
+          default: withCtx(() => [
+            createVNode(QList, null, {
+              default: withCtx(() => [
+                createVNode(QExpansionItem, {
+                  group: "orderEdit",
+                  label: _ctx.$t("order.details"),
+                  "header-class": "text-h6",
+                  "default-opened": !__props.model.products || !__props.model.products.length || __props.model.recurring_order,
+                  caption: "Update the booking details"
+                }, {
+                  default: withCtx(() => [
+                    createVNode(QCard, null, {
+                      default: withCtx(() => [
+                        createVNode(QCardSection, null, {
+                          default: withCtx(() => [
+                            createBaseVNode("div", _hoisted_11, [
+                              createVNode(_sfc_main$6, {
+                                modelValue: unref(localModel).team_id,
+                                "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(localModel).team_id = $event),
+                                label: _ctx.$t("team.name"),
+                                status: "active",
+                                class: "col-xs-12 col-sm-8",
+                                error: unref($v).team_id.$invalid,
+                                disabled: true
+                              }, null, 8, ["modelValue", "label", "error"]),
+                              createVNode(QSelect, {
+                                modelValue: unref(localModel).status,
+                                "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => unref(localModel).status = $event),
+                                label: _ctx.$t("order.status"),
+                                error: unref($v).status.$invalid,
+                                "map-options": "",
+                                options: unref(globalStatusList),
+                                "emit-value": "",
+                                class: "col-xs-12 col-sm-4"
+                              }, null, 8, ["modelValue", "label", "error", "options"])
+                            ]),
+                            unref(localModel).team_id ? (openBlock(), createElementBlock("div", _hoisted_12, [
+                              createBaseVNode("div", _hoisted_13, [
+                                createBaseVNode("div", _hoisted_14, [
+                                  createVNode(_sfc_main$7, {
+                                    modelValue: unref(localModel).scheduled_pickup_date,
+                                    "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => unref(localModel).scheduled_pickup_date = $event),
+                                    label: _ctx.$t("order.scheduledPickupDate"),
+                                    invalid: unref($v).scheduled_pickup_date.$invalid,
+                                    class: "col-xs-12 col-sm-6"
+                                  }, null, 8, ["modelValue", "label", "invalid"]),
+                                  createVNode(QSelect, {
+                                    modelValue: unref(localModel).scheduled_pickup_time,
+                                    "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => unref(localModel).scheduled_pickup_time = $event),
+                                    label: _ctx.$t("order.scheduledPickupTime"),
+                                    invalid: unref($v).scheduled_pickup_time,
+                                    options: unref(hourBookingOptions),
+                                    "emit-value": "",
+                                    "map-options": "",
+                                    class: "col-xs-12 col-sm-6"
+                                  }, null, 8, ["modelValue", "label", "invalid", "options"])
+                                ]),
+                                !unref(localModel).recurring_parent_id ? (openBlock(), createElementBlock("div", _hoisted_15, [
+                                  createVNode(QToggle, {
+                                    modelValue: unref(localModel).recurring_order,
+                                    "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => unref(localModel).recurring_order = $event),
+                                    label: _ctx.$t("order.recurring")
+                                  }, null, 8, ["modelValue", "label"]),
+                                  unref(localModel).recurring_order ? (openBlock(), createBlock(QSelect, {
+                                    key: 0,
+                                    modelValue: unref(localModel).recurring,
+                                    "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => unref(localModel).recurring = $event),
+                                    label: _ctx.$t("order.recurringFrequency"),
+                                    options: ["Week", "Fortnite", "Month"],
+                                    "bottom-slots": ""
+                                  }, null, 8, ["modelValue", "label"])) : createCommentVNode("", true)
+                                ])) : createCommentVNode("", true),
+                                _hoisted_16,
+                                unref(localModel).address1 ? (openBlock(), createElementBlock("div", _hoisted_17, toDisplayString(unref(localModel).address1), 1)) : createCommentVNode("", true),
+                                createBaseVNode("div", null, toDisplayString(unref(localModel).address2), 1),
+                                unref(localModel).suburbpostcoderegion ? (openBlock(), createElementBlock("div", _hoisted_18, toDisplayString(unref(localModel).suburbpostcoderegion.locality) + " " + toDisplayString(unref(localModel).suburbpostcoderegion.state) + " " + toDisplayString(unref(localModel).suburbpostcoderegion.postcode), 1)) : createCommentVNode("", true),
+                                _hoisted_19,
+                                (openBlock(true), createElementBlock(Fragment, null, renderList(unref(localModel).productcategories, (c) => {
+                                  return openBlock(), createElementBlock("div", {
+                                    key: c.id
+                                  }, [
+                                    c.meta ? (openBlock(), createBlock(QCheckbox, {
+                                      key: 0,
+                                      modelValue: c.meta.pivot_active,
+                                      "onUpdate:modelValue": ($event) => c.meta.pivot_active = $event,
+                                      label: c.name
+                                    }, null, 8, ["modelValue", "onUpdate:modelValue", "label"])) : createCommentVNode("", true)
+                                  ]);
+                                }), 128)),
+                                unref(localModel).scheduled_pickup_time ? (openBlock(), createElementBlock("div", _hoisted_20, [
+                                  createVNode(_sfc_main$8, {
+                                    modelValue: unref(localModel).contractor_user_id,
+                                    "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => unref(localModel).contractor_user_id = $event),
+                                    team_id: unref(localModel).team_id,
+                                    scheduled_pickup_date: unref(localModel).scheduled_pickup_date,
+                                    scheduled_pickup_time: unref(localModel).scheduled_pickup_time,
+                                    reassign: true,
+                                    productcategories: __props.model.productcategories
+                                  }, null, 8, ["modelValue", "team_id", "scheduled_pickup_date", "scheduled_pickup_time", "productcategories"])
+                                ])) : createCommentVNode("", true)
+                              ]),
+                              createBaseVNode("div", _hoisted_21, [
+                                _hoisted_22,
+                                _hoisted_23,
+                                createVNode(QTime, {
+                                  modelValue: unref(localModel).agreed_pickup_time,
+                                  "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => unref(localModel).agreed_pickup_time = $event),
+                                  color: "secondary"
+                                }, null, 8, ["modelValue"])
+                              ])
+                            ])) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(QCardActions, { align: "right" }, {
+                          default: withCtx(() => [
+                            createVNode(QBtn, {
+                              disable: loading.value || unref($v).$invalid,
+                              label: _ctx.$t("actions.update"),
+                              color: "primary",
+                              onClick: _cache[8] || (_cache[8] = ($event) => save())
+                            }, null, 8, ["disable", "label"])
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    })
+                  ]),
+                  _: 1
+                }, 8, ["label", "default-opened"]),
+                createVNode(QExpansionItem, {
+                  group: "orderEdit",
+                  label: `${_ctx.$t("order.products")} (${__props.model.products.length})`,
+                  caption: " Create, update and delete products for this booking",
+                  "header-class": "text-h6",
+                  "default-opened": __props.model.products && __props.model.products.length && !__props.model.recurring_order ? true : false
+                }, {
+                  default: withCtx(() => [
+                    createVNode(QCard, null, {
+                      default: withCtx(() => [
+                        createVNode(_sfc_main$3, {
+                          model: __props.model,
+                          "onUpdate:products": updateProducts
+                        }, null, 8, ["model"])
+                      ]),
+                      _: 1
+                    })
+                  ]),
+                  _: 1
+                }, 8, ["label", "default-opened"]),
+                createVNode(QExpansionItem, {
+                  group: "orderEdit",
+                  label: _ctx.$t("order.invoiceConfiguration"),
+                  caption: "Invoice configuration",
+                  "header-class": "text-h6"
+                }, {
+                  default: withCtx(() => [
+                    createVNode(QCard, null, {
+                      default: withCtx(() => [
+                        createVNode(QCardSection, null, {
+                          default: withCtx(() => [
+                            createBaseVNode("div", _hoisted_24, [
+                              createVNode(QInput, {
+                                modelValue: unref(localModel).invoice_name,
+                                "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => unref(localModel).invoice_name = $event),
+                                label: _ctx.$t("team.invoiceName"),
+                                class: "col-xs-12 col-sm-6",
+                                "bottom-slots": ""
+                              }, null, 8, ["modelValue", "label"]),
+                              createVNode(QInput, {
+                                modelValue: unref(localModel).invoice_po,
+                                "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => unref(localModel).invoice_po = $event),
+                                label: _ctx.$t("team.invoicePo"),
+                                class: "col-xs-12 col-sm-6",
+                                "bottom-slots": ""
+                              }, null, 8, ["modelValue", "label"])
+                            ]),
+                            createVNode(_sfc_main$9, {
+                              model: unref(localModel),
+                              addressfields: { address1: "invoice_address1", address2: "invoice_address2", suburb_postcode_region_id: "invoice_address_suburb_postcode_region_id", lat: "lat", lng: "lng", country_id: "invoice_address_country_id" },
+                              placeholder: _ctx.$t("address.search"),
+                              filled: true
+                            }, null, 8, ["model", "placeholder"]),
+                            createVNode(QInput, {
+                              modelValue: unref(localModel).invoice_address1,
+                              "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => unref(localModel).invoice_address1 = $event),
+                              label: _ctx.$t("address.line1"),
+                              "bottom-slots": ""
+                            }, null, 8, ["modelValue", "label"]),
+                            createVNode(QInput, {
+                              modelValue: unref(localModel).invoice_address2,
+                              "onUpdate:modelValue": _cache[12] || (_cache[12] = ($event) => unref(localModel).invoice_address2 = $event),
+                              label: _ctx.$t("address.line2"),
+                              "bottom-slots": ""
+                            }, null, 8, ["modelValue", "label"]),
+                            createBaseVNode("div", _hoisted_25, [
+                              createVNode(_sfc_main$a, {
+                                modelValue: unref(localModel).invoice_address_suburb_postcode_region_id,
+                                "onUpdate:modelValue": _cache[13] || (_cache[13] = ($event) => unref(localModel).invoice_address_suburb_postcode_region_id = $event),
+                                label: _ctx.$t("address.suburb"),
+                                class: "col-xs-12 col-sm-6"
+                              }, null, 8, ["modelValue", "label"]),
+                              createVNode(_sfc_main$b, {
+                                modelValue: unref(localModel).invoice_address_country_id,
+                                "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => unref(localModel).invoice_address_country_id = $event),
+                                label: _ctx.$t("address.country"),
+                                class: "col-xs-12 col-sm-6"
+                              }, null, 8, ["modelValue", "label"])
+                            ])
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(QCardActions, { align: "right" }, {
+                          default: withCtx(() => [
+                            createVNode(QBtn, {
+                              disable: loading.value || unref($v).$invalid,
+                              label: _ctx.$t("actions.update"),
+                              color: "primary",
+                              onClick: _cache[15] || (_cache[15] = ($event) => save())
+                            }, null, 8, ["disable", "label"])
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    })
+                  ]),
+                  _: 1
+                }, 8, ["label"]),
+                __props.model && __props.model.products.length ? (openBlock(), createBlock(QExpansionItem, {
+                  key: 0,
+                  group: "orderEdit",
+                  label: _ctx.$t("order.payments"),
+                  caption: "Payments",
+                  "header-class": "text-h6"
+                }, {
+                  default: withCtx(() => [
+                    createVNode(QCard, null, {
+                      default: withCtx(() => [
+                        createVNode(QCardSection, null, {
+                          default: withCtx(() => [
+                            createVNode(QList, { separator: "" }, {
+                              default: withCtx(() => [
+                                !__props.model.payments.length ? (openBlock(), createBlock(QItem, { key: 0 }, {
+                                  default: withCtx(() => [
+                                    createVNode(QItemSection, null, {
+                                      default: withCtx(() => [
+                                        createTextVNode(" No payments found ")
+                                      ]),
+                                      _: 1
+                                    })
+                                  ]),
+                                  _: 1
+                                })) : createCommentVNode("", true),
+                                (openBlock(true), createElementBlock(Fragment, null, renderList(__props.model.payments, (p) => {
+                                  return openBlock(), createBlock(QItem, {
+                                    key: p.id
+                                  }, {
+                                    default: withCtx(() => [
+                                      createVNode(QItemSection, { avatar: "" }, {
+                                        default: withCtx(() => [
+                                          createVNode(_sfc_main$c, {
+                                            user: p.user
+                                          }, null, 8, ["user"])
+                                        ]),
+                                        _: 2
+                                      }, 1024),
+                                      createVNode(QItemSection, null, {
+                                        default: withCtx(() => [
+                                          createBaseVNode("div", null, toDisplayString(unref(dateTimeTz)(p.created_at)), 1)
+                                        ]),
+                                        _: 2
+                                      }, 1024),
+                                      createVNode(QItemSection, { side: "" }, {
+                                        default: withCtx(() => [
+                                          createTextVNode(toDisplayString(unref(currencyFormat)(p.grand_total)), 1)
+                                        ]),
+                                        _: 2
+                                      }, 1024)
+                                    ]),
+                                    _: 2
+                                  }, 1024);
+                                }), 128)),
+                                unref(paymentsOwing).owing > 0 ? (openBlock(), createBlock(QItem, { key: 1 }, {
+                                  default: withCtx(() => [
+                                    createVNode(QItemSection, null, {
+                                      default: withCtx(() => [
+                                        createVNode(QBtn, {
+                                          onClick: _cache[16] || (_cache[16] = ($event) => doPayment()),
+                                          label: "Make Payment",
+                                          color: "primary",
+                                          push: "",
+                                          disable: loadingPayment.value,
+                                          loading: loadingPayment.value
+                                        }, null, 8, ["disable", "loading"])
+                                      ]),
+                                      _: 1
+                                    })
+                                  ]),
+                                  _: 1
+                                })) : createCommentVNode("", true),
+                                __props.model.status === "paid" && !__props.model.xero_id ? (openBlock(), createBlock(QItem, { key: 2 }, {
+                                  default: withCtx(() => [
+                                    createVNode(QItemSection, null, {
+                                      default: withCtx(() => [
+                                        createVNode(QBtn, {
+                                          onClick: _cache[17] || (_cache[17] = ($event) => pushToXero()),
+                                          label: "Push to Xero",
+                                          color: "blue",
+                                          push: ""
+                                        })
+                                      ]),
+                                      _: 1
+                                    })
+                                  ]),
+                                  _: 1
+                                })) : createCommentVNode("", true)
+                              ]),
+                              _: 1
+                            }),
+                            __props.model.xero_id ? (openBlock(), createElementBlock("div", _hoisted_26, [
+                              createVNode(QSeparator, { class: "q-mt-md" }),
+                              createVNode(_sfc_main$1, {
+                                "invoice-id": __props.model.xero_id,
+                                type: "Order",
+                                type_id: __props.model.id
+                              }, null, 8, ["invoice-id", "type_id"])
+                            ])) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    })
+                  ]),
+                  _: 1
+                }, 8, ["label"])) : createCommentVNode("", true)
+              ]),
+              _: 1
+            })
+          ]),
+          _: 1
+        }),
+        !__props.noNotes ? (openBlock(), createElementBlock("div", _hoisted_27, [
+          createVNode(_sfc_main$5, {
+            notable_id: __props.model.id,
+            notable_type: "Order",
+            nobox: true
+          }, null, 8, ["notable_id"])
+        ])) : createCommentVNode("", true),
+        __props.futureRecurring && __props.futureRecurring.length ? (openBlock(), createBlock(QCard, {
+          key: 2,
+          class: "q-mb-md"
+        }, {
+          default: withCtx(() => [
+            createVNode(QList, { separator: "" }, {
+              default: withCtx(() => [
+                createVNode(QItemLabel, { header: "" }, {
+                  default: withCtx(() => [
+                    createTextVNode("FUTURE BOOKINGS")
+                  ]),
+                  _: 1
+                }),
+                (openBlock(true), createElementBlock(Fragment, null, renderList(__props.futureRecurring, (o) => {
+                  return openBlock(), createBlock(QItem, {
+                    key: o.id
+                  }, {
+                    default: withCtx(() => [
+                      createBaseVNode("div", null, [
+                        createBaseVNode("div", null, [
+                          createVNode(_component_router_link, {
+                            to: { name: "order-edit", params: { id: o.id } },
+                            target: "_blank",
+                            class: "link"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(unref(displayDateDay)(o.scheduled_pickup_date)) + " " + toDisplayString(o.scheduled_pickup_date) + " (", 1),
+                              !o.agreed_pickup_time ? (openBlock(), createElementBlock("span", _hoisted_28, toDisplayString(unref(hourBookingDisplay)(o.scheduled_pickup_time)), 1)) : createCommentVNode("", true),
+                              o.agreed_pickup_time ? (openBlock(), createElementBlock("span", _hoisted_29, toDisplayString(unref(hourAgreedDisplay)(o.agreed_pickup_time)), 1)) : createCommentVNode("", true),
+                              createTextVNode(")")
+                            ]),
+                            _: 2
+                          }, 1032, ["to"]),
+                          createVNode(_sfc_main$4, {
+                            status: o.status,
+                            small: true,
+                            class: "q-ml-xs"
+                          }, null, 8, ["status"])
+                        ]),
+                        createBaseVNode("div", _hoisted_30, [
+                          createVNode(QIcon, {
+                            name: "settings",
+                            color: "grey-7"
+                          }),
+                          createTextVNode(),
+                          o.productcategories ? (openBlock(), createElementBlock("span", _hoisted_31, [
+                            (openBlock(true), createElementBlock(Fragment, null, renderList(o.productcategories, (c, index) => {
+                              return openBlock(), createElementBlock("span", {
+                                key: c.id
+                              }, [
+                                createTextVNode(toDisplayString(c.name), 1),
+                                index + 1 !== o.productcategories.length ? (openBlock(), createElementBlock("span", _hoisted_32, "&")) : createCommentVNode("", true)
+                              ]);
+                            }), 128)),
+                            createTextVNode(" pickup with " + toDisplayString(o.team.name), 1)
+                          ])) : createCommentVNode("", true)
+                        ])
+                      ])
+                    ]),
+                    _: 2
+                  }, 1024);
+                }), 128))
+              ]),
+              _: 1
+            })
+          ]),
+          _: 1
+        })) : createCommentVNode("", true)
+      ], 64);
+    };
+  }
+});
+export { _sfc_main as default };

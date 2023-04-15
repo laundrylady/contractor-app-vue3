@@ -1,1 +1,22 @@
-import{b as a}from"./index.e647c85a.js";function u(i){return{all:i=i||new Map,on:function(o,e){var t=i.get(o);t?t.push(e):i.set(o,[e])},off:function(o,e){var t=i.get(o);t&&(e?t.splice(t.indexOf(e)>>>0,1):i.set(o,[]))},emit:function(o,e){var t=i.get(o);t&&t.slice().map(function(s){s(e)}),(t=i.get("*"))&&t.slice().map(function(s){s(o,e)})}}}var f=a(async({app:i})=>{const o=u();i.provide("bus",o)});export{f as default};
+import { b as boot } from "./index.e647c85a.js";
+function mitt(n) {
+  return { all: n = n || /* @__PURE__ */ new Map(), on: function(t, e) {
+    var i = n.get(t);
+    i ? i.push(e) : n.set(t, [e]);
+  }, off: function(t, e) {
+    var i = n.get(t);
+    i && (e ? i.splice(i.indexOf(e) >>> 0, 1) : n.set(t, []));
+  }, emit: function(t, e) {
+    var i = n.get(t);
+    i && i.slice().map(function(n2) {
+      n2(e);
+    }), (i = n.get("*")) && i.slice().map(function(n2) {
+      n2(t, e);
+    });
+  } };
+}
+var bus = boot(async ({ app }) => {
+  const bus2 = mitt();
+  app.provide("bus", bus2);
+});
+export { bus as default };

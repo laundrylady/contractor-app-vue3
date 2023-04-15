@@ -1,1 +1,593 @@
-import{A as z,i as se,g as ne,B as F,r as Q,o as oe,m as u,n as k,l,L as s,M as I,q as n,b8 as d,y as c,S as T,K as g,R as p,U as b,Q as O,F as ie,b7 as re,N as S,af as ue,G as q}from"./index.e647c85a.js";import{Q as L}from"./QSelect.853d535e.js";import{a as de,Q as D}from"./QTable.64a81add.js";import{Q as w,a as V}from"./QItemSection.99659658.js";import{Q as B}from"./QList.2f0afc60.js";import{Q as J}from"./format.8e90d58d.js";import{Q as me}from"./QMarkupTable.981d9979.js";import{Q as ce}from"./QSpace.7d6f905e.js";import{C as j}from"./ClosePopup.ef2f7039.js";import{u as ve,r as N,e as fe}from"./index.esm.4557c89b.js";import{a as f}from"./axios.ccd3a804.js";import{N as _e}from"./NoRecords.4fdd5d80.js";import{u as _}from"./debug.805a8aef.js";import{b as h,c as A,l as pe,A as be}from"./help.c0f85e41.js";import"./rtl.4f5e13e8.js";import"./QLinearProgress.c48fac34.js";const he={class:"text-h6"},ge={key:0,class:"bg-accent text-white q-pa-sm q-mr-sm"},ke={class:"text-h6"},we=n("thead",null,[n("tr",null,[n("th",{class:"text-left"},"First name"),n("th",{class:"text-left"},"Last name"),n("th",{class:"text-left"},"Email"),n("th",{class:"text-left"},"Access"),n("th",{class:"text-left"},"Sent"),n("th",{class:"text-left"},"Status"),n("th",{class:"text-center"},"Actions")])],-1),Ve={key:0},$e=n("br",null,null,-1),ye={class:"text-center"},Ce=n("div",{class:"text-h6"},"New Invitation",-1),Ue={class:"row q-col-gutter-sm items-center"},Ie={class:"col-xs-12 col-md-3"},Se={class:"col-xs-6 col-md-3"},xe={class:"col-xs-6 col-md-3"},Qe={class:"col-xs-6 col-md-3"},Te={class:"flex"},Ne={key:0,class:"text-warning"},Ae=z({__name:"TeamUserManagement",props:{team:null},setup(v){const m=v,$=se("bus"),K=ne(()=>{let a=0;return m.team.users&&m.team.users.forEach(t=>{["administrator","owner"].indexOf(t.role)!==-1&&(a+=1)}),a}),G=F({keyword:null}),o=Q(!1),x=Q(!1),y=Q([]),P={email:null,first_name:null,last_name:null,role:"user",team_id:m.team.id,bypass:!0},r=F(JSON.parse(JSON.stringify(P))),C=ve({email:{required:N,email:fe},first_name:{required:N},last_name:{required:N},role:{required:N}},r),H=Q(),M=[{value:"owner",label:"Owner"},{value:"administrator",label:"Administrator"},{value:"user",label:"User"},{value:"ndis",label:"NDIS Plan Manager"}],W=[{name:"user.first_name",sortable:!1,label:"First name",field:"user.first_name",format:(a,t)=>t.user.first_name,align:"left"},{name:"user.last_name",sortable:!1,label:"Last name",field:"user.last_name",format:(a,t)=>t.user.last_name,align:"left"},{name:"user.email",sortable:!1,label:"Email",field:"user.email",format:(a,t)=>t.user.email,align:"left"},{name:"role",sortable:!1,label:"Access",field:"role",align:"left"},{name:"actions",sortable:!1,label:"Actions",field:"actions"}],X=a=>{o.value=!0,f.put(`/teamuser/update/${a.id}`,a).then(()=>{h("positive","Saved"),o.value=!1}).catch(t=>{_(t)})},Y=a=>{A("This will remove the user and all associated access").onOk(()=>{o.value=!0,f.delete(`/teamuser/remove/${a.team_id}/${a.id}`).then(()=>{h("negative","User removed"),$.emit("getTeam"),o.value=!1}).catch(t=>{o.value=!1,_(t)})})},Z=a=>{A("This will reset the MFA for this user.").onOk(()=>{o.value=!0,f.get(`/teamuser/resetmfa/${a.team_id}/${a.id}`).then(()=>{h("negative","User MFA reset"),$.emit("getTeam"),o.value=!1}).catch(t=>{o.value=!1,_(t)})})},R=(a,t)=>{let e="This will disable access";t===1&&(e="This will re-enable access"),A(e).onOk(()=>{o.value=!0,f.put(`/teamuser/toggleaccess/${a.team_id}/${a.id}`,{active:t}).then(()=>{h("positive","Saved"),$.emit("getTeam"),o.value=!1}).catch(i=>{o.value=!1,_(i)})})},U=()=>{o.value=!0,f.get(`/teaminvite/team/${m.team.id}`).then(a=>{y.value=a.data,o.value=!1}).catch(a=>{_(a),o.value=!1})},ee=()=>{x.value=!0,r.team_id=m.team.id,f.post("/teaminvite/inviteuser",r).then(()=>{h("positive","Invitation sent"),x.value=!1,U(),$.emit("getTeam"),Object.assign(r,JSON.parse(JSON.stringify(P)))}).catch(a=>{x.value=!1,_(a)})},E=a=>{f.put(`/teaminvite/${a.id}`,a).then(()=>{U(),h("positive","Saved")}).catch(t=>{_(t)})},te=a=>{f.get(`/teaminvite/resend/${a}`).then(()=>{h("positive","Invitation resent"),U()}).catch(t=>{_(t)})},le=a=>{A("This will revoke the invitation.").onOk(()=>{o.value=!0,f.delete(`/teaminvite/${a}`).then(()=>{h("negative","Invitation revoked"),U()}).catch(t=>{o.value=!1,_(t)})})},ae=()=>{r.email=m.team.email,r.first_name=m.team.first_name,r.last_name=m.team.last_name,r.role="owner"};return oe(()=>{U()}),(a,t)=>(u(),k("div",null,[l(O,null,{default:s(()=>[l(I,null,{default:s(()=>[n("div",he,d(a.$t("team.userPlural"))+" ("+d(v.team.users&&v.team.users.length)+")",1),n("p",null,"To invite new "+d(a.$t("team.userPlural").toLowerCase())+', use the "New Invitation" section below. ',1)]),_:1}),l(de,{rows:v.team.users,columns:W,"row-key":"id",filter:G.keyword,loading:o.value,class:"no-shadow"},{"body-cell-role":s(e=>[l(D,{props:e},{default:s(()=>[l(L,{modelValue:e.row.role,"onUpdate:modelValue":[i=>e.row.role=i,i=>X(e.row)],options:M,"map-options":"","emit-value":"",placeholder:"Role",dense:"",outlined:""},null,8,["modelValue","onUpdate:modelValue"])]),_:2},1032,["props"])]),"body-cell-actions":s(e=>[l(D,{props:e},{default:s(()=>[e.row.active?c("",!0):(u(),k("span",ge,"REVOKED ACCESS")),l(T,{icon:"more_vert",flat:""},{default:s(()=>[l(J,null,{default:s(()=>[l(B,null,{default:s(()=>[e.row.active?(u(),g(V,{key:0,onClick:i=>R(e.row,0),clickable:""},{default:s(()=>[l(w,null,{default:s(()=>[p("Revoke Access")]),_:1})]),_:2},1032,["onClick"])):c("",!0),e.row.active?c("",!0):(u(),g(V,{key:1,onClick:i=>R(e.row,1),clickable:""},{default:s(()=>[l(w,null,{default:s(()=>[p("Enable Access")]),_:1})]),_:2},1032,["onClick"])),l(V,{onClick:i=>Z(e.row),clickable:""},{default:s(()=>[l(w,null,{default:s(()=>[p("Reset MFA")]),_:1})]),_:2},1032,["onClick"]),v.team.users&&v.team.users.length>1&&(e.row.role!=="administrator"||b(K)>1)?(u(),g(V,{key:2,onClick:i=>Y(e.row),clickable:""},{default:s(()=>[l(w,null,{default:s(()=>[p("Remove User")]),_:1})]),_:2},1032,["onClick"])):c("",!0)]),_:2},1024)]),_:2},1024)]),_:2},1024)]),_:2},1032,["props"])]),_:1},8,["rows","filter","loading"])]),_:1}),l(O,{class:"q-mt-md q-mb-md"},{default:s(()=>[l(I,null,{default:s(()=>[n("div",ke,"Pending Invitations ("+d(y.value.length)+")",1),n("p",null,d(a.$t("team.userPlural"))+" that have been sent an invitation email but have not responded are listed below. ",1)]),_:1}),y.value.length?c("",!0):(u(),g(I,{key:0,class:"text-center"},{default:s(()=>[l(_e)]),_:1})),y.value.length?(u(),g(me,{key:1},{default:s(()=>[we,n("tbody",null,[(u(!0),k(ie,null,re(y.value,e=>(u(),k("tr",{key:e.id},[n("td",null,[l(S,{modelValue:e.first_name,"onUpdate:modelValue":i=>e.first_name=i,borderless:"",onInput:i=>E(e),debounce:"500"},null,8,["modelValue","onUpdate:modelValue","onInput"])]),n("td",null,[l(S,{modelValue:e.last_name,"onUpdate:modelValue":i=>e.last_name=i,borderless:"",onInput:i=>E(e),debounce:"500"},null,8,["modelValue","onUpdate:modelValue","onInput"])]),n("td",null,d(e.email),1),n("td",null,[l(L,{modelValue:e.role,"onUpdate:modelValue":i=>e.role=i,options:M,"map-options":"","emit-value":"",borderless:"",onInput:i=>E(e),debounce:"500"},null,8,["modelValue","onUpdate:modelValue","onInput"])]),n("td",null,[e.latestMail?(u(),k("span",Ve,[p("Sent by "+d(e.invitee.fullname)+" "+d(b(pe)(e.latestMail.created_at)),1),$e,p(d(b(be)(e.latestMail.amazon_ses_status)),1)])):c("",!0)]),n("td",null,d(e.status),1),n("td",ye,[l(T,{icon:"more_vert",flat:""},{default:s(()=>[l(J,null,{default:s(()=>[l(B,null,{default:s(()=>[e.status==="Pending"?q((u(),g(V,{key:0,onClick:i=>te(e.id),clickable:""},{default:s(()=>[l(w,null,{default:s(()=>[p(" Resend invitation ")]),_:1})]),_:2},1032,["onClick"])),[[j]]):c("",!0),q((u(),g(V,{onClick:i=>le(e.id),clickable:""},{default:s(()=>[l(w,null,{default:s(()=>[p(" Revoke invitation ")]),_:1})]),_:2},1032,["onClick"])),[[j]])]),_:2},1024)]),_:2},1024)]),_:2},1024)])]))),128))])]),_:1})):c("",!0)]),_:1}),l(O,null,{default:s(()=>[l(I,null,{default:s(()=>[Ce,n("p",null," Invite new "+d(a.$t("team.userPlural").toLowerCase())+" by filling out the form below and clicking SEND INVITE.",1)]),_:1}),l(I,null,{default:s(()=>[n("div",Ue,[n("div",Ie,[l(S,{modelValue:r.email,"onUpdate:modelValue":t[1]||(t[1]=e=>r.email=e),label:"Email address of user",error:b(C).email.$invalid},{append:s(()=>[l(T,{onClick:t[0]||(t[0]=e=>ae()),label:"Load",flat:"",color:"primary"})]),_:1},8,["modelValue","error"])]),n("div",Se,[l(S,{modelValue:r.first_name,"onUpdate:modelValue":t[2]||(t[2]=e=>r.first_name=e),label:"First name",error:b(C).first_name.$invalid,disable:o.value},null,8,["modelValue","error","disable"])]),n("div",xe,[l(S,{modelValue:r.last_name,"onUpdate:modelValue":t[3]||(t[3]=e=>r.last_name=e),label:"Last name",error:b(C).last_name.$invalid,disable:o.value},null,8,["modelValue","error","disable"])]),n("div",Qe,[l(L,{modelValue:r.role,"onUpdate:modelValue":t[4]||(t[4]=e=>r.role=e),label:"Customer Access",options:M,"map-options":"","emit-value":"",error:b(C).role.$invalid},null,8,["modelValue","error"])])]),n("div",Te,[l(ue,{modelValue:r.bypass,"onUpdate:modelValue":t[5]||(t[5]=e=>r.bypass=e),label:"Add directly and bypass invitation system",disable:""},null,8,["modelValue"]),l(ce),l(T,{onClick:t[6]||(t[6]=e=>ee()),disable:o.value||b(C).$invalid,label:"Send invite",color:"primary",loading:x.value},null,8,["disable","loading"])]),H.value?(u(),k("div",Ne,"This user already exists in the account.")):c("",!0)]),_:1})]),_:1})]))}}),Me={key:0},Ee={class:"text-h5"},Oe=n("p",null,"Users that are involved in this customer.",-1),et=z({__name:"TeamUsers",props:{model:null},setup(v){return(m,$)=>v.model.id?(u(),k("div",Me,[n("div",Ee,"Associated "+d(m.$t("team.userPlural")),1),Oe,l(Ae,{team:v.model},null,8,["team"])])):c("",!0)}});export{et as default};
+import { A as defineComponent, i as inject, g as computed, B as reactive, r as ref, o as onMounted, m as openBlock, n as createElementBlock, l as createVNode, L as withCtx, M as QCardSection, q as createBaseVNode, b8 as toDisplayString, y as createCommentVNode, S as QBtn, K as createBlock, R as createTextVNode, U as unref, Q as QCard, F as Fragment, b7 as renderList, N as QInput, af as QToggle, G as withDirectives } from "./index.e647c85a.js";
+import { Q as QSelect } from "./QSelect.853d535e.js";
+import { a as QTable, Q as QTd } from "./QTable.64a81add.js";
+import { Q as QItemSection, a as QItem } from "./QItemSection.99659658.js";
+import { Q as QList } from "./QList.2f0afc60.js";
+import { Q as QMenu } from "./format.8e90d58d.js";
+import { Q as QMarkupTable } from "./QMarkupTable.981d9979.js";
+import { Q as QSpace } from "./QSpace.7d6f905e.js";
+import { C as ClosePopup } from "./ClosePopup.ef2f7039.js";
+import { u as useVuelidate, r as required, e as email } from "./index.esm.4557c89b.js";
+import { a as api } from "./axios.ccd3a804.js";
+import { N as NoRecords } from "./NoRecords.4fdd5d80.js";
+import { u as useMixinDebug } from "./debug.805a8aef.js";
+import { b as doNotify, c as confirmDelete, l as fromNowTz, A as awsSesStatus } from "./help.c0f85e41.js";
+import "./rtl.4f5e13e8.js";
+import "./QLinearProgress.c48fac34.js";
+const _hoisted_1$1 = { class: "text-h6" };
+const _hoisted_2$1 = {
+  key: 0,
+  class: "bg-accent text-white q-pa-sm q-mr-sm"
+};
+const _hoisted_3$1 = { class: "text-h6" };
+const _hoisted_4 = /* @__PURE__ */ createBaseVNode("thead", null, [
+  /* @__PURE__ */ createBaseVNode("tr", null, [
+    /* @__PURE__ */ createBaseVNode("th", { class: "text-left" }, "First name"),
+    /* @__PURE__ */ createBaseVNode("th", { class: "text-left" }, "Last name"),
+    /* @__PURE__ */ createBaseVNode("th", { class: "text-left" }, "Email"),
+    /* @__PURE__ */ createBaseVNode("th", { class: "text-left" }, "Access"),
+    /* @__PURE__ */ createBaseVNode("th", { class: "text-left" }, "Sent"),
+    /* @__PURE__ */ createBaseVNode("th", { class: "text-left" }, "Status"),
+    /* @__PURE__ */ createBaseVNode("th", { class: "text-center" }, "Actions")
+  ])
+], -1);
+const _hoisted_5 = { key: 0 };
+const _hoisted_6 = /* @__PURE__ */ createBaseVNode("br", null, null, -1);
+const _hoisted_7 = { class: "text-center" };
+const _hoisted_8 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h6" }, "New Invitation", -1);
+const _hoisted_9 = { class: "row q-col-gutter-sm items-center" };
+const _hoisted_10 = { class: "col-xs-12 col-md-3" };
+const _hoisted_11 = { class: "col-xs-6 col-md-3" };
+const _hoisted_12 = { class: "col-xs-6 col-md-3" };
+const _hoisted_13 = { class: "col-xs-6 col-md-3" };
+const _hoisted_14 = { class: "flex" };
+const _hoisted_15 = {
+  key: 0,
+  class: "text-warning"
+};
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "TeamUserManagement",
+  props: {
+    team: null
+  },
+  setup(__props) {
+    const props = __props;
+    const bus = inject("bus");
+    const adminCount = computed(() => {
+      let count = 0;
+      if (props.team.users) {
+        props.team.users.forEach((o) => {
+          if (["administrator", "owner"].indexOf(o.role) !== -1) {
+            count += 1;
+          }
+        });
+      }
+      return count;
+    });
+    const search = reactive({ keyword: null });
+    const loading = ref(false);
+    const loadingInvite = ref(false);
+    const invitations = ref([]);
+    const inviteSchema = {
+      email: null,
+      first_name: null,
+      last_name: null,
+      role: "user",
+      team_id: props.team.id,
+      bypass: true
+    };
+    const invite = reactive(JSON.parse(JSON.stringify(inviteSchema)));
+    const rules = {
+      email: { required, email },
+      first_name: { required },
+      last_name: { required },
+      role: { required }
+    };
+    const $v = useVuelidate(rules, invite);
+    const inviteError = ref();
+    const roles = [{ value: "owner", label: "Owner" }, { value: "administrator", label: "Administrator" }, { value: "user", label: "User" }, { value: "ndis", label: "NDIS Plan Manager" }];
+    const columns = [{
+      name: "user.first_name",
+      sortable: false,
+      label: "First name",
+      field: "user.first_name",
+      format: (val, row) => row.user.first_name,
+      align: "left"
+    }, {
+      name: "user.last_name",
+      sortable: false,
+      label: "Last name",
+      field: "user.last_name",
+      format: (val, row) => row.user.last_name,
+      align: "left"
+    }, {
+      name: "user.email",
+      sortable: false,
+      label: "Email",
+      field: "user.email",
+      format: (val, row) => row.user.email,
+      align: "left"
+    }, {
+      name: "role",
+      sortable: false,
+      label: "Access",
+      field: "role",
+      align: "left"
+    }, {
+      name: "actions",
+      sortable: false,
+      label: "Actions",
+      field: "actions"
+    }];
+    const updateUser = (user) => {
+      loading.value = true;
+      api.put(`/teamuser/update/${user.id}`, user).then(() => {
+        doNotify("positive", "Saved");
+        loading.value = false;
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+    };
+    const removeUser = (user) => {
+      confirmDelete("This will remove the user and all associated access").onOk(() => {
+        loading.value = true;
+        api.delete(`/teamuser/remove/${user.team_id}/${user.id}`).then(() => {
+          doNotify("negative", "User removed");
+          bus.emit("getTeam");
+          loading.value = false;
+        }).catch((error) => {
+          loading.value = false;
+          useMixinDebug(error);
+        });
+      });
+    };
+    const resetMfaUser = (user) => {
+      confirmDelete("This will reset the MFA for this user.").onOk(() => {
+        loading.value = true;
+        api.get(`/teamuser/resetmfa/${user.team_id}/${user.id}`).then(() => {
+          doNotify("negative", "User MFA reset");
+          bus.emit("getTeam");
+          loading.value = false;
+        }).catch((error) => {
+          loading.value = false;
+          useMixinDebug(error);
+        });
+      });
+    };
+    const toggleAccessUser = (user, toggle) => {
+      let message = "This will disable access";
+      if (toggle === 1) {
+        message = "This will re-enable access";
+      }
+      confirmDelete(message).onOk(() => {
+        loading.value = true;
+        api.put(`/teamuser/toggleaccess/${user.team_id}/${user.id}`, { active: toggle }).then(() => {
+          doNotify("positive", "Saved");
+          bus.emit("getTeam");
+          loading.value = false;
+        }).catch((error) => {
+          loading.value = false;
+          useMixinDebug(error);
+        });
+      });
+    };
+    const getInvitations = () => {
+      loading.value = true;
+      api.get(`/teaminvite/team/${props.team.id}`).then((response) => {
+        invitations.value = response.data;
+        loading.value = false;
+      }).catch((error) => {
+        useMixinDebug(error);
+        loading.value = false;
+      });
+    };
+    const inviteUser = () => {
+      loadingInvite.value = true;
+      invite.team_id = props.team.id;
+      api.post("/teaminvite/inviteuser", invite).then(() => {
+        doNotify("positive", "Invitation sent");
+        loadingInvite.value = false;
+        getInvitations();
+        bus.emit("getTeam");
+        Object.assign(invite, JSON.parse(JSON.stringify(inviteSchema)));
+      }).catch((error) => {
+        loadingInvite.value = false;
+        useMixinDebug(error);
+      });
+    };
+    const updateInvite = (model) => {
+      api.put(`/teaminvite/${model.id}`, model).then(() => {
+        getInvitations();
+        doNotify("positive", "Saved");
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+    };
+    const resendInvitation = (id) => {
+      api.get(`/teaminvite/resend/${id}`).then(() => {
+        doNotify("positive", "Invitation resent");
+        getInvitations();
+      }).catch((error) => {
+        useMixinDebug(error);
+      });
+    };
+    const removeInvitation = (id) => {
+      confirmDelete("This will revoke the invitation.").onOk(() => {
+        loading.value = true;
+        api.delete(`/teaminvite/${id}`).then(() => {
+          doNotify("negative", "Invitation revoked");
+          getInvitations();
+        }).catch((error) => {
+          loading.value = false;
+          useMixinDebug(error);
+        });
+      });
+    };
+    const populateInvite = () => {
+      invite.email = props.team.email;
+      invite.first_name = props.team.first_name;
+      invite.last_name = props.team.last_name;
+      invite.role = "owner";
+    };
+    onMounted(() => {
+      getInvitations();
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock("div", null, [
+        createVNode(QCard, null, {
+          default: withCtx(() => [
+            createVNode(QCardSection, null, {
+              default: withCtx(() => [
+                createBaseVNode("div", _hoisted_1$1, toDisplayString(_ctx.$t("team.userPlural")) + " (" + toDisplayString(__props.team.users && __props.team.users.length) + ")", 1),
+                createBaseVNode("p", null, "To invite new " + toDisplayString(_ctx.$t("team.userPlural").toLowerCase()) + ', use the "New Invitation" section below. ', 1)
+              ]),
+              _: 1
+            }),
+            createVNode(QTable, {
+              rows: __props.team.users,
+              columns,
+              "row-key": "id",
+              filter: search.keyword,
+              loading: loading.value,
+              class: "no-shadow"
+            }, {
+              "body-cell-role": withCtx((props2) => [
+                createVNode(QTd, { props: props2 }, {
+                  default: withCtx(() => [
+                    createVNode(QSelect, {
+                      modelValue: props2.row.role,
+                      "onUpdate:modelValue": [($event) => props2.row.role = $event, ($event) => updateUser(props2.row)],
+                      options: roles,
+                      "map-options": "",
+                      "emit-value": "",
+                      placeholder: "Role",
+                      dense: "",
+                      outlined: ""
+                    }, null, 8, ["modelValue", "onUpdate:modelValue"])
+                  ]),
+                  _: 2
+                }, 1032, ["props"])
+              ]),
+              "body-cell-actions": withCtx((props2) => [
+                createVNode(QTd, { props: props2 }, {
+                  default: withCtx(() => [
+                    !props2.row.active ? (openBlock(), createElementBlock("span", _hoisted_2$1, "REVOKED ACCESS")) : createCommentVNode("", true),
+                    createVNode(QBtn, {
+                      icon: "more_vert",
+                      flat: ""
+                    }, {
+                      default: withCtx(() => [
+                        createVNode(QMenu, null, {
+                          default: withCtx(() => [
+                            createVNode(QList, null, {
+                              default: withCtx(() => [
+                                props2.row.active ? (openBlock(), createBlock(QItem, {
+                                  key: 0,
+                                  onClick: ($event) => toggleAccessUser(props2.row, 0),
+                                  clickable: ""
+                                }, {
+                                  default: withCtx(() => [
+                                    createVNode(QItemSection, null, {
+                                      default: withCtx(() => [
+                                        createTextVNode("Revoke Access")
+                                      ]),
+                                      _: 1
+                                    })
+                                  ]),
+                                  _: 2
+                                }, 1032, ["onClick"])) : createCommentVNode("", true),
+                                !props2.row.active ? (openBlock(), createBlock(QItem, {
+                                  key: 1,
+                                  onClick: ($event) => toggleAccessUser(props2.row, 1),
+                                  clickable: ""
+                                }, {
+                                  default: withCtx(() => [
+                                    createVNode(QItemSection, null, {
+                                      default: withCtx(() => [
+                                        createTextVNode("Enable Access")
+                                      ]),
+                                      _: 1
+                                    })
+                                  ]),
+                                  _: 2
+                                }, 1032, ["onClick"])) : createCommentVNode("", true),
+                                createVNode(QItem, {
+                                  onClick: ($event) => resetMfaUser(props2.row),
+                                  clickable: ""
+                                }, {
+                                  default: withCtx(() => [
+                                    createVNode(QItemSection, null, {
+                                      default: withCtx(() => [
+                                        createTextVNode("Reset MFA")
+                                      ]),
+                                      _: 1
+                                    })
+                                  ]),
+                                  _: 2
+                                }, 1032, ["onClick"]),
+                                __props.team.users && __props.team.users.length > 1 && (props2.row.role !== "administrator" || unref(adminCount) > 1) ? (openBlock(), createBlock(QItem, {
+                                  key: 2,
+                                  onClick: ($event) => removeUser(props2.row),
+                                  clickable: ""
+                                }, {
+                                  default: withCtx(() => [
+                                    createVNode(QItemSection, null, {
+                                      default: withCtx(() => [
+                                        createTextVNode("Remove User")
+                                      ]),
+                                      _: 1
+                                    })
+                                  ]),
+                                  _: 2
+                                }, 1032, ["onClick"])) : createCommentVNode("", true)
+                              ]),
+                              _: 2
+                            }, 1024)
+                          ]),
+                          _: 2
+                        }, 1024)
+                      ]),
+                      _: 2
+                    }, 1024)
+                  ]),
+                  _: 2
+                }, 1032, ["props"])
+              ]),
+              _: 1
+            }, 8, ["rows", "filter", "loading"])
+          ]),
+          _: 1
+        }),
+        createVNode(QCard, { class: "q-mt-md q-mb-md" }, {
+          default: withCtx(() => [
+            createVNode(QCardSection, null, {
+              default: withCtx(() => [
+                createBaseVNode("div", _hoisted_3$1, "Pending Invitations (" + toDisplayString(invitations.value.length) + ")", 1),
+                createBaseVNode("p", null, toDisplayString(_ctx.$t("team.userPlural")) + " that have been sent an invitation email but have not responded are listed below. ", 1)
+              ]),
+              _: 1
+            }),
+            !invitations.value.length ? (openBlock(), createBlock(QCardSection, {
+              key: 0,
+              class: "text-center"
+            }, {
+              default: withCtx(() => [
+                createVNode(NoRecords)
+              ]),
+              _: 1
+            })) : createCommentVNode("", true),
+            invitations.value.length ? (openBlock(), createBlock(QMarkupTable, { key: 1 }, {
+              default: withCtx(() => [
+                _hoisted_4,
+                createBaseVNode("tbody", null, [
+                  (openBlock(true), createElementBlock(Fragment, null, renderList(invitations.value, (i) => {
+                    return openBlock(), createElementBlock("tr", {
+                      key: i.id
+                    }, [
+                      createBaseVNode("td", null, [
+                        createVNode(QInput, {
+                          modelValue: i.first_name,
+                          "onUpdate:modelValue": ($event) => i.first_name = $event,
+                          borderless: "",
+                          onInput: ($event) => updateInvite(i),
+                          debounce: "500"
+                        }, null, 8, ["modelValue", "onUpdate:modelValue", "onInput"])
+                      ]),
+                      createBaseVNode("td", null, [
+                        createVNode(QInput, {
+                          modelValue: i.last_name,
+                          "onUpdate:modelValue": ($event) => i.last_name = $event,
+                          borderless: "",
+                          onInput: ($event) => updateInvite(i),
+                          debounce: "500"
+                        }, null, 8, ["modelValue", "onUpdate:modelValue", "onInput"])
+                      ]),
+                      createBaseVNode("td", null, toDisplayString(i.email), 1),
+                      createBaseVNode("td", null, [
+                        createVNode(QSelect, {
+                          modelValue: i.role,
+                          "onUpdate:modelValue": ($event) => i.role = $event,
+                          options: roles,
+                          "map-options": "",
+                          "emit-value": "",
+                          borderless: "",
+                          onInput: ($event) => updateInvite(i),
+                          debounce: "500"
+                        }, null, 8, ["modelValue", "onUpdate:modelValue", "onInput"])
+                      ]),
+                      createBaseVNode("td", null, [
+                        i.latestMail ? (openBlock(), createElementBlock("span", _hoisted_5, [
+                          createTextVNode("Sent by " + toDisplayString(i.invitee.fullname) + " " + toDisplayString(unref(fromNowTz)(i.latestMail.created_at)), 1),
+                          _hoisted_6,
+                          createTextVNode(toDisplayString(unref(awsSesStatus)(i.latestMail.amazon_ses_status)), 1)
+                        ])) : createCommentVNode("", true)
+                      ]),
+                      createBaseVNode("td", null, toDisplayString(i.status), 1),
+                      createBaseVNode("td", _hoisted_7, [
+                        createVNode(QBtn, {
+                          icon: "more_vert",
+                          flat: ""
+                        }, {
+                          default: withCtx(() => [
+                            createVNode(QMenu, null, {
+                              default: withCtx(() => [
+                                createVNode(QList, null, {
+                                  default: withCtx(() => [
+                                    i.status === "Pending" ? withDirectives((openBlock(), createBlock(QItem, {
+                                      key: 0,
+                                      onClick: ($event) => resendInvitation(i.id),
+                                      clickable: ""
+                                    }, {
+                                      default: withCtx(() => [
+                                        createVNode(QItemSection, null, {
+                                          default: withCtx(() => [
+                                            createTextVNode(" Resend invitation ")
+                                          ]),
+                                          _: 1
+                                        })
+                                      ]),
+                                      _: 2
+                                    }, 1032, ["onClick"])), [
+                                      [ClosePopup]
+                                    ]) : createCommentVNode("", true),
+                                    withDirectives((openBlock(), createBlock(QItem, {
+                                      onClick: ($event) => removeInvitation(i.id),
+                                      clickable: ""
+                                    }, {
+                                      default: withCtx(() => [
+                                        createVNode(QItemSection, null, {
+                                          default: withCtx(() => [
+                                            createTextVNode(" Revoke invitation ")
+                                          ]),
+                                          _: 1
+                                        })
+                                      ]),
+                                      _: 2
+                                    }, 1032, ["onClick"])), [
+                                      [ClosePopup]
+                                    ])
+                                  ]),
+                                  _: 2
+                                }, 1024)
+                              ]),
+                              _: 2
+                            }, 1024)
+                          ]),
+                          _: 2
+                        }, 1024)
+                      ])
+                    ]);
+                  }), 128))
+                ])
+              ]),
+              _: 1
+            })) : createCommentVNode("", true)
+          ]),
+          _: 1
+        }),
+        createVNode(QCard, null, {
+          default: withCtx(() => [
+            createVNode(QCardSection, null, {
+              default: withCtx(() => [
+                _hoisted_8,
+                createBaseVNode("p", null, " Invite new " + toDisplayString(_ctx.$t("team.userPlural").toLowerCase()) + " by filling out the form below and clicking SEND INVITE.", 1)
+              ]),
+              _: 1
+            }),
+            createVNode(QCardSection, null, {
+              default: withCtx(() => [
+                createBaseVNode("div", _hoisted_9, [
+                  createBaseVNode("div", _hoisted_10, [
+                    createVNode(QInput, {
+                      modelValue: invite.email,
+                      "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => invite.email = $event),
+                      label: "Email address of user",
+                      error: unref($v).email.$invalid
+                    }, {
+                      append: withCtx(() => [
+                        createVNode(QBtn, {
+                          onClick: _cache[0] || (_cache[0] = ($event) => populateInvite()),
+                          label: "Load",
+                          flat: "",
+                          color: "primary"
+                        })
+                      ]),
+                      _: 1
+                    }, 8, ["modelValue", "error"])
+                  ]),
+                  createBaseVNode("div", _hoisted_11, [
+                    createVNode(QInput, {
+                      modelValue: invite.first_name,
+                      "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => invite.first_name = $event),
+                      label: "First name",
+                      error: unref($v).first_name.$invalid,
+                      disable: loading.value
+                    }, null, 8, ["modelValue", "error", "disable"])
+                  ]),
+                  createBaseVNode("div", _hoisted_12, [
+                    createVNode(QInput, {
+                      modelValue: invite.last_name,
+                      "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => invite.last_name = $event),
+                      label: "Last name",
+                      error: unref($v).last_name.$invalid,
+                      disable: loading.value
+                    }, null, 8, ["modelValue", "error", "disable"])
+                  ]),
+                  createBaseVNode("div", _hoisted_13, [
+                    createVNode(QSelect, {
+                      modelValue: invite.role,
+                      "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => invite.role = $event),
+                      label: "Customer Access",
+                      options: roles,
+                      "map-options": "",
+                      "emit-value": "",
+                      error: unref($v).role.$invalid
+                    }, null, 8, ["modelValue", "error"])
+                  ])
+                ]),
+                createBaseVNode("div", _hoisted_14, [
+                  createVNode(QToggle, {
+                    modelValue: invite.bypass,
+                    "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => invite.bypass = $event),
+                    label: "Add directly and bypass invitation system",
+                    disable: ""
+                  }, null, 8, ["modelValue"]),
+                  createVNode(QSpace),
+                  createVNode(QBtn, {
+                    onClick: _cache[6] || (_cache[6] = ($event) => inviteUser()),
+                    disable: loading.value || unref($v).$invalid,
+                    label: "Send invite",
+                    color: "primary",
+                    loading: loadingInvite.value
+                  }, null, 8, ["disable", "loading"])
+                ]),
+                inviteError.value ? (openBlock(), createElementBlock("div", _hoisted_15, "This user already exists in the account.")) : createCommentVNode("", true)
+              ]),
+              _: 1
+            })
+          ]),
+          _: 1
+        })
+      ]);
+    };
+  }
+});
+const _hoisted_1 = { key: 0 };
+const _hoisted_2 = { class: "text-h5" };
+const _hoisted_3 = /* @__PURE__ */ createBaseVNode("p", null, "Users that are involved in this customer.", -1);
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "TeamUsers",
+  props: {
+    model: null
+  },
+  setup(__props) {
+    return (_ctx, _cache) => {
+      return __props.model.id ? (openBlock(), createElementBlock("div", _hoisted_1, [
+        createBaseVNode("div", _hoisted_2, "Associated " + toDisplayString(_ctx.$t("team.userPlural")), 1),
+        _hoisted_3,
+        createVNode(_sfc_main$1, { team: __props.model }, null, 8, ["team"])
+      ])) : createCommentVNode("", true);
+    };
+  }
+});
+export { _sfc_main as default };

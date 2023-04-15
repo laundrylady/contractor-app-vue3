@@ -1,1 +1,752 @@
-import{r as S,g as q,j as le,aA as ue,ap as oe,aM as de,h as p,ab as ce,ac as pe,ba as ve,$ as fe,bb as _e,w as me,E as ge,k as be,bc as he,bd as Fe,aE as V,O as ye,S as ee,V as qe,be as Se}from"./index.e647c85a.js";import{Q as ze}from"./QCircularProgress.85dfe2db.js";import{h as ae}from"./format.8e90d58d.js";function M(r,v,a,m){const n=[];return r.forEach(g=>{m(g)===!0?n.push(g):v.push({failedPropValidation:a,file:g})}),n}function W(r){r&&r.dataTransfer&&(r.dataTransfer.dropEffect="copy"),oe(r)}const Ue={multiple:Boolean,accept:String,capture:String,maxFileSize:[Number,String],maxTotalSize:[Number,String],maxFiles:[Number,String],filter:Function},xe=["rejected"];function we({editable:r,dnd:v,getFileInput:a,addFilesToQueue:m}){const{props:n,emit:g,proxy:w}=le(),P=S(null),N=q(()=>n.accept!==void 0?n.accept.split(",").map(l=>(l=l.trim(),l==="*"?"*/":(l.endsWith("/*")&&(l=l.slice(0,l.length-1)),l.toUpperCase()))):null),U=q(()=>parseInt(n.maxFiles,10)),O=q(()=>parseInt(n.maxTotalSize,10));function T(l){if(r.value)if(l!==Object(l)&&(l={target:null}),l.target!==null&&l.target.matches('input[type="file"]')===!0)l.clientX===0&&l.clientY===0&&ue(l);else{const F=a();F&&F!==l.target&&F.click(l)}}function R(l){r.value&&l&&m(null,l)}function t(l,F,C,j){let o=Array.from(F||l.target.files);const b=[],z=()=>{b.length>0&&g("rejected",b)};if(n.accept!==void 0&&N.value.indexOf("*/")===-1&&(o=M(o,b,"accept",d=>N.value.some(f=>d.type.toUpperCase().startsWith(f)||d.name.toUpperCase().endsWith(f))),o.length===0))return z();if(n.maxFileSize!==void 0){const d=parseInt(n.maxFileSize,10);if(o=M(o,b,"max-file-size",f=>f.size<=d),o.length===0)return z()}if(n.multiple!==!0&&o.length>0&&(o=[o[0]]),o.forEach(d=>{d.__key=d.webkitRelativePath+d.lastModified+d.name+d.size}),j===!0){const d=C.map(f=>f.__key);o=M(o,b,"duplicate",f=>d.includes(f.__key)===!1)}if(o.length===0)return z();if(n.maxTotalSize!==void 0){let d=j===!0?C.reduce((f,L)=>f+L.size,0):0;if(o=M(o,b,"max-total-size",f=>(d+=f.size,d<=O.value)),o.length===0)return z()}if(typeof n.filter=="function"){const d=n.filter(o);o=M(o,b,"filter",f=>d.includes(f))}if(n.maxFiles!==void 0){let d=j===!0?C.length:0;if(o=M(o,b,"max-files",()=>(d++,d<=U.value)),o.length===0)return z()}if(z(),o.length>0)return o}function u(l){W(l),v.value!==!0&&(v.value=!0)}function _(l){oe(l),(l.relatedTarget!==null||de.is.safari!==!0?l.relatedTarget!==P.value:document.elementsFromPoint(l.clientX,l.clientY).includes(P.value)===!1)===!0&&(v.value=!1)}function x(l){W(l);const F=l.dataTransfer.files;F.length>0&&m(null,F),v.value=!1}function c(l){if(v.value===!0)return p("div",{ref:P,class:`q-${l}__dnd absolute-full`,onDragenter:W,onDragover:W,onDragleave:_,onDrop:x})}return Object.assign(w,{pickFiles:T,addFiles:R}),{pickFiles:T,addFiles:R,onDragover:u,onDragleave:_,processFiles:t,getDndNode:c,maxFilesNumber:U,maxTotalSizeNumber:O}}function te(r){return(r*100).toFixed(2)+"%"}const ke={...ce,...Ue,label:String,color:String,textColor:String,square:Boolean,flat:Boolean,bordered:Boolean,noThumbnails:Boolean,autoUpload:Boolean,hideUploadBtn:Boolean,disable:Boolean,readonly:Boolean},re=[...xe,"start","finish","added","removed"];function Ee(r){const v=le(),{props:a,slots:m,emit:n,proxy:g}=v,{$q:w}=g,P=pe(a,w);function N(e,s,h){if(e.__status=s,s==="idle"){e.__uploaded=0,e.__progress=0,e.__sizeLabel=ae(e.size),e.__progressLabel="0.00%";return}if(s==="failed"){g.$forceUpdate();return}e.__uploaded=s==="uploaded"?e.size:h,e.__progress=s==="uploaded"?1:Math.min(.9999,e.__uploaded/e.size),e.__progressLabel=te(e.__progress),g.$forceUpdate()}const U=q(()=>a.disable!==!0&&a.readonly!==!0),O=S(!1),T=S(null),R=S(null),t={files:S([]),queuedFiles:S([]),uploadedFiles:S([]),uploadedSize:S(0),updateFileStatus:N,isAlive:()=>ve(v)===!1},{pickFiles:u,addFiles:_,onDragover:x,onDragleave:c,processFiles:l,getDndNode:F,maxFilesNumber:C,maxTotalSizeNumber:j}=we({editable:U,dnd:O,getFileInput:G,addFilesToQueue:K});Object.assign(t,r({props:a,slots:m,emit:n,helpers:t})),t.isBusy===void 0&&(t.isBusy=S(!1));const o=S(0),b=q(()=>o.value===0?0:t.uploadedSize.value/o.value),z=q(()=>te(b.value)),d=q(()=>ae(o.value)),f=q(()=>U.value===!0&&t.isUploading.value!==!0&&(a.multiple===!0||t.queuedFiles.value.length===0)&&(a.maxFiles===void 0||t.files.value.length<C.value)&&(a.maxTotalSize===void 0||o.value<j.value)),L=q(()=>U.value===!0&&t.isBusy.value!==!0&&t.isUploading.value!==!0&&t.queuedFiles.value.length>0);fe(_e,J);const i=q(()=>"q-uploader column no-wrap"+(P.value===!0?" q-uploader--dark q-dark":"")+(a.bordered===!0?" q-uploader--bordered":"")+(a.square===!0?" q-uploader--square no-border-radius":"")+(a.flat===!0?" q-uploader--flat no-shadow":"")+(a.disable===!0?" disabled q-uploader--disable":"")+(O.value===!0?" q-uploader--dnd":"")),D=q(()=>"q-uploader__header"+(a.color!==void 0?` bg-${a.color}`:"")+(a.textColor!==void 0?` text-${a.textColor}`:""));me(t.isUploading,(e,s)=>{s===!1&&e===!0?n("start"):s===!0&&e===!1&&n("finish")});function A(){a.disable===!1&&(t.abort(),t.uploadedSize.value=0,o.value=0,Y(),t.files.value=[],t.queuedFiles.value=[],t.uploadedFiles.value=[])}function Q(){a.disable===!1&&H(["uploaded"],()=>{t.uploadedFiles.value=[]})}function k(){H(["idle","failed"],({size:e})=>{o.value-=e,t.queuedFiles.value=[]})}function H(e,s){if(a.disable===!0)return;const h={files:[],size:0},E=t.files.value.filter(y=>e.indexOf(y.__status)===-1?!0:(h.size+=y.size,h.files.push(y),y.__img!==void 0&&window.URL.revokeObjectURL(y.__img.src),!1));h.files.length>0&&(t.files.value=E,s(h),n("removed",h.files))}function X(e){a.disable||(e.__status==="uploaded"?t.uploadedFiles.value=t.uploadedFiles.value.filter(s=>s.__key!==e.__key):e.__status==="uploading"?e.__abort():o.value-=e.size,t.files.value=t.files.value.filter(s=>s.__key!==e.__key?!0:(s.__img!==void 0&&window.URL.revokeObjectURL(s.__img.src),!1)),t.queuedFiles.value=t.queuedFiles.value.filter(s=>s.__key!==e.__key),n("removed",[e]))}function Y(){t.files.value.forEach(e=>{e.__img!==void 0&&window.URL.revokeObjectURL(e.__img.src)})}function G(){return R.value||T.value.getElementsByClassName("q-uploader__input")[0]}function K(e,s){const h=l(e,s,t.files.value,!0),E=G();E!=null&&(E.value=""),h!==void 0&&(h.forEach(y=>{if(t.updateFileStatus(y,"idle"),o.value+=y.size,a.noThumbnails!==!0&&y.type.toUpperCase().startsWith("IMAGE")){const Z=new Image;Z.src=window.URL.createObjectURL(y),y.__img=Z}}),t.files.value=t.files.value.concat(h),t.queuedFiles.value=t.queuedFiles.value.concat(h),n("added",h),a.autoUpload===!0&&t.upload())}function ne(){L.value===!0&&t.upload()}function $(e,s,h){if(e===!0){const E={type:"a",key:s,icon:w.iconSet.uploader[s],flat:!0,dense:!0};let y;return s==="add"?(E.onClick=u,y=J):E.onClick=h,p(ee,E,y)}}function J(){return p("input",{ref:R,class:"q-uploader__input overflow-hidden absolute-full",tabindex:-1,type:"file",title:"",accept:a.accept,multiple:a.multiple===!0?"multiple":void 0,capture:a.capture,onMousedown:ue,onClick:u,onChange:K})}function ie(){return m.header!==void 0?m.header(I):[p("div",{class:"q-uploader__header-content column"},[p("div",{class:"flex flex-center no-wrap q-gutter-xs"},[$(t.queuedFiles.value.length>0,"removeQueue",k),$(t.uploadedFiles.value.length>0,"removeUploaded",Q),t.isUploading.value===!0?p(V,{class:"q-uploader__spinner"}):null,p("div",{class:"col column justify-center"},[a.label!==void 0?p("div",{class:"q-uploader__title"},[a.label]):null,p("div",{class:"q-uploader__subtitle"},[d.value+" / "+z.value])]),$(f.value,"add"),$(a.hideUploadBtn===!1&&L.value===!0,"upload",t.upload),$(t.isUploading.value,"clear",t.abort)])])]}function se(){return m.list!==void 0?m.list(I):t.files.value.map(e=>p("div",{key:e.__key,class:"q-uploader__file relative-position"+(a.noThumbnails!==!0&&e.__img!==void 0?" q-uploader__file--img":"")+(e.__status==="failed"?" q-uploader__file--failed":e.__status==="uploaded"?" q-uploader__file--uploaded":""),style:a.noThumbnails!==!0&&e.__img!==void 0?{backgroundImage:'url("'+e.__img.src+'")'}:null},[p("div",{class:"q-uploader__file-header row flex-center no-wrap"},[e.__status==="failed"?p(ye,{class:"q-uploader__file-status",name:w.iconSet.type.negative,color:"negative"}):null,p("div",{class:"q-uploader__file-header-content col"},[p("div",{class:"q-uploader__title"},[e.name]),p("div",{class:"q-uploader__subtitle row items-center no-wrap"},[e.__sizeLabel+" / "+e.__progressLabel])]),e.__status==="uploading"?p(ze,{value:e.__progress,min:0,max:1,indeterminate:e.__progress===0}):p(ee,{round:!0,dense:!0,flat:!0,icon:w.iconSet.uploader[e.__status==="uploaded"?"done":"clear"],onClick:()=>{X(e)}})])]))}ge(()=>{t.isUploading.value===!0&&t.abort(),t.files.value.length>0&&Y()});const I={};for(const e in t)be(t[e])===!0?he(I,e,()=>t[e].value):I[e]=t[e];return Object.assign(I,{upload:ne,reset:A,removeUploadedFiles:Q,removeQueuedFiles:k,removeFile:X,pickFiles:u,addFiles:_}),Fe(I,{canAddFiles:()=>f.value,canUpload:()=>L.value,uploadSizeLabel:()=>d.value,uploadProgressLabel:()=>z.value}),Object.assign(g,I),()=>{const e=[p("div",{class:D.value},ie()),p("div",{class:"q-uploader__list scroll"},se()),F("uploader")];t.isBusy.value===!0&&e.push(p("div",{class:"q-uploader__overlay absolute-full flex flex-center"},[p(V)]));const s={ref:T,class:i.value};return f.value===!0&&Object.assign(s,{onDragover:x,onDragleave:c}),p("div",s,e)}}const Be=()=>!0;function Re(r){const v={};return r.forEach(a=>{v[a]=Be}),v}const Ce=Re(re);var je=({name:r,props:v,emits:a,injectPlugin:m})=>qe({name:r,props:{...ke,...v},emits:Se(a)===!0?{...Ce,...a}:[...re,...a],setup(){return Ee(m)}});function B(r){return typeof r=="function"?r:()=>r}const Le={url:[Function,String],method:{type:[Function,String],default:"POST"},fieldName:{type:[Function,String],default:()=>r=>r.name},headers:[Function,Array],formFields:[Function,Array],withCredentials:[Function,Boolean],sendRaw:[Function,Boolean],batch:[Function,Boolean],factory:Function},Pe=["factoryFailed","uploaded","failed","uploading"];function Oe({props:r,emit:v,helpers:a}){const m=S([]),n=S([]),g=S(0),w=q(()=>({url:B(r.url),method:B(r.method),headers:B(r.headers),formFields:B(r.formFields),fieldName:B(r.fieldName),withCredentials:B(r.withCredentials),sendRaw:B(r.sendRaw),batch:B(r.batch)})),P=q(()=>g.value>0),N=q(()=>n.value.length>0);let U;function O(){m.value.forEach(u=>{u.abort()}),n.value.length>0&&(U=!0)}function T(){const u=a.queuedFiles.value.slice(0);a.queuedFiles.value=[],w.value.batch(u)?R(u):u.forEach(_=>{R([_])})}function R(u){if(g.value++,typeof r.factory!="function"){t(u,{});return}const _=r.factory(u);if(!_)v("factoryFailed",new Error("QUploader: factory() does not return properly"),u),g.value--;else if(typeof _.catch=="function"&&typeof _.then=="function"){n.value.push(_);const x=c=>{a.isAlive()===!0&&(n.value=n.value.filter(l=>l!==_),n.value.length===0&&(U=!1),a.queuedFiles.value=a.queuedFiles.value.concat(u),u.forEach(l=>{a.updateFileStatus(l,"failed")}),v("factoryFailed",c,u),g.value--)};_.then(c=>{U===!0?x(new Error("Aborted")):a.isAlive()===!0&&(n.value=n.value.filter(l=>l!==_),t(u,c))}).catch(x)}else t(u,_||{})}function t(u,_){const x=new FormData,c=new XMLHttpRequest,l=(i,D)=>_[i]!==void 0?B(_[i])(D):w.value[i](D),F=l("url",u);if(!F){console.error("q-uploader: invalid or no URL specified"),g.value--;return}const C=l("formFields",u);C!==void 0&&C.forEach(i=>{x.append(i.name,i.value)});let j=0,o=0,b=0,z=0,d;c.upload.addEventListener("progress",i=>{if(d===!0)return;const D=Math.min(z,i.loaded);a.uploadedSize.value+=D-b,b=D;let A=b-o;for(let Q=j;A>0&&Q<u.length;Q++){const k=u[Q];if(A>k.size)A-=k.size,j++,o+=k.size,a.updateFileStatus(k,"uploading",k.size);else{a.updateFileStatus(k,"uploading",A);return}}},!1),c.onreadystatechange=()=>{c.readyState<4||(c.status&&c.status<400?(a.uploadedFiles.value=a.uploadedFiles.value.concat(u),u.forEach(i=>{a.updateFileStatus(i,"uploaded")}),v("uploaded",{files:u,xhr:c})):(d=!0,a.uploadedSize.value-=b,a.queuedFiles.value=a.queuedFiles.value.concat(u),u.forEach(i=>{a.updateFileStatus(i,"failed")}),v("failed",{files:u,xhr:c})),g.value--,m.value=m.value.filter(i=>i!==c))},c.open(l("method",u),F),l("withCredentials",u)===!0&&(c.withCredentials=!0);const f=l("headers",u);f!==void 0&&f.forEach(i=>{c.setRequestHeader(i.name,i.value)});const L=l("sendRaw",u);u.forEach(i=>{a.updateFileStatus(i,"uploading",0),L!==!0&&x.append(l("fieldName",i),i,i.name),i.xhr=c,i.__abort=()=>{c.abort()},z+=i.size}),v("uploading",{files:u,xhr:c}),m.value.push(c),L===!0?c.send(new Blob(u)):c.send(x)}return{isUploading:P,isBusy:N,abort:O,upload:T}}var Te={name:"QUploader",props:Le,emits:Pe,injectPlugin:Oe},Ae=je(Te);export{Ae as Q};
+import { r as ref, g as computed, j as getCurrentInstance, aA as stop, ap as stopAndPrevent, aM as client, h, ab as useDarkProps, ac as useDark, ba as vmIsDestroyed, $ as provide, bb as uploaderKey, w as watch, E as onBeforeUnmount, k as isRef, bc as injectProp, bd as injectMultipleProps, aE as QSpinner, O as QIcon, S as QBtn, V as createComponent, be as isObject } from "./index.e647c85a.js";
+import { Q as QCircularProgress } from "./QCircularProgress.85dfe2db.js";
+import { h as humanStorageSize } from "./format.8e90d58d.js";
+function filterFiles(files, rejectedFiles, failedPropValidation, filterFn) {
+  const acceptedFiles = [];
+  files.forEach((file) => {
+    if (filterFn(file) === true) {
+      acceptedFiles.push(file);
+    } else {
+      rejectedFiles.push({ failedPropValidation, file });
+    }
+  });
+  return acceptedFiles;
+}
+function stopAndPreventDrag(e) {
+  e && e.dataTransfer && (e.dataTransfer.dropEffect = "copy");
+  stopAndPrevent(e);
+}
+const useFileProps = {
+  multiple: Boolean,
+  accept: String,
+  capture: String,
+  maxFileSize: [Number, String],
+  maxTotalSize: [Number, String],
+  maxFiles: [Number, String],
+  filter: Function
+};
+const useFileEmits = ["rejected"];
+function useFile({
+  editable,
+  dnd,
+  getFileInput,
+  addFilesToQueue
+}) {
+  const { props: props2, emit, proxy } = getCurrentInstance();
+  const dndRef = ref(null);
+  const extensions = computed(() => props2.accept !== void 0 ? props2.accept.split(",").map((ext) => {
+    ext = ext.trim();
+    if (ext === "*") {
+      return "*/";
+    } else if (ext.endsWith("/*")) {
+      ext = ext.slice(0, ext.length - 1);
+    }
+    return ext.toUpperCase();
+  }) : null);
+  const maxFilesNumber = computed(() => parseInt(props2.maxFiles, 10));
+  const maxTotalSizeNumber = computed(() => parseInt(props2.maxTotalSize, 10));
+  function pickFiles(e) {
+    if (editable.value) {
+      if (e !== Object(e)) {
+        e = { target: null };
+      }
+      if (e.target !== null && e.target.matches('input[type="file"]') === true) {
+        e.clientX === 0 && e.clientY === 0 && stop(e);
+      } else {
+        const input = getFileInput();
+        input && input !== e.target && input.click(e);
+      }
+    }
+  }
+  function addFiles(files) {
+    if (editable.value && files) {
+      addFilesToQueue(null, files);
+    }
+  }
+  function processFiles(e, filesToProcess, currentFileList, append) {
+    let files = Array.from(filesToProcess || e.target.files);
+    const rejectedFiles = [];
+    const done = () => {
+      if (rejectedFiles.length > 0) {
+        emit("rejected", rejectedFiles);
+      }
+    };
+    if (props2.accept !== void 0 && extensions.value.indexOf("*/") === -1) {
+      files = filterFiles(files, rejectedFiles, "accept", (file) => {
+        return extensions.value.some((ext) => file.type.toUpperCase().startsWith(ext) || file.name.toUpperCase().endsWith(ext));
+      });
+      if (files.length === 0) {
+        return done();
+      }
+    }
+    if (props2.maxFileSize !== void 0) {
+      const maxFileSize = parseInt(props2.maxFileSize, 10);
+      files = filterFiles(files, rejectedFiles, "max-file-size", (file) => {
+        return file.size <= maxFileSize;
+      });
+      if (files.length === 0) {
+        return done();
+      }
+    }
+    if (props2.multiple !== true && files.length > 0) {
+      files = [files[0]];
+    }
+    files.forEach((file) => {
+      file.__key = file.webkitRelativePath + file.lastModified + file.name + file.size;
+    });
+    if (append === true) {
+      const filenameMap = currentFileList.map((entry) => entry.__key);
+      files = filterFiles(files, rejectedFiles, "duplicate", (file) => {
+        return filenameMap.includes(file.__key) === false;
+      });
+    }
+    if (files.length === 0) {
+      return done();
+    }
+    if (props2.maxTotalSize !== void 0) {
+      let size = append === true ? currentFileList.reduce((total, file) => total + file.size, 0) : 0;
+      files = filterFiles(files, rejectedFiles, "max-total-size", (file) => {
+        size += file.size;
+        return size <= maxTotalSizeNumber.value;
+      });
+      if (files.length === 0) {
+        return done();
+      }
+    }
+    if (typeof props2.filter === "function") {
+      const filteredFiles = props2.filter(files);
+      files = filterFiles(files, rejectedFiles, "filter", (file) => {
+        return filteredFiles.includes(file);
+      });
+    }
+    if (props2.maxFiles !== void 0) {
+      let filesNumber = append === true ? currentFileList.length : 0;
+      files = filterFiles(files, rejectedFiles, "max-files", () => {
+        filesNumber++;
+        return filesNumber <= maxFilesNumber.value;
+      });
+      if (files.length === 0) {
+        return done();
+      }
+    }
+    done();
+    if (files.length > 0) {
+      return files;
+    }
+  }
+  function onDragover(e) {
+    stopAndPreventDrag(e);
+    dnd.value !== true && (dnd.value = true);
+  }
+  function onDragleave(e) {
+    stopAndPrevent(e);
+    const gone = e.relatedTarget !== null || client.is.safari !== true ? e.relatedTarget !== dndRef.value : document.elementsFromPoint(e.clientX, e.clientY).includes(dndRef.value) === false;
+    gone === true && (dnd.value = false);
+  }
+  function onDrop(e) {
+    stopAndPreventDrag(e);
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      addFilesToQueue(null, files);
+    }
+    dnd.value = false;
+  }
+  function getDndNode(type) {
+    if (dnd.value === true) {
+      return h("div", {
+        ref: dndRef,
+        class: `q-${type}__dnd absolute-full`,
+        onDragenter: stopAndPreventDrag,
+        onDragover: stopAndPreventDrag,
+        onDragleave,
+        onDrop
+      });
+    }
+  }
+  Object.assign(proxy, { pickFiles, addFiles });
+  return {
+    pickFiles,
+    addFiles,
+    onDragover,
+    onDragleave,
+    processFiles,
+    getDndNode,
+    maxFilesNumber,
+    maxTotalSizeNumber
+  };
+}
+function getProgressLabel(p) {
+  return (p * 100).toFixed(2) + "%";
+}
+const coreProps = {
+  ...useDarkProps,
+  ...useFileProps,
+  label: String,
+  color: String,
+  textColor: String,
+  square: Boolean,
+  flat: Boolean,
+  bordered: Boolean,
+  noThumbnails: Boolean,
+  autoUpload: Boolean,
+  hideUploadBtn: Boolean,
+  disable: Boolean,
+  readonly: Boolean
+};
+const coreEmits = [
+  ...useFileEmits,
+  "start",
+  "finish",
+  "added",
+  "removed"
+];
+function getRenderer(getPlugin) {
+  const vm = getCurrentInstance();
+  const { props: props2, slots, emit, proxy } = vm;
+  const { $q } = proxy;
+  const isDark = useDark(props2, $q);
+  function updateFileStatus(file, status, uploadedSize) {
+    file.__status = status;
+    if (status === "idle") {
+      file.__uploaded = 0;
+      file.__progress = 0;
+      file.__sizeLabel = humanStorageSize(file.size);
+      file.__progressLabel = "0.00%";
+      return;
+    }
+    if (status === "failed") {
+      proxy.$forceUpdate();
+      return;
+    }
+    file.__uploaded = status === "uploaded" ? file.size : uploadedSize;
+    file.__progress = status === "uploaded" ? 1 : Math.min(0.9999, file.__uploaded / file.size);
+    file.__progressLabel = getProgressLabel(file.__progress);
+    proxy.$forceUpdate();
+  }
+  const editable = computed(() => props2.disable !== true && props2.readonly !== true);
+  const dnd = ref(false);
+  const rootRef = ref(null);
+  const inputRef = ref(null);
+  const state = {
+    files: ref([]),
+    queuedFiles: ref([]),
+    uploadedFiles: ref([]),
+    uploadedSize: ref(0),
+    updateFileStatus,
+    isAlive: () => vmIsDestroyed(vm) === false
+  };
+  const {
+    pickFiles,
+    addFiles,
+    onDragover,
+    onDragleave,
+    processFiles,
+    getDndNode,
+    maxFilesNumber,
+    maxTotalSizeNumber
+  } = useFile({ editable, dnd, getFileInput, addFilesToQueue });
+  Object.assign(state, getPlugin({ props: props2, slots, emit, helpers: state }));
+  if (state.isBusy === void 0) {
+    state.isBusy = ref(false);
+  }
+  const uploadSize = ref(0);
+  const uploadProgress = computed(() => uploadSize.value === 0 ? 0 : state.uploadedSize.value / uploadSize.value);
+  const uploadProgressLabel = computed(() => getProgressLabel(uploadProgress.value));
+  const uploadSizeLabel = computed(() => humanStorageSize(uploadSize.value));
+  const canAddFiles = computed(
+    () => editable.value === true && state.isUploading.value !== true && (props2.multiple === true || state.queuedFiles.value.length === 0) && (props2.maxFiles === void 0 || state.files.value.length < maxFilesNumber.value) && (props2.maxTotalSize === void 0 || uploadSize.value < maxTotalSizeNumber.value)
+  );
+  const canUpload = computed(
+    () => editable.value === true && state.isBusy.value !== true && state.isUploading.value !== true && state.queuedFiles.value.length > 0
+  );
+  provide(uploaderKey, renderInput);
+  const classes = computed(
+    () => "q-uploader column no-wrap" + (isDark.value === true ? " q-uploader--dark q-dark" : "") + (props2.bordered === true ? " q-uploader--bordered" : "") + (props2.square === true ? " q-uploader--square no-border-radius" : "") + (props2.flat === true ? " q-uploader--flat no-shadow" : "") + (props2.disable === true ? " disabled q-uploader--disable" : "") + (dnd.value === true ? " q-uploader--dnd" : "")
+  );
+  const colorClass = computed(
+    () => "q-uploader__header" + (props2.color !== void 0 ? ` bg-${props2.color}` : "") + (props2.textColor !== void 0 ? ` text-${props2.textColor}` : "")
+  );
+  watch(state.isUploading, (newVal, oldVal) => {
+    if (oldVal === false && newVal === true) {
+      emit("start");
+    } else if (oldVal === true && newVal === false) {
+      emit("finish");
+    }
+  });
+  function reset() {
+    if (props2.disable === false) {
+      state.abort();
+      state.uploadedSize.value = 0;
+      uploadSize.value = 0;
+      revokeImgURLs();
+      state.files.value = [];
+      state.queuedFiles.value = [];
+      state.uploadedFiles.value = [];
+    }
+  }
+  function removeUploadedFiles() {
+    if (props2.disable === false) {
+      batchRemoveFiles(["uploaded"], () => {
+        state.uploadedFiles.value = [];
+      });
+    }
+  }
+  function removeQueuedFiles() {
+    batchRemoveFiles(["idle", "failed"], ({ size }) => {
+      uploadSize.value -= size;
+      state.queuedFiles.value = [];
+    });
+  }
+  function batchRemoveFiles(statusList, cb) {
+    if (props2.disable === true) {
+      return;
+    }
+    const removed = {
+      files: [],
+      size: 0
+    };
+    const localFiles = state.files.value.filter((f) => {
+      if (statusList.indexOf(f.__status) === -1) {
+        return true;
+      }
+      removed.size += f.size;
+      removed.files.push(f);
+      f.__img !== void 0 && window.URL.revokeObjectURL(f.__img.src);
+      return false;
+    });
+    if (removed.files.length > 0) {
+      state.files.value = localFiles;
+      cb(removed);
+      emit("removed", removed.files);
+    }
+  }
+  function removeFile(file) {
+    if (props2.disable) {
+      return;
+    }
+    if (file.__status === "uploaded") {
+      state.uploadedFiles.value = state.uploadedFiles.value.filter((f) => f.__key !== file.__key);
+    } else if (file.__status === "uploading") {
+      file.__abort();
+    } else {
+      uploadSize.value -= file.size;
+    }
+    state.files.value = state.files.value.filter((f) => {
+      if (f.__key !== file.__key) {
+        return true;
+      }
+      f.__img !== void 0 && window.URL.revokeObjectURL(f.__img.src);
+      return false;
+    });
+    state.queuedFiles.value = state.queuedFiles.value.filter((f) => f.__key !== file.__key);
+    emit("removed", [file]);
+  }
+  function revokeImgURLs() {
+    state.files.value.forEach((f) => {
+      f.__img !== void 0 && window.URL.revokeObjectURL(f.__img.src);
+    });
+  }
+  function getFileInput() {
+    return inputRef.value || rootRef.value.getElementsByClassName("q-uploader__input")[0];
+  }
+  function addFilesToQueue(e, fileList) {
+    const localFiles = processFiles(e, fileList, state.files.value, true);
+    const fileInput = getFileInput();
+    if (fileInput !== void 0 && fileInput !== null) {
+      fileInput.value = "";
+    }
+    if (localFiles === void 0) {
+      return;
+    }
+    localFiles.forEach((file) => {
+      state.updateFileStatus(file, "idle");
+      uploadSize.value += file.size;
+      if (props2.noThumbnails !== true && file.type.toUpperCase().startsWith("IMAGE")) {
+        const img = new Image();
+        img.src = window.URL.createObjectURL(file);
+        file.__img = img;
+      }
+    });
+    state.files.value = state.files.value.concat(localFiles);
+    state.queuedFiles.value = state.queuedFiles.value.concat(localFiles);
+    emit("added", localFiles);
+    props2.autoUpload === true && state.upload();
+  }
+  function upload() {
+    canUpload.value === true && state.upload();
+  }
+  function getBtn(show, icon, fn) {
+    if (show === true) {
+      const data = {
+        type: "a",
+        key: icon,
+        icon: $q.iconSet.uploader[icon],
+        flat: true,
+        dense: true
+      };
+      let child = void 0;
+      if (icon === "add") {
+        data.onClick = pickFiles;
+        child = renderInput;
+      } else {
+        data.onClick = fn;
+      }
+      return h(QBtn, data, child);
+    }
+  }
+  function renderInput() {
+    return h("input", {
+      ref: inputRef,
+      class: "q-uploader__input overflow-hidden absolute-full",
+      tabindex: -1,
+      type: "file",
+      title: "",
+      accept: props2.accept,
+      multiple: props2.multiple === true ? "multiple" : void 0,
+      capture: props2.capture,
+      onMousedown: stop,
+      onClick: pickFiles,
+      onChange: addFilesToQueue
+    });
+  }
+  function getHeader() {
+    if (slots.header !== void 0) {
+      return slots.header(publicApi);
+    }
+    return [
+      h("div", {
+        class: "q-uploader__header-content column"
+      }, [
+        h("div", {
+          class: "flex flex-center no-wrap q-gutter-xs"
+        }, [
+          getBtn(state.queuedFiles.value.length > 0, "removeQueue", removeQueuedFiles),
+          getBtn(state.uploadedFiles.value.length > 0, "removeUploaded", removeUploadedFiles),
+          state.isUploading.value === true ? h(QSpinner, { class: "q-uploader__spinner" }) : null,
+          h("div", { class: "col column justify-center" }, [
+            props2.label !== void 0 ? h("div", { class: "q-uploader__title" }, [props2.label]) : null,
+            h("div", { class: "q-uploader__subtitle" }, [
+              uploadSizeLabel.value + " / " + uploadProgressLabel.value
+            ])
+          ]),
+          getBtn(canAddFiles.value, "add"),
+          getBtn(props2.hideUploadBtn === false && canUpload.value === true, "upload", state.upload),
+          getBtn(state.isUploading.value, "clear", state.abort)
+        ])
+      ])
+    ];
+  }
+  function getList() {
+    if (slots.list !== void 0) {
+      return slots.list(publicApi);
+    }
+    return state.files.value.map((file) => h("div", {
+      key: file.__key,
+      class: "q-uploader__file relative-position" + (props2.noThumbnails !== true && file.__img !== void 0 ? " q-uploader__file--img" : "") + (file.__status === "failed" ? " q-uploader__file--failed" : file.__status === "uploaded" ? " q-uploader__file--uploaded" : ""),
+      style: props2.noThumbnails !== true && file.__img !== void 0 ? { backgroundImage: 'url("' + file.__img.src + '")' } : null
+    }, [
+      h("div", {
+        class: "q-uploader__file-header row flex-center no-wrap"
+      }, [
+        file.__status === "failed" ? h(QIcon, {
+          class: "q-uploader__file-status",
+          name: $q.iconSet.type.negative,
+          color: "negative"
+        }) : null,
+        h("div", { class: "q-uploader__file-header-content col" }, [
+          h("div", { class: "q-uploader__title" }, [file.name]),
+          h("div", {
+            class: "q-uploader__subtitle row items-center no-wrap"
+          }, [
+            file.__sizeLabel + " / " + file.__progressLabel
+          ])
+        ]),
+        file.__status === "uploading" ? h(QCircularProgress, {
+          value: file.__progress,
+          min: 0,
+          max: 1,
+          indeterminate: file.__progress === 0
+        }) : h(QBtn, {
+          round: true,
+          dense: true,
+          flat: true,
+          icon: $q.iconSet.uploader[file.__status === "uploaded" ? "done" : "clear"],
+          onClick: () => {
+            removeFile(file);
+          }
+        })
+      ])
+    ]));
+  }
+  onBeforeUnmount(() => {
+    state.isUploading.value === true && state.abort();
+    state.files.value.length > 0 && revokeImgURLs();
+  });
+  const publicApi = {};
+  for (const key in state) {
+    if (isRef(state[key]) === true) {
+      injectProp(publicApi, key, () => state[key].value);
+    } else {
+      publicApi[key] = state[key];
+    }
+  }
+  Object.assign(publicApi, {
+    upload,
+    reset,
+    removeUploadedFiles,
+    removeQueuedFiles,
+    removeFile,
+    pickFiles,
+    addFiles
+  });
+  injectMultipleProps(publicApi, {
+    canAddFiles: () => canAddFiles.value,
+    canUpload: () => canUpload.value,
+    uploadSizeLabel: () => uploadSizeLabel.value,
+    uploadProgressLabel: () => uploadProgressLabel.value
+  });
+  Object.assign(proxy, publicApi);
+  return () => {
+    const children = [
+      h("div", { class: colorClass.value }, getHeader()),
+      h("div", { class: "q-uploader__list scroll" }, getList()),
+      getDndNode("uploader")
+    ];
+    state.isBusy.value === true && children.push(
+      h("div", {
+        class: "q-uploader__overlay absolute-full flex flex-center"
+      }, [h(QSpinner)])
+    );
+    const data = { ref: rootRef, class: classes.value };
+    if (canAddFiles.value === true) {
+      Object.assign(data, { onDragover, onDragleave });
+    }
+    return h("div", data, children);
+  };
+}
+const trueFn = () => true;
+function getEmitsObject(emitsArray) {
+  const emitsObject = {};
+  emitsArray.forEach((val) => {
+    emitsObject[val] = trueFn;
+  });
+  return emitsObject;
+}
+const coreEmitsObject = getEmitsObject(coreEmits);
+var createUploaderComponent = ({ name, props: props2, emits: emits2, injectPlugin: injectPlugin2 }) => createComponent({
+  name,
+  props: {
+    ...coreProps,
+    ...props2
+  },
+  emits: isObject(emits2) === true ? { ...coreEmitsObject, ...emits2 } : [...coreEmits, ...emits2],
+  setup() {
+    return getRenderer(injectPlugin2);
+  }
+});
+function getFn(prop) {
+  return typeof prop === "function" ? prop : () => prop;
+}
+const props = {
+  url: [Function, String],
+  method: {
+    type: [Function, String],
+    default: "POST"
+  },
+  fieldName: {
+    type: [Function, String],
+    default: () => {
+      return (file) => file.name;
+    }
+  },
+  headers: [Function, Array],
+  formFields: [Function, Array],
+  withCredentials: [Function, Boolean],
+  sendRaw: [Function, Boolean],
+  batch: [Function, Boolean],
+  factory: Function
+};
+const emits = ["factoryFailed", "uploaded", "failed", "uploading"];
+function injectPlugin({ props: props2, emit, helpers }) {
+  const xhrs = ref([]);
+  const promises = ref([]);
+  const workingThreads = ref(0);
+  const xhrProps = computed(() => ({
+    url: getFn(props2.url),
+    method: getFn(props2.method),
+    headers: getFn(props2.headers),
+    formFields: getFn(props2.formFields),
+    fieldName: getFn(props2.fieldName),
+    withCredentials: getFn(props2.withCredentials),
+    sendRaw: getFn(props2.sendRaw),
+    batch: getFn(props2.batch)
+  }));
+  const isUploading = computed(() => workingThreads.value > 0);
+  const isBusy = computed(() => promises.value.length > 0);
+  let abortPromises;
+  function abort() {
+    xhrs.value.forEach((x) => {
+      x.abort();
+    });
+    if (promises.value.length > 0) {
+      abortPromises = true;
+    }
+  }
+  function upload() {
+    const queue = helpers.queuedFiles.value.slice(0);
+    helpers.queuedFiles.value = [];
+    if (xhrProps.value.batch(queue)) {
+      runFactory(queue);
+    } else {
+      queue.forEach((file) => {
+        runFactory([file]);
+      });
+    }
+  }
+  function runFactory(files) {
+    workingThreads.value++;
+    if (typeof props2.factory !== "function") {
+      performUpload(files, {});
+      return;
+    }
+    const res = props2.factory(files);
+    if (!res) {
+      emit(
+        "factoryFailed",
+        new Error("QUploader: factory() does not return properly"),
+        files
+      );
+      workingThreads.value--;
+    } else if (typeof res.catch === "function" && typeof res.then === "function") {
+      promises.value.push(res);
+      const failed = (err) => {
+        if (helpers.isAlive() === true) {
+          promises.value = promises.value.filter((p) => p !== res);
+          if (promises.value.length === 0) {
+            abortPromises = false;
+          }
+          helpers.queuedFiles.value = helpers.queuedFiles.value.concat(files);
+          files.forEach((f) => {
+            helpers.updateFileStatus(f, "failed");
+          });
+          emit("factoryFailed", err, files);
+          workingThreads.value--;
+        }
+      };
+      res.then((factory) => {
+        if (abortPromises === true) {
+          failed(new Error("Aborted"));
+        } else if (helpers.isAlive() === true) {
+          promises.value = promises.value.filter((p) => p !== res);
+          performUpload(files, factory);
+        }
+      }).catch(failed);
+    } else {
+      performUpload(files, res || {});
+    }
+  }
+  function performUpload(files, factory) {
+    const form = new FormData(), xhr = new XMLHttpRequest();
+    const getProp = (name, arg) => {
+      return factory[name] !== void 0 ? getFn(factory[name])(arg) : xhrProps.value[name](arg);
+    };
+    const url = getProp("url", files);
+    if (!url) {
+      console.error("q-uploader: invalid or no URL specified");
+      workingThreads.value--;
+      return;
+    }
+    const fields = getProp("formFields", files);
+    fields !== void 0 && fields.forEach((field) => {
+      form.append(field.name, field.value);
+    });
+    let uploadIndex = 0, uploadIndexSize = 0, localUploadedSize = 0, maxUploadSize = 0, aborted;
+    xhr.upload.addEventListener("progress", (e) => {
+      if (aborted === true) {
+        return;
+      }
+      const loaded = Math.min(maxUploadSize, e.loaded);
+      helpers.uploadedSize.value += loaded - localUploadedSize;
+      localUploadedSize = loaded;
+      let size = localUploadedSize - uploadIndexSize;
+      for (let i = uploadIndex; size > 0 && i < files.length; i++) {
+        const file = files[i], uploaded = size > file.size;
+        if (uploaded) {
+          size -= file.size;
+          uploadIndex++;
+          uploadIndexSize += file.size;
+          helpers.updateFileStatus(file, "uploading", file.size);
+        } else {
+          helpers.updateFileStatus(file, "uploading", size);
+          return;
+        }
+      }
+    }, false);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState < 4) {
+        return;
+      }
+      if (xhr.status && xhr.status < 400) {
+        helpers.uploadedFiles.value = helpers.uploadedFiles.value.concat(files);
+        files.forEach((f) => {
+          helpers.updateFileStatus(f, "uploaded");
+        });
+        emit("uploaded", { files, xhr });
+      } else {
+        aborted = true;
+        helpers.uploadedSize.value -= localUploadedSize;
+        helpers.queuedFiles.value = helpers.queuedFiles.value.concat(files);
+        files.forEach((f) => {
+          helpers.updateFileStatus(f, "failed");
+        });
+        emit("failed", { files, xhr });
+      }
+      workingThreads.value--;
+      xhrs.value = xhrs.value.filter((x) => x !== xhr);
+    };
+    xhr.open(
+      getProp("method", files),
+      url
+    );
+    if (getProp("withCredentials", files) === true) {
+      xhr.withCredentials = true;
+    }
+    const headers = getProp("headers", files);
+    headers !== void 0 && headers.forEach((head) => {
+      xhr.setRequestHeader(head.name, head.value);
+    });
+    const sendRaw = getProp("sendRaw", files);
+    files.forEach((file) => {
+      helpers.updateFileStatus(file, "uploading", 0);
+      if (sendRaw !== true) {
+        form.append(getProp("fieldName", file), file, file.name);
+      }
+      file.xhr = xhr;
+      file.__abort = () => {
+        xhr.abort();
+      };
+      maxUploadSize += file.size;
+    });
+    emit("uploading", { files, xhr });
+    xhrs.value.push(xhr);
+    if (sendRaw === true) {
+      xhr.send(new Blob(files));
+    } else {
+      xhr.send(form);
+    }
+  }
+  return {
+    isUploading,
+    isBusy,
+    abort,
+    upload
+  };
+}
+var xhrUploaderPlugin = {
+  name: "QUploader",
+  props,
+  emits,
+  injectPlugin
+};
+var QUploader = createUploaderComponent(xhrUploaderPlugin);
+export { QUploader as Q };

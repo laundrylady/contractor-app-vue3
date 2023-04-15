@@ -1,1 +1,274 @@
-import{bt as z,V as J,aF as Q,aN as W,ab as Y,aP as Z,ac as p,r as L,bu as _,aT as ee,g as i,w as m,E as te,h as n,j as ne,bp as k,G as ae,bv as oe,X as ie,O as y,ap as le}from"./index.e647c85a.js";import{a as ue,Q as x}from"./QItemSection.99659658.js";import{Q as C}from"./rtl.4f5e13e8.js";import{Q as ce}from"./CountryField.01d37ae9.js";const u=z({}),re=Object.keys(Q);var fe=J({name:"QExpansionItem",props:{...Q,...W,...Y,icon:String,label:String,labelLines:[Number,String],caption:String,captionLines:[Number,String],dense:Boolean,toggleAriaLabel:String,expandIcon:String,expandedIcon:String,expandIconClass:[Array,String,Object],duration:Number,headerInsetLevel:Number,contentInsetLevel:Number,expandSeparator:Boolean,defaultOpened:Boolean,hideExpandIcon:Boolean,expandIconToggle:Boolean,switchToggleSide:Boolean,denseToggle:Boolean,group:String,popup:Boolean,headerStyle:[Array,String,Object],headerClass:[Array,String,Object]},emits:[...Z,"click","afterShow","afterHide"],setup(e,{slots:g,emit:v}){const{proxy:{$q:r}}=ne(),f=p(e,r),a=L(e.modelValue!==null?e.modelValue:e.defaultOpened),b=L(null),S=_(),{show:A,hide:I,toggle:h}=ee({showing:a});let l,c;const O=i(()=>`q-expansion-item q-item-type q-expansion-item--${a.value===!0?"expanded":"collapsed"} q-expansion-item--${e.popup===!0?"popup":"standard"}`),B=i(()=>{if(e.contentInsetLevel===void 0)return null;const t=r.lang.rtl===!0?"Right":"Left";return{["padding"+t]:e.contentInsetLevel*56+"px"}}),d=i(()=>e.disable!==!0&&(e.href!==void 0||e.to!==void 0&&e.to!==null&&e.to!=="")),P=i(()=>{const t={};return re.forEach(o=>{t[o]=e[o]}),t}),j=i(()=>d.value===!0||e.expandIconToggle!==!0),E=i(()=>e.expandedIcon!==void 0&&a.value===!0?e.expandedIcon:e.expandIcon||r.iconSet.expansionItem[e.denseToggle===!0?"denseIcon":"icon"]),N=i(()=>e.disable!==!0&&(d.value===!0||e.expandIconToggle===!0)),H=i(()=>({expanded:a.value===!0,detailsId:e.targetUid,toggle:h,show:A,hide:I})),T=i(()=>{const t=e.toggleAriaLabel!==void 0?e.toggleAriaLabel:r.lang.label[a.value===!0?"collapse":"expand"](e.label);return{role:"button","aria-expanded":a.value===!0?"true":"false","aria-controls":S,"aria-label":t}});m(()=>e.group,t=>{c!==void 0&&c(),t!==void 0&&w()});function R(t){d.value!==!0&&h(t),v("click",t)}function D(t){t.keyCode===13&&q(t,!0)}function q(t,o){o!==!0&&b.value!==null&&b.value.focus(),h(t),le(t)}function G(){v("afterShow")}function $(){v("afterHide")}function w(){l===void 0&&(l=_()),a.value===!0&&(u[e.group]=l);const t=m(a,s=>{s===!0?u[e.group]=l:u[e.group]===l&&delete u[e.group]}),o=m(()=>u[e.group],(s,X)=>{X===l&&s!==void 0&&s!==l&&I()});c=()=>{t(),o(),u[e.group]===l&&delete u[e.group],c=void 0}}function K(){const t={class:[`q-focusable relative-position cursor-pointer${e.denseToggle===!0&&e.switchToggleSide===!0?" items-end":""}`,e.expandIconClass],side:e.switchToggleSide!==!0,avatar:e.switchToggleSide},o=[n(y,{class:"q-expansion-item__toggle-icon"+(e.expandedIcon===void 0&&a.value===!0?" q-expansion-item__toggle-icon--rotated":""),name:E.value})];return N.value===!0&&(Object.assign(t,{tabindex:0,...T.value,onClick:q,onKeyup:D}),o.unshift(n("div",{ref:b,class:"q-expansion-item__toggle-focus q-icon q-focus-helper q-focus-helper--rounded",tabindex:-1}))),n(x,t,()=>o)}function M(){let t;return g.header!==void 0?t=[].concat(g.header(H.value)):(t=[n(x,()=>[n(C,{lines:e.labelLines},()=>e.label||""),e.caption?n(C,{lines:e.captionLines,caption:!0},()=>e.caption):null])],e.icon&&t[e.switchToggleSide===!0?"push":"unshift"](n(x,{side:e.switchToggleSide===!0,avatar:e.switchToggleSide!==!0},()=>n(y,{name:e.icon})))),e.disable!==!0&&e.hideExpandIcon!==!0&&t[e.switchToggleSide===!0?"unshift":"push"](K()),t}function U(){const t={ref:"item",style:e.headerStyle,class:e.headerClass,dark:f.value,disable:e.disable,dense:e.dense,insetLevel:e.headerInsetLevel};return j.value===!0&&(t.clickable=!0,t.onClick=R,Object.assign(t,d.value===!0?P.value:T.value)),n(ue,t,M)}function V(){return ae(n("div",{key:"e-content",class:"q-expansion-item__content relative-position",style:B.value,id:S},ie(g.default)),[[oe,a.value]])}function F(){const t=[U(),n(ce,{duration:e.duration,onShow:G,onHide:$},V)];return e.expandSeparator===!0&&t.push(n(k,{class:"q-expansion-item__border q-expansion-item__border--top absolute-top",dark:f.value}),n(k,{class:"q-expansion-item__border q-expansion-item__border--bottom absolute-bottom",dark:f.value})),t}return e.group!==void 0&&w(),te(()=>{c!==void 0&&c()}),()=>n("div",{class:O.value},[n("div",{class:"q-expansion-item__container relative-position"},F())])}});export{fe as Q};
+import { bt as shallowReactive, V as createComponent, aF as useRouterLinkProps, aN as useModelToggleProps, ab as useDarkProps, aP as useModelToggleEmits, ac as useDark, r as ref, bu as uid, aT as useModelToggle, g as computed, w as watch, E as onBeforeUnmount, h, j as getCurrentInstance, bp as QSeparator, G as withDirectives, bv as vShow, X as hSlot, O as QIcon, ap as stopAndPrevent } from "./index.e647c85a.js";
+import { a as QItem, Q as QItemSection } from "./QItemSection.99659658.js";
+import { Q as QItemLabel } from "./rtl.4f5e13e8.js";
+import { Q as QSlideTransition } from "./CountryField.01d37ae9.js";
+const itemGroups = shallowReactive({});
+const LINK_PROPS = Object.keys(useRouterLinkProps);
+var QExpansionItem = createComponent({
+  name: "QExpansionItem",
+  props: {
+    ...useRouterLinkProps,
+    ...useModelToggleProps,
+    ...useDarkProps,
+    icon: String,
+    label: String,
+    labelLines: [Number, String],
+    caption: String,
+    captionLines: [Number, String],
+    dense: Boolean,
+    toggleAriaLabel: String,
+    expandIcon: String,
+    expandedIcon: String,
+    expandIconClass: [Array, String, Object],
+    duration: Number,
+    headerInsetLevel: Number,
+    contentInsetLevel: Number,
+    expandSeparator: Boolean,
+    defaultOpened: Boolean,
+    hideExpandIcon: Boolean,
+    expandIconToggle: Boolean,
+    switchToggleSide: Boolean,
+    denseToggle: Boolean,
+    group: String,
+    popup: Boolean,
+    headerStyle: [Array, String, Object],
+    headerClass: [Array, String, Object]
+  },
+  emits: [
+    ...useModelToggleEmits,
+    "click",
+    "afterShow",
+    "afterHide"
+  ],
+  setup(props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance();
+    const isDark = useDark(props, $q);
+    const showing = ref(
+      props.modelValue !== null ? props.modelValue : props.defaultOpened
+    );
+    const blurTargetRef = ref(null);
+    const targetUid = uid();
+    const { show, hide, toggle } = useModelToggle({ showing });
+    let uniqueId, exitGroup;
+    const classes = computed(
+      () => `q-expansion-item q-item-type q-expansion-item--${showing.value === true ? "expanded" : "collapsed"} q-expansion-item--${props.popup === true ? "popup" : "standard"}`
+    );
+    const contentStyle = computed(() => {
+      if (props.contentInsetLevel === void 0) {
+        return null;
+      }
+      const dir = $q.lang.rtl === true ? "Right" : "Left";
+      return {
+        ["padding" + dir]: props.contentInsetLevel * 56 + "px"
+      };
+    });
+    const hasLink = computed(
+      () => props.disable !== true && (props.href !== void 0 || props.to !== void 0 && props.to !== null && props.to !== "")
+    );
+    const linkProps = computed(() => {
+      const acc = {};
+      LINK_PROPS.forEach((key) => {
+        acc[key] = props[key];
+      });
+      return acc;
+    });
+    const isClickable = computed(
+      () => hasLink.value === true || props.expandIconToggle !== true
+    );
+    const expansionIcon = computed(() => props.expandedIcon !== void 0 && showing.value === true ? props.expandedIcon : props.expandIcon || $q.iconSet.expansionItem[props.denseToggle === true ? "denseIcon" : "icon"]);
+    const activeToggleIcon = computed(
+      () => props.disable !== true && (hasLink.value === true || props.expandIconToggle === true)
+    );
+    const headerSlotScope = computed(() => ({
+      expanded: showing.value === true,
+      detailsId: props.targetUid,
+      toggle,
+      show,
+      hide
+    }));
+    const toggleAriaAttrs = computed(() => {
+      const toggleAriaLabel = props.toggleAriaLabel !== void 0 ? props.toggleAriaLabel : $q.lang.label[showing.value === true ? "collapse" : "expand"](props.label);
+      return {
+        role: "button",
+        "aria-expanded": showing.value === true ? "true" : "false",
+        "aria-controls": targetUid,
+        "aria-label": toggleAriaLabel
+      };
+    });
+    watch(() => props.group, (name) => {
+      exitGroup !== void 0 && exitGroup();
+      name !== void 0 && enterGroup();
+    });
+    function onHeaderClick(e) {
+      hasLink.value !== true && toggle(e);
+      emit("click", e);
+    }
+    function toggleIconKeyboard(e) {
+      e.keyCode === 13 && toggleIcon(e, true);
+    }
+    function toggleIcon(e, keyboard) {
+      keyboard !== true && blurTargetRef.value !== null && blurTargetRef.value.focus();
+      toggle(e);
+      stopAndPrevent(e);
+    }
+    function onShow() {
+      emit("afterShow");
+    }
+    function onHide() {
+      emit("afterHide");
+    }
+    function enterGroup() {
+      if (uniqueId === void 0) {
+        uniqueId = uid();
+      }
+      if (showing.value === true) {
+        itemGroups[props.group] = uniqueId;
+      }
+      const show2 = watch(showing, (val) => {
+        if (val === true) {
+          itemGroups[props.group] = uniqueId;
+        } else if (itemGroups[props.group] === uniqueId) {
+          delete itemGroups[props.group];
+        }
+      });
+      const group = watch(
+        () => itemGroups[props.group],
+        (val, oldVal) => {
+          if (oldVal === uniqueId && val !== void 0 && val !== uniqueId) {
+            hide();
+          }
+        }
+      );
+      exitGroup = () => {
+        show2();
+        group();
+        if (itemGroups[props.group] === uniqueId) {
+          delete itemGroups[props.group];
+        }
+        exitGroup = void 0;
+      };
+    }
+    function getToggleIcon() {
+      const data = {
+        class: [
+          `q-focusable relative-position cursor-pointer${props.denseToggle === true && props.switchToggleSide === true ? " items-end" : ""}`,
+          props.expandIconClass
+        ],
+        side: props.switchToggleSide !== true,
+        avatar: props.switchToggleSide
+      };
+      const child = [
+        h(QIcon, {
+          class: "q-expansion-item__toggle-icon" + (props.expandedIcon === void 0 && showing.value === true ? " q-expansion-item__toggle-icon--rotated" : ""),
+          name: expansionIcon.value
+        })
+      ];
+      if (activeToggleIcon.value === true) {
+        Object.assign(data, {
+          tabindex: 0,
+          ...toggleAriaAttrs.value,
+          onClick: toggleIcon,
+          onKeyup: toggleIconKeyboard
+        });
+        child.unshift(
+          h("div", {
+            ref: blurTargetRef,
+            class: "q-expansion-item__toggle-focus q-icon q-focus-helper q-focus-helper--rounded",
+            tabindex: -1
+          })
+        );
+      }
+      return h(QItemSection, data, () => child);
+    }
+    function getHeaderChild() {
+      let child;
+      if (slots.header !== void 0) {
+        child = [].concat(slots.header(headerSlotScope.value));
+      } else {
+        child = [
+          h(QItemSection, () => [
+            h(QItemLabel, { lines: props.labelLines }, () => props.label || ""),
+            props.caption ? h(QItemLabel, { lines: props.captionLines, caption: true }, () => props.caption) : null
+          ])
+        ];
+        props.icon && child[props.switchToggleSide === true ? "push" : "unshift"](
+          h(QItemSection, {
+            side: props.switchToggleSide === true,
+            avatar: props.switchToggleSide !== true
+          }, () => h(QIcon, { name: props.icon }))
+        );
+      }
+      if (props.disable !== true && props.hideExpandIcon !== true) {
+        child[props.switchToggleSide === true ? "unshift" : "push"](
+          getToggleIcon()
+        );
+      }
+      return child;
+    }
+    function getHeader() {
+      const data = {
+        ref: "item",
+        style: props.headerStyle,
+        class: props.headerClass,
+        dark: isDark.value,
+        disable: props.disable,
+        dense: props.dense,
+        insetLevel: props.headerInsetLevel
+      };
+      if (isClickable.value === true) {
+        data.clickable = true;
+        data.onClick = onHeaderClick;
+        Object.assign(
+          data,
+          hasLink.value === true ? linkProps.value : toggleAriaAttrs.value
+        );
+      }
+      return h(QItem, data, getHeaderChild);
+    }
+    function getTransitionChild() {
+      return withDirectives(
+        h("div", {
+          key: "e-content",
+          class: "q-expansion-item__content relative-position",
+          style: contentStyle.value,
+          id: targetUid
+        }, hSlot(slots.default)),
+        [[
+          vShow,
+          showing.value
+        ]]
+      );
+    }
+    function getContent() {
+      const node = [
+        getHeader(),
+        h(QSlideTransition, {
+          duration: props.duration,
+          onShow,
+          onHide
+        }, getTransitionChild)
+      ];
+      if (props.expandSeparator === true) {
+        node.push(
+          h(QSeparator, {
+            class: "q-expansion-item__border q-expansion-item__border--top absolute-top",
+            dark: isDark.value
+          }),
+          h(QSeparator, {
+            class: "q-expansion-item__border q-expansion-item__border--bottom absolute-bottom",
+            dark: isDark.value
+          })
+        );
+      }
+      return node;
+    }
+    props.group !== void 0 && enterGroup();
+    onBeforeUnmount(() => {
+      exitGroup !== void 0 && exitGroup();
+    });
+    return () => h("div", { class: classes.value }, [
+      h("div", { class: "q-expansion-item__container relative-position" }, getContent())
+    ]);
+  }
+});
+export { QExpansionItem as Q };

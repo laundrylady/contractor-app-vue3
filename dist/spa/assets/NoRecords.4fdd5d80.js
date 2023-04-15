@@ -1,1 +1,7 @@
-import{_ as e,m as r,n as o}from"./index.e647c85a.js";const c={};function n(s,t){return r(),o("div",null,"No records found.")}var a=e(c,[["render",n]]);export{a as N};
+import { _ as _export_sfc, m as openBlock, n as createElementBlock } from "./index.e647c85a.js";
+const _sfc_main = {};
+function _sfc_render(_ctx, _cache) {
+  return openBlock(), createElementBlock("div", null, "No records found.");
+}
+var NoRecords = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
+export { NoRecords as N };
