@@ -41,7 +41,8 @@
                     <q-input v-model="model.last_name" label="Applicant One Last Name" :error="$v.last_name.$invalid" />
                   </div>
                 </div>
-                <div class="row q-col-gutter-md">
+                <DateField v-model="model.dateofbirth" :invalid="$v.dateofbirth.$invalid" label="Date of Birth" />
+                <div class="row q-col-gutter-md q-mt-sm">
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.first_name_2" label="Applicant Two First Name" bottom-slots />
                   </div>
@@ -61,7 +62,7 @@
                 </div>
                 <q-btn @click="step = 2" label="Next" color="primary" class="q-mt-lg" />
               </q-step>
-              <q-step :name="2" title="Your Contact Details" prefix="2" :error="!stepsValid.step2"
+              <q-step :name="2" title="Your Address Details" prefix="2" :error="!stepsValid.step2"
                 :done="stepsValid.step2" done-color="positive">
                 <p>Please enter your current home / business address</p>
                 <AddressSearch :model="model" :outlined="true"
@@ -76,7 +77,6 @@
                   <CountryField v-model="model.country_id" :label="$t('address.country')"
                     :invalid="$v.country_id.$invalid" class="col-xs-12 col-sm-6" />
                 </div>
-                <DateField v-model="model.dateofbirth" :invalid="$v.dateofbirth.$invalid" label="Date of Birth" />
                 <q-btn @click="step = 3" label="Next" color="primary" class="q-mt-lg" />
               </q-step>
               <q-step :name="3" title="Emergency Contact Details" prefix="3" :error="!stepsValid.step3"
@@ -473,11 +473,11 @@ const stepsValid = computed(() => {
     step9: true
   }
   // step 1
-  if (!model.first_name || !model.last_name || !model.contractor_badge_name || !model.contractor_start_date) {
+  if (!model.first_name || !model.last_name || !model.contractor_badge_name || !model.contractor_start_date || !model.dateofbirth) {
     valid.step1 = false
   }
   // step 2
-  if (!model.address2 || !model.suburb_postcode_region_id || !model.dateofbirth) {
+  if (!model.address2 || !model.suburb_postcode_region_id) {
     valid.step2 = false
   }
   // step 3
