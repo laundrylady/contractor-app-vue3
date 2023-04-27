@@ -341,7 +341,7 @@
 </template>
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
-import { email, required } from '@vuelidate/validators'
+import { email, required, sameAs } from '@vuelidate/validators'
 import { useQuasar } from 'quasar'
 import { api } from 'src/boot/axios'
 import AppLogo from 'src/components/AppLogo.vue'
@@ -447,13 +447,13 @@ const rules = {
   contractor_computer_type: { required },
   contractor_ironing_steam_station: { required },
   contractor_washing_machine_dryer: { required },
-  contractor_declaration_agreement: { required },
-  contractor_declaration_training: { required },
-  contractor_declaration_abn: { required },
-  contractor_declaration_pl: { required },
-  contractor_declaration_inform: { required },
-  contractor_declaration_kit: { required },
-  contractor_declaration_information: { required },
+  contractor_declaration_agreement: { checked: sameAs(true) },
+  contractor_declaration_training: { checked: sameAs(true) },
+  contractor_declaration_abn: { checked: sameAs(true) },
+  contractor_declaration_pl: { checked: sameAs(true) },
+  contractor_declaration_inform: { checked: sameAs(true) },
+  contractor_declaration_kit: { checked: sameAs(true) },
+  contractor_declaration_information: { checked: sameAs(true) },
   contractor_applicant_1_sig: { required },
   avatar: { required }
 }
