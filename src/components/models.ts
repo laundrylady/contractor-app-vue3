@@ -13,7 +13,8 @@ export interface Attachment {
   attachment_id:number
   file_file_name:string,
   type:string,
-  name:string
+  name:string,
+  expiry_date:string
 }
 
 export interface Notification {

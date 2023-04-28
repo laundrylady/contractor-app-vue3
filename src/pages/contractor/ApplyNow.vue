@@ -46,12 +46,7 @@
                   <DateField v-model="model.dateofbirth" :label="$t('contractor.dateofbirth')"
                     :invalid="$v.dateofbirth.$invalid" />
                 </div>
-                <div class="col-xs-12 col-sm-6">
-                  <q-input v-model="model.contractor_abn" label="ABN" bottom-slots :error="$v.contractor_abn.$invalid" />
-                </div>
               </div>
-              <div>If you do not have an ABN, you can register at: <a href="https://www.abr.gov.au/" target="_blank"
-                  class="link">Australian Government Australian Business Register</a></div>
             </div>
             <q-input v-model="model.contractor_why_join" label="Why do you want to join our team?" class="q-mt-lg"
               :error="$v.contractor_why_join.$invalid" type="textarea" rows="3" outlined />
@@ -105,7 +100,6 @@ const rules = {
   mobile: { required },
   address2: { required },
   suburb_postcode_region_id: { required },
-  contractor_abn: { required },
   contractor_why_join: { required },
   contractor_referral_type: { required }
 }

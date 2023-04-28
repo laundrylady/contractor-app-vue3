@@ -188,11 +188,11 @@
                 <div class="row q-col-gutter-md">
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_bd_bsb" label="Branch / BSB Number"
-                      :error="$v.contractor_bd_bsb.$invalid" />
+                      :error="$v.contractor_bd_bsb.$invalid" type="number" />
                   </div>
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_bd_number" label="Account Number"
-                      :error="$v.contractor_bd_number.$invalid" />
+                      :error="$v.contractor_bd_number.$invalid" type="number" />
                   </div>
                 </div>
                 <q-btn @click="step = 7" label="Next" color="primary" class="q-mt-lg" />
@@ -442,11 +442,11 @@ const rules = {
   contractor_bd_bank: { required },
   contractor_bd_bsb: { required },
   contractor_bd_number: { required },
-  contractor_clothing_rack: { required },
-  contractor_smartphone_type: { required },
-  contractor_computer_type: { required },
-  contractor_ironing_steam_station: { required },
-  contractor_washing_machine_dryer: { required },
+  contractor_clothing_rack: { checked: sameAs('Yes') },
+  contractor_smartphone_type: { checked: sameAs('Yes') },
+  contractor_computer_type: { checked: sameAs('Yes') },
+  contractor_ironing_steam_station: { checked: sameAs('Yes') },
+  contractor_washing_machine_dryer: { checked: sameAs('Yes') },
   contractor_declaration_agreement: { checked: sameAs(true) },
   contractor_declaration_training: { checked: sameAs(true) },
   contractor_declaration_abn: { checked: sameAs(true) },
