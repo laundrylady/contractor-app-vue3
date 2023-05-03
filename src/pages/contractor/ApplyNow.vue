@@ -4,7 +4,7 @@
       <q-page padding>
         <div class="container q-pt-lg">
           <div class="row q-col-gutter-xl">
-            <div class="col-xs-12 col-sm-5">
+            <div class="col-xs-12 col-sm-6">
               <q-card>
                 <q-card-section class="q-pt-xs q-pb-xs">
                   <AppLogo />
@@ -64,7 +64,7 @@
                 </q-card-section>
               </q-card>
             </div>
-            <div class="col-xs-12 col-sm-7">
+            <div class="col-xs-12 col-sm-6">
               <div class="text-h5 text-primary text-bold">Join The Team</div>
               <div class="text-h4 text-bold">Who it suits?</div>
               <div class="text-h6 text-grey text-bold">Our business suits all types of people.</div>
