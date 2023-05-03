@@ -7,7 +7,7 @@
   <q-list bordered separator v-if="attachments && attachments.length">
     <q-item v-for="(a, index) in attachments" :key="index">
       <q-item-section>
-        {{ a.name }} <span v-if="a.expiry_date">Expires: {{ a.expiry_date }}</span>
+        {{ splitName(a.name) }} <span v-if="a.expiry_date" class="text-grey">Expires: {{ a.expiry_date }}</span>
       </q-item-section>
       <q-item-section side>
         <q-btn icon="delete" @click="removeAttachment(a)" flat />
@@ -15,7 +15,8 @@
     </q-item>
   </q-list>
   <div v-if="type === 'Certificate of Currency for Public Liability Insurance'">
-    <DateField v-model="newModel.expiry_date" label="Insurance Expiry Date" class="q-mb-md q-mt-sm" />
+    <DateField v-model="newModel.expiry_date" label="Insurance Expiry Date" class="q-mb-md q-mt-sm"
+      :invalid="type === 'Certificate of Currency for Public Liability Insurance' && !newModel.expiry_date" />
   </div>
   <div v-if="type !== 'Certificate of Currency for Public Liability Insurance' || newModel.expiry_date"> <q-uploader
       color="primary" :url="uploadConfig.url" :headers="uploadConfig.headers" @uploaded="successUpload"
@@ -61,6 +62,10 @@ const removeAttachment = (a: Attachment) => {
   confirmDelete('This will remove the attachment').onOk(() => {
     emits('attachment:remove', { name: a.name, file_file_name: a.file_file_name, type: a.type })
   })
+}
+
+const splitName = (val: string) => {
+  return val.split('-')[1]
 }
 
 const successUpload = (file: LooseObject) => {
