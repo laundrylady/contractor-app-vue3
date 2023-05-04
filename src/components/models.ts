@@ -243,6 +243,7 @@ export interface ContractorApplicationForm {
   contractor_ref2_email: string|null,
   contractor_ref2_phone: string|null,
   contractor_abn: string|null,
+  contractor_abn_verified: boolean,
   contractor_gst_registered: boolean,
   contractor_bd_name: string|null,
   contractor_bd_bank: string|null,

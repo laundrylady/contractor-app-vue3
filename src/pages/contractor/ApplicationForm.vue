@@ -158,7 +158,13 @@
                 :done="stepsValid.step5" done-color="positive">
                 <p class="q-mt-sm">If you do not have an ABN, you can register at: <a href="https://www.abr.gov.au/"
                     target="_blank" class="link">Australian Government Australian Business Register</a></p>
-                <q-input v-model="model.contractor_abn" label="ABN" bottom-slots :error="$v.contractor_abn.$invalid" />
+                <q-input v-model="model.contractor_abn" label="ABN" bottom-slots :error="$v.contractor_abn.$invalid"
+                  type="number">
+                  <template v-slot:append>
+                    <q-icon name="check" v-if="model.contractor_abn_verified" color="positive" />
+                    <q-btn @click="verifyAbn()" label="Verify" color="primary" v-if="model.contractor_abn" flat />
+                  </template>
+                </q-input>
                 <div class="text-bold">Are you registered for GST?</div>
                 <q-toggle v-model="model.contractor_gst_registered" label="I am registered for GST"
                   class="q-mt-sm q-mb-sm" />
@@ -329,8 +335,8 @@
                     <q-btn @click="resetSig2()" icon="sync" flat />
                   </div>
                 </div>
-                <q-btn @click="update()" :disable="loading || $v.$invalid" label="Submit" color="primary"
-                  class="q-mt-lg" />
+                <q-btn @click="update()" :disable="loading || $v.$invalid || !model.contractor_abn_verified"
+                  label="Submit" color="primary" class="q-mt-lg" />
               </q-step>
             </q-stepper>
           </div>
@@ -367,6 +373,8 @@ const success = ref(false)
 const step = ref(1)
 const sig1Ref = ref()
 const sig2Ref = ref()
+const abnVerified = ref(false)
+const abnVerifyResult = ref()
 const model = reactive<ContractorApplicationForm>({
   first_name: null,
   last_name: null,
@@ -392,6 +400,7 @@ const model = reactive<ContractorApplicationForm>({
   contractor_ref2_email: null,
   contractor_ref2_phone: null,
   contractor_abn: null,
+  contractor_abn_verified: false,
   contractor_gst_registered: false,
   contractor_bd_name: null,
   contractor_bd_bank: null,
@@ -489,7 +498,7 @@ const stepsValid = computed(() => {
     valid.step4 = false
   }
   // step 5
-  if (!model.contractor_abn) {
+  if (!model.contractor_abn || !model.contractor_abn_verified) {
     valid.step5 = false
   }
   // step 6
@@ -545,6 +554,23 @@ const saveSig2 = () => {
 const resetSig2 = () => {
   model.contractor_applicant_2_sig = null
   sig2Ref.value.clearSignature()
+}
+
+const verifyAbn = () => {
+  if (!model.contractor_abn) {
+    abnVerified.value = false
+  }
+  $q.loading.show({ message: 'Verifying ABN with the ATO...' })
+  api.post('/public/verifynest/verifyabn', { keyword: model.contractor_abn }).then(response => {
+    abnVerified.value = !response.data.data.Message
+    model.contractor_abn_verified = !response.data.data.Message
+    model.contractor_gst_registered = !!response.data.data.Gst
+    abnVerifyResult.value = response.data.data
+    $q.loading.hide()
+  }).catch(error => {
+    $q.loading.hide()
+    useMixinDebug(error)
+  })
 }
 
 const update = () => {
