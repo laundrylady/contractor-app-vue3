@@ -14,15 +14,14 @@
       </q-item-section>
     </q-item>
   </q-list>
-  <div v-if="type === 'Certificate of Currency for Public Liability Insurance'">
-    <DateField v-model="newModel.expiry_date" label="Insurance Expiry Date" class="q-mb-md q-mt-sm"
+  <div v-if="needsExpiry.indexOf(type) !== -1">
+    <DateField v-model="newModel.expiry_date" label="Expiry Date" class="q-mb-md q-mt-sm"
       :invalid="type === 'Certificate of Currency for Public Liability Insurance' && !newModel.expiry_date" />
   </div>
-  <div v-if="type !== 'Certificate of Currency for Public Liability Insurance' || newModel.expiry_date"> <q-uploader
-      color="primary" :url="uploadConfig.url" :headers="uploadConfig.headers" @uploaded="successUpload"
-      label="Upload document" auto-expand auto-upload :accept="uploadConfig.documents"
-      :field-name="uploadConfig.fieldName" class="q-mb-sm q-mt-sm" ref="tmpUploader"
-      :max-file-size="uploadConfig['max-file-size']" />
+  <div v-if="needsExpiry.indexOf(type) === -1 || newModel.expiry_date"> <q-uploader color="primary"
+      :url="uploadConfig.url" :headers="uploadConfig.headers" @uploaded="successUpload" label="Upload document"
+      auto-expand auto-upload :accept="uploadConfig.documents" :field-name="uploadConfig.fieldName"
+      class="q-mb-sm q-mt-sm" ref="tmpUploader" :max-file-size="uploadConfig['max-file-size']" />
     <p class="text-caption">Accepted file types: jpg, gif, png, pdf, Max. file size: 5 MB, Max. files: 2.</p>
   </div>
 </template>
@@ -40,6 +39,8 @@ interface Props {
 const props = defineProps<Props>()
 
 const tmpUploader = ref()
+
+const needsExpiry = ['Certificate of Currency for Public Liability Insurance', 'NDIS Workers Clearance Certificate']
 
 const schema = {
   type: props.type,

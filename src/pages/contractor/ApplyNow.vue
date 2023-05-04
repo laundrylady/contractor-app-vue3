@@ -95,8 +95,8 @@
               </q-carousel>
               <div class="row justify-center q-mt-lg">
                 <q-btn-toggle v-model="carousel.info" flat no-caps :options="[
-                    { label: 'Does it suit busy mum/dad life?', value: 'busy' },
-                    { label: 'What do you love about being a Laundry Lad?', value: 'love' }]" />
+                  { label: 'Does it suit busy mum/dad life?', value: 'busy' },
+                  { label: 'What do you love about being a Laundry Lad?', value: 'love' }]" />
               </div>
             </div>
           </div>
@@ -111,7 +111,6 @@ import { email, required } from '@vuelidate/validators'
 import { api } from 'src/boot/axios'
 import AppLogo from 'src/components/AppLogo.vue'
 import AddressSearch from 'src/components/form/AddressSearch.vue'
-import DateField from 'src/components/form/DateField.vue'
 import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
 import { useMixinDebug } from 'src/mixins/debug'
 import { reactive, ref } from 'vue'
