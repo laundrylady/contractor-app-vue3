@@ -46,12 +46,6 @@
                     <q-toggle v-model="model.contractor_car_licence" label="Reliable car and current drivers licence" />
                     <q-toggle v-model="model.contractor_equipment"
                       label="Equipment including steam station iron, washing machine, dryer, or willing to purchase these?" />
-                    <div class="row q-col-gutter-md q-mt-xs q-mb-md">
-                      <div class="col-xs-12 col-sm-6">
-                        <DateField v-model="model.dateofbirth" :label="$t('contractor.dateofbirth')"
-                          :invalid="$v.dateofbirth.$invalid" />
-                      </div>
-                    </div>
                   </div>
                   <q-input v-model="model.contractor_why_join" label="Why do you want to join our team?" class="q-mt-lg"
                     :error="$v.contractor_why_join.$invalid" type="textarea" rows="3" outlined />
@@ -144,7 +138,6 @@ const model = reactive({
 const rules = {
   first_name: { required },
   last_name: { required },
-  dateofbirth: { required },
   email: { required, email },
   mobile: { required },
   address2: { required },
