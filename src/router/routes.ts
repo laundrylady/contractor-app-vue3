@@ -20,6 +20,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('src/pages/auth/PasswordResetProcess.vue'),
     meta: { title: 'Password Reset Request' }
   },
+  // CONTRACTOR
   {
     name: 'applyNow',
     path: '/apply-now',
@@ -31,6 +32,13 @@ const routes: RouteRecordRaw[] = [
     path: '/application/:id',
     component: () => import('src/pages/contractor/ApplicationForm.vue'),
     meta: { title: 'Contractor Application' }
+  },
+  // SURVEY
+  {
+    name: 'monthly-survery',
+    path: '/contractor/survey/monthly/:id',
+    component: () => import('src/pages/contractor/MonthlySurvey.vue'),
+    meta: { title: 'Monthly Survey' }
   },
   // App
   {
