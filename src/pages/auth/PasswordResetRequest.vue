@@ -18,7 +18,7 @@
               </div>
             </transition>
             <q-input v-model="model.email" :error="$v.email.$error" label="Enter your registered email address" autofocus
-              aria-label="Enter your email address" outlined />
+              aria-label="Enter your email address" />
             <q-btn @click="send()" :disabled="loading || $v.$invalid" :loading="loading" color="primary" label="Send"
               aria-label="Send reset password email" class="full-width" />
             <div class="text-left q-mt-lg">
