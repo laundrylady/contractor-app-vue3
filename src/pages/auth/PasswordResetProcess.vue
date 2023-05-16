@@ -1,51 +1,53 @@
 <template>
-    <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn q-pa-md">
-        <q-card class="col-xs-12 col-sm-6 col-md-4 text-center">
-          <q-card-section class="row" style="min-height:92px;">
-            <AppLogo/>
+        <q-card class="col-xs-12 col-sm-6 col-md-3 text-center">
+          <q-card-section class="text-center" style="min-height:92px;">
+            <AppLogo />
           </q-card-section>
           <q-card-section>
-            <h1 class="text-h3 q-mt-none q-mb-none">Password Reset</h1>
+            <h1 class="text-h4 q-mt-none q-mb-none">Password Reset</h1>
+            <p>Enter and confirm your new password below:</p>
           </q-card-section>
           <q-card-section>
             <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOutTop" appear>
-              <q-banner class="text-positive q-mb-md" v-if="success">
-                <template v-slot:avatar>
-                  <q-icon name="check" color="white"/>
-                </template>
-                <p>Your password has been updated!</p>
-                <q-btn :to="{name:'signIn'}" color="secondary"  label="Go To Sign In" class="full-width"/>
-              </q-banner>
+              <div class="text-positive q-mb-md" v-if="success">
+                <p class="text-bold q-mb-lg">Your password has been updated!</p>
+                <q-btn :to="{ name: 'signIn' }" color="primary" label="Go To Sign In" class="full-width" />
+              </div>
             </transition>
             <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOutTop" appear>
-              <q-banner class="bg-negative text-white" v-if="error">Error reseting your password</q-banner>
+              <div class="bg-negative text-white" v-if="error">Error reseting your password</div>
             </transition>
             <div v-if="!success">
-              <p>Enter and confirm your new password below:</p>
-              <q-input v-model="model.password" label="Please enter a strong password" :type="pwdToggle.pw ? 'password' : 'text'"
-                       :error="$v.password.$error||(model.password&&passwordTest()<4)"
-                       bottom-slots
-                       error-message="Your password must contain at least 1 number, 1 uppercase character and 1 special character"
-                       aria-label="Enter new password">
+              <q-input v-model="model.password" label="Please enter a strong password"
+                :type="pwdToggle.pw ? 'password' : 'text'"
+                :error="$v.password.$error || (model.password && passwordTest() < 4)" bottom-slots
+                error-message="Your password must contain at least 1 number, 1 uppercase character and 1 special character"
+                aria-label="Enter new password">
                 <template v-slot:append>
-                  <q-icon :name="pwdToggle.pw ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="pwdToggle.pw = !pwdToggle.pw"/>
+                  <q-icon :name="pwdToggle.pw ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                    @click="pwdToggle.pw = !pwdToggle.pw" />
                 </template>
               </q-input>
-              <q-input v-model="model.passwordConfirm" label="Confirm password" :type="pwdToggle.pwc ? 'password' : 'text'"
-                       :error="model.password&&model.passwordConfirm!==model.password" class="q-mt-md" aria-label="Confirm new password">
+              <q-input v-model="model.passwordConfirm" label="Confirm password"
+                :type="pwdToggle.pwc ? 'password' : 'text'"
+                :error="model.password && model.passwordConfirm !== model.password" class="q-mt-md"
+                aria-label="Confirm new password">
                 <template v-slot:append>
-                  <q-icon :name="pwdToggle.pwc ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="pwdToggle.pwc = !pwdToggle.pwc"/>
+                  <q-icon :name="pwdToggle.pwc ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                    @click="pwdToggle.pwc = !pwdToggle.pwc" />
                 </template>
               </q-input>
             </div>
           </q-card-section>
           <q-card-actions class="row" v-if="!success">
-            <router-link :to="{name:'signIn'}" class="link">Back to Sign In</router-link>
-            <q-space/>
-            <q-btn @click="confirm()" :disabled="loading||$v.$invalid||(model.password&&model.passwordConfirm!==model.password)" :loading="loading" color="secondary" v-if="!success" label="Confirm"
-                   aria-label="Confirm" />
+            <q-btn :to="{ name: 'signIn' }" label="Back to Sign In" no-caps flat color="primary" />
+            <q-space />
+            <q-btn @click="confirm()"
+              :disabled="loading || $v.$invalid || (model.password && model.passwordConfirm !== model.password)"
+              :loading="loading" color="primary" v-if="!success" label="Confirm" aria-label="Confirm" />
           </q-card-actions>
         </q-card>
       </q-page>

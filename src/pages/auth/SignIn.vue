@@ -21,8 +21,8 @@
                 <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
               </template>
             </q-input>
-            <div class="text-right q-mt-md q-mb-md">
-              <router-link :to="{ name: 'passwordResetRequest' }" class="link">Forgot your password?</router-link>
+            <div class="text-right">
+              <q-btn :to="{ name: 'passwordResetRequest' }" label="Forgot your password?" no-caps color="primary" flat />
             </div>
             <q-btn :loading="loading" @click="signIn()" v-bind:disabled="$v.$invalid" color="primary" label="Sign In"
               class="full-width q-mt-md" />
