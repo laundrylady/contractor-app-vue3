@@ -92,7 +92,6 @@
       </q-card>
     </q-dialog>
     <MediaViewer />
-    <OrderEditModal />
     <q-dialog v-model="isLocked" persistent>
       <q-card style="min-width:30vw">
         <q-card-section class="row">
@@ -115,7 +114,6 @@ import { useQuasar } from 'quasar'
 import AppLogo from 'src/components/AppLogo.vue'
 import HeaderSearch from 'src/components/HeaderSearch.vue'
 import MediaViewer from 'src/components/MediaViewer.vue'
-import OrderEditModal from 'src/components/order/OrderEditModal.vue'
 import { useMixinSecurity } from 'src/mixins/security'
 import { socket } from 'src/services/socketio'
 import { computed, ref } from 'vue'

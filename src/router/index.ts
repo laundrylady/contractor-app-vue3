@@ -1,5 +1,6 @@
 import { route } from 'quasar/wrappers'
 import { authCheck } from 'src/services/auth'
+import { useUserStore } from 'src/stores/user'
 import {
   createMemoryHistory,
   createRouter,
@@ -38,6 +39,20 @@ export default route(function (/* { store, ssrContext } */) {
     if (to.meta.auth && !authCheck() && to.name !== 'signIn') {
       next({ name: 'signIn' })
       return false
+    }
+    // check for tfa
+    if (to.meta.auth && authCheck() && to.name !== 'tfaSetup' && to.name !== 'tfaSms') {
+      const store = useUserStore()
+      if (!store.data || (store.data && !store.data.tfa_ok)) {
+        if (store.data && !store.data.tfa_method) {
+          next({ name: 'tfaSetup' })
+          return false
+        }
+        if (store.data && store.data.tfa_method) {
+          next({ name: 'tfaSms' })
+          return false
+        }
+      }
     }
     if (to.meta.title) {
       document.title = to.meta.title.toString()

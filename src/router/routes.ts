@@ -32,6 +32,11 @@ const routes: RouteRecordRaw[] = [
     path: '/application/:id',
     component: () => import('src/pages/contractor/ApplicationForm.vue'),
     meta: { title: 'Contractor Application' }
+  }, {
+    name: 'contractorActivate',
+    path: '/contractor/onboarding/activate/:code',
+    component: () => import('src/pages/auth/ContractorActivate.vue'),
+    meta: { title: 'Activation' }
   },
   // SURVEY
   {
@@ -39,6 +44,20 @@ const routes: RouteRecordRaw[] = [
     path: '/contractor/survey/monthly/:id',
     component: () => import('src/pages/contractor/MonthlySurvey.vue'),
     meta: { title: 'Monthly Survey' }
+  },
+  // TFA SETUP
+  {
+    name: 'tfaSetup',
+    path: '/auth/tfa/setup',
+    component: () => import('src/pages/auth/TfaSetup.vue'),
+    meta: { title: 'Multifactor Authentication', auth: true }
+  },
+  // TFA SMS
+  {
+    name: 'tfaSms',
+    path: '/auth/tfa/sms',
+    component: () => import('src/pages/auth/TfaSms.vue'),
+    meta: { title: 'Multifactor Authentication', auth: true }
   },
   // App
   {
@@ -173,51 +192,6 @@ const routes: RouteRecordRaw[] = [
           }
         ]
       },
-      // Orders
-      {
-        name: 'orders',
-        path: '/bookings',
-        component: () => import('src/pages/order/OrderManagement.vue'),
-        meta: { auth: true, title: 'Bookings' }
-      },
-      {
-        name: 'order-home',
-        path: '/booking/home:id',
-        component: () => import('src/pages/order/OrderHome.vue'),
-        meta: { auth: true },
-        children: [
-          {
-            name: 'order-edit',
-            path: '/booking/edit/:id',
-            component: () => import('pages/order/OrderEdit.vue'),
-            meta: { auth: true }
-          },
-          {
-            name: 'order-documents',
-            path: '/booking/documents/:id',
-            component: () => import('pages/order/OrderDocuments.vue'),
-            meta: { auth: true }
-          },
-          {
-            name: 'order-sms',
-            path: '/booking/sms/:id',
-            component: () => import('pages/order/OrderSms.vue'),
-            meta: { auth: true }
-          },
-          {
-            name: 'order-notifications',
-            path: '/booking/notifications/:id',
-            component: () => import('pages/order/OrderNotifications.vue'),
-            meta: { auth: true }
-          },
-          {
-            name: 'order-audit',
-            path: '/booking/audit/:id',
-            component: () => import('pages/order/OrderAudit.vue'),
-            meta: { auth: true }
-          }
-        ]
-      },
       // SMS Log
       {
         name: 'smsLog',
@@ -273,13 +247,6 @@ const routes: RouteRecordRaw[] = [
         path: '/bookingmanager',
         component: () => import('src/pages/order/OrderBookingManager.vue'),
         meta: { auth: true, title: 'Booking Manager' }
-      },
-      // User Manager
-      {
-        name: 'users',
-        path: '/users',
-        component: () => import('src/pages/user/UserManagement.vue'),
-        meta: { auth: true, title: 'Users' }
       }
     ]
   },

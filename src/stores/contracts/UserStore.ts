@@ -7,5 +7,9 @@ export interface UserStore {
   timezone:string,
   lat:string,
   lng:string,
-  avatar:string
+  avatar:string,
+  tfa_ok:boolean,
+  tfa_method:string|null,
+  role:string,
+  mobile:string
 }
