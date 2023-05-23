@@ -2,77 +2,28 @@
   <q-layout view="lHh LpR fFf" v-if="user && user.id">
     <q-header class="bg-white text-black shadow">
       <q-toolbar style="height:65px;">
-        <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" v-if="$q.screen.lt.lg">
-          <q-icon name="menu" size="24px" />
-        </q-btn>
+        <router-link :to="{ name: 'appDashboard' }" class="link text-black">
+          <img src="../assets/images/logos/logo.png" style="max-width:100%;max-height:50px" />
+        </router-link>
         <HeaderSearch class="q-ml-md" />
         <q-space />
-        <q-btn flat @click="logout()" title="Sign Out">
-          <q-icon name="exit_to_app" size="24px" />
-        </q-btn>
-        <q-btn flat class="q-mr-xs gt-sm" :title="user.email" :to="{ name: 'profile' }">
-          <q-avatar>
-            <q-img src="/api/user/useravatar?fetch=thumb" />
-          </q-avatar>
-        </q-btn>
+        <q-btn-group flat>
+          <q-btn icon="list_alt" :title="$t('order.namePlural')" color="primary" flat />
+          <q-btn icon="calendar_month" :title="$t('scheduler.name')" color="primary" flat />
+          <q-btn flat>
+            <q-avatar>
+              <q-img src="/api/user/useravatar?fetch=thumb" />
+            </q-avatar>
+            <q-menu>
+              <q-list>
+                <q-item clickable @click="logout()">
+                  <q-item-section>Sign Out</q-item-section></q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
+        </q-btn-group>
       </q-toolbar>
     </q-header>
-    <q-drawer v-model="leftDrawerOpen" :mini="leftMini" :width="200" class="bg-dark text-white" bordered>
-      <div class="q-pa-md text-center">
-        <router-link :to="{ name: 'appDashboard' }" class="link text-black">
-          <img src="../assets/images/logos/logo.png" style="max-width:100%;max-height:115px" /></router-link>
-      </div>
-      <q-list no-border>
-        <q-item :to="{ name: 'appDashboard' }" clickable title="Dashboard"
-          :class="{ 'text-white': route.name !== 'appDashboard' }">
-          <q-item-section avatar>
-            <q-icon name="dashboard" />
-          </q-item-section>
-          <q-item-section>Dashboard</q-item-section>
-        </q-item>
-        <q-item :to="{ name: 'contractors' }" clickable :title="$t('contractor.namePlural')" active-class="text-primary"
-          :class="{ 'text-primary': currentRoute && currentRoute.match('contractor') && !currentRoute.match('reporting') }">
-          <q-item-section avatar>
-            <q-icon name="engineering" />
-          </q-item-section>
-          <q-item-section>{{ $t('contractor.namePlural') }}</q-item-section>
-        </q-item>
-        <q-item :to="{ name: 'teams' }" clickable :title="$t('team.namePlural')" active-class="text-primary"
-          :class="{ 'text-primary': currentRoute && currentRoute.match('team') }">
-          <q-item-section avatar>
-            <q-icon name="group" />
-          </q-item-section>
-          <q-item-section>{{ $t('team.namePlural') }}</q-item-section>
-        </q-item>
-        <q-item :to="{ name: 'orders' }" clickable :title="$t('order.namePlural')" active-class="text-primary"
-          :class="{ 'text-primary': currentRoute && (currentRoute.match('order') || currentRoute.match('bookingmanager')) && !currentRoute.match('team') && !currentRoute.match('contractor') && !currentRoute.match('reporting') }">
-          <q-item-section avatar>
-            <q-icon name="event" />
-          </q-item-section>
-          <q-item-section>{{ $t('order.namePlural') }}</q-item-section>
-        </q-item>
-        <q-item :to="{ name: 'userrosterscheduler' }" clickable :title="$t('scheduler.name')" active-class="text-primary"
-          :class="{ 'text-primary': currentRoute && currentRoute.match('scheduler') && !currentRoute.match('team') && !currentRoute.match('contractor') }">
-          <q-item-section avatar>
-            <q-icon name="calendar_month" />
-          </q-item-section>
-          <q-item-section>{{ $t('scheduler.name') }}</q-item-section>
-        </q-item>
-        <q-item :to="{ name: 'reporting' }" clickable title='Reporting' active-class="text-primary"
-          :class="{ 'text-primary': currentRoute && currentRoute.match('reporting') }">
-          <q-item-section avatar>
-            <q-icon name="bar_chart" />
-          </q-item-section>
-          <q-item-section>Reporting</q-item-section>
-        </q-item>
-        <q-item :to="{ name: 'settings' }" clickable title='Settings' active-class="text-primary">
-          <q-item-section avatar>
-            <q-icon name="settings" />
-          </q-item-section>
-          <q-item-section>Settings</q-item-section>
-        </q-item>
-      </q-list>
-    </q-drawer>
     <q-page-container>
       <q-ajax-bar position="top" color="primary" size="2px" />
       <router-view />
@@ -122,8 +73,6 @@ import { useRoute } from 'vue-router'
 const { user } = useMixinSecurity()
 const $q = useQuasar()
 const route = useRoute()
-const leftDrawerOpen = ref(!$q.screen.xs)
-const leftMini = ref(false)
 const isLocked = ref(false)
 
 // check for lockout
