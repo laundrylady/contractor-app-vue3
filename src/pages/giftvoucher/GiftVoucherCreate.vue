@@ -55,7 +55,7 @@
 </template>
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
-import { email, required, requiredIf } from '@vuelidate/validators'
+import { email, required } from '@vuelidate/validators'
 import { api } from 'src/boot/axios'
 import AppLogo from 'src/components/AppLogo.vue'
 import { GiftVoucher } from 'src/components/models'
@@ -79,9 +79,9 @@ const rules = {
   first_name: { required },
   last_name: { required },
   email: { required, email },
-  email_recipient: { required: requiredIf(() => { return model.send_to === 'recipient' }), email },
-  name_recipient: { required: requiredIf(() => { return model.send_to === 'recipient' }) },
-  from_recipient: { required: requiredIf(() => { return model.send_to === 'recipient' }) },
+  email_recipient: { required, email },
+  name_recipient: { required },
+  from_recipient: { required },
   value: { required },
   send_to: { required }
 }
