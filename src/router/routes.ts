@@ -38,6 +38,25 @@ const routes: RouteRecordRaw[] = [
     component: () => import('src/pages/auth/ContractorActivate.vue'),
     meta: { title: 'Activation' }
   },
+  // GIFT VOUCHER
+  {
+    name: 'giftVoucherPurchase',
+    path: '/giftvouchers/purchase',
+    component: () => import('src/pages/giftvoucher/GiftVoucherCreate.vue'),
+    meta: { title: 'Gift Vouchers' }
+  },
+  {
+    name: 'giftVoucherSuccess',
+    path: '/giftvouchers/success',
+    component: () => import('src/pages/giftvoucher/GiftVoucherSuccess.vue'),
+    meta: { title: 'Gift Vouchers' }
+  },
+  {
+    name: 'giftVoucherCancel',
+    path: '/giftvouchers/cancel',
+    component: () => import('src/pages/giftvoucher/GiftVoucherCancel.vue'),
+    meta: { title: 'Gift Vouchers' }
+  },
   // SURVEY
   {
     name: 'monthly-survery',

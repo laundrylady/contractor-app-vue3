@@ -641,3 +641,15 @@ export interface Breadcrumbs {
   to?:LooseObject,
   label:string
 }
+
+export interface GiftVoucher {
+  first_name: string|null,
+  last_name: string|null,
+  email: string|null,
+  email_recipient: string|null,
+  name_recipient:string|null,
+  message_recipient:string|null,
+  from_recipient:string|null,
+  value:number|null,
+  send_to:string|null
+}
