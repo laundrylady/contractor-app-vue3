@@ -6,7 +6,8 @@
           <AppLogo />
           <q-card>
             <q-card-section>
-              <div class="text-h5 q-mb-md">Your purchase has been successful!</div>
+              <div class="text-h5 q-mb-md">Your Gift Voucher purchase has been successful!</div>
+              <p>Check your email for the Gift Voucher, Invoice, and instructions on how to use the Gift Voucher.</p>
             </q-card-section>
             <q-card-actions><q-btn :to="{ name: 'giftVoucherPurchase' }"
                 label="Click here to puchase another gift voucher" no-caps flat color="primary" />

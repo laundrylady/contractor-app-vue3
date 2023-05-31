@@ -23,7 +23,8 @@
                 <q-input v-model="model.email_recipient" label="Recipient email" :error="$v.email_recipient.$invalid"
                   :disable="!model.send_to" />
                 <q-input v-model="model.message_recipient" label="Personalised message" type="textarea" rows="3" outlined
-                  bottom-slots placeholder="Happy birthday, have a wonderful day!" :disable="!model.send_to" />
+                  :error="$v.message_recipient.$invalid" bottom-slots placeholder="Happy birthday, have a wonderful day!"
+                  :disable="!model.send_to" />
                 <q-input v-model="model.from_recipient" label="Who is this gift from?" :error="$v.from_recipient.$invalid"
                   :disable="!model.send_to" />
               </div>
@@ -82,6 +83,7 @@ const rules = {
   email_recipient: { required, email },
   name_recipient: { required },
   from_recipient: { required },
+  message_recipient: { required },
   value: { required },
   send_to: { required }
 }
