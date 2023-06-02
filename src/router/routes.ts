@@ -41,19 +41,19 @@ const routes: RouteRecordRaw[] = [
   // GIFT VOUCHER
   {
     name: 'giftVoucherPurchase',
-    path: '/giftvouchers/purchase',
+    path: '/gift-vouchers/purchase',
     component: () => import('src/pages/giftvoucher/GiftVoucherCreate.vue'),
     meta: { title: 'Gift Vouchers' }
   },
   {
     name: 'giftVoucherSuccess',
-    path: '/giftvouchers/success',
+    path: '/gift-vouchers/success',
     component: () => import('src/pages/giftvoucher/GiftVoucherSuccess.vue'),
     meta: { title: 'Gift Vouchers' }
   },
   {
     name: 'giftVoucherCancel',
-    path: '/giftvouchers/cancel',
+    path: '/gift-vouchers/cancel',
     component: () => import('src/pages/giftvoucher/GiftVoucherCancel.vue'),
     meta: { title: 'Gift Vouchers' }
   },
@@ -217,55 +217,6 @@ const routes: RouteRecordRaw[] = [
         path: '/sms/log',
         component: () => import('src/pages/sms/SmsLog.vue'),
         meta: { auth: true, title: 'SMS Log' }
-      },
-      // Reporting
-      {
-        name: 'reporting',
-        path: '/reporting',
-        component: () => import('src/pages/AppReporting.vue'),
-        meta: { auth: true, title: 'Reporting' }
-      },
-      // Reporting - Contractor - Commissions Owing
-      {
-        name: 'reporting-contractor-commissions-owing',
-        path: '/reporting/contractor/commissions/owing',
-        component: () => import('src/pages/contractor/reporting/CommissionsOwing.vue'),
-        meta: { auth: true, title: 'Reporting' }
-      },
-      // Reporting - Contractor - Commissions Paid
-      {
-        name: 'reporting-contractor-commissions-paid',
-        path: '/reporting/contractor/commissions/paid',
-        component: () => import('src/pages/contractor/reporting/CommissionsPaid.vue'),
-        meta: { auth: true, title: 'Reporting' }
-      },
-      // Reporting - Contractor - Commissions Overview
-      {
-        name: 'reporting-contractor-commissions-overview',
-        path: '/reporting/contractor/commissions/overview',
-        component: () => import('src/pages/contractor/reporting/CommissionsOverview.vue'),
-        meta: { auth: true, title: 'Reporting' }
-      },
-      // Reporting - Order - Order Overview
-      {
-        name: 'reporting-order-overview',
-        path: '/reporting/order/overview',
-        component: () => import('src/pages/order/reporting/OrderOverview.vue'),
-        meta: { auth: true, title: 'Reporting' }
-      },
-      // User Roster Scheduler
-      {
-        name: 'userrosterscheduler',
-        path: '/scheduler',
-        component: () => import('src/pages/userrosterschedule/UserRosterScheduler.vue'),
-        meta: { auth: true, title: 'Scheduler' }
-      },
-      // Order Booking Manager
-      {
-        name: 'bookingmanager',
-        path: '/bookingmanager',
-        component: () => import('src/pages/order/OrderBookingManager.vue'),
-        meta: { auth: true, title: 'Booking Manager' }
       }
     ]
   },

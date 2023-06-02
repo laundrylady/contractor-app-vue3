@@ -3,9 +3,11 @@
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn" padding>
         <div class="col-xs-12 col-sm-10 col-md-5">
-          <AppLogo />
           <q-card>
             <q-card-section>
+              <q-card-section class="q-pt-xs q-pb-xs">
+                <AppLogo />
+              </q-card-section>
               <div class="text-h5 q-mb-md">Your Gift Voucher purchase has been successful!</div>
               <p>Check your email for the Gift Voucher, Invoice, and instructions on how to use the Gift Voucher.</p>
             </q-card-section>
