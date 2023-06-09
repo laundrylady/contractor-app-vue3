@@ -109,7 +109,7 @@ const $v = useVuelidate(rules, model, { $scope: false })
 const purchase = () => {
   loading.value = true
   api.post('/public/giftvoucher', model).then(response => {
-    document.location.href = `/api/public/invoicepayment/session/${response.data.invoice_id}`
+    document.location.href = `/payments/session/${response.data.invoice_id}`
   }).catch(error => {
     useMixinDebug(error)
     loading.value = false
