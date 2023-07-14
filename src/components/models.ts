@@ -653,3 +653,8 @@ export interface GiftVoucher {
   value:number|null,
   send_to:string|null
 }
+
+export interface UpdateBa {
+  bsb:number|null,
+  account_number:number|null
+}

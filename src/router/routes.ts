@@ -57,6 +57,13 @@ const routes: RouteRecordRaw[] = [
     component: () => import('src/pages/giftvoucher/GiftVoucherCancel.vue'),
     meta: { title: 'Gift Vouchers' }
   },
+  // INVOICE PAYMENT
+  {
+    name: 'invoicePaymentBankAccountDetails',
+    path: '/refund/updateba/:id',
+    component: () => import('src/pages/invoicepayment/UpdateBa.vue'),
+    meta: { title: 'Bank Account Details Update' }
+  },
   // SURVEY
   {
     name: 'monthly-survery',
