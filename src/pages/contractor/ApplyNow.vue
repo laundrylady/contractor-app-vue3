@@ -54,7 +54,7 @@
                     :error="$v.contractor_referral_type.$invalid" />
                   <q-btn :loading="loading" @click="applyNow()"
                     v-bind:disabled="$v.$invalid || !model.contractor_car_licence || !model.contractor_equipment"
-                    color="primary" label="Apply Now" class="full-width q-mt-md" />
+                    color="primary" label="Apply Now" class="full-width q-mt-md" rounded />
                 </q-card-section>
               </q-card>
             </div>

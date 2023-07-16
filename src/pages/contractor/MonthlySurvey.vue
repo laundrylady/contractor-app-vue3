@@ -115,7 +115,7 @@
                   <q-input v-model="model.improve_experience" :error="$v.improve_experience.$invalid" outlined dense
                     type="textarea" />
                   <q-btn :loading="loading" @click="submit()" v-bind:disabled="$v.$invalid" color="primary" label="Submit"
-                    class="full-width q-mt-md" />
+                    class="full-width q-mt-md" rounded />
                 </q-card-section>
               </q-card>
             </div>

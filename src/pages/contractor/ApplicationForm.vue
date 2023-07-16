@@ -9,22 +9,6 @@
               Thanks for your interest in joining The Laundry Lady.<br />Please check your email for the next
               steps.
             </q-card-section>
-            <q-card-section class="text-left" v-if="!success">
-              <div class="text-h5">Contractor Application Form</div>
-              <div class="text-h6">Your contact details</div>
-              <div class="text-h6 q-mt-md">Your References</div>
-              <div class="text-h6 q-mt-md">Your business details</div>
-
-              <div class="text-h6 q-mt-md">Your Commission Payments</div>
-
-              <div class="text-h6 q-mt-md">Documents Upload</div>
-              <p>Please upload copies of the following documents.</p>
-              <div class="text-h6 q-mt-md">Requirements Checklist</div>
-
-              <div class="text-h6 q-mt-md">Contractor Declaration</div>
-              <q-btn :loading="loading" @click="update()" v-bind:disabled="$v.$invalid" color="primary" label="Submit"
-                class="full-width q-mt-md" />
-            </q-card-section>
           </q-card>
           <div v-if="!success">
             <div class="text-h5">Contractor Application Form</div>
@@ -60,7 +44,7 @@
                       :invalid="$v.contractor_start_date.$invalid" />
                   </div>
                 </div>
-                <q-btn @click="step = 2" label="Next" color="primary" class="q-mt-lg" />
+                <q-btn @click="step = 2" label="Next" color="primary" class="q-mt-lg" rounded />
               </q-step>
               <q-step :name="2" title="Your Address Details" prefix="2" :error="!stepsValid.step2"
                 :done="stepsValid.step2" done-color="positive">
@@ -77,7 +61,7 @@
                   <CountryField v-model="model.country_id" :label="$t('address.country')"
                     :invalid="$v.country_id.$invalid" class="col-xs-12 col-sm-6" />
                 </div>
-                <q-btn @click="step = 3" label="Next" color="primary" class="q-mt-lg" />
+                <q-btn @click="step = 3" label="Next" color="primary" class="q-mt-lg" rounded />
               </q-step>
               <q-step :name="3" title="Emergency Contact Details" prefix="3" :error="!stepsValid.step3"
                 :done="stepsValid.step3" done-color="positive">
@@ -102,7 +86,7 @@
                       :error="$v.contractor_ec_relationship.$invalid" />
                   </div>
                 </div>
-                <q-btn @click="step = 4" label="Next" color="primary" class="q-mt-lg" />
+                <q-btn @click="step = 4" label="Next" color="primary" class="q-mt-lg" rounded />
               </q-step>
               <q-step :name="4" title="Your References" prefix="4" :error="!stepsValid.step4" :done="stepsValid.step4"
                 done-color="positive">
@@ -152,7 +136,7 @@
                       :error="$v.contractor_ref2_phone.$invalid" />
                   </div>
                 </div>
-                <q-btn @click="step = 5" label="Next" color="primary" class="q-mt-lg" />
+                <q-btn @click="step = 5" label="Next" color="primary" class="q-mt-lg" rounded />
               </q-step>
               <q-step :name="5" title="Your business details" prefix="5" :error="!stepsValid.step5"
                 :done="stepsValid.step5" done-color="positive">
@@ -162,7 +146,7 @@
                   type="number">
                   <template v-slot:append>
                     <q-icon name="check" v-if="model.contractor_abn_verified" color="positive" />
-                    <q-btn @click="verifyAbn()" label="Verify" color="primary" v-if="model.contractor_abn" flat />
+                    <q-btn @click="verifyAbn()" label="Verify" color="primary" v-if="model.contractor_abn" flat rounded />
                   </template>
                 </q-input>
                 <div class="text-bold">Are you registered for GST?</div>
@@ -173,7 +157,7 @@
                   know
                   immediately. <a href="https://www.ato.gov.au/Business/GST/Registering-for-GST/" target="_blank"
                     class="link">Click here for ATO Registering for GST</a></p>
-                <q-btn @click="step = 6" label="Next" color="primary" class="q-mt-lg" />
+                <q-btn @click="step = 6" label="Next" color="primary" class="q-mt-lg" rounded />
               </q-step>
               <q-step :name="6" title="Your Commission Payments" prefix="6" :error="!stepsValid.step6"
                 :done="stepsValid.step6" done-color="positive">
@@ -201,7 +185,7 @@
                       :error="$v.contractor_bd_number.$invalid" type="number" />
                   </div>
                 </div>
-                <q-btn @click="step = 7" label="Next" color="primary" class="q-mt-lg" />
+                <q-btn @click="step = 7" label="Next" color="primary" class="q-mt-lg" rounded />
               </q-step>
               <q-step :name="7" title="Documents Upload" prefix="7" :error="!stepsValid.step7" :done="stepsValid.step7"
                 done-color="positive">
@@ -259,7 +243,7 @@
                     ref="tmpUploader" :max-file-size="uploadConfig['max-file-size']" />
                   <p class="text-caption">Accepted file types: jpg, gif, png, pdf, Max. file size: 5 MB</p>
                 </div>
-                <q-btn @click="step = 8" label="Next" color="primary" class="q-mt-lg" />
+                <q-btn @click="step = 8" label="Next" color="primary" class="q-mt-lg" rounded />
               </q-step>
               <q-step :name="8" title="Requirements Checklist" prefix="8" :error="!stepsValid.step8"
                 :done="stepsValid.step8" done-color="positive">
@@ -284,7 +268,7 @@
                   <q-checkbox v-model="model.contractor_washing_machine_dryer" label="Washing Machine and Dryer"
                     true-value="Yes" false-value="No" />
                 </div>
-                <q-btn @click="step = 9" label="Next" color="primary" class="q-mt-lg" />
+                <q-btn @click="step = 9" label="Next" color="primary" class="q-mt-lg" rounded />
               </q-step>
               <q-step :name="9" title="Contractor Declaration" prefix="9" :error="!stepsValid.step9"
                 :done="stepsValid.step9" done-color="positive">
@@ -324,7 +308,7 @@
                       <VueSignaturePad id="signature" width="100%" height="150px" ref="sig1Ref"
                         :options="{ onEnd: saveSig1 }" />
                     </div>
-                    <q-btn @click="resetSig1()" icon="sync" flat />
+                    <q-btn @click="resetSig1()" icon="sync" flat rounded />
                   </div>
                   <div class="col-xs-12 col-sm-6">
                     <div class="text-bold">Applicant Two Signature</div>
@@ -332,11 +316,11 @@
                       <VueSignaturePad id="signature" width="100%" height="150px" ref="sig2Ref"
                         :options="{ onEnd: saveSig2 }" />
                     </div>
-                    <q-btn @click="resetSig2()" icon="sync" flat />
+                    <q-btn @click="resetSig2()" icon="sync" flat rounded />
                   </div>
                 </div>
                 <q-btn @click="update()" :disable="loading || $v.$invalid || !model.contractor_abn_verified"
-                  label="Submit" color="primary" class="q-mt-lg" />
+                  label="Submit" color="primary" class="q-mt-lg" rounded />
               </q-step>
             </q-stepper>
           </div>
