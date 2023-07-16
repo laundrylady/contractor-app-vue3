@@ -33,7 +33,7 @@
             </q-card-section>
             <q-card-actions>
               <q-btn @click="update()" label="Update" color="primary" :disable="$v.$invalid || loading" :loading="loading"
-                class="full-width" v-if="!result.success" />
+                v-if="!result.success" rounded />
             </q-card-actions>
           </q-card>
         </div>

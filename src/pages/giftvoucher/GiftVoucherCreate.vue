@@ -48,7 +48,7 @@
             </q-card-section>
             <q-card-actions v-if="model.value">
               <q-btn @click="purchase()" :label="`Purchase ($${model.value})`" color="primary"
-                :disable="$v.$invalid || loading" :loading="loading" class="full-width" />
+                :disable="$v.$invalid || loading" :loading="loading" rounded />
             </q-card-actions>
           </q-card>
         </div>
