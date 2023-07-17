@@ -9,7 +9,7 @@ export default boot(({ app, router }) => {
   if (process.env.NODE_ENV === 'production') {
     Sentry.init({
       app,
-      dsn: 'https://e57a61f71dfa45438d5feb0581d51a5d@o78498.ingest.sentry.io/4504883920961536',
+      dsn: 'https://db124b9ff66641e7acbeec05fc3c720f@o78498.ingest.sentry.io/4505541940936704',
       // This sets the sample rate to be 10%. You may want this to be 100% while
       // in development and sample at a lower rate in production
       replaysSessionSampleRate: 1.0,
@@ -19,7 +19,7 @@ export default boot(({ app, router }) => {
       integrations: [
         new BrowserTracing({
           routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-          tracePropagationTargets: ['localhost', 'sandbox.thelaundrylady.com.au', 'app.thelaundrylady.com.au', /^\//]
+          tracePropagationTargets: ['localhost', 'sandbox.thelaundrylady.au', 'app.thelaundrylady.au', /^\//]
         }),
         new Sentry.Replay()
       ],
