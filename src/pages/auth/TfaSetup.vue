@@ -9,16 +9,16 @@
           <q-card-section>
             <h4 class="text-h4 q-mt-none q-mb-sm">Protect your account</h4>
             <p>Add an extra layer of security to your Laundry Lady account.</p>
+            <P>Click SEND CODE below and we'll send you a verification code to your registered mobile phone number.</P>
           </q-card-section>
           <q-card-section>
             <div v-if="error">
               There was an error verifying the security code sent. Please try again.</div>
-            <q-input v-model="tfaEmail" label="Enter an alternate email address for reseting your security protection"
-              :error="!tfaEmail || tfaEmail === userStore.data.email" outlined />
             <q-input v-model="smsCode" label="Enter your security code" hint="Click the button to receive your code"
               :error="sentSms && !smsCode" outlined bottom-slots>
               <template v-slot:append>
-                <q-btn @click="sendSms" :label="sentSms ? 'Resend code' : 'Send code'" :disable="sending" />
+                <q-btn @click="sendSms" :label="sentSms ? 'Resend code' : 'Send code'" :disable="sending"
+                  :color="sentSms ? 'secondary' : 'primary'" />
               </template>
             </q-input>
           </q-card-section>

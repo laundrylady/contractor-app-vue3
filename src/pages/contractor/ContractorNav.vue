@@ -27,7 +27,7 @@
         </q-list>
       </q-menu>
     </q-btn>
-    <q-tabs v-model="currentTab" align="left" active-bg-color="primary" active-color="white">
+    <q-tabs v-model="currentTab" active-bg-color="primary" active-color="white">
       <q-route-tab :to="{ name: 'contractor-dashboard', params: { id: model.id } }" label="Dashboard" icon="dashboard" />
       <q-route-tab :to="{ name: 'contractor-postcoderegion-groups', params: { id: model.id } }" label="Pickup Locations"
         icon="place" />
@@ -37,9 +37,6 @@
       <q-route-tab :to="{ name: 'contractor-edit', params: { id: model.id } }" label="Details" icon="info" />
       <q-route-tab :to="{ name: 'contractor-documents', params: { id: model.id } }" label="Documents"
         icon="attach_file" />
-      <q-route-tab :to="{ name: 'contractor-sms', params: { id: model.id } }" label="SMS" icon="chat" />
-      <q-route-tab :to="{ name: 'contractor-notifications', params: { id: model.id } }" label="Emails" icon="mail" />
-      <q-route-tab :to="{ name: 'contractor-audit', params: { id: model.id } }" label="Audit" icon="bolt" />
     </q-tabs>
   </div>
 </template>

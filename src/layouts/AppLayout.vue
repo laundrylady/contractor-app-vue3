@@ -1,27 +1,28 @@
 <template>
   <q-layout view="lHh LpR fFf" v-if="user && user.id">
-    <q-header class="bg-white text-black shadow">
+    <q-header>
       <q-toolbar style="height:65px;">
         <router-link :to="{ name: 'appDashboard' }" class="link text-black">
           <img src="../assets/images/logos/logo.png" style="max-width:100%;max-height:50px" />
         </router-link>
         <HeaderSearch class="q-ml-md" />
         <q-space />
-        <q-btn-group flat>
-          <q-btn icon="list_alt" :title="$t('order.namePlural')" color="primary" flat />
-          <q-btn icon="calendar_month" :title="$t('scheduler.name')" color="primary" flat />
-          <q-btn flat>
-            <q-avatar>
-              <q-img src="/api/user/useravatar?fetch=thumb" />
-            </q-avatar>
-            <q-menu>
-              <q-list>
-                <q-item clickable @click="logout()">
-                  <q-item-section>Sign Out</q-item-section></q-item>
-              </q-list>
-            </q-menu>
-          </q-btn>
-        </q-btn-group>
+        <q-btn icon="event" :title="$t('order.namePlural')" flat round class="q-mr-xs" />
+        <q-btn icon="calendar_month" :title="$t('scheduler.name')" flat round class="q-mr-xs" />
+        <q-btn flat round>
+          <q-avatar>
+            <q-img src="/api/user/useravatar?fetch=thumb" />
+          </q-avatar>
+          <q-menu>
+            <q-list>
+              <q-item clickable @click="profile()">
+                <q-item-section>Profile</q-item-section>
+              </q-item>
+              <q-item clickable @click="logout()">
+                <q-item-section>Sign Out</q-item-section></q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -67,12 +68,12 @@ import HeaderSearch from 'src/components/HeaderSearch.vue'
 import MediaViewer from 'src/components/MediaViewer.vue'
 import { useMixinSecurity } from 'src/mixins/security'
 import { socket } from 'src/services/socketio'
-import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const { user } = useMixinSecurity()
 const $q = useQuasar()
-const route = useRoute()
+const router = useRouter()
 const isLocked = ref(false)
 
 // check for lockout
@@ -80,9 +81,11 @@ setInterval(() => {
   isLocked.value = !!(user.value && user.value.lastRequest && moment().diff(user.value.lastRequest, 'minutes') >= 120)
 }, 1000)
 
-const currentRoute = computed(() => {
-  return route.name?.toString()
-})
+const profile = () => {
+  if (user.value && user.value.role === 'contractor') {
+    router.push({ name: 'contractor-dashboard' })
+  }
+}
 
 const logout = () => {
   window.location.href = '/api/auth/logout?from=portal'

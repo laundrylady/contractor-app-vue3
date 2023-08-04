@@ -56,7 +56,7 @@ const getSchedule = () => {
   loading.value = true
   const start = moment(selectedDate.value).subtract(1, 'month').startOf('month').format('YYYY-MM-DD')
   const end = moment(selectedDate.value).add(1, 'month').endOf('month').format('YYYY-MM-DD')
-  api.get(`/userrosterschedule/index?user_id=${props.user.id}&start=${start}&end=${end}`).then(response => {
+  api.get(`/public/userrosterschedule/index?start=${start}&end=${end}`).then(response => {
     schedule.value = response.data
     loading.value = false
   }).catch(error => {

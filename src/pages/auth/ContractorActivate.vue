@@ -6,16 +6,17 @@
           <q-card-section class="row" style="min-height:92px;">
             <AppLogo />
           </q-card-section>
-          <q-card-section>
+          <q-card-section v-if="!success">
             <h4 class="text-h4 q-mt-none q-mb-sm">Activate your Account</h4>
             <p>Congratulations and welcome to The Laundry Lady. Before you can get started, you need to set a secure
               password for your account. Please enter and confirm a secure password below:</p>
           </q-card-section>
           <q-card-section>
             <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOutTop" appear>
-              <div class="text-positive" v-if="success">
+              <div class="text-center" v-if="success">
+                <div><q-icon name="check" size="64px" /></div>
                 <p>Your password has been set and account enabled!</p>
-                <q-btn :to="{ name: 'appDashboard' }" color="secondary" label="Continue" class="full-width" />
+                <q-btn :to="{ name: 'appDashboard' }" color="primary" label="Continue" />
               </div>
             </transition>
             <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOutTop" appear>
@@ -47,7 +48,7 @@
             <q-space />
             <q-btn @click="confirm()"
               :disabled="loading || $v.$invalid || (model.password && model.passwordConfirm !== model.password)"
-              :loading="loading" color="secondary" v-if="!success" label="Activate" aria-label="Activate" />
+              :loading="loading" color="primary" v-if="!success" label="Activate" aria-label="Activate" />
           </q-card-actions>
         </q-card>
       </q-page>
@@ -57,6 +58,7 @@
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import moment from 'moment-timezone'
 import { api } from 'src/boot/axios'
 import AppLogo from 'src/components/AppLogo.vue'
 import { useMixinDebug } from 'src/mixins/debug'
@@ -75,7 +77,8 @@ const contractor = ref()
 const model = reactive({
   code: route.params.code,
   password: undefined,
-  passwordConfirm: undefined
+  passwordConfirm: undefined,
+  timezone: moment.tz.guess()
 })
 const rules = {
   code: { required },

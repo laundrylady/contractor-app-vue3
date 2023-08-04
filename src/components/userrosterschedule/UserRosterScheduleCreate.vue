@@ -94,7 +94,7 @@ const $v = useVuelidate(rules, newSchedule, { $scope: false })
 const addSchedule = () => {
   errors.value = false
   loading.value = true
-  api.post('/userrosterschedule', newSchedule).then(() => {
+  api.post('/public/userrosterschedule', newSchedule).then(() => {
     bus.emit('getSchedule')
     show.value = false
     loading.value = false
@@ -124,7 +124,7 @@ onMounted(async () => {
     errors.value = null
     categories.value = await productCategoriesVisibleCapacity()
     // postcode region groups
-    api.get(`/userpostcoderegiongroup/index/${user.value.id}`).then(response => {
+    api.get(`/public/userpostcoderegiongroup/index/${user.value.id}`).then(response => {
       userpostcoderegiongroups.value = response.data.map((o: UserPostcodeRegionGroup) => {
         return { value: o.id, label: o.name }
       })

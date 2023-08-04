@@ -9,11 +9,6 @@
       <q-separator />
       <q-card-section>
         <div class="row q-col-gutter-md">
-          <q-select v-model="model.user_postcoderegion_group_id" label="Select the pickup area"
-            :options="userpostcoderegiongroups" map-options emit-value :error="$v.user_postcoderegion_group_id.$invalid"
-            filled class="col-xs-12 col-sm-6" />
-        </div>
-        <div class="row q-col-gutter-md">
           <div class="col-xs-12 col-sm-6">
             <div class="q-mb-sm">Start and end times</div>
             <div class="row q-col-gutter-md q-mb-md">
@@ -53,7 +48,7 @@ import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
-import { UserPostcodeRegionGroup, UserRosterSchedule } from 'src/components/models'
+import { UserRosterSchedule } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 import { categoryDisplay, dbDateDisplay, doNotify, hourOptions } from 'src/mixins/help'
@@ -74,7 +69,6 @@ const model = reactive<UserRosterSchedule>({
 })
 const loading = ref(false)
 const categories = ref()
-const userpostcoderegiongroups = ref()
 const bus = inject('bus') as EventBus
 const errors = ref()
 const rules = {
@@ -89,7 +83,7 @@ const $v = useVuelidate(rules, model)
 const save = () => {
   errors.value = false
   loading.value = true
-  api.put(`/userrosterschedule/${model.id}`, model).then(() => {
+  api.put(`/public/userrosterschedule/${model.id}`, model).then(() => {
     doNotify('positive', 'Schedule updated')
     bus.emit('getSchedule')
     show.value = false
@@ -117,16 +111,8 @@ const checkQty = (val: LooseObject) => {
 onMounted(() => {
   bus.on('editUserRosterSchedule', async (id: number) => {
     categories.value = await productCategoriesVisibleCapacity()
-    api.get(`/userrosterschedule/${id}`).then(response => {
+    api.get(`/public/userrosterschedule/${id}`).then(response => {
       Object.assign(model, response.data)
-      // postcode region groups
-      api.get(`/userpostcoderegiongroup/index/${model.user_id}`).then(response => {
-        userpostcoderegiongroups.value = response.data.map((o: UserPostcodeRegionGroup) => {
-          return { value: o.id, label: o.name }
-        })
-      }).catch(error => {
-        useMixinDebug(error)
-      })
       show.value = true
     }).catch(error => {
       useMixinDebug(error)

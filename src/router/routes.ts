@@ -101,56 +101,32 @@ const routes: RouteRecordRaw[] = [
       // Contractors
       {
         name: 'contractor-home',
-        path: '/contractor/home/:id',
+        path: '/contractor/home',
         component: () => import('pages/contractor/ContractorHome.vue'),
         meta: { auth: true },
         children: [
           {
             name: 'contractor-dashboard',
-            path: '/contractor/dashboard/:id',
+            path: '/contractor/dashboard',
             component: () => import('pages/contractor/ContractorDashboard.vue'),
             meta: { auth: true }
           },
           {
-            name: 'contractor-roster',
-            path: '/contractor/roster/:id',
-            component: () => import('pages/contractor/ContractorRoster.vue'),
-            meta: { auth: true }
-          },
-          {
             name: 'contractor-edit',
-            path: '/contractor/edit/:id',
+            path: '/contractor/edit',
             component: () => import('pages/contractor/ContractorEdit.vue'),
             meta: { auth: true }
           },
           {
             name: 'contractor-orders',
-            path: '/contractor/bookings/:id',
+            path: '/contractor/bookings',
             component: () => import('pages/contractor/ContractorOrders.vue'),
             meta: { auth: true }
           },
           {
             name: 'contractor-documents',
-            path: '/contractor/documents/:id',
+            path: '/contractor/documents',
             component: () => import('pages/contractor/ContractorDocuments.vue'),
-            meta: { auth: true }
-          },
-          {
-            name: 'contractor-audit',
-            path: '/contractor/audit/:id',
-            component: () => import('pages/contractor/ContractorAudit.vue'),
-            meta: { auth: true }
-          },
-          {
-            name: 'contractor-sms',
-            path: '/contractor/sms/:id',
-            component: () => import('pages/contractor/ContractorSms.vue'),
-            meta: { auth: true }
-          },
-          {
-            name: 'contractor-notifications',
-            path: '/contractor/notification/:id',
-            component: () => import('pages/contractor/ContractorNotification.vue'),
             meta: { auth: true }
           },
           {

@@ -6,8 +6,11 @@
           <AppLogo />
           <q-card v-if="success">
             <q-card-section class="text-left">
-              Thanks for your interest in joining The Laundry Lady.<br />Please check your email for the next
-              steps.
+              <div class="text-h6">Thanks for your interest in joining The Laundry Lady.</div>
+              <p>Please check your
+                email for the next
+                steps.</p>
+              <p>The Laundry Lady Team</p>
             </q-card-section>
           </q-card>
           <div v-if="!success">

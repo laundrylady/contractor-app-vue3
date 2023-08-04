@@ -142,7 +142,7 @@ const dashboard = ref()
 const recurringOrders = ref<Order[]>()
 
 const getDashboard = () => {
-  api.get(`/user/contractor/dashboard/${props.model.id}`).then(response => {
+  api.get('/public/user/contractor/dashboard').then(response => {
     dashboard.value = response.data
   }).catch(error => {
     useMixinDebug(error)
@@ -150,7 +150,7 @@ const getDashboard = () => {
 }
 
 const getRecurringOrders = () => {
-  api.get(`/user/contractor/recurring/${props.model.id}`).then(response => {
+  api.get('/public/user/contractor/recurring').then(response => {
     recurringOrders.value = response.data
   }).catch(error => {
     useMixinDebug(error)

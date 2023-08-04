@@ -1,4 +1,8 @@
 <template>
+  <div v-if="needsExpiry.indexOf(type) !== -1">
+    <DateField v-model="newModel.expiry_date" label="Expiry Date" class="q-mb-md q-mt-sm"
+      :invalid="type === 'Certificate of Currency for Public Liability Insurance' && !newModel.expiry_date" />
+  </div>
   <q-list v-if="!attachments || !attachments.length" separator bordered>
     <q-item>
       <q-item-section>No documents uploaded</q-item-section>
@@ -14,10 +18,6 @@
       </q-item-section>
     </q-item>
   </q-list>
-  <div v-if="needsExpiry.indexOf(type) !== -1">
-    <DateField v-model="newModel.expiry_date" label="Expiry Date" class="q-mb-md q-mt-sm"
-      :invalid="type === 'Certificate of Currency for Public Liability Insurance' && !newModel.expiry_date" />
-  </div>
   <div v-if="needsExpiry.indexOf(type) === -1 || newModel.expiry_date"> <q-uploader color="primary"
       :url="uploadConfig.url" :headers="uploadConfig.headers" @uploaded="successUpload" label="Upload document"
       auto-expand auto-upload :accept="uploadConfig.documents" :field-name="uploadConfig.fieldName"

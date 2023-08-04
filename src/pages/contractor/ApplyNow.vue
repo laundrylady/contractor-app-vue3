@@ -29,7 +29,7 @@
                     <q-input v-model="model.mobile" label="Mobile Phone" :error="$v.mobile.$invalid" mask="#### ### ###"
                       unmasked-value class="col-xs-12 col-sm-6" />
                   </div>
-                  <div class="text-h6">Address Details</div>
+                  <div class="text-h6 q-mt-sm">Address Details</div>
                   <AddressSearch :model="model" :outlined="true"
                     :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
                     :placeholder="$t('address.search')" />
