@@ -1,5 +1,4 @@
-// This is just an example,
-
+// US ENG
 export default {
   failed: 'Action failed',
   success: 'Action was successful',
@@ -37,11 +36,12 @@ export default {
     vaccinated: 'Fully vaccinated COVID-19',
     serviceAreas: 'Service Areas',
     enabled: 'Contractor can sign in',
+    importDataLocked: 'Do not update data when importing',
     description: 'Public profile',
     status: 'Status',
     carLicence: 'Reliable car and current drivers licence',
     equipment: 'Equipment including steam station iron, washing machine, dryer, or willing to purchase these?',
-    commissionRate: 'Commission Rate %',
+    commission: { rate: 'Commission Rate %', paidAmount: 'Amount', paidAmountGst: 'GST', paidAmountGrand: 'Grand Total', paidDate: 'Paid Date', namePlural: 'Commissions', penalty: 'Admin Fee' },
     startDate: 'Start Date',
     badgeName: 'Name on Badge',
     insuranceExpiry: 'Insurance Expiry',
@@ -64,7 +64,11 @@ export default {
     information: 'Personal Information',
     addressDetails: 'Address Details',
     target: 'Weekly Target',
-    financials: 'Financials'
+    financials: 'Financials',
+    onboarding: 'Onboarding',
+    ndis: 'NDIS',
+    ndisExpiry: 'NDIS Worker Clearance Expiry',
+    monthlySurvey: 'Monthly Pulse Surveys'
   },
   team: {
     dashboard: 'Dashboard',
@@ -101,7 +105,10 @@ export default {
     ndisPayment: 'Invoicing',
     invoiceName: 'Name on Invoice',
     invoicePo: 'Purchase Order Number on Invoice',
-    financial: 'Invoice Configuration'
+    financial: 'Invoice Configuration',
+    freeDelivery: 'Free Delivery',
+    dvaEmail: 'Enter the email for the DVA invoice recipient',
+    gstEnabled: 'GST enabled'
   },
   document: {
     name: 'Document',
@@ -115,7 +122,12 @@ export default {
     name: 'Product',
     namePlural: 'Products',
     create: 'New Product',
-    edit: 'Edit Product'
+    edit: 'Edit Product',
+    discount: {
+      name: 'Discount Code',
+      namePlural: 'Discount Codes',
+      details: 'Discount Details'
+    }
   },
   productCategory: {
     name: 'Product Category',
@@ -139,7 +151,8 @@ export default {
     details: 'Booking Details',
     products: 'Products',
     invoiceConfiguration: 'Invoice Configuration',
-    payments: 'Payments'
+    payments: 'Payments',
+    invoice: 'Invoice'
   },
   photo: {
     name: 'Photo',
@@ -160,7 +173,8 @@ export default {
     search: 'Search for an address'
   },
   integrations: {
-    manage: 'Manage Integrations'
+    manage: 'Manage Integrations',
+    xeroQueue: 'Xero Queue'
   },
   schedule: {
     name: 'Schedule',
@@ -179,5 +193,39 @@ export default {
   },
   scheduler: {
     name: 'Scheduler'
+  },
+  invoice: {
+    name: 'Invoice',
+    namePlural: 'Invoices',
+    invoiceDate: 'Invoice Date',
+    type: 'Type',
+    displayId: 'ID',
+    orderId: 'Order',
+    payment: {
+      name: 'Payment',
+      namePlural: 'Payments',
+      create: 'New Payment',
+      method: 'Payment method',
+      payment_id: 'Payment reference',
+      payment_date: 'Payment date',
+      total: 'Payment amount',
+      submit: 'Process',
+      invoiceId: 'Invoice',
+      total_price: 'Total',
+      total_price_gst: 'GST'
+    }
+  },
+  giftVoucher: {
+    name: 'Gift Voucher',
+    namePlural: 'Gift Vouchers'
+  },
+  invoicePayment: {
+    name: 'Payment',
+    namePlural: 'Payments',
+    paymentDate: 'Payment Date',
+    method: 'Method',
+    paymentId: 'Payment ID',
+    total: 'Total',
+    invoiceId: 'Invoice'
   }
 }

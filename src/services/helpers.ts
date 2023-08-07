@@ -6,7 +6,7 @@ export const productCategoriesVisibleBooking = async () => {
   if (categories) {
     return JSON.parse(categories)
   }
-  return api.get('/productcategory/index?visible_booking=true').then(response => {
+  return api.get('/public/productcategory/index?visible_booking=true').then(response => {
     sessionStorage.setItem('productCategoriesVisibleBooking', JSON.stringify(response.data.map((o:ProductCategory) => { return { value: o.id, label: o.name, icon: o.icon } })))
     return response.data.map((o:ProductCategory) => { return { value: o.id, label: o.name, icon: o.icon } })
   })
@@ -17,7 +17,7 @@ export const productCategoriesVisibleCapacity = async () => {
   if (categories) {
     return JSON.parse(categories)
   }
-  return api.get('/productcategory/index?visible_capacity=true').then(response => {
+  return api.get('/public/productcategory/index?visible_capacity=true').then(response => {
     sessionStorage.setItem('productCategoriesVisibleCapacity', JSON.stringify(response.data.map((o:ProductCategory) => { return { value: o.id, label: o.name, icon: o.icon } })))
     return response.data.map((o:ProductCategory) => { return { value: o.id, label: o.name, icon: o.icon } })
   })

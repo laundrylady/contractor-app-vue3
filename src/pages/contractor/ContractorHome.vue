@@ -4,7 +4,7 @@
       <ContractorNav :model="model" />
     </q-header>
     <q-page-container>
-      <q-page padding>
+      <q-page padding class="q-pt-md" :class="{ 'q-pa-md': $q.screen.xs }">
         <router-view :model="model" />
       </q-page>
     </q-page-container>
@@ -23,7 +23,7 @@ const bus = inject('bus') as EventBus
 const model = ref()
 
 const getContractor = async () => {
-  api.get('/public/user/profile').then((response) => {
+  api.get('/public/user/contractor/profile').then((response) => {
     model.value = response.data
     document.title = model.value.fullname
   }).catch((response) => {

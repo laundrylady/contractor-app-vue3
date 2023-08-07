@@ -1,7 +1,7 @@
 <template>
   <q-dialog v-model="show">
-    <q-card class="modal">
-      <q-toolbar>
+    <q-card class="modal" v-if="user">
+      <q-toolbar class="bg-primary text-white">
         <q-toolbar-title>{{ $t('order.create') }}</q-toolbar-title>
         <q-space />
         <q-btn v-close-popup icon="close" flat round dense />
@@ -37,7 +37,7 @@
           class="q-mt-md">
           <OrderContractorManagement :team_id="model.team_id" :scheduled_pickup_date="model.scheduled_pickup_date"
             :scheduled_pickup_time="model.scheduled_pickup_time" v-model="model.contractor_user_id" :reassign="true"
-            :productcategories="model.productcategories.filter(o => o.active)" />
+            :productcategories="model.productcategories.filter(o => o.active)" v-if="user.role === 'customer'" />
           <div class="q-mt-md">
             <q-toggle v-model="model.recurring_order" :label="$t('order.recurring')" />
             <q-select v-model="model.recurring" :label="$t('order.recurringFrequency')"
@@ -67,9 +67,11 @@ import DateField from '../form/DateField.vue'
 import TeamField from '../form/TeamField.vue'
 import { Order } from '../models'
 import OrderContractorManagement from './OrderContractorManagement.vue'
+import { useMixinSecurity } from 'src/mixins/security'
 
 const show = ref(false)
 const washingAndIroning = ref(false)
+const { user } = useMixinSecurity()
 const categories = ref()
 const schema = {
   team_id: null,
@@ -103,7 +105,7 @@ const toggleWashingAndIroning = () => {
 }
 
 const save = () => {
-  api.post('/order', model).then(() => {
+  api.post('/public/order', model).then(() => {
     doNotify('positive', `${i8n.t('order.name')} created`)
     bus.emit('orderLoadMore')
     show.value = false

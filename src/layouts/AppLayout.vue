@@ -8,20 +8,11 @@
         <HeaderSearch class="q-ml-md" />
         <q-space />
         <q-btn icon="event" :title="$t('order.namePlural')" flat round class="q-mr-xs" />
-        <q-btn icon="calendar_month" :title="$t('scheduler.name')" flat round class="q-mr-xs" />
-        <q-btn flat round>
+        <q-btn icon="logout" title="Sign Out" @click="logout()" flat round class="q-mr-xs" />
+        <q-btn flat round @click="profile()">
           <q-avatar>
             <q-img src="/api/user/useravatar?fetch=thumb" />
           </q-avatar>
-          <q-menu>
-            <q-list>
-              <q-item clickable @click="profile()">
-                <q-item-section>Profile</q-item-section>
-              </q-item>
-              <q-item clickable @click="logout()">
-                <q-item-section>Sign Out</q-item-section></q-item>
-            </q-list>
-          </q-menu>
         </q-btn>
       </q-toolbar>
     </q-header>

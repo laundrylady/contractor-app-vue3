@@ -12,9 +12,12 @@ export interface Attachment {
   attachable_type:string,
   attachment_id:number
   file_file_name:string,
-  type:string,
-  name:string,
-  expiry_date:string
+  type:string
+}
+
+export interface AmazonEmail {
+  email:string,
+  amazon_ses_status:string,
 }
 
 export interface Notification {
@@ -29,7 +32,8 @@ export interface Notification {
   from:string,
   created_at: string,
   updated_at: string,
-  amazon_ses_status:string
+  amazon_ses_status:string,
+  amazonemails?:AmazonEmail[]
 }
 
 export interface PostcodeRegion {
@@ -119,6 +123,7 @@ export interface User {
   contractor_hours_per_week:string,
   contractor_referral_type:string,
   contractor_insurance_expiry:string,
+  contractor_ndis_expiry:string,
   contractor_clothing_rack:string,
   contractor_smartphone_type:string,
   contractor_computer_type:string,
@@ -137,7 +142,26 @@ export interface User {
   feed?:LooseObject[],
   selected?:boolean,
   contractor_gst_registered:boolean,
-  current_team_id?:number
+  current_team_id?:number,
+  import_data_locked: boolean
+}
+
+export interface UserStatusHistory {
+  id:number,
+  status:string,
+  userStatus:User,
+  created_at: string
+}
+
+export interface Task {
+  id:number,
+  name:string,
+  description:string,
+  completed: boolean,
+  userCompleted:User,
+  due_date: string,
+  completed_date:string,
+  created_at: string
 }
 
 export interface ContractorForm {
@@ -154,6 +178,7 @@ export interface ContractorForm {
   address1?:string,
   address2:string,
   suburb_postcode_region_id:number,
+  postcoderegionsuburb?:PostcodeRegion,
   enabled:boolean,
   postcoderegions?:number[],
   sms_notifications:boolean,
@@ -202,69 +227,11 @@ export interface ContractorForm {
   contractor_computer_type:string,
   contractor_ironing_steam_station:string,
   contractor_washing_machine_dryer:string,
-  contractor_insurance_expiry:string
-}
-
-export interface ContractorApplyNowForm {
-  email:string|null,
-  first_name:string,
-  last_name:string,
-  timezone:string,
-  suburb_postcode_region_id:number,
-  // contractor
-  contractor_car_licence: boolean,
-  contractor_equipment: boolean,
-  contractor_why_join:string,
-  contractor_referral_type:string,
-}
-
-export interface ContractorApplicationForm {
-  first_name: string|null,
-  last_name: string|null,
-  first_name_2: string|null,
-  last_name_2: string|null,
-  contractor_badge_name:string|null,
-  contractor_start_date: string|null,
-  dateofbirth: string|null,
-  address1: string|null,
-  address2: string|null,
-  suburb_postcode_region_id: number|null,
-  country_id: number|null,
-  contractor_ec_first_name: string|null,
-  contractor_ec_last_name: string|null,
-  contractor_ec_phone: string|null,
-  contractor_ec_relationship: string|null,
-  contractor_ref_first_name: string|null,
-  contractor_ref_last_name: string|null,
-  contractor_ref_email: string|null,
-  contractor_ref_phone: string|null,
-  contractor_ref2_first_name: string|null,
-  contractor_ref2_last_name: string|null,
-  contractor_ref2_email: string|null,
-  contractor_ref2_phone: string|null,
-  contractor_abn: string|null,
-  contractor_abn_verified: boolean,
-  contractor_gst_registered: boolean,
-  contractor_bd_name: string|null,
-  contractor_bd_bank: string|null,
-  contractor_bd_bsb: string|null,
-  contractor_bd_number: string|null,
-  contractor_clothing_rack: string|null,
-  contractor_smartphone_type: string|null,
-  contractor_computer_type: string|null,
-  contractor_ironing_steam_station: string|null,
-  contractor_washing_machine_dryer: string|null,
-  contractor_declaration_agreement: boolean,
-  contractor_declaration_training: boolean,
-  contractor_declaration_abn: boolean,
-  contractor_declaration_pl: boolean,
-  contractor_declaration_inform: boolean,
-  contractor_declaration_kit: boolean,
-  contractor_declaration_information: boolean,
-  contractor_applicant_1_sig:string|null,
-  contractor_applicant_2_sig:string|null,
-  documents:Attachment[],
-  avatar:string|null
+  contractor_insurance_expiry:string,
+  contractor_ndis_expiry:string,
+  contractor_video_click:string,
+  created_at?:string,
+  import_data_locked:boolean
 }
 
 export interface TeamUser {
@@ -324,7 +291,15 @@ export interface Team {
   invoice_address1:string,
   invoice_address2:string,
   invoice_address_suburb_postcode_region_id:number,
-  invoice_address_country_id:number
+  invoice_address_country_id:number,
+  free_delivery: boolean,
+  statement: boolean,
+  statement_frequency: string,
+  parent_team_id: number,
+  parent:Team,
+  children:Team[],
+  dva_email:string,
+  gst_enabled:boolean
 }
 
 export interface TeamForm {
@@ -375,7 +350,13 @@ export interface TeamForm {
   invoice_address1:string,
   invoice_address2:string,
   invoice_address_suburb_postcode_region_id:number,
-  invoice_address_country_id:number
+  invoice_address_country_id:number,
+  free_delivery: boolean,
+  statement: boolean,
+  statement_frequency: string,
+  parent_team_id: number,
+  dva_email:string,
+  gst_enabled:boolean
 }
 
 export interface TeamInvite {
@@ -434,10 +415,16 @@ export interface Product {
   unit_measurement:string,
   tax:boolean,
   product_category_id:number,
-  productcategory:ProductCategory
+  productcategory:ProductCategory,
+  discount_type: string,
+  discount_amount: number,
+  discount_usage_total: number,
+  discount_usage_team: number,
+  discount_start: string,
+  discount_end: string
 }
 
-export interface OrderProduct {
+export interface InvoiceProduct {
   id?:number,
   qty:number,
   name:string,
@@ -446,19 +433,86 @@ export interface OrderProduct {
   price:number,
   cost:number,
   tax:boolean,
-  notes:string
+  notes:string,
+  selected?:boolean,
+  qtyRefund?:number
 }
 
-export interface OrderPayment {
+export interface GiftVoucher {
+  first_name: string|null,
+  last_name: string|null,
+  email: string|null,
+  email_recipient: string|null,
+  name_recipient:string|null,
+  message_recipient:string|null,
+  from_recipient:string|null,
+  value:number|null,
+  send_to:string|null,
+  code?:string|null
+}
+
+export interface InvoicePayment {
   id:number,
-  order_id:string,
+  invoice_id:string,
   user_id:string,
-  stripe_id:string,
+  payment_id:string,
+  transaction_id:string,
+  refund_id:string,
   total:number,
   gst:number,
   grand_total:number,
   created_at:string,
-  user:User
+  method:string,
+  gift_voucher_id: number|null,
+  giftvoucher: GiftVoucher|null
+  user:User,
+  payment_date:string,
+  commission_paid:boolean,
+  commission_paid_date:string,
+  commission_paid_amount:number,
+  commission_paid_amount_gst:number,
+  xero_id:string,
+  xero_id_commission:string,
+  xero_id_credit_note:string,
+  xero_bill_id:string
+}
+
+export interface InvoicePaymentManual {
+  invoice_id:string|null,
+  payment_id:string|null,
+  total:number|null,
+  method:string|null,
+  payment_date: string|null
+}
+
+export interface Invoice {
+  id:string,
+  display_id:number,
+  order_id:string,
+  contractor_user_id:number,
+  user_id:number,
+  team_id:number,
+  status:string,
+  xero_id:string,
+  total_cost:number,
+  total_cost_gst:number,
+  grand_total_cost:number,
+  total_price:number,
+  total_price_gst:number,
+  grand_total_price:number,
+  invoice_date:string,
+  paid_date:string,
+  invoice_name:string,
+  invoice_po:string,
+  invoice_address1:string|null,
+  invoice_address2:string,
+  invoice_address_suburb_postcode_region_id:number,
+  invoice_address_country_id:number
+  created_at:string,
+  products:InvoiceProduct[],
+  payments:InvoicePayment[],
+  user:User,
+  xero_override: boolean
 }
 
 export interface Order {
@@ -469,7 +523,8 @@ export interface Order {
   total_price:number,
   total_price_gst:number,
   team: Team,
-  products: OrderProduct[],
+  invoice_id:string,
+  invoice: Invoice,
   contractor: User,
   team_id:number,
   status:string,
@@ -487,19 +542,8 @@ export interface Order {
   scheduled_pickup_date:string,
   scheduled_pickup_time:string,
   agreed_pickup_time:string|null,
-  payments:OrderPayment[],
   xero_id:string,
-  productcategories: OrderProductCategory[],
-  invoice_address1:string,
-  invoice_address2:string,
-  invoiceaddresssuburbpostcoderegion:PostcodeRegion,
-  invoiceaddresscountry:Country,
-  invoice_address_suburb_postcode_region_id:number,
-  invoice_address_country_id:number,
-  invoice_name:string|null,
-  invoice_po:string|null,
-  commission_paid_amount:number|null,
-  commission_paid_amount_gst:number|null
+  productcategories: OrderProductCategory[]
 }
 
 export interface OrderForm {
@@ -512,14 +556,7 @@ export interface OrderForm {
   scheduled_pickup_time:string|null,
   special_instructions:string|null,
   recurring_order:boolean,
-  recurring:string|null,
-  products:OrderProduct[],
-  invoice_address1:string,
-  invoice_address2:string,
-  invoice_address_suburb_postcode_region_id:number,
-  invoice_address_country_id:number,
-  invoice_name:string|null,
-  invoice_po:string|null
+  recurring:string|null
 }
 
 export interface NotificationTemplate {
@@ -574,6 +611,26 @@ export interface XeroLineItem {
   taxAmount:number
 }
 
+export interface XeroPayment {
+  amount:number,
+  date:string,
+  reference:string,
+  paymentID:string
+}
+
+export interface XeroCreditNote {
+  contact: XeroContact,
+  type:string,
+  date:string,
+  status:string,
+  lineItems:XeroLineItem[],
+  subTotal:number,
+  totalTax:number,
+  total:number,
+  creditNoteID: string,
+  payments:XeroPayment[]
+}
+
 export interface XeroInvoice {
   invoiceID:string,
   invoiceNumber:string
@@ -587,7 +644,8 @@ export interface XeroInvoice {
   totalTax:number,
   total:number,
   amountPaid:number,
-  amountDue:number
+  amountDue:number,
+  payments:XeroPayment[]
 }
 
 export interface MapMarker {
@@ -642,19 +700,9 @@ export interface Breadcrumbs {
   label:string
 }
 
-export interface GiftVoucher {
-  first_name: string|null,
-  last_name: string|null,
-  email: string|null,
-  email_recipient: string|null,
-  name_recipient:string|null,
-  message_recipient:string|null,
-  from_recipient:string|null,
-  value:number|null,
-  send_to:string|null
-}
-
-export interface UpdateBa {
-  bsb:number|null,
-  account_number:number|null
+export interface RefundPaymentObj {
+  show: boolean,
+  amount: number|string,
+  id: number,
+  products: InvoiceProduct[]
 }

@@ -1,9 +1,8 @@
 <template>
   <q-dialog v-model="show">
     <q-card class="modal">
-      <q-toolbar>
+      <q-toolbar class="bg-primary text-white">
         <q-toolbar-title>Add a new {{ $t('schedule.name') }} entry</q-toolbar-title>
-        <q-space />
         <q-btn v-close-popup icon="close" flat round dense />
       </q-toolbar>
       <q-separator />
@@ -21,16 +20,17 @@
             <div class="q-mb-sm">Start and end times</div>
             <div class="row q-col-gutter-md">
               <q-select v-model="newSchedule.start_time" outlined dense :options="hourOptions" map-options emit-value
-                label="Start Time" options-cover class="col-xs-12 col-sm-6" />
+                label="Start Time" options-cover class="col-xs-6" :error="$v.start_time.$invalid"
+                @update:model-value="newSchedule.end_time = null" />
               <q-select v-model="newSchedule.end_time" outlined dense :options="endHourOptions(newSchedule.start_time)"
-                map-options emit-value label="End Time" options-cover class="col-xs-12 col-sm-6" />
+                map-options emit-value label="End Time" options-cover class="col-xs-6" :error="$v.end_time.$invalid" />
             </div>
 
           </div>
           <div class="col-xs-12 col-sm-6">
             <div class="q-mb-sm">Capacity for this timeslot:</div>
             <div v-if="newSchedule.capacity.products" class="row q-col-gutter-md">
-              <div v-for="(c, cindex) in newSchedule.capacity.products" :key="cindex" class="col-xs-12 col-sm-6">
+              <div v-for="(c, cindex) in newSchedule.capacity.products" :key="cindex" class="col-xs-6">
                 <q-input v-model="c.qty" outlined dense :label="categoryDisplay(c.product_category_id, categories)"
                   options-cover @blur="checkQty(c)" class="q-mb-md" />
               </div>
@@ -65,7 +65,6 @@ import { inject, onMounted, reactive, ref } from 'vue'
 import DateField from '../form/DateField.vue'
 import { UserPostcodeRegionGroup } from '../models'
 
-const user = ref()
 const bus = inject('bus') as EventBus
 const show = ref(false)
 const categories = ref()
@@ -83,7 +82,6 @@ const schema = {
 }
 const newSchedule = reactive(JSON.parse(JSON.stringify(schema)))
 const rules = {
-  user_id: { required },
   day: { required },
   start_time: { required },
   end_time: { required },
@@ -119,12 +117,11 @@ const checkQty = (val: LooseObject) => {
 }
 
 onMounted(async () => {
-  bus.on('newUserRosterSchedule', async (data: LooseObject) => {
-    user.value = data.user
+  bus.on('newUserRosterSchedule', async () => {
     errors.value = null
     categories.value = await productCategoriesVisibleCapacity()
     // postcode region groups
-    api.get(`/public/userpostcoderegiongroup/index/${user.value.id}`).then(response => {
+    api.get('/public/userpostcoderegiongroup/index').then(response => {
       userpostcoderegiongroups.value = response.data.map((o: UserPostcodeRegionGroup) => {
         return { value: o.id, label: o.name }
       })
@@ -135,8 +132,7 @@ onMounted(async () => {
     for (const c of categories.value) {
       newSchedule.capacity.products.push({ product_category_id: c.value, qty: 0 })
     }
-    newSchedule.day = moment(data.day).format('DD/MM/YYYY')
-    newSchedule.user_id = user.value.id
+    newSchedule.day = moment().format('DD/MM/YYYY')
     show.value = true
   })
 })

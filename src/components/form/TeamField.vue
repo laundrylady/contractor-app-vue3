@@ -48,7 +48,7 @@ const filterTeams = (val: string, update: (fn: () => void) => void) => {
     return
   }
   loading.value = true
-  api.post(`/team/index?status=${props.status}`, { keyword: val }).then(response => {
+  api.post(`/public/team/index?status=${props.status}`, { keyword: val }).then(response => {
     update(() => {
       teams.value = response.data.map((o: Team) => { return { value: o.id, label: o.name } })
       loading.value = false
@@ -61,7 +61,7 @@ const filterTeams = (val: string, update: (fn: () => void) => void) => {
 
 onMounted(() => {
   if (props.modelValue && ((Array.isArray(props.modelValue) && props.modelValue.length) || !Array.isArray(props.modelValue))) {
-    api.get(`/team/${props.modelValue}`).then(res => {
+    api.get(`/public/team/${props.modelValue}`).then(res => {
       if (Array.isArray(res.data)) {
         teams.value = res.data.map((o: Team) => { return { value: o.id, label: o.name } })
         loading.value = false
@@ -75,7 +75,7 @@ onMounted(() => {
 
 watch(() => props.modelValue, (newVal, oldVal) => {
   if (!props.nowatch && newVal && newVal !== oldVal && ((Array.isArray(newVal) && newVal.length) || !Array.isArray(newVal))) {
-    api.get(`/team/${newVal}`).then(res => {
+    api.get(`/public/team/${newVal}`).then(res => {
       teams.value = [{ value: res.data.id, label: res.data.name }]
     }).catch(error => { useMixinDebug(error) })
   }

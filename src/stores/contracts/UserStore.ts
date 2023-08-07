@@ -11,5 +11,7 @@ export interface UserStore {
   tfa_ok:boolean,
   tfa_method:string|null,
   role:string,
-  mobile:string
+  mobile:string,
+  first_name:string,
+  last_name:string
 }

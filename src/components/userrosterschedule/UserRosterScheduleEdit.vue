@@ -1,34 +1,36 @@
 <template>
   <q-dialog v-model="show">
     <q-card class="modal" v-if="model.day && model.user">
-      <q-toolbar>
+      <q-toolbar class="bg-primary text-white">
         <q-toolbar-title>{{ dbDateDisplay(model.day, 'dddd DD/MM/YYYY') }} - {{ model.user.fullname }}</q-toolbar-title>
-        <q-space />
-        <q-btn v-close-popup icon="close" flat round dense />
+        <div class="flex-shrink">
+          <q-btn v-close-popup icon="close" flat round dense />
+        </div>
       </q-toolbar>
       <q-separator />
       <q-card-section>
         <div class="row q-col-gutter-md">
           <div class="col-xs-12 col-sm-6">
             <div class="q-mb-sm">Start and end times</div>
-            <div class="row q-col-gutter-md q-mb-md">
+            <div class="row q-col-gutter-md">
               <q-select v-model="model.start_time" outlined dense :options="hourOptions" map-options emit-value
-                label="Start Time" options-cover class="col-xs-12 col-sm-6" />
+                label="Start Time" options-cover class="col-xs-6" :error="$v.start_time.$invalid"
+                @update:model-value="model.end_time = null" />
               <q-select v-model="model.end_time" outlined dense :options="endHourOptions(model.start_time)" map-options
-                emit-value label="End Time" options-cover class="col-xs-12 col-sm-6" />
+                emit-value label="End Time" options-cover class="col-xs-6" :error="$v.end_time.$invalid" />
             </div>
-            <q-toggle v-model="model.active" label="Active" />
           </div>
           <div class="col-xs-12 col-sm-6">
             <div class="q-mb-sm">Capacity for this timeslot:</div>
             <div v-if="model.capacity.products" class="row q-col-gutter-md">
-              <div v-for="(c, cindex) in model.capacity.products" :key="cindex" class="col-xs-12 col-sm-6">
+              <div v-for="(c, cindex) in model.capacity.products" :key="cindex" class="col-xs-6">
                 <q-input v-model="c.qty" outlined dense :label="categoryDisplay(c.product_category_id, categories)"
                   options-cover @blur="checkQty(c)" class="q-mb-md" />
               </div>
             </div>
           </div>
         </div>
+        <div><q-toggle v-model="model.active" label="I am available" /></div>
         <div v-if="errors">
           <ul>
             <li v-for="(e, index) in errors.errors" :key="index" class="text-negative">

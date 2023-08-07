@@ -5,13 +5,15 @@
         <UserAvatar :user="o.contractor" />
       </q-item-section>
       <q-item-section>
-        <div><a @click="editOrderModal(o.id)" class="link">{{
-          displayDateDay(o.scheduled_pickup_date) }} {{ o.scheduled_pickup_date }} (<span
+        <div>
+          <div class="q-mb-xs">
+            <StatusTag :status="o.status" :small="true" class="q-ml-xs" />
+          </div><router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link">{{
+            displayDateDay(o.scheduled_pickup_date) }} {{ o.scheduled_pickup_date }} (<span
               v-if="!o.agreed_pickup_time">{{
                 hourBookingDisplay(o.scheduled_pickup_time)
               }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)
-}}</span>)</a>
-          <StatusTag :status="o.status" :small="true" class="q-ml-xs" />
+}}</span>)</router-link>
         </div>
         <div class="text-grey-7">
           <q-icon name="settings" color="grey-7" /> <span v-if="o.productcategories"><span
@@ -34,10 +36,8 @@
   </q-list>
 </template>
 <script setup lang="ts">
-import { EventBus } from 'quasar'
 import { Order } from 'src/components/models'
 import { currencyFormat, displayDateDay, hourAgreedDisplay, hourBookingDisplay } from 'src/mixins/help'
-import { inject } from 'vue'
 import StatusTag from '../StatusTag.vue'
 import UserAvatar from '../UserAvatar.vue'
 interface Props {
@@ -45,9 +45,4 @@ interface Props {
   noAvatar?: boolean
 }
 defineProps<Props>()
-const bus = inject('bus') as EventBus
-
-const editOrderModal = (id: string) => {
-  bus.emit('editOrderModal', id)
-}
 </script>

@@ -101,6 +101,13 @@ const hourDisplay = (val:number) => {
   return hourOptions.find(o => o.value === val)?.label
 }
 
+const twelveHourDisplay = (val:number) => {
+  if (val > 12) {
+    return val - 12
+  }
+  return val
+}
+
 const hourBookingDisplay = (val:string) => {
   return hourBookingOptions.find(o => o.value === val)?.label
 }
@@ -326,6 +333,7 @@ export {
   awsSesStatus,
   dayDisplay,
   hourDisplay,
+  twelveHourDisplay,
   hourBookingDisplay,
   hourAgreedDisplay,
   durationDisplay,

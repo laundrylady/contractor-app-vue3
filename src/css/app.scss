@@ -59,9 +59,17 @@ a.link {
   height: calc(100vh - 66px);
 }
 
-.q-card.modal {
-  min-width: 50vw;
-  max-width: 50vw;
+@media (max-width: $breakpoint-xs-max) {
+  .q-card.modal {
+    width: 95vw;
+  }
+}
+
+@media (min-width: $breakpoint-xs-max) {
+  .q-card.modal {
+    min-width: 50vw;
+    max-width: 50vw;
+  }
 }
 
 .q-card.modal-order {
@@ -136,5 +144,11 @@ input[type="number"]::-webkit-inner-spin-button {
 
   @media(max-width: $breakpoint-xs-max) {
     max-width: 100%;
+  }
+}
+
+@media(max-width: $breakpoint-xs-max) {
+  .add-product-menu {
+    width: 95vw;
   }
 }

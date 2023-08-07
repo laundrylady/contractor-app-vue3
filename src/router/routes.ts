@@ -112,6 +112,12 @@ const routes: RouteRecordRaw[] = [
             meta: { auth: true }
           },
           {
+            name: 'contractor-schedule',
+            path: '/contractor/schedule',
+            component: () => import('pages/contractor/ContractorSchedule.vue'),
+            meta: { auth: true }
+          },
+          {
             name: 'contractor-edit',
             path: '/contractor/edit',
             component: () => import('pages/contractor/ContractorEdit.vue'),
@@ -131,7 +137,7 @@ const routes: RouteRecordRaw[] = [
           },
           {
             name: 'contractor-postcoderegion-groups',
-            path: '/contractor/suburbgroups/:id',
+            path: '/contractor/suburbgroups',
             component: () => import('pages/contractor/ContractorPostcodeRegionGroup.vue'),
             meta: { auth: true }
           }
@@ -194,12 +200,20 @@ const routes: RouteRecordRaw[] = [
           }
         ]
       },
-      // SMS Log
+      // ORDERS
       {
-        name: 'smsLog',
-        path: '/sms/log',
-        component: () => import('src/pages/sms/SmsLog.vue'),
-        meta: { auth: true, title: 'SMS Log' }
+        name: 'order-home',
+        path: '/booking/home/:id',
+        component: () => import('src/pages/order/OrderHome.vue'),
+        meta: { auth: true },
+        children: [
+          {
+            name: 'order-edit',
+            path: '/booking/edit/:id',
+            component: () => import('pages/order/OrderEdit.vue'),
+            meta: { auth: true }
+          }
+        ]
       }
     ]
   },
