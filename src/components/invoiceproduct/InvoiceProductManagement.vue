@@ -1,19 +1,17 @@
 <template>
-  <div class="q-pl-xs q-pr-xs">
+  <div class="q-pl-sm q-pr-sm">
     <div class="row q-pt-md q-pb-md q-col-gutter-xs" v-for="(p, index) in localModel.products" :key="index"
       :class="{ 'bg-grey-1': index % 2 !== 0 }">
-      <div class="col-xs-8 col-sm-9">
-        <div class="flex no-wrap items-center"><q-avatar :icon="p.product.productcategory.icon" size="42px" />
-          <div>{{ p.name }}
-            <div>
-              <span class="text-grey q-mr-sm">{{ currencyFormat(p.price) }}</span>
-              <a @click="removeProduct(index)" class="link text-caption"
-                v-if="nonEditableProducts.indexOf(p.product_id) === -1 && nonEditableProductCategories.indexOf(p.product.product_category_id) === -1 && canEdit">Remove</a>
-            </div>
+      <div class="col-xs-7 col-sm-9">
+        <div>{{ p.name }}
+          <div>
+            <span class="text-grey q-mr-sm">{{ currencyFormat(p.price) }}</span>
+            <a @click="removeProduct(index)" class="link text-caption"
+              v-if="nonEditableProducts.indexOf(p.product_id) === -1 && nonEditableProductCategories.indexOf(p.product.product_category_id) === -1 && canEdit">Remove</a>
           </div>
         </div>
       </div>
-      <div class="col-xs-4 col-sm-3 justify-right"
+      <div class="col-xs-5 col-sm-3"
         v-if="nonEditableProducts.indexOf(p.product_id) === -1 && nonEditableProductCategories.indexOf(p.product.product_category_id) === -1">
         <q-input v-model="p.qty" type="number" min="1" borderless :label="`${p.product.unit_measurement.toUpperCase()}S`"
           filled @update:model-value="manualQty" :debounce="500" :disable="loading || !canEdit" dense
@@ -28,19 +26,15 @@
         </q-input>
       </div>
     </div>
-    <div v-if="localModel.id" class="flex q-pa-md">
-      <q-separator />
-      <div><q-btn @click="clearProducts()" label="RESET" color="negative" flat
-          v-if="localModel.products && localModel.products.length && canEdit" rounded />
-      </div>
-      <q-space />
-      <div>
+    <div v-if="localModel.id">
+      <q-separator class="q-mb-sm" />
+      <div class="text-right">
         <div>Subtotal: {{ currencyFormat(localModel.grand_total_price) }}</div>
         <div>Total GST: {{ currencyFormat(localModel.total_price_gst) }}</div>
         <div class="text-h6">Total: {{ currencyFormat(localModel.grand_total_price) }}</div>
       </div>
     </div>
-    <div v-if="canEdit" class="q-pa-md">
+    <div v-if="canEdit" class="q-mt-md">
       <div class="row q-col-gutter-md items-center">
         <div class="col-xs-12 col-sm-6">
           <q-btn :label="!newProduct.product_id ? `Add a ${$t('product.name')}` : `${newProduct.name}`" outline no-caps
@@ -262,16 +256,6 @@ const save = () => {
     emits('update:products')
   }).catch(error => {
     useMixinDebug(error)
-  })
-}
-
-const clearProducts = () => {
-  confirmDelete('This will clear all products from the invoice').onOk(() => {
-    api.put(`/public/invoice/clearproducts/${localModel.value.id}`).then(() => {
-      emits('update:order')
-    }).catch(error => {
-      useMixinDebug(error)
-    })
   })
 }
 
