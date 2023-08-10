@@ -2,15 +2,15 @@
   <q-layout view="lHh LpR fFf" v-if="user && user.id">
     <q-header>
       <q-toolbar style="height:65px;">
-        <router-link :to="{ name: 'appDashboard' }" class="link text-black">
-          <img src="../assets/images/logos/logo.png" style="max-width:100%;max-height:50px" />
+        <router-link :to="{ name: 'appDashboard' }" class="link bg-white q-pl-xs q-pt-xs q-pr-xs rounded-borders">
+          <img src="../assets/images/logos/logo_app.png" style="max-width:100%;max-height:40px" />
         </router-link>
         <HeaderSearch class="q-ml-md" />
         <q-space />
         <q-btn icon="event" :title="$t('order.namePlural')" flat round class="q-mr-xs" />
         <q-btn icon="logout" title="Sign Out" @click="logout()" flat round class="q-mr-xs" />
         <q-btn flat round @click="profile()">
-          <q-avatar>
+          <q-avatar size="32px">
             <q-img src="/api/user/useravatar?fetch=thumb" />
           </q-avatar>
         </q-btn>

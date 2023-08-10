@@ -49,10 +49,10 @@ export default {
     application: { label: 'Application Details' },
     ec: {
       label: 'Emergency Contact',
-      firstName: 'Emergency Contact First Name',
-      lastName: 'Emergency Contact Last Name',
-      phone: 'Emergency Contact Phone',
-      relationship: 'Emergency Contact Relationship to you'
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      phone: 'Phone',
+      relationship: 'Relationship to you'
     },
     bd: {
       name: 'Account Name',

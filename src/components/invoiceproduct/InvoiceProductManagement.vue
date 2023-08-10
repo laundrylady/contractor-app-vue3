@@ -67,19 +67,20 @@
           </q-input>
         </div>
       </div>
-      <div class="flex items-center q-mt-sm">
-        <xero-invoice :invoice-id="localModel.xero_id" v-if="localModel.xero_id" type="Invoice"
-          :type_id="localModel.id" />
-        <q-space />
-        <div>
-          <status-tag :status="localModel.status" class="q-mr-sm" />
-          <q-btn @click="emailInvoice()" icon="mail" title="Email a copy of the Invoice" flat :disable="emailingInvoice"
-            round />
-          <q-btn @click="sendPaymentRequest()" icon="send" title="Send Payment Request" flat
-            v-if="localModel.total_price > 0 && localModel.status !== 'PAID'" :disable="sendingPaymentRequest" round />
-          <q-btn @click="openURL(`/api/public/invoice/pdf/${localModel.id}`)" icon="print" title="Print Invoice" flat
-            round />
-        </div>
+    </div>
+    <div class="flex items-center q-mt-sm">
+      <div v-if="localModel.sent_for_payment && localModel.status !== 'PAID'" class="text-caption">
+        Sent for payment:<br />{{ dateTimeTz(localModel.sent_for_payment) }}
+      </div>
+      <q-space />
+      <div>
+        <q-btn @click="emailInvoice()" icon="mail" title="Email a copy of the Invoice" flat :disable="emailingInvoice"
+          round />
+        <q-btn @click="sendPaymentRequest()" icon="send" title="Send Payment Request" flat
+          v-if="(localModel.total_price > 0 && localModel.status !== 'PAID') && team.type !== 'NDIS' || (team.type === 'NDIS' && !localModel.sent_for_payment)"
+          :disable="sendingPaymentRequest" round />
+        <q-btn @click="openURL(`/api/public/invoice/pdf/${localModel.id}`)" icon="print" title="Print Invoice" flat
+          round />
       </div>
     </div>
   </div>
@@ -88,13 +89,11 @@
 <script setup lang="ts">
 import { openURL } from 'quasar'
 import { api } from 'src/boot/axios'
-import { Invoice, InvoicePayment, InvoiceProduct, OrderProductCategory, Product, Team } from 'src/components/models'
+import { Invoice, InvoiceProduct, OrderProductCategory, Product, Team } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
-import { confirmDelete, currencyFormat, doNotify, groupBy } from 'src/mixins/help'
+import { confirmDelete, currencyFormat, dateTimeTz, doNotify, groupBy } from 'src/mixins/help'
 import { computed, onMounted, reactive, ref } from 'vue'
-import StatusTag from '../StatusTag.vue'
-import XeroInvoice from '../xero/XeroInvoice.vue'
 
 interface Props {
   invoice: Invoice,
@@ -140,17 +139,6 @@ const canEdit = computed(() => {
   }
   if (localModel.value.status === 'DRAFT') {
     return true
-  }
-  if (localModel.value.status === 'AUTHORISED') {
-    // check if total payments > 0
-    const totalPaymentAmount = localModel.value.payments.reduce((current: number, obj: InvoicePayment) => {
-      return current + parseFloat(obj.total.toString())
-    }, 0)
-    if (totalPaymentAmount > 0 || props.team.type === 'NDIS') {
-      return false
-    } else {
-      return true
-    }
   }
   return false
 })
@@ -286,7 +274,7 @@ const checkGvDc = () => {
 }
 
 const sendPaymentRequest = () => {
-  confirmDelete('This will send the invoice for payment').onOk(() => {
+  confirmDelete('This will send the invoice for payment. PLEASE NOTE: You will not be able to edit this order after it has been sent for payment.').onOk(() => {
     sendingPaymentRequest.value = true
     api.post(`/public/invoice/sendpaymentrequest/${localModel.value.id}`).then(() => {
       doNotify('positive', 'Invoice sent for payment')

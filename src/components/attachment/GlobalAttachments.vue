@@ -188,7 +188,8 @@ interface Props {
   disabled?: boolean,
   type?: string,
   nobox?: boolean,
-  label?: string
+  label?: string,
+  fetchTypes?: string[]
 }
 const props = defineProps<Props>()
 const bus = inject('bus') as EventBus
@@ -268,7 +269,7 @@ const deleteAttachment = (a: Attachment) => {
 
 const getAttachments = () => {
   loadingattachments.value = true
-  api.post(`/attachment/fetch/${props.attachable_type}/${props.attachable_id}`).then((response) => {
+  api.post(`/public/attachment/fetch/${props.attachable_type}/${props.attachable_id}`, { fetchTypes: props.fetchTypes }).then((response) => {
     attachments.value = groupBy(response.data, 'type')
     loadingattachments.value = false
   }).catch((response) => {

@@ -21,20 +21,30 @@
         <div class="col-xs-12 col-sm-6">
           <q-card class="bg-seamless q-mb-lg">
             <q-card-section>
-              <div class="text-h6 q-mb-md"><q-icon name="sync" /> Recurring {{ $t('order.namePlural') }}</div>
-              <div v-if="!recurringOrders || !recurringOrders.length">No {{ $t('order.namePlural').toLowerCase() }} found.
+              <div class="text-h6 q-mb-md">In Progress</div>
+              <div v-if="!dashboard.ordersInprogress.length">No {{ $t('order.namePlural').toLowerCase() }} found.
               </div>
-              <OrderRecurringBookingFormat :orders="recurringOrders" v-if="recurringOrders" :no-avatar="true" />
+              <OrderListFormat :orders="dashboard.ordersInprogress" :no-avatar="true" />
             </q-card-section>
           </q-card>
         </div>
         <div class="col-xs-12 col-sm-6">
           <q-card class="bg-seamless q-mb-lg">
             <q-card-section>
-              <div class="text-h6 q-mb-md">In Progress</div>
-              <div v-if="!dashboard.ordersInprogress.length">No {{ $t('order.namePlural').toLowerCase() }} found.
+              <div class="text-h6 q-mb-md">Sent for Payment</div>
+              <div v-if="!dashboard.sentForPayment.length">No {{ $t('order.namePlural').toLowerCase() }} found.
               </div>
-              <OrderListFormat :orders="dashboard.ordersInprogress" :no-avatar="true" />
+              <OrderListFormat :orders="dashboard.sentForPayment" :no-avatar="true" />
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <q-card class="bg-seamless q-mb-lg">
+            <q-card-section>
+              <div class="text-h6 q-mb-md"><q-icon name="sync" /> Recurring {{ $t('order.namePlural') }}</div>
+              <div v-if="!recurringOrders || !recurringOrders.length">No {{ $t('order.namePlural').toLowerCase() }} found.
+              </div>
+              <OrderRecurringBookingFormat :orders="recurringOrders" v-if="recurringOrders" :no-avatar="true" />
             </q-card-section>
           </q-card>
         </div>
@@ -69,7 +79,7 @@ const recurringOrders = ref<Order[]>()
 const bus = inject('bus') as EventBus
 
 const getDashboard = () => {
-  api.get('/public/user/contractor/dashboard').then(response => {
+  api.get('/public/user/contractor/dashboard?bare=true').then(response => {
     dashboard.value = response.data
   }).catch(error => {
     useMixinDebug(error)
