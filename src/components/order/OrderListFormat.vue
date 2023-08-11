@@ -6,9 +6,7 @@
       </q-item-section>
       <q-item-section>
         <div>
-          <div class="q-mb-xs">
-            <StatusTag :status="o.status" :small="true" class="q-ml-xs" />
-          </div><router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link">{{
+          <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link">{{
             displayDateDay(o.scheduled_pickup_date) }} {{ o.scheduled_pickup_date }} (<span
               v-if="!o.agreed_pickup_time">{{
                 hourBookingDisplay(o.scheduled_pickup_time)
@@ -38,7 +36,6 @@
 <script setup lang="ts">
 import { Order } from 'src/components/models'
 import { currencyFormat, displayDateDay, hourAgreedDisplay, hourBookingDisplay } from 'src/mixins/help'
-import StatusTag from '../StatusTag.vue'
 import UserAvatar from '../UserAvatar.vue'
 interface Props {
   orders: Order[],

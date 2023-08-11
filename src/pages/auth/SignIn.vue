@@ -24,7 +24,7 @@
             <div class="text-right">
               <q-btn :to="{ name: 'passwordResetRequest' }" label="Forgot your password?" no-caps color="primary" flat />
             </div>
-            <q-btn :loading="loading" @click="signIn()" v-bind:disabled="$v.$invalid" color="primary" label="Sign In"
+            <q-btn :loading="loading" @click="signIn()" :disable="$v.$invalid || loading" color="primary" label="Sign In"
               class="full-width q-mt-md" />
           </q-card-section>
         </q-card>

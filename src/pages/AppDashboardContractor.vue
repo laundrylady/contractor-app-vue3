@@ -4,6 +4,7 @@
     <div class="flex q-mb-md">
       <div class="text-h6">Hi {{ user.first_name }}</div>
       <q-space />
+      <q-btn :to="{ name: 'orders' }" label="View All" flat color="primary" class="q-mr-xs" />
       <q-btn round icon="add" @click="newOrder()" color="primary" dense />
     </div>
     <div v-if="dashboard">
@@ -11,10 +12,27 @@
         <div class="col-xs-12 col-sm-6">
           <q-card class="bg-seamless q-mb-lg">
             <q-card-section>
-              <div class="text-h6 q-mb-md">Awaiting Pickup</div>
-              <div v-if="!dashboard.ordersConfirmed.length">No {{ $t('order.namePlural').toLowerCase() }} found.
+              <div class="text-h6 q-mb-md">Pickups</div>
+              <q-tabs v-model="pickupTab" class="q-mb-md">
+                <q-tab name="today" :label="`Today (${dashboard.pickupsToday.length})`" />
+                <q-tab name="week" :label="`Upcoming (${dashboard.pickupsWeek.length})`" />
+                <q-tab name="missed" :label="`Missed (${dashboard.pickupsMissed.length})`" />
+              </q-tabs>
+              <div v-if="pickupTab === 'today'">
+                <div v-if="!dashboard.pickupsToday.length">No {{ $t('order.namePlural').toLowerCase() }} found.
+                </div>
+                <OrderListFormat :orders="dashboard.pickupsToday" :no-avatar="true" />
               </div>
-              <OrderListFormat :orders="dashboard.ordersConfirmed" :no-avatar="true" />
+              <div v-if="pickupTab === 'week'">
+                <div v-if="!dashboard.pickupsWeek.length">No {{ $t('order.namePlural').toLowerCase() }} found.
+                </div>
+                <OrderListFormat :orders="dashboard.pickupsWeek" :no-avatar="true" />
+              </div>
+              <div v-if="pickupTab === 'missed'">
+                <div v-if="!dashboard.pickupsMissed.length">No {{ $t('order.namePlural').toLowerCase() }} found.
+                </div>
+                <OrderListFormat :orders="dashboard.pickupsMissed" :no-avatar="true" />
+              </div>
             </q-card-section>
           </q-card>
         </div>
@@ -48,16 +66,6 @@
             </q-card-section>
           </q-card>
         </div>
-        <div class="col-xs-12 col-sm-6">
-          <q-card class="bg-seamless q-mb-lg">
-            <q-card-section>
-              <div class="text-h6 q-mb-md">Recently Completed</div>
-              <div v-if="!dashboard.ordersRecentCompleted.length">No {{ $t('order.namePlural').toLowerCase() }} found.
-              </div>
-              <OrderListFormat :orders="dashboard.ordersRecentCompleted" :no-avatar="true" />
-            </q-card-section>
-          </q-card>
-        </div>
       </div>
     </div>
   </div>
@@ -75,6 +83,7 @@ import { onMounted, onBeforeUnmount, ref, inject } from 'vue'
 
 const { user } = useMixinSecurity()
 const dashboard = ref()
+const pickupTab = ref('today')
 const recurringOrders = ref<Order[]>()
 const bus = inject('bus') as EventBus
 

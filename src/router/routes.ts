@@ -202,6 +202,12 @@ const routes: RouteRecordRaw[] = [
       },
       // ORDERS
       {
+        name: 'orders',
+        path: '/booking/management',
+        component: () => import('src/pages/order/OrderManagement.vue'),
+        meta: { auth: true }
+      },
+      {
         name: 'order-home',
         path: '/booking/home/:id',
         component: () => import('src/pages/order/OrderHome.vue'),

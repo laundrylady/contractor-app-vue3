@@ -7,7 +7,7 @@
         </router-link>
         <HeaderSearch class="q-ml-md" />
         <q-space />
-        <q-btn icon="event" :title="$t('order.namePlural')" flat round class="q-mr-xs" />
+        <q-btn icon="event" :title="$t('order.namePlural')" :to="{ name: 'appDashboard' }" flat round class="q-mr-xs" />
         <q-btn icon="logout" title="Sign Out" @click="logout()" flat round class="q-mr-xs" />
         <q-btn flat round @click="profile()">
           <q-avatar size="32px">

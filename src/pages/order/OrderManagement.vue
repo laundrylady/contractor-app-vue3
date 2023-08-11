@@ -2,7 +2,7 @@
   <OrderCreate />
   <q-layout view="lHh LpR fFf" container class="layout-height">
     <q-header :class="{ 'page-title text-black': !$q.dark.isActive, 'bg-dark': $q.dark.isActive }" bordered>
-      <div class="q-pl-md q-pt-sm q-pr-md q-pb-sm flex items-center" style="padding-top:11px;">
+      <div class="q-pl-md q-pt-sm q-pr-md q-pb-sm flex items-center" style="padding-top:11px;" v-if="!$q.screen.xs">
         <q-breadcrumbs>
           <template v-slot:separator>
             <q-icon size="1.5em" name="chevron_right" />
@@ -10,24 +10,35 @@
           <q-breadcrumbs-el label="Home" icon="home" :to="{ name: 'appDashboard' }" />
           <q-breadcrumbs-el :label="$t('order.namePlural')" />
         </q-breadcrumbs>
-        <q-input v-model="search.keyword" :debounce="500" :placeholder="`Search ${$t('order.namePlural').toLowerCase()}`"
-          borderless dense class="q-ml-lg">
-          <template v-slot:prepend>
-            <q-icon name="search" />
-          </template>
-        </q-input>
-        <q-space />
-        <q-btn :to="{ name: 'bookingmanager' }" label="Manager" color="secondary" class="q-mr-sm" rounded outline />
-        <q-btn @click="newOrder()" round icon="add" color="primary" />
+      </div>
+      <div :class="{ 'q-pa-md': $q.screen.xs }">
+        <div class="flex items-center">
+          <div class="text-h6">All {{ $t('order.namePlural') }}</div>
+          <q-space />
+          <q-btn icon="filter_alt" @click="toggleFilters()" flat />
+        </div>
+        <div class="row q-col-gutter-md q-mt-xs" v-if="showFilters">
+          <div class="col-xs-6">
+            <DateField v-model="search.start" label="Start" :dense="true" :outlined="true" />
+          </div>
+          <div class="col-xs-6">
+            <DateField v-model="search.end" label="End" :dense="true" :outlined="true" />
+          </div>
+          <div class="col-xs-9">
+            <TeamField v-model="search.team_id" :label="$t('team.name')" :dense="true" :outlined="true" status="active" />
+          </div>
+          <div class="col-xs-3">
+            <q-btn @click="request()" icon="search" color="primary" />
+          </div>
+        </div>
       </div>
     </q-header>
     <q-page-container>
-      <q-page padding>
+      <q-page padding :class="{ 'q-pa-md': $q.screen.xs }">
         <q-card>
           <div ref="topRef"></div>
-          <q-table :rows="data" :columns="columns" row-key="id" :filter="search.keyword" :loading="loading"
-            v-model:pagination="serverPagination" @request="request" class="no-shadow"
-            :rows-per-page-options="rowsPerPageOptions">
+          <q-table :rows="data" :columns="columns" row-key="id" :loading="loading" v-model:pagination="serverPagination"
+            @request="request" class="no-shadow" :rows-per-page-options="rowsPerPageOptions">
             <template v-slot:body-cell-scheduled_pickup_date="props">
               <q-td :props="props">
                 <router-link :to="{ name: 'order-edit', params: { id: props.row.id } }" class="link">{{
@@ -39,46 +50,28 @@
             </template>
             <template v-slot:body-cell-display_id="props">
               <q-td :props="props">
-                <router-link :to="{ name: 'order-edit', params: { id: props.row.id } }" class="link">#{{
-                  props.row.display_id
-                }}
-                </router-link>
-              </q-td>
-            </template>
-            <template v-slot:body-cell-team_id="props">
-              <q-td :props="props">
-                <router-link :to="{ name: 'team-dashboard', params: { id: props.row.team_id } }" class="link"
-                  target="_blank">
-                  {{ props.row.team.name }}
-                </router-link>
-              </q-td>
-            </template>
-            <template v-slot:body-cell-contractor_user_id="props">
-              <q-td :props="props">
-                <div v-if="props.row.contractor">
-                  <router-link :to="{ name: 'contractor-dashboard', params: { id: props.row.contractor_user_id } }"
-                    class="link" target="_blank">
-                    <UserAvatar :user="props.row.contractor" /><span class="q-ml-sm">{{ props.row.contractor.fullname
-                    }}</span>
-                  </router-link>
+                <div>
+                  <router-link :to="{ name: 'order-edit', params: { id: props.row.id } }" class="link">{{
+                    displayDateDay(props.row.scheduled_pickup_date) }} {{ props.row.scheduled_pickup_date }} (<span
+                      v-if="!props.row.agreed_pickup_time">{{
+                        hourBookingDisplay(props.row.scheduled_pickup_time)
+                      }}</span><span v-if="props.row.agreed_pickup_time">{{
+  hourAgreedDisplay(props.row.agreed_pickup_time)
+}}</span>)</router-link>
                 </div>
-              </q-td>
-            </template>
-            <template v-slot:body-cell-status="props">
-              <q-td :props="props">
-                <div class="flex items-center no-wrap">
-                  <div>
-                    <StatusTag :status="props.row.status" />
-                  </div>
-                  <div v-if="props.row.invoice && props.row.invoice.meta.refunds > 0" class="q-ml-sm" title="Has Refunds">
-                    <q-icon name="sync" color="negative" size="22px" />
-                  </div>
+                <div class="text-grey-7">
+                  <q-icon name="settings" color="grey-7" /> <span v-if="props.row.productcategories"><span
+                      v-for="(c, index) in props.row.productcategories" :key="c.id">{{
+                        c.name }}<span v-if="index + 1 !== props.row.productcategories.length"
+                        class="q-ml-xs q-mr-xs">&</span></span> pickup with {{ props.row.team.name }}</span>
                 </div>
-              </q-td>
-            </template>
-            <template v-slot:body-cell-total_price="props">
-              <q-td :props="props">
-                {{ currencyFormat(props.row.grand_total_price) }}
+                <div class="text-grey-7"><q-icon name="place" color="grey-7" /> <span class="q-mr-sm"
+                    v-if="props.row.team.suburbpostcoderegion">{{ props.row.team.suburbpostcoderegion.locality }}
+                    {{ props.row.team.suburbpostcoderegion.state }}</span>
+                </div>
+                <div class="q-mt-xs">
+                  <StatusTag :status="props.row.status" />
+                </div>
               </q-td>
             </template>
             <template v-slot:body-cell-actions="props">
@@ -106,11 +99,12 @@
 <script setup lang="ts">
 import { EventBus, QTableProps } from 'quasar'
 import { api } from 'src/boot/axios'
-import OrderCreate from 'src/components/order/OrderCreate.vue'
 import StatusTag from 'src/components/StatusTag.vue'
-import UserAvatar from 'src/components/UserAvatar.vue'
+import DateField from 'src/components/form/DateField.vue'
+import TeamField from 'src/components/form/TeamField.vue'
+import OrderCreate from 'src/components/order/OrderCreate.vue'
 import { useMixinDebug } from 'src/mixins/debug'
-import { confirmDelete, currencyFormat, getRowsPerPage, hourBookingDisplay, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
+import { confirmDelete, displayDateDay, getRowsPerPage, hourAgreedDisplay, hourBookingDisplay, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
 import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -118,8 +112,9 @@ const bus = inject('bus') as EventBus
 const i8n = useI18n()
 const data = ref()
 const loading = ref(false)
+const showFilters = ref(false)
 const topRef = ref<HTMLDivElement | null>(null)
-const search = reactive({ keyword: null })
+const search = reactive({ team_id: null, start: null, end: null })
 const columns: QTableProps['columns'] = [{
   name: 'display_id',
   label: i8n.t('order.id'),
@@ -127,36 +122,6 @@ const columns: QTableProps['columns'] = [{
   field: 'display_id',
   sortable: true,
   style: 'width:100px'
-}, {
-  name: 'scheduled_pickup_date',
-  sortable: true,
-  label: i8n.t('order.scheduledPickupDate'),
-  field: 'scheduled_pickup_date',
-  align: 'left',
-  style: 'width:100px'
-}, {
-  name: 'team_id',
-  label: i8n.t('team.name'),
-  align: 'left',
-  field: 'team_id',
-  sortable: true
-}, {
-  name: 'contractor_user_id',
-  label: i8n.t('contractor.name'),
-  align: 'left',
-  field: 'contractor_user_id',
-  sortable: true
-}, {
-  name: 'status',
-  label: 'Status',
-  align: 'left',
-  field: 'status',
-  sortable: true
-}, {
-  label: 'Actions',
-  name: 'actions',
-  sortable: false,
-  field: 'actions'
 }]
 
 const serverPagination = ref({
@@ -184,12 +149,12 @@ const request = (props: Parameters<NonNullable<QTableProps['onRequest']>>[0] | n
     descending = serverPagination.value.descending
   }
   loading.value = true
-  api.post(`/order/datatable/${page}`, {
+  api.post(`/public/order/datatable/${page}`, {
     sortBy,
     sort_order: descending ? 'desc' : 'asc',
     skip: page,
     rowsPerPage,
-    keyword: search.keyword
+    team_id: search.team_id
   })
     .then((response) => {
       data.value = response.data.rows
@@ -218,8 +183,8 @@ const deleteOrder = (id: number) => {
   })
 }
 
-const newOrder = () => {
-  bus.emit('newOrder')
+const toggleFilters = () => {
+  showFilters.value = !showFilters.value
 }
 
 onMounted(() => {
