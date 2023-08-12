@@ -22,15 +22,16 @@
               <div class="col-xs-12 col-sm-8">
                 <div class="row q-col-gutter-md q-mb-md">
                   <DateField v-model="localModel.scheduled_pickup_date" :label="$t('order.scheduledPickupDate')"
-                    :invalid="$v.scheduled_pickup_date.$invalid" class="col-xs-6" />
+                    :invalid="$v.scheduled_pickup_date.$invalid" class="col-xs-6" :disable="!canEdit" />
                   <q-select v-model="localModel.scheduled_pickup_time" :label="$t('order.scheduledPickupTime')"
                     :invalid="$v.scheduled_pickup_time" :options="hourBookingOptions" emit-value map-options
-                    class="col-xs-6" />
+                    class="col-xs-6" :disable="!canEdit" />
                 </div>
                 <div v-if="!localModel.recurring_parent_id">
-                  <q-toggle v-model="localModel.recurring_order" :label="$t('order.recurring')" />
+                  <q-toggle v-model="localModel.recurring_order" :label="$t('order.recurring')" :disable="!canEdit" />
                   <q-select v-model="localModel.recurring" :label="$t('order.recurringFrequency')"
-                    :options="['Week', 'Fortnite', 'Month']" bottom-slots v-if="localModel.recurring_order" />
+                    :options="['Week', 'Fortnite', 'Month']" bottom-slots v-if="localModel.recurring_order"
+                    :disable="!canEdit" />
                 </div>
                 <div class="text-bold text-grey q-mt-md">PICKUP FROM</div>
                 <div v-if="localModel.address1">{{ localModel.address1 }}</div>
@@ -49,12 +50,15 @@
                   hourAgreedDisplay(localModel.agreed_pickup_time)
                 }}
                 </div>
-                <div><a @click="showTimePicker = !showTimePicker" class="link">Choose a time</a></div>
-                <q-time v-model="localModel.agreed_pickup_time" color="secondary" v-if="showTimePicker" class="q-mt-xs" />
+                <div v-if="canEdit">
+                  <div><a @click="showTimePicker = !showTimePicker" class="link">Choose a time</a></div>
+                  <q-time v-model="localModel.agreed_pickup_time" color="secondary" v-if="showTimePicker"
+                    class="q-mt-xs" />
+                </div>
               </div>
             </div>
           </q-card-section>
-          <q-card-actions align="right">
+          <q-card-actions align="right" v-if="canEdit">
             <q-btn :disable="loading || $v.$invalid" :label="$t('actions.update')" color="primary" @click="save()"
               rounded />
           </q-card-actions>
@@ -202,6 +206,13 @@ const rules = {
 const loading = ref(false)
 
 const $v = useVuelidate(rules, localModel, { $scope: false })
+
+const canEdit = computed(() => {
+  if (['sent_for_payment', 'PAID'].indexOf(props.model.status) !== -1) {
+    return false
+  }
+  return true
+})
 
 const save = () => {
   loading.value = true

@@ -4,7 +4,6 @@
     <div class="flex q-mb-md">
       <div class="text-h6">Hi {{ user.first_name }}</div>
       <q-space />
-      <q-btn :to="{ name: 'orders' }" label="View All" flat color="primary" class="q-mr-xs" />
       <q-btn round icon="add" @click="newOrder()" color="primary" dense />
     </div>
     <div v-if="dashboard">
@@ -67,6 +66,7 @@
           </q-card>
         </div>
       </div>
+      <q-btn :to="{ name: 'orders' }" label="View All Bookings" flat color="primary" class="q-mr-xs" />
     </div>
   </div>
 </template>
