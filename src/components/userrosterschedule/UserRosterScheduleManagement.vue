@@ -2,12 +2,11 @@
   <div>
     <UserRosterScheduleEdit />
     <UserRosterScheduleCreate />
-    <div class="flex">
-      <div class="text-h5">{{ $t('schedule.name') }}</div>
+    <div class="flex items-center q-mb-md">
+      <div>Below are your current pickup timeslots.</div>
       <q-space />
       <q-btn @click="newUserRosterSchedule()" icon="add" dense color="primary" round />
     </div>
-    <p>Below are your current pickup timeslots.</p>
     <div class="flex items-center q-mb-sm">
       <span class="text-h7 text-primary">{{ selectedMonth }}</span>
       <q-space />
