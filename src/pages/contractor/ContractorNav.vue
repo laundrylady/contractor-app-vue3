@@ -3,7 +3,7 @@
     <q-route-tab :to="{ name: 'contractor-dashboard' }" label="Home" icon="home" />
     <q-route-tab :to="{ name: 'contractor-edit' }" label="Details" icon="info" />
     <q-route-tab :to="{ name: 'contractor-schedule' }" label="Schedule" icon="calendar_month" />
-    <q-route-tab :to="{ name: 'contractor-postcoderegion-groups' }" label="Locations" icon="place" />
+    <q-route-tab :to="{ name: 'contractor-postcoderegion-groups' }" label="Commissions" icon="attach_money" />
   </q-tabs>
 </template>
 <script setup lang="ts">

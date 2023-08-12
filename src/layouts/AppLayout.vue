@@ -35,8 +35,9 @@
       </q-card>
     </q-dialog>
     <MediaViewer />
+    <ValidationsModal />
     <q-dialog v-model="isLocked" persistent>
-      <q-card style="min-width:30vw">
+      <q-card class="modal">
         <q-card-section class="row">
           <AppLogo />
           <q-space />
@@ -57,6 +58,7 @@ import { EventBus, useQuasar } from 'quasar'
 import AppLogo from 'src/components/AppLogo.vue'
 import HeaderSearch from 'src/components/HeaderSearch.vue'
 import MediaViewer from 'src/components/MediaViewer.vue'
+import ValidationsModal from 'src/components/form/ValidationsModal.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinSecurity } from 'src/mixins/security'
 import { socket } from 'src/services/socketio'

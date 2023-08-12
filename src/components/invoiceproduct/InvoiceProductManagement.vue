@@ -68,32 +68,33 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center q-mt-sm">
-      <div v-if="localModel.sent_for_payment && localModel.status !== 'PAID'" class="text-caption">
-        Sent for payment:<br />{{ dateTimeTz(localModel.sent_for_payment) }}
+    <div class="flex q-mt-sm items-center">
+      <div v-if="localModel.sent_for_payment && localModel.status !== 'PAID'">
+        Sent for payment: {{ dateTimeTz(localModel.sent_for_payment) }}
       </div>
       <q-space />
       <div>
-        <q-btn @click="emailInvoice()" icon="mail" title="Email a copy of the Invoice" flat :disable="emailingInvoice"
-          round />
-        <q-btn @click="sendPaymentRequest()" icon="send" title="Send Payment Request" flat
-          v-if="(localModel.total_price > 0 && localModel.status !== 'PAID') && team.type !== 'NDIS' || (team.type === 'NDIS' && !localModel.sent_for_payment)"
-          :disable="sendingPaymentRequest" round />
-        <q-btn @click="openURL(`/api/public/invoice/pdf/${localModel.id}`)" icon="print" title="Print Invoice" flat
-          round />
+        <q-btn-group flat>
+          <q-btn @click="emailInvoice()" icon="mail" title="Email a copy of the Invoice" flat :disable="emailingInvoice"
+            round v-if="!localModel.sent_for_payment" />
+          <q-btn @click="sendPaymentRequest()" icon="send" title="Send Payment Request" flat
+            v-if="localModel.total_price > 0 && !localModel.sent_for_payment" :disable="sendingPaymentRequest" round />
+          <q-btn @click="openURL(`/api/public/invoice/pdf/${localModel.id}`)" icon="print" title="Print Invoice" flat
+            round />
+        </q-btn-group>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { openURL } from 'quasar'
+import { EventBus, openURL } from 'quasar'
 import { api } from 'src/boot/axios'
 import { Invoice, InvoiceProduct, OrderProductCategory, Product, Team } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 import { confirmDelete, currencyFormat, dateTimeTz, doNotify, groupBy } from 'src/mixins/help'
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref, inject } from 'vue'
 
 interface Props {
   invoice: Invoice,
@@ -111,6 +112,7 @@ const rawProductList = ref()
 const gfDcCode = ref()
 const sendingPaymentRequest = ref(false)
 const emailingInvoice = ref(false)
+const bus = inject('bus') as EventBus
 const schema = {
   order_id: null,
   name: null,
@@ -274,7 +276,7 @@ const checkGvDc = () => {
 }
 
 const sendPaymentRequest = () => {
-  confirmDelete('This will send the invoice for payment. PLEASE NOTE: You will not be able to edit this order after it has been sent for payment.').onOk(() => {
+  confirmDelete('PLEASE NOTE: You will not be able to edit this order after it has been sent for payment.').onOk(() => {
     sendingPaymentRequest.value = true
     api.post(`/public/invoice/sendpaymentrequest/${localModel.value.id}`).then(() => {
       doNotify('positive', 'Invoice sent for payment')
@@ -282,7 +284,7 @@ const sendPaymentRequest = () => {
       emits('update:order')
     }).catch(error => {
       sendingPaymentRequest.value = false
-      useMixinDebug(error)
+      useMixinDebug(error, bus)
     })
   })
 }
