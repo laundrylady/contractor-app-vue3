@@ -165,7 +165,7 @@ const getOrder = async (data: LooseObject = {}) => {
 
 onMounted(async () => {
   await getOrder()
-  bus.on('getOrder', (data: LooseObject) => { getOrder(data) })
+  bus.on('getOrder', (data: LooseObject) => { if (model.value && model.value.id === data.id) { getOrder() } })
   bus.on('invoice:refresh', (data: LooseObject) => {
     if (model.value && model.value.invoice_id === data.id) {
       getOrder()

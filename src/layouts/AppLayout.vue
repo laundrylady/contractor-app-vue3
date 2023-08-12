@@ -53,19 +53,21 @@
 </template>
 <script setup lang="ts">
 import moment from 'moment-timezone'
-import { useQuasar } from 'quasar'
+import { EventBus, useQuasar } from 'quasar'
 import AppLogo from 'src/components/AppLogo.vue'
 import HeaderSearch from 'src/components/HeaderSearch.vue'
 import MediaViewer from 'src/components/MediaViewer.vue'
+import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinSecurity } from 'src/mixins/security'
 import { socket } from 'src/services/socketio'
-import { ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const { user } = useMixinSecurity()
 const $q = useQuasar()
 const router = useRouter()
 const isLocked = ref(false)
+const bus = inject('bus') as EventBus
 
 // check for lockout
 setInterval(() => {
@@ -87,10 +89,9 @@ socket.on('newRelease', () => {
     $q.notify({
       icon: 'warning',
       message:
-        'A new version of the system has been deployed.<br/>Click refresh below to ensure you have the most up-to-date version of the system.',
+        'A new version is available',
       html: true,
       color: 'primary',
-      multiLine: true,
       timeout: 0,
       actions: [
         {
@@ -103,6 +104,18 @@ socket.on('newRelease', () => {
       ]
     })
   }, 5000)
+})
+
+onMounted(() => {
+  socket.on('connect', () => {
+    if (user.value && user.value.id) {
+      socket.emit('authRoom', user.value.id)
+    }
+  })
+  socket.on('hookContractor', (data: LooseObject) => {
+    console.log('hookContractor', data)
+    bus.emit(data.emit, data)
+  })
 })
 
 </script>

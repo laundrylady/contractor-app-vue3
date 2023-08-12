@@ -17,7 +17,6 @@
                 <div class="text-h5">{{ localModel.fullname }}</div>
                 <div class="text-grey"><q-icon name="mail" /> {{ localModel.email }}</div>
                 <div class="text-grey"><q-icon name="phone" /> {{ localModel.mobile }}</div>
-                <div v-if="localModel.contractor_abn" class="text-grey">ABN: {{ localModel.contractor_abn }}</div>
               </div>
             </div>
             <div v-if="showAvatarUpload" class="q-mt-md">

@@ -1,12 +1,16 @@
 import type { Socket } from 'socket.io-client'
 import { io } from 'socket.io-client'
+import { LooseObject } from 'src/contracts/LooseObject'
 
 interface ServerToClientEvents {
-  newRelease: () => void;
+  connection: () => void,
+  newRelease: () => void,
+  hookContractor: (data:LooseObject)=> void
 }
 
 interface ClientToServerEvents {
-  noArg: () => void;
+  noArg: () => void,
+  authRoom: (id:number)=>void
 }
 
 class SocketIOService {
