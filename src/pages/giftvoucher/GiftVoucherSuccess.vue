@@ -12,7 +12,7 @@
               <p>Check your email for the Gift Voucher, Invoice, and instructions on how to use the Gift Voucher.</p>
             </q-card-section>
             <q-card-actions><q-btn :to="{ name: 'giftVoucherPurchase' }"
-                label="Click here to puchase another gift voucher" no-caps flat color="primary" />
+                label="Click here to puchase another gift voucher" no-caps flat color="primary" rounded />
             </q-card-actions>
           </q-card>
         </div>

@@ -4,7 +4,7 @@
       <ContractorNav :model="model" />
     </q-header>
     <q-page-container>
-      <q-page padding class="q-pt-md" :class="{ 'q-pa-md': $q.screen.xs }">
+      <q-page padding class="q-pt-md layout-container" :class="{ 'q-pa-md': $q.screen.xs }">
         <router-view :model="model" />
       </q-page>
     </q-page-container>

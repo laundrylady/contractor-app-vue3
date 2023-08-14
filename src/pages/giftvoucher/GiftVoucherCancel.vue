@@ -11,7 +11,7 @@
               <div class="text-h5 q-mb-md">Your purchase has been cancelled!</div>
             </q-card-section>
             <q-card-actions><q-btn :to="{ name: 'giftVoucherPurchase' }"
-                label="Click here to puchase another gift voucher" no-caps flat color="primary" />
+                label="Click here to puchase another gift voucher" no-caps flat color="primary" rounded />
             </q-card-actions>
           </q-card>
         </div>

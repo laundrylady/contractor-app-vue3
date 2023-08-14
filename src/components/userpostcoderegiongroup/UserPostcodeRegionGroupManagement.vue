@@ -3,7 +3,8 @@
     <UserPostcodeRegionGroupCreate />
     <UserPostcodeRegionGroupEdit />
     <div class="flex items-center q-mb-sm">
-      <div>You pickup from the following locations.</div>
+      <p>You pickup from the following locations.
+      </p>
     </div>
     <q-card>
       <q-list>

@@ -31,7 +31,7 @@
       </template>
     </q-select>
     <div v-if="reassign && modelValue">
-      <q-btn flat @click="reAssign()" label="Reassign" color="primary" icon="sync" />
+      <q-btn flat @click="reAssign()" label="Reassign" color="primary" icon="sync" rounded />
     </div>
   </div>
 </template>

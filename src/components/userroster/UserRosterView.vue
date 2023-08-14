@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-markup-table dense separator="cell">
+    <q-markup-table dense separator="cell" flat>
       <thead>
         <tr>
           <th></th>
@@ -21,15 +21,11 @@
 </template>
 <script setup lang="ts">
 import { api } from 'src/boot/axios'
-import { User, UserRoster } from 'src/components/models'
-import { onMounted, ref } from 'vue'
-import { dayOptions, hourOptions } from 'src/mixins/help'
+import { UserRoster } from 'src/components/models'
 import { useMixinDebug } from 'src/mixins/debug'
+import { dayOptions, hourOptions } from 'src/mixins/help'
+import { onMounted, ref } from 'vue'
 
-interface Props {
-  rosterUser: User
-}
-const props = defineProps<Props>()
 const roster = ref<UserRoster[]>()
 
 const isActive = (h: number, d: number) => {
@@ -45,7 +41,7 @@ const isActive = (h: number, d: number) => {
 }
 
 onMounted(() => {
-  api.get(`/userroster/index?user_id=${props.rosterUser.id}`).then(response => {
+  api.get('/public/userroster/index').then(response => {
     roster.value = response.data
   }).catch(error => {
     useMixinDebug(error)

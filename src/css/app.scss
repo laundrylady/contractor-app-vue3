@@ -2,7 +2,7 @@
 body {
   background-repeat: no-repeat;
   background-position: bottom center;
-  background-color: #ffffff;
+  background-color: #fdfcfefa;
 }
 
 .text-h1,
@@ -151,4 +151,9 @@ input[type="number"]::-webkit-inner-spin-button {
   .add-product-menu {
     width: 95vw;
   }
+}
+
+.layout-container {
+  max-width: 1200px;
+  margin: 0 auto;
 }

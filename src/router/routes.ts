@@ -136,9 +136,9 @@ const routes: RouteRecordRaw[] = [
             meta: { auth: true }
           },
           {
-            name: 'contractor-postcoderegion-groups',
-            path: '/contractor/suburbgroups',
-            component: () => import('pages/contractor/ContractorPostcodeRegionGroup.vue'),
+            name: 'contractor-commission-paid',
+            path: '/contractor/commissions/paid',
+            component: () => import('pages/contractor/ContractorCommissionsPaid.vue'),
             meta: { auth: true }
           }
         ]

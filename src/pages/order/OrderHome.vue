@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf" container class="layout-height" v-if="model && model.id">
+  <q-layout view="lHh Lpr lFf" container class="layout-height layout-container" v-if="model && model.id">
     <q-header :class="{ 'page-title text-black': !$q.dark.isActive, 'bg-dark': $q.dark.isActive }" bordered>
       <div class="q-pl-md q-pr-md q-pt-md">
         <div class="flex" v-if="!$q.screen.xs">
@@ -8,7 +8,7 @@
               <q-icon size="1.5em" name="chevron_right" />
             </template>
             <q-breadcrumbs-el label="Home" icon="home" :to="{ name: 'appDashboard' }" />
-            <q-breadcrumbs-el :label="$t('order.namePlural')" :to="{ name: 'orders' }" />
+            <q-breadcrumbs-el :label="$t('order.namePlural')" :to="{ name: 'appDashboard' }" />
             <q-breadcrumbs-el :label="`#${model.display_id.toString()}`" />
           </q-breadcrumbs>
         </div>
@@ -16,37 +16,51 @@
           <div class="row items-center q-mb-md">
             <div class="col-xs-12 col-sm-9">
               <div class="flex items-center">
-                <q-btn @click="drawer.left = !drawer.left" icon="menu" outline v-if="$q.screen.lt.lg" flat />
+                <q-btn @click="drawer.left = !drawer.left" icon="menu" outline v-if="$q.screen.lt.lg" flat
+                  class="q-pl-sm q-pr-sm" />
                 <div class="text-h5">
                   <span class="q-mr-sm">{{ $t('order.name') }} #{{ model.display_id }}</span>
                 </div>
                 <q-space />
-                <StatusTag :status="model.status" /><router-link
-                  :to="{ name: 'order-edit', params: { id: model.recurring_parent_id } }" class="link q-ml-sm"
-                  v-if="model.recurring_parent_id" target="_blank">Recurring</router-link>
-                <q-badge v-if="model.recurring_order" class="q-ml-sm q-pa-sm"><q-icon name="sync" class="q-mr-xs" />{{
-                  `Every
-                  ${model.recurring} on ${displayDateDay(model.scheduled_pickup_date)} ${model.agreed_pickup_time ?
-                    model.agreed_pickup_time : hourBookingDisplay(model.scheduled_pickup_time)}` }}</q-badge>
+                <router-link :to="{ name: 'order-edit', params: { id: model.recurring_parent_id } }" class="link q-ml-sm"
+                  v-if="model.recurring_parent_id"><q-icon name="sync" /> Recurring</router-link>
+                <q-space />
+                <StatusTag :status="model.status" v-if="$q.screen.xs" :small="true" />
               </div>
-              <div class="q-mt-xs">{{ model.team.name }} <q-icon name="event" /> {{ model.scheduled_pickup_date }} ({{
-                hourBookingDisplay(model.scheduled_pickup_time) }})</div>
+              <div class="flex items-start">
+                <div>
+                  <div>
+                    {{ model.team.name }} <q-icon name="event" /> {{ model.scheduled_pickup_date }}
+                    ({{
+                      hourBookingDisplay(model.scheduled_pickup_time) }})
+                  </div>
+                  <div v-if="model.recurring_order" class="q-mt-xs">
+                    <q-badge class="q-pa-sm" color="secondary"><q-icon name="sync" class="q-mr-xs" />{{
+                      `Every
+                      ${model.recurring} on ${displayDateDay(model.scheduled_pickup_date)} ${model.agreed_pickup_time ?
+                        model.agreed_pickup_time : hourBookingDisplay(model.scheduled_pickup_time)}` }}</q-badge>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="col-xs-2 col-sm-3 text-right" v-if="!$q.screen.xs">
-              <div>
-                Last updated<br /><strong>{{ fromNowTz(model.updated_at) }}</strong>
+              <StatusTag :status="model.status" />
+              <div class="q-mt-xs">
+                Last updated <strong>{{ fromNowTz(model.updated_at) }}</strong>
               </div>
             </div>
           </div>
         </div>
       </div>
     </q-header>
-    <q-drawer v-model="drawer.left" :width="300" side="left" bordered>
+    <q-drawer v-model="drawer.left" :width="300" side="left" class="page-title">
       <div class="text-right q-pa-sm" v-if="$q.screen.lt.lg">
         <q-btn @click="drawer.left = false" icon="close" flat round dense v-close-popup />
       </div>
-      <MapWithMarker :lat-lng="{ lat: parseFloat(model.lat), lng: parseFloat(model.lng) }"
-        v-if="model.lat && model.lng" />
+      <div class="q-pa-sm">
+        <MapWithMarker :lat-lng="{ lat: parseFloat(model.lat), lng: parseFloat(model.lng) }"
+          v-if="model.lat && model.lng" />
+      </div>
       <q-list dense class="q-mt-md q-ml-sm q-mr-sm">
         <q-item-label header>{{ $t('team.name') }}</q-item-label>
         <q-item>
@@ -54,8 +68,7 @@
             <q-icon name="account_circle" />
           </q-item-section>
           <q-item-section>
-            <router-link :to="{ name: 'team-dashboard', params: { id: model.team_id } }" class="link">{{ model.team.name
-            }}</router-link>
+            {{ model.team.name }}
           </q-item-section>
         </q-item>
         <q-item>

@@ -1,19 +1,27 @@
 <template>
-  <div class="text-h5">Your {{ $t('contractor.details') }}</div>
-  <p>Please keep your details up to date.</p>
+  <div v-if="!$q.screen.xs">
+    <q-breadcrumbs class="q-mb-md">
+      <template v-slot:separator>
+        <q-icon size="1.5em" name="chevron_right" />
+      </template>
+      <q-breadcrumbs-el label="Home" icon="home" :to="{ name: 'appDashboard' }" />
+      <q-breadcrumbs-el label="Profile" :to="{ name: 'contractor-dashboard' }" />
+      <q-breadcrumbs-el label="Details" />
+    </q-breadcrumbs>
+  </div>
   <q-card>
     <q-list v-if="model.id">
       <q-expansion-item group="contractor" :label="$t('contractor.information')" default-opened header-class="text-h6">
         <q-card class="q-mb-md">
           <q-card-section>
             <div class="row q-col-gutter-md">
-              <div class="col-xs-4 text-center">
+              <div class="col-xs-4 col-md-3 col-lg-2 text-center">
                 <UserAvatar :user="localModel" size="55px" />
                 <div class="q-mt-xs text-center">
                   <q-btn flat @click="showAvatarUpload = !showAvatarUpload" label="Update" />
                 </div>
               </div>
-              <div class="col-xs-8">
+              <div class="col-xs-8 col-md-9 col-lg-10">
                 <div class="text-h5">{{ localModel.fullname }}</div>
                 <div class="text-grey"><q-icon name="mail" /> {{ localModel.email }}</div>
                 <div class="text-grey"><q-icon name="phone" /> {{ localModel.mobile }}</div>
@@ -25,10 +33,10 @@
                 :field-name="uploadConfig.fieldName" ref="avatarUploader" v-if="!loading" />
             </div>
             <q-select v-model="localModel.timezone" label="Timezone" :options="getTimeZones()" map-options emit-value
-              :error="$v.timezone.$invalid" class="q-mt-md" />
+              :error="$v.timezone.$invalid" class="q-mt-md" outlined />
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn @click="save()" :label="$t('actions.update')" color="primary" :disabled="$v.$invalid" />
+            <q-btn @click="save()" :label="$t('actions.update')" color="primary" :disabled="$v.$invalid" rounded />
           </q-card-actions>
         </q-card>
       </q-expansion-item>
@@ -38,18 +46,18 @@
             <AddressSearch :model="localModel" :filled="true"
               :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
               :placeholder="$t('address.search')" />
-            <q-input v-model="localModel.address1" :label="$t('address.line1')" bottom-slots />
-            <q-input v-model="localModel.address2" :error="$v.address2.$invalid" :label="$t('address.line2')" />
+            <q-input v-model="localModel.address1" :label="$t('address.line1')" bottom-slots outlined />
+            <q-input v-model="localModel.address2" :error="$v.address2.$invalid" :label="$t('address.line2')" outlined />
             <div class="row q-col-gutter-md">
               <PostcodeRegionField v-model="localModel.suburb_postcode_region_id"
-                :invalid="$v.suburb_postcode_region_id.$invalid" :label="$t('address.suburb')"
-                class="col-xs-12 col-sm-6" />
+                :invalid="$v.suburb_postcode_region_id.$invalid" :label="$t('address.suburb')" class="col-xs-12 col-sm-6"
+                :outlined="true" />
               <CountryField v-model="localModel.country_id" :label="$t('address.country')"
-                :invalid="$v.country_id.$invalid" class="col-xs-12 col-sm-6" />
+                :invalid="$v.country_id.$invalid" class="col-xs-12 col-sm-6" :outlined="true" />
             </div>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn @click="save()" :label="$t('actions.update')" color="primary" :disabled="$v.$invalid" />
+            <q-btn @click="save()" :label="$t('actions.update')" color="primary" :disabled="$v.$invalid" rounded />
           </q-card-actions>
         </q-card>
       </q-expansion-item>
@@ -58,16 +66,17 @@
           <q-card-section>
             <div class="row q-col-gutter-md">
               <div class="col-xs-6">
-                <DateField v-model="localModel.contractor_insurance_expiry" :label="$t('contractor.insuranceExpiry')" />
+                <DateField v-model="localModel.contractor_insurance_expiry" :label="$t('contractor.insuranceExpiry')"
+                  :outlined="true" />
               </div>
               <div class="col-xs-6">
                 <q-input v-model="localModel.contractor_target" :label="$t('contractor.target')"
-                  :error="$v.contractor_target.$invalid" class="col-xs-12" />
+                  :error="$v.contractor_target.$invalid" class="col-xs-12" :outlined="true" />
               </div>
             </div>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn @click="save()" :label="$t('actions.update')" color="primary" :disabled="$v.$invalid" />
+            <q-btn @click="save()" :label="$t('actions.update')" color="primary" :disabled="$v.$invalid" rounded />
           </q-card-actions>
         </q-card>
       </q-expansion-item>
@@ -76,19 +85,19 @@
           <q-card-section>
             <div class="row q-col-gutter-md">
               <q-input v-model="localModel.contractor_bd_name" :label="$t('contractor.bd.name')"
-                class="col-xs-12 col-sm-6" :error="$v.contractor_bd_name.$invalid" />
+                class="col-xs-12 col-sm-6" :error="$v.contractor_bd_name.$invalid" :outlined="true" />
               <q-input v-model="localModel.contractor_bd_bank" :label="$t('contractor.bd.bank')"
-                class="col-xs-12 col-sm-6" :error="$v.contractor_bd_bank.$invalid" />
+                class="col-xs-12 col-sm-6" :error="$v.contractor_bd_bank.$invalid" :outlined="true" />
             </div>
             <div class="row q-col-gutter-md">
               <q-input v-model="localModel.contractor_bd_bsb" :label="$t('contractor.bd.bsb')" class="col-xs-6"
-                :error="$v.contractor_bd_bsb.$invalid" />
+                :error="$v.contractor_bd_bsb.$invalid" :outlined="true" />
               <q-input v-model="localModel.contractor_bd_number" :label="$t('contractor.bd.number')" class="col-xs-6"
-                :error="$v.contractor_bd_number.$invalid" />
+                :error="$v.contractor_bd_number.$invalid" :outlined="true" />
             </div>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn @click="save()" :label="$t('actions.update')" color="primary" :disabled="$v.$invalid" />
+            <q-btn @click="save()" :label="$t('actions.update')" color="primary" :disabled="$v.$invalid" rounded />
           </q-card-actions>
         </q-card>
       </q-expansion-item>
@@ -97,19 +106,19 @@
           <q-card-section>
             <div class="row q-col-gutter-md">
               <q-input v-model="localModel.contractor_ec_first_name" :label="$t('contractor.ec.firstName')"
-                class="col-xs-6" :error="$v.contractor_ec_first_name.$invalid" />
+                class="col-xs-6" :error="$v.contractor_ec_first_name.$invalid" outlined />
               <q-input v-model="localModel.contractor_ec_last_name" :label="$t('contractor.ec.lastName')" class="col-xs-6"
-                :error="$v.contractor_ec_last_name.$invalid" />
+                :error="$v.contractor_ec_last_name.$invalid" outlined />
             </div>
             <div class="row q-col-gutter-md">
               <q-input v-model="localModel.contractor_ec_phone" :label="$t('contractor.ec.phone')" class="col-xs-6"
-                :error="$v.contractor_ec_phone.$invalid" />
+                :error="$v.contractor_ec_phone.$invalid" outlined />
               <q-input v-model="localModel.contractor_ec_relationship" :label="$t('contractor.ec.relationship')"
-                class="col-xs-6" :error="$v.contractor_ec_relationship.$invalid" />
+                class="col-xs-6" :error="$v.contractor_ec_relationship.$invalid" outlined />
             </div>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn @click="save()" :label="$t('actions.update')" color="primary" :disabled="$v.$invalid" />
+            <q-btn @click="save()" :label="$t('actions.update')" color="primary" :disabled="$v.$invalid" rounded />
           </q-card-actions>
         </q-card>
       </q-expansion-item>

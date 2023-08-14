@@ -34,14 +34,14 @@ const addressPopulate = (item:AddressSearchItem, model:LooseObject|undefined, ad
     model[address2] += ' ' + item.street_type_code
   }
   // lat
-  if (lat) {
+  if (lat && item.latitude) {
     // eslint-disable-next-line
-    model[lat] = item.latitude
+    model[lat] = parseFloat(item.latitude)
   }
   // lng
-  if (lat) {
+  if (lng && item.longitude) {
     // eslint-disable-next-line
-    model[lng] = item.longitude
+    model[lng] = parseFloat(item.longitude)
   }
   // suburb_postcode_region_id
   if (suburbPostcodeRegionId) {

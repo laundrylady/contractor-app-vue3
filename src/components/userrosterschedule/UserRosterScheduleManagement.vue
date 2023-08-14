@@ -2,35 +2,39 @@
   <div>
     <UserRosterScheduleEdit />
     <UserRosterScheduleCreate />
-    <div class="flex items-center q-mb-md">
-      <div>Below are your current pickup timeslots.</div>
+    <div class="flex items-start no-wrap q-mb-md">
+      <div>You are scheduled to work on the days with an <span
+          class="bg-positive q-pa-xs text-white rounded-borders">active</span>
+        timeslot</div>
       <q-space />
       <q-btn @click="newUserRosterSchedule()" icon="add" dense color="primary" round />
     </div>
     <div class="flex items-center q-mb-sm">
       <span class="text-h7 text-primary">{{ selectedMonth }}</span>
       <q-space />
-      <q-btn-group>
-        <q-btn @click="onPrev()" icon="chevron_left" color="secondary" />
-        <q-btn @click="onToday()" label="Today" color="secondary" />
-        <q-btn @click="onNext()" icon="chevron_right" color="secondary" />
+      <q-btn-group flat dense>
+        <q-btn @click="onPrev()" icon="chevron_left" color="secondary" flat dense />
+        <q-btn @click="onToday()" label="Today" color="secondary" flat dense />
+        <q-btn @click="onNext()" icon="chevron_right" color="secondary" flat dense />
       </q-btn-group>
     </div>
-    <q-calendar-month ref="calendarRef" v-model="selectedDate" :weekdays="[1, 2, 3, 4, 5, 6, 0]" hoverable bordered
-      animated :day-min-height="80" :day-height="80" month-label-size="md" date-align="right">
-      <template #day="{ scope }">
-        <div @mouseenter="currentHover = scope.timestamp.date" style="height:100%;">
-          <div v-if="hasEvents(scope.timestamp)"
-            style="display: flex; justify-content: space-evenly; flex-wrap: wrap; align-items: center; font-weight: 400; font-size: 12px; height: auto;">
-            <template v-for="event in getEvents(scope.timestamp)" :key="event.time">
-              <q-badge :label="`${hourDisplay(event.start_time)} - ${hourDisplay(event.end_time)}`"
-                class="q-mb-xs cursor-pointer" @click="editUserRosterSchedule(event.id)"
-                :color="event.active ? 'positive' : 'negative'" style="font-size:10px;" />
-            </template>
+    <q-card>
+      <q-calendar-month ref="calendarRef" v-model="selectedDate" :weekdays="[1, 2, 3, 4, 5, 6, 0]" hoverable bordered
+        animated :day-min-height="80" :day-height="80" month-label-size="md" date-align="right">
+        <template #day="{ scope }">
+          <div @mouseenter="currentHover = scope.timestamp.date" style="height:100%;">
+            <div v-if="hasEvents(scope.timestamp)"
+              style="display: flex; justify-content: space-evenly; flex-wrap: wrap; align-items: center; font-weight: 400; font-size: 12px; height: auto;">
+              <template v-for="event in getEvents(scope.timestamp)" :key="event.time">
+                <q-badge :label="`${hourDisplay(event.start_time)} - ${hourDisplay(event.end_time)}`"
+                  class="q-mb-xs cursor-pointer" @click="editUserRosterSchedule(event.id)"
+                  :color="event.active ? 'positive' : 'negative'" style="font-size:10px;min-height:20px;" />
+              </template>
+            </div>
           </div>
-        </div>
-      </template>
-    </q-calendar-month>
+        </template>
+      </q-calendar-month>
+    </q-card>
   </div>
 </template>
 <script setup lang="ts">

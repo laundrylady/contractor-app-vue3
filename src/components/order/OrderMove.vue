@@ -48,13 +48,13 @@
             <q-time v-model="model.agreed_pickup_time" @update:model-value="checkContractorViability()"
               color="secondary" />
             <q-btn class="q-mt-sm" @click="clearPickupTime()" label="Clear pickup time" v-if="model.agreed_pickup_time"
-              flat size="sm" color="secondary" />
+              flat size="sm" color="secondary" rounded />
           </div>
         </div>
       </q-card-section>
       <q-card-actions align="right">
-        <q-btn v-close-popup label="Cancel" flat color="secondary" />
-        <q-btn @click="save()" color="primary" label="Confirm changes" />
+        <q-btn v-close-popup label="Cancel" flat color="secondary" rounded />
+        <q-btn @click="save()" color="primary" label="Confirm changes" rounded />
       </q-card-actions>
     </q-card>
   </q-dialog>

@@ -22,10 +22,11 @@
               </template>
             </q-input>
             <div class="text-right">
-              <q-btn :to="{ name: 'passwordResetRequest' }" label="Forgot your password?" no-caps color="primary" flat />
+              <q-btn :to="{ name: 'passwordResetRequest' }" label="Forgot your password?" no-caps color="primary" flat
+                rounded />
             </div>
             <q-btn :loading="loading" @click="signIn()" :disable="$v.$invalid || loading" color="primary" label="Sign In"
-              class="full-width q-mt-md" />
+              class="full-width q-mt-md" rounded />
           </q-card-section>
         </q-card>
       </q-page>

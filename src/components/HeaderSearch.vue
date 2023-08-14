@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-select v-model.trim="keyword" placeholder="Keyword search" :disabled="loading" :loading="loading" borderless
+    <q-select v-model.trim="keyword" placeholder="Keyword search" :disabled="loading" :loading="loading" borderless dark
       class="gt-xs" style="width:500px;" use-input :options="results" @filter="filter" @update:model-value="handleChange"
       hide-dropdown-icon :input-debounce="300">
       <template v-slot:loading>

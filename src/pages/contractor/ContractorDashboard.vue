@@ -1,7 +1,16 @@
 <template>
   <div v-if="model.id && dashboard">
+    <div v-if="!$q.screen.xs">
+      <q-breadcrumbs class="q-mb-md">
+        <template v-slot:separator>
+          <q-icon size="1.5em" name="chevron_right" />
+        </template>
+        <q-breadcrumbs-el label="Home" icon="home" :to="{ name: 'appDashboard' }" />
+        <q-breadcrumbs-el label="Profile" :to="{ name: 'orders' }" />
+      </q-breadcrumbs>
+    </div>
     <div class="row q-col-gutter-md q-mb-lg">
-      <div class="col-xs-12 col-sm-4">
+      <div class="col-xs-12 col-sm-6">
         <q-card class="bg-accent fit" style="height:160px;">
           <q-card-section>
             <div class="text-h6">Weekly Target</div>
@@ -19,7 +28,7 @@
           </q-card-section>
         </q-card>
       </div>
-      <div class="col-xs-12 col-sm-4">
+      <div class="col-xs-12 col-sm-6">
         <q-card class="bg-secondary text-white fit">
           <q-card-section>
             <div class="text-h6 q-mb-md">Commissions</div>
@@ -42,39 +51,45 @@
           </q-card-section>
         </q-card>
       </div>
-      <div class="col-xs-12 col-sm-4">
-        <q-card class="bg-secondary text-white fit">
+      <div class="col-xs-12 col-sm-6">
+        <q-card class="fit">
           <q-card-section>
-            <div class="text-h6 q-mb-md">Statistics</div>
-            <div class="row q-col-gutter-md">
-              <div class="col-xs-6">
-                <div class="text-h6 text-center">
-                  {{ dashboard.totalOrdersCount[0].count }}
-                </div>
-                <div class="text-center">Total {{ $t('order.namePlural') }}</div>
-              </div>
-              <div class="col-xs-6">
-                <div class="text-h6 text-center">
-                  {{
-                    (currencyFormat(dashboard.totalOrdersTotalPrice[0].sum ?
-                      (parseFloat(dashboard.totalOrdersTotalPrice[0].sum) +
-                        parseFloat(dashboard.totalOrdersTotalPriceGst[0].sum)) : 0))
-                  }}
-                </div>
-                <div class="text-center">
-                  Total Revenue
-                </div>
+            <div class="text-h6 q-mb-md">{{ $t('team.namePlural') }} Rebooked</div>
+            <div class="text-center">
+              <q-circular-progress :value="parseFloat(dashboard.retainedRebooked.rebookedPercentage)" size="64px"
+                color="secondary" show-value track-color="grey-3" v-if="dashboard.retainedRebooked.rebookedPercentage">
+                {{ dashboard.retainedRebooked.rebooked }}</q-circular-progress>
+              <div class="q-mt-sm">Rebooked ({{ dashboard.retainedRebooked.rebookedPercentage }}%</div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <q-card class="fit">
+          <q-card-section>
+            <div class="text-h6 q-mb-md">{{ $t('team.namePlural') }} Retained</div>
+            <div class="text-center">
+              <q-circular-progress :value="parseFloat(dashboard.retainedRebooked.retainedPercentage)" size="64px"
+                color="secondary" show-value track-color="grey-3" v-if="dashboard.retainedRebooked.retainedPercentage">
+                {{ dashboard.retainedRebooked.retained }}</q-circular-progress>
+              <div class="q-mt-sm">
+                Retained ({{ dashboard.retainedRebooked.retainedPercentage }}%)
               </div>
             </div>
           </q-card-section>
         </q-card>
       </div>
     </div>
+    <div class="text-h6">Current {{ $t('roster.name') }}</div>
+    <p>We are generating your schedule from the roster below. If you need to permenantly make a change to your
+      roster, <a href="mailto:support@thelaundrylady.com.au" class="link">click here to let us know!</a></p>
+    <q-card><user-roster-view :rosterUser="model" /></q-card>
   </div>
 </template>
 <script setup lang="ts">
 import { api } from 'src/boot/axios'
 import { Order, User } from 'src/components/models'
+import UserRosterView from 'src/components/userroster/UserRosterView.vue'
 import { useMixinDebug } from 'src/mixins/debug'
 import { currencyFormat } from 'src/mixins/help'
 import { onMounted, ref, watch } from 'vue'

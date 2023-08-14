@@ -25,8 +25,9 @@
               <q-input v-model="edit.video_uri" label="Enter the video URL" v-if="edit.type === 'Video'" />
             </q-card-section>
             <q-card-actions class="q-mt-md" align="right">
-              <q-btn @click="[edit = false, showEdit = false]" color="secondary" flat label="Cancel" v-close-popup />
-              <q-btn @click="updateAttachment(edit)" color="primary" label="Update" />
+              <q-btn @click="[edit = false, showEdit = false]" color="secondary" flat label="Cancel" v-close-popup
+                rounded />
+              <q-btn @click="updateAttachment(edit)" color="primary" label="Update" rounded />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -88,7 +89,7 @@
         <q-card-section v-if="!disabled">
           <div v-if="!showNew && !loadingattachments">
             <q-btn @click="[newModel.type = '', showNew = !showNew]" label="Upload new" icon="add_circle" color="primary"
-              outline />
+              outline rounded />
           </div>
           <div v-if="!saving && showNew" class="q-pa-md bg-grey-2 animated fadeIn">
             <div v-if="!newModel.type">
@@ -158,8 +159,8 @@
                 <div class="q-mt-sm">All {{ label }}s must be in PDF or JPEG format.</div>
                 <div class="q-mt-md">
                   <q-btn @click="[showNew = false, Object.assign(newModel, schema)]" label="Cancel" color="secondary"
-                    class="q-mr-xs" />
-                  <q-btn @click="addNew()" :disable="$v.$invalid" label="Save" color="primary" />
+                    rounded class="q-mr-xs" />
+                  <q-btn @click="addNew()" :disable="$v.$invalid" label="Save" color="primary" rounded />
                 </div>
               </div>
             </div>

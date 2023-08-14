@@ -275,11 +275,13 @@ const confirmDelete = (message:string) => {
     title: 'Are you sure?',
     message,
     ok: {
-      color: 'primary'
+      color: 'primary',
+      rounded: true
     },
     cancel: {
       color: 'secondary',
-      flat: true
+      flat: true,
+      rounded: true
     }
   })
 }

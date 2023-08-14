@@ -12,7 +12,9 @@ export interface Attachment {
   attachable_type:string,
   attachment_id:number
   file_file_name:string,
-  type:string
+  type:string,
+  name:string,
+  expiry_date:string
 }
 
 export interface AmazonEmail {
@@ -569,6 +571,26 @@ export interface NotificationTemplate {
   user_id?:number
 }
 
+export interface PostcodeRegionGroupPostcodeRegion {
+  id:number,
+  locality:string,
+  state:string,
+  postcode:string,
+  lat:string,
+  long:string,
+  meta: {
+    pivot_lat:string,
+    pivot_lng:string
+  }
+}
+
+export interface PostcodeRegionGroup {
+  id?:number|null,
+  name:string|null,
+  approved?:boolean,
+  postcoderegions: PostcodeRegionGroupPostcodeRegion[]|null
+}
+
 export interface UserRoster {
   id:number|null,
   user_id:number|null,
@@ -591,7 +613,8 @@ export interface UserRosterSchedule {
   active:boolean|null,
   user_postcoderegion_group_id:number|null,
   user: User|null,
-  capacity: LooseObject
+  capacity: LooseObject,
+  postcoderegiongroup?: PostcodeRegionGroup
 }
 
 export interface SmsTemplate {
@@ -668,26 +691,6 @@ export interface EventObj {
   start_time:number,
   end_time:number,
   duration: number
-}
-
-export interface PostcodeRegionGroupPostcodeRegion {
-  id:number,
-  locality:string,
-  state:string,
-  postcode:string,
-  lat:string,
-  long:string,
-  meta: {
-    pivot_lat:string,
-    pivot_lng:string
-  }
-}
-
-export interface PostcodeRegionGroup {
-  id?:number|null,
-  name:string|null,
-  approved?:boolean,
-  postcoderegions: PostcodeRegionGroupPostcodeRegion[]|null
 }
 
 export interface TravelTime {

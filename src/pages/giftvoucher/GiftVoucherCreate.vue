@@ -33,11 +33,11 @@
               <div class="bg-grey-1 q-pa-md q-mt-md">
                 <div class="text-bold">Purchaser details</div>
                 <div class="row q-col-gutter-md">
-                  <div class="col-xs-12 col-sm-6">
+                  <div class="col-xs-6">
                     <q-input v-model="model.first_name" label="First name" :error="$v.first_name.$invalid"
                       :disable="!model.send_to" />
                   </div>
-                  <div class="col-xs-12 col-sm-6">
+                  <div class="col-xs-6">
                     <q-input v-model="model.last_name" label="Last name" :error="$v.last_name.$invalid"
                       :disable="!model.send_to" />
                   </div>

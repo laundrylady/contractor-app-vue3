@@ -68,20 +68,18 @@
         </div>
       </div>
     </div>
-    <div class="flex q-mt-sm items-center">
+    <div class="flex q-mt-sm items-center q-pb-xs">
       <div v-if="localModel.sent_for_payment && localModel.status !== 'PAID'">
-        Sent for payment: {{ dateTimeTz(localModel.sent_for_payment) }}
+        <q-icon name="mail" /> Sent for payment: {{ dateTimeTz(localModel.sent_for_payment) }}
       </div>
       <q-space />
       <div>
-        <q-btn-group flat>
-          <q-btn @click="emailInvoice()" icon="mail" title="Email a copy of the Invoice" flat :disable="emailingInvoice"
-            round v-if="!localModel.sent_for_payment" />
-          <q-btn @click="sendPaymentRequest()" icon="send" title="Send Payment Request" flat
-            v-if="localModel.total_price > 0 && !localModel.sent_for_payment" :disable="sendingPaymentRequest" round />
-          <q-btn @click="openURL(`/api/public/invoice/pdf/${localModel.id}`)" icon="print" title="Print Invoice" flat
-            round />
-        </q-btn-group>
+        <q-btn @click="emailInvoice()" icon="mail" title="Email a copy of the Invoice" flat :disable="emailingInvoice"
+          round v-if="!localModel.sent_for_payment" />
+        <q-btn @click="sendPaymentRequest()" icon="send" title="Send Payment Request" flat
+          v-if="localModel.total_price > 0 && !localModel.sent_for_payment" :disable="sendingPaymentRequest" round />
+        <q-btn @click="openURL(`/api/public/invoice/pdf/${localModel.id}`)" icon="print" title="Print Invoice" flat
+          round />
       </div>
     </div>
   </div>

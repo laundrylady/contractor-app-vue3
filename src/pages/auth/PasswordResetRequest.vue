@@ -7,7 +7,7 @@
             <AppLogo />
           </q-card-section>
           <q-card-section>
-            <div class="text-h4 text-bold">Password Reset</div>
+            <div class="text-h5 text-bold">Password Reset</div>
             <div>Enter your registered email address to start the process.</div>
           </q-card-section>
           <q-card-section>
@@ -18,12 +18,12 @@
               </div>
             </transition>
             <q-input v-model="model.email" :error="$v.email.$error" label="Enter your registered email address" autofocus
-              aria-label="Enter your email address" />
-            <q-btn @click="send()" :disabled="loading || $v.$invalid" :loading="loading" color="primary" label="Send"
-              aria-label="Send reset password email" class="full-width" />
+              aria-label="Enter your email address" outlined />
+            <q-btn @click="send()" :disabled="loading || $v.$invalid" :loading="loading" color="primary" rounded
+              label="Send" aria-label="Send reset password email" class="full-width" />
             <div class="text-left q-mt-lg">
               <q-btn :to="{ name: 'signIn' }" class="link" aria-label="Go back to Sign In" label="Back to Sign In" flat
-                no-caps color="primary" />
+                no-caps color="primary" rounded />
             </div>
           </q-card-section>
         </q-card>

@@ -27,7 +27,7 @@
                 :type="pwdToggle.pw ? 'password' : 'text'"
                 :error="$v.password.$error || (model.password && passwordTest() < 4)" bottom-slots
                 error-message="Your password must contain at least 1 number, 1 uppercase character and 1 special character"
-                aria-label="Enter new password">
+                aria-label="Enter new password" outlined>
                 <template v-slot:append>
                   <q-icon :name="pwdToggle.pw ? 'visibility_off' : 'visibility'" class="cursor-pointer"
                     @click="pwdToggle.pw = !pwdToggle.pw" />
@@ -36,7 +36,7 @@
               <q-input v-model="model.passwordConfirm" label="Confirm password"
                 :type="pwdToggle.pwc ? 'password' : 'text'"
                 :error="model.password && model.passwordConfirm !== model.password" class="q-mt-md"
-                aria-label="Confirm new password">
+                aria-label="Confirm new password" outlined>
                 <template v-slot:append>
                   <q-icon :name="pwdToggle.pwc ? 'visibility_off' : 'visibility'" class="cursor-pointer"
                     @click="pwdToggle.pwc = !pwdToggle.pwc" />
@@ -48,7 +48,7 @@
             <q-space />
             <q-btn @click="confirm()"
               :disabled="loading || $v.$invalid || (model.password && model.passwordConfirm !== model.password)"
-              :loading="loading" color="primary" v-if="!success" label="Activate" aria-label="Activate" />
+              :loading="loading" color="primary" v-if="!success" label="Activate" aria-label="Activate" rounded />
           </q-card-actions>
         </q-card>
       </q-page>

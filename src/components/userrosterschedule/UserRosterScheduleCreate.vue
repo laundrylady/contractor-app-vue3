@@ -17,7 +17,7 @@
         </div>
         <div class="row q-col-gutter-md ">
           <div class="col-xs-12 col-sm-6">
-            <div class="q-mb-sm">Start and end times</div>
+            <div class="q-mb-sm">Picking up between:</div>
             <div class="row q-col-gutter-md">
               <q-select v-model="newSchedule.start_time" outlined dense :options="hourOptions" map-options emit-value
                 label="Start Time" options-cover class="col-xs-6" :error="$v.start_time.$invalid"
@@ -45,7 +45,7 @@
         </div>
         <div class="q-mt-lg flex">
           <q-btn @click="addSchedule()" :disable="$v.$invalid || loading" icon="add_circle" label="Add" color="primary"
-            class="full-width" :loading="loading" />
+            class="full-width" :loading="loading" rounded />
         </div>
       </q-card-section>
     </q-card>

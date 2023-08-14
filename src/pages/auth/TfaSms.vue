@@ -22,7 +22,7 @@
           </q-card-section>
           <q-card-actions>
             <q-space />
-            <q-btn v-if="sentSms && smsCode" @click="checkSms()" label="Continue" color="primary" />
+            <q-btn v-if="sentSms && smsCode" @click="checkSms()" label="Continue" color="primary" rounded />
           </q-card-actions>
         </q-card>
       </q-page>

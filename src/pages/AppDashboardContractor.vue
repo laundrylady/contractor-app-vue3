@@ -1,6 +1,14 @@
 <template>
-  <div v-if="user && user.id">
+  <div v-if="user && user.id" class="layout-container">
     <OrderCreate />
+    <div v-if="!$q.screen.xs">
+      <q-breadcrumbs class="q-mb-md">
+        <template v-slot:separator>
+          <q-icon size="1.5em" name="chevron_right" />
+        </template>
+        <q-breadcrumbs-el label="Home" icon="home" :to="{ name: 'appDashboard' }" />
+      </q-breadcrumbs>
+    </div>
     <div class="flex q-mb-md">
       <div class="text-h6">Hi {{ user.first_name }}</div>
       <q-space />
@@ -12,7 +20,7 @@
           <q-card class="bg-seamless q-mb-lg">
             <q-card-section>
               <div class="text-h6 q-mb-md">Pickups</div>
-              <q-tabs v-model="pickupTab" class="q-mb-md">
+              <q-tabs v-model="pickupTab" class="q-mb-md" :align="!$q.screen.xs ? 'left' : 'center'">
                 <q-tab name="today" :label="`Today (${dashboard.pickupsToday.length})`" />
                 <q-tab name="week" :label="`Upcoming (${dashboard.pickupsWeek.length})`" />
                 <q-tab name="missed" :label="`Missed (${dashboard.pickupsMissed.length})`" />
@@ -51,7 +59,7 @@
               <div class="text-h6 q-mb-md">Sent for Payment</div>
               <div v-if="!dashboard.sentForPayment.length">No {{ $t('order.namePlural').toLowerCase() }} found.
               </div>
-              <OrderListFormat :orders="dashboard.sentForPayment" :no-avatar="true" />
+              <OrderListFormat :orders="dashboard.sentForPayment" :no-avatar="true" :booking-id="true" />
             </q-card-section>
           </q-card>
         </div>

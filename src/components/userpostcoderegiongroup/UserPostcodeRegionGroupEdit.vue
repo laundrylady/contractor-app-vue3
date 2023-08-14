@@ -13,8 +13,8 @@
           :show-map="true" />
       </q-card-section>
       <q-card-actions align="right">
-        <q-btn v-close-popup label="Cancel" flat color="secondary" />
-        <q-btn :disable="loading || $v.$invalid" label="Update" color="primary" @click="save()" />
+        <q-btn v-close-popup label="Cancel" flat color="secondary" rounded />
+        <q-btn :disable="loading || $v.$invalid" label="Update" color="primary" @click="save()" rounded />
       </q-card-actions>
     </q-card>
   </q-dialog>

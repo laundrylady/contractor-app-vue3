@@ -46,9 +46,9 @@
         </div>
       </q-card-section>
       <q-card-actions align="right">
-        <q-btn v-close-popup label="Cancel" flat color="secondary" />
+        <q-btn v-close-popup label="Cancel" flat color="secondary" rounded />
         <q-btn :disable="loading || $v.$invalid || !model.productcategories.filter(o => o.active).length" label="Save"
-          color="primary" @click="save()" />
+          color="primary" @click="save()" rounded />
       </q-card-actions>
     </q-card>
   </q-dialog>

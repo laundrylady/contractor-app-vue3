@@ -142,7 +142,7 @@ export default {
     edit: 'Edit Booking',
     orderDate: 'Booking Date',
     id: 'Booking ID',
-    scheduledPickupDate: 'Scheduled Pickup Date',
+    scheduledPickupDate: 'Pickup Date',
     scheduledPickupTime: 'Pickup between',
     contractorUserId: 'Select the contractor',
     status: 'Booking Status',

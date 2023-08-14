@@ -2,20 +2,13 @@
   <OrderCreate />
   <q-layout view="lHh LpR fFf" container class="layout-height">
     <q-header :class="{ 'page-title text-black': !$q.dark.isActive, 'bg-dark': $q.dark.isActive }" bordered>
-      <div class="q-pl-md q-pt-sm q-pr-md q-pb-sm flex items-center" style="padding-top:11px;" v-if="!$q.screen.xs">
-        <q-breadcrumbs>
-          <template v-slot:separator>
-            <q-icon size="1.5em" name="chevron_right" />
-          </template>
-          <q-breadcrumbs-el label="Home" icon="home" :to="{ name: 'appDashboard' }" />
-          <q-breadcrumbs-el :label="$t('order.namePlural')" />
-        </q-breadcrumbs>
-      </div>
-      <div :class="{ 'q-pa-md': $q.screen.xs }">
+      <div :class="{ 'q-pl-md q-pr-md': $q.screen.xs }" class="layout-container q-pt-md q-pb-md">
         <div class="flex items-center">
-          <div class="text-h6">All {{ $t('order.namePlural') }}</div>
+          <div class="text-h6">All {{ $t('order.namePlural') }}<div class="text-caption">Search your previous
+              {{ $t('order.name') }} history</div>
+          </div>
           <q-space />
-          <q-btn icon="filter_alt" @click="toggleFilters()" flat />
+          <q-btn icon="filter_alt" @click="toggleFilters()" flat round />
         </div>
         <div class="row q-col-gutter-md q-mt-xs" v-if="showFilters">
           <div class="col-xs-6">
@@ -35,63 +28,29 @@
     </q-header>
     <q-page-container>
       <q-page padding :class="{ 'q-pa-md': $q.screen.xs }">
-        <q-card>
-          <div ref="topRef"></div>
-          <q-table :rows="data" :columns="columns" row-key="id" :loading="loading" v-model:pagination="serverPagination"
-            @request="request" class="no-shadow" :rows-per-page-options="rowsPerPageOptions">
-            <template v-slot:body-cell-scheduled_pickup_date="props">
-              <q-td :props="props">
-                <router-link :to="{ name: 'order-edit', params: { id: props.row.id } }" class="link">{{
-                  props.row.scheduled_pickup_date
-                }} ({{ hourBookingDisplay(props.row.scheduled_pickup_time) }}) <q-icon v-if="props.row.recurring_order"
-                    name="sync" title="Recurring" />
-                </router-link>
-              </q-td>
-            </template>
-            <template v-slot:body-cell-display_id="props">
-              <q-td :props="props">
-                <div>
-                  <router-link :to="{ name: 'order-edit', params: { id: props.row.id } }" class="link">{{
-                    displayDateDay(props.row.scheduled_pickup_date) }} {{ props.row.scheduled_pickup_date }} (<span
-                      v-if="!props.row.agreed_pickup_time">{{
-                        hourBookingDisplay(props.row.scheduled_pickup_time)
-                      }}</span><span v-if="props.row.agreed_pickup_time">{{
-  hourAgreedDisplay(props.row.agreed_pickup_time)
-}}</span>)</router-link>
-                </div>
-                <div class="text-grey-7">
-                  <q-icon name="settings" color="grey-7" /> <span v-if="props.row.productcategories"><span
-                      v-for="(c, index) in props.row.productcategories" :key="c.id">{{
-                        c.name }}<span v-if="index + 1 !== props.row.productcategories.length"
-                        class="q-ml-xs q-mr-xs">&</span></span> pickup with {{ props.row.team.name }}</span>
-                </div>
-                <div class="text-grey-7"><q-icon name="place" color="grey-7" /> <span class="q-mr-sm"
-                    v-if="props.row.team.suburbpostcoderegion">{{ props.row.team.suburbpostcoderegion.locality }}
-                    {{ props.row.team.suburbpostcoderegion.state }}</span>
-                </div>
-                <div class="q-mt-xs">
-                  <StatusTag :status="props.row.status" />
-                </div>
-              </q-td>
-            </template>
-            <template v-slot:body-cell-actions="props">
-              <q-td :props="props">
-                <q-btn flat icon="more_vert" round>
-                  <q-menu>
-                    <q-list>
-                      <q-item clickable v-close-popup :to="{ name: 'contractor-edit', params: { id: props.row.id } }">
-                        <q-item-section>Edit record</q-item-section>
-                      </q-item>
-                      <q-item clickable v-close-popup @click="deleteOrder(props.row.id)">
-                        <q-item-section>Delete</q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                </q-btn>
-              </q-td>
-            </template>
-          </q-table>
-        </q-card>
+        <div class="layout-container">
+          <div class="flex items-center q-mb-md" style="padding-top:11px;" v-if="!$q.screen.xs">
+            <q-breadcrumbs>
+              <template v-slot:separator>
+                <q-icon size="1.5em" name="chevron_right" />
+              </template>
+              <q-breadcrumbs-el label="Home" icon="home" :to="{ name: 'appDashboard' }" />
+              <q-breadcrumbs-el :label="$t('order.namePlural')" />
+            </q-breadcrumbs>
+          </div>
+          <q-card>
+            <div ref="topRef"></div>
+            <q-table :rows="data" :columns="columns" row-key="id" :loading="loading" v-model:pagination="serverPagination"
+              @request="request" class="no-shadow" :rows-per-page-options="rowsPerPageOptions" wrap-cells hide-header>
+              <template v-slot:body-cell-display_id="props">
+                <q-td :props="props">
+                  <OrderListFormat :orders="[props.row]" :no-avatar="true" :dense="true" :status="true"
+                    :booking-id="true" />
+                </q-td>
+              </template>
+            </q-table>
+          </q-card>
+        </div>
       </q-page>
     </q-page-container>
   </q-layout>
@@ -99,12 +58,12 @@
 <script setup lang="ts">
 import { EventBus, QTableProps } from 'quasar'
 import { api } from 'src/boot/axios'
-import StatusTag from 'src/components/StatusTag.vue'
 import DateField from 'src/components/form/DateField.vue'
 import TeamField from 'src/components/form/TeamField.vue'
 import OrderCreate from 'src/components/order/OrderCreate.vue'
+import OrderListFormat from 'src/components/order/OrderListFormat.vue'
 import { useMixinDebug } from 'src/mixins/debug'
-import { confirmDelete, displayDateDay, getRowsPerPage, hourAgreedDisplay, hourBookingDisplay, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
+import { getRowsPerPage, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
 import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -117,7 +76,7 @@ const topRef = ref<HTMLDivElement | null>(null)
 const search = reactive({ team_id: null, start: null, end: null })
 const columns: QTableProps['columns'] = [{
   name: 'display_id',
-  label: i8n.t('order.id'),
+  label: i8n.t('order.name'),
   align: 'left',
   field: 'display_id',
   sortable: true,
@@ -171,16 +130,6 @@ const request = (props: Parameters<NonNullable<QTableProps['onRequest']>>[0] | n
     }).catch((response) => {
       useMixinDebug(response)
     })
-}
-
-const deleteOrder = (id: number) => {
-  confirmDelete('This action is not reversible').onOk(() => {
-    api.delete(`/order/${id}`).then(() => {
-      request()
-    }).catch(error => {
-      useMixinDebug(error)
-    })
-  })
 }
 
 const toggleFilters = () => {

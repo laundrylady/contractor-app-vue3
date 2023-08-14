@@ -2,7 +2,7 @@
   <q-dialog v-model="show">
     <q-card class="modal" v-if="model.day && model.user">
       <q-toolbar class="bg-primary text-white">
-        <q-toolbar-title>{{ dbDateDisplay(model.day, 'dddd DD/MM/YYYY') }} - {{ model.user.fullname }}</q-toolbar-title>
+        <q-toolbar-title>{{ dbDateDisplay(model.day, 'dddd DD/MM/YYYY') }}</q-toolbar-title>
         <div class="flex-shrink">
           <q-btn v-close-popup icon="close" flat round dense />
         </div>
@@ -10,17 +10,19 @@
       <q-separator />
       <q-card-section>
         <div class="row q-col-gutter-md">
-          <div class="col-xs-12 col-sm-6">
-            <div class="q-mb-sm">Start and end times</div>
+          <div class="col-xs-12">
+            <div class="q-mb-sm">Picking up from <q-badge :label="model.postcoderegiongroup.name || ''" color="grey"
+                v-if="model.postcoderegiongroup" />
+              between:</div>
             <div class="row q-col-gutter-md">
               <q-select v-model="model.start_time" outlined dense :options="hourOptions" map-options emit-value
-                label="Start Time" options-cover class="col-xs-6" :error="$v.start_time.$invalid"
+                label="Start" options-cover class="col-xs-6" :error="$v.start_time.$invalid"
                 @update:model-value="model.end_time = null" />
               <q-select v-model="model.end_time" outlined dense :options="endHourOptions(model.start_time)" map-options
-                emit-value label="End Time" options-cover class="col-xs-6" :error="$v.end_time.$invalid" />
+                emit-value label="End" options-cover class="col-xs-6" :error="$v.end_time.$invalid" />
             </div>
           </div>
-          <div class="col-xs-12 col-sm-6">
+          <div class="col-xs-12">
             <div class="q-mb-sm">Capacity for this timeslot:</div>
             <div v-if="model.capacity.products" class="row q-col-gutter-md">
               <div v-for="(c, cindex) in model.capacity.products" :key="cindex" class="col-xs-6">
@@ -39,8 +41,9 @@
         </div>
       </q-card-section>
       <q-card-actions align="right">
-        <q-btn v-close-popup label="Cancel" flat color="secondary" />
-        <q-btn :disable="loading || $v.$invalid" label="Update" color="primary" @click="save()" :loading="loading" />
+        <q-btn v-close-popup label="Cancel" flat color="secondary" rounded />
+        <q-btn :disable="loading || $v.$invalid" label="Update" color="primary" @click="save()" rounded
+          :loading="loading" />
       </q-card-actions>
     </q-card>
   </q-dialog>

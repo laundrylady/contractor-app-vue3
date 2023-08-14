@@ -2,12 +2,13 @@
   <q-layout view="lHh LpR fFf" v-if="user && user.id">
     <q-header>
       <q-toolbar style="height:65px;">
-        <router-link :to="{ name: 'appDashboard' }" class="link bg-white q-pl-xs q-pt-xs q-pr-xs rounded-borders">
-          <img src="../assets/images/logos/logo_app.png" style="max-width:100%;max-height:40px" />
+        <router-link :to="{ name: 'appDashboard' }" class="link">
+          <img src="../assets/images/logos/logo_grey.png" style="max-width:100%;max-height:60px" />
         </router-link>
         <HeaderSearch class="q-ml-md" />
         <q-space />
         <q-btn icon="event" :title="$t('order.namePlural')" :to="{ name: 'appDashboard' }" flat round class="q-mr-xs" />
+        <q-btn icon="shopping_cart" title="Order supplies" flat round class="q-mr-xs" />
         <q-btn icon="logout" title="Sign Out" @click="logout()" flat round class="q-mr-xs" />
         <q-btn flat round @click="profile()">
           <q-avatar size="32px">
