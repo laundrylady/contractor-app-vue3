@@ -546,7 +546,8 @@ export interface Order {
   scheduled_pickup_time:string,
   agreed_pickup_time:string|null,
   xero_id:string,
-  productcategories: OrderProductCategory[]
+  productcategories: OrderProductCategory[],
+  special_instructions: string
 }
 
 export interface OrderForm {

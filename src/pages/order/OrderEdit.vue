@@ -66,6 +66,8 @@
                 </div>
               </div>
             </div>
+            <q-input v-model="localModel.special_instructions" label="Special Instruction" outlined type="textarea"
+              autogrow class="q-mt-md" :disable="!canEdit" />
           </q-card-section>
           <q-card-actions align="right" v-if="canEdit && bookingTab === 'details'">
             <q-btn :disable="loading || $v.$invalid" :label="$t('actions.update')" color="primary" @click="save()"
@@ -242,7 +244,7 @@ const save = () => {
     loading.value = false
   }).catch(error => {
     loading.value = false
-    useMixinDebug(error)
+    useMixinDebug(error, bus)
   })
 }
 
@@ -256,7 +258,7 @@ const saveInvoice = () => {
       loading.value = false
     }).catch(error => {
       loading.value = false
-      useMixinDebug(error)
+      useMixinDebug(error, bus)
     })
   }
 }
