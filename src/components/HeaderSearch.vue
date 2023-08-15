@@ -65,7 +65,7 @@ const doNav = (model: SearchResultModel, type: string) => {
 
 const search = async (update: (fn: () => void) => void, searchKeyword: string) => {
   loading.value = true
-  const result = await api.post('/search', { keyword: searchKeyword })
+  const result = await api.post('/public/search', { keyword: searchKeyword })
   if (result.data.length === 1) {
     doNav(result.data[0], result.data[0].type)
     return true

@@ -7,7 +7,9 @@
           <div>
             <div class="text-h6">{{ currencyFormat(props.row.commission_paid_amount_grand) }}</div>
             <div>Week: {{ dbDateDisplay(props.row.start) }} -> {{ dbDateDisplay(props.row.end) }}</div>
-            <a class="link" @click="openURL(`/api/public/usercommissionpaid/statement/${props.row.id}`)">Print
+            <a class="link items-center flex"
+              @click="openURL(`/api/public/usercommissionpaid/statement/${props.row.id}`)"><q-icon name="print"
+                class="q-mr-xs" />
               Statement</a>
           </div>
           <q-space />

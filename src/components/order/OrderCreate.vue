@@ -9,10 +9,8 @@
       <q-separator />
       <q-card-section>
         <div class="row q-col-gutter-md q-mb-md">
-          <TeamField v-model="model.team_id" :label="$t('team.name')" status="active" class="col-xs-12 col-sm-9"
+          <TeamField v-model="model.team_id" :label="$t('team.name')" status="active" class="col-xs-12"
             :error="$v.team_id.$invalid" />
-          <q-select v-model="model.status" :label="$t('order.status')" :error="$v.status.$invalid" map-options
-            :options="globalStatusList" emit-value class="col-xs-12 col-sm-3" />
         </div>
         <div class="row q-col-gutter-md" v-if="model.team_id">
           <DateField v-model="model.scheduled_pickup_date" :label="$t('order.scheduledPickupDate')"
@@ -33,8 +31,7 @@
           </span>
         </div>
         <div
-          v-if="model.team_id && model.scheduled_pickup_date && model.scheduled_pickup_time && model.productcategories && model.productcategories.filter(o => o.active).length"
-          class="q-mt-md">
+          v-if="model.team_id && model.scheduled_pickup_date && model.scheduled_pickup_time && model.productcategories && model.productcategories.filter(o => o.active).length">
           <OrderContractorManagement :team_id="model.team_id" :scheduled_pickup_date="model.scheduled_pickup_date"
             :scheduled_pickup_time="model.scheduled_pickup_time" v-model="model.contractor_user_id" :reassign="true"
             :productcategories="model.productcategories.filter(o => o.active)" v-if="user.role === 'customer'" />
@@ -43,6 +40,7 @@
             <q-select v-model="model.recurring" :label="$t('order.recurringFrequency')"
               :options="['Week', 'Fortnite', 'Month']" v-if="model.recurring_order" />
           </div>
+          <q-input v-model="model.special_instructions" label="Special Instructions" autogrow outlined class="q-mt-md" />
         </div>
       </q-card-section>
       <q-card-actions align="right">
@@ -59,7 +57,8 @@ import { required } from '@vuelidate/validators'
 import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
 import { useMixinDebug } from 'src/mixins/debug'
-import { categoryDisplay, doNotify, globalStatusList, hourBookingOptions } from 'src/mixins/help'
+import { categoryDisplay, doNotify, hourBookingOptions } from 'src/mixins/help'
+import { useMixinSecurity } from 'src/mixins/security'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
 import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -67,7 +66,6 @@ import DateField from '../form/DateField.vue'
 import TeamField from '../form/TeamField.vue'
 import { Order } from '../models'
 import OrderContractorManagement from './OrderContractorManagement.vue'
-import { useMixinSecurity } from 'src/mixins/security'
 
 const show = ref(false)
 const washingAndIroning = ref(false)

@@ -70,7 +70,8 @@
     </div>
     <div class="flex q-mt-sm items-center q-pb-xs">
       <div v-if="localModel.sent_for_payment && localModel.status !== 'PAID'">
-        <q-icon name="mail" /> Sent for payment: {{ dateTimeTz(localModel.sent_for_payment) }}
+        Sent for payment: {{ dateTimeTz(localModel.sent_for_payment) }}<br />Due: {{
+          localModel.due_date }}
       </div>
       <q-space />
       <div>

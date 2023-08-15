@@ -515,7 +515,8 @@ export interface Invoice {
   payments:InvoicePayment[],
   user:User,
   xero_override: boolean,
-  sent_for_payment:string
+  sent_for_payment:string,
+  due_date: string
 }
 
 export interface Order {
