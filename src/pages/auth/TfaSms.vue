@@ -3,12 +3,12 @@
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn q-pa-md" v-if="userStore && userStore.data">
         <q-card class="col-xs-12 col-sm-6 col-md-4">
-          <q-card-section class="row" style="min-height:92px;">
+          <q-card-section class="text-center" style="min-height:165px;">
             <AppLogo />
           </q-card-section>
           <q-card-section>
-            <h4 class="text-h4 q-mt-none q-mb-sm">Account Protection</h4>
-            <p>Enter the security code that was sent to via SMS.</p>
+            <h4 class="text-h5 q-mt-none q-mb-none">Account Protection</h4>
+            <div>Enter the security code that was sent to via SMS.</div>
           </q-card-section>
           <q-card-section>
             <div v-if="error">

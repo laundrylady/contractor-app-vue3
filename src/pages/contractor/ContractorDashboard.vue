@@ -59,7 +59,7 @@
               <q-circular-progress :value="parseFloat(dashboard.retainedRebooked.rebookedPercentage)" size="64px"
                 color="secondary" show-value track-color="grey-3" v-if="dashboard.retainedRebooked.rebookedPercentage">
                 {{ dashboard.retainedRebooked.rebooked }}</q-circular-progress>
-              <div class="q-mt-sm">Rebooked ({{ dashboard.retainedRebooked.rebookedPercentage }}%</div>
+              <div class="q-mt-sm">Rebooked ({{ dashboard.retainedRebooked.rebookedPercentage }}%)</div>
             </div>
           </q-card-section>
         </q-card>

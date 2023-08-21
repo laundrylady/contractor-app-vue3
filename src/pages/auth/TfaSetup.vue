@@ -3,13 +3,14 @@
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn q-pa-md" v-if="userStore && userStore.data">
         <q-card class="col-xs-12 col-sm-6 col-md-4">
-          <q-card-section class="row" style="min-height:92px;">
+          <q-card-section class="text-center" style="min-height:165px;">
             <AppLogo />
           </q-card-section>
           <q-card-section>
-            <h4 class="text-h4 q-mt-none q-mb-sm">Protect your account</h4>
+            <h4 class="text-h5 q-mt-none q-mb-none">Protect your account</h4>
             <p>Add an extra layer of security to your Laundry Lady account.</p>
-            <P>Click SEND CODE below and we'll send you a verification code to your registered mobile phone number.</P>
+            <div>Click SEND CODE below and we'll send you a verification code to your registered mobile phone number.
+            </div>
           </q-card-section>
           <q-card-section>
             <div v-if="error">
@@ -24,7 +25,8 @@
           </q-card-section>
           <q-card-actions>
             <q-space />
-            <q-btn v-if="sentSms && smsCode" @click="checkSms()" label="Continue" color="primary" rounded />
+            <q-btn v-if="sentSms && smsCode" @click="checkSms()" label="Continue" color="primary" rounded
+              :disable="loading" :loading="loading" />
           </q-card-actions>
         </q-card>
       </q-page>
@@ -46,6 +48,7 @@ const tfaEmail = ref()
 const error = ref(false)
 const router = useRouter()
 const sending = ref(false)
+const loading = ref(false)
 
 const sendSms = () => {
   if (userStore.data) {
@@ -64,12 +67,15 @@ const sendSms = () => {
 const checkSms = () => {
   if (userStore.data) {
     error.value = false
+    loading.value = true
     api.post('/auth/tfa/sms/check', { code: smsCode.value, tfa_email: tfaEmail.value, mobile: userStore.data.mobile })
       .then((response) => {
         userStore.setUserData(response.data)
+        loading.value = false
         router.push({ name: 'appDashboard' })
       })
       .catch((error) => {
+        loading.value = false
         error.value = true
         useMixinDebug(error)
       })

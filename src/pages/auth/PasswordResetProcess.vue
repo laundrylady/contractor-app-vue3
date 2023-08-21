@@ -2,13 +2,13 @@
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn q-pa-md">
-        <q-card class="col-xs-12 col-sm-6 col-md-3 text-center">
+        <q-card class="col-xs-12 col-sm-6 col-md-3">
           <q-card-section class="text-center" style="min-height:92px;">
             <AppLogo />
           </q-card-section>
           <q-card-section>
-            <h1 class="text-h4 q-mt-none q-mb-none">Password Reset</h1>
-            <p>Enter and confirm your new password below:</p>
+            <h1 class="text-h5 q-mt-none q-mb-none text-bold">Password Reset</h1>
+            <div>Enter and confirm your new password below:</div>
           </q-card-section>
           <q-card-section>
             <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOutTop" appear>

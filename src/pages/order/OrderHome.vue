@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf" container class="layout-height layout-container" v-if="model && model.id">
-    <q-header :class="{ 'page-title text-black': !$q.dark.isActive, 'bg-dark': $q.dark.isActive }" bordered>
+    <q-header :class="{ 'page-title text-black': !$q.dark.isActive, 'bg-dark': $q.dark.isActive }">
       <div class="q-pl-md q-pr-md q-pt-md">
         <div class="flex" v-if="!$q.screen.xs">
           <q-breadcrumbs class="q-mb-md">

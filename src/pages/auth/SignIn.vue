@@ -2,11 +2,13 @@
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn" padding :class="{ 'q-pa-md': $q.screen.xs }">
-        <q-card class="col-xs-12 col-sm-6 col-md-3 text-center">
-          <q-card-section class="text-center">
+        <q-card class="col-xs-12 col-sm-6 col-md-3">
+          <q-card-section class="text-center" style="min-height:165px;">
             <AppLogo />
           </q-card-section>
           <q-card-section>
+            <div class="text-h5 text-bold">Sign In</div>
+            <p>Welcome back!</p>
             <q-input v-model="login.username" label="Registered Email" bottom-slots autofocus outlined>
               <template v-slot:prepend>
                 <q-icon name="account_circle" />

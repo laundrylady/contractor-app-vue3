@@ -2,8 +2,8 @@
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn" padding>
-        <q-card class="col-xs-12 col-sm-6 col-md-3 text-center">
-          <q-card-section class="text-center" style="min-height:92px;">
+        <q-card class="col-xs-12 col-sm-6 col-md-3">
+          <q-card-section class="text-center" style="min-height:165px;">
             <AppLogo />
           </q-card-section>
           <q-card-section>
@@ -14,7 +14,8 @@
             <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOutTop" appear>
               <div class="text-positive q-mb-md" v-if="success || error">
                 Please go to your email account and click the password reset link we've sent for your account.
-                It could take a few minutes to appear, and be sure to check any spam and promotional folders—just in case!
+                It could take a few minutes to appear, and be sure to check any spam or promotional folders - just in
+                case!
               </div>
             </transition>
             <q-input v-model="model.email" :error="$v.email.$error" label="Enter your registered email address" autofocus

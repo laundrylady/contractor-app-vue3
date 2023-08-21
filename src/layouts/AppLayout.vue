@@ -8,7 +8,8 @@
         <HeaderSearch class="q-ml-md" />
         <q-space />
         <q-btn icon="event" :title="$t('order.namePlural')" :to="{ name: 'appDashboard' }" flat round class="q-mr-xs" />
-        <q-btn icon="shopping_cart" title="Order supplies" flat round class="q-mr-xs" />
+        <q-btn icon="shopping_cart" title="Order supplies" flat round class="q-mr-xs"
+          @click="openURL('https://teamlaundrylady.co/account/login')" />
         <q-btn icon="logout" title="Sign Out" @click="logout()" flat round class="q-mr-xs" />
         <q-btn flat round @click="profile()">
           <q-avatar size="32px">
@@ -55,7 +56,7 @@
 </template>
 <script setup lang="ts">
 import moment from 'moment-timezone'
-import { EventBus, useQuasar } from 'quasar'
+import { EventBus, openURL, useQuasar } from 'quasar'
 import AppLogo from 'src/components/AppLogo.vue'
 import HeaderSearch from 'src/components/HeaderSearch.vue'
 import MediaViewer from 'src/components/MediaViewer.vue'
