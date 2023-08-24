@@ -1,37 +1,24 @@
 <template>
   <div v-if="loadingContractors" style="min-height:100px;">
     <q-linear-progress indeterminate v-if="loadingContractors" />
-    <div class="q-ml-sm q-mt-sm">Finding available contractors...</div>
+    <div class="q-ml-sm q-mt-sm">Finding available ladies / lads...</div>
   </div>
   <div v-if="contractors && !loadingContractors">
-    <div class="text-h6 q-mb-xs">
-      <div v-if="!modelValue">Available {{ $t('contractor.namePlural') }} ({{ contractors.length }})</div>
-      <div v-if="modelValue">Assigned {{ $t('contractor.name') }}</div>
-    </div>
-    <q-select v-model="tmpContractorUserId" :label="$t('order.contractorUserId')"
-      :options="contractors.map(o => { return { value: o.id, label: o.fullname, avatar: o.avatar, first_name: o.first_name, last_name: o.last_name, fullname: o.fullname } })"
-      map-options emit-value outlined @update:model-value="emitUpdate()" :disable="disabled" outline>
-      <template v-slot:option="scope">
-        <q-item v-bind="scope.itemProps">
-          <q-item-section side>
-            <UserAvatar :user="{
-              id: scope.opt.value, first_name: scope.opt.first_name, last_name: scope.opt.last_name, fullname: scope.opt.fullname, avatar: scope.opt.avatar
-            }" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>{{ scope.opt.label }}</q-item-label>
-          </q-item-section>
-        </q-item>
-      </template>
-      <template v-slot:selected-item="scope">
-        <UserAvatar :user="{
-          id: scope.opt.value, first_name: scope.opt.first_name, last_name: scope.opt.last_name, fullname: scope.opt.fullname, avatar: scope.opt.avatar
-        }" class="q-mr-sm" />
-        {{ scope.opt.label }}
-      </template>
-    </q-select>
-    <div v-if="reassign && modelValue">
-      <q-btn flat @click="reAssign()" label="Reassign" color="primary" icon="sync" rounded />
+    <q-list v-if="contractors.length" separator>
+      <q-item v-for="c in contractors" :key="c.id" :class="{ 'bg-pink-1': c.id === tmpContractorUserId }">
+        <q-item-section avatar>
+          <UserAvatar :user="{
+            id: c.id, first_name: c.first_name, last_name: c.last_name, fullname: c.fullname, avatar: c.avatar
+          }" />
+        </q-item-section>
+        <q-item-section>{{ c.fullname }}</q-item-section>
+        <q-item-section side v-if="!tmpContractorUserId">
+          <q-btn @click="[tmpContractorUserId = c.id, emitUpdate()]" label="Select" color="primary" />
+        </q-item-section>
+      </q-item>
+    </q-list>
+    <div v-if="reassign && modelValue" class="q-mt-md">
+      <q-btn flat @click="reAssign()" label="Choose a different lady/lad" color="primary" icon="sync" rounded />
     </div>
   </div>
 </template>
@@ -45,12 +32,13 @@ import UserAvatar from '../UserAvatar.vue'
 
 interface Props {
   modelValue?: number | null,
-  team_id: number | null,
+  team_id?: number | null | undefined,
   scheduled_pickup_date: string | null,
   scheduled_pickup_time: string | null,
   productcategories: LooseObject[] | null
   disabled?: boolean,
-  reassign?: boolean
+  reassign?: boolean,
+  suburb_postcode_region_id?: number | null
 }
 
 const emits = defineEmits(['update:modelValue'])
@@ -61,11 +49,12 @@ const contractors = ref<User[]>()
 
 const findAvailableContractors = () => {
   loadingContractors.value = true
-  api.post('/team/availablecontractors', {
+  api.post('/public/team/availablecontractors', {
     team_id: props.team_id,
     scheduled_pickup_date: props.scheduled_pickup_date,
     scheduled_pickup_time: props.scheduled_pickup_time,
-    productcategories: props.productcategories
+    productcategories: props.productcategories,
+    suburb_postcode_region_id: props.suburb_postcode_region_id
   }).then(response => {
     contractors.value = response.data
     loadingContractors.value = false
@@ -91,7 +80,7 @@ const reAssign = () => {
 onMounted(() => {
   tmpContractorUserId.value = null
   if (props.modelValue) {
-    api.get(`/user/${props.modelValue}`).then(response => {
+    api.get(`/public/user/contractor/${props.modelValue}`).then(response => {
       contractors.value = [response.data]
       tmpContractorUserId.value = response.data.id
     }).catch(error => {

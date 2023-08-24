@@ -71,6 +71,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('src/pages/contractor/MonthlySurvey.vue'),
     meta: { title: 'Monthly Survey' }
   },
+  // ORDERS PUBLIC
+  {
+    name: 'orders-new',
+    path: '/booking/new',
+    component: () => import('src/pages/order/OrderNew.vue')
+  },
   // TFA SETUP
   {
     name: 'tfaSetup',

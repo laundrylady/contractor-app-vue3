@@ -537,6 +537,7 @@ export interface Order {
   recurring_parent_id:string|null,
   address1:string,
   address2:string,
+  suburb_postcode_region_id:number,
   suburbpostcoderegion:PostcodeRegion,
   country:Country
   lat:string,

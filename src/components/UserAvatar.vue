@@ -1,7 +1,7 @@
 <template>
   <q-avatar :color="userDetails.color" text-color="white" :title="userDetails.title" :size="size || '32px'">
-    <q-img :src="`/api/user/useravatar?fetch=thumb&userId=${userDetails.id}&cb=${new Date().getTime()}`" fit="contain"
-      no-spinner no-transition v-if="userDetails.avatar" />
+    <q-img :src="`/api/public/user/useravatar?fetch=thumb&userId=${userDetails.id}&cb=${new Date().getTime()}`"
+      fit="contain" no-spinner no-transition v-if="userDetails.avatar" />
     {{ userDetails.initials }}
   </q-avatar>
 </template>
