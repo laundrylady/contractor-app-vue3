@@ -80,7 +80,7 @@ const reAssign = () => {
 onMounted(() => {
   tmpContractorUserId.value = null
   if (props.modelValue) {
-    api.get(`/public/user/contractor/${props.modelValue}`).then(response => {
+    api.get(`/public/user/contractor/details/${props.modelValue}`).then(response => {
       contractors.value = [response.data]
       tmpContractorUserId.value = response.data.id
     }).catch(error => {
