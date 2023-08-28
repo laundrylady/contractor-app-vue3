@@ -80,7 +80,7 @@
         </q-card>
       </div>
     </div>
-    <div class="text-h6">Current {{ $t('roster.name') }}</div>
+    <div class="text-h6">Current {{ $t('schedule.name') }}</div>
     <p>We are generating your schedule from the roster below. If you need to permenantly make a change to your
       roster, <a href="mailto:support@thelaundrylady.com.au" class="link">click here to let us know!</a></p>
     <q-card><user-roster-view :rosterUser="model" /></q-card>

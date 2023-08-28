@@ -35,9 +35,10 @@
               </q-step>
               <q-step :name="3" title="Pickup date & time" icon="event"
                 :done="!!(model.scheduled_pickup_date && model.scheduled_pickup_time)">
-                <q-date v-model="model.scheduled_pickup_date" mask="DD/MM/YYYY" :options="minDate" class="q-mt-md" />
+                <q-date v-model="model.scheduled_pickup_date" mask="DD/MM/YYYY" :options="minDate" class="q-mt-md"
+                  @navigation="handleScheduledPickupDateNav" @update:model-value="getAvailableContractorsTimes()" />
                 <q-select v-model="model.scheduled_pickup_time" :label="$t('order.scheduledPickupTime')"
-                  :invalid="$v.scheduled_pickup_time" :options="hourBookingOptions" emit-value map-options outlined
+                  :invalid="$v.scheduled_pickup_time" :options="availableTimes" emit-value map-options outlined
                   class="q-mt-md" options-cover />
                 <q-stepper-navigation>
                   <q-btn @click="stepMove(4)" color="primary" label="Continue"
@@ -78,17 +79,21 @@ import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import moment from 'moment-timezone'
 import { EventBus } from 'quasar'
+import { api } from 'src/boot/axios'
 import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
-import { categoryDisplay, hourBookingOptions } from 'src/mixins/help'
+import { useMixinDebug } from 'src/mixins/debug'
+import { categoryDisplay } from 'src/mixins/help'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
 import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import AppLogo from '../../components/AppLogo.vue'
-import { Order } from '../../components/models'
+import { Order, QDateNavigation } from '../../components/models'
 import OrderContractorManagement from '../../components/order/OrderContractorManagement.vue'
 
 const step = ref(1)
 const washingAndIroning = ref(false)
 const categories = ref()
+const availableDates = ref<string[]>([])
+const availableTimes = ref<string[]>([])
 const schema = {
   contractor_user_id: null,
   scheduled_pickup_date: null,
@@ -101,8 +106,9 @@ const schema = {
 const model = reactive<Order>(JSON.parse(JSON.stringify(schema)))
 const bus = inject('bus') as EventBus
 const minDate = (date: string) => {
-  return date >= moment().add(1, 'day').format('YYYY/MM/DD')
+  return date >= moment().add(1, 'day').format('YYYY/MM/DD') && availableDates.value.indexOf(date) !== -1
 }
+const currentBookingDate = ref(moment())
 const rules = {
   suburb_postcode_region_id: { required },
   scheduled_pickup_date: { required },
@@ -121,22 +127,63 @@ const toggleWashingAndIroning = () => {
 
 const stepMove = (nextStep: number) => {
   sessionStorage.setItem('public-order', JSON.stringify(model))
-  step.value = nextStep
+  if (nextStep === 3) {
+    getAvailableContractorsDates()
+  } else {
+    step.value = nextStep
+  }
+}
+
+const handleScheduledPickupDateNav = (view: QDateNavigation) => {
+  currentBookingDate.value = moment(`${view.year}-${view.month}-01`)
+  getAvailableContractorsDates()
+}
+
+const getAvailableContractorsDates = () => {
+  availableDates.value = []
+  api.post('/public/order/findcontractorsdates', {
+    suburb_postcode_region_id: model.suburb_postcode_region_id,
+    scheduled_pickup_date: currentBookingDate.value.format('DD/MM/YYYY'),
+    productcategories: model.productcategories
+  }).then(response => {
+    availableDates.value = response.data
+    step.value = 3
+  }).catch(error => {
+    useMixinDebug(error)
+  })
+}
+
+const getAvailableContractorsTimes = () => {
+  availableTimes.value = []
+  api.post('/public/order/findcontractorstimes', {
+    suburb_postcode_region_id: model.suburb_postcode_region_id,
+    scheduled_pickup_date: currentBookingDate.value.format('DD/MM/YYYY'),
+    productcategories: model.productcategories
+  }).then(response => {
+    availableTimes.value = response.data
+    step.value = 3
+  }).catch(error => {
+    useMixinDebug(error)
+  })
 }
 
 onMounted(async () => {
-  // check for continuing order
-  const publicOrderCheck = sessionStorage.getItem('public-order')
-  if (publicOrderCheck) {
-    Object.assign(model, JSON.parse(publicOrderCheck))
-  } else {
-    Object.assign(model, JSON.parse(JSON.stringify(schema)))
-  }
+  Object.assign(model, JSON.parse(JSON.stringify(schema)))
   categories.value = await productCategoriesVisibleBooking()
+  model.productcategories = []
   for (const c of categories.value) {
     model.productcategories.push({ product_category_id: c.value, active: false })
   }
   washingAndIroning.value = false
+  // check for continuing order
+  const publicOrderCheck = sessionStorage.getItem('public-order')
+  if (publicOrderCheck) {
+    Object.assign(model, JSON.parse(publicOrderCheck))
+  }
+  if (model.productcategories.filter(o => o.active).length && model.scheduled_pickup_date) {
+    getAvailableContractorsDates()
+    getAvailableContractorsTimes()
+  }
 })
 
 onBeforeUnmount(() => {

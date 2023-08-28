@@ -11,10 +11,17 @@
             </q-tabs>
             <GlobalNotes :notable_id="localModel.id" notable_type="Order" :nobox="true" v-if="bookingTab === 'notes'" />
             <div v-if="bookingTab === 'details'">
+              <q-input v-model="localModel.special_instructions" label="Special Instruction" outlined type="textarea"
+                autogrow class="q-mt-md" :disable="!canEdit" />
               <div class="row q-col-gutter-md q-mb-md">
                 <div class="col-xs-6 col-sm-4" v-if="localModel.team.name">
                   <div class="text-bold text-grey q-mt-md">{{ $t('team.name').toUpperCase() }}</div>
-                  {{ localModel.team.name }}
+                  <div>{{ localModel.team.name }}</div>
+                  <div>
+                    <div>{{ localModel.team.type }}</div>
+                    <div>{{ localModel.team.payment_terms === 'Credit Card' ? 'Credit Card' : 'Account'
+                    }}</div>
+                  </div>
                 </div>
                 <div class="col-xs-6">
                   <div class="text-bold text-grey q-mt-md">{{ $t('contractor.name').toUpperCase() }}</div>
@@ -66,8 +73,6 @@
                 </div>
               </div>
             </div>
-            <q-input v-model="localModel.special_instructions" label="Special Instruction" outlined type="textarea"
-              autogrow class="q-mt-md" :disable="!canEdit" />
           </q-card-section>
           <q-card-actions align="right" v-if="canEdit && bookingTab === 'details'">
             <q-btn :disable="loading || $v.$invalid" :label="$t('actions.update')" color="primary" @click="save()"
@@ -229,7 +234,7 @@ const loading = ref(false)
 const $v = useVuelidate(rules, localModel, { $scope: false })
 
 const canEdit = computed(() => {
-  if (['sent_for_payment', 'PAID'].indexOf(props.model.status) !== -1 && !props.model.recurring) {
+  if (['awaiting_payment', 'PAID', 'ready_for_delivery', 'completed'].indexOf(props.model.status) !== -1 && !props.model.recurring) {
     return false
   }
   return true

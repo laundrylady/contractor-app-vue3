@@ -75,25 +75,21 @@
       </div>
       <q-space />
       <div>
-        <q-btn @click="emailInvoice()" icon="mail" title="Email a copy of the Invoice" flat :disable="emailingInvoice"
-          round v-if="!localModel.sent_for_payment" />
         <q-btn @click="sendPaymentRequest()" icon="send" title="Send Payment Request" flat
           v-if="localModel.total_price > 0 && !localModel.sent_for_payment" :disable="sendingPaymentRequest" round />
-        <q-btn @click="openURL(`/api/public/invoice/pdf/${localModel.id}`)" icon="print" title="Print Invoice" flat
-          round />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { EventBus, openURL } from 'quasar'
+import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
 import { Invoice, InvoiceProduct, OrderProductCategory, Product, Team } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 import { confirmDelete, currencyFormat, dateTimeTz, doNotify, groupBy } from 'src/mixins/help'
-import { computed, onMounted, reactive, ref, inject } from 'vue'
+import { computed, inject, onMounted, reactive, ref } from 'vue'
 
 interface Props {
   invoice: Invoice,
@@ -110,7 +106,6 @@ const nonEditableProductCategories = ref([6])
 const rawProductList = ref()
 const gfDcCode = ref()
 const sendingPaymentRequest = ref(false)
-const emailingInvoice = ref(false)
 const bus = inject('bus') as EventBus
 const schema = {
   order_id: null,
@@ -284,19 +279,6 @@ const sendPaymentRequest = () => {
     }).catch(error => {
       sendingPaymentRequest.value = false
       useMixinDebug(error, bus)
-    })
-  })
-}
-
-const emailInvoice = () => {
-  confirmDelete('This will email the invoice').onOk(() => {
-    emailingInvoice.value = true
-    api.post(`/public/invoice/emailinvoice/${localModel.value.id}`).then(() => {
-      doNotify('positive', 'Invoice sent')
-      emailingInvoice.value = false
-    }).catch(error => {
-      emailingInvoice.value = false
-      useMixinDebug(error)
     })
   })
 }

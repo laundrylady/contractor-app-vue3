@@ -62,8 +62,8 @@ const statusText = computed(() => {
   if (props.status.toLowerCase() === 'confirmed') {
     label = 'Confirmed'
   }
-  if (props.status.toLowerCase() === 'sent_for_payment') {
-    label = 'Sent For Payment'
+  if (props.status.toLowerCase() === 'awaiting_payment') {
+    label = 'Awaiting Payment'
   }
   return label
 })

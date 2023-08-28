@@ -56,7 +56,7 @@
         <div class="col-xs-12 col-sm-6">
           <q-card class="bg-seamless q-mb-lg">
             <q-card-section>
-              <div class="text-h6 q-mb-md">Sent for Payment</div>
+              <div class="text-h6 q-mb-md">Awaiting Payment</div>
               <div v-if="!dashboard.sentForPayment.length">No {{ $t('order.namePlural').toLowerCase() }} found.
               </div>
               <OrderListFormat :orders="dashboard.sentForPayment" :no-avatar="true" :booking-id="true" />
@@ -66,10 +66,12 @@
         <div class="col-xs-12 col-sm-6">
           <q-card class="bg-seamless q-mb-lg">
             <q-card-section>
-              <div class="text-h6 q-mb-md"><q-icon name="sync" /> Recurring {{ $t('order.namePlural') }}</div>
-              <div v-if="!recurringOrders || !recurringOrders.length">No {{ $t('order.namePlural').toLowerCase() }} found.
+              <div class="text-h6 q-mb-md">Ready for Delivery</div>
+              <div v-if="!dashboard.readyForDelivery || !dashboard.readyForDelivery.length">No {{
+                $t('order.namePlural').toLowerCase() }} found.
               </div>
-              <OrderRecurringBookingFormat :orders="recurringOrders" v-if="recurringOrders" :no-avatar="true" />
+              <OrderRecurringBookingFormat :orders="dashboard.readyForDelivery" v-if="dashboard.readyForDelivery"
+                :no-avatar="true" />
             </q-card-section>
           </q-card>
         </div>
@@ -81,31 +83,21 @@
 <script setup lang="ts">
 import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
-import { Order } from 'src/components/models'
 import OrderCreate from 'src/components/order/OrderCreate.vue'
 import OrderListFormat from 'src/components/order/OrderListFormat.vue'
 import OrderRecurringBookingFormat from 'src/components/order/OrderRecurringBookingFormat.vue'
 import { useMixinDebug } from 'src/mixins/debug'
 import { useMixinSecurity } from 'src/mixins/security'
-import { onMounted, onBeforeUnmount, ref, inject } from 'vue'
+import { inject, onBeforeUnmount, onMounted, ref } from 'vue'
 
 const { user } = useMixinSecurity()
 const dashboard = ref()
 const pickupTab = ref('today')
-const recurringOrders = ref<Order[]>()
 const bus = inject('bus') as EventBus
 
 const getDashboard = () => {
   api.get('/public/user/contractor/dashboard?bare=true').then(response => {
     dashboard.value = response.data
-  }).catch(error => {
-    useMixinDebug(error)
-  })
-}
-
-const getRecurringOrders = () => {
-  api.get('/public/user/contractor/recurring').then(response => {
-    recurringOrders.value = response.data
   }).catch(error => {
     useMixinDebug(error)
   })
@@ -117,10 +109,8 @@ const newOrder = () => {
 
 onMounted(() => {
   getDashboard()
-  getRecurringOrders()
   bus.on('orderLoadMore', () => {
     getDashboard()
-    getRecurringOrders()
   })
 })
 

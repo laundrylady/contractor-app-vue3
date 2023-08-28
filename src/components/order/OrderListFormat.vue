@@ -22,7 +22,7 @@
                     c.name }}<span v-if="index + 1 !== o.productcategories.length" class="q-ml-xs q-mr-xs">&</span>
                 </span> pickup with {{ o.team.name }}</span>
             </div>
-            <div class="text-grey-7" v-if="!bookingId"><q-icon name="place" color="grey-7" /> <span class="q-mr-sm"
+            <div class="text-grey-7"><q-icon name="place" color="grey-7" /> <span class="q-mr-sm"
                 v-if="o.team.suburbpostcoderegion">{{
                   o.team.suburbpostcoderegion.locality
                 }} {{

@@ -7,11 +7,11 @@
         </template>
         <q-breadcrumbs-el label="Home" icon="home" :to="{ name: 'appDashboard' }" />
         <q-breadcrumbs-el label="Profile" :to="{ name: 'contractor-dashboard' }" />
-        <q-breadcrumbs-el label="Schedule" />
+        <q-breadcrumbs-el label="Roster" />
       </q-breadcrumbs>
     </div>
     <q-tabs v-model="currentTab" class="q-mb-md" :align="!$q.screen.xs ? 'left' : 'center'">
-      <q-tab name="schedule" :label="$t('schedule.name')" />
+      <q-tab name="schedule" :label="$t('roster.name')" />
       <q-tab name="pickup" label="Pickup Locations" />
     </q-tabs>
     <UserRosterScheduleManagement :user="model" v-if="currentTab === 'schedule'" />

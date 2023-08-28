@@ -301,7 +301,8 @@ export interface Team {
   parent:Team,
   children:Team[],
   dva_email:string,
-  gst_enabled:boolean
+  gst_enabled:boolean,
+  payment_terms:string
 }
 
 export interface TeamForm {
@@ -712,4 +713,9 @@ export interface RefundPaymentObj {
   amount: number|string,
   id: number,
   products: InvoiceProduct[]
+}
+
+export interface QDateNavigation {
+  year:number,
+  month:number
 }
