@@ -28,8 +28,13 @@
             </div>
           </div>
           <q-space />
-          <div v-if="status" class="q-ml-xs">
-            <StatusTag :status="o.status" :small="true" />
+          <div class="q-ml-xs text-right">
+            <div class="q-mb-xs">
+              <StatusTag :status="o.status" :small="true" />
+            </div>
+            <q-btn @click="openMapLink(o.lat, o.lng, 'google')" flat label="G" round dense color="secondary"
+              title="Open in Google Maps" /><q-btn @click="openMapLink(o.lat, o.lng, 'apple')" round dense flat
+              title="Open in Apple Maps" label="A" />
           </div>
         </div>
       </q-item-section>
@@ -41,10 +46,11 @@
 </template>
 <script setup lang="ts">
 import { Order } from 'src/components/models'
-import { currencyFormat, displayDateDay, hourAgreedDisplay, hourBookingDisplay } from 'src/mixins/help'
-import UserAvatar from '../UserAvatar.vue'
+import { currencyFormat, displayDateDay, hourAgreedDisplay, hourBookingDisplay, openMapLink } from 'src/mixins/help'
 import StatusTag from '../StatusTag.vue'
+import UserAvatar from '../UserAvatar.vue'
 import OrderProductCategoryDisplay from './OrderProductCategoryDisplay.vue'
+
 interface Props {
   orders: Order[],
   noAvatar?: boolean,

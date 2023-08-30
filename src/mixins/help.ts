@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import moment from 'moment-timezone'
-import { Notify, Dialog } from 'quasar'
+import { Notify, Dialog, Platform } from 'quasar'
 import { SelectOption } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 
@@ -328,6 +328,20 @@ const valOrNs = (val:string|number|null) => {
   return val
 }
 
+const openMapLink = (lat:string, lng:string, type = 'google') => {
+  let url
+  if (type === 'google') {
+    url = `maps://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${lat},${lng}`
+  }
+  if (type === 'apple') {
+    url = `maps://maps.apple.com/?q=${lat},${lng}`
+  }
+  if (Platform.is.desktop) {
+    url = url?.replace('maps:', 'https:')
+  }
+  window.open(url)
+}
+
 export {
   rowsPerPageOptions,
   uploadConfig,
@@ -362,5 +376,6 @@ export {
   currencyFormat,
   categoryDisplay,
   categoryIcon,
-  valOrNs
+  valOrNs,
+  openMapLink
 }

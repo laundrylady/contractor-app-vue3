@@ -30,7 +30,11 @@
               <div v-if="pickupTab === 'today'">
                 <div v-if="!dashboard.pickupsToday.length">No {{ $t('order.namePlural').toLowerCase() }} found.
                 </div>
-                <OrderListFormat :orders="dashboard.pickupsToday" :no-avatar="true" />
+                <div v-for="k in dashboard.pickupsToday" :key="k.key">
+                  <div class="text-uppercase text-bold q-mb-sm">{{ hourBookingDisplay(k.key) }}
+                  </div>
+                  <OrderListFormat :orders="k.data" :no-avatar="true" />
+                </div>
               </div>
               <div v-if="pickupTab === 'week'">
                 <div v-if="!dashboard.pickupsWeek.length">No {{ $t('order.namePlural').toLowerCase() }} found.
@@ -88,6 +92,7 @@ import { api } from 'src/boot/axios'
 import OrderCreate from 'src/components/order/OrderCreate.vue'
 import OrderListFormat from 'src/components/order/OrderListFormat.vue'
 import { useMixinDebug } from 'src/mixins/debug'
+import { hourBookingDisplay } from 'src/mixins/help'
 import { useMixinSecurity } from 'src/mixins/security'
 import { inject, onBeforeUnmount, onMounted, ref } from 'vue'
 
