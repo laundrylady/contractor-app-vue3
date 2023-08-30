@@ -75,11 +75,26 @@
       </div>
       <q-space />
       <div>
-        <q-btn @click="sendPaymentRequest()" icon="send" title="Send Payment Request" flat
+        <q-btn @click="doSendPaymentRequest('email')" icon="mail" title="Send Payment Request" flat
+          v-if="localModel.total_price > 0 && !localModel.sent_for_payment" :disable="sendingPaymentRequest" round />
+        <q-btn @click="doSendPaymentRequest('sms')" icon="chat" title="Send SMS Payment Request" flat
           v-if="localModel.total_price > 0 && !localModel.sent_for_payment" :disable="sendingPaymentRequest" round />
       </div>
     </div>
   </div>
+  <q-dialog v-model="sendPaymentModal.show">
+    <q-card class="modal">
+      <q-toolbar class="bg-primary text-white"><q-toolbar-title>Send for payment</q-toolbar-title></q-toolbar>
+      <q-card-section>
+        <q-input v-model="sendPaymentModal.content" type="textarea" outlined rows="3"
+          label="Enter any notes for the customer" class="q-mt-sm" />
+      </q-card-section>
+      <q-card-actions>
+        <q-btn flat color="secondary" label="Cancel" v-close-popup />
+        <q-space />
+        <q-btn @click="sendPaymentRequest()" color="primary" label="Send via email" :disable="sendingPaymentRequest" />
+      </q-card-actions>
+    </q-card></q-dialog>
 </template>
 
 <script setup lang="ts">
@@ -97,6 +112,7 @@ interface Props {
   categories: OrderProductCategory[]
 }
 
+const sendPaymentModal = ref({ show: false, content: null })
 const props = defineProps<Props>()
 const emits = defineEmits(['update:products', 'update:order'])
 const localModel = computed(() => props.invoice)
@@ -269,10 +285,34 @@ const checkGvDc = () => {
   }
 }
 
+const doSendPaymentRequest = (type: string) => {
+  if (type === 'sms') {
+    sendPaymentRequestSms()
+  } else {
+    sendPaymentModal.value.content = null
+    sendPaymentModal.value.show = true
+  }
+}
+
 const sendPaymentRequest = () => {
   confirmDelete('PLEASE NOTE: You will not be able to edit this order after it has been sent for payment.').onOk(() => {
     sendingPaymentRequest.value = true
-    api.post(`/public/invoice/sendpaymentrequest/${localModel.value.id}`).then(() => {
+    api.post(`/public/invoice/sendpaymentrequest/${localModel.value.id}`, { content: sendPaymentModal.value.content }).then(() => {
+      doNotify('positive', 'Invoice sent for payment')
+      sendingPaymentRequest.value = false
+      emits('update:order')
+      sendPaymentModal.value = { show: false, content: null }
+    }).catch(error => {
+      sendingPaymentRequest.value = false
+      useMixinDebug(error, bus)
+    })
+  })
+}
+
+const sendPaymentRequestSms = () => {
+  confirmDelete('PLEASE NOTE: You will not be able to edit this order after it has been sent for payment.').onOk(() => {
+    sendingPaymentRequest.value = true
+    api.post(`/public/invoice/sendpaymentrequestsms/${localModel.value.id}`).then(() => {
       doNotify('positive', 'Invoice sent for payment')
       sendingPaymentRequest.value = false
       emits('update:order')

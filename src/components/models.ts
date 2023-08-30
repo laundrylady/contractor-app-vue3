@@ -546,11 +546,12 @@ export interface Order {
   created_at:string,
   updated_at:string,
   scheduled_pickup_date:string,
-  scheduled_pickup_time:string,
+  scheduled_pickup_time:string|null,
   agreed_pickup_time:string|null,
   xero_id:string,
   productcategories: OrderProductCategory[],
-  special_instructions: string
+  special_instructions: string,
+  time?:string
 }
 
 export interface OrderForm {
@@ -718,4 +719,15 @@ export interface RefundPaymentObj {
 export interface QDateNavigation {
   year:number,
   month:number
+}
+
+export interface ContractorTimeData {
+  id:number,
+  user:User,
+  time:string
+}
+
+export interface ContractorTime {
+  key: number,
+  data: ContractorTimeData[]
 }

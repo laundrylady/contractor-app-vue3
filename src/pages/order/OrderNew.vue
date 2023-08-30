@@ -33,16 +33,11 @@
                     :disable="!model.productcategories.filter(o => o.active).length" />
                 </q-stepper-navigation>
               </q-step>
-              <q-step :name="3" title="Pickup date & time" icon="event"
-                :done="!!(model.scheduled_pickup_date && model.scheduled_pickup_time)">
+              <q-step :name="3" title="Pickup date" icon="event" :done="!!model.scheduled_pickup_date">
                 <q-date v-model="model.scheduled_pickup_date" mask="DD/MM/YYYY" :options="minDate" class="q-mt-md"
-                  @navigation="handleScheduledPickupDateNav" @update:model-value="getAvailableContractorsTimes()" />
-                <q-select v-model="model.scheduled_pickup_time" :label="$t('order.scheduledPickupTime')"
-                  :invalid="$v.scheduled_pickup_time" :options="availableTimes" emit-value map-options outlined
-                  class="q-mt-md" options-cover />
+                  @navigation="handleScheduledPickupDateNav" />
                 <q-stepper-navigation>
-                  <q-btn @click="stepMove(4)" color="primary" label="Continue"
-                    :disable="!model.scheduled_pickup_date || !model.scheduled_pickup_time" />
+                  <q-btn @click="stepMove(4)" color="primary" label="Continue" :disable="!model.scheduled_pickup_date" />
                 </q-stepper-navigation>
               </q-step>
               <q-step :name="4" title="Choose lady or lad" :done="!!model.contractor_user_id" icon="account_circle">
@@ -51,9 +46,11 @@
                     :scheduled_pickup_time="model.scheduled_pickup_time" v-model="model.contractor_user_id"
                     :reassign="true" :productcategories="model.productcategories.filter(o => o.active)"
                     :suburb_postcode_region_id="model.suburb_postcode_region_id"
-                    v-if="model.suburb_postcode_region_id && model.scheduled_pickup_date && model.scheduled_pickup_time && model.productcategories.filter(o => o.active).length" />
+                    v-if="model.suburb_postcode_region_id && model.scheduled_pickup_date && model.productcategories.filter(o => o.active).length"
+                    @update:modelValueTime="updateScheduledPickupTime" />
+                  {{ model.scheduled_pickup_time }}
                   <div
-                    v-if="!model.suburb_postcode_region_id || !model.scheduled_pickup_date || !model.scheduled_pickup_time || !model.productcategories.filter(o => o.active).length">
+                    v-if="!model.suburb_postcode_region_id || !model.scheduled_pickup_date || !model.productcategories.filter(o => o.active).length">
                     Please complete the selections in the previous steps.</div>
                 </div>
                 <q-stepper-navigation>
@@ -93,7 +90,6 @@ const step = ref(1)
 const washingAndIroning = ref(false)
 const categories = ref()
 const availableDates = ref<string[]>([])
-const availableTimes = ref<string[]>([])
 const schema = {
   contractor_user_id: null,
   scheduled_pickup_date: null,
@@ -153,18 +149,8 @@ const getAvailableContractorsDates = () => {
   })
 }
 
-const getAvailableContractorsTimes = () => {
-  availableTimes.value = []
-  api.post('/public/order/findcontractorstimes', {
-    suburb_postcode_region_id: model.suburb_postcode_region_id,
-    scheduled_pickup_date: currentBookingDate.value.format('DD/MM/YYYY'),
-    productcategories: model.productcategories
-  }).then(response => {
-    availableTimes.value = response.data
-    step.value = 3
-  }).catch(error => {
-    useMixinDebug(error)
-  })
+const updateScheduledPickupTime = (val: string | null) => {
+  model.scheduled_pickup_time = val
 }
 
 onMounted(async () => {
@@ -182,7 +168,6 @@ onMounted(async () => {
   }
   if (model.productcategories.filter(o => o.active).length && model.scheduled_pickup_date) {
     getAvailableContractorsDates()
-    getAvailableContractorsTimes()
   }
 })
 

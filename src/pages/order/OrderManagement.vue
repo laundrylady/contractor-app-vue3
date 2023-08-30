@@ -66,8 +66,10 @@ import { useMixinDebug } from 'src/mixins/debug'
 import { getRowsPerPage, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
 import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 const bus = inject('bus') as EventBus
+const route = useRoute()
 const i8n = useI18n()
 const data = ref()
 const loading = ref(false)
@@ -140,6 +142,10 @@ onMounted(() => {
   bus.on('orderLoadMore', () => {
     request()
   })
+  if (route.params.team_id && typeof route.params.team_id === 'number') {
+    search.team_id = route.params.team_id
+    console.log(search)
+  }
   request()
 })
 

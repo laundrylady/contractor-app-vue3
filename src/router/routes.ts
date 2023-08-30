@@ -209,8 +209,14 @@ const routes: RouteRecordRaw[] = [
       // ORDERS
       {
         name: 'orders',
-        path: '/booking/management',
+        path: '/booking/management/:team_id?',
         component: () => import('src/pages/order/OrderManagement.vue'),
+        meta: { auth: true }
+      },
+      {
+        name: 'order-calendar',
+        path: '/booking/calendar',
+        component: () => import('src/pages/order/OrderCalendar.vue'),
         meta: { auth: true }
       },
       {

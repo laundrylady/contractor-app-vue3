@@ -26,7 +26,7 @@
                 <div class="col-xs-6">
                   <div class="text-bold text-grey q-mt-md">{{ $t('contractor.name').toUpperCase() }}</div>
                   <div v-if="localModel.contractor">
-                    <UserAvatar :user="localModel.contractor" />
+                    <UserAvatar :user="localModel.contractor" class="q-mr-xs" />
                     {{ localModel.contractor.first_name }} {{ localModel.contractor.last_name }}
                   </div>
                 </div>

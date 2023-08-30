@@ -157,3 +157,13 @@ input[type="number"]::-webkit-inner-spin-button {
   max-width: 1200px;
   margin: 0 auto;
 }
+
+.order-event {
+  position: absolute;
+  font-size: 12px;
+  justify-content: center;
+  margin: 0 1px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: pointer;
+}

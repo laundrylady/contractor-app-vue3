@@ -65,6 +65,9 @@ const statusText = computed(() => {
   if (props.status.toLowerCase() === 'awaiting_payment') {
     label = 'Awaiting Payment'
   }
+  if (props.status.toLowerCase() === 'ready_for_delivery') {
+    label = 'Ready For Delivery'
+  }
   return label
 })
 </script>

@@ -109,7 +109,23 @@ const twelveHourDisplay = (val:number) => {
 }
 
 const hourBookingDisplay = (val:string) => {
-  return hourBookingOptions.find(o => o.value === val)?.label
+  if (!val) {
+    return val
+  }
+  const vx = val.split('-')
+  let start:string
+  let end:string
+  if (parseFloat(vx[0]) >= 12) {
+    start = `${parseFloat(vx[0]) - 12 || 12}pm`
+  } else {
+    start = `${vx[0]}am`
+  }
+  if (parseFloat(vx[1]) >= 12) {
+    end = `${parseFloat(vx[1]) - 12 || 12}pm`
+  } else {
+    end = `${vx[1]}am`
+  }
+  return `${start} - ${end}`
 }
 
 const hourAgreedDisplay = (val:string) => {

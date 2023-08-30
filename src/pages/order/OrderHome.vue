@@ -30,11 +30,16 @@
               <div class="flex items-start">
                 <div>
                   <div>
-                    {{ model.team.name }} <q-icon name="event" /> {{ model.scheduled_pickup_date }}
-                    ({{
-                      hourBookingDisplay(model.scheduled_pickup_time) }})
+                    <q-icon name="attach_money" v-if="teamHasOutstandings" title="Has outstandings"
+                      color="negative" /><router-link :to="{ name: 'orders', params: { team_id: model.team_id } }"
+                      class="link">{{
+                        model.team.name }}</router-link> <q-icon name="event" /> {{ model.scheduled_pickup_date }}
+                    <span v-if="model.scheduled_pickup_time">
+                      ({{
+                        hourBookingDisplay(model.scheduled_pickup_time) }})
+                    </span>
                   </div>
-                  <div v-if="model.recurring_order" class="q-mt-xs">
+                  <div v-if="model.recurring_order && model.scheduled_pickup_time" class="q-mt-xs">
                     <q-badge class="q-pa-sm" color="secondary"><q-icon name="sync" class="q-mr-xs" />{{
                       `Every
                       ${model.recurring} on ${displayDateDay(model.scheduled_pickup_date)} ${model.agreed_pickup_time ?
@@ -94,8 +99,8 @@
             <q-icon name="event" />
           </q-item-section>
           <q-item-section>
-            {{ model.scheduled_pickup_date }} ({{
-              hourBookingDisplay(model.scheduled_pickup_time) }})
+            {{ model.scheduled_pickup_date }} <span v-if="model.scheduled_pickup_time">({{
+              hourBookingDisplay(model.scheduled_pickup_time) }})</span>
           </q-item-section>
         </q-item>
         <q-item-label header>{{ $t('contractor.name') }}</q-item-label>
@@ -149,6 +154,7 @@ const bus = inject('bus') as EventBus
 const drawer = reactive({ left: $q.screen.gt.md, right: true })
 const futureRecurring = ref<Order[]>()
 const model = ref<Order>()
+const teamHasOutstandings = ref(false)
 
 const getOrder = async (data: LooseObject = {}) => {
   api.get(`/public/order/${route.params.id}`).then((response) => {
@@ -162,6 +168,13 @@ const getOrder = async (data: LooseObject = {}) => {
       model.value.status = response.data.status
     } else {
       model.value = response.data
+      if (model.value) {
+        api.get(`/public/team/hasoutstandings/${model.value.team_id}`).then(res => {
+          teamHasOutstandings.value = res.data.has
+        }).catch(error => {
+          useMixinDebug(error)
+        })
+      }
     }
     document.title = `Booking #${response.data.display_id}`
     if (model.value?.recurring_order) {

@@ -12,11 +12,9 @@
     <div class="flex items-center q-mb-sm">
       <span class="text-h7 text-primary">{{ selectedMonth }}</span>
       <q-space />
-      <q-btn-group flat dense>
-        <q-btn @click="onPrev()" icon="chevron_left" color="secondary" flat dense />
-        <q-btn @click="onToday()" label="Today" color="secondary" flat dense />
-        <q-btn @click="onNext()" icon="chevron_right" color="secondary" flat dense />
-      </q-btn-group>
+      <q-btn @click="onPrev()" icon="chevron_left" color="secondary" flat dense round />
+      <q-btn @click="onToday()" label="Today" color="secondary" flat rounded />
+      <q-btn @click="onNext()" icon="chevron_right" color="secondary" flat dense round />
     </div>
     <q-card>
       <q-calendar-month ref="calendarRef" v-model="selectedDate" :weekdays="[1, 2, 3, 4, 5, 6, 0]" hoverable bordered
