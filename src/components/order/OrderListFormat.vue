@@ -29,12 +29,17 @@
           </div>
           <q-space />
           <div class="q-ml-xs text-right">
-            <div class="q-mb-xs">
+            <div class="q-mb-xs" v-if="status">
               <StatusTag :status="o.status" :small="true" />
             </div>
-            <q-btn @click="openMapLink(o.lat, o.lng, 'google')" flat label="G" round dense color="secondary"
-              title="Open in Google Maps" /><q-btn @click="openMapLink(o.lat, o.lng, 'apple')" round dense flat
-              title="Open in Apple Maps" label="A" />
+            <div v-if="o.status === 'confirmed'">
+              <div class="q-mb-sm">
+                <q-btn @click="onMyWay(o)" label="On My Way" color="primary" icon="local_shipping" size="sm" />
+              </div>
+              <q-btn @click="openMapLink(o.lat, o.lng, 'google')" flat label="G" round dense color="secondary"
+                title="Open in Google Maps" /><q-btn @click="openMapLink(o.lat, o.lng, 'apple')" round dense flat
+                title="Open in Apple Maps" label="A" />
+            </div>
           </div>
         </div>
       </q-item-section>
@@ -46,10 +51,16 @@
 </template>
 <script setup lang="ts">
 import { Order } from 'src/components/models'
-import { currencyFormat, displayDateDay, hourAgreedDisplay, hourBookingDisplay, openMapLink } from 'src/mixins/help'
+import { confirmDelete, currencyFormat, displayDateDay, hourAgreedDisplay, hourBookingDisplay, openMapLink } from 'src/mixins/help'
 import StatusTag from '../StatusTag.vue'
 import UserAvatar from '../UserAvatar.vue'
 import OrderProductCategoryDisplay from './OrderProductCategoryDisplay.vue'
+import { getLocationPromise } from 'src/services/geolocation'
+import { LooseObject } from 'src/contracts/LooseObject'
+import { api } from 'src/boot/axios'
+import { EventBus } from 'quasar'
+import { inject } from 'vue'
+import { useMixinDebug } from 'src/mixins/debug'
 
 interface Props {
   orders: Order[],
@@ -59,4 +70,23 @@ interface Props {
   bookingId?: boolean
 }
 defineProps<Props>()
+const bus = inject('bus') as EventBus
+
+const onMyWay = async (o: Order) => {
+  // sort out the lat lng
+  const currentLoc = await getLocationPromise()
+  let latLng: LooseObject = { lat: null, lng: null }
+  if (currentLoc.lat && currentLoc.lng) {
+    latLng = { lat: currentLoc.lat, lng: currentLoc.lng }
+  } else {
+    latLng = { lat: o.contractor.lat, lng: o.contractor.lng }
+  }
+  confirmDelete('This will send an SMS to the customer notifying them you are on your way to pickup').onOk(() => {
+    api.post(`/public/order/onmyway/${o.id}`, { origin: latLng }).then(() => {
+      bus.emit('orderLoadMore')
+    }).catch(error => {
+      useMixinDebug(error)
+    })
+  })
+}
 </script>

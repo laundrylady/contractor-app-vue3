@@ -1,15 +1,16 @@
 import { api } from 'src/boot/axios'
 import { Order } from 'src/components/models'
+import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 
-const getLocationPromise = () => {
+export const getLocationPromise = ():Promise<LooseObject> => {
   return new Promise(function (resolve) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(location => {
         resolve({ lat: location.coords.latitude, lng: location.coords.longitude })
       })
     } else {
-      resolve({ lat: -26.606107, lng: 152.9340755 })
+      resolve({ lat: null, lng: null })
     }
   })
 }
@@ -33,7 +34,16 @@ export const getPostcodeRegionGroups = async () => {
 }
 
 export const getTravelTime = async (o: Order) => {
-  return api.post(`/order/traveltime/${o.id}`, { origin: { lat: o.contractor.lat, lng: o.contractor.lng } }).then(response => {
+  // sort out the lat lng
+  const currentLoc = await getLocationPromise()
+  let latLng:LooseObject = { lat: null, lng: null }
+  if (currentLoc.lat && currentLoc.lng) {
+    latLng = { lat: currentLoc.lat, lng: currentLoc.lng }
+  } else {
+    latLng = { lat: o.contractor.lat, lng: o.contractor.lng }
+  }
+  // fire off
+  return api.post(`/public/order/traveltime/${o.id}`, { origin: latLng }).then(response => {
     return { id: o.id, data: response.data }
   }).catch(error => {
     useMixinDebug(error)
