@@ -9,7 +9,8 @@
           <q-card-section>
             <h4 class="text-h5 q-mt-none q-mb-none">Protect your account</h4>
             <p>Add an extra layer of security to your Laundry Lady account.</p>
-            <div>Click SEND CODE below and we'll send you a verification code to your registered mobile phone number.
+            <div>Click <span class="text-bold text-primary">SEND CODE</span> below and we'll send you a verification code
+              to your registered mobile phone number.
             </div>
           </q-card-section>
           <q-card-section>
@@ -71,7 +72,6 @@ const checkSms = () => {
     api.post('/auth/tfa/sms/check', { code: smsCode.value, tfa_email: tfaEmail.value, mobile: userStore.data.mobile })
       .then((response) => {
         userStore.setUserData(response.data)
-        loading.value = false
         router.push({ name: 'appDashboard' })
       })
       .catch((error) => {
