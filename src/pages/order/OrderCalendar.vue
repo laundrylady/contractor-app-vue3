@@ -1,6 +1,6 @@
 <template>
   <q-page padding :class="{ 'q-pa-md': $q.screen.xs }">
-    <q-breadcrumbs class="q-mb-md">
+    <q-breadcrumbs class="q-mb-md" v-if="!$q.screen.xs">
       <template v-slot:separator>
         <q-icon size="1.5em" name="chevron_right" />
       </template>

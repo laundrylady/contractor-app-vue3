@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf" container class="layout-height layout-container" v-if="model && model.id">
-    <q-header :class="{ 'page-title text-black': !$q.dark.isActive, 'bg-dark': $q.dark.isActive }">
+    <q-header :class="{ 'bg-page text-black': !$q.dark.isActive, 'bg-dark': $q.dark.isActive }">
       <div class="q-pl-md q-pr-md q-pt-md">
         <div class="flex" v-if="!$q.screen.xs">
           <q-breadcrumbs class="q-mb-md">
@@ -12,8 +12,8 @@
             <q-breadcrumbs-el :label="`#${model.display_id.toString()}`" />
           </q-breadcrumbs>
         </div>
-        <div class="q-mb-xs">
-          <div class="row items-center q-mb-md">
+        <div class="q-mb-xs page-title q-pa-md rounded-borders">
+          <div class="row items-center">
             <div class="col-xs-12 col-sm-9">
               <div class="flex items-center">
                 <q-btn @click="drawer.left = !drawer.left" icon="menu" outline v-if="$q.screen.lt.lg" flat
@@ -58,78 +58,80 @@
         </div>
       </div>
     </q-header>
-    <q-drawer v-model="drawer.left" :width="300" side="left" class="page-title">
-      <div class="text-right q-pa-sm" v-if="$q.screen.lt.lg">
-        <q-btn @click="drawer.left = false" icon="close" flat round dense v-close-popup />
+    <q-drawer v-model="drawer.left" :width="300" side="left" :class="{ 'bg-page': !$q.screen.xs }">
+      <div class="bg-white q-ma-sm rounded-borders">
+        <div class="text-right q-pa-sm" v-if="$q.screen.lt.lg">
+          <q-btn @click="drawer.left = false" icon="close" flat round dense v-close-popup />
+        </div>
+        <div class="q-pa-sm">
+          <MapWithMarker :lat-lng="{ lat: parseFloat(model.lat), lng: parseFloat(model.lng) }"
+            v-if="model.lat && model.lng" />
+        </div>
+        <q-list dense class="q-mt-md q-ml-sm q-mr-sm">
+          <q-item-label header>{{ $t('team.name') }}</q-item-label>
+          <q-item>
+            <q-item-section side>
+              <q-icon name="account_circle" />
+            </q-item-section>
+            <q-item-section>
+              {{ model.team.name }}
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section side>
+              <q-icon name="phone" />
+            </q-item-section>
+            <q-item-section>
+              <a :href="`tel:${model.team.mobile}`" class="link">{{ model.team.mobile }}</a>
+            </q-item-section>
+          </q-item>
+          <q-item-label header>{{ $t('team.pickupAddress') }}</q-item-label>
+          <q-item>
+            <q-item-section side>
+              <q-icon name="place" />
+            </q-item-section>
+            <q-item-section>
+              <div>{{ model.address1 }} {{ model.address2 }}</div>
+              <PostcodeRegionDisplay :postcoderegions="[model.suburbpostcoderegion]" v-if="model.suburbpostcoderegion" />
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section side>
+              <q-icon name="event" />
+            </q-item-section>
+            <q-item-section>
+              {{ model.scheduled_pickup_date }} <span v-if="model.scheduled_pickup_time">({{
+                hourBookingDisplay(model.scheduled_pickup_time) }})</span>
+            </q-item-section>
+          </q-item>
+          <q-item-label header>{{ $t('contractor.name') }}</q-item-label>
+          <q-item v-if="model.contractor">
+            <q-item-section side>
+              <q-icon name="engineering" />
+            </q-item-section>
+            <q-item-section>
+              {{
+                model.contractor.contractor_badge_name }}
+            </q-item-section>
+          </q-item>
+          <q-item v-if="model.contractor">
+            <q-item-section side>
+              <q-icon name="phone" />
+            </q-item-section>
+            <q-item-section>
+              <a :href="`tel:${model.contractor.mobile}`" class="link">{{ model.contractor.mobile }}</a>
+            </q-item-section>
+          </q-item>
+          <q-item v-if="!model.contractor">
+            <q-item-section side>
+              <q-icon name="warning" color="negative" />
+            </q-item-section>
+            <q-item-section class="text-negative">NO CONTRACTOR ASSIGNED</q-item-section></q-item>
+        </q-list>
       </div>
-      <div class="q-pa-sm">
-        <MapWithMarker :lat-lng="{ lat: parseFloat(model.lat), lng: parseFloat(model.lng) }"
-          v-if="model.lat && model.lng" />
-      </div>
-      <q-list dense class="q-mt-md q-ml-sm q-mr-sm">
-        <q-item-label header>{{ $t('team.name') }}</q-item-label>
-        <q-item>
-          <q-item-section side>
-            <q-icon name="account_circle" />
-          </q-item-section>
-          <q-item-section>
-            {{ model.team.name }}
-          </q-item-section>
-        </q-item>
-        <q-item>
-          <q-item-section side>
-            <q-icon name="phone" />
-          </q-item-section>
-          <q-item-section>
-            <a :href="`tel:${model.team.mobile}`" class="link">{{ model.team.mobile }}</a>
-          </q-item-section>
-        </q-item>
-        <q-item-label header>{{ $t('team.pickupAddress') }}</q-item-label>
-        <q-item>
-          <q-item-section side>
-            <q-icon name="place" />
-          </q-item-section>
-          <q-item-section>
-            <div>{{ model.address1 }} {{ model.address2 }}</div>
-            <PostcodeRegionDisplay :postcoderegions="[model.suburbpostcoderegion]" v-if="model.suburbpostcoderegion" />
-          </q-item-section>
-        </q-item>
-        <q-item>
-          <q-item-section side>
-            <q-icon name="event" />
-          </q-item-section>
-          <q-item-section>
-            {{ model.scheduled_pickup_date }} <span v-if="model.scheduled_pickup_time">({{
-              hourBookingDisplay(model.scheduled_pickup_time) }})</span>
-          </q-item-section>
-        </q-item>
-        <q-item-label header>{{ $t('contractor.name') }}</q-item-label>
-        <q-item v-if="model.contractor">
-          <q-item-section side>
-            <q-icon name="engineering" />
-          </q-item-section>
-          <q-item-section>
-            {{
-              model.contractor.contractor_badge_name }}
-          </q-item-section>
-        </q-item>
-        <q-item v-if="model.contractor">
-          <q-item-section side>
-            <q-icon name="phone" />
-          </q-item-section>
-          <q-item-section>
-            <a :href="`tel:${model.contractor.mobile}`" class="link">{{ model.contractor.mobile }}</a>
-          </q-item-section>
-        </q-item>
-        <q-item v-if="!model.contractor">
-          <q-item-section side>
-            <q-icon name="warning" color="negative" />
-          </q-item-section>
-          <q-item-section class="text-negative">NO CONTRACTOR ASSIGNED</q-item-section></q-item>
-      </q-list>
     </q-drawer>
     <q-page-container>
-      <q-page padding :class="{ 'q-pa-md': $q.screen.xs }">
+      <q-page padding class="q-pa-md">
         <router-view :model="model" @update:order="getOrder" :futureRecurring="futureRecurring" />
       </q-page>
     </q-page-container>

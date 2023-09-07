@@ -12,8 +12,6 @@
     <div class="flex q-mb-md items-center">
       <div class="text-h6">Hi {{ user.first_name }}</div>
       <q-space />
-      <q-btn :to="{ name: 'order-calendar' }" icon="calendar_view_week" color="secondary" flat round class="q-mr-sm"
-        title="Booking Calendar" />
       <q-btn round icon="add" @click="newOrder()" color="primary" dense title="Add new Booking" />
     </div>
     <div v-if="dashboard">

@@ -32,13 +32,25 @@
             <div class="q-mb-xs" v-if="status">
               <StatusTag :status="o.status" :small="true" />
             </div>
-            <div v-if="o.status === 'confirmed'">
-              <div class="q-mb-sm">
-                <q-btn @click="onMyWay(o)" label="On My Way" color="primary" icon="local_shipping" size="sm" />
-              </div>
-              <q-btn @click="openMapLink(o.lat, o.lng, 'google')" flat label="G" round dense color="secondary"
-                title="Open in Google Maps" /><q-btn @click="openMapLink(o.lat, o.lng, 'apple')" round dense flat
-                title="Open in Apple Maps" label="A" />
+            <div class="text-right">
+              <q-btn flat icon="place" dense round color="grey-8">
+                <q-menu>
+                  <q-list>
+                    <q-item @click="openMapLink(o.lat, o.lng, 'google')" clickable>
+                      <q-item-section>
+                        Open in Google Maps
+                      </q-item-section>
+                    </q-item>
+                    <q-item @click="openMapLink(o.lat, o.lng, 'apple')" clickable>
+                      <q-item-section>
+                        Open in Apple Maps
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-btn>
+              <q-btn @click="onMyWay(o)" color="primary" round dense icon="directions_car" class="q-ml-xs"
+                title="Notify the customer you are on your way to pickup" v-if="o.status === 'confirmed'" flat />
             </div>
           </div>
         </div>

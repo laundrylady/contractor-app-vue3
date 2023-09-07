@@ -7,7 +7,7 @@
         </router-link>
         <HeaderSearch class="q-ml-md" />
         <q-space />
-        <q-btn icon="event" :title="$t('order.namePlural')" :to="{ name: 'appDashboard' }" flat round class="q-mr-xs" />
+        <q-btn icon="event" :title="$t('order.namePlural')" :to="{ name: 'order-calendar' }" flat round class="q-mr-xs" />
         <q-btn icon="shopping_cart" title="Order supplies" flat round class="q-mr-xs"
           @click="openURL('https://teamlaundrylady.co/account/login')" />
         <q-btn icon="logout" title="Sign Out" @click="logout()" flat round class="q-mr-xs" />

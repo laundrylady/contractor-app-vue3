@@ -11,7 +11,7 @@
             </q-tabs>
             <GlobalNotes :notable_id="localModel.id" notable_type="Order" :nobox="true" v-if="bookingTab === 'notes'" />
             <div v-if="bookingTab === 'details'">
-              <q-input v-model="localModel.special_instructions" label="Special Instruction" outlined type="textarea"
+              <q-input v-model="localModel.special_instructions" label="Special Instructions" outlined type="textarea"
                 autogrow class="q-mt-md" :disable="!canEdit" />
               <div class="row q-col-gutter-md q-mb-md">
                 <div class="col-xs-6 col-sm-4" v-if="localModel.team.name">
@@ -159,7 +159,7 @@
         <div>
           <div><router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link">{{
             displayDateDay(o.scheduled_pickup_date) }} {{ o.scheduled_pickup_date }} (<span
-                v-if="!o.agreed_pickup_time">{{
+                v-if="!o.agreed_pickup_time && o.scheduled_pickup_time">{{
                   hourBookingDisplay(o.scheduled_pickup_time)
                 }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)
 }}</span>)</router-link>
