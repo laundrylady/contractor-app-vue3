@@ -1,4 +1,8 @@
 // app global css in SCSS form
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
 body,
 .bg-page {
   background-color: #99DBF8;
@@ -165,4 +169,32 @@ input[type="number"]::-webkit-inner-spin-button {
   text-overflow: ellipsis;
   overflow: hidden;
   cursor: pointer;
+}
+
+.order-new-step {
+  height: 194px;
+  width: 194px;
+  border-radius: 100px;
+  background-color: #CAEBFC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+  padding: 20px;
+}
+
+.order-new-step:hover {
+  background-color: #E49AB1;
+  cursor: pointer;
+}
+
+.order-new-step.active {
+  background-color: #E49AB1;
+}
+
+.text-lg {
+  font-size: 18px;
 }

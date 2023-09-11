@@ -728,6 +728,6 @@ export interface ContractorTimeData {
 }
 
 export interface ContractorTime {
-  key: number,
+  key: string,
   data: ContractorTimeData[]
 }

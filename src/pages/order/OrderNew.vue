@@ -1,72 +1,111 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      <q-page class="row justify-center items-center animated fadeIn" padding :class="{ 'q-pa-md': $q.screen.xs }">
-        <q-card class="col-xs-12 col-sm-6 col-md-4">
-          <q-card-section class="text-center" style="min-height:165px;">
-            <AppLogo />
-          </q-card-section>
-          <q-card-section>
-            <div class="text-h5 text-bold">New {{ $t('order.name') }}</div>
-            <q-stepper v-model="step" vertical color="primary" animated header-nav>
-              <q-step :name="1" title="Suburb to pickup from" icon="place" :done="!!model.suburb_postcode_region_id">
+      <q-page padding :class="{ 'q-pa-md': $q.screen.xs }">
+        <div class="flex justify-center q-mt-xl" v-if="!$q.screen.xs">
+          <div class="order-new-step" :class="{ 'active': step === 1 || model.suburb_postcode_region_id }"
+            @click="stepMove(1)">
+            Select your suburb
+          </div>
+          <div class="flex items-end"><img src="~assets/images/illustrations/bot_arrow.png" /></div>
+          <div class="order-new-step" @click="stepMove(2)"
+            :class="{ 'active': step === 2 || model.productcategories.filter(o => o.active).length }">
+            Select your service
+          </div>
+          <div class="flex items-start"><img src="~assets/images/illustrations/top_arrow.png" /></div>
+          <div class="order-new-step" @click="stepMove(3)"
+            :class="{ 'active': step === 3 || model.scheduled_pickup_date }">
+            Select pickup date
+          </div>
+          <div class="flex items-end"><img src="~assets/images/illustrations/bot_arrow.png" /></div>
+          <div class="order-new-step" @click="stepMove(4)" :class="{ 'active': step === 4 || model.contractor_user_id }">
+            Select your Laundry Lady or Lad
+          </div>
+          <div class="flex items-start"><img src="~assets/images/illustrations/top_arrow.png" /></div>
+          <div class="order-new-step">
+            Enter your details
+          </div>
+          <div class="flex items-end"><img src="~assets/images/illustrations/bot_arrow.png" /></div>
+          <div class="order-new-step">
+            Confirm booking
+          </div>
+        </div>
+        <div class="flex justify-center q-mt-xl q-mb-lg">
+          <AppLogo />
+        </div>
+        <div class="flex justify-center text-lg q-mb-xl text-center">
+          Book your mobile Laundry service. Washing, Ironing, Pickup and Delivery.
+        </div>
+        <div class="row q-col-gutter-md">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-5">
+            <q-card flat class="bg-page">
+              <q-card-section v-if="step === 1">
+                <p class="text-center text-bold">Select your pickup location:</p>
                 <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Enter your pickup suburb" outlined
-                  :invalid="$v.suburb_postcode_region_id.$invalid" class="q-mt-md" />
-                <q-stepper-navigation>
-                  <q-btn @click="stepMove(2)" color="primary" label="Continue"
-                    :disable="!model.suburb_postcode_region_id" />
-                </q-stepper-navigation>
-              </q-step>
-              <q-step :name="2" title="Select the services" icon="local_laundry_service"
-                :done="!!model.productcategories.filter(o => o.active).length">
-                <div class="q-mr-sm">
-                  <q-checkbox v-model="washingAndIroning" @update:model-value="toggleWashingAndIroning()"
-                    label="Washing & Ironing" />
-                </div>
-                <span v-if="!washingAndIroning">
-                  <div v-for="c in model.productcategories" :key="c.product_category_id" class="q-mr-sm">
-                    <q-checkbox v-model="c.active" :label="categoryDisplay(c.product_category_id, categories)" />
-                  </div>
-                </span>
-                <q-stepper-navigation>
-                  <q-btn @click="stepMove(3)" color="primary" label="Continue"
+                  :invalid="$v.suburb_postcode_region_id.$invalid" />
+                <div class="text-center q-mt-xl">
+                  <q-btn @click="stepMove(2)" color="primary" label="Continue" rounded
                     :disable="!model.productcategories.filter(o => o.active).length" />
-                </q-stepper-navigation>
-              </q-step>
-              <q-step :name="3" title="Pickup date" icon="event" :done="!!model.scheduled_pickup_date">
-                <q-date v-model="model.scheduled_pickup_date" mask="DD/MM/YYYY" :options="minDate" class="q-mt-md"
-                  @navigation="handleScheduledPickupDateNav" />
-                <q-stepper-navigation>
-                  <q-btn @click="stepMove(4)" color="primary" label="Continue" :disable="!model.scheduled_pickup_date" />
-                </q-stepper-navigation>
-              </q-step>
-              <q-step :name="4" title="Choose lady or lad" :done="!!model.contractor_user_id" icon="account_circle">
-                <div class="q-mt-md" style="min-height:100px;">
-                  <OrderContractorManagement :scheduled_pickup_date="model.scheduled_pickup_date"
-                    :scheduled_pickup_time="model.scheduled_pickup_time" v-model="model.contractor_user_id"
-                    :reassign="true" :productcategories="model.productcategories.filter(o => o.active)"
-                    :suburb_postcode_region_id="model.suburb_postcode_region_id"
-                    v-if="model.suburb_postcode_region_id && model.scheduled_pickup_date && model.productcategories.filter(o => o.active).length"
-                    @update:modelValueTime="updateScheduledPickupTime" />
-                  {{ model.scheduled_pickup_time }}
-                  <div
-                    v-if="!model.suburb_postcode_region_id || !model.scheduled_pickup_date || !model.productcategories.filter(o => o.active).length">
-                    Please complete the selections in the previous steps.</div>
                 </div>
-                <q-stepper-navigation>
-                  <q-btn @click="stepMove(5)" color="primary" label="Continue" />
-                </q-stepper-navigation>
-              </q-step>
-              <q-step :name="5" title="Finalise">
-                <q-input v-model="model.special_instructions" label="Special Instructions" autogrow outlined
-                  class="q-mt-md" />
-                <q-stepper-navigation>
-                  <q-btn @click="step = 2" color="primary" label="Continue" />
-                </q-stepper-navigation>
-              </q-step>
-            </q-stepper>
-          </q-card-section>
-        </q-card>
+              </q-card-section>
+              <q-card-section v-if="step === 2">
+                <p class="text-center text-bold">Choose the services you require:</p>
+                <div class="flex justify-center">
+                  <div>
+                    <div class="q-mr-sm">
+                      <q-checkbox v-model="washingAndIroning" @update:model-value="toggleWashingAndIroning()"
+                        label="Washing & Ironing" />
+                    </div>
+                    <div v-if="!washingAndIroning">
+                      <div v-for="c in model.productcategories" :key="c.product_category_id" class="q-mr-sm">
+                        <q-checkbox v-model="c.active" :label="categoryDisplay(c.product_category_id, categories)" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center q-mt-xl">
+                  <q-btn @click="stepMove(1)" color="primary" label="Previous" flat class="q-mr-sm" rounded /><q-btn
+                    @click="stepMove(3)" color="primary" label="Continue"
+                    :disable="!model.productcategories.filter(o => o.active).length" rounded />
+                </div>
+              </q-card-section>
+              <q-card-section v-if="step === 3">
+                <p class="text-center text-bold">Choose the desired pickup date:</p>
+                <div class="text-center">
+                  <q-date v-model="model.scheduled_pickup_date" mask="DD/MM/YYYY" :options="minDate" class="q-mt-md"
+                    @navigation="handleScheduledPickupDateNav" />
+                </div>
+                <div class="q-mt-xl text-center">
+                  <q-btn @click="stepMove(2)" color="primary" label="Previous" flat class="q-mr-sm" rounded />
+                  <q-btn @click="stepMove(4)" color="primary" label="Continue" :disable="!model.scheduled_pickup_date"
+                    rounded />
+                </div>
+              </q-card-section>
+              <q-card-section v-if="step === 4">
+                <p class="text-center text-bold">Select your Laundry Lad or Lad:</p>
+                <q-card>
+                  <q-card-section>
+                    <OrderContractorManagement :scheduled_pickup_date="model.scheduled_pickup_date"
+                      :scheduled_pickup_time="model.scheduled_pickup_time" v-model="model.contractor_user_id"
+                      :reassign="true" :productcategories="model.productcategories.filter(o => o.active)"
+                      :suburb_postcode_region_id="model.suburb_postcode_region_id"
+                      v-if="model.suburb_postcode_region_id && model.scheduled_pickup_date && model.productcategories.filter(o => o.active).length"
+                      @update:modelValueTime="updateScheduledPickupTime" />
+                  </q-card-section>
+                </q-card>
+                <div class="q-mt-xl text-center">
+                  <q-btn @click="stepMove(3)" color="primary" label="Previous" flat class="q-mr-sm" rounded />
+                  <q-btn @click="stepMove(4)" color="primary" label="Continue" :disable="!model.contractor_user_id"
+                    rounded />
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
+          <div class="col-sm-4">
+            asd
+          </div>
+        </div>
       </q-page>
     </q-page-container>
   </q-layout>

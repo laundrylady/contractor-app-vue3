@@ -3,25 +3,28 @@
     <q-linear-progress indeterminate v-if="loadingContractors" />
     <div class="q-ml-sm q-mt-sm">Finding available ladies / lads...</div>
   </div>
-  <div v-if="contractors && !loadingContractors">
-    <q-list v-if="contractors.length" separator>
-      <q-item v-for="c in contractors" :key="c.key" :class="{ 'bg-pink-1': c.key === tmpContractorUserId }">
-        <q-item-section>
-          <div class="flex">
-            <UserAvatar :user="{
-              id: c.data[0].user.id, first_name: c.data[0].user.first_name, last_name: c.data[0].user.last_name, fullname: c.data[0].user.fullname, avatar: c.data[0].user.avatar
-            }" />
-            <div class="q-ml-sm">
-              <div class="text-primary">{{ c.data[0].user.fullname }}</div>
-              <div v-for="d in c.data" :key="d.id">
+  <div v-if="contractors && !loadingContractors && contractors.length">
+    <div v-for="c in contractors" :key="c.key">
+      <div class="text-h6">{{ c.key }}
+      </div>
+      <p>Pickup slots available in the {{ c.key }}</p>
+      <q-list separator>
+        <q-item v-for="d in c.data" :key="d.id" :class="{ 'bg-pink-1': d.user.id === tmpContractorUserId }">
+          <q-item-section>
+            <div class="flex">
+              <UserAvatar :user="{
+                id: d.user.id, first_name: d.user.first_name, last_name: d.user.last_name, fullname: d.user.fullname, avatar: d.user.avatar
+              }" />
+              <div class="q-ml-sm">
+                <div class="text-primary">{{ d.user.fullname }}</div>
                 <q-radio v-model="tmpTimeSelection" :val="`${d.user.id}|${d.time}`"
                   :label="`Pickup between ${hourBookingDisplay(d.time)}`" @update:model-value="emitUpdate" />
               </div>
             </div>
-          </div>
-        </q-item-section>
-      </q-item>
-    </q-list>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </div>
     <div v-if="reassign && modelValue" class="q-mt-md">
       <q-btn flat @click="reAssign()" label="Choose a different lady/lad" color="primary" icon="sync" rounded />
     </div>
@@ -95,8 +98,9 @@ onMounted(() => {
   if (props.modelValue && props.scheduled_pickup_time) {
     api.get(`/public/user/contractor/details/${props.modelValue}`).then(response => {
       if (props.scheduled_pickup_time) {
+        const stx = props.scheduled_pickup_time.split('-')
         contractors.value = [{
-          key: response.data.id,
+          key: parseFloat(stx[0]) < 12 ? 'Morning' : 'Afternoon',
           data: [{
             user: response.data,
             id: 0,
