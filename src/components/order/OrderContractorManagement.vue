@@ -1,6 +1,6 @@
 <template>
   <div v-if="loadingContractors" style="min-height:100px;">
-    <q-linear-progress indeterminate v-if="loadingContractors" />
+    <q-linear-progress indeterminate v-if="loadingContractors" color="primary" />
     <div class="q-ml-sm q-mt-sm">Finding available ladies / lads...</div>
   </div>
   <div v-if="contractors && !loadingContractors && contractors.length">
@@ -11,11 +11,11 @@
       <q-list separator>
         <q-item v-for="d in c.data" :key="d.id" :class="{ 'bg-pink-1': d.user.id === tmpContractorUserId }">
           <q-item-section>
-            <div class="flex">
+            <div class="flex no-wrap">
               <UserAvatar :user="{
                 id: d.user.id, first_name: d.user.first_name, last_name: d.user.last_name, fullname: d.user.fullname, avatar: d.user.avatar
-              }" />
-              <div class="q-ml-sm">
+              }" size="48px" />
+              <div class="q-ml-md">
                 <div class="text-primary">{{ d.user.fullname }}</div>
                 <q-radio v-model="tmpTimeSelection" :val="`${d.user.id}|${d.time}`"
                   :label="`Pickup between ${hourBookingDisplay(d.time)}`" @update:model-value="emitUpdate" />
@@ -96,6 +96,7 @@ const reAssign = () => {
 onMounted(() => {
   tmpContractorUserId.value = null
   if (props.modelValue && props.scheduled_pickup_time) {
+    loadingContractors.value = true
     api.get(`/public/user/contractor/details/${props.modelValue}`).then(response => {
       if (props.scheduled_pickup_time) {
         const stx = props.scheduled_pickup_time.split('-')
@@ -110,6 +111,7 @@ onMounted(() => {
         tmpContractorUserId.value = response.data.id
         tmpTimeSelection.value = `${response.data.id}|${props.scheduled_pickup_time}`
       }
+      loadingContractors.value = false
     }).catch(error => {
       useMixinDebug(error)
     })

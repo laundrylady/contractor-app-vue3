@@ -30,23 +30,29 @@
             Confirm booking
           </div>
         </div>
-        <div class="flex justify-center q-mt-xl q-mb-lg">
-          <AppLogo />
+        <div class="row q-mt-xl q-mb-lg">
+          <div class="col-xs-12 col-sm-6 offset-sm-3 text-center">
+            <AppLogo />
+          </div>
         </div>
-        <div class="flex justify-center text-lg q-mb-xl text-center">
-          Book your mobile Laundry service. Washing, Ironing, Pickup and Delivery.
+        <div class="row text-lg q-mb-xl">
+          <div class="col-xs-12 col-sm-6 offset-sm-3 text-center">
+            Book your mobile Laundry service. Washing, Ironing, Pickup and Delivery.
+          </div>
         </div>
         <div class="row q-col-gutter-md">
-          <div class="col-sm-3"></div>
-          <div class="col-sm-5">
+          <div class="col-xs-12 col-sm-6 offset-sm-3">
             <q-card flat class="bg-page">
               <q-card-section v-if="step === 1">
                 <p class="text-center text-bold">Select your pickup location:</p>
                 <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Enter your pickup suburb" outlined
-                  :invalid="$v.suburb_postcode_region_id.$invalid" />
+                  :invalid="$v.suburb_postcode_region_id.$invalid" @update:model-value="checkContractors()" />
+                <div class="text-lg text-center q-mt-lg" v-if="noContractors">Sorry, there is currently no availability in
+                  this
+                  area.</div>
                 <div class="text-center q-mt-xl">
                   <q-btn @click="stepMove(2)" color="primary" label="Continue" rounded
-                    :disable="!model.productcategories.filter(o => o.active).length" />
+                    :disable="!model.suburb_postcode_region_id" />
                 </div>
               </q-card-section>
               <q-card-section v-if="step === 2">
@@ -59,7 +65,8 @@
                     </div>
                     <div v-if="!washingAndIroning">
                       <div v-for="c in model.productcategories" :key="c.product_category_id" class="q-mr-sm">
-                        <q-checkbox v-model="c.active" :label="categoryDisplay(c.product_category_id, categories)" />
+                        <q-checkbox v-model="c.active" :label="categoryDisplay(c.product_category_id, categories)"
+                          @update:model-value="[model.scheduled_pickup_date = null, model.scheduled_pickup_time = null, model.contractor_user_id = null]" />
                       </div>
                     </div>
                   </div>
@@ -102,8 +109,15 @@
               </q-card-section>
             </q-card>
           </div>
-          <div class="col-sm-4">
-            asd
+          <div class="col-xs-12 col-sm-3">
+            <q-card flat class="bg-page">
+              <q-card-section>
+                <OrderNewSummary :suburb_postcode_region_id="model.suburb_postcode_region_id"
+                  :contractor_user_id="model.contractor_user_id" :scheduled_pickup_date="model.scheduled_pickup_date"
+                  :scheduled_pickup_time="model.scheduled_pickup_time" :productcategories="model.productcategories"
+                  :categories="categories" v-if="categories && model.suburb_postcode_region_id" />
+              </q-card-section>
+            </q-card>
           </div>
         </div>
       </q-page>
@@ -117,6 +131,7 @@ import moment from 'moment-timezone'
 import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
 import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
+import OrderNewSummary from 'src/components/order/OrderNewSummary.vue'
 import { useMixinDebug } from 'src/mixins/debug'
 import { categoryDisplay } from 'src/mixins/help'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
@@ -130,6 +145,7 @@ const washingAndIroning = ref(false)
 const categories = ref()
 const availableDates = ref<string[]>([])
 const schema = {
+  suburb_postcode_region_id: null,
   contractor_user_id: null,
   scheduled_pickup_date: null,
   scheduled_pickup_time: null,
@@ -144,6 +160,7 @@ const minDate = (date: string) => {
   return date >= moment().add(1, 'day').format('YYYY/MM/DD') && availableDates.value.indexOf(date) !== -1
 }
 const currentBookingDate = ref(moment())
+const noContractors = ref(false)
 const rules = {
   suburb_postcode_region_id: { required },
   scheduled_pickup_date: { required },
@@ -158,14 +175,31 @@ const toggleWashingAndIroning = () => {
   model.productcategories.forEach(o => {
     o.active = washingAndIroning.value
   })
+  model.scheduled_pickup_date = null
+  model.scheduled_pickup_time = null
+  model.contractor_user_id = null
 }
 
 const stepMove = (nextStep: number) => {
-  sessionStorage.setItem('public-order', JSON.stringify(model))
   if (nextStep === 3) {
     getAvailableContractorsDates()
   } else {
     step.value = nextStep
+  }
+}
+
+const checkContractors = () => {
+  if (!model.suburb_postcode_region_id) {
+    noContractors.value = false
+  } else {
+    api.post('/public/order/findcontractorsinsuburbpostcoderegion', { suburb_postcode_region_id: model.suburb_postcode_region_id }).then(response => {
+      noContractors.value = !response.data.found
+      if (noContractors.value) {
+        model.suburb_postcode_region_id = null
+      }
+    }).catch(error => {
+      useMixinDebug(error)
+    })
   }
 }
 
@@ -200,14 +234,6 @@ onMounted(async () => {
     model.productcategories.push({ product_category_id: c.value, active: false })
   }
   washingAndIroning.value = false
-  // check for continuing order
-  const publicOrderCheck = sessionStorage.getItem('public-order')
-  if (publicOrderCheck) {
-    Object.assign(model, JSON.parse(publicOrderCheck))
-  }
-  if (model.productcategories.filter(o => o.active).length && model.scheduled_pickup_date) {
-    getAvailableContractorsDates()
-  }
 })
 
 onBeforeUnmount(() => {
