@@ -8,17 +8,16 @@
             Select your suburb
           </div>
           <div class="flex items-end"><img src="~assets/images/illustrations/bot_arrow.png" /></div>
-          <div class="order-new-step" @click="stepMove(2)"
+          <div class="order-new-step"
             :class="{ 'active': step === 2 || model.productcategories.filter(o => o.active).length }">
             Select your service
           </div>
           <div class="flex items-start"><img src="~assets/images/illustrations/top_arrow.png" /></div>
-          <div class="order-new-step" @click="stepMove(3)"
-            :class="{ 'active': step === 3 || model.scheduled_pickup_date }">
+          <div class="order-new-step" :class="{ 'active': step === 3 || model.scheduled_pickup_date }">
             Select pickup date
           </div>
           <div class="flex items-end"><img src="~assets/images/illustrations/bot_arrow.png" /></div>
-          <div class="order-new-step" @click="stepMove(4)" :class="{ 'active': step === 4 || model.contractor_user_id }">
+          <div class="order-new-step" :class="{ 'active': step === 4 || model.contractor_user_id }">
             Select your Laundry Lady or Lad
           </div>
           <div class="flex items-start"><img src="~assets/images/illustrations/top_arrow.png" /></div>

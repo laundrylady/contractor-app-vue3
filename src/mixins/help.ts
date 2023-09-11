@@ -204,7 +204,7 @@ const dbDateDisplayDay = (val:string, format = 'dddd') => {
 }
 
 const displayDateDay = (val:string) => {
-  return moment(val, 'DD/MM/YYYY').format('dddd')
+  return moment(val, 'DD/MM/YYYY').format('ddd')
 }
 
 const dbDate = (val:string) => {

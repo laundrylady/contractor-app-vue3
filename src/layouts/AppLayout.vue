@@ -3,7 +3,7 @@
     <q-header>
       <q-toolbar style="height:65px;">
         <router-link :to="{ name: 'appDashboard' }" class="link">
-          <img src="../assets/images/logos/logo_grey.png" style="max-width:100%;max-height:60px" />
+          <img src="../assets/images/logos/logo_app.png" style="max-width:100%;max-height:50px" />
         </router-link>
         <HeaderSearch class="q-ml-md" />
         <q-space />

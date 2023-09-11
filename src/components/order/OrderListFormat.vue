@@ -9,8 +9,9 @@
           <div>
             <div>
               <div v-if="bookingId"> Booking: #{{ o.display_id }}</div>
-              <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link">{{
-                displayDateDay(o.scheduled_pickup_date) }} {{ o.scheduled_pickup_date }} (<span
+              <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"><span
+                  v-if="o.scheduled_pickup_date">{{
+                    displayDateDay(o.scheduled_pickup_date) }}</span> {{ o.scheduled_pickup_date }} (<span
                   v-if="!o.agreed_pickup_time && o.scheduled_pickup_time">{{
                     hourBookingDisplay(o.scheduled_pickup_time)
                   }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)

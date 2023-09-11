@@ -2,35 +2,38 @@
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn" padding :class="{ 'q-pa-md': $q.screen.xs }">
-        <q-card class="col-xs-12 col-sm-6 col-md-3">
-          <q-card-section class="text-center" style="min-height:165px;">
+        <div class="col-xs-12 col-sm-6 col-md-3">
+          <div class="text-center q-mb-md" style="min-height:150px;">
             <AppLogo />
-          </q-card-section>
-          <q-card-section>
-            <div class="text-h5 text-bold">Sign In</div>
-            <p>Welcome back!</p>
-            <q-input v-model="login.username" label="Registered Email" bottom-slots autofocus outlined>
-              <template v-slot:prepend>
-                <q-icon name="account_circle" />
-              </template>
-            </q-input>
-            <q-input v-model="login.password" :type="isPwd ? 'password' : 'text'" label="Password"
-              @keydown.enter="signIn()" :error="error" error-message="Invalid credentials" outlined>
-              <template v-slot:prepend>
-                <q-icon name="lock" />
-              </template>
-              <template v-slot:append>
-                <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
-              </template>
-            </q-input>
-            <div class="text-right">
-              <q-btn :to="{ name: 'passwordResetRequest' }" label="Forgot your password?" no-caps color="primary" flat
-                rounded />
-            </div>
-            <q-btn :loading="loading" @click="signIn()" :disable="$v.$invalid || loading" color="primary" label="Sign In"
-              class="full-width q-mt-md" rounded />
-          </q-card-section>
-        </q-card>
+          </div>
+          <q-card>
+            <q-card-section>
+              <div class="text-h5 text-bold">Sign In</div>
+              <p>Welcome back!</p>
+              <q-input v-model="login.username" label="Registered Email" bottom-slots autofocus outlined>
+                <template v-slot:prepend>
+                  <q-icon name="account_circle" />
+                </template>
+              </q-input>
+              <q-input v-model="login.password" :type="isPwd ? 'password' : 'text'" label="Password"
+                @keydown.enter="signIn()" :error="error" error-message="Invalid credentials" outlined>
+                <template v-slot:prepend>
+                  <q-icon name="lock" />
+                </template>
+                <template v-slot:append>
+                  <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                    @click="isPwd = !isPwd" />
+                </template>
+              </q-input>
+              <div class="text-right">
+                <q-btn :to="{ name: 'passwordResetRequest' }" label="Forgot your password?" no-caps color="primary" flat
+                  rounded />
+              </div>
+              <q-btn :loading="loading" @click="signIn()" :disable="$v.$invalid || loading" color="primary"
+                label="Sign In" class="full-width q-mt-md" rounded />
+            </q-card-section>
+          </q-card>
+        </div>
       </q-page>
     </q-page-container>
   </q-layout>
