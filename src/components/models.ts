@@ -551,7 +551,11 @@ export interface Order {
   xero_id:string,
   productcategories: OrderProductCategory[],
   special_instructions: string,
-  time?:string
+  time?:string,
+  cancel_reason?:string|null,
+  cancel_notes?:string|null,
+  cancel_date?:string|null,
+  cancel_rebook?:boolean
 }
 
 export interface OrderForm {

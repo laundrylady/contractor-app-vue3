@@ -42,13 +42,15 @@
                   <div v-if="model.recurring_order && model.scheduled_pickup_time" class="q-mt-xs">
                     <q-badge class="q-pa-sm" color="secondary"><q-icon name="sync" class="q-mr-xs" />{{
                       `Every
-                      ${model.recurring} on ${displayDateDay(model.scheduled_pickup_date)} ${model.agreed_pickup_time ?
-                        model.agreed_pickup_time : hourBookingDisplay(model.scheduled_pickup_time)}` }}</q-badge>
+                      ${model.recurring} on ${model.scheduled_pickup_date ? displayDateDay(model.scheduled_pickup_date) :
+                        ''} ${model.agreed_pickup_time ?
+                          model.agreed_pickup_time : hourBookingDisplay(model.scheduled_pickup_time)}` }}</q-badge>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-xs-2 col-sm-3 text-right" v-if="!$q.screen.xs">
+              <span v-if="model.cancel_reason" class="q-mr-sm text-italic">{{ model.cancel_reason }}</span>
               <StatusTag :status="model.status" />
               <div class="q-mt-xs">
                 Last updated <strong>{{ fromNowTz(model.updated_at) }}</strong>

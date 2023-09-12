@@ -75,10 +75,10 @@
       </div>
       <q-space />
       <div>
-        <q-btn @click="doSendPaymentRequest('email')" icon="mail" title="Send Payment Request" flat
-          v-if="localModel.total_price > 0 && !localModel.sent_for_payment" :disable="sendingPaymentRequest" round />
-        <q-btn @click="doSendPaymentRequest('sms')" icon="chat" title="Send SMS Payment Request" flat
-          v-if="localModel.total_price > 0 && !localModel.sent_for_payment" :disable="sendingPaymentRequest" round />
+        <q-btn @click="doSendPaymentRequest('email')" icon="mail" title="Send Payment Request" flat v-if="canSend"
+          :disable="sendingPaymentRequest" round />
+        <q-btn @click="doSendPaymentRequest('sms')" icon="chat" title="Send SMS Payment Request" flat v-if="canSend"
+          :disable="sendingPaymentRequest" round />
       </div>
     </div>
   </div>
@@ -100,7 +100,7 @@
 <script setup lang="ts">
 import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
-import { Invoice, InvoiceProduct, OrderProductCategory, Product, Team } from 'src/components/models'
+import { Invoice, InvoicePayment, InvoiceProduct, OrderProductCategory, Product, Team } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 import { confirmDelete, currencyFormat, dateTimeTz, doNotify, groupBy } from 'src/mixins/help'
@@ -144,15 +144,38 @@ const sortByObject = productCategoryOrder
       [item]: index
     }
   }, {})
+const sendOnceTypes = ['NDIS', 'Home Care', 'Aged Care', 'DVA', 'Sporting Group']
 
 const canEdit = computed(() => {
-  if (localModel.value.xero_override) {
-    return true
-  }
   if (localModel.value.status === 'DRAFT') {
     return true
   }
+  if (localModel.value.status === 'AUTHORISED') {
+    // check if total payments > 0
+    const totalPaymentAmount = localModel.value.payments.reduce((current: number, obj: InvoicePayment) => {
+      return current + parseFloat(obj.total.toString())
+    }, 0)
+    if (totalPaymentAmount > 0) {
+      return false
+    } else {
+      return true
+    }
+  }
   return false
+})
+
+const canSend = computed(() => {
+  if (localModel.value.total_price <= 0) {
+    return false
+  }
+  // paid check
+  if (localModel.value.status === 'PAID') {
+    return false
+  }
+  if (sendOnceTypes.indexOf(props.team.type) !== -1 && localModel.value.sent_for_payment) {
+    return false
+  }
+  return true
 })
 
 const productListFiltered = computed(() => {
@@ -295,7 +318,8 @@ const doSendPaymentRequest = (type: string) => {
 }
 
 const sendPaymentRequest = () => {
-  confirmDelete('PLEASE NOTE: You will not be able to edit this order after it has been sent for payment.').onOk(() => {
+  const message = 'PLEASE NOTE: This will send the invoice for payment'
+  confirmDelete(message).onOk(() => {
     sendingPaymentRequest.value = true
     api.post(`/public/invoice/sendpaymentrequest/${localModel.value.id}`, { content: sendPaymentModal.value.content }).then(() => {
       doNotify('positive', 'Invoice sent for payment')
@@ -310,7 +334,8 @@ const sendPaymentRequest = () => {
 }
 
 const sendPaymentRequestSms = () => {
-  confirmDelete('PLEASE NOTE: You will not be able to edit this order after it has been sent for payment.').onOk(() => {
+  const message = 'PLEASE NOTE: This will send the invoice for payment'
+  confirmDelete(message).onOk(() => {
     sendingPaymentRequest.value = true
     api.post(`/public/invoice/sendpaymentrequestsms/${localModel.value.id}`).then(() => {
       doNotify('positive', 'Invoice sent for payment')

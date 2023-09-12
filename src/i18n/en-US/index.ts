@@ -152,7 +152,8 @@ export default {
     products: 'Products',
     invoiceConfiguration: 'Invoice Configuration',
     payments: 'Payments',
-    invoice: 'Invoice'
+    invoice: 'Invoice',
+    cancel: 'Cancel Booking'
   },
   photo: {
     name: 'Photo',

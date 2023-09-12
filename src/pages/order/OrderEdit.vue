@@ -2,7 +2,8 @@
   <q-card>
     <q-list>
       <q-expansion-item group="orderEdit" :label="$t('order.details')" header-class="text-h6"
-        caption="Update the booking details" @click="bookingTab = 'details'">
+        caption="Update the booking details" @click="bookingTab = 'details'"
+        :default-opened="localModel.status === 'cancelled'">
         <q-card>
           <q-card-section>
             <q-tabs v-model="bookingTab" align="left" class="q-mb-md">
@@ -74,7 +75,10 @@
               </div>
             </div>
           </q-card-section>
-          <q-card-actions align="right" v-if="canEdit && bookingTab === 'details'">
+          <q-card-actions v-if="canEdit && bookingTab === 'details'">
+            <q-btn @click="showCancelOrder = true" color="red" :label="$t('order.cancel')" rounded flat
+              v-if="localModel.status !== 'cancelled' && (!localModel.invoice || (localModel.invoice && localModel.invoice.status !== 'PAID'))" />
+            <q-space />
             <q-btn :disable="loading || $v.$invalid" :label="$t('actions.update')" color="primary" @click="save()"
               rounded />
           </q-card-actions>
@@ -83,7 +87,7 @@
       <q-expansion-item group="orderEdit"
         :label="`${$t('order.invoice')}${localModel.invoice ? ` - #${localModel.invoice.display_id}` : ''}`"
         caption=" Create, update and delete products" header-class="text-h6" default-opened
-        @click="invoiceTab = 'products'">
+        @click="invoiceTab = 'products'" v-if="localModel.status !== 'cancelled'">
         <q-card>
           <q-card-section v-if="!localModel.invoice">
             <p>No invoice has been created for this {{ $t('order.name') }}.</p>
@@ -157,8 +161,9 @@
       <q-item-label header class="text-grey-8 text-bold">FUTURE BOOKINGS</q-item-label>
       <q-item v-for="o in futureRecurring" :key="o.id">
         <div>
-          <div><router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link">{{
-            displayDateDay(o.scheduled_pickup_date) }} {{ o.scheduled_pickup_date }} (<span
+          <div><router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link">
+              <span v-if="o.scheduled_pickup_date">{{
+                displayDateDay(o.scheduled_pickup_date) }}</span> {{ o.scheduled_pickup_date }} (<span
                 v-if="!o.agreed_pickup_time && o.scheduled_pickup_time">{{
                   hourBookingDisplay(o.scheduled_pickup_time)
                 }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)
@@ -182,6 +187,25 @@
       </q-item>
     </q-list>
   </q-card>
+  <q-dialog v-model="showCancelOrder">
+    <q-card class="modal">
+      <q-toolbar class="bg-primary text-white">
+        <q-toolbar-title>Booking #{{ localModel.display_id }} - Cancellation</q-toolbar-title>
+      </q-toolbar>
+      <q-card-section>
+        <q-select v-model="localModel.cancel_reason" label="Reason for cancellation" outlined
+          :options="cancelOrderReasons" bottom-slots />
+        <q-input v-model="localModel.cancel_notes" label="Extra notes for the customer" type="textarea" rows="3" outlined
+          bottom-slots />
+        <q-checkbox v-model="localModel.cancel_rebook" label="Booking needs rescheduling" /> </q-card-section>
+      <q-card-actions>
+        <q-btn v-close-popup flat color="secondary" label="Close" rounded />
+        <q-space />
+        <q-btn @click="cancelOrder()" :disable="!localModel.cancel_reason || loadingCancel" :loading="loadingCancel"
+          label="Cancel Order" color="primary" rounded />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
@@ -221,6 +245,18 @@ const tax = ref()
 const showTimePicker = ref(false)
 const localModel = computed(() => props.model)
 const { user } = useMixinSecurity()
+const showCancelOrder = ref(false)
+const loadingCancel = ref(false)
+const cancelOrderReasons = [
+  'Unavailable to complete booking',
+  'Customer did not show',
+  'Appointment made in error',
+  'Holiday closure',
+  'NDIS requested',
+  'Customer requested',
+  'Admin cancelled',
+  'Customer is moving'
+]
 
 const rules = {
   team_id: { required },
@@ -234,7 +270,7 @@ const loading = ref(false)
 const $v = useVuelidate(rules, localModel, { $scope: false })
 
 const canEdit = computed(() => {
-  if (['awaiting_payment', 'PAID', 'ready_for_delivery', 'completed'].indexOf(props.model.status) !== -1 && !props.model.recurring) {
+  if (['awaiting_payment', 'PAID', 'ready_for_delivery', 'completed', 'cancelled'].indexOf(props.model.status) !== -1 && !props.model.recurring) {
     return false
   }
   return true
@@ -250,6 +286,20 @@ const save = () => {
   }).catch(error => {
     loading.value = false
     useMixinDebug(error, bus)
+  })
+}
+
+const cancelOrder = () => {
+  confirmDelete('This will cancel the order').onOk(() => {
+    loadingCancel.value = true
+    api.put(`/public/order/cancel/${props.model.id}`, localModel.value).then(() => {
+      emits('update:order')
+      bus.emit('getDashboardStats')
+      showCancelOrder.value = false
+      loadingCancel.value = false
+    }).catch(error => {
+      useMixinDebug(error)
+    })
   })
 }
 

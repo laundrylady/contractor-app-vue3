@@ -75,7 +75,13 @@ const data = ref()
 const loading = ref(false)
 const showFilters = ref(false)
 const topRef = ref<HTMLDivElement | null>(null)
-const search = reactive({ team_id: null, start: null, end: null })
+// search interface
+interface Search {
+  team_id: null | number,
+  start: null | string,
+  end: null | string
+}
+const search = reactive<Search>({ team_id: null, start: null, end: null })
 const columns: QTableProps['columns'] = [{
   name: 'display_id',
   label: i8n.t('order.name'),
@@ -142,9 +148,9 @@ onMounted(() => {
   bus.on('orderLoadMore', () => {
     request()
   })
-  if (route.params.team_id && typeof route.params.team_id === 'number') {
-    search.team_id = route.params.team_id
-    console.log(search)
+  if (route.params.team_id) {
+    search.team_id = parseFloat(route.params.team_id.toString())
+    showFilters.value = true
   }
   request()
 })

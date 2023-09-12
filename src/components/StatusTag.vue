@@ -33,7 +33,7 @@ const statusColor = computed(() => {
   if (props.status === 'confirmed') {
     return 'info'
   }
-  if (props.status === 'DELETED') {
+  if (['DELETED', 'cancelled', 'VOID'].indexOf(props.status) !== -1) {
     return 'negative'
   }
   return 'positive'
@@ -67,6 +67,9 @@ const statusText = computed(() => {
   }
   if (props.status.toLowerCase() === 'ready_for_delivery') {
     label = 'Ready For Delivery'
+  }
+  if (props.status.toLowerCase() === 'cancelled') {
+    label = 'Cancelled'
   }
   return label
 })
