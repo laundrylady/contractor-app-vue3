@@ -555,7 +555,9 @@ export interface Order {
   cancel_reason?:string|null,
   cancel_notes?:string|null,
   cancel_date?:string|null,
-  cancel_rebook?:boolean
+  cancel_rebook?:boolean,
+  changes_reason?:string|null,
+  changes_notes?:string|null
 }
 
 export interface OrderForm {

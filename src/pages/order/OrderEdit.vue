@@ -14,17 +14,18 @@
             <div v-if="bookingTab === 'details'">
               <q-input v-model="localModel.special_instructions" label="Special Instructions" outlined type="textarea"
                 autogrow class="q-mt-md" :disable="!canEdit" />
-              <div class="row q-col-gutter-md q-mb-md">
-                <div class="col-xs-6 col-sm-4" v-if="localModel.team.name">
+              <div class="row q-col-gutter-md">
+                <div class="col-xs-12 col-sm-6" v-if="localModel.team.name">
                   <div class="text-bold text-grey q-mt-md">{{ $t('team.name').toUpperCase() }}</div>
-                  <div>{{ localModel.team.name }}</div>
+                  <div>{{ localModel.team.name }} <q-badge :label="localModel.team.type" color="grey-7" class="q-ml-sm" />
+                  </div>
                   <div>
-                    <div>{{ localModel.team.type }}</div>
+                    <div></div>
                     <div>{{ localModel.team.payment_terms === 'Credit Card' ? 'Credit Card' : 'Account'
                     }}</div>
                   </div>
                 </div>
-                <div class="col-xs-6">
+                <div class="col-xs-12 col-sm-6">
                   <div class="text-bold text-grey q-mt-md">{{ $t('contractor.name').toUpperCase() }}</div>
                   <div v-if="localModel.contractor">
                     <UserAvatar :user="localModel.contractor" class="q-mr-xs" />
@@ -32,21 +33,24 @@
                   </div>
                 </div>
               </div>
-              <div class="row q-col-gutter-md" v-if="localModel.team_id">
-                <div class="col-xs-12 col-sm-8">
+              <div class="row q-col-gutter-md q-mt-md" v-if="localModel.team_id">
+                <div class="col-xs-12 col-sm-7">
                   <div class="row q-col-gutter-md q-mb-md">
                     <div class="col-xs-6">
                       <div class="text-bold text-grey">PICKUP DATE</div>
-                      <div v-if="canEdit && !changes.date">{{ localModel.scheduled_pickup_date }}</div>
+                      <div v-if="canEdit && !changes.date">{{ localModel.scheduled_pickup_date }}<q-btn v-if="canEdit"
+                          @click="changes.date = true" icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" />
+                      </div>
                       <div v-if="!canEdit || changes.date">
-                        <DateField v-model="localModel.scheduled_pickup_date" :label="$t('order.scheduledPickupDate')"
+                        <DateField v-model="localModel.scheduled_pickup_date" label="Choose a pickup date"
                           :outlined="true" :invalid="$v.scheduled_pickup_date.$invalid" :disable="!canEdit" />
                       </div>
                     </div>
                     <div class="col-xs-6">
-                      <div class="text-bold text-grey">PICKUP TIME</div>
+                      <div class="text-bold text-grey">PICKUP BETWEEN</div>
                       <div v-if="canEdit && !changes.time && localModel.scheduled_pickup_time">{{
-                        hourBookingDisplay(localModel.scheduled_pickup_time) }}
+                        hourBookingDisplay(localModel.scheduled_pickup_time) }}<q-btn v-if="canEdit"
+                          @click="changes.time = true" icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" />
                       </div>
                       <div v-if="!canEdit || changes.time">
                         <q-select v-model="localModel.scheduled_pickup_time" :label="$t('order.scheduledPickupTime')"
@@ -55,36 +59,30 @@
                       </div>
                     </div>
                   </div>
-                  <div v-if="!localModel.recurring_parent_id">
-                    <q-toggle v-model="localModel.recurring_order" :label="$t('order.recurring')" :disable="!canEdit" />
-                    <q-select v-model="localModel.recurring" :label="$t('order.recurringFrequency')"
-                      :options="['Week', 'Fortnite', 'Month']" bottom-slots v-if="localModel.recurring_order"
-                      :disable="!canEdit" outlined />
-                  </div>
-                  <div class="text-bold text-grey q-mt-md">PICKUP FROM</div>
-                  <div v-if="localModel.address1">{{ localModel.address1 }}</div>
-                  <div>{{ localModel.address2 }}</div>
-                  <div v-if="localModel.suburbpostcoderegion">{{ localModel.suburbpostcoderegion.locality }} {{
-                    localModel.suburbpostcoderegion.state }} {{ localModel.suburbpostcoderegion.postcode }}</div>
-                  <div class="text-bold text-grey q-mt-md">PRODUCTS</div>
-                  <div v-for="c in localModel.productcategories" :key="c.id">
-                    <q-checkbox v-model="c.meta.pivot_active" :label="c.name" v-if="c.meta" disable />
-                  </div>
                 </div>
-                <div class="col-xs-12 col-sm-4" v-if="canEdit || localModel.agreed_pickup_time">
-                  <div class="text-bold text-grey q-mb-xs">AGREED PICKUP TIME</div>
-                  <p>The time below has been agreed upon by the customer and contractor.</p>
-                  <div v-if="localModel.agreed_pickup_time"><q-icon name="history" /> Time: {{
-                    hourAgreedDisplay(localModel.agreed_pickup_time)
-                  }}<a @click="localModel.agreed_pickup_time = null" class="link q-ml-sm"
-                      v-if="localModel.agreed_pickup_time && canEdit">Reset</a>
-                  </div>
-                  <div v-if="canEdit">
-                    <div><a @click="showTimePicker = !showTimePicker" class="link">Choose a time</a></div>
-                    <q-time v-model="localModel.agreed_pickup_time" color="secondary" v-if="showTimePicker"
-                      class="q-mt-xs" />
-                  </div>
-                </div>
+              </div>
+              <div v-if="(canEdit && changes.time) || localModel.agreed_pickup_time">
+                <div class="text-bold text-grey">AGREED PICKUP TIME <a @click="changes.agreed_time_model = null"
+                    class="link" v-if="changes.agreed_time_model && changes.time">[RESET]</a></div>
+                <div v-if="!changes.time && localModel.agreed_pickup_time">{{
+                  hourAgreedDisplay(localModel.agreed_pickup_time) }}<q-btn @click="changes.time = true" icon="edit" flat
+                    round size="sm" color="grey-7" class="q-ml-xs" v-if="canEdit" /></div>
+                <q-time v-model="changes.agreed_time_model" color="secondary" v-if="changes.time" />
+              </div>
+              <div v-if="!localModel.recurring_parent_id" class="q-mt-md">
+                <q-toggle v-model="localModel.recurring_order" :label="$t('order.recurring')" :disable="!canEdit" />
+                <q-select v-model="localModel.recurring" :label="$t('order.recurringFrequency')"
+                  :options="['Week', 'Fortnite', 'Month']" bottom-slots v-if="localModel.recurring_order"
+                  :disable="!canEdit" outlined />
+              </div>
+              <div class="text-bold text-grey q-mt-md">PICKUP FROM</div>
+              <div v-if="localModel.address1">{{ localModel.address1 }}</div>
+              <div>{{ localModel.address2 }}</div>
+              <div v-if="localModel.suburbpostcoderegion">{{ localModel.suburbpostcoderegion.locality }} {{
+                localModel.suburbpostcoderegion.state }} {{ localModel.suburbpostcoderegion.postcode }}</div>
+              <div class="text-bold text-grey q-mt-md">PRODUCTS</div>
+              <div v-for="c in localModel.productcategories" :key="c.id">
+                <q-checkbox v-model="c.meta.pivot_active" :label="c.name" v-if="c.meta" disable />
               </div>
             </div>
           </q-card-section>
@@ -215,7 +213,38 @@
         <q-btn v-close-popup flat color="secondary" label="Close" rounded />
         <q-space />
         <q-btn @click="cancelOrder()" :disable="!localModel.cancel_reason || loadingCancel" :loading="loadingCancel"
-          label="Cancel Order" color="primary" rounded />
+          label="Cancel Booking" color="primary" rounded />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+  <q-dialog v-model="showChangesOrder">
+    <q-card class="modal">
+      <q-toolbar class="bg-primary text-white">
+        <q-toolbar-title>Booking #{{ localModel.display_id }} - Changes</q-toolbar-title>
+      </q-toolbar>
+      <q-card-section>
+        <div class="row q-col-gutter-md q-mb-md">
+          <div class="col-xs-12 col-sm-6">
+            <div class="text-grey text-bold">PICKUP DATE</div>
+            <div>{{ changes.date_model }}</div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <div class="text-grey text-bold">PICKUP TIME</div>
+            <div v-if="!changes.agreed_time_model">{{ hourBookingDisplay(changes.time_model) }}</div>
+            <div v-if="changes.agreed_time_model">{{ hourAgreedDisplay(changes.agreed_time_model) }}</div>
+          </div>
+        </div>
+        <q-select v-model="localModel.changes_reason" label="Reason for change" outlined :options="cancelOrderReasons"
+          bottom-slots />
+        <q-input v-model="localModel.changes_notes" label="Extra notes for the customer" type="textarea" rows="3" outlined
+          bottom-slots />
+      </q-card-section>
+      <q-card-actions>
+        <q-btn v-close-popup flat color="secondary" label="Close" rounded />
+        <q-space />
+        <q-btn @click="doSave()"
+          :disable="!localModel.changes_reason || loadingChanges || !changes.date_model || !changes.time_model"
+          :loading="loadingChanges" label="Update Booking" color="primary" rounded />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -256,11 +285,12 @@ const categories = ref()
 const invoiceTab = ref('products')
 const bookingTab = ref('details')
 const tax = ref()
-const showTimePicker = ref(false)
 const localModel = computed(() => props.model)
 const { user } = useMixinSecurity()
 const showCancelOrder = ref(false)
 const loadingCancel = ref(false)
+const showChangesOrder = ref(false)
+const loadingChanges = ref(false)
 const cancelOrderReasons = [
   'Unavailable to complete booking',
   'Customer did not show',
@@ -271,7 +301,7 @@ const cancelOrderReasons = [
   'Admin cancelled',
   'Customer is moving'
 ]
-const changes: LooseObject = { date: false, time: false }
+const changes: LooseObject = ref({ date: false, date_model: null, time: false, time_model: null, agreed_time_model: null, contractor: false })
 
 const rules = {
   team_id: { required },
@@ -291,17 +321,38 @@ const canEdit = computed(() => {
   return true
 })
 
-const save = () => {
+const doSave = () => {
+  if (changes.value.date) {
+    localModel.value.scheduled_pickup_date = changes.value.date_model
+  }
+  if (changes.value.time) {
+    localModel.value.scheduled_pickup_time = changes.value.time_model
+  }
+  localModel.value.agreed_pickup_time = changes.value.agreed_time_model
   loading.value = true
   api.put(`/public/order/${props.model.id}`, localModel.value).then(() => {
     doNotify('positive', 'Saved')
     emits('update:order')
     bus.emit('getDashboardStats')
     loading.value = false
+    changes.value.date_model = JSON.parse(JSON.stringify(localModel.value.scheduled_pickup_date))
+    changes.value.time_model = JSON.parse(JSON.stringify(localModel.value.scheduled_pickup_time))
+    changes.value.date = false
+    changes.value.time = false
+    showChangesOrder.value = false
   }).catch(error => {
     loading.value = false
     useMixinDebug(error, bus)
   })
+}
+
+const save = () => {
+  // check for change in date or time
+  if (changes.value.date_model !== localModel.value.scheduled_pickup_date || changes.value.time_model !== localModel.value.scheduled_pickup_time || changes.value.agreed_time_model !== localModel.value.agreed_pickup_time) {
+    showChangesOrder.value = true
+  } else {
+    doSave()
+  }
 }
 
 const cancelOrder = () => {
@@ -358,5 +409,12 @@ onMounted(async () => {
   }).catch(error => {
     useMixinDebug(error)
   })
+  if (localModel.value.scheduled_pickup_time && !hourBookingOptions.find(o => o.value === localModel.value.scheduled_pickup_time)) {
+    hourBookingOptions.unshift({ value: '', label: '-----------', disable: true })
+    hourBookingOptions.unshift({ value: localModel.value.scheduled_pickup_time, label: hourBookingDisplay(localModel.value.scheduled_pickup_time), disable: false })
+  }
+  changes.value.date_model = JSON.parse(JSON.stringify(localModel.value.scheduled_pickup_date))
+  changes.value.time_model = JSON.parse(JSON.stringify(localModel.value.scheduled_pickup_time))
+  changes.value.agreed_time_model = JSON.parse(JSON.stringify(localModel.value.agreed_pickup_time))
 })
 </script>

@@ -66,23 +66,23 @@ const hourOptions = [
 ]
 
 const hourBookingOptions = [
-  { value: '5-6', label: '5am - 6am' },
-  { value: '6-7', label: '6am - 7am' },
-  { value: '7-8', label: '7am - 8am' },
-  { value: '8-9', label: '8am - 9am' },
-  { value: '9-10', label: '9am - 10am' },
-  { value: '10-11', label: '10am - 11am' },
-  { value: '11-12', label: '11am - 12pm' },
-  { value: '12-13', label: '12pm - 1pm' },
-  { value: '13-14', label: '1pm - 2pm' },
-  { value: '14-15', label: '2pm - 3pm' },
-  { value: '15-16', label: '3pm - 4pm' },
-  { value: '16-17', label: '4pm - 5pm' },
-  { value: '17-18', label: '5pm - 6pm' },
-  { value: '18-19', label: '6pm - 7pm' },
-  { value: '19-20', label: '7pm - 8pm' },
-  { value: '20-21', label: '8pm - 9pm' },
-  { value: '21-22', label: '9pm - 10pm' }
+  { value: '5-6', label: '5am - 6am', disable: false },
+  { value: '6-7', label: '6am - 7am', disable: false },
+  { value: '7-8', label: '7am - 8am', disable: false },
+  { value: '8-9', label: '8am - 9am', disable: false },
+  { value: '9-10', label: '9am - 10am', disable: false },
+  { value: '10-11', label: '10am - 11am', disable: false },
+  { value: '11-12', label: '11am - 12pm', disable: false },
+  { value: '12-13', label: '12pm - 1pm', disable: false },
+  { value: '13-14', label: '1pm - 2pm', disable: false },
+  { value: '14-15', label: '2pm - 3pm', disable: false },
+  { value: '15-16', label: '3pm - 4pm', disable: false },
+  { value: '16-17', label: '4pm - 5pm', disable: false },
+  { value: '17-18', label: '5pm - 6pm', disable: false },
+  { value: '18-19', label: '6pm - 7pm', disable: false },
+  { value: '19-20', label: '7pm - 8pm', disable: false },
+  { value: '20-21', label: '8pm - 9pm', disable: false },
+  { value: '21-22', label: '9pm - 10pm', disable: false }
 ]
 
 const globalStatusList = [
