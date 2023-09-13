@@ -34,40 +34,37 @@
                 </div>
               </div>
               <div class="row q-col-gutter-md q-mt-md" v-if="localModel.team_id">
-                <div class="col-xs-12 col-sm-7">
-                  <div class="row q-col-gutter-md q-mb-md">
-                    <div class="col-xs-6">
-                      <div class="text-bold text-grey">PICKUP DATE</div>
-                      <div v-if="canEdit && !changes.date">{{ localModel.scheduled_pickup_date }}<q-btn v-if="canEdit"
-                          @click="changes.date = true" icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" />
-                      </div>
-                      <div v-if="!canEdit || changes.date">
-                        <DateField v-model="localModel.scheduled_pickup_date" label="Choose a pickup date"
-                          :outlined="true" :invalid="$v.scheduled_pickup_date.$invalid" :disable="!canEdit" />
-                      </div>
-                    </div>
-                    <div class="col-xs-6">
-                      <div class="text-bold text-grey">PICKUP BETWEEN</div>
-                      <div v-if="canEdit && !changes.time && localModel.scheduled_pickup_time">{{
-                        hourBookingDisplay(localModel.scheduled_pickup_time) }}<q-btn v-if="canEdit"
-                          @click="changes.time = true" icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" />
-                      </div>
-                      <div v-if="!canEdit || changes.time">
-                        <q-select v-model="localModel.scheduled_pickup_time" :label="$t('order.scheduledPickupTime')"
-                          :invalid="$v.scheduled_pickup_time" :options="hourBookingOptions" emit-value map-options
-                          :disable="!canEdit" outlined />
-                      </div>
+                <div class="col-xs-12 col-sm-6">
+                  <div class="text-bold text-grey">PICKUP DATE</div>
+                  <div v-if="canEdit && !changes.date">{{ localModel.scheduled_pickup_date }}<q-btn v-if="canEdit"
+                      @click="changes.date = true" icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" />
+                  </div>
+                  <div v-if="!canEdit || changes.date">
+                    <DateField v-model="changes.date_model" label="Choose a pickup date" :outlined="true"
+                      :invalid="!changes.date_model" :disable="!canEdit" />
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <div class="text-bold text-grey">PICKUP BETWEEN</div>
+                  <div v-if="canEdit && !changes.time && localModel.scheduled_pickup_time">{{
+                    hourBookingDisplay(localModel.scheduled_pickup_time) }}<q-btn v-if="canEdit"
+                      @click="changes.time = true" icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" />
+                  </div>
+                  <div v-if="!canEdit || changes.time">
+                    <q-select v-model="changes.time_model" :label="$t('order.scheduledPickupTime')"
+                      :invalid="!changes.time_model" :options="hourBookingOptions" emit-value map-options
+                      :disable="!canEdit" outlined />
+                    <div v-if="(canEdit && changes.time) || localModel.agreed_pickup_time">
+                      <div class="text-bold text-grey q-mb-xs q-mt-md">AGREED PICKUP TIME <a
+                          @click="changes.agreed_time_model = null" class="link"
+                          v-if="changes.agreed_time_model && changes.time">[RESET]</a></div>
+                      <div v-if="!changes.time && localModel.agreed_pickup_time">{{
+                        hourAgreedDisplay(localModel.agreed_pickup_time) }}<q-btn @click="changes.time = true" icon="edit"
+                          flat round size="sm" color="grey-7" class="q-ml-xs" v-if="canEdit" /></div>
+                      <q-time v-model="changes.agreed_time_model" color="secondary" v-if="changes.time" />
                     </div>
                   </div>
                 </div>
-              </div>
-              <div v-if="(canEdit && changes.time) || localModel.agreed_pickup_time">
-                <div class="text-bold text-grey">AGREED PICKUP TIME <a @click="changes.agreed_time_model = null"
-                    class="link" v-if="changes.agreed_time_model && changes.time">[RESET]</a></div>
-                <div v-if="!changes.time && localModel.agreed_pickup_time">{{
-                  hourAgreedDisplay(localModel.agreed_pickup_time) }}<q-btn @click="changes.time = true" icon="edit" flat
-                    round size="sm" color="grey-7" class="q-ml-xs" v-if="canEdit" /></div>
-                <q-time v-model="changes.agreed_time_model" color="secondary" v-if="changes.time" />
               </div>
               <div v-if="!localModel.recurring_parent_id" class="q-mt-md">
                 <q-toggle v-model="localModel.recurring_order" :label="$t('order.recurring')" :disable="!canEdit" />
