@@ -52,6 +52,8 @@
               </q-btn>
               <q-btn @click="onMyWay(o)" color="primary" round dense icon="directions_car" class="q-ml-xs"
                 title="Notify the customer you are on your way to pickup" v-if="o.status === 'confirmed'" flat />
+              <q-btn @click="completeOrder(o)" color="primary" round dense icon="task_alt" class="q-ml-xs"
+                title="Complete the booking" v-if="o.status === 'ready_for_delivery'" flat />
             </div>
           </div>
         </div>
@@ -63,17 +65,17 @@
   </q-list>
 </template>
 <script setup lang="ts">
+import { EventBus } from 'quasar'
+import { api } from 'src/boot/axios'
 import { Order } from 'src/components/models'
+import { LooseObject } from 'src/contracts/LooseObject'
+import { useMixinDebug } from 'src/mixins/debug'
 import { confirmDelete, currencyFormat, displayDateDay, hourAgreedDisplay, hourBookingDisplay, openMapLink } from 'src/mixins/help'
+import { getLocationPromise } from 'src/services/geolocation'
+import { inject } from 'vue'
 import StatusTag from '../StatusTag.vue'
 import UserAvatar from '../UserAvatar.vue'
 import OrderProductCategoryDisplay from './OrderProductCategoryDisplay.vue'
-import { getLocationPromise } from 'src/services/geolocation'
-import { LooseObject } from 'src/contracts/LooseObject'
-import { api } from 'src/boot/axios'
-import { EventBus } from 'quasar'
-import { inject } from 'vue'
-import { useMixinDebug } from 'src/mixins/debug'
 
 interface Props {
   orders: Order[],
@@ -96,6 +98,16 @@ const onMyWay = async (o: Order) => {
   }
   confirmDelete('This will send an SMS to the customer notifying them you are on your way to pickup').onOk(() => {
     api.post(`/public/order/onmyway/${o.id}`, { origin: latLng }).then(() => {
+      bus.emit('orderLoadMore')
+    }).catch(error => {
+      useMixinDebug(error)
+    })
+  })
+}
+
+const completeOrder = async (o: Order) => {
+  confirmDelete('This will mark the booking as completed').onOk(() => {
+    api.post(`/public/order/complete/${o.id}`).then(() => {
       bus.emit('orderLoadMore')
     }).catch(error => {
       useMixinDebug(error)

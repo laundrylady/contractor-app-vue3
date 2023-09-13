@@ -35,12 +35,25 @@
               <div class="row q-col-gutter-md" v-if="localModel.team_id">
                 <div class="col-xs-12 col-sm-8">
                   <div class="row q-col-gutter-md q-mb-md">
-                    <DateField v-model="localModel.scheduled_pickup_date" :label="$t('order.scheduledPickupDate')"
-                      :outlined="true" :invalid="$v.scheduled_pickup_date.$invalid" class="col-xs-6"
-                      :disable="!canEdit" />
-                    <q-select v-model="localModel.scheduled_pickup_time" :label="$t('order.scheduledPickupTime')"
-                      :invalid="$v.scheduled_pickup_time" :options="hourBookingOptions" emit-value map-options
-                      class="col-xs-6" :disable="!canEdit" outlined />
+                    <div class="col-xs-6">
+                      <div class="text-bold text-grey">PICKUP DATE</div>
+                      <div v-if="canEdit && !changes.date">{{ localModel.scheduled_pickup_date }}</div>
+                      <div v-if="!canEdit || changes.date">
+                        <DateField v-model="localModel.scheduled_pickup_date" :label="$t('order.scheduledPickupDate')"
+                          :outlined="true" :invalid="$v.scheduled_pickup_date.$invalid" :disable="!canEdit" />
+                      </div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class="text-bold text-grey">PICKUP TIME</div>
+                      <div v-if="canEdit && !changes.time && localModel.scheduled_pickup_time">{{
+                        hourBookingDisplay(localModel.scheduled_pickup_time) }}
+                      </div>
+                      <div v-if="!canEdit || changes.time">
+                        <q-select v-model="localModel.scheduled_pickup_time" :label="$t('order.scheduledPickupTime')"
+                          :invalid="$v.scheduled_pickup_time" :options="hourBookingOptions" emit-value map-options
+                          :disable="!canEdit" outlined />
+                      </div>
+                    </div>
                   </div>
                   <div v-if="!localModel.recurring_parent_id">
                     <q-toggle v-model="localModel.recurring_order" :label="$t('order.recurring')" :disable="!canEdit" />
@@ -222,6 +235,7 @@ import InvoiceProductManagement from 'src/components/invoiceproduct/InvoiceProdu
 import { Order } from 'src/components/models'
 import GlobalNotes from 'src/components/note/GlobalNotes.vue'
 import GlobalNotifications from 'src/components/notification/GlobalNotifications.vue'
+import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 import { confirmDelete, currencyFormat, dateTimeTz, displayDateDay, doNotify, hourAgreedDisplay, hourBookingDisplay, hourBookingOptions } from 'src/mixins/help'
 import { useMixinSecurity } from 'src/mixins/security'
@@ -257,6 +271,7 @@ const cancelOrderReasons = [
   'Admin cancelled',
   'Customer is moving'
 ]
+const changes: LooseObject = { date: false, time: false }
 
 const rules = {
   team_id: { required },

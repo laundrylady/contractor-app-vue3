@@ -164,6 +164,9 @@ const hasEvents = (timestamp: LooseObject) => {
 }
 
 const eventColor = (order: Order) => {
+  if (order.status === 'cancelled') {
+    return 'bg-red text-white'
+  }
   const isAfter = order.status !== 'confirmed'
   let color = 'bg-primary text-white'
   if (order.productcategories && order.productcategories.filter(q => q.meta && q.meta.pivot_active).length === 1) {

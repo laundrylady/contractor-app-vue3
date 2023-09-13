@@ -71,6 +71,9 @@ const statusText = computed(() => {
   if (props.status.toLowerCase() === 'cancelled') {
     label = 'Cancelled'
   }
+  if (props.status.toLowerCase() === 'completed') {
+    label = 'Completed'
+  }
   return label
 })
 </script>

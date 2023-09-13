@@ -69,7 +69,7 @@
           <MapWithMarker :lat-lng="{ lat: parseFloat(model.lat), lng: parseFloat(model.lng) }"
             v-if="model.lat && model.lng" />
         </div>
-        <q-list dense class="q-mt-md q-ml-sm q-mr-sm">
+        <q-list dense class="q-mt-md q-ml-sm q-mr-sm q-pb-md">
           <q-item-label header>{{ $t('team.name') }}</q-item-label>
           <q-item>
             <q-item-section side>

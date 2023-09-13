@@ -80,7 +80,7 @@
           </q-card>
         </div>
       </div>
-      <q-btn :to="{ name: 'orders' }" label="View All Bookings" flat color="primary" class="q-mr-xs" />
+      <q-btn :to="{ name: 'orders' }" label="View All Bookings" flat color="primary" rounded />
     </div>
   </div>
 </template>
