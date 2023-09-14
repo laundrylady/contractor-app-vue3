@@ -8,8 +8,9 @@
           </div>
           <q-card>
             <q-card-section v-if="!success">
-              <h4 class="text-h4 q-mt-none q-mb-sm">Activate your Account</h4>
-              <p>Congratulations and welcome to The Laundry Lady. Before you can get started, you need to set a secure
+              <h4 class="text-h4 q-mt-none q-mb-sm">Account Activation</h4>
+              <p>Congratulations and welcome to The Laundry Lady.</p>
+              <p>Before you can get started, you need to set a secure
                 password for your account. Please enter and confirm a secure password below:</p>
               <div class="q-pa-md bg-pink-1 q-mb-lg">
                 <div class="q-mb-sm">Create a strong password containing at least:</div>
