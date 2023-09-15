@@ -30,7 +30,7 @@
       <div v-if="!loading" style="overflow:auto;" class="q-pa-sm">
         <q-card style="min-width:1000px;max-width:100%;">
           <q-calendar-month ref="calendarRef" v-model="selectedDate" :weekdays="[1, 2, 3, 4, 5, 6, 0]" hoverable bordered
-            animated month-label-size="md" date-align="right" v-if="calendarView === 'month'">
+            month-label-size="md" date-align="right" v-if="calendarView === 'month'">
             <template #day="{ scope }">
               <div @mouseenter="currentHover = scope.timestamp.date" style="height:100%;">
                 <div v-if="hasEvents(scope.timestamp)"
@@ -93,7 +93,7 @@ import { api } from 'src/boot/axios'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 import { hourBookingDisplay } from 'src/mixins/help'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, nextTick } from 'vue'
 import { Order } from '../../components/models'
 import { useRouter } from 'vue-router'
 
@@ -102,6 +102,18 @@ const loading = ref(false)
 const currentHover = ref()
 const calendarView = ref('week')
 const router = useRouter()
+
+// calendar
+const selectedDate = ref(today())
+const calendarRef = ref<QCalendar>()
+
+const selectedMonth = computed(() => {
+  return moment(selectedDate.value).format('MMMM YYYY')
+})
+
+const selectedWeek = computed(() => {
+  return moment(selectedDate.value).format('W - MMMM YYYY')
+})
 
 const getOrders = () => {
   loading.value = true
@@ -119,36 +131,30 @@ const getOrders = () => {
   }
 }
 
-// calendar
-const selectedDate = ref(today())
-const calendarRef = ref<QCalendar>()
-
-const selectedMonth = computed(() => {
-  return moment(selectedDate.value).format('MMMM YYYY')
-})
-
-const selectedWeek = computed(() => {
-  return moment(selectedDate.value).format('W - MMMM YYYY')
-})
-
 const onToday = () => {
   if (calendarRef.value) {
     calendarRef.value.moveToToday()
-    getOrders()
+    nextTick(() => {
+      getOrders()
+    })
   }
 }
 
 const onPrev = () => {
   if (calendarRef.value) {
     calendarRef.value.prev()
-    getOrders()
+    nextTick(() => {
+      getOrders()
+    })
   }
 }
 
 const onNext = () => {
   if (calendarRef.value) {
     calendarRef.value.next()
-    getOrders()
+    nextTick(() => {
+      getOrders()
+    })
   }
 }
 
