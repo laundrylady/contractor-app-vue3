@@ -539,6 +539,7 @@ export interface Order {
   address1:string,
   address2:string,
   suburb_postcode_region_id:number|null,
+  country_id:number|null,
   suburbpostcoderegion:PostcodeRegion,
   country:Country
   lat:string,

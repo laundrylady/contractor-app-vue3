@@ -79,7 +79,7 @@
                 localModel.suburbpostcoderegion.state }} {{ localModel.suburbpostcoderegion.postcode }}</div>
               <div class="text-bold text-grey q-mt-md">PRODUCTS</div>
               <div v-for="c in localModel.productcategories" :key="c.id">
-                <q-checkbox v-model="c.meta.pivot_active" :label="c.name" v-if="c.meta" disable />
+                <q-checkbox v-model="c.meta.pivot_active" :label="c.name" v-if="c.meta" :disable="!canEdit" />
               </div>
             </div>
           </q-card-section>

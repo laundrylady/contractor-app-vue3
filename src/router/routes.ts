@@ -77,6 +77,11 @@ const routes: RouteRecordRaw[] = [
     path: '/booking/new',
     component: () => import('src/pages/order/OrderNew.vue')
   },
+  {
+    name: 'orders-public-edit',
+    path: '/b/:id',
+    component: () => import('src/pages/order/OrderPublicEdit.vue')
+  },
   // TFA SETUP
   {
     name: 'tfaSetup',

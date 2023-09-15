@@ -51,6 +51,8 @@
             </div>
             <div class="col-xs-2 col-sm-3 text-right" v-if="!$q.screen.xs">
               <span v-if="model.cancel_reason" class="q-mr-sm text-italic">{{ model.cancel_reason }}</span>
+              <q-btn @click="openURL(`/portal/b/${model.id}`)" flat icon="language" round class="q-mr-xs"
+                v-if="model.status === 'confirmed'" />
               <StatusTag :status="model.status" />
               <div class="q-mt-xs">
                 Last updated <strong>{{ fromNowTz(model.updated_at) }}</strong>
@@ -140,7 +142,7 @@
   </q-layout>
 </template>
 <script setup lang="ts">
-import { EventBus, useQuasar } from 'quasar'
+import { EventBus, openURL, useQuasar } from 'quasar'
 import { api } from 'src/boot/axios'
 import PostcodeRegionDisplay from 'src/components/PostcodeRegionDisplay.vue'
 import StatusTag from 'src/components/StatusTag.vue'
