@@ -31,13 +31,13 @@
                 <div v-for="k in dashboard.pickupsToday" :key="k.key">
                   <div class="text-uppercase text-bold q-mb-sm">{{ hourBookingDisplay(k.key) }}
                   </div>
-                  <OrderListFormat :orders="k.data" :no-avatar="true" />
+                  <OrderListFormat :orders="k.data" :no-avatar="true" :drag="true" />
                 </div>
               </div>
               <div v-if="pickupTab === 'week'">
                 <div v-if="!dashboard.pickupsWeek.length">No {{ $t('order.namePlural').toLowerCase() }} found.
                 </div>
-                <OrderListFormat :orders="dashboard.pickupsWeek" :no-avatar="true" />
+                <OrderListFormat :orders="dashboard.pickupsWeek" :no-avatar="true" :drag="true" />
               </div>
               <div v-if="pickupTab === 'missed'">
                 <div v-if="!dashboard.pickupsMissed.length">No {{ $t('order.namePlural').toLowerCase() }} found.

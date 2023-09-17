@@ -219,3 +219,9 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 20px;
   border: 3px solid #CAEBFC;
 }
+
+.ghost {
+  opacity: .5;
+  background: #F7FAFC;
+  border: 1px solid #4299e1;
+}
