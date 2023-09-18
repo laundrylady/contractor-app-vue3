@@ -1,8 +1,8 @@
 {
-  "name": "contractormanagement-portal",
+  "name": "thelaundrylady-portal",
   "version": "0.0.1",
-  "description": "Contractor Management",
-  "productName": "Contractor Management",
+  "description": "The Laundry Lady - Portal",
+  "productName": "The Laundry Lady - Portal",
   "author": "Ben Kilah <ben@xtramedia.net>",
   "private": true,
   "scripts": {

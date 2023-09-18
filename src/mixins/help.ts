@@ -331,7 +331,7 @@ const valOrNs = (val:string|number|null) => {
 const openMapLink = (lat:string, lng:string, type = 'google') => {
   let url
   if (type === 'google') {
-    url = `maps://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${lat},${lng}`
+    url = `https://maps.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${lat},${lng}`
   }
   if (type === 'apple') {
     url = `maps://maps.apple.com/?q=${lat},${lng}`

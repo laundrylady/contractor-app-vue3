@@ -11,8 +11,8 @@
     <div>
       <div class="row q-col-gutter-md q-mb-sm items-center">
         <div class="col-xs-12 col-md-8">
-          <span class="text-h7 text-primary" v-if="calendarView === 'week'">Week {{ selectedWeek }}</span>
-          <span class="text-h7 text-primary" v-if="calendarView === 'month'">{{ selectedMonth }}</span>
+          <span class="text-h7" v-if="calendarView === 'week'">Week {{ selectedWeek }}</span>
+          <span class="text-h7" v-if="calendarView === 'month'">{{ selectedMonth }}</span>
           <q-space />
         </div>
         <div class="col-xs-12 col-md-4">
