@@ -1,37 +1,46 @@
 <template>
-  <div class="flex">
+  <div class="flex items-center q-mb-xs">
     <div v-if="label" class="text-h6">{{ label }}</div>
     <q-space />
-    <div v-if="orders.length && optimal"><q-btn @click="optimalRoute()" color="primary" flat no-caps
-        label="Optimal Route" /></div>
+    <q-btn @click="reorder = !reorder" icon="drag_indicator" title="Re-order" flat round v-if="orders.length && drag"
+      :color="reorder ? 'primary' : ''" dense />
+    <div v-if="orders.length && optimal"><q-btn @click="optimalRoute()" flat no-caps icon="directions"
+        title="Optimal Route" round dense />
+    </div>
   </div>
-  <q-list separator class="bg-white" :dense="dense" v-if="!reorder">
-    <q-item v-for="o in orders" :key="o.id" :style="dense ? 'padding:0' : ''">
+  <q-list separator :dense="dense" v-if="!reorder">
+    <q-item v-for="o in list" :key="o.id" :style="dense ? 'padding:0' : ''" :class="orderColor(o)">
       <q-item-section avatar v-if="!noAvatar && o.contractor">
         <UserAvatar :user="o.contractor" />
       </q-item-section>
       <q-item-section>
         <div class="flex no-wrap">
           <div>
+            <div v-if="bookingId"> Booking: #{{ o.display_id }}</div>
             <div>
-              <div v-if="bookingId"> Booking: #{{ o.display_id }}</div>
-              <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"><span
-                  v-if="o.scheduled_pickup_date">{{
-                    displayDateDay(o.scheduled_pickup_date) }}</span> {{ o.scheduled_pickup_date }} (<span
+              <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"
+                v-if="o.status !== 'ready_for_delivery'"><span v-if="o.scheduled_pickup_date">{{
+                  displayDateDay(o.scheduled_pickup_date) }}</span> {{ o.scheduled_pickup_date }} (<span
                   v-if="!o.agreed_pickup_time && o.scheduled_pickup_time">{{
                     hourBookingDisplay(o.scheduled_pickup_time)
                   }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)
 }}</span>)</router-link>
-            </div>
-            <div class="text-grey-7">
-              <OrderProductCategoryDisplay :o="o" />
-            </div>
-            <div class="text-grey-7"><q-icon name="place" color="grey-7" /> <span class="q-mr-sm"
-                v-if="o.team.suburbpostcoderegion">{{
+              <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"
+                v-if="o.status === 'ready_for_delivery'"><span v-if="o.scheduled_delivery_date">{{
+                  displayDateDay(o.scheduled_delivery_date) }}</span> {{ o.scheduled_delivery_date }} (<span
+                  v-if="!o.agreed_delivery_time && o.scheduled_delivery_time">{{
+                    hourBookingDisplay(o.scheduled_delivery_time)
+                  }}</span><span v-if="o.agreed_delivery_time">{{ hourAgreedDisplay(o.agreed_delivery_time)
+}}</span>)</router-link>
+              <div>
+                <div>{{ o.status === 'ready_for_delivery' ? 'Delivery' : 'Pickup' }} with {{ o.team.name }}</div>
+                <OrderProductCategoryDisplay :o="o" />
+                <span v-if="o.team.suburbpostcoderegion">{{
                   o.team.suburbpostcoderegion.locality
                 }} {{
   o.team.suburbpostcoderegion.state
 }}</span>
+              </div>
             </div>
           </div>
           <q-space />
@@ -40,26 +49,27 @@
               <StatusTag :status="o.status" :small="true" />
             </div>
             <div class="text-right">
-              <q-btn flat icon="place" dense round color="grey-8">
+              <q-btn flat icon="o_place" dense round color="grey-9">
                 <q-menu>
                   <q-list>
                     <q-item @click="openMapLink(o.lat, o.lng, 'google')" clickable>
                       <q-item-section>
-                        Open in Google Maps
+                        Google Maps
                       </q-item-section>
                     </q-item>
                     <q-item @click="openMapLink(o.lat, o.lng, 'apple')" clickable>
                       <q-item-section>
-                        Open in Apple Maps
+                        Apple Maps
                       </q-item-section>
                     </q-item>
                   </q-list>
                 </q-menu>
               </q-btn>
-              <q-btn @click="onMyWay(o)" color="primary" round dense icon="directions_car" class="q-ml-xs"
-                title="Notify the customer you are on your way to pickup" v-if="o.status === 'confirmed'" flat />
-              <q-btn @click="completeOrder(o)" color="primary" round dense icon="task_alt" class="q-ml-xs"
-                title="Complete the booking" v-if="o.status === 'ready_for_delivery'" flat />
+              <q-btn @click="onMyWay(o)" color="grey-9" round dense icon="o_directions_car" class="q-ml-xs"
+                title="Notify the customer you are on your way"
+                v-if="['confirmed', 'ready_for_delivery'].indexOf(o.status) !== -1" flat />
+              <q-btn @click="completeOrder(o)" round dense icon="task_alt" class="q-ml-xs" title="Complete the booking"
+                v-if="o.status === 'ready_for_delivery'" flat />
             </div>
           </div>
         </div>
@@ -69,11 +79,10 @@
       </q-item-section>
     </q-item>
   </q-list>
-  <div v-if="reorder">
+  <div v-if="reorder" style="border:#cf1677 1px dashed;">
     <draggable :list="list" class="list-group" ghost-class="ghost" @end="endDrag" item-key="id" :disabled="!drag">
-      <template #item="{ element, index }">
-        <q-item
-          :class="{ 'bg-white': !$q.dark.isActive && (index === 0 || index % 2 === 0), 'bg-grey-1': !$q.dark.isActive && (index !== 0 && index % 2 !== 0) }">
+      <template #item="{ element }">
+        <q-item :class="orderColor(element)" class="cursor-move">
           <q-item-section avatar v-if="!noAvatar && element.contractor">
             <UserAvatar :user="element.contractor" />
           </q-item-section>
@@ -82,22 +91,30 @@
               <div>
                 <div>
                   <div v-if="bookingId"> Booking: #{{ element.display_id }}</div>
-                  <router-link :to="{ name: 'order-edit', params: { id: element.id } }" class="link"><span
-                      v-if="element.scheduled_pickup_date">{{
-                        displayDateDay(element.scheduled_pickup_date) }}</span> {{ element.scheduled_pickup_date }} (<span
+                  <router-link :to="{ name: 'order-edit', params: { id: element.id } }" class="link"
+                    v-if="element.status !== 'ready_for_delivery'"><span v-if="element.scheduled_pickup_date">{{
+                      displayDateDay(element.scheduled_pickup_date) }}</span> {{ element.scheduled_pickup_date }} (<span
                       v-if="!element.agreed_pickup_time && element.scheduled_pickup_time">{{
                         hourBookingDisplay(element.scheduled_pickup_time)
                       }}</span><span v-if="element.agreed_pickup_time">{{ hourAgreedDisplay(element.agreed_pickup_time)
 }}</span>)</router-link>
+                  <router-link :to="{ name: 'order-edit', params: { id: element.id } }" class="link"
+                    v-if="element.status === 'ready_for_delivery'"><span v-if="element.scheduled_delivery_date">{{
+                      displayDateDay(element.scheduled_delivery_date) }}</span> {{ element.scheduled_delivery_date }}
+                    (<span v-if="!element.agreed_delivery_time && element.scheduled_delivery_time">{{
+                      hourBookingDisplay(element.scheduled_delivery_time)
+                    }}</span><span v-if="element.agreed_delivery_time">{{
+  hourAgreedDisplay(element.agreed_delivery_time)
+}}</span>)</router-link>
                 </div>
-                <div class="text-grey-7">
+                <div>
+                  <div>{{ element.status === 'ready_for_delivery' ? 'Delivery' : 'Pickup' }} with {{ element.team.name }}
+                  </div>
                   <OrderProductCategoryDisplay :o="element" />
-                </div>
-                <div class="text-grey-7"><q-icon name="place" color="grey-7" /> <span class="q-mr-sm"
-                    v-if="element.suburbpostcoderegion">{{
-                      element.suburbpostcoderegion.locality
-                    }} {{
-  element.suburbpostcoderegion.state
+                  <span v-if="element.team.suburbpostcoderegion">{{
+                    element.team.suburbpostcoderegion.locality
+                  }} {{
+  element.team.suburbpostcoderegion.state
 }}</span>
                 </div>
               </div>
@@ -105,29 +122,6 @@
               <div class="q-ml-xs text-right">
                 <div class="q-mb-xs" v-if="status">
                   <StatusTag :status="element.status" :small="true" />
-                </div>
-                <div class="text-right">
-                  <q-btn flat icon="place" dense round color="grey-8">
-                    <q-menu>
-                      <q-list>
-                        <q-item @click="openMapLink(element.lat, element.lng, 'google')" clickable>
-                          <q-item-section>
-                            Google Maps
-                          </q-item-section>
-                        </q-item>
-                        <q-item @click="openMapLink(element.lat, element.lng, 'apple')" clickable>
-                          <q-item-section>
-                            Apple Maps
-                          </q-item-section>
-                        </q-item>
-                      </q-list>
-                    </q-menu>
-                  </q-btn>
-                  <q-btn @click="onMyWay(element)" color="primary" round dense icon="directions_car" class="q-ml-xs"
-                    title="Notify the customer you are on your way to pickup" v-if="element.status === 'confirmed'"
-                    flat />
-                  <q-btn @click="completeOrder(element)" color="primary" round dense icon="task_alt" class="q-ml-xs"
-                    title="Complete the booking" v-if="element.status === 'ready_for_delivery'" flat />
                 </div>
               </div>
             </div>
@@ -146,7 +140,7 @@ import { api } from 'src/boot/axios'
 import { Order } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
-import { confirmDelete, currencyFormat, displayDateDay, hourAgreedDisplay, hourBookingDisplay, openMapLink } from 'src/mixins/help'
+import { confirmDelete, currencyFormat, displayDateDay, hourAgreedDisplay, hourBookingDisplay, openMapLink, orderColor } from 'src/mixins/help'
 import { getLocationPromise } from 'src/services/geolocation'
 import { computed, inject, ref } from 'vue'
 import draggable from 'vuedraggable'
@@ -162,7 +156,8 @@ interface Props {
   bookingId?: boolean,
   drag?: boolean,
   label?: string,
-  optimal?: boolean
+  optimal?: boolean,
+  nobackground?: boolean
 }
 const props = defineProps<Props>()
 const bus = inject('bus') as EventBus
@@ -179,7 +174,7 @@ const onMyWay = async (o: Order) => {
   } else {
     latLng = { lat: o.contractor.lat, lng: o.contractor.lng }
   }
-  confirmDelete('This will send an SMS to the customer notifying them you are on your way to pickup').onOk(() => {
+  confirmDelete('This will notify the customer you are on your way').onOk(() => {
     api.post(`/public/order/onmyway/${o.id}`, { origin: latLng }).then(() => {
       bus.emit('orderLoadMore')
     }).catch(error => {

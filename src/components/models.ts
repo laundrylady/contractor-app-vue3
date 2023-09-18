@@ -302,7 +302,8 @@ export interface Team {
   children:Team[],
   dva_email:string,
   gst_enabled:boolean,
-  payment_terms:string
+  payment_terms:string,
+  onmyway_sms:boolean
 }
 
 export interface TeamForm {
@@ -549,6 +550,9 @@ export interface Order {
   scheduled_pickup_date:string|null,
   scheduled_pickup_time:string|null,
   agreed_pickup_time:string|null,
+  scheduled_delivery_date:string|null,
+  scheduled_delivery_time:string|null,
+  agreed_delivery_time:string|null,
   xero_id:string,
   productcategories: OrderProductCategory[],
   special_instructions: string,

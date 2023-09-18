@@ -221,7 +221,41 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .ghost {
-  opacity: .5;
-  background: #F7FAFC;
-  border: 1px solid #4299e1;
+  opacity: .5 Imp !important;
+  background: inherit;
+  border: 1px solid #72cffd !important;
+}
+
+.cursor-move {
+  cursor: move;
+}
+
+.q-table--grid .q-table__middle {
+  min-height: 0px;
+  margin-bottom: 0px;
+}
+
+.q-calendar-day__head--intervals {
+  display: none !important;
+}
+
+.q-calendar-day__intervals-column {
+  display: none !important;
+}
+
+.q-calendar-day__head--day,
+.q-calendar-day__day {
+  width: 14.3% !important;
+  min-width: 14.3% !important;
+  max-width: 14.3% !important;
+}
+
+.dayView {
+
+  .q-calendar-day__head--day,
+  .q-calendar-day__day {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
 }

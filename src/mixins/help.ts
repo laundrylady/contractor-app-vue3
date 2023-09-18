@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import moment from 'moment-timezone'
 import { Notify, Dialog, Platform } from 'quasar'
-import { SelectOption } from 'src/components/models'
+import { Order, SelectOption } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 
 const getCookie = (cname:string) => {
@@ -342,6 +342,37 @@ const openMapLink = (lat:string, lng:string, type = 'google') => {
   window.open(url)
 }
 
+const orderColor = (order: Order) => {
+  if (order.status === 'ready_for_delivery') {
+    return 'bg-green-2'
+  }
+  if (order.status === 'cancelled') {
+    return 'bg-red text-white'
+  }
+  const isAfter = order.status !== 'confirmed'
+  let color = 'bg-purple-2'
+  if (order.productcategories && order.productcategories.filter(q => q.meta && q.meta.pivot_active).length === 1) {
+    if (order.productcategories.find(o => o.name === 'Ironing' && o.meta && o.meta.pivot_active)) {
+      color = 'bg-yellow-2'
+    }
+    if (order.productcategories.find(o => o.name === 'Washing' && o.meta && o.meta.pivot_active)) {
+      color = 'bg-blue-2'
+    }
+  }
+  if (isAfter) {
+    if (color === 'bg-primary text-white') {
+      color = 'bg-pink-1'
+    }
+    if (color === 'bg-blue text-white') {
+      color = 'bg-blue-1'
+    }
+    if (color === 'bg-yellow-9 text-white') {
+      color = 'bg-yellow-1'
+    }
+  }
+  return color
+}
+
 export {
   rowsPerPageOptions,
   uploadConfig,
@@ -377,5 +408,6 @@ export {
   categoryDisplay,
   categoryIcon,
   valOrNs,
-  openMapLink
+  openMapLink,
+  orderColor
 }

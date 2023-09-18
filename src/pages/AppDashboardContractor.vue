@@ -19,7 +19,7 @@
         <div class="col-xs-12 col-sm-6">
           <q-card class="bg-seamless q-mb-lg">
             <q-card-section>
-              <div class="text-h6 q-mb-md">Pickups</div>
+              <div class="text-h6 q-mb-md">Pickups / Deliveries</div>
               <q-tabs v-model="pickupTab" class="q-mb-md" :align="!$q.screen.xs ? 'left' : 'center'">
                 <q-tab name="today" :label="`Today (${dashboard.pickupsToday.length})`" />
                 <q-tab name="week" :label="`Upcoming (${dashboard.pickupsWeek.length})`" />
@@ -28,7 +28,7 @@
               <div v-if="pickupTab === 'today'">
                 <div v-if="!dashboard.pickupsToday.length">No {{ $t('order.namePlural').toLowerCase() }} found.
                 </div>
-                <div v-for="k in dashboard.pickupsToday" :key="k.key">
+                <div v-for="k in dashboard.pickupsToday" :key="k.key" class="q-mb-sm">
                   <OrderListFormat :orders="k.data" :no-avatar="true" :drag="true" :label="hourBookingDisplay(k.key)"
                     :optimal="true" />
                 </div>
@@ -63,18 +63,6 @@
               <div v-if="!dashboard.sentForPayment.length">No {{ $t('order.namePlural').toLowerCase() }} found.
               </div>
               <OrderListFormat :orders="dashboard.sentForPayment" :no-avatar="true" :booking-id="true" />
-            </q-card-section>
-          </q-card>
-        </div>
-        <div class="col-xs-12 col-sm-6">
-          <q-card class="bg-seamless q-mb-lg">
-            <q-card-section>
-              <div class="text-h6 q-mb-md">Ready for Delivery ({{ dashboard.readyForDelivery.length }})</div>
-              <div v-if="!dashboard.readyForDelivery || !dashboard.readyForDelivery.length">No {{
-                $t('order.namePlural').toLowerCase() }} found.
-              </div>
-              <OrderListFormat :orders="dashboard.readyForDelivery" v-if="dashboard.readyForDelivery" :no-avatar="true"
-                :bookingId="true" :optimal="true" />
             </q-card-section>
           </q-card>
         </div>

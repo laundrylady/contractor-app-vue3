@@ -111,6 +111,9 @@ const checkQty = (val: LooseObject) => {
   if (!val.qty) {
     val.qty = 0
   }
+  if (parseFloat(val.qty) > 10) {
+    val.qty = 10
+  }
 }
 
 onMounted(() => {

@@ -3,36 +3,62 @@
     <UserRosterScheduleEdit />
     <UserRosterScheduleCreate />
     <div class="flex items-start no-wrap q-mb-md">
-      <div>You are scheduled to work on the days with an <span
-          class="bg-positive q-pa-xs text-white rounded-borders">active</span>
+      <div>You are scheduled to work on the days with an <span class="text-positive">active</span>
         timeslot</div>
       <q-space />
       <q-btn @click="newUserRosterSchedule()" icon="add" dense color="primary" round />
     </div>
-    <div class="flex items-center q-mb-sm">
-      <span class="text-h7 text-primary">{{ selectedMonth }}</span>
-      <q-space />
-      <q-btn @click="onPrev()" icon="chevron_left" color="secondary" flat dense round />
-      <q-btn @click="onToday()" label="Today" color="secondary" flat rounded />
-      <q-btn @click="onNext()" icon="chevron_right" color="secondary" flat dense round />
+    <div class="row q-col-gutter-md items-center q-mb-sm">
+      <div class="col-xs-12 col-sm-6 text-h7">{{ selectedMonth }}</div>
+      <q-space v-if="!$q.screen.xs" />
+      <div calss="col-xs-6 col-sm-3">
+        <q-select v-model="calendarView" :options="[{ label: 'Week', value: 'week' }, { label: 'Month', value: 'month' }]"
+          emit-value map-options dense filled label="View" class="q-mr-sm" />
+      </div>
+      <q-space v-if="$q.screen.xs" />
+      <div calss="col-xs-6 col-sm-3">
+        <q-btn @click="onPrev()" icon="chevron_left" color="secondary" flat dense round />
+        <q-btn @click="onToday()" label="Today" color="secondary" flat rounded />
+        <q-btn @click="onNext()" icon="chevron_right" color="secondary" flat dense round />
+      </div>
     </div>
-    <q-card>
-      <q-calendar-month ref="calendarRef" v-model="selectedDate" :weekdays="[1, 2, 3, 4, 5, 6, 0]" hoverable bordered
-        animated :day-min-height="80" :day-height="80" month-label-size="md" date-align="right">
-        <template #day="{ scope }">
-          <div @mouseenter="currentHover = scope.timestamp.date" style="height:100%;">
-            <div v-if="hasEvents(scope.timestamp)"
-              style="display: flex; justify-content: space-evenly; flex-wrap: wrap; align-items: center; font-weight: 400; font-size: 12px; height: auto;">
-              <template v-for="event in getEvents(scope.timestamp)" :key="event.time">
-                <q-badge :label="`${hourDisplay(event.start_time)} - ${hourDisplay(event.end_time)}`"
-                  class="q-mb-xs cursor-pointer" @click="editUserRosterSchedule(event.id)"
-                  :color="event.active ? 'positive' : 'negative'" style="font-size:10px;min-height:20px;" />
-              </template>
+    <div style="overflow:auto;">
+      <q-card style="min-width:1000px;max-width:100%;" v-if="calendarView === 'month'">
+        <q-calendar-month ref="calendarRef" v-model="selectedDate" :weekdays="[1, 2, 3, 4, 5, 6, 0]" hoverable bordered
+          animated month-label-size="md" date-align="right">
+          <template #day="{ scope }">
+            <div @mouseenter="currentHover = scope.timestamp.date" style="height:100%;">
+              <div v-if="hasEvents(scope.timestamp)"
+                style="display: flex; justify-content: space-evenly; flex-wrap: wrap; align-items: center; font-weight: 400; font-size: 12px; height: auto;">
+                <template v-for="event in getEvents(scope.timestamp)" :key="event.time">
+                  <q-badge :label="`${hourDisplay(event.start_time)} - ${hourDisplay(event.end_time)}`"
+                    class="q-mb-xs cursor-pointer" @click="editUserRosterSchedule(event.id)"
+                    :color="event.active ? 'positive' : 'negative'" style="font-size:10px;min-height:20px;" />
+                </template>
+              </div>
             </div>
-          </div>
-        </template>
-      </q-calendar-month>
-    </q-card>
+          </template>
+        </q-calendar-month>
+      </q-card>
+      <q-card style="min-width:1000px;max-width:100%;" v-if="calendarView === 'week'">
+        <q-calendar-day ref="calendarRef" v-model="selectedDate" view="week" animated bordered
+          transition-next="slide-left" transition-prev="slide-right" no-active-date :interval-start="6"
+          interval-height="20" :interval-count="18" :weekdays="[1, 2, 3, 4, 5, 6, 0]">
+          <template #day-body="{ scope: { timestamp, timeStartPos, timeDurationHeight } }">
+            <div @mouseenter="currentHover = timestamp.date" class="order-event full-width">
+              <div style="font-weight: 400; font-size: 12px; height: auto;">
+                <template v-for="(event, index) in getWeekEvents(timestamp)" :key="event.time">
+                  <q-badge :label="`${hourDisplay(event.start_time)} - ${hourDisplay(event.end_time)}`"
+                    class="cursor-pointer full-width justify-center" @click="editUserRosterSchedule(event.id)"
+                    :color="event.active ? 'positive' : 'negative'" style="font-size:10px;"
+                    :style="badgeStyles(event, timeStartPos, timeDurationHeight, index)" />
+                </template>
+              </div>
+            </div>
+          </template>
+        </q-calendar-day>
+      </q-card>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -52,6 +78,7 @@ const bus = inject('bus') as EventBus
 const schedule = ref()
 const loading = ref(false)
 const currentHover = ref()
+const calendarView = ref('month')
 
 const getSchedule = () => {
   loading.value = true
@@ -95,6 +122,28 @@ const onNext = () => {
   }
 }
 
+const eventsMap = computed(() => {
+  const map: LooseObject = {}
+  // check for orders
+  if (!schedule.value) {
+    return map
+  }
+  schedule.value.forEach((scheduleItem: UserRosterSchedule) => {
+    const scheduleDate = moment(scheduleItem.day).format('YYYY-MM-DD')
+    if (!map[scheduleDate]) {
+      map[scheduleDate] = []
+    }
+    let timeStart: string | number = parseFloat(scheduleItem.start_time)
+    if (timeStart < 10) {
+      timeStart = `0${timeStart}`
+    }
+    scheduleItem.time = `${timeStart}:00`
+    scheduleItem.duration = 60
+    map[scheduleDate].push(scheduleItem)
+  })
+  return map
+})
+
 const getEvents = (timestamp: LooseObject) => {
   if (!schedule.value) {
     return []
@@ -111,12 +160,31 @@ const hasEvents = (timestamp: LooseObject) => {
   return schedule.value.filter((o: UserRosterSchedule) => o.day === timestamp.date).length > 0
 }
 
+const getWeekEvents = (dt: string) => {
+  // get all events for the specified date
+  const events = eventsMap.value[dt.date] || []
+
+  if (events.length === 1) {
+    events[0].side = 'full'
+  }
+  return events
+}
+
+const badgeStyles = (event: LooseObject, timeStartPos: (arg0: string) => number, timeDurationHeight: (arg0: number) => string, index: number) => {
+  const s: LooseObject = {}
+  if (timeStartPos && timeDurationHeight) {
+    s['margin-top'] = (timeStartPos(event.time) + (index * 20)) + 'px'
+    s.height = '20px'
+  }
+  return s
+}
+
 const editUserRosterSchedule = (id: number) => {
   bus.emit('editUserRosterSchedule', id)
 }
 
 const newUserRosterSchedule = () => {
-  confirmDelete('This will create a new schedule entry').onOk(() => {
+  confirmDelete('This will create a new roster entry').onOk(() => {
     bus.emit('newUserRosterSchedule')
   })
 }

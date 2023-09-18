@@ -144,6 +144,8 @@ export default {
     id: 'Booking ID',
     scheduledPickupDate: 'Pickup Date',
     scheduledPickupTime: 'Pickup between',
+    scheduledDeliveryDate: 'Delivery Date',
+    scheduledDeliveryTime: 'Deliver between',
     contractorUserId: 'Select the contractor',
     status: 'Booking Status',
     recurringFrequency: 'Occurs every',

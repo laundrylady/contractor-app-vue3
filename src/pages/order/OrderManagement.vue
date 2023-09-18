@@ -41,12 +41,15 @@
           <q-card>
             <div ref="topRef"></div>
             <q-table :rows="data" :columns="columns" row-key="id" :loading="loading" v-model:pagination="serverPagination"
-              @request="request" class="no-shadow" :rows-per-page-options="rowsPerPageOptions" wrap-cells hide-header>
-              <template v-slot:body-cell-display_id="props">
-                <q-td :props="props">
-                  <OrderListFormat :orders="[props.row]" :no-avatar="true" :dense="true" :status="true"
-                    :booking-id="true" />
-                </q-td>
+              @request="request" class="orders-table" flat :rows-per-page-options="rowsPerPageOptions" wrap-cells
+              hide-header grid>
+              <template v-slot:item="props">
+                <div :class="orderColor(props.row)" class="col-xs-12">
+                  <div class="q-pa-md">
+                    <OrderListFormat :orders="[props.row]" :no-avatar="true" :dense="true" :status="true"
+                      :booking-id="true" :nobackground="true" />
+                  </div>
+                </div>
               </template>
             </q-table>
           </q-card>
@@ -63,7 +66,7 @@ import TeamField from 'src/components/form/TeamField.vue'
 import OrderCreate from 'src/components/order/OrderCreate.vue'
 import OrderListFormat from 'src/components/order/OrderListFormat.vue'
 import { useMixinDebug } from 'src/mixins/debug'
-import { getRowsPerPage, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
+import { getRowsPerPage, orderColor, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
 import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
