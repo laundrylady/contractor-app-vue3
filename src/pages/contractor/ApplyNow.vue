@@ -6,7 +6,7 @@
           <div class="row q-col-gutter-xl">
             <div class="col-xs-12 col-sm-6">
               <q-card>
-                <q-card-section class="q-pt-xs q-pb-xs">
+                <q-card-section class="q-pt-md q-pb-xs">
                   <AppLogo />
                 </q-card-section>
                 <q-card-section class="text-left" v-if="success">
@@ -18,29 +18,29 @@
                   <p>Fill out the form below and we'll send you an info pack all about joining the team.</p>
                   <div class="row q-col-gutter-md">
                     <q-input v-model="model.first_name" label="First Name" :error="$v.first_name.$invalid"
-                      class="col-xs-12 col-sm-6" autofocus />
+                      class="col-xs-12 col-sm-6" autofocus outlined />
                     <q-input v-model="model.last_name" label="Last Name" :error="$v.last_name.$invalid"
-                      class="col-xs-12 col-sm-6" />
+                      class="col-xs-12 col-sm-6" outlined />
                   </div>
                   <div class="row q-col-gutter-md">
                     <q-input v-model="model.email" label="Email" :error="$v.email.$invalid || emailError.error"
                       @blur="checkEmail()" :error-message="emailError.msg || ''" :hint="emailError.msg || ''"
-                      class="col-xs-12 col-sm-6" />
+                      class="col-xs-12 col-sm-6" outlined />
                     <q-input v-model="model.mobile" label="Mobile Phone" :error="$v.mobile.$invalid" mask="#### ### ###"
-                      unmasked-value class="col-xs-12 col-sm-6" />
+                      unmasked-value class="col-xs-12 col-sm-6" outlined />
                   </div>
                   <div class="text-h6 q-mt-sm">Address Details</div>
                   <AddressSearch :model="model" :outlined="true"
                     :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
                     :placeholder="$t('address.search')" />
                   <div class="row q-col-gutter-md">
-                    <q-input v-model="model.address1" :label="$t('address.line1')" bottom-slots
-                      class="col-xs-12 col-sm-6" />
+                    <q-input v-model="model.address1" :label="$t('address.line1')" bottom-slots class="col-xs-12 col-sm-6"
+                      outlined />
                     <q-input v-model="model.address2" :error="$v.address2.$invalid" :label="$t('address.line2')"
-                      class="col-xs-12 col-sm-6" />
+                      class="col-xs-12 col-sm-6" outlined />
                   </div>
                   <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Suburb"
-                    :invalid="$v.suburb_postcode_region_id.$invalid" />
+                    :invalid="$v.suburb_postcode_region_id.$invalid" :outlined="true" />
                   <div class="bg-grey-1 q-pa-sm q-mt-md">
                     <div class="text-h6">Confirm your eligibility requirements:</div>
                     <q-toggle v-model="model.contractor_car_licence" label="Reliable car and current drivers licence" />
@@ -51,7 +51,7 @@
                     :error="$v.contractor_why_join.$invalid" type="textarea" rows="3" outlined />
                   <q-select v-model="model.contractor_referral_type" label="How did you find out about us?"
                     :options="['Instagram', 'Facebook', 'Google', 'Gumtree', 'Working Parents Connect', 'Seek', 'Melbourne Mums', 'Word of Mouth', 'Radio', 'Newspaper/Magazine', 'Event', 'Other']"
-                    :error="$v.contractor_referral_type.$invalid" />
+                    :error="$v.contractor_referral_type.$invalid" outlined />
                   <q-btn :loading="loading" @click="applyNow()"
                     v-bind:disabled="$v.$invalid || !model.contractor_car_licence || !model.contractor_equipment"
                     color="primary" label="Apply Now" class="full-width q-mt-md" rounded />
@@ -61,7 +61,7 @@
             <div class="col-xs-12 col-sm-6">
               <div class="text-h5 text-primary text-bold">Join The Team</div>
               <div class="text-h4 text-bold">Who it suits?</div>
-              <div class="text-h6 text-grey text-bold">Our business suits all types of people.</div>
+              <div class="text-h6 text-bold">Our business suits all types of people.</div>
               <ul>
                 <li>Work school hours, husband & wife teams</li>
                 <li>Stay at home mums & dads and home schooling parents</li>
