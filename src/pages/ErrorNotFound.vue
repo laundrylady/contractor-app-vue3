@@ -6,7 +6,7 @@
         We couldn't find the page or resource you're looking for.
       </div>
 
-      <q-btn class="q-mt-xl" color="white" text-color="blue" unelevated to="/" label="Go Home" no-caps />
+      <q-btn class="q-mt-xl" color="primary" rounded to="/" label="Go Home" no-caps />
     </div>
   </div>
 </template>

@@ -21,30 +21,32 @@
                 :done="stepsValid.step1" done-color="positive">
                 <div class="row q-col-gutter-md q-mt-sm">
                   <div class="col-xs-12 col-sm-6">
-                    <q-input v-model="model.first_name" label="Applicant One First Name"
-                      :error="$v.first_name.$invalid" />
+                    <q-input v-model="model.first_name" label="Applicant One First Name" :error="$v.first_name.$invalid"
+                      outlined />
                   </div>
                   <div class="col-xs-12 col-sm-6">
-                    <q-input v-model="model.last_name" label="Applicant One Last Name" :error="$v.last_name.$invalid" />
+                    <q-input v-model="model.last_name" label="Applicant One Last Name" :error="$v.last_name.$invalid"
+                      outlined />
                   </div>
                 </div>
-                <DateField v-model="model.dateofbirth" :invalid="$v.dateofbirth.$invalid" label="Date of Birth" />
+                <DateField v-model="model.dateofbirth" :invalid="$v.dateofbirth.$invalid" label="Date of Birth"
+                  :outlined="true" />
                 <div class="row q-col-gutter-md q-mt-sm">
                   <div class="col-xs-12 col-sm-6">
-                    <q-input v-model="model.first_name_2" label="Applicant Two First Name" bottom-slots />
+                    <q-input v-model="model.first_name_2" label="Applicant Two First Name" bottom-slots outlined />
                   </div>
                   <div class="col-xs-12 col-sm-6">
-                    <q-input v-model="model.last_name_2" label="Applicant Two Last Name" bottom-slots />
+                    <q-input v-model="model.last_name_2" label="Applicant Two Last Name" bottom-slots outlined />
                   </div>
                 </div>
                 <div class="row q-col-gutter-md">
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_badge_name" label="Preferred Name for Name Badge"
-                      :error="$v.contractor_badge_name.$invalid" />
+                      :error="$v.contractor_badge_name.$invalid" outlined />
                   </div>
                   <div class="col-xs-12 col-sm-6">
                     <DateField v-model="model.contractor_start_date" label="Start Date"
-                      :invalid="$v.contractor_start_date.$invalid" />
+                      :invalid="$v.contractor_start_date.$invalid" outlined />
                   </div>
                 </div>
                 <q-btn @click="step = 2" label="Next" color="primary" class="q-mt-lg" rounded />
@@ -55,14 +57,14 @@
                 <AddressSearch :model="model" :outlined="true"
                   :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
                   :placeholder="$t('address.search')" />
-                <q-input v-model="model.address1" :label="$t('address.line1')" bottom-slots />
-                <q-input v-model="model.address2" :error="$v.address2.$invalid" :label="$t('address.line2')" />
+                <q-input v-model="model.address1" :label="$t('address.line1')" bottom-slots outlined />
+                <q-input v-model="model.address2" :error="$v.address2.$invalid" :label="$t('address.line2')" outlined />
                 <div class="row q-col-gutter-md q-mb-md">
                   <PostcodeRegionField v-model="model.suburb_postcode_region_id"
                     :invalid="$v.suburb_postcode_region_id.$invalid" :label="$t('address.suburb')"
-                    class="col-xs-12 col-sm-6" />
+                    class="col-xs-12 col-sm-6" :outlined="true" />
                   <CountryField v-model="model.country_id" :label="$t('address.country')"
-                    :invalid="$v.country_id.$invalid" class="col-xs-12 col-sm-6" />
+                    :invalid="$v.country_id.$invalid" class="col-xs-12 col-sm-6" :outlined="true" />
                 </div>
                 <q-btn @click="step = 3" label="Next" color="primary" class="q-mt-lg" rounded />
               </q-step>
@@ -72,21 +74,21 @@
                 <div class="row q-col-gutter-md">
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_ec_first_name" label="Emergency Contact First Name"
-                      :error="$v.contractor_ec_first_name.$invalid" />
+                      :error="$v.contractor_ec_first_name.$invalid" outlined />
                   </div>
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_ec_last_name" label="Emergency Contact Last Name"
-                      :error="$v.contractor_ec_last_name.$invalid" />
+                      :error="$v.contractor_ec_last_name.$invalid" outlined />
                   </div>
                 </div>
                 <div class="row q-col-gutter-md">
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_ec_phone" label="Emergency Contact Phone"
-                      :error="$v.contractor_ec_phone.$invalid" />
+                      :error="$v.contractor_ec_phone.$invalid" outlined />
                   </div>
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_ec_relationship" label="Emergency Contact Relationship to you"
-                      :error="$v.contractor_ec_relationship.$invalid" />
+                      :error="$v.contractor_ec_relationship.$invalid" outlined />
                   </div>
                 </div>
                 <q-btn @click="step = 4" label="Next" color="primary" class="q-mt-lg" rounded />
@@ -102,41 +104,41 @@
                 <div class="row q-col-gutter-md">
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_ref_first_name" label="Referee One First Name"
-                      :error="$v.contractor_ref_first_name.$invalid" />
+                      :error="$v.contractor_ref_first_name.$invalid" outlined />
                   </div>
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_ref_last_name" label="Referee One Last Name"
-                      :error="$v.contractor_ref_last_name.$invalid" />
+                      :error="$v.contractor_ref_last_name.$invalid" outlined />
                   </div>
                 </div>
                 <div class="row q-col-gutter-md">
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_ref_email" label="Referee One Email"
-                      :error="$v.contractor_ref_email.$invalid" />
+                      :error="$v.contractor_ref_email.$invalid" outlined />
                   </div>
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_ref_phone" label="Referee One Phone"
-                      :error="$v.contractor_ref_phone.$invalid" />
+                      :error="$v.contractor_ref_phone.$invalid" outlined />
                   </div>
                 </div>
                 <div class="row q-col-gutter-md">
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_ref2_first_name" label="Referee Two First Name"
-                      :error="$v.contractor_ref2_first_name.$invalid" />
+                      :error="$v.contractor_ref2_first_name.$invalid" outlined />
                   </div>
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_ref2_last_name" label="Referee Two Last Name"
-                      :error="$v.contractor_ref2_last_name.$invalid" />
+                      :error="$v.contractor_ref2_last_name.$invalid" outlined />
                   </div>
                 </div>
                 <div class="row q-col-gutter-md">
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_ref2_email" label="Referee Two Email"
-                      :error="$v.contractor_ref2_email.$invalid" />
+                      :error="$v.contractor_ref2_email.$invalid" outlined />
                   </div>
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_ref2_phone" label="Referee Two Phone"
-                      :error="$v.contractor_ref2_phone.$invalid" />
+                      :error="$v.contractor_ref2_phone.$invalid" outlined />
                   </div>
                 </div>
                 <q-btn @click="step = 5" label="Next" color="primary" class="q-mt-lg" rounded />
@@ -146,7 +148,7 @@
                 <p class="q-mt-sm">If you do not have an ABN, you can register at: <a href="https://www.abr.gov.au/"
                     target="_blank" class="link">Australian Government Australian Business Register</a></p>
                 <q-input v-model="model.contractor_abn" label="ABN" bottom-slots :error="$v.contractor_abn.$invalid"
-                  type="number">
+                  type="number" outlined>
                   <template v-slot:append>
                     <q-icon name="check" v-if="model.contractor_abn_verified" color="positive" />
                     <q-btn @click="verifyAbn()" label="Verify" color="primary" v-if="model.contractor_abn" flat rounded />
@@ -171,21 +173,21 @@
                 <div class="row q-col-gutter-md">
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_bd_name" label="Account Name"
-                      :error="$v.contractor_bd_name.$invalid" />
+                      :error="$v.contractor_bd_name.$invalid" outlined />
                   </div>
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_bd_bank" label="Bank / Financial Institution"
-                      :error="$v.contractor_bd_bank.$invalid" />
+                      :error="$v.contractor_bd_bank.$invalid" outlined />
                   </div>
                 </div>
                 <div class="row q-col-gutter-md">
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_bd_bsb" label="Branch / BSB Number"
-                      :error="$v.contractor_bd_bsb.$invalid" type="number" />
+                      :error="$v.contractor_bd_bsb.$invalid" type="number" outlined />
                   </div>
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.contractor_bd_number" label="Account Number"
-                      :error="$v.contractor_bd_number.$invalid" type="number" />
+                      :error="$v.contractor_bd_number.$invalid" type="number" outlined />
                   </div>
                 </div>
                 <q-btn @click="step = 7" label="Next" color="primary" class="q-mt-lg" rounded />
