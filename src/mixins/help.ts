@@ -243,6 +243,28 @@ const sortByKey = (arr:LooseObject[], key:string, direction = 'desc', keyType = 
   return arr
 }
 
+const sortOrdersByKey = (arr:Order[], key:string, direction = 'desc', keyType = 'date') => {
+  let firstVal = 1
+  let secondVal = -1
+  if (direction === 'desc') {
+    firstVal = -1
+    secondVal = 1
+  }
+  arr.sort((a, b) => {
+    if (keyType === 'date') {
+      return _.get(a, key) > _.get(b, key) ? firstVal : secondVal
+    }
+    if (keyType === 'dateDisplay') {
+      return moment(_.get(a, key), 'DD/MM/YYYY').isAfter(moment(_.get(b, key), 'DD/MM/YYYY')) ? firstVal : secondVal
+    }
+    if (keyType === 'number') {
+      return parseFloat(_.get(a, key)) > parseFloat(_.get(b, key)) ? firstVal : secondVal
+    }
+    return _.get(a, key) > _.get(b, key) ? firstVal : secondVal
+  })
+  return arr
+}
+
 const getTimeZones = () => {
   const data = []
   for (const t of moment.tz.names()) {
@@ -373,6 +395,27 @@ const orderColor = (order: Order) => {
   return color
 }
 
+const agreedTimes = () => {
+  const start = moment().startOf('day').add(7, 'hours')
+  const end = moment().endOf('day').subtract(3.75, 'hours')
+
+  // round starting minutes up to nearest 15 (12 --> 15, 17 --> 30)
+  // note that 59 will round up to 60, and moment.js handles that correctly
+  start.minutes(Math.ceil(start.minutes() / 15) * 15)
+
+  const result = []
+
+  const current = moment(start)
+
+  // eslint-disable-next-line no-unmodified-loop-condition
+  while (current <= end) {
+    result.push({ value: current.format('HH:mm'), label: current.format('h:mm a') })
+    current.add(15, 'minutes')
+  }
+
+  return result
+}
+
 export {
   rowsPerPageOptions,
   uploadConfig,
@@ -392,6 +435,7 @@ export {
   getTimeZones,
   getDateRange,
   sortByKey,
+  sortOrdersByKey,
   groupBy,
   awsSesStatus,
   dayDisplay,
@@ -409,5 +453,6 @@ export {
   categoryIcon,
   valOrNs,
   openMapLink,
-  orderColor
+  orderColor,
+  agreedTimes
 }

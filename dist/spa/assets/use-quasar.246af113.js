@@ -1,0 +1,5 @@
+import { i as inject, bk as quasarKey } from "./index.909d8447.js";
+function useQuasar() {
+  return inject(quasarKey);
+}
+export { useQuasar as u };

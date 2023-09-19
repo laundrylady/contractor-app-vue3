@@ -70,7 +70,8 @@
             <div class="text-h6 q-mb-md">{{ $t('team.namePlural') }} Retained</div>
             <div class="text-center">
               <q-circular-progress :value="parseFloat(dashboard.retainedRebooked.retainedPercentage)" size="64px"
-                color="secondary" show-value track-color="grey-3" v-if="dashboard.retainedRebooked.retainedPercentage">
+                color="secondary" show-value track-color="grey-3"
+                v-if="dashboard.retainedRebooked.retainedPercentage >= 0">
                 {{ dashboard.retainedRebooked.retained }}</q-circular-progress>
               <div class="q-mt-sm">
                 Retained ({{ dashboard.retainedRebooked.retainedPercentage }}%)

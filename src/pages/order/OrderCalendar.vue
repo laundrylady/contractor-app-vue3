@@ -43,13 +43,23 @@
                       <q-separator dark />
                       <div class="q-pa-sm ">
                         <div
-                          v-if="moment(scope.timestamp.date).isSame(moment(event.scheduled_pickup_date, 'DD/MM/YYYY')) || !event.scheduled_pickup_date">
-                          {{
-                            hourBookingDisplay(event.scheduled_pickup_time) }}</div>
+                          v-if="event.scheduled_pickup_time && (moment(scope.timestamp.date).isSame(moment(event.scheduled_pickup_date, 'DD/MM/YYYY')) || !event.scheduled_pickup_date)">
+                          <span v-if="!event.agreed_pickup_time">
+                            {{ hourBookingDisplay(event.scheduled_pickup_time) }}
+                          </span>
+                          <span v-if="event.agreed_pickup_time">
+                            {{ hourAgreedDisplay(event.agreed_pickup_time) }}
+                          </span>
+                        </div>
                         <div
-                          v-if="moment(scope.timestamp.date).isSame(moment(event.scheduled_delivery_date, 'DD/MM/YYYY')) && event.scheduled_pickup_date">
-                          {{
-                            hourBookingDisplay(event.scheduled_delivery_time) }}</div>
+                          v-if="event.scheduled_delivery_time && (moment(scope.timestamp.date).isSame(moment(event.scheduled_delivery_date, 'DD/MM/YYYY')) && event.scheduled_pickup_date)">
+                          <span v-if="!event.agreed_delivery_time">
+                            {{ hourBookingDisplay(event.scheduled_delivery_time) }}
+                          </span>
+                          <span v-if="event.agreed_delivery_time">
+                            {{ hourAgreedDisplay(event.agreed_delivery_time) }}
+                          </span>
+                        </div>
                         <div class="text-bold">{{ event.team.name }}</div>
                         <div class="flex">
                           <div v-if="event.suburbpostcoderegion">{{ event.suburbpostcoderegion.locality }}</div>
@@ -78,13 +88,25 @@
                   <q-separator dark />
                   <div class="q-pa-sm">
                     <div
-                      v-if="moment(timestamp.date).isSame(moment(event.scheduled_pickup_date, 'DD/MM/YYYY')) || !event.scheduled_pickup_date">
-                      {{
-                        hourBookingDisplay(event.scheduled_pickup_time) }}</div>
+                      v-if="event.scheduled_pickup_time && (moment(timestamp.date).isSame(moment(event.scheduled_pickup_date, 'DD/MM/YYYY')) || !event.scheduled_pickup_date)">
+                      <span v-if="!event.agreed_pickup_time">
+                        {{ hourBookingDisplay(event.scheduled_pickup_time) }}
+                      </span>
+                      <span v-if="event.agreed_pickup_time">
+                        {{ hourAgreedDisplay(event.agreed_pickup_time) }}
+                      </span>
+                    </div>
                     <div
-                      v-if="moment(timestamp.date).isSame(moment(event.scheduled_delivery_date, 'DD/MM/YYYY')) && event.scheduled_pickup_date">
-                      {{
-                        hourBookingDisplay(event.scheduled_delivery_time) }}</div>
+                      v-if="event.scheduled_delivery_time && (moment(timestamp.date).isSame(moment(event.scheduled_delivery_date, 'DD/MM/YYYY')) && event.scheduled_pickup_date)">
+                      <span v-if="!event.agreed_delivery_time">
+                        {{ hourBookingDisplay(event.scheduled_delivery_time) }}<q-icon name="local_shipping"
+                          class="q-ml-xs" />
+                      </span>
+                      <span v-if="event.agreed_delivery_time">
+                        {{ hourAgreedDisplay(event.agreed_delivery_time) }}<q-icon name="local_shipping"
+                          class="q-ml-xs" />
+                      </span>
+                    </div>
                     <div class="text-bold">{{ event.team.name }}</div>
                     <div class="flex">
                       <div v-if="event.suburbpostcoderegion">{{ event.suburbpostcoderegion.locality }}</div>
@@ -111,13 +133,25 @@
                   <q-separator dark />
                   <div class="q-pa-sm">
                     <div
-                      v-if="moment(timestamp.date).isSame(moment(event.scheduled_pickup_date, 'DD/MM/YYYY')) || !event.scheduled_pickup_date">
-                      {{
-                        hourBookingDisplay(event.scheduled_pickup_time) }}</div>
+                      v-if="event.scheduled_pickup_time && (moment(timestamp.date).isSame(moment(event.scheduled_pickup_date, 'DD/MM/YYYY')) || !event.scheduled_pickup_date)">
+                      <span v-if="!event.agreed_pickup_time">
+                        {{ hourBookingDisplay(event.scheduled_pickup_time) }}
+                      </span>
+                      <span v-if="event.agreed_pickup_time">
+                        {{ hourAgreedDisplay(event.agreed_pickup_time) }}
+                      </span>
+                    </div>
                     <div
-                      v-if="moment(timestamp.date).isSame(moment(event.scheduled_delivery_date, 'DD/MM/YYYY')) && event.scheduled_pickup_date">
-                      {{
-                        hourBookingDisplay(event.scheduled_delivery_time) }}</div>
+                      v-if="event.scheduled_delivery_time && (moment(timestamp.date).isSame(moment(event.scheduled_delivery_date, 'DD/MM/YYYY')) && event.scheduled_pickup_date)">
+                      <span v-if="!event.agreed_delivery_time">
+                        {{ hourBookingDisplay(event.scheduled_delivery_time) }}<q-icon name="local_shipping"
+                          class="q-ml-xs" />
+                      </span>
+                      <span v-if="event.agreed_delivery_time">
+                        {{ hourAgreedDisplay(event.agreed_delivery_time) }}<q-icon name="local_shipping"
+                          class="q-ml-xs" />
+                      </span>
+                    </div>
                     <div class="text-bold">{{ event.team.name }}</div>
                     <div class="flex">
                       <div v-if="event.suburbpostcoderegion">{{ event.suburbpostcoderegion.locality }}</div>
@@ -143,10 +177,10 @@ import moment from 'moment'
 import { api } from 'src/boot/axios'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
-import { dbDateDisplay, hourBookingDisplay } from 'src/mixins/help'
-import { computed, onMounted, ref, nextTick } from 'vue'
-import { Order } from '../../components/models'
+import { dbDateDisplay, hourAgreedDisplay, hourBookingDisplay, sortOrdersByKey } from 'src/mixins/help'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { Order } from '../../components/models'
 
 const orders = ref()
 const loading = ref(false)
@@ -215,7 +249,7 @@ const getEvents = (timestamp: LooseObject) => {
   }
   const events = orders.value.filter((o: Order) => moment(o.scheduled_pickup_date, 'DD/MM/YYYY').format('YYYY-MM-DD') === timestamp.date || moment(o.scheduled_delivery_date, 'DD/MM/YYYY').format('YYYY-MM-DD') === timestamp.date)
   if (!events) return []
-  return events
+  return sortOrdersByKey(events, 'sortTime', 'asc', 'number')
 }
 
 const hasEvents = (timestamp: LooseObject) => {
@@ -265,8 +299,12 @@ const badgeStyles = (event: LooseObject, timeStartPos: (arg0: string) => number,
   return s
 }
 
+interface EventMapOrder {
+  [key: string]: Order[]
+}
+
 const eventsMap = computed(() => {
-  const map: LooseObject = {}
+  const map: EventMapOrder = {}
   // check for orders
   if (!orders.value) {
     return map
@@ -281,6 +319,11 @@ const eventsMap = computed(() => {
       timeStart = `0${timeStart}`
     }
     order.time = `${timeStart}:00`
+    // set sort time
+    order.pickupSortTime = timeStart
+    if (!order.scheduled_delivery_date) {
+      order.sortTime = order.pickupSortTime
+    }
     map[orderDate].push(order)
     // delivery
     if (order.scheduled_delivery_date) {
@@ -293,6 +336,8 @@ const eventsMap = computed(() => {
         timeStart = `0${timeStart}`
       }
       order.time = `${timeStart}:00`
+      order.deliverySortTime = timeStart
+      order.sortTime = moment().isSame(moment(order.scheduled_pickup_date, 'DD/MM/YYYY')) ? order.pickupSortTime : order.deliverySortTime
       map[deliveryDate].push(order)
     }
   })
@@ -302,11 +347,7 @@ const eventsMap = computed(() => {
 const getWeekEvents = (dt: string) => {
   // get all events for the specified date
   const events = eventsMap.value[dt] || []
-
-  if (events.length === 1) {
-    events[0].side = 'full'
-  }
-  return events
+  return sortOrdersByKey(events, 'sortTime', 'asc', 'number')
 }
 
 const orderNav = (id: string) => {

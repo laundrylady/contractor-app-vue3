@@ -37,14 +37,12 @@
                 <OrderProductCategoryDisplay :o="o" />
                 <span v-if="o.team.suburbpostcoderegion">{{
                   o.team.suburbpostcoderegion.locality
-                }} {{
-  o.team.suburbpostcoderegion.state
-}}</span>
+                }}</span>
               </div>
             </div>
           </div>
           <q-space />
-          <div class="q-ml-xs text-right">
+          <div class="q-ml-xs text-right" style="width:77px;">
             <div class="q-mb-xs" v-if="status">
               <StatusTag :status="o.status" :small="true" />
             </div>
@@ -113,9 +111,7 @@
                   <OrderProductCategoryDisplay :o="element" />
                   <span v-if="element.team.suburbpostcoderegion">{{
                     element.team.suburbpostcoderegion.locality
-                  }} {{
-  element.team.suburbpostcoderegion.state
-}}</span>
+                  }} </span>
                 </div>
               </div>
               <q-space />
