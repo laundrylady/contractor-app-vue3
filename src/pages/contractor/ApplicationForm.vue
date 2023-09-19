@@ -278,27 +278,27 @@
               <q-step :name="9" title="Contractor Declaration" prefix="9" :error="!stepsValid.step9"
                 :done="stepsValid.step9" done-color="positive">
                 <div class="text-bold q-mb-sm">Please check the following</div>
-                <div>
+                <div class="q-mb-sm">
                   <q-checkbox v-model="model.contractor_declaration_agreement"
                     label="I have read and agree with the Contractor Agreement and will submit a signed agreement" />
                 </div>
-                <div>
+                <div class="q-mb-sm">
                   <q-checkbox v-model="model.contractor_declaration_training"
                     label="I agree to undertake the Laundry Lady Training Program and follow Laundry Lady policies and procedures" />
                 </div>
-                <div>
+                <div class="q-mb-sm">
                   <q-checkbox v-model="model.contractor_declaration_abn"
                     label="I agree to register and maintain an ABN and for the Laundry Lady to create recepient created tax invoices for weekly commissions" />
                 </div>
-                <div>
+                <div class="q-mb-sm">
                   <q-checkbox v-model="model.contractor_declaration_pl"
                     label="I agree to take out public liability coverage to $5million and keep the policy current at all times" />
                 </div>
-                <div>
+                <div class="q-mb-sm">
                   <q-checkbox v-model="model.contractor_declaration_inform"
                     label="I agree to inform the Laundry Lady if any details change in this application form" />
                 </div>
-                <div>
+                <div class="q-mb-sm">
                   <q-checkbox v-model="model.contractor_declaration_kit"
                     label="I agree to purchase the Starter Kit for $399 including GST as detailed in the The Laundry Lady Contractor Package. An invoice will be sent after references are checked and confirmed." />
                 </div>
@@ -497,7 +497,7 @@ const stepsValid = computed(() => {
   // step 7
   // drivers licence
   const dl = model.documents.filter(o => o.type === 'Drivers Licence')
-  if (dl.length < 2) {
+  if (!dl.length) {
     valid.step7 = false
   }
   // medicare card
