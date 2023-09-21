@@ -55,7 +55,7 @@
                 v-if="model.status === 'confirmed'" />
               <StatusTag :status="model.status" />
               <div class="q-mt-xs">
-                Last updated <strong>{{ fromNowTz(model.updated_at) }}</strong>
+                Updated <strong>{{ fromNowTz(model.updated_at) }}</strong>
               </div>
             </div>
           </div>

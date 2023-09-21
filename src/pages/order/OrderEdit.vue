@@ -293,7 +293,7 @@
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
-import { EventBus } from 'quasar'
+import { Dialog, EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
 import UserAvatar from 'src/components/UserAvatar.vue'
 import AuditTimeline from 'src/components/audit/AuditTimeline.vue'
@@ -312,6 +312,7 @@ import { useMixinSecurity } from 'src/mixins/security'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
 import { computed, inject, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 
 interface Props {
   model: Order,
@@ -319,6 +320,7 @@ interface Props {
   futureRecurring?: Order[]
 }
 const props = defineProps<Props>()
+const router = useRouter()
 const emits = defineEmits(['update:order'])
 const bus = inject('bus') as EventBus
 const i18n = useI18n()
@@ -375,7 +377,8 @@ const canEdit = computed(() => {
   return true
 })
 
-const doSave = () => {
+const doSavePut = () => {
+  loading.value = true
   // pickup
   if (changes.value.date) {
     localModel.value.scheduled_pickup_date = changes.value.date_model
@@ -392,7 +395,6 @@ const doSave = () => {
     localModel.value.scheduled_delivery_time = changes.value.timeDelivery_model
   }
   localModel.value.agreed_delivery_time = changes.value.agreed_timeDelivery_model
-  loading.value = true
   api.put(`/public/order/${props.model.id}`, localModel.value).then(() => {
     doNotify('positive', 'Saved')
     emits('update:order')
@@ -408,11 +410,38 @@ const doSave = () => {
     changes.value.timeDelivery_model = JSON.parse(JSON.stringify(localModel.value.scheduled_delivery_time))
     changes.value.dateDelivery = false
     changes.value.timeDelivery = false
+    changes.value.contractor = false
     showChangesOrder.value = false
   }).catch(error => {
     loading.value = false
-    useMixinDebug(error, bus)
+    useMixinDebug(error)
   })
+}
+
+const doSave = () => {
+  if (localModel.value.recurring_parent_id) {
+    Dialog.create({
+      title: 'Recurring Booking',
+      message: 'This will only update the details of this booking. To make changes to all future recurring bookings, click "Edit Master Booking"',
+      ok: {
+        color: 'primary',
+        rounded: true,
+        label: 'Update'
+      },
+      cancel: {
+        color: 'secondary',
+        flat: true,
+        rounded: true,
+        label: 'Edit Master Booking'
+      }
+    }).onOk(() => {
+      doSavePut()
+    }).onCancel(() => {
+      router.push({ name: 'order-edit', params: { id: localModel.value.recurring_parent_id } })
+    })
+  } else {
+    doSavePut()
+  }
 }
 
 const save = () => {
