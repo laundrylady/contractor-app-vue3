@@ -34,6 +34,22 @@
 }}</span>)</router-link>
               <div>
                 <div>{{ o.status === 'ready_for_delivery' ? 'Delivery' : 'Pickup' }} with {{ o.team.name }}</div>
+                <q-btn flat icon="o_place" dense round color="grey-9" size="sm">
+                  <q-menu>
+                    <q-list>
+                      <q-item @click="openMapLink(o.lat, o.lng, 'google')" clickable>
+                        <q-item-section>
+                          Google Maps
+                        </q-item-section>
+                      </q-item>
+                      <q-item @click="openMapLink(o.lat, o.lng, 'apple')" clickable>
+                        <q-item-section>
+                          Apple Maps
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-btn>
                 <OrderProductCategoryDisplay :o="o" />
                 <span v-if="o.team.suburbpostcoderegion">{{
                   o.team.suburbpostcoderegion.locality
@@ -42,27 +58,11 @@
             </div>
           </div>
           <q-space />
-          <div class="q-ml-xs text-right" style="width:77px;">
+          <div class="q-ml-xs text-right" style="width:70px;">
             <div class="q-mb-xs" v-if="status">
               <StatusTag :status="o.status" :small="true" />
             </div>
             <div class="text-right">
-              <q-btn flat icon="o_place" dense round color="grey-9">
-                <q-menu>
-                  <q-list>
-                    <q-item @click="openMapLink(o.lat, o.lng, 'google')" clickable>
-                      <q-item-section>
-                        Google Maps
-                      </q-item-section>
-                    </q-item>
-                    <q-item @click="openMapLink(o.lat, o.lng, 'apple')" clickable>
-                      <q-item-section>
-                        Apple Maps
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-menu>
-              </q-btn>
               <q-btn @click="onMyWay(o)" color="grey-9" round dense icon="o_directions_car" class="q-ml-xs"
                 title="Notify the customer you are on your way"
                 v-if="['confirmed', 'ready_for_delivery'].indexOf(o.status) !== -1" flat />
