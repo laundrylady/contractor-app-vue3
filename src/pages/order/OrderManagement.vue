@@ -124,7 +124,9 @@ const request = (props: Parameters<NonNullable<QTableProps['onRequest']>>[0] | n
     sort_order: descending ? 'desc' : 'asc',
     skip: page,
     rowsPerPage,
-    team_id: search.team_id
+    team_id: search.team_id,
+    start: search.start,
+    end: search.end
   })
     .then((response) => {
       data.value = response.data.rows
