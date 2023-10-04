@@ -52,7 +52,7 @@
         <q-separator />
         <q-card-section>
           <p>Your session has timed out.</p>
-          <q-btn :to="{ name: 'signin' }" color="primary" label="Sign In" rounded />
+          <q-btn :to="{ name: 'signIn' }" color="primary" label="Sign In" rounded />
         </q-card-section>
       </q-card>
     </q-dialog>
