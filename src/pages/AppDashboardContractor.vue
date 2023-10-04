@@ -19,8 +19,10 @@
         <div class="col-xs-12 col-sm-6">
           <q-card class="bg-seamless q-mb-lg">
             <q-card-section>
-              <div class="text-h6 q-mb-md">Pickups / Deliveries</div>
-              <p>To reorder your bookings, click the <q-icon name="drag_indicator" /> button, drag the bookings, then
+              <div class="text-h6 q-mb-md">Pickups / Deliveries <q-btn icon="info" @click="showHelp = !showHelp" size="sm"
+                  round dense flat /></div>
+              <p v-if="showHelp">To reorder your bookings, click the <q-icon name="drag_indicator" /> button, drag the
+                bookings, then
                 click
                 the <q-icon name="drag_indicator" /> button again to exit re-order mode.</p>
               <q-tabs v-model="pickupTab" class="q-mb-md" :align="!$q.screen.xs ? 'left' : 'center'">
@@ -87,6 +89,7 @@ import { inject, onBeforeUnmount, onMounted, ref } from 'vue'
 const { user } = useMixinSecurity()
 const dashboard = ref()
 const pickupTab = ref('today')
+const showHelp = ref(false)
 const bus = inject('bus') as EventBus
 
 const getDashboard = () => {
