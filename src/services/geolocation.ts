@@ -5,6 +5,7 @@ import { useMixinDebug } from 'src/mixins/debug'
 
 export const getLocationPromise = ():Promise<LooseObject> => {
   return new Promise(function (resolve) {
+    console.log(navigator)
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(location => {
         resolve({ lat: location.coords.latitude, lng: location.coords.longitude })
