@@ -20,6 +20,10 @@
     </q-header>
     <q-page-container>
       <q-ajax-bar position="top" color="primary" size="2px" />
+      <div v-if="!geolocationEnabled" class="text-center q-pa-md bg-accent">
+        <q-icon name="warning" size="20px" /> Access to the location service has been disabled on this device. Some
+        features won't work correctly until you enable access.
+      </div>
       <router-view />
     </q-page-container>
     <q-dialog v-model="isLocked" persistent>
@@ -63,6 +67,7 @@ import MediaViewer from 'src/components/MediaViewer.vue'
 import ValidationsModal from 'src/components/form/ValidationsModal.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinSecurity } from 'src/mixins/security'
+import { getLocationPromise } from 'src/services/geolocation'
 import { socket } from 'src/services/socketio'
 import { inject, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -72,6 +77,7 @@ const $q = useQuasar()
 const router = useRouter()
 const isLocked = ref(false)
 const bus = inject('bus') as EventBus
+const geolocationEnabled = ref(false)
 
 // check for lockout
 setInterval(() => {
@@ -86,6 +92,15 @@ const profile = () => {
 
 const logout = () => {
   window.location.href = '/api/auth/logout?from=portal'
+}
+
+const checkGeolocation = async () => {
+  const currentLoc = await getLocationPromise()
+  if (!currentLoc.lat || !currentLoc.lng) {
+    geolocationEnabled.value = false
+  } else {
+    geolocationEnabled.value = true
+  }
 }
 
 socket.on('newRelease', () => {
@@ -110,8 +125,9 @@ socket.on('newRelease', () => {
   }, 5000)
 })
 
-onMounted(() => {
+onMounted(async () => {
   socket.on('connect', () => {
+    console.log('Socket connected')
     if (user.value && user.value.id) {
       socket.emit('authRoom', user.value.id)
     }
@@ -120,6 +136,7 @@ onMounted(() => {
     console.log('hookContractor', data)
     bus.emit(data.emit, data)
   })
+  await checkGeolocation()
 })
 
 </script>

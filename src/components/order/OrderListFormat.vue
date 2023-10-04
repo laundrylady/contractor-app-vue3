@@ -170,6 +170,7 @@ const onMyWay = async (o: Order) => {
   } else {
     latLng = { lat: o.contractor.lat, lng: o.contractor.lng }
   }
+  console.log(currentLoc)
   confirmDelete('This will notify the customer you are on your way').onOk(() => {
     api.post(`/public/order/onmyway/${o.id}`, { origin: latLng }).then(() => {
       bus.emit('orderLoadMore')

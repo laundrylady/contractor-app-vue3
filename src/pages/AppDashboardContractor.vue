@@ -20,6 +20,9 @@
           <q-card class="bg-seamless q-mb-lg">
             <q-card-section>
               <div class="text-h6 q-mb-md">Pickups / Deliveries</div>
+              <p>To reorder your bookings, click the <q-icon name="drag_indicator" /> button, drag the bookings, then
+                click
+                the <q-icon name="drag_indicator" /> button again to exit re-order mode.</p>
               <q-tabs v-model="pickupTab" class="q-mb-md" :align="!$q.screen.xs ? 'left' : 'center'">
                 <q-tab name="today" :label="`Today (${dashboard.pickupsToday.length})`" />
                 <q-tab name="week" :label="`Upcoming (${dashboard.pickupsWeek.length})`" />
