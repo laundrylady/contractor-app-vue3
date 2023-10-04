@@ -77,7 +77,7 @@ const $q = useQuasar()
 const router = useRouter()
 const isLocked = ref(false)
 const bus = inject('bus') as EventBus
-const geolocationEnabled = ref(false)
+const geolocationEnabled = ref(true)
 
 // check for lockout
 setInterval(() => {
