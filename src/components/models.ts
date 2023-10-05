@@ -303,7 +303,8 @@ export interface Team {
   dva_email:string,
   gst_enabled:boolean,
   payment_terms:string,
-  onmyway_sms:boolean
+  onmyway_sms:boolean,
+  abn?:string
 }
 
 export interface TeamForm {

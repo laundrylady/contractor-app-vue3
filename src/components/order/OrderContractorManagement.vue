@@ -9,7 +9,7 @@
       </div>
       <p>Pickup slots available in the {{ c.key }}</p>
       <q-list separator>
-        <q-item v-for="d in c.data" :key="d.id" :class="{ 'bg-pink-1': d.user.id === tmpContractorUserId }">
+        <q-item v-for="d in c.data" :key="d.id">
           <q-item-section>
             <div class="flex no-wrap">
               <UserAvatar :user="{

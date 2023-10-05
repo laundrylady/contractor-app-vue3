@@ -21,11 +21,11 @@
             Select your Laundry Lady or Lad
           </div>
           <div class="flex items-start"><img src="~assets/images/illustrations/top_arrow.png" /></div>
-          <div class="order-new-step">
+          <div class="order-new-step" :class="{ 'active': step === 5 || !$v.$invalid }">
             Enter your details
           </div>
           <div class="flex items-end"><img src="~assets/images/illustrations/bot_arrow.png" /></div>
-          <div class="order-new-step">
+          <div class="order-new-step" :class="{ 'active': step === 6 }">
             Confirm booking
           </div>
         </div>
@@ -102,13 +102,124 @@
                 </q-card>
                 <div class="q-mt-xl text-center">
                   <q-btn @click="stepMove(3)" color="primary" label="Previous" flat class="q-mr-sm" rounded />
-                  <q-btn @click="stepMove(4)" color="primary" label="Continue" :disable="!model.contractor_user_id"
+                  <q-btn @click="stepMove(5)" color="primary" label="Continue" :disable="!model.contractor_user_id"
                     rounded />
+                </div>
+              </q-card-section>
+              <q-card-section v-if="step === 5">
+                <p class="text-center text-bold">Enter your details:</p>
+                <q-card>
+                  <q-card-section>
+                    <div class="text-h6">Your Details</div>
+                    <p>Text here</p>
+                    <div class="row q-col-gutter-md">
+                      <div class="col-xs-4">
+                        <q-select v-model="model.team.type" :error="$v.team.type.$invalid" :label="$t('team.type')"
+                          :options="['Residential', 'Business', 'NDIS', 'Home Care', 'Aged Care', 'DVA', 'Sporting Group', 'Other']"
+                          outlined />
+                      </div>
+                    </div>
+                    <div class="row q-col-gutter-md"
+                      v-if="['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1">
+                      <div class="col-xs-6">
+                        <q-input v-model="model.team.name" :label="$t('team.teamName')" :error="$v.team.name.$invalid"
+                          outlined />
+                      </div>
+                      <div class="col-xs-6"
+                        v-if="['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1">
+                        <q-input v-model="model.team.abn" :label="$t('team.abn')" :error="$v.team.abn.$invalid"
+                          outlined />
+                      </div>
+                    </div>
+                    <div class="row q-col-gutter-md" v-if="model.team.type === 'NDIS'">
+                      <div class="col-xs-6">
+                        <q-input v-model="model.team.ndis_number" :label="$t('team.ndisNumber')" outlined
+                          :error="$v.team.ndis_number.$invalid"><template v-slot:prepend>
+                            <img src="~assets/images/logos/ndis_heart.svg" style="height:32px" />
+                          </template>
+                        </q-input>
+                      </div>
+                      <div class="col-xs-6">
+                        <q-select v-model="model.team.ndis_type" :label="$t('team.ndisType')"
+                          :error="$v.team.ndis_type.$invalid" outlined
+                          :options="['Self managed', 'Plan managed', 'NDIA registered']" />
+                      </div>
+                    </div>
+                    <div class="row q-col-gutter-md">
+                      <div class="col-xs-6">
+                        <q-input v-model="model.team.first_name" :error="$v.team.first_name.$invalid"
+                          label="Contact first name" outlined />
+                      </div>
+                      <div class="col-xs-6">
+                        <q-input v-model="model.team.last_name" :error="$v.team.last_name.$invalid"
+                          label="Contact last name" outlined />
+                      </div>
+                    </div>
+                    <div class="row q-col-gutter-md">
+                      <div class="col-xs-6">
+                        <q-input v-model="model.team.email" :error="$v.team.email.$invalid" label="Your email address"
+                          outlined />
+                      </div>
+                      <div class="col-xs-6">
+                        <q-input v-model="model.team.mobile" :error="$v.team.mobile.$invalid"
+                          label="Your contact mobile number" outlined mask="#### ### ###" />
+                      </div>
+                    </div>
+                    <div class="text-h6">Pickup Address</div>
+                    <p>Enter the address to pickup and deliver to</p>
+                    <AddressSearch :model="model" :filled="true"
+                      :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
+                      :placeholder="$t('address.search')" />
+                    <q-input v-model="model.address1" :label="$t('address.line1')" outlined class="q-mb-md" />
+                    <q-input v-model="model.address2" :error="$v.address2.$invalid" :label="$t('address.line2')"
+                      outlined />
+                    <div class="row q-col-gutter-md">
+                      <PostcodeRegionField v-model="model.suburb_postcode_region_id"
+                        :invalid="$v.suburb_postcode_region_id.$invalid" :label="$t('address.suburb')"
+                        class="col-xs-12 col-sm-6" :outlined="true" />
+                      <CountryField v-model="model.country_id" :label="$t('address.country')" class="col-xs-12 col-sm-6"
+                        :outlined="true" :invalid="$v.country_id.$invalid" />
+                    </div>
+                  </q-card-section>
+                </q-card>
+                <div class="q-mt-xl text-center">
+                  <q-btn @click="stepMove(4)" color="primary" label="Previous" flat class="q-mr-sm" rounded />
+                  <q-btn @click="stepMove(6)" color="primary" label="Continue" :disable="$v.$invalid" rounded />
+                </div>
+              </q-card-section>
+              <q-card-section v-if="step === 6">
+                <p class="text-center text-bold" v-if="!success && !error">Confirm your booking:</p>
+                <q-card>
+                  <q-card-section v-if="!success && !error">
+                    <div class="text-bold">Your contact details</div>
+                    <div>{{ model.team.email }}</div>
+                    <div class="q-mb-md">{{ model.team.mobile }}</div>
+                    <OrderNewSummary :suburb_postcode_region_id="model.suburb_postcode_region_id"
+                      :contractor_user_id="model.contractor_user_id" :scheduled_pickup_date="model.scheduled_pickup_date"
+                      :scheduled_pickup_time="model.scheduled_pickup_time" :productcategories="model.productcategories"
+                      :categories="categories" v-if="categories && model.suburb_postcode_region_id" />
+                    <q-input v-model="model.special_instructions" class="q-mt-lg" type="textarea"
+                      label="Please enter any special instructions for this booking" outlined rows="3" />
+                    <q-toggle v-model="model.recurring_order" label="Would you like to make this a recurring booking?"
+                      class="q-mt-md" />
+                    <q-select v-model="model.recurring" :label="$t('order.recurringFrequency')"
+                      :options="['Week', 'Fortnite', 'Month']" v-if="model.recurring_order" outlined class="q-mt-sm" />
+                  </q-card-section>
+                  <q-card-section v-if="success">
+                    <div class="text-center"><q-icon name="o_check_circle" size="64px" color="green" /></div>
+                    <div class="text-h5 text-center q-mt-sm">Booking Confirmed</div>
+                    <p class="text-center">Great news, your booking has been confirmed!</p>
+                    <p class="text-center">Next steps....</p>
+                  </q-card-section>
+                </q-card>
+                <div class="q-mt-xl text-center" v-if="!success">
+                  <q-btn @click="stepMove(5)" color="primary" label="Previous" flat class="q-mr-sm" rounded />
+                  <q-btn @click="save()" color="primary" label="Confirm booking" :disable="$v.$invalid" rounded />
                 </div>
               </q-card-section>
             </q-card>
           </div>
-          <div class="col-xs-12 col-sm-3">
+          <div class="col-xs-12 col-sm-3" v-if="step !== 6 && model.scheduled_pickup_date">
             <q-card flat class="bg-page">
               <q-card-section>
                 <OrderNewSummary :suburb_postcode_region_id="model.suburb_postcode_region_id"
@@ -125,14 +236,16 @@
 </template>
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { email, required, requiredIf } from '@vuelidate/validators'
 import moment from 'moment-timezone'
-import { EventBus } from 'quasar'
+import { EventBus, useQuasar } from 'quasar'
 import { api } from 'src/boot/axios'
+import AddressSearch from 'src/components/form/AddressSearch.vue'
+import CountryField from 'src/components/form/CountryField.vue'
 import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
 import OrderNewSummary from 'src/components/order/OrderNewSummary.vue'
 import { useMixinDebug } from 'src/mixins/debug'
-import { categoryDisplay } from 'src/mixins/help'
+import { categoryDisplay, confirmDelete } from 'src/mixins/help'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
 import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import AppLogo from '../../components/AppLogo.vue'
@@ -143,15 +256,34 @@ const step = ref(1)
 const washingAndIroning = ref(false)
 const categories = ref()
 const availableDates = ref<string[]>([])
+const success = ref(false)
+const error = ref(false)
 const schema = {
+  address1: null,
+  address2: null,
   suburb_postcode_region_id: null,
+  lat: null,
+  lng: null,
+  country_id: 13,
   contractor_user_id: null,
   scheduled_pickup_date: null,
   scheduled_pickup_time: null,
   special_instructions: null,
   recurring_order: false,
   recurring: null,
-  productcategories: []
+  productcategories: [],
+  team: {
+    id: null,
+    name: null,
+    first_name: null,
+    last_name: null,
+    type: null,
+    email: null,
+    mobile: null,
+    ndis_number: null,
+    ndis_type: null,
+    abn: null
+  }
 }
 const model = reactive<Order>(JSON.parse(JSON.stringify(schema)))
 const bus = inject('bus') as EventBus
@@ -162,13 +294,28 @@ const currentBookingDate = ref(moment())
 const noContractors = ref(false)
 const rules = {
   suburb_postcode_region_id: { required },
+  address2: { required },
+  country_id: { required },
   scheduled_pickup_date: { required },
   scheduled_pickup_time: { required },
   contractor_user_id: { required },
-  productcategories: { required }
+  productcategories: { required },
+  recurring: { requiredIf: requiredIf(() => model.recurring_order) },
+  team: {
+    name: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1) },
+    first_name: { required },
+    last_name: { required },
+    type: { required },
+    email: { required, email },
+    mobile: { required },
+    ndis_number: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
+    ndis_type: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
+    abn: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1) }
+  }
 }
 
 const $v = useVuelidate(rules, model)
+const $q = useQuasar()
 
 const toggleWashingAndIroning = () => {
   model.productcategories.forEach(o => {
@@ -223,6 +370,22 @@ const getAvailableContractorsDates = () => {
 
 const updateScheduledPickupTime = (val: string | null) => {
   model.scheduled_pickup_time = val
+}
+
+const save = () => {
+  confirmDelete('This will confirm the booking').onOk(() => {
+    $q.loading.show({ message: 'Confirming booking...' })
+    success.value = false
+    error.value = false
+    api.post('/public/order/new', model).then(() => {
+      success.value = true
+      $q.loading.hide()
+    }).catch(error => {
+      useMixinDebug(error)
+      error.value = true
+      $q.loading.hide()
+    })
+  })
 }
 
 onMounted(async () => {
