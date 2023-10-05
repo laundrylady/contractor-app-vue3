@@ -166,7 +166,7 @@
                       </div>
                     </div>
                     <div class="text-h6">Pickup Address</div>
-                    <p>Enter the address to pickup and deliver to</p>
+                    <p>Enter your pickup / delivery address.</p>
                     <AddressSearch :model="model" :filled="true"
                       :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
                       :placeholder="$t('address.search')" />
