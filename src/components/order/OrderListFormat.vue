@@ -135,7 +135,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { EventBus, openURL } from 'quasar'
+import { EventBus, openURL, useQuasar } from 'quasar'
 import { api } from 'src/boot/axios'
 import { Order } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
@@ -161,20 +161,22 @@ interface Props {
 }
 const props = defineProps<Props>()
 const bus = inject('bus') as EventBus
+const $q = useQuasar()
 
 const list = computed(() => props.orders)
 const reorder = ref(false)
 
 const onMyWay = async (o: Order) => {
+  $q.loading.show({ message: 'Getting current location...' })
   // sort out the lat lng
   const currentLoc = await getLocationPromise()
+  $q.loading.hide()
   let latLng: LooseObject = { lat: null, lng: null }
   if (currentLoc.lat && currentLoc.lng) {
     latLng = { lat: currentLoc.lat, lng: currentLoc.lng }
   } else {
     latLng = { lat: o.contractor.lat, lng: o.contractor.lng }
   }
-  console.log(currentLoc)
   confirmDelete('This will notify the customer you are on your way').onOk(() => {
     api.post(`/public/order/onmyway/${o.id}`, { origin: latLng }).then(() => {
       bus.emit('orderLoadMore')
