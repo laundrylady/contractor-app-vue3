@@ -1,0 +1,41 @@
+import { _ as _sfc_main$1 } from "./OrderManagementTeamContractor.240c1305.js";
+import { A as defineComponent, l as openBlock, m as createElementBlock, p as createBaseVNode, aH as toDisplayString, k as createVNode, y as createCommentVNode } from "./index.13e68509.js";
+import "./QTd.c07cf09b.js";
+import "./selection.eb5b790c.js";
+import "./QList.87986894.js";
+import "./QMenu.d1a86981.js";
+import "./QTable.449650b7.js";
+import "./QMarkupTable.fa4c9fe4.js";
+import "./QSelect.916bda6c.js";
+import "./QItemLabel.f6bdc4d3.js";
+import "./rtl.b51694b1.js";
+import "./format.3e32b8d9.js";
+import "./QLinearProgress.35cab95f.js";
+import "./use-fullscreen.070b00ba.js";
+import "./ClosePopup.faa0347f.js";
+import "./axios.a727fc80.js";
+import "./StatusTag.396dbf0c.js";
+import "./QBadge.618fea26.js";
+import "./debug.ffa51329.js";
+import "./help.cca23e83.js";
+import "./vue-i18n.runtime.esm-bundler.269c2c82.js";
+const _hoisted_1 = { key: 0 };
+const _hoisted_2 = /* @__PURE__ */ createBaseVNode("div", { class: "text-h5" }, "Booking History", -1);
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "ContractorOrders",
+  props: {
+    model: null
+  },
+  setup(__props) {
+    return (_ctx, _cache) => {
+      return __props.model.id ? (openBlock(), createElementBlock("div", _hoisted_1, [
+        _hoisted_2,
+        createBaseVNode("p", null, "Below is the complete booking history for this " + toDisplayString(_ctx.$t("contractor.name").toLowerCase()) + ".", 1),
+        createVNode(_sfc_main$1, {
+          contractor_user_id: __props.model.id
+        }, null, 8, ["contractor_user_id"])
+      ])) : createCommentVNode("", true);
+    };
+  }
+});
+export { _sfc_main as default };

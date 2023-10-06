@@ -34,15 +34,19 @@
 }}</span>)</router-link>
               <div>
                 <div>{{ o.status === 'ready_for_delivery' ? 'Delivery' : 'Pickup' }} with {{ o.team.name }}</div>
-                <q-btn flat icon="o_place" dense round color="grey-9" size="sm">
+                <q-btn flat icon="o_place" dense round color="black" size="sm" v-if="o.suburbpostcoderegion && o.country">
                   <q-menu>
                     <q-list>
-                      <q-item @click="openMapLink(o.lat, o.lng, 'google')" clickable>
+                      <q-item
+                        @click="openMapLink(o.address2, o.suburbpostcoderegion.locality, o.suburbpostcoderegion.state, o.suburbpostcoderegion.postcode, o.country.name, 'google')"
+                        clickable>
                         <q-item-section>
                           Google Maps
                         </q-item-section>
                       </q-item>
-                      <q-item @click="openMapLink(o.lat, o.lng, 'apple')" clickable>
+                      <q-item
+                        @click="openMapLink(o.address2, o.suburbpostcoderegion.locality, o.suburbpostcoderegion.state, o.suburbpostcoderegion.postcode, o.country.name, 'apple')"
+                        clickable>
                         <q-item-section>
                           Apple Maps
                         </q-item-section>
@@ -212,7 +216,7 @@ const optimalRoute = async () => {
   if (d) {
     destination = `${d.lat},${d.lng}`
   }
-  const waypoints = workingList.map((o: Order) => `${o.lat},${o.lng}`).join('|')
+  const waypoints = workingList.filter((o: Order) => o.suburbpostcoderegion && o.country).map((o: Order) => `${o.address2} ${o.suburbpostcoderegion.locality} ${o.suburbpostcoderegion.state} ${o.suburbpostcoderegion.postcode} ${o.country.name}`).join('|')
   const url = `https://maps.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=driving&waypoints=${waypoints}&optimizeWaypointOrder=true`
   openURL(url)
 }

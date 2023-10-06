@@ -350,13 +350,13 @@ const valOrNs = (val:string|number|null) => {
   return val
 }
 
-const openMapLink = (lat:string, lng:string, type = 'google') => {
+const openMapLink = (address2:string, suburb:string, state:string, postcode:string, country:string, type = 'google') => {
   let url
   if (type === 'google') {
-    url = `https://maps.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${lat},${lng}`
+    url = `https://maps.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${address2} ${suburb} ${state} ${postcode} ${country}`
   }
   if (type === 'apple') {
-    url = `maps://maps.apple.com/?q=${lat},${lng}`
+    url = `maps://maps.apple.com/?q=${address2} ${suburb} ${state} ${postcode} ${country}`
   }
   if (Platform.is.desktop) {
     url = url?.replace('maps:', 'https:')

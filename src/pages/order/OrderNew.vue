@@ -34,7 +34,7 @@
             <AppLogo />
           </div>
         </div>
-        <div class="row text-lg q-mb-xl">
+        <div class="row text-lg q-mb-lg">
           <div class="col-xs-12 col-sm-6 offset-sm-3 text-center">
             Book your mobile Laundry service. Washing, Ironing, Pickup and Delivery.
           </div>
