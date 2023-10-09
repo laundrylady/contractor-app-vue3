@@ -97,6 +97,16 @@ export interface AddressSearchItem {
   country_id:number
 }
 
+export interface AddressSearchItemGoogle {
+  id:number,
+  address1?:string,
+  address2?:string,
+  suburb_postcode_region_id:number,
+  country_id:number,
+  lat:number,
+  lng:number
+}
+
 export interface User {
   id: number,
   role:string,

@@ -24,7 +24,7 @@
 import { api } from 'src/boot/axios'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
-import { addressPopulate } from 'src/services/address'
+import { addressPopulate, addressPopulateGoogle } from 'src/services/address'
 import { ref } from 'vue'
 
 interface AddressFields {
@@ -57,18 +57,37 @@ const loading = ref(false)
 const addresses = ref()
 
 const handleChange = () => {
-  addressPopulate(
-    keyword.value,
-    props.model,
-    props.addressfields.address1,
-    props.addressfields.address2,
-    props.addressfields.suburb_postcode_region_id,
-    props.addressfields.lat,
-    props.addressfields.lng,
-    props.addressfields.country_id
-  )
-  keyword.value = null
-  emits('update:modelValue', null)
+  if (keyword.value.placeId) {
+    api.get(`/place/${keyword.value.placeId}`).then(response => {
+      addressPopulateGoogle(
+        response.data,
+        props.model,
+        props.addressfields.address1,
+        props.addressfields.address2,
+        props.addressfields.suburb_postcode_region_id,
+        props.addressfields.lat,
+        props.addressfields.lng,
+        props.addressfields.country_id
+      )
+      keyword.value = null
+      emits('update:modelValue', null)
+    }).catch(error => {
+      useMixinDebug(error)
+    })
+  } else {
+    addressPopulate(
+      keyword.value,
+      props.model,
+      props.addressfields.address1,
+      props.addressfields.address2,
+      props.addressfields.suburb_postcode_region_id,
+      props.addressfields.lat,
+      props.addressfields.lng,
+      props.addressfields.country_id
+    )
+    keyword.value = null
+    emits('update:modelValue', null)
+  }
 }
 
 const searchAddress = (val: string, update: (fn: () => void) => void) => {

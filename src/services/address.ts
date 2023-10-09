@@ -1,4 +1,4 @@
-import { AddressSearchItem } from 'src/components/models'
+import { AddressSearchItem, AddressSearchItemGoogle } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 
 const addressPopulate = (item:AddressSearchItem, model:LooseObject|undefined, address1:string, address2:string, suburbPostcodeRegionId:string, lat:string, lng:string, countryId:string) => {
@@ -52,4 +52,40 @@ const addressPopulate = (item:AddressSearchItem, model:LooseObject|undefined, ad
     model[countryId] = item.country_id
   }
 }
-export { addressPopulate }
+
+const addressPopulateGoogle = (item:AddressSearchItemGoogle, model:LooseObject|undefined, address1:string, address2:string, suburbPostcodeRegionId:string, lat:string, lng:string, countryId:string) => {
+  if (!model) {
+    return
+  }
+  if (item.address1) {
+    model[address1] = item.address1
+  } else {
+    // eslint-disable-next-line
+    model[address1] = ''
+  }
+  if (item.address2) {
+    model[address2] = item.address2
+  } else {
+    // eslint-disable-next-line
+    model[address2] = ''
+  }
+  // lat
+  if (lat && item.lat) {
+    // eslint-disable-next-line
+    model[lat] = item.lat
+  }
+  // lng
+  if (lng && item.lng) {
+    // eslint-disable-next-line
+    model[lng] = item.lng
+  }
+  // suburb_postcode_region_id
+  if (suburbPostcodeRegionId) {
+    model[suburbPostcodeRegionId] = item.suburb_postcode_region_id
+  }
+  // country id
+  if (countryId) {
+    model[countryId] = item.country_id
+  }
+}
+export { addressPopulate, addressPopulateGoogle }
