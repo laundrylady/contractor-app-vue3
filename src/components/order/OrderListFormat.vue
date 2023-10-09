@@ -34,30 +34,29 @@
 }}</span>)</router-link>
               <div>
                 <div>{{ o.status === 'ready_for_delivery' ? 'Delivery' : 'Pickup' }} with {{ o.team.name }}</div>
-                <q-btn flat icon="o_place" dense round color="black" size="sm" v-if="o.suburbpostcoderegion && o.country">
-                  <q-menu>
-                    <q-list>
-                      <q-item
-                        @click="openMapLink(o.address2, o.suburbpostcoderegion.locality, o.suburbpostcoderegion.state, o.suburbpostcoderegion.postcode, o.country.name, 'google')"
-                        clickable>
-                        <q-item-section>
-                          Google Maps
-                        </q-item-section>
-                      </q-item>
-                      <q-item
-                        @click="openMapLink(o.address2, o.suburbpostcoderegion.locality, o.suburbpostcoderegion.state, o.suburbpostcoderegion.postcode, o.country.name, 'apple')"
-                        clickable>
-                        <q-item-section>
-                          Apple Maps
-                        </q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                </q-btn>
                 <OrderProductCategoryDisplay :o="o" />
-                <span v-if="o.team.suburbpostcoderegion">{{
-                  o.team.suburbpostcoderegion.locality
-                }}</span>
+                <span v-if="o.team.suburbpostcoderegion">
+                  <q-btn flat dense color="grey-9" v-if="o.suburbpostcoderegion && o.country">
+                    <q-icon name="place" size="18px" class="q-mr-xs" /> {{ o.team.suburbpostcoderegion.locality }}
+                    <q-menu>
+                      <q-list>
+                        <q-item
+                          @click="openMapLink(o.address2, o.suburbpostcoderegion.locality, o.suburbpostcoderegion.state, o.suburbpostcoderegion.postcode, o.country.name, 'google')"
+                          clickable>
+                          <q-item-section>
+                            Google Maps
+                          </q-item-section>
+                        </q-item>
+                        <q-item
+                          @click="openMapLink(o.address2, o.suburbpostcoderegion.locality, o.suburbpostcoderegion.state, o.suburbpostcoderegion.postcode, o.country.name, 'apple')"
+                          clickable>
+                          <q-item-section>
+                            Apple Maps
+                          </q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-btn></span>
               </div>
             </div>
           </div>
@@ -167,21 +166,23 @@ const list = computed(() => props.orders)
 const reorder = ref(false)
 
 const onMyWay = async (o: Order) => {
-  $q.loading.show({ message: 'Getting current location...' })
-  // sort out the lat lng
-  const currentLoc = await getLocationPromise()
-  $q.loading.hide()
-  let latLng: LooseObject = { lat: null, lng: null }
-  if (currentLoc.lat && currentLoc.lng) {
-    latLng = { lat: currentLoc.lat, lng: currentLoc.lng }
-  } else {
-    latLng = { lat: o.contractor.lat, lng: o.contractor.lng }
-  }
-  confirmDelete('This will notify the customer you are on your way').onOk(() => {
+  confirmDelete('This will notify the customer you are on your way').onOk(async () => {
+    $q.loading.show({ message: 'Getting current location...' })
+    // sort out the lat lng
+    const currentLoc = await getLocationPromise()
+    let latLng: LooseObject = { lat: null, lng: null }
+    if (currentLoc.lat && currentLoc.lng) {
+      latLng = { lat: currentLoc.lat, lng: currentLoc.lng }
+    } else {
+      latLng = { lat: o.contractor.lat, lng: o.contractor.lng }
+    }
+    $q.loading.show({ message: 'Notifying customer of ETA...' })
     api.post(`/public/order/onmyway/${o.id}`, { origin: latLng }).then(() => {
       bus.emit('orderLoadMore')
+      $q.loading.hide()
     }).catch(error => {
       useMixinDebug(error)
+      $q.loading.hide()
     })
   })
 }
