@@ -14,7 +14,7 @@
         </div>
         <div class="q-mb-xs page-title q-pa-md rounded-borders">
           <div class="row items-center">
-            <div class="col-xs-12 col-sm-9">
+            <div class="col-xs-12 col-sm-8">
               <div class="flex items-center">
                 <q-btn @click="drawer.left = !drawer.left" icon="menu" outline v-if="$q.screen.lt.lg" flat
                   class="q-pl-sm q-pr-sm" />
@@ -49,12 +49,14 @@
                 </div>
               </div>
             </div>
-            <div class="col-xs-2 col-sm-3 text-right" v-if="!$q.screen.xs">
-              <span v-if="model.cancel_reason" class="q-mr-sm text-italic">{{ model.cancel_reason }}</span>
+            <div class="col-xs-2 col-sm-4 text-right" v-if="!$q.screen.xs">
               <q-btn @click="openURL(`/portal/b/${model.id}`)" flat icon="language" round class="q-mr-xs"
                 v-if="model.status === 'confirmed'" />
-              <StatusTag :status="model.status" />
-              <div class="q-mt-xs">
+              <StatusTag :status="model.status" /><span v-if="model.status === 'cancelled'"> by {{ model.cancel_by
+              }}</span>
+              <div v-if="model.cancel_reason" class="text-italic">{{ model.cancel_reason
+              }}</div>
+              <div>
                 Updated <strong>{{ fromNowTz(model.updated_at) }}</strong>
               </div>
             </div>

@@ -75,7 +75,8 @@
                   </div>
                 </div>
               </div>
-              <div v-if="localModel.scheduled_delivery_date" class="row q-col-gutter-md q-mt-sm">
+              <div v-if="localModel.scheduled_delivery_date || localModel.status === 'ready_for_delivery'"
+                class="row q-col-gutter-md q-mt-sm">
                 <div class="col-xs-12 col-sm-6">
                   <div class="text-bold text-grey">SCHEDULED DELIVERY DATE</div>
                   <div v-if="!changes.dateDelivery">{{ localModel.scheduled_delivery_date }}<q-btn v-if="canEdit"

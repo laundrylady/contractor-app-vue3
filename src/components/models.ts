@@ -575,6 +575,7 @@ export interface Order {
   cancel_notes?:string|null,
   cancel_date?:string|null,
   cancel_rebook?:boolean,
+  cancel_by?:string|null,
   changes_reason?:string|null,
   changes_notes?:string|null
 }

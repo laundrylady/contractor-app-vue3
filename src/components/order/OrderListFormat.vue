@@ -16,7 +16,10 @@
       <q-item-section>
         <div class="flex no-wrap">
           <div>
-            <div v-if="bookingId"> Booking: #{{ o.display_id }}</div>
+            <div v-if="bookingId"> Booking: #{{ o.display_id }} <span class="q-ml-sm" v-if="status">
+                <StatusTag :status="o.status" :small="true" />
+              </span>
+            </div>
             <div>
               <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"
                 v-if="o.status !== 'ready_for_delivery'"><span v-if="o.scheduled_pickup_date">{{
@@ -62,9 +65,6 @@
           </div>
           <q-space />
           <div class="q-ml-xs text-right" style="width:70px;">
-            <div class="q-mb-xs" v-if="status">
-              <StatusTag :status="o.status" :small="true" />
-            </div>
             <div class="text-right">
               <q-btn @click="onMyWay(o)" color="grey-9" round dense icon="o_directions_car" class="q-ml-xs"
                 title="Notify the customer you are on your way"
