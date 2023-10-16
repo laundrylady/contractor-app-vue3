@@ -308,7 +308,7 @@ import GlobalNotes from 'src/components/note/GlobalNotes.vue'
 import GlobalNotifications from 'src/components/notification/GlobalNotifications.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
-import { agreedTimes, confirmDelete, currencyFormat, dateTimeTz, displayDateDay, doNotify, hourAgreedDisplay, hourBookingDisplay, hourBookingOptions } from 'src/mixins/help'
+import { agreedTimes, confirmDelete, currencyFormat, dateTimeTz, displayDateDay, doNotify, hourAgreedDisplay, hourBookingDisplay, hourBookingOptions, cancelOrderReasons } from 'src/mixins/help'
 import { useMixinSecurity } from 'src/mixins/security'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
 import { computed, inject, onMounted, ref } from 'vue'
@@ -336,16 +336,7 @@ const showCancelOrder = ref(false)
 const loadingCancel = ref(false)
 const showChangesOrder = ref(false)
 const loadingChanges = ref(false)
-const cancelOrderReasons = [
-  'Unavailable to complete booking',
-  'Customer did not show',
-  'Appointment made in error',
-  'Holiday closure',
-  'NDIS requested',
-  'Customer requested',
-  'Admin cancelled',
-  'Customer is moving'
-]
+
 const changes: LooseObject = ref({
   date: false,
   date_model: null,

@@ -2,121 +2,95 @@
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page padding :class="{ 'q-pa-md': $q.screen.xs }">
-        <div class="flex justify-center q-mt-xl" v-if="!$q.screen.xs">
-          <div class="order-new-step" :class="{ 'active': step === 1 || model.suburb_postcode_region_id }"
-            @click="stepMove(1)">
-            Select your suburb
-          </div>
-          <div class="flex items-end"><img src="~assets/images/illustrations/bot_arrow.png" /></div>
-          <div class="order-new-step"
-            :class="{ 'active': step === 2 || model.productcategories.filter(o => o.active).length }">
-            Select your service
-          </div>
-          <div class="flex items-start"><img src="~assets/images/illustrations/top_arrow.png" /></div>
-          <div class="order-new-step" :class="{ 'active': step === 3 || model.scheduled_pickup_date }">
-            Select pickup date
-          </div>
-          <div class="flex items-end"><img src="~assets/images/illustrations/bot_arrow.png" /></div>
-          <div class="order-new-step" :class="{ 'active': step === 4 || model.contractor_user_id }">
-            Select your Laundry Lady or Lad
-          </div>
-          <div class="flex items-start"><img src="~assets/images/illustrations/top_arrow.png" /></div>
-          <div class="order-new-step">
-            Enter your details
-          </div>
-          <div class="flex items-end"><img src="~assets/images/illustrations/bot_arrow.png" /></div>
-          <div class="order-new-step">
-            Confirm booking
-          </div>
-        </div>
         <div class="row q-mt-xl q-mb-lg">
           <div class="col-xs-12 col-sm-6 offset-sm-3 text-center">
             <AppLogo />
           </div>
         </div>
-        <div class="row text-lg q-mb-xl">
-          <div class="col-xs-12 col-sm-6 offset-sm-3 text-center">
-            Book your mobile Laundry service. Washing, Ironing, Pickup and Delivery.
-          </div>
-        </div>
-        <div class="row q-col-gutter-md">
-          <div class="col-xs-12 col-sm-6 offset-sm-3">
-            <q-card flat class="bg-page">
-              <q-card-section v-if="step === 1">
-                <p class="text-center text-bold">Select your pickup location:</p>
-                <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Enter your pickup suburb" outlined
-                  :invalid="$v.suburb_postcode_region_id.$invalid" @update:model-value="checkContractors()" />
-                <div class="text-lg text-center q-mt-lg" v-if="noContractors">Sorry, there is currently no availability in
-                  this
-                  area.</div>
-                <div class="text-center q-mt-xl">
-                  <q-btn @click="stepMove(2)" color="primary" label="Continue" rounded
-                    :disable="!model.suburb_postcode_region_id" />
-                </div>
-              </q-card-section>
-              <q-card-section v-if="step === 2">
-                <p class="text-center text-bold">Choose the services you require:</p>
-                <div class="flex justify-center">
-                  <div>
-                    <div class="q-mr-sm">
-                      <q-checkbox v-model="washingAndIroning" @update:model-value="toggleWashingAndIroning()"
-                        label="Washing & Ironing" />
-                    </div>
-                    <div v-if="!washingAndIroning">
-                      <div v-for="c in model.productcategories" :key="c.product_category_id" class="q-mr-sm">
-                        <q-checkbox v-model="c.active" :label="categoryDisplay(c.product_category_id, categories)"
-                          @update:model-value="[model.scheduled_pickup_date = null, model.scheduled_pickup_time = null, model.contractor_user_id = null]" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="text-center q-mt-xl">
-                  <q-btn @click="stepMove(1)" color="primary" label="Previous" flat class="q-mr-sm" rounded /><q-btn
-                    @click="stepMove(3)" color="primary" label="Continue"
-                    :disable="!model.productcategories.filter(o => o.active).length" rounded />
-                </div>
-              </q-card-section>
-              <q-card-section v-if="step === 3">
-                <p class="text-center text-bold">Choose the desired pickup date:</p>
-                <div class="text-center">
-                  <q-date v-model="model.scheduled_pickup_date" mask="DD/MM/YYYY" :options="minDate" class="q-mt-md"
-                    @navigation="handleScheduledPickupDateNav" />
-                </div>
-                <div class="q-mt-xl text-center">
-                  <q-btn @click="stepMove(2)" color="primary" label="Previous" flat class="q-mr-sm" rounded />
-                  <q-btn @click="stepMove(4)" color="primary" label="Continue" :disable="!model.scheduled_pickup_date"
-                    rounded />
-                </div>
-              </q-card-section>
-              <q-card-section v-if="step === 4">
-                <p class="text-center text-bold">Select your Laundry Lad or Lad:</p>
+        <div v-if="model && model.id">
+          <div class="row q-col-gutter-md">
+            <div class="col-xs-12 col-sm-6 offset-sm-3">
+              <div class="text-center text-h4 q-mb-xl">Booking #{{ model.display_id }}</div>
+              <div v-if="!modelOriginal.scheduled_pickup_date" class="bg-red text-white q-pa-md">
+                There is an issue with this booking preventing you from making changes. Please contact us to make changes
+                to this booking.</div>
+              <div v-if="modelOriginal.scheduled_pickup_date">
                 <q-card>
                   <q-card-section>
-                    <OrderContractorManagement :scheduled_pickup_date="model.scheduled_pickup_date"
-                      :scheduled_pickup_time="model.scheduled_pickup_time" v-model="model.contractor_user_id"
-                      :reassign="true" :productcategories="model.productcategories.filter(o => o.active)"
-                      :suburb_postcode_region_id="model.suburb_postcode_region_id"
-                      v-if="model.suburb_postcode_region_id && model.scheduled_pickup_date && model.productcategories.filter(o => o.active).length"
-                      @update:modelValueTime="updateScheduledPickupTime" />
+                    <div class="text-bold q-mb-xs">Booking Summary</div>
+                    <q-card>
+                      <q-card-section>
+                        <div class="q-mb-sm"><q-icon name="account_circle" size="24px" /> {{
+                          modelOriginal.team }}</div>
+                        <div class="q-mb-sm">
+                          <span v-if="modelOriginal.suburb"><q-icon name="place" size="24px" /> {{
+                            modelOriginal.suburb }}</span>
+                        </div>
+                        <div
+                          v-if="modelOriginal.contractor && modelOriginal.scheduled_pickup_date && modelOriginal.scheduled_pickup_time">
+                          <q-icon name="person" size="24px" /> Pickup with {{ modelOriginal.contractor.first_name }}
+                          on {{
+                            modelOriginal.scheduled_pickup_date }} ({{
+    hourBookingDisplay(modelOriginal.scheduled_pickup_time)
+  }})
+                        </div>
+                      </q-card-section>
+                    </q-card>
+                    <div v-if="showChangeSuccess" class="bg-green text-white q-pa-md q-mt-md">
+                      <q-icon name="check" /> Your {{ $t('order.name') }} has been updated.
+                    </div>
+                    <div v-if="showCancelSuccess" class="bg-green text-white q-pa-md q-mt-md">
+                      <q-icon name="check" /> Your {{ $t('order.name') }} has been cancelled.
+                    </div>
+                    <div class="q-mt-lg text-center" v-if="!showChange && !showCancel">
+                      <q-btn @click="showChangeFunc()" label="Make a change to this booking" rounded flat color="primary"
+                        icon="edit" />
+                      <q-btn @click="showCancelFunc()" label="Cancel this booking" rounded flat color="red" />
+                    </div>
+                    <div v-if="showChange && !showChangeSuccess" class="q-mt-xl">
+                      <div class="row q-col-gutter-md">
+                        <div class="col-xs-12 col-sm-5 text-center">
+                          <div class="text-grey text-bold">SCHEDULED PICKUP DATE</div>
+                          <q-date v-model="model.scheduled_pickup_date" mask="DD/MM/YYYY" :options="minDate"
+                            class="q-mt-md" @navigation="handleScheduledPickupDateNav" />
+                        </div>
+                        <div class="col-xs-12 col-sm-7">
+                          <q-select v-model="model.scheduled_pickup_time" :label="$t('order.scheduledPickupTime')"
+                            :options="hourBookingOptions" emit-value map-options outlined />
+                          <q-input v-model="model.special_instructions" label="Special Instructions" outlined
+                            type="textarea" rows="3" class="q-mt-md" bottom-slots />
+                          <q-select v-model="model.changes_reason" :options="cancelOrderReasons" outlined
+                            label="Reason for change" :error="$v.changes_reason.$invalid" />
+                          <q-input v-model="model.changes_notes" label="Notes about the change" type="textarea" rows="3"
+                            outlined />
+                        </div>
+                      </div>
+                    </div>
+                    <div v-if="showCancel && !showCancelSuccess" class="q-mt-xl">
+                      <p>PLEASE NOTE: Bookings that are
+                        cancelled within 3 hours of the scheduled pickup time will incur a $12.50 administration
+                        charge.</p>
+                      <q-select v-model="model.cancel_reason" :options="cancelOrderReasons" outlined
+                        label="Reason for cancellation" :error="$v.cancel_reason.$invalid" />
+                      <q-input v-model="model.cancel_notes" label="Notes about the cancellation" type="textarea" rows="3"
+                        outlined bottom-slots />
+                      <q-checkbox v-model="model.cancel_rebook" label="Booking needs rescheduling" />
+                    </div>
                   </q-card-section>
+                  <q-card-actions align="right">
+                    <div v-if="showChange && !showChangeSuccess">
+                      <q-btn @click="showChange = false" label="Cancel" color="secondary" flat rounded class="q-mr-sm" />
+                      <q-btn @click="updateOrder()" :disable="$v.$invalid" label="Update Booking" color="primary"
+                        rounded />
+                    </div>
+                    <div v-if="showCancel && !showCancelSuccess">
+                      <q-btn @click="showCancel = false" label="Reset" color="secondary" flat rounded class="q-mr-sm" />
+                      <q-btn @click="cancelOrder()" :disable="$v.$invalid" label="Cancel Booking" color="red" rounded />
+                    </div>
+                  </q-card-actions>
                 </q-card>
-                <div class="q-mt-xl text-center">
-                  <q-btn @click="stepMove(3)" color="primary" label="Previous" flat class="q-mr-sm" rounded />
-                  <q-btn @click="stepMove(4)" color="primary" label="Continue" :disable="!model.contractor_user_id"
-                    rounded />
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-          <div class="col-xs-12 col-sm-3">
-            <q-card flat class="bg-page">
-              <q-card-section>
-                <OrderNewSummary :suburb_postcode_region_id="model.suburb_postcode_region_id"
-                  :contractor_user_id="model.contractor_user_id" :scheduled_pickup_date="model.scheduled_pickup_date"
-                  :scheduled_pickup_time="model.scheduled_pickup_time" :productcategories="model.productcategories"
-                  :categories="categories" v-if="categories && model.suburb_postcode_region_id" />
-              </q-card-section>
-            </q-card>
+              </div>
+            </div>
           </div>
         </div>
       </q-page>
@@ -125,82 +99,44 @@
 </template>
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { required, requiredIf } from '@vuelidate/validators'
 import moment from 'moment-timezone'
-import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
-import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
-import OrderNewSummary from 'src/components/order/OrderNewSummary.vue'
 import { useMixinDebug } from 'src/mixins/debug'
-import { categoryDisplay } from 'src/mixins/help'
+import { confirmDelete, hourBookingDisplay, hourBookingOptions } from 'src/mixins/help'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
-import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import AppLogo from '../../components/AppLogo.vue'
-import { Order, QDateNavigation } from '../../components/models'
-import OrderContractorManagement from '../../components/order/OrderContractorManagement.vue'
+import { QDateNavigation } from 'src/components/models'
 
-const step = ref(1)
-const washingAndIroning = ref(false)
+const model = ref()
+const modelOriginal = ref()
 const categories = ref()
-const availableDates = ref<string[]>([])
-const schema = {
-  suburb_postcode_region_id: null,
-  contractor_user_id: null,
-  scheduled_pickup_date: null,
-  scheduled_pickup_time: null,
-  special_instructions: null,
-  recurring_order: false,
-  recurring: null,
-  productcategories: []
-}
-const model = reactive<Order>(JSON.parse(JSON.stringify(schema)))
-const bus = inject('bus') as EventBus
+const route = useRoute()
+const availableDates = ref()
+const currentBookingDate = ref()
 const minDate = (date: string) => {
   return date >= moment().add(1, 'day').format('YYYY/MM/DD') && availableDates.value.indexOf(date) !== -1
 }
-const currentBookingDate = ref(moment())
-const noContractors = ref(false)
+const showChange = ref(false)
+const showChangeSuccess = ref(false)
+const showCancel = ref(false)
+const showCancelSuccess = ref(false)
 const rules = {
-  suburb_postcode_region_id: { required },
   scheduled_pickup_date: { required },
   scheduled_pickup_time: { required },
-  contractor_user_id: { required },
-  productcategories: { required }
+  changes_reason: { requiredIf: requiredIf(() => showChange.value) },
+  cancel_reason: { requiredIf: requiredIf(() => showCancel.value) }
 }
-
 const $v = useVuelidate(rules, model)
 
-const toggleWashingAndIroning = () => {
-  model.productcategories.forEach(o => {
-    o.active = washingAndIroning.value
-  })
-  model.scheduled_pickup_date = null
-  model.scheduled_pickup_time = null
-  model.contractor_user_id = null
-}
-
-const stepMove = (nextStep: number) => {
-  if (nextStep === 3) {
-    getAvailableContractorsDates()
-  } else {
-    step.value = nextStep
-  }
-}
-
-const checkContractors = () => {
-  if (!model.suburb_postcode_region_id) {
-    noContractors.value = false
-  } else {
-    api.post('/public/order/findcontractorsinsuburbpostcoderegion', { suburb_postcode_region_id: model.suburb_postcode_region_id }).then(response => {
-      noContractors.value = !response.data.found
-      if (noContractors.value) {
-        model.suburb_postcode_region_id = null
-      }
-    }).catch(error => {
-      useMixinDebug(error)
-    })
-  }
-}
+const cancelOrderReasons = [
+  'Unavailable to complete booking',
+  'Appointment made in error',
+  'NDIS requested',
+  'Other'
+]
 
 const handleScheduledPickupDateNav = (view: QDateNavigation) => {
   currentBookingDate.value = moment(`${view.year}-${view.month}-01`)
@@ -210,32 +146,69 @@ const handleScheduledPickupDateNav = (view: QDateNavigation) => {
 const getAvailableContractorsDates = () => {
   availableDates.value = []
   api.post('/public/order/findcontractorsdates', {
-    suburb_postcode_region_id: model.suburb_postcode_region_id,
+    suburb_postcode_region_id: modelOriginal.value.suburb_postcode_region_id,
     scheduled_pickup_date: currentBookingDate.value.format('DD/MM/YYYY'),
-    productcategories: model.productcategories
+    productcategories: modelOriginal.value.productcategories,
+    contractor_user_id: modelOriginal.value.contractor_user_id
   }).then(response => {
-    availableDates.value = response.data
-    step.value = 3
+    // ensure selected date is included
+    availableDates.value = [moment(modelOriginal.value.scheduled_pickup_date, 'DD/MM/YYYY').format('YYYY-MM-DD')].concat(response.data)
   }).catch(error => {
     useMixinDebug(error)
   })
 }
 
-const updateScheduledPickupTime = (val: string | null) => {
-  model.scheduled_pickup_time = val
+const getOrder = () => {
+  api.get(`/public/b/${route.params.id}`).then(response => {
+    model.value = response.data
+    modelOriginal.value = JSON.parse(JSON.stringify(response.data))
+    currentBookingDate.value = moment(response.data.scheduled_pickup_date, 'DD/MM/YYYY')
+    if (model.value.scheduled_pickup_time && !hourBookingOptions.find(o => o.value === model.value.scheduled_pickup_time)) {
+      hourBookingOptions.unshift({ value: '', label: '-----------', disable: true })
+      hourBookingOptions.unshift({ value: model.value.scheduled_pickup_time, label: hourBookingDisplay(model.value.scheduled_pickup_time), disable: false })
+    }
+    getAvailableContractorsDates()
+  }).catch(error => {
+    useMixinDebug(error)
+  })
+}
+
+const showChangeFunc = () => {
+  showCancel.value = false
+  model.value.changes_reason = null
+  model.value.changes_notes = null
+  showChangeSuccess.value = false
+  showChange.value = true
+}
+
+const showCancelFunc = () => {
+  showChange.value = false
+  model.value.cancel_reason = null
+  model.value.cancel_notes = null
+  showCancel.value = true
+}
+
+const updateOrder = () => {
+  api.put(`/public/b/${model.value.id}`, model.value).then(() => {
+    showChangeSuccess.value = true
+    getOrder()
+  }).catch(error => {
+    useMixinDebug(error)
+  })
+}
+
+const cancelOrder = () => {
+  confirmDelete('This will cancel the booking').onOk(() => {
+    api.put(`/public/b/cancel/${model.value.id}`, model.value).then(() => {
+      showCancelSuccess.value = true
+    }).catch(error => {
+      useMixinDebug(error)
+    })
+  })
 }
 
 onMounted(async () => {
-  Object.assign(model, JSON.parse(JSON.stringify(schema)))
   categories.value = await productCategoriesVisibleBooking()
-  model.productcategories = []
-  for (const c of categories.value) {
-    model.productcategories.push({ product_category_id: c.value, active: false })
-  }
-  washingAndIroning.value = false
-})
-
-onBeforeUnmount(() => {
-  bus.off('newOrder')
+  getOrder()
 })
 </script>

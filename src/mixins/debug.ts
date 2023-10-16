@@ -25,5 +25,6 @@ const useMixinDebug = (error:LooseObject, bus:EventBus|undefined = undefined) =>
     }
     console.log(error)
   }
+  console.log(error)
 }
 export { useMixinDebug }

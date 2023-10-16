@@ -93,6 +93,17 @@ const globalStatusList = [
   { value: 'paid', label: 'Paid' }
 ]
 
+const cancelOrderReasons = [
+  'Unavailable to complete booking',
+  'Customer did not show',
+  'Appointment made in error',
+  'Holiday closure',
+  'NDIS requested',
+  'Customer requested',
+  'Admin cancelled',
+  'Customer is moving'
+]
+
 const dayDisplay = (val:number) => {
   return dayOptions.find(o => o.value === val)?.label
 }
@@ -424,6 +435,7 @@ export {
   hourOptions,
   hourBookingOptions,
   globalStatusList,
+  cancelOrderReasons,
   doNotify,
   confirmDelete,
   getRowsPerPage,
