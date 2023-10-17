@@ -5,8 +5,6 @@
   </div>
   <div v-if="contractors && !loadingContractors && contractors.length">
     <div v-for="c in contractors" :key="c.key">
-      <div class="text-h6">{{ c.key }}
-      </div>
       <p>Pickup slots available in the {{ c.key }}</p>
       <q-list separator>
         <q-item v-for="d in c.data" :key="d.id">

@@ -28,9 +28,10 @@
                         </div>
                         <div
                           v-if="modelOriginal.contractor && modelOriginal.scheduled_pickup_date && modelOriginal.scheduled_pickup_time">
-                          <q-icon name="person" size="24px" /> Pickup with {{ modelOriginal.contractor.first_name }}
+                          <q-icon name="person" size="24px" v-if="!$q.screen.xs" /> Pickup with {{
+                            modelOriginal.contractor.first_name }}
                           on {{
-                            modelOriginal.scheduled_pickup_date }} ({{
+                            modelOriginal.scheduled_pickup_date }} <br v-if="$q.screen.xs" /> ({{
     hourBookingDisplay(modelOriginal.scheduled_pickup_time)
   }})
                         </div>
@@ -49,14 +50,36 @@
                     </div>
                     <div v-if="showChange && !showChangeSuccess" class="q-mt-xl">
                       <div class="row q-col-gutter-md">
-                        <div class="col-xs-12 col-sm-5 text-center">
-                          <div class="text-grey text-bold">SCHEDULED PICKUP DATE</div>
+                        <div class="col-xs-12 col-sm-5">
+                          <p class="text-leftt text-bold text-grey">CHOOSE THE SERVICES YOU REQUIRE:</p>
+                          <div class="flex">
+                            <div>
+                              <div class="q-mr-sm">
+                                <q-checkbox v-model="washingAndIroning" @update:model-value="toggleWashingAndIroning()"
+                                  label="Washing & Ironing" />
+                              </div>
+                              <div v-if="!washingAndIroning">
+                                <div v-for="c in model.productcategories" :key="c.product_category_id" class="q-mr-sm">
+                                  <q-checkbox v-model="c.active"
+                                    :label="categoryDisplay(c.product_category_id, categories)"
+                                    @update:model-value="[model.scheduled_pickup_date = null, model.scheduled_pickup_time = null, model.contractor_user_id = null]" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="text-grey text-bold q-mt-md">SCHEDULED PICKUP DATE</div>
                           <q-date v-model="model.scheduled_pickup_date" mask="DD/MM/YYYY" :options="minDate"
                             class="q-mt-md" @navigation="handleScheduledPickupDateNav" />
                         </div>
                         <div class="col-xs-12 col-sm-7">
-                          <q-select v-model="model.scheduled_pickup_time" :label="$t('order.scheduledPickupTime')"
-                            :options="hourBookingOptions" emit-value map-options outlined />
+                          <div class="text-grey text-bold q-mb-md">SCHEDULED PICKUP TIME</div>
+                          <OrderContractorManagement :scheduled_pickup_date="model.scheduled_pickup_date"
+                            :scheduled_pickup_time="model.scheduled_pickup_time" v-model="model.contractor_user_id"
+                            :reassign="true"
+                            :productcategories="model.productcategories.filter((o: OrderProductCategory) => o.active)"
+                            :suburb_postcode_region_id="model.suburb_postcode_region_id"
+                            v-if="model.suburb_postcode_region_id && model.scheduled_pickup_date && model.productcategories.filter((o: OrderProductCategory) => o.active).length"
+                            @update:modelValueTime="updateScheduledPickupTime" />
                           <q-input v-model="model.special_instructions" label="Special Instructions" outlined
                             type="textarea" rows="3" class="q-mt-md" bottom-slots />
                           <q-select v-model="model.changes_reason" :options="cancelOrderReasons" outlined
@@ -67,9 +90,6 @@
                       </div>
                     </div>
                     <div v-if="showCancel && !showCancelSuccess" class="q-mt-xl">
-                      <p>PLEASE NOTE: Bookings that are
-                        cancelled within 3 hours of the scheduled pickup time will incur a $12.50 administration
-                        charge.</p>
                       <q-select v-model="model.cancel_reason" :options="cancelOrderReasons" outlined
                         label="Reason for cancellation" :error="$v.cancel_reason.$invalid" />
                       <q-input v-model="model.cancel_notes" label="Notes about the cancellation" type="textarea" rows="3"
@@ -102,13 +122,14 @@ import useVuelidate from '@vuelidate/core'
 import { required, requiredIf } from '@vuelidate/validators'
 import moment from 'moment-timezone'
 import { api } from 'src/boot/axios'
+import { OrderProductCategory, QDateNavigation } from 'src/components/models'
+import OrderContractorManagement from 'src/components/order/OrderContractorManagement.vue'
 import { useMixinDebug } from 'src/mixins/debug'
-import { confirmDelete, hourBookingDisplay, hourBookingOptions } from 'src/mixins/help'
+import { categoryDisplay, confirmDelete, hourBookingDisplay } from 'src/mixins/help'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import AppLogo from '../../components/AppLogo.vue'
-import { QDateNavigation } from 'src/components/models'
 
 const model = ref()
 const modelOriginal = ref()
@@ -116,6 +137,7 @@ const categories = ref()
 const route = useRoute()
 const availableDates = ref()
 const currentBookingDate = ref()
+const washingAndIroning = ref(false)
 const minDate = (date: string) => {
   return date >= moment().add(1, 'day').format('YYYY/MM/DD') && availableDates.value.indexOf(date) !== -1
 }
@@ -161,12 +183,9 @@ const getAvailableContractorsDates = () => {
 const getOrder = () => {
   api.get(`/public/b/${route.params.id}`).then(response => {
     model.value = response.data
+    washingAndIroning.value = model.value.productcategories.length === 2
     modelOriginal.value = JSON.parse(JSON.stringify(response.data))
     currentBookingDate.value = moment(response.data.scheduled_pickup_date, 'DD/MM/YYYY')
-    if (model.value.scheduled_pickup_time && !hourBookingOptions.find(o => o.value === model.value.scheduled_pickup_time)) {
-      hourBookingOptions.unshift({ value: '', label: '-----------', disable: true })
-      hourBookingOptions.unshift({ value: model.value.scheduled_pickup_time, label: hourBookingDisplay(model.value.scheduled_pickup_time), disable: false })
-    }
     getAvailableContractorsDates()
   }).catch(error => {
     useMixinDebug(error)
@@ -186,6 +205,19 @@ const showCancelFunc = () => {
   model.value.cancel_reason = null
   model.value.cancel_notes = null
   showCancel.value = true
+}
+
+const toggleWashingAndIroning = () => {
+  model.value.productcategories.forEach((o: OrderProductCategory) => {
+    o.active = washingAndIroning.value
+  })
+  model.value.scheduled_pickup_date = null
+  model.value.scheduled_pickup_time = null
+  model.value.contractor_user_id = null
+}
+
+const updateScheduledPickupTime = (val: string | null) => {
+  model.value.scheduled_pickup_time = val
 }
 
 const updateOrder = () => {
