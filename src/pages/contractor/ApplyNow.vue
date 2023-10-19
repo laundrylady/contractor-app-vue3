@@ -40,7 +40,9 @@
                       class="col-xs-12 col-sm-6" outlined />
                   </div>
                   <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Suburb"
-                    :invalid="$v.suburb_postcode_region_id.$invalid" :outlined="true" />
+                    :invalid="$v.suburb_postcode_region_id.$invalid" :outlined="true" class="q-mb-md" />
+                  <CountryField v-model="model.country_id" label="Country" :invalid="$v.country_id.$invaluid"
+                    :outlined="true" />
                   <div class="bg-grey-1 q-pa-sm q-mt-md">
                     <div class="text-h6">Confirm your eligibility requirements:</div>
                     <q-toggle v-model="model.contractor_car_licence" label="Reliable car and current drivers licence" />
@@ -111,12 +113,15 @@ import { email, required } from '@vuelidate/validators'
 import { api } from 'src/boot/axios'
 import AppLogo from 'src/components/AppLogo.vue'
 import AddressSearch from 'src/components/form/AddressSearch.vue'
+import CountryField from 'src/components/form/CountryField.vue'
 import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
+import { useMixinCommon } from 'src/mixins/common'
 import { useMixinDebug } from 'src/mixins/debug'
 import { reactive, ref } from 'vue'
 
 const loading = ref(false)
 const success = ref(false)
+const common = useMixinCommon()
 const emailError = ref({ error: false, msg: '' })
 const model = reactive({
   first_name: null,
@@ -127,6 +132,7 @@ const model = reactive({
   address1: null,
   address2: null,
   suburb_postcode_region_id: null,
+  country_id: common.value?.operating_country_id,
   contractor_abn: null,
   contractor_car_licence: false,
   contractor_equipment: false,
@@ -141,6 +147,7 @@ const rules = {
   mobile: { required },
   address2: { required },
   suburb_postcode_region_id: { required },
+  country_id: { required },
   contractor_why_join: { required },
   contractor_referral_type: { required }
 }

@@ -7,6 +7,9 @@
     <template v-slot:prepend>
       <q-icon name="language" color="info" />
     </template>
+    <template v-slot:loading>
+      <q-spinner v-if="loading" />
+    </template>
   </q-select>
 </template>
 <script setup lang="ts">

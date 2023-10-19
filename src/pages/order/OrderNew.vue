@@ -251,6 +251,7 @@ import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import AppLogo from '../../components/AppLogo.vue'
 import { Order, QDateNavigation } from '../../components/models'
 import OrderContractorManagement from '../../components/order/OrderContractorManagement.vue'
+import { useMixinCommon } from 'src/mixins/common'
 
 const step = ref(1)
 const washingAndIroning = ref(false)
@@ -258,13 +259,14 @@ const categories = ref()
 const availableDates = ref<string[]>([])
 const success = ref(false)
 const error = ref(false)
+const common = useMixinCommon()
 const schema = {
   address1: null,
   address2: null,
   suburb_postcode_region_id: null,
   lat: null,
   lng: null,
-  country_id: 13,
+  country_id: common.value?.operating_country_id,
   contractor_user_id: null,
   scheduled_pickup_date: null,
   scheduled_pickup_time: null,
