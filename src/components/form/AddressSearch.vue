@@ -1,7 +1,7 @@
 <template>
   <q-select v-model="keyword" :options="addresses" @update:model-value="handleChange" use-input :placeholder="placeholder"
     @filter="searchAddress" hide-dropdown-icon input-debounce="200" autocomplete="search-filter" class="q-mb-sm" outlined
-    :filled="filled" dense :loading="loading">
+    :filled="filled" dense :loading="loading" v-if="common?.operating_country === 'aud'">
     <template v-slot:prepend>
       <q-icon name="search" />
     </template>
@@ -23,6 +23,7 @@
 <script setup lang="ts">
 import { api } from 'src/boot/axios'
 import { LooseObject } from 'src/contracts/LooseObject'
+import { useMixinCommon } from 'src/mixins/common'
 import { useMixinDebug } from 'src/mixins/debug'
 import { addressPopulate, addressPopulateGoogle } from 'src/services/address'
 import { ref } from 'vue'
@@ -51,6 +52,7 @@ interface Props {
 }
 const props = defineProps<Props>()
 const emits = defineEmits(['update:modelValue'])
+const common = useMixinCommon()
 
 const keyword = ref()
 const loading = ref(false)
