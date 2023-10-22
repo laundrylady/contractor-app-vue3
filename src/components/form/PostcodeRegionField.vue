@@ -17,6 +17,7 @@ import { api } from 'src/boot/axios'
 import { useMixinDebug } from 'src/mixins/debug'
 import { onMounted, ref, watch } from 'vue'
 import { PostcodeRegion, SelectOption } from '../models'
+import { useMixinCommon } from 'src/mixins/common'
 
 interface Props {
   modelValue?: number | number[] | null,
@@ -35,6 +36,7 @@ interface Props {
 }
 const props = defineProps<Props>()
 const emits = defineEmits(['update:modelValue', 'selectedLocation'])
+const common = useMixinCommon()
 
 const loading = ref(false)
 const postcodes = ref()
@@ -52,7 +54,7 @@ const filterPostcodes = (val: string, update: (fn: () => void) => void) => {
   loading.value = true
   api.get(`/public/postcoderegion/index?keyword=${val}${props.state ? `&state=${props.state}` : ''}`).then(response => {
     update(() => {
-      postcodes.value = response.data.map((o: PostcodeRegion) => { return { value: o.id, label: `${o.locality} (${o.state} ${o.postcode})` } })
+      postcodes.value = response.data.map((o: PostcodeRegion) => { return { value: o.id, label: `${o.locality} (${common.value?.operating_country === 'aud' ? `${o.state} ` : ''}${o.postcode})` } })
       loading.value = false
     })
   }).catch(error => {
@@ -68,7 +70,7 @@ onMounted(() => {
         postcodes.value = res.data.map((o: PostcodeRegion) => { return { value: o.id, label: `${o.locality} (${o.state} ${o.postcode})` } })
         loading.value = false
       } else {
-        postcodes.value = [{ value: res.data.id, label: `${res.data.locality} (${res.data.state} ${res.data.postcode})` }]
+        postcodes.value = [{ value: res.data.id, label: `${res.data.locality} (${common.value?.operating_country === 'aud' ? `${res.data.state} ` : ''}${res.data.postcode})` }]
         loading.value = false
       }
     })
@@ -78,7 +80,7 @@ onMounted(() => {
 watch(() => props.modelValue, (newVal, oldVal) => {
   if (!props.nowatch && newVal && newVal !== oldVal && ((Array.isArray(newVal) && newVal.length) || !Array.isArray(newVal))) {
     api.get(`/public/postcoderegion/${newVal}`).then(res => {
-      postcodes.value = [{ value: res.data.id, label: `${res.data.locality} (${res.data.state} ${res.data.postcode})` }]
+      postcodes.value = [{ value: res.data.id, label: `${res.data.locality} (${common.value?.operating_country === 'aud' ? `${res.data.state} ` : ''}${res.data.postcode})` }]
     }).catch(error => { useMixinDebug(error) })
   }
 })
