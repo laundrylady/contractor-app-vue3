@@ -30,19 +30,21 @@
                       unmasked-value class="col-xs-12 col-sm-6" outlined />
                   </div>
                   <div class="text-h6 q-mt-sm">Address Details</div>
-                  <AddressSearch :model="model" :outlined="true"
+                  <AddressSearch :model="model" :filled="true"
                     :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
                     :placeholder="$t('address.search')" />
-                  <div class="row q-col-gutter-md">
-                    <q-input v-model="model.address1" :label="$t('address.line1')" bottom-slots class="col-xs-12 col-sm-6"
-                      outlined />
-                    <q-input v-model="model.address2" :error="$v.address2.$invalid" :label="$t('address.line2')"
-                      class="col-xs-12 col-sm-6" outlined />
+                  <q-input v-model="model.address1" :label="$t('address.line1')" bottom-slots outlined /> <q-input
+                    v-model="model.address2" :error="$v.address2.$invalid" :label="$t('address.line2')" outlined />
+                  <div class="row q-col-gutter-md q-mb-md">
+                    <div class="col-xs-12 col-sm-6">
+                      <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Suburb"
+                        :invalid="$v.suburb_postcode_region_id.$invalid" :outlined="true" />
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                      <CountryField v-model="model.country_id" label="Country" :invalid="$v.country_id.$invaluid"
+                        :outlined="true" />
+                    </div>
                   </div>
-                  <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Suburb"
-                    :invalid="$v.suburb_postcode_region_id.$invalid" :outlined="true" class="q-mb-md" />
-                  <CountryField v-model="model.country_id" label="Country" :invalid="$v.country_id.$invaluid"
-                    :outlined="true" />
                   <div class="bg-grey-1 q-pa-sm q-mt-md">
                     <div class="text-h6">Confirm your eligibility requirements:</div>
                     <q-toggle v-model="model.contractor_car_licence" label="Reliable car and current drivers licence" />
