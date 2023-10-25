@@ -4,7 +4,7 @@
       <q-page class="row justify-center items-center animated fadeIn" padding>
         <div class="col-xs-12 col-sm-10 col-md-5">
           <AppLogo />
-          <q-card v-if="success">
+          <q-card v-if="success" class="q-mt-md">
             <q-card-section class="text-left">
               <div class="text-h6">Thanks for your interest in joining The Laundry Lady.</div>
               <p>Please check your
@@ -54,7 +54,7 @@
               <q-step :name="2" title="Your Address Details" prefix="2" :error="!stepsValid.step2"
                 :done="stepsValid.step2" done-color="positive">
                 <p>Please enter your current home / business address</p>
-                <AddressSearch :model="model" :outlined="true"
+                <AddressSearch :model="model" :filled="true"
                   :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
                   :placeholder="$t('address.search')" v-if="common?.operating_country === 'aud'" />
                 <q-input v-model="model.address1" :label="$t('address.line1')" bottom-slots outlined />
@@ -501,7 +501,7 @@ const stepsValid = computed(() => {
     valid.step3 = false
   }
   // step 4
-  if (!model.contractor_ref_first_name || !model.contractor_ref_last_name || !model.contractor_ref_email || !model.contractor_ref_phone) {
+  if (!model.contractor_ref_first_name || !model.contractor_ref_last_name || !model.contractor_ref_email || !model.contractor_ref_phone || !model.contractor_ref2_first_name || !model.contractor_ref2_last_name || !model.contractor_ref2_email || !model.contractor_ref2_phone) {
     valid.step4 = false
   }
   // step 5
