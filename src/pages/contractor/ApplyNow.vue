@@ -26,8 +26,9 @@
                     <q-input v-model="model.email" label="Email" :error="$v.email.$invalid || emailError.error"
                       @blur="checkEmail()" :error-message="emailError.msg || ''" :hint="emailError.msg || ''"
                       class="col-xs-12 col-sm-6" outlined />
-                    <q-input v-model="model.mobile" label="Mobile Phone" :error="$v.mobile.$invalid" mask="#### ### ###"
-                      unmasked-value class="col-xs-12 col-sm-6" outlined />
+                    <q-input v-model="model.mobile" label="Mobile Phone" :error="$v.mobile.$invalid"
+                      :mask="common?.operating_country === 'aud' ? '#### ### ###' : ''" unmasked-value
+                      class="col-xs-12 col-sm-6" outlined />
                   </div>
                   <div class="text-h6 q-mt-sm">Address Details</div>
                   <AddressSearch :model="model" :filled="true"
