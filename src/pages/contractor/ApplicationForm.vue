@@ -15,7 +15,7 @@
           </q-card>
           <div v-if="!success">
             <div class="text-h5">Contractor Application Form</div>
-            <p>Please complete form below to proceed to the next steps.</p>
+            <p>Please complete the form below to proceed to the next steps.</p>
             <q-stepper v-model="step" ref="stepper" color="primary" animated header-nav vertical v-if="!success">
               <q-step :name="1" title="Applicant Details" icon="account_circle" prefix="1" :error="!stepsValid.step1"
                 :done="stepsValid.step1" done-color="positive">
@@ -56,7 +56,7 @@
                 <p>Please enter your current home / business address</p>
                 <AddressSearch :model="model" :outlined="true"
                   :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
-                  :placeholder="$t('address.search')" />
+                  :placeholder="$t('address.search')" v-if="common?.operating_country === 'aud'" />
                 <q-input v-model="model.address1" :label="$t('address.line1')" bottom-slots outlined />
                 <q-input v-model="model.address2" :error="$v.address2.$invalid" :label="$t('address.line2')" outlined />
                 <div class="row q-col-gutter-md q-mb-md">
@@ -145,11 +145,17 @@
               </q-step>
               <q-step :name="5" title="Your business details" prefix="5" :error="!stepsValid.step5"
                 :done="stepsValid.step5" done-color="positive">
-                <p class="q-mt-sm">If you do not have an ABN, you can register at: <a href="https://www.abr.gov.au/"
-                    target="_blank" class="link">Australian Government Australian Business Register</a></p>
-                <q-input v-model="model.contractor_abn" label="ABN" bottom-slots :error="$v.contractor_abn.$invalid"
-                  type="number" outlined>
-                  <template v-slot:append>
+                <p class="q-mt-sm" v-if="common?.operating_country === 'aud'">If you do not have an ABN, you can register
+                  at: <a href="https://www.abr.gov.au/" target="_blank" class="link">Australian Government Australian
+                    Business Register</a></p>
+                <p class="q-mt-sm" v-if="common?.operating_country === 'nzd'">If you do not have a GST Number, you can
+                  register
+                  at: <a href="https://www.ird.govt.nz/gst/registering-for-gst/register-for-gst" target="_blank"
+                    class="link">IRD GST Registration</a></p>
+                <q-input v-model="model.contractor_abn"
+                  :label="common?.operating_country === 'aud' ? 'ABN' : 'GST Number'" bottom-slots
+                  :error="$v.contractor_abn.$invalid" type="number" outlined>
+                  <template v-slot:append v-if="common?.operating_country === 'aud'">
                     <q-icon name="check" v-if="model.contractor_abn_verified" color="positive" />
                     <q-btn @click="verifyAbn()" label="Verify" color="primary" v-if="model.contractor_abn" flat rounded />
                   </template>
@@ -157,11 +163,20 @@
                 <div class="text-bold">Are you registered for GST?</div>
                 <q-toggle v-model="model.contractor_gst_registered" label="I am registered for GST"
                   class="q-mt-sm q-mb-sm" />
-                <p>If you are unsure if you need to register for GST talk to your accountant or check out the ATO site for
+                <p v-if="common?.operating_country === 'aud'">If you are unsure if you need to register for GST talk to
+                  your
+                  accountant or check out the ATO site for
                   more information. If your GST status changes while you are working with The Laundry Lady please let us
                   know
                   immediately. <a href="https://www.ato.gov.au/Business/GST/Registering-for-GST/" target="_blank"
                     class="link">Click here for ATO Registering for GST</a></p>
+                <p v-if="common?.operating_country === 'nzd'">If you are unsure if you need to register for GST talk to
+                  your
+                  accountant or check out the IRD site for
+                  more information. If your GST status changes while you are working with The Laundry Lady please let us
+                  know
+                  immediately. <a href="https://www.ird.govt.nz/gst/registering-for-gst/register-for-gst" target="_blank"
+                    class="link">Click here for more information</a></p>
                 <q-btn @click="step = 6" label="Next" color="primary" class="q-mt-lg" rounded />
               </q-step>
               <q-step :name="6" title="Your Commission Payments" prefix="6" :error="!stepsValid.step6"
@@ -324,7 +339,8 @@
                     <q-btn @click="resetSig2()" icon="sync" flat rounded />
                   </div>
                 </div>
-                <q-btn @click="update()" :disable="loading || $v.$invalid || !model.contractor_abn_verified"
+                <q-btn @click="update()"
+                  :disable="loading || $v.$invalid || (common?.operating_country === 'aud' && !model.contractor_abn_verified)"
                   label="Submit" color="primary" class="q-mt-lg" rounded />
               </q-step>
             </q-stepper>
@@ -347,6 +363,7 @@ import DateField from 'src/components/form/DateField.vue'
 import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
 import { Attachment, ContractorApplicationForm } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
+import { useMixinCommon } from 'src/mixins/common'
 import { useMixinDebug } from 'src/mixins/debug'
 import { uploadConfig } from 'src/mixins/help'
 import { computed, onMounted, reactive, ref } from 'vue'
@@ -457,6 +474,7 @@ const rules = {
 }
 
 const $v = useVuelidate(rules, model, { $scope: false })
+const common = useMixinCommon()
 
 const stepsValid = computed(() => {
   const valid = {
