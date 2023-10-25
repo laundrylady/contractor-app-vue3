@@ -505,7 +505,7 @@ const stepsValid = computed(() => {
     valid.step4 = false
   }
   // step 5
-  if (!model.contractor_abn || !model.contractor_abn_verified) {
+  if (!model.contractor_abn || (common.value && common.value.operating_country === 'aud' && !model.contractor_abn_verified)) {
     valid.step5 = false
   }
   // step 6
