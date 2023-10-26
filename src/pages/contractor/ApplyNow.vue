@@ -53,7 +53,7 @@
                       label="Equipment including steam station iron, washing machine, dryer, or willing to purchase these?" />
                   </div>
                   <q-input v-model="model.contractor_why_join" label="Why do you want to join our team?" class="q-mt-lg"
-                    :error="$v.contractor_why_join.$invalid" type="textarea" rows="3" outlined />
+                    type="textarea" rows="3" outlined bottom-slots />
                   <q-select v-model="model.contractor_referral_type" label="How did you find out about us?"
                     :options="['Instagram', 'Facebook', 'Google', 'Gumtree', 'Working Parents Connect', 'Seek', 'Melbourne Mums', 'Word of Mouth', 'Radio', 'Newspaper/Magazine', 'Event', 'Other']"
                     :error="$v.contractor_referral_type.$invalid" outlined />
@@ -151,7 +151,6 @@ const rules = {
   address2: { required },
   suburb_postcode_region_id: { required },
   country_id: { required },
-  contractor_why_join: { required },
   contractor_referral_type: { required }
 }
 
