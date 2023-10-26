@@ -763,6 +763,8 @@ export interface ContractorApplicationForm {
   last_name: string|null,
   first_name_2: string|null,
   last_name_2: string|null,
+  contractor_guarantor_name:string|null,
+  contractor_guarantor_email:string|null,
   contractor_badge_name:string|null,
   contractor_start_date: string|null,
   dateofbirth: string|null,
