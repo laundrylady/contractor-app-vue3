@@ -113,6 +113,7 @@
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
 import { email, required } from '@vuelidate/validators'
+import moment from 'moment-timezone'
 import { api } from 'src/boot/axios'
 import AppLogo from 'src/components/AppLogo.vue'
 import AddressSearch from 'src/components/form/AddressSearch.vue'
@@ -140,7 +141,8 @@ const model = reactive({
   contractor_car_licence: false,
   contractor_equipment: false,
   contractor_why_join: null,
-  contractor_referral_type: null
+  contractor_referral_type: null,
+  timezone: moment.tz.guess()
 })
 
 const rules = {

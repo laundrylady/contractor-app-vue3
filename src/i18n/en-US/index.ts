@@ -69,7 +69,8 @@ export default {
     ndis: 'NDIS',
     ndisExpiry: 'NDIS Worker Clearance Expiry',
     monthlySurvey: 'Monthly Pulse Surveys',
-    guarantor: { email: 'Guarantor Email', name: 'Guarantor Name' }
+    guarantor: { email: 'Guarantor Email', name: 'Guarantor Name' },
+    witness: { email: 'Witness Email', name: 'Witness Name' }
   },
   team: {
     dashboard: 'Dashboard',

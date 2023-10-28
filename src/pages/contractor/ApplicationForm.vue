@@ -62,6 +62,18 @@
                         bottom-slots :error="$v.contractor_guarantor_email.$invalid" outlined />
                     </div>
                   </div>
+                  <p>Enter the name and email address of the person that will act as the witness when signing the
+                    agreement:</p>
+                  <div class="row q-col-gutter-md q-mb-sm">
+                    <div class="col-xs-12 col-sm-6">
+                      <q-input v-model="model.contractor_witness_name" :label="$t('contractor.witness.name')" bottom-slots
+                        :error="$v.contractor_witness_name.$invalid" outlined />
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                      <q-input v-model="model.contractor_witness_email" :label="$t('contractor.witness.email')"
+                        bottom-slots :error="$v.contractor_witness_email.$invalid" outlined />
+                    </div>
+                  </div>
                 </div>
                 <q-btn @click="step = 2" label="Next" color="primary" class="q-mt-lg" rounded />
               </q-step>
@@ -159,6 +171,9 @@
               </q-step>
               <q-step :name="5" title="Your business details" prefix="5" :error="!stepsValid.step5"
                 :done="stepsValid.step5" done-color="positive">
+                <q-select v-model="model.contractor_type"
+                  :options="[{ label: 'Individual/Sole Trader', value: 'individual' }, { label: 'Company', value: 'company' }]"
+                  label="Entity type" bottom-slots emit-value map-options outlined :error="$v.contractor_type.$invalid" />
                 <p class="q-mt-sm" v-if="common?.operating_country === 'aud'">If you do not have an ABN, you can register
                   at: <a href="https://www.abr.gov.au/" target="_blank" class="link">Australian Government Australian
                     Business Register</a></p>
@@ -400,8 +415,11 @@ const model = reactive<ContractorApplicationForm>({
   last_name: null,
   first_name_2: null,
   last_name_2: null,
+  contractor_type: null,
   contractor_guarantor_name: null,
   contractor_guarantor_email: null,
+  contractor_witness_name: null,
+  contractor_witness_email: null,
   contractor_badge_name: null,
   contractor_start_date: null,
   dateofbirth: null,
@@ -449,8 +467,11 @@ const model = reactive<ContractorApplicationForm>({
 const rules = {
   first_name: { required },
   last_name: { required },
+  contractor_type: { required },
   contractor_guarantor_name: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
   contractor_guarantor_email: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd'), email },
+  contractor_witness_name: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
+  contractor_witness_email: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd'), email },
   dateofbirth: { required },
   contractor_badge_name: { required },
   contractor_start_date: { required },
@@ -507,7 +528,7 @@ const stepsValid = computed(() => {
     step9: true
   }
   // step 1
-  if (!model.first_name || !model.last_name || !model.contractor_badge_name || !model.contractor_start_date || !model.dateofbirth) {
+  if (!model.first_name || !model.last_name || !model.contractor_badge_name || !model.contractor_start_date || !model.dateofbirth || (common?.value?.operating_country === 'nzd' && (!model.contractor_guarantor_name || !model.contractor_guarantor_email || !model.contractor_witness_name || !model.contractor_witness_email))) {
     valid.step1 = false
   }
   // step 2
@@ -523,7 +544,7 @@ const stepsValid = computed(() => {
     valid.step4 = false
   }
   // step 5
-  if (!model.contractor_abn || (common.value && common.value.operating_country === 'aud' && !model.contractor_abn_verified)) {
+  if (!model.contractor_abn || (common.value && common.value.operating_country === 'aud' && !model.contractor_abn_verified) || !model.contractor_type) {
     valid.step5 = false
   }
   // step 6
