@@ -177,13 +177,13 @@
                 <p class="q-mt-sm" v-if="common?.operating_country === 'aud'">If you do not have an ABN, you can register
                   at: <a href="https://www.abr.gov.au/" target="_blank" class="link">Australian Government Australian
                     Business Register</a></p>
-                <p class="q-mt-sm" v-if="common?.operating_country === 'nzd'">If you do not have a GST Number, you can
+                <p class="q-mt-sm" v-if="common?.operating_country === 'nzd'">If you do not have a NZ Business Number, you
+                  can
                   register
-                  at: <a href="https://www.ird.govt.nz/gst/registering-for-gst/register-for-gst" target="_blank"
-                    class="link">IRD GST Registration</a></p>
-                <q-input v-model="model.contractor_abn"
-                  :label="common?.operating_country === 'aud' ? 'ABN' : 'GST Number'" bottom-slots
-                  :error="$v.contractor_abn.$invalid" type="number" outlined>
+                  at: <a href="https://www.nzbn.govt.nz/get-an-nzbn/" target="_blank" class="link">NZBN Registration</a>
+                </p>
+                <q-input v-model="model.contractor_abn" :label="common?.operating_country === 'aud' ? 'ABN' : 'NZBN'"
+                  bottom-slots :error="$v.contractor_abn.$invalid" type="number" outlined>
                   <template v-slot:append v-if="common?.operating_country === 'aud'">
                     <q-icon name="check" v-if="model.contractor_abn_verified" color="positive" />
                     <q-btn @click="verifyAbn()" label="Verify" color="primary" v-if="model.contractor_abn" flat rounded />
