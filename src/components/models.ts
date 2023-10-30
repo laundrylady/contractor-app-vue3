@@ -814,5 +814,11 @@ export interface ContractorApplicationForm {
   contractor_applicant_1_sig:string|null,
   contractor_applicant_2_sig:string|null,
   documents:Attachment[],
-  avatar:string|null
+  avatar:string|null,
+  contractor_business_name:string|null,
+  contractor_business_address1: string|null,
+  contractor_business_address2: string|null,
+  contractor_business_suburb_postcode_id: number|null,
+  contractor_business_country_id: number|null,
+  contractor_business_contact: string|null
 }
