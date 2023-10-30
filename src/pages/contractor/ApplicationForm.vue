@@ -155,7 +155,8 @@
                     <q-input v-model="model.contractor_business_name" label="Company Name"
                       :error="$v.contractor_business_name.$invalid" outlined />
                   </div>
-                  <div class="text-grey q-mb-sm">PREMISES ADDRESS</div>
+                  <div class="text-grey text-bold">PREMISES ADDRESS</div>
+                  <p>Please specify where the work will be performed:</p>
                   <q-select v-model="model.contractor_business_address_type" label="Premises Type"
                     :options="[{ label: 'Franchisee\'s home', value: 'home' }, { label: 'Commercial premises', value: 'commercial' }]"
                     :error="$v.contractor_business_address_type.$invalid" map-options emit-value outlined />
@@ -548,7 +549,7 @@ const rules = {
   contractor_declaration_information: { checked: sameAs(true) },
   contractor_applicant_1_sig: { required },
   avatar: { required },
-  contractor_business_name: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
+  contractor_business_name: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd' && model.contractor_type === 'company') },
   contractor_business_address_type: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
   contractor_business_address2: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
   contractor_business_suburb_postcode_region_id: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },

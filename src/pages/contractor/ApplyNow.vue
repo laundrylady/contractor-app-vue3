@@ -22,7 +22,7 @@
                     <q-input v-model="model.last_name" label="Last Name" :error="$v.last_name.$invalid"
                       class="col-xs-12 col-sm-6" outlined />
                   </div>
-                  <div class="row q-col-gutter-md">
+                  <div class="row q-col-gutter-md q-mb-md">
                     <q-input v-model="model.email" label="Email" :error="$v.email.$invalid || emailError.error"
                       @blur="checkEmail()" :error-message="emailError.msg || ''" :hint="emailError.msg || ''"
                       class="col-xs-12 col-sm-6" outlined />
@@ -30,7 +30,14 @@
                       :mask="common?.operating_country === 'aud' ? '#### ### ###' : ''" unmasked-value
                       class="col-xs-12 col-sm-6" outlined />
                   </div>
-                  <div class="text-h6 q-mt-sm">Address Details</div>
+                  <q-select label="Are you applying as an individual or a company?" outlined
+                    :options="[{ label: 'Individual/Sole Trader', value: 'individual' }, { label: 'Company', value: 'company' }]"
+                    map-options emit-value v-model="model.contractor_type" :error="$v.contractor_type.$invalid" />
+                  <q-input v-model="model.contractor_business_name" v-if="model.contractor_type === 'company'"
+                    :error="$v.contractor_business_name.$invalid" outlined label="Company Name" />
+                  <div class="text-h6 q-mt-sm">{{ model.contractor_type === 'company' ? 'Registered Office' : '' }}
+                    Address
+                    Details</div>
                   <AddressSearch :model="model" :filled="true"
                     :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
                     :placeholder="$t('address.search')" />
@@ -112,7 +119,7 @@
 </template>
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
-import { email, required } from '@vuelidate/validators'
+import { email, required, requiredIf } from '@vuelidate/validators'
 import moment from 'moment-timezone'
 import { api } from 'src/boot/axios'
 import AppLogo from 'src/components/AppLogo.vue'
@@ -137,6 +144,8 @@ const model = reactive({
   address2: null,
   suburb_postcode_region_id: null,
   country_id: common.value?.operating_country_id,
+  contractor_type: null,
+  contractor_business_name: null,
   contractor_abn: null,
   contractor_car_licence: false,
   contractor_equipment: false,
@@ -146,10 +155,12 @@ const model = reactive({
 })
 
 const rules = {
+  contractor_business_name: { requiredIf: requiredIf(() => model.contractor_type === 'company') },
   first_name: { required },
   last_name: { required },
   email: { required, email },
   mobile: { required },
+  contractor_type: { required },
   address2: { required },
   suburb_postcode_region_id: { required },
   country_id: { required },
