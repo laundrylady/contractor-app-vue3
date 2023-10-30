@@ -148,20 +148,25 @@
                 <q-select v-model="model.contractor_type"
                   :options="[{ label: 'Individual/Sole Trader', value: 'individual' }, { label: 'Company', value: 'company' }]"
                   label="Entity type" bottom-slots emit-value map-options outlined :error="$v.contractor_type.$invalid" />
-                <div v-if="common?.operating_country === 'nzd' && model.contractor_type === 'company'" class="q-mb-md">
-                  <div class="text-bold text-grey">COMPANY DETAILS</div>
-                  <p>Please provide the following details about the company.</p>
-                  <q-input v-model="model.contractor_business_name" label="Company Name"
-                    :error="$v.contractor_business_name.$invalid" outlined />
-                  <div class="text-grey q-mb-sm">PLACE OF BUSINESS</div>
+                <div v-if="common?.operating_country === 'nzd'" class="q-mb-md">
+                  <div v-if="model.contractor_type === 'company'">
+                    <div class="text-bold text-grey">COMPANY DETAILS</div>
+                    <p>Please provide the following details about the company.</p>
+                    <q-input v-model="model.contractor_business_name" label="Company Name"
+                      :error="$v.contractor_business_name.$invalid" outlined />
+                  </div>
+                  <div class="text-grey q-mb-sm">PREMISES ADDRESS</div>
+                  <q-select v-model="model.contractor_business_address_type" label="Premises Type"
+                    :options="[{ label: 'Franchisee\'s home', value: 'home' }, { label: 'Commercial premises', value: 'commercial' }]"
+                    :error="$v.contractor_business_address_type.$invalid" map-options emit-value outlined />
                   <q-input v-model="model.contractor_business_address1" :label="$t('address.line1')" bottom-slots
                     outlined />
                   <q-input v-model="model.contractor_business_address2" :label="$t('address.line2')"
                     :error="$v.contractor_business_address2.$invalid" bottom-slots outlined />
                   <div class="row q-col-gutter-md q-mb-md">
                     <div class="col-xs-12 col-sm-6">
-                      <PostcodeRegionField v-model="model.contractor_business_suburb_postcode_id"
-                        :label="$t('address.suburb')" :invalid="$v.contractor_business_suburb_postcode_id.$invalid"
+                      <PostcodeRegionField v-model="model.contractor_business_suburb_postcode_region_id"
+                        :label="$t('address.suburb')" :invalid="$v.contractor_business_suburb_postcode_region_id.$invalid"
                         :outlined="true" />
                     </div>
                     <div class="col-xs-12 col-sm-6">
@@ -171,28 +176,30 @@
                   </div>
                   <q-input v-model="model.contractor_business_contact" label="Contact on Premise"
                     :error="$v.contractor_business_contact.$invalid" :outlined="true" />
-                  <p>Enter the name and email address of the person that will act as the guarantor when signing the
-                    agreement:</p>
-                  <div class="row q-col-gutter-md q-mb-sm">
-                    <div class="col-xs-12 col-sm-6">
-                      <q-input v-model="model.contractor_guarantor_name" :label="$t('contractor.guarantor.name')"
-                        bottom-slots :error="$v.contractor_guarantor_name.$invalid" outlined />
+                  <div v-if="model.contractor_type === 'company'">
+                    <p>Enter the name and email address of the person that will act as the guarantor when signing the
+                      agreement:</p>
+                    <div class="row q-col-gutter-md q-mb-sm">
+                      <div class="col-xs-12 col-sm-6">
+                        <q-input v-model="model.contractor_guarantor_name" :label="$t('contractor.guarantor.name')"
+                          bottom-slots :error="$v.contractor_guarantor_name.$invalid" outlined />
+                      </div>
+                      <div class="col-xs-12 col-sm-6">
+                        <q-input v-model="model.contractor_guarantor_email" :label="$t('contractor.guarantor.email')"
+                          bottom-slots :error="$v.contractor_guarantor_email.$invalid" outlined />
+                      </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6">
-                      <q-input v-model="model.contractor_guarantor_email" :label="$t('contractor.guarantor.email')"
-                        bottom-slots :error="$v.contractor_guarantor_email.$invalid" outlined />
-                    </div>
-                  </div>
-                  <p>Enter the name and email address of the person that will act as the witness when signing the
-                    agreement:</p>
-                  <div class="row q-col-gutter-md q-mb-sm">
-                    <div class="col-xs-12 col-sm-6">
-                      <q-input v-model="model.contractor_witness_name" :label="$t('contractor.witness.name')" bottom-slots
-                        :error="$v.contractor_witness_name.$invalid" outlined />
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                      <q-input v-model="model.contractor_witness_email" :label="$t('contractor.witness.email')"
-                        bottom-slots :error="$v.contractor_witness_email.$invalid" outlined />
+                    <p>Enter the name and email address of the person that will act as the witness when signing the
+                      agreement:</p>
+                    <div class="row q-col-gutter-md q-mb-sm">
+                      <div class="col-xs-12 col-sm-6">
+                        <q-input v-model="model.contractor_witness_name" :label="$t('contractor.witness.name')"
+                          bottom-slots :error="$v.contractor_witness_name.$invalid" outlined />
+                      </div>
+                      <div class="col-xs-12 col-sm-6">
+                        <q-input v-model="model.contractor_witness_email" :label="$t('contractor.witness.email')"
+                          bottom-slots :error="$v.contractor_witness_email.$invalid" outlined />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -432,6 +439,8 @@ const sig1Ref = ref()
 const sig2Ref = ref()
 const abnVerified = ref(false)
 const abnVerifyResult = ref()
+const common = useMixinCommon()
+
 const model = reactive<ContractorApplicationForm>({
   first_name: null,
   last_name: null,
@@ -483,10 +492,11 @@ const model = reactive<ContractorApplicationForm>({
   contractor_applicant_1_sig: null,
   contractor_applicant_2_sig: null,
   contractor_business_name: null,
+  contractor_business_address_type: null,
   contractor_business_address1: null,
   contractor_business_address2: null,
-  contractor_business_suburb_postcode_id: null,
-  contractor_business_country_id: null,
+  contractor_business_suburb_postcode_region_id: null,
+  contractor_business_country_id: common.value ? common.value.operating_country_id : null,
   contractor_business_contact: null,
   documents: [],
   avatar: null
@@ -538,15 +548,15 @@ const rules = {
   contractor_declaration_information: { checked: sameAs(true) },
   contractor_applicant_1_sig: { required },
   avatar: { required },
-  contractor_business_name: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd' && model.contractor_type === 'company') },
-  contractor_business_address2: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd' && model.contractor_type === 'company') },
-  contractor_business_suburb_postcode_id: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd' && model.contractor_type === 'company') },
-  contractor_business_country_id: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd' && model.contractor_type === 'company') },
-  contractor_business_contact: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd' && model.contractor_type === 'company') }
+  contractor_business_name: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
+  contractor_business_address_type: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
+  contractor_business_address2: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
+  contractor_business_suburb_postcode_region_id: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
+  contractor_business_country_id: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
+  contractor_business_contact: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') }
 }
 
 const $v = useVuelidate(rules, model, { $scope: false })
-const common = useMixinCommon()
 
 const stepsValid = computed(() => {
   const valid = {
@@ -573,11 +583,11 @@ const stepsValid = computed(() => {
     valid.step3 = false
   }
   // step 4
-  if (!model.contractor_ref_first_name || !model.contractor_ref_last_name || !model.contractor_ref_email || !model.contractor_ref_phone || !model.contractor_ref2_first_name || !model.contractor_ref2_last_name || !model.contractor_ref2_email || !model.contractor_ref2_phone) {
+  if (!model.contractor_ref_first_name || !model.contractor_ref_last_name || $v.value.contractor_ref_email.$invalid || !model.contractor_ref_phone || !model.contractor_ref2_first_name || !model.contractor_ref2_last_name || $v.value.contractor_ref2_email.$invalid || !model.contractor_ref2_phone) {
     valid.step4 = false
   }
   // step 5
-  if (!model.contractor_abn || (common.value && common.value.operating_country === 'aud' && !model.contractor_abn_verified) || !model.contractor_type || (common.value && common.value.operating_country === 'nzd' && model.contractor_type === 'company' && (!model.contractor_business_name || !model.contractor_business_address2 || !model.contractor_business_suburb_postcode_id || !model.contractor_business_country_id || !model.contractor_business_contact || !model.contractor_guarantor_name || !model.contractor_guarantor_email || !model.contractor_witness_name || !model.contractor_witness_email))) {
+  if (!model.contractor_abn || (common.value && common.value.operating_country === 'aud' && !model.contractor_abn_verified) || !model.contractor_type || (common.value && common.value.operating_country === 'nzd' && model.contractor_type === 'company' && (!model.contractor_business_name || !model.contractor_guarantor_name || $v.value.contractor_guarantor_email.$invalid || !model.contractor_witness_name || $v.value.contractor_witness_email.$invalid)) || (common.value && common.value.operating_country === 'nzd' && (!model.contractor_business_address2 || !model.contractor_business_suburb_postcode_region_id || !model.contractor_business_country_id || !model.contractor_business_contact))) {
     valid.step5 = false
   }
   // step 6

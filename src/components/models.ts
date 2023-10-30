@@ -816,9 +816,10 @@ export interface ContractorApplicationForm {
   documents:Attachment[],
   avatar:string|null,
   contractor_business_name:string|null,
+  contractor_business_address_type: string|null,
   contractor_business_address1: string|null,
   contractor_business_address2: string|null,
-  contractor_business_suburb_postcode_id: number|null,
+  contractor_business_suburb_postcode_region_id: number|null,
   contractor_business_country_id: number|null,
   contractor_business_contact: string|null
 }
