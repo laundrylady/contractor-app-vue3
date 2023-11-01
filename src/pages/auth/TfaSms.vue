@@ -11,7 +11,7 @@
             <div>Enter the security code that was sent to via SMS.</div>
           </q-card-section>
           <q-card-section>
-            <div class="q-mb-sm"><q-btn @click="sendSms" :label="sentSms ? 'Resend security code' : 'Send security code'"
+            <div class="q-mb-md"><q-btn @click="sendSms" :label="sentSms ? 'Resend security code' : 'Send security code'"
                 :disable="sending" /></div>
             <div v-if="error">
               There was an error verifying the security code sent. Please try again.</div>
