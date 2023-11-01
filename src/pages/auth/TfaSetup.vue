@@ -16,13 +16,12 @@
           <q-card-section>
             <div v-if="error">
               There was an error verifying the security code sent. Please try again.</div>
+            <div class="q-mb-sm">
+              <q-btn @click="sendSms" :label="sentSms ? 'Resend security code' : 'Send security code'" :disable="sending"
+                :color="sentSms ? 'secondary' : 'primary'" rounded />
+            </div>
             <q-input v-model="smsCode" label="Enter your security code" hint="Click the button to receive your code"
-              :error="sentSms && !smsCode" outlined bottom-slots>
-              <template v-slot:append>
-                <q-btn @click="sendSms" :label="sentSms ? 'Resend code' : 'Send code'" :disable="sending"
-                  :color="sentSms ? 'secondary' : 'primary'" rounded />
-              </template>
-            </q-input>
+              :error="sentSms && !smsCode" outlined bottom-slots />
           </q-card-section>
           <q-card-actions>
             <q-space />
