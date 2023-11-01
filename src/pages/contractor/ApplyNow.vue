@@ -88,7 +88,7 @@
               <ul>
                 <li>have a reliable medium to large car and drivers licence</li>
                 <li>have a smartphone with data plan</li>
-                <li>have a current NDIS Workers Clearance Certificate</li>
+                <li v-if="common?.operating_country === 'aud'">have a current NDIS Workers Clearance Certificate</li>
                 <li>have a current public liability insurance policy</li>
                 <li>have an ABN</li>
                 <li>have a steam station iron, washing machine and dryer or be willing to purchase these.</li>

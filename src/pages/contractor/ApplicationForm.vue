@@ -273,12 +273,26 @@
                   <div class="text-h6 q-mb-xs">Copy of current Drivers Licence (front and back)</div>
                   <TmpAttachments type="Drivers Licence" :documents="model.documents" @attachment:add="addDocument"
                     @attachment:remove="removeDocument" />
-                  <div class="text-h6 q-mb-xs q-mt-md">Copy of current Medicare Card</div>
-                  <TmpAttachments type="Medicare Card" :documents="model.documents" @attachment:add="addDocument"
-                    @attachment:remove="removeDocument" />
+                  <div v-if="common?.operating_country === 'aud'">
+                    <div class="text-h6 q-mb-xs q-mt-md">Copy of current Medicare Card</div>
+                    <TmpAttachments type="Medicare Card" :documents="model.documents" @attachment:add="addDocument"
+                      @attachment:remove="removeDocument" />
+                  </div>
+                  <div v-if="common?.operating_country === 'nzd'">
+                    <div class="text-h6 q-mb-xs q-mt-md">Criminal Check</div>
+                    <TmpAttachments type="Criminal Check" :documents="model.documents" @attachment:add="addDocument"
+                      @attachment:remove="removeDocument" />
+                  </div>
+                  <div v-if="model.contractor_gst_registered && common?.operating_country === 'nzd'">
+                    <div class="text-h6 q-mb-xs q-mt-md">GST Registration</div>
+                    <TmpAttachments type="GST Registration" :documents="model.documents" @attachment:add="addDocument"
+                      @attachment:remove="removeDocument" />
+                  </div>
                   <div class="text-h6 q-mb-xs q-mt-md">Copy of Certificate of Currency for Public Liability Insuranced
                   </div>
-                  <p>You must have public liability insurance to the coverage of $5million and maintain a current
+                  <p>You must have public liability insurance to the coverage of ${{ common?.operating_country === 'aud' ?
+                    5 : 2 }}
+                    million and maintain a current
                     certificate of insurance at all times while carrying out services for the Laundry Lady. The
                     certificate
                     should name all applicants including any family members who may help you with deliveries from time to
@@ -288,29 +302,32 @@
                     Laundry Lady partnership go to:</p>
                   <TmpAttachments type="Certificate of Currency for Public Liability Insurance"
                     :documents="model.documents" @attachment:add="addDocument" @attachment:remove="removeDocument" />
-                  <div class="text-h6 q-mb-xs q-mt-md">NDIS Workers Clearance Certificate</div>
-                  <p>Please upload your NDIS Workers Clearance Certificate or email confirmation of your application (save
-                    your screenshot as one of the allowed file extensions). See below for instructions on how to obtain
-                    your
-                    NDIS Workers Clearance. Use appropriate state/territory link (listed below) for your location.</p>
-                  <p><a
-                      href="https://www.qld.gov.au/law/laws-regulated-industries-and-accountability/queensland-laws-and-regulations/regulated-industries-and-licensing/blue-card/applications/combined-disability-worker-screening"
-                      class="link" target="_blank">Queensland</a><a
-                      href="https://www.service.vic.gov.au/services/national-disability-insurance-scheme?utm_source=vic_gov_au_website&utm_medium=referral&utm_campaign=ndis_worker_screening_check&utm_content=online_application"
-                      target="_blank" class="link q-ml-sm">Victoria</a><a
-                      href="https://screening.sa.gov.au/types-of-check/ndis-worker-checks" target="_blank"
-                      class="link q-ml-sm">South Australia</a><a
-                      href="https://www.myaccount.act.gov.au/WWVPNDIS/s/wwvp-ndis-new-application-v2" target="_blank"
-                      class="link q-ml-sm">ACT</a><a
-                      href="https://online.transport.wa.gov.au/tso/selfservice/public/ndis_wsu_apply_entry.jsf#/embd/preliminary-questions"
-                      target="_blank" class="link q-ml-sm">Western Australia</a></p>
-                  <TmpAttachments type="NDIS Workers Clearance Certificate" :documents="model.documents"
-                    @attachment:add="addDocument" @attachment:remove="removeDocument" />
-                  <p class="q-mt-sm">You will need the Laundry Lady employer ID below to complete your application.
-                    Laundry Lady details - to use in online application:
-                    When completing the application online, please nominate The Laundry Lady Pty Ltd as your employer.
-                    Employer ID details are as below.
-                    Employer name: The Laundry Lady Pty Ltd Employer ID: 4-GUCBSYQ</p>
+                  <div v-if="common?.operating_country === 'aud'">
+                    <div class="text-h6 q-mb-xs q-mt-md">NDIS Workers Clearance Certificate</div>
+                    <p>Please upload your NDIS Workers Clearance Certificate or email confirmation of your application
+                      (save
+                      your screenshot as one of the allowed file extensions). See below for instructions on how to obtain
+                      your
+                      NDIS Workers Clearance. Use appropriate state/territory link (listed below) for your location.</p>
+                    <p><a
+                        href="https://www.qld.gov.au/law/laws-regulated-industries-and-accountability/queensland-laws-and-regulations/regulated-industries-and-licensing/blue-card/applications/combined-disability-worker-screening"
+                        class="link" target="_blank">Queensland</a><a
+                        href="https://www.service.vic.gov.au/services/national-disability-insurance-scheme?utm_source=vic_gov_au_website&utm_medium=referral&utm_campaign=ndis_worker_screening_check&utm_content=online_application"
+                        target="_blank" class="link q-ml-sm">Victoria</a><a
+                        href="https://screening.sa.gov.au/types-of-check/ndis-worker-checks" target="_blank"
+                        class="link q-ml-sm">South Australia</a><a
+                        href="https://www.myaccount.act.gov.au/WWVPNDIS/s/wwvp-ndis-new-application-v2" target="_blank"
+                        class="link q-ml-sm">ACT</a><a
+                        href="https://online.transport.wa.gov.au/tso/selfservice/public/ndis_wsu_apply_entry.jsf#/embd/preliminary-questions"
+                        target="_blank" class="link q-ml-sm">Western Australia</a></p>
+                    <TmpAttachments type="NDIS Workers Clearance Certificate" :documents="model.documents"
+                      @attachment:add="addDocument" @attachment:remove="removeDocument" />
+                    <p class="q-mt-sm">You will need the Laundry Lady employer ID below to complete your application.
+                      Laundry Lady details - to use in online application:
+                      When completing the application online, please nominate The Laundry Lady Pty Ltd as your employer.
+                      Employer ID details are as below.
+                      Employer name: The Laundry Lady Pty Ltd Employer ID: 4-GUCBSYQ</p>
+                  </div>
                   <div class="text-h6 q-mb-xs q-mt-md">Photo of yourself</div>
                   <p>Upload a head and shoulders photo of yourself in front of a white background. We will use this on
                     your
@@ -601,9 +618,28 @@ const stepsValid = computed(() => {
   if (!dl.length) {
     valid.step7 = false
   }
-  // medicare card
-  const mc = model.documents.filter(o => o.type === 'Medicare Card')
-  if (!mc.length) {
+  if (common?.value && common.value.operating_country === 'aud') {
+    // medicare card
+    const mc = model.documents.filter(o => o.type === 'Medicare Card')
+    if (!mc.length) {
+      valid.step7 = false
+    }
+  }
+  if (common?.value && common.value.operating_country === 'nzd') {
+    // criminal check
+    const mc = model.documents.filter(o => o.type === 'Criminal Check')
+    if (!mc.length) {
+      valid.step7 = false
+    }
+    if (model.contractor_gst_registered) {
+      // proof of GST registration
+      const gstReg = model.documents.filter(o => o.type === 'GST Registration')
+      if (!gstReg.length) {
+        valid.step7 = false
+      }
+    }
+  }
+  if (!model.avatar) {
     valid.step7 = false
   }
   // certificate of currency for public liability insurance
@@ -616,7 +652,7 @@ const stepsValid = computed(() => {
     valid.step8 = false
   }
   // step 9
-  if (!model.contractor_declaration_agreement || !model.contractor_declaration_training || !model.contractor_declaration_abn || !model.contractor_declaration_pl || !model.contractor_declaration_inform || !model.contractor_declaration_kit || !model.contractor_declaration_information) {
+  if (!model.contractor_declaration_agreement || !model.contractor_declaration_training || !model.contractor_declaration_abn || !model.contractor_declaration_pl || !model.contractor_declaration_inform || !model.contractor_declaration_kit || !model.contractor_declaration_information || !model.contractor_applicant_1_sig) {
     valid.step9 = false
   }
   return valid

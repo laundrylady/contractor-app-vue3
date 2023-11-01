@@ -11,13 +11,12 @@
             <div>Enter the security code that was sent to via SMS.</div>
           </q-card-section>
           <q-card-section>
+            <div class="q-mb-xs"><q-btn @click="sendSms" :label="sentSms ? 'Resend security code' : 'Send security code'"
+                :disable="sending" /></div>
             <div v-if="error">
               There was an error verifying the security code sent. Please try again.</div>
             <q-input v-model="smsCode" label="Enter the security code" hint="Click the button to receive your code"
               :error="sentSms && !smsCode" outlined bottom-slots>
-              <template v-slot:append>
-                <q-btn @click="sendSms" :label="sentSms ? 'Resend code' : 'Send code'" :disable="sending" />
-              </template>
             </q-input>
           </q-card-section>
           <q-card-actions>
