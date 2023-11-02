@@ -23,7 +23,7 @@
       </div>
     </div>
     <div style="overflow:auto;">
-      <q-card style="min-width:1000px;max-width:100%;" v-if="calendarView === 'month'">
+      <div style="min-width:1000px;max-width:100%;" v-if="calendarView === 'month'">
         <q-calendar-month ref="calendarRef" v-model="selectedDate" :weekdays="[1, 2, 3, 4, 5, 6, 0]" hoverable bordered
           animated month-label-size="md" date-align="right">
           <template #day="{ scope }">
@@ -39,8 +39,8 @@
             </div>
           </template>
         </q-calendar-month>
-      </q-card>
-      <q-card style="min-width:1000px;max-width:100%;" v-if="calendarView === 'week'">
+      </div>
+      <div style="min-width:1000px;max-width:100%;" v-if="calendarView === 'week'">
         <q-calendar-day ref="calendarRef" v-model="selectedDate" view="week" animated bordered
           transition-next="slide-left" transition-prev="slide-right" no-active-date :interval-start="6"
           interval-height="20" :interval-count="18" :weekdays="[1, 2, 3, 4, 5, 6, 0]">
@@ -57,7 +57,7 @@
             </div>
           </template>
         </q-calendar-day>
-      </q-card>
+      </div>
     </div>
   </div>
 </template>
@@ -133,11 +133,17 @@ const eventsMap = computed(() => {
     if (!map[scheduleDate]) {
       map[scheduleDate] = []
     }
+    // eslint-disable-next-line
+    // @ts-ignore
     let timeStart: string | number = parseFloat(scheduleItem.start_time)
     if (timeStart < 10) {
       timeStart = `0${timeStart}`
     }
+    // eslint-disable-next-line
+    // @ts-ignore
     scheduleItem.time = `${timeStart}:00`
+    // eslint-disable-next-line
+    // @ts-ignore
     scheduleItem.duration = 60
     map[scheduleDate].push(scheduleItem)
   })
@@ -160,7 +166,7 @@ const hasEvents = (timestamp: LooseObject) => {
   return schedule.value.filter((o: UserRosterSchedule) => o.day === timestamp.date).length > 0
 }
 
-const getWeekEvents = (dt: string) => {
+const getWeekEvents = (dt: LooseObject) => {
   // get all events for the specified date
   const events = eventsMap.value[dt.date] || []
 
@@ -172,7 +178,7 @@ const getWeekEvents = (dt: string) => {
 
 const badgeStyles = (event: LooseObject, timeStartPos: (arg0: string) => number, timeDurationHeight: (arg0: number) => string, index: number) => {
   const s: LooseObject = {}
-  if (timeStartPos && timeDurationHeight) {
+  if (timeStartPos) {
     s['margin-top'] = (timeStartPos(event.time) + (index * 20)) + 'px'
     s.height = '20px'
   }

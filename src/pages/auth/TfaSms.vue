@@ -12,7 +12,7 @@
           </q-card-section>
           <q-card-section>
             <div class="q-mb-md"><q-btn @click="sendSms" :label="sentSms ? 'Resend security code' : 'Send security code'"
-                :disable="sending" /></div>
+                :disable="sending" color="primary" rounded /></div>
             <div v-if="error">
               There was an error verifying the security code sent. Please try again.</div>
             <q-input v-model="smsCode" label="Enter the security code" hint="Click the button to receive your code"

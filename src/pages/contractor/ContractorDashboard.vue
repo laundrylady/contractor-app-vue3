@@ -54,10 +54,75 @@
       <div class="col-xs-12 col-sm-6">
         <q-card class="fit">
           <q-card-section>
+            <div class="text-h6 q-mb-md">Current Capacity</div>
+            <div class="row q-col-gutter-md">
+              <div class="col-xs-6" v-for="c in dashboard.capacity" :key="c.name">
+                <div class="text-center">
+                  <div class="q-mb-sm"><q-circular-progress :value="parseFloat(c.per)" size="64px" color="secondary"
+                      show-value track-color="grey-3" v-if="c.per">
+                      <small>{{ c.oc }}/{{ c.cc }}</small>
+                    </q-circular-progress>
+                  </div>
+                  {{ c.name }}
+                </div>
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <q-card class="fit">
+          <q-card-section>
+            <div class="text-h6 q-mb-md">Invoicing</div>
+            <div class="row q-col-gutter-md">
+              <div class="col-xs-6">
+                <div class="text-h6 text-center">
+                  {{ currencyFormat(dashboard.totalOrdersTotalPrice[0].sum) }}
+                </div>
+                <div class="text-center">Invoiced</div>
+              </div>
+              <div class="col-xs-6">
+                <div class="text-h6 text-center">
+                  {{ currencyFormat(dashboard.totalOrdersTotalOwing[0].sum) }}
+                </div>
+                <div class="text-center">
+                  Owing
+                </div>
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <q-card class="fit">
+          <q-card-section>
+            <div class="text-h6 q-mb-md">Bookings</div>
+            <div class="row q-col-gutter-md">
+              <div class="col-xs-6">
+                <div class="text-h6 text-center">
+                  {{ dashboard.totalOrdersCount[0].count }}
+                </div>
+                <div class="text-center">Total</div>
+              </div>
+              <div class="col-xs-6">
+                <div class="text-h6 text-center">
+                  {{ dashboard.totalOrdersCountRecurring[0].count }}
+                </div>
+                <div class="text-center">
+                  Recurring
+                </div>
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <q-card class="fit">
+          <q-card-section>
             <div class="text-h6 q-mb-md">{{ $t('team.namePlural') }} Rebooked</div>
             <div class="text-center">
               <q-circular-progress :value="parseFloat(dashboard.retainedRebooked.rebookedPercentage)" size="64px"
-                color="secondary" show-value track-color="grey-3" v-if="dashboard.retainedRebooked.rebookedPercentage">
+                color="positive" show-value track-color="grey-3" v-if="dashboard.retainedRebooked.rebookedPercentage">
                 {{ dashboard.retainedRebooked.rebooked }}</q-circular-progress>
               <div class="q-mt-sm">Rebooked ({{ dashboard.retainedRebooked.rebookedPercentage }}%)</div>
             </div>
@@ -70,7 +135,7 @@
             <div class="text-h6 q-mb-md">{{ $t('team.namePlural') }} Retained</div>
             <div class="text-center">
               <q-circular-progress :value="parseFloat(dashboard.retainedRebooked.retainedPercentage)" size="64px"
-                color="secondary" show-value track-color="grey-3"
+                color="positive" show-value track-color="grey-3"
                 v-if="dashboard.retainedRebooked.retainedPercentage >= 0">
                 {{ dashboard.retainedRebooked.retained }}</q-circular-progress>
               <div class="q-mt-sm">

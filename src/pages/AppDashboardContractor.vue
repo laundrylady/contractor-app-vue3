@@ -72,7 +72,11 @@
           </q-card>
         </div>
       </div>
-      <q-btn :to="{ name: 'orders' }" label="View All Bookings" flat color="primary" rounded />
+      <div class="flex no-wrap">
+        <q-btn :to="{ name: 'orders' }" label="All Bookings" flat color="primary" rounded />
+        <q-space />
+        <q-btn :to="{ name: 'contractor-dashboard' }" label="Profile" flat color="primary" rounded />
+      </div>
     </div>
   </div>
 </template>

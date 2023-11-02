@@ -5,7 +5,7 @@ body {
 
 body,
 .bg-page {
-  background-color: #99DBF8;
+  background-color: #ffffff;
 }
 
 .text-h1,
@@ -126,7 +126,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .page-title {
-  background: #CAEBFC;
+  background: #fcfcfc;
 }
 
 .address-search-shrink {
@@ -197,27 +197,6 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .text-lg {
   font-size: 18px;
-}
-
-/* Works on Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #72cffd #CAEBFC;
-}
-
-/* Works on Chrome, Edge, and Safari */
-*::-webkit-scrollbar {
-  width: 12px;
-}
-
-*::-webkit-scrollbar-track {
-  background: #72cffd;
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: #72cffd;
-  border-radius: 20px;
-  border: 3px solid #CAEBFC;
 }
 
 .ghost {
