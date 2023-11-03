@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      <q-page padding :class="{ 'q-pa-md': $q.screen.xs }">
+      <q-page padding :class="{ 'q-pa-md': $q.screen.xs }" v-if="loaded">
         <div class="flex justify-center q-mt-xl" v-if="!$q.screen.xs && !iframed">
           <div class="order-new-step" :class="{ 'active': step === 1 || model.suburb_postcode_region_id }"
             @click="stepMove(1)">
@@ -263,6 +263,7 @@ const error = ref(false)
 const common = useMixinCommon()
 const route = useRoute()
 const iframed = ref(false)
+const loaded = ref(false)
 const schema = {
   address1: null,
   address2: null,
@@ -409,6 +410,7 @@ onMounted(async () => {
   if (route.query.iframed) {
     iframed.value = true
   }
+  loaded.value = true
 })
 
 onBeforeUnmount(() => {
