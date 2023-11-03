@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page padding :class="{ 'q-pa-md': $q.screen.xs }">
-        <div class="flex justify-center q-mt-xl" v-if="!$q.screen.xs">
+        <div class="flex justify-center q-mt-xl" v-if="!$q.screen.xs && !iframed">
           <div class="order-new-step" :class="{ 'active': step === 1 || model.suburb_postcode_region_id }"
             @click="stepMove(1)">
             Select your suburb
@@ -29,7 +29,7 @@
             Confirm booking
           </div>
         </div>
-        <div class="row q-mt-xl q-mb-lg">
+        <div class="row q-mt-xl q-mb-lg" v-if="!iframed">
           <div class="col-xs-12 col-sm-6 offset-sm-3 text-center">
             <AppLogo />
           </div>
@@ -252,6 +252,7 @@ import AppLogo from '../../components/AppLogo.vue'
 import { Order, QDateNavigation } from '../../components/models'
 import OrderContractorManagement from '../../components/order/OrderContractorManagement.vue'
 import { useMixinCommon } from 'src/mixins/common'
+import { useRoute } from 'vue-router'
 
 const step = ref(1)
 const washingAndIroning = ref(false)
@@ -260,6 +261,8 @@ const availableDates = ref<string[]>([])
 const success = ref(false)
 const error = ref(false)
 const common = useMixinCommon()
+const route = useRoute()
+const iframed = ref(false)
 const schema = {
   address1: null,
   address2: null,
@@ -398,6 +401,14 @@ onMounted(async () => {
     model.productcategories.push({ product_category_id: c.value, active: false })
   }
   washingAndIroning.value = false
+  // check for location
+  if (route.query.location) {
+    model.suburb_postcode_region_id = parseFloat(route.query.location.toString())
+  }
+  // check for iframe
+  if (route.query.iframed) {
+    iframed.value = true
+  }
 })
 
 onBeforeUnmount(() => {

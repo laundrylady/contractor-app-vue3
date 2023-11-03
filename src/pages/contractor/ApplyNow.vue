@@ -6,7 +6,7 @@
           <div class="row q-col-gutter-xl">
             <div class="col-xs-12 col-sm-6">
               <q-card>
-                <q-card-section class="q-pt-md q-pb-xs">
+                <q-card-section class="q-pt-md q-pb-xs" v-if="!iframed">
                   <AppLogo />
                 </q-card-section>
                 <q-card-section class="text-left" v-if="success">
@@ -128,10 +128,13 @@ import CountryField from 'src/components/form/CountryField.vue'
 import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
 import { useMixinCommon } from 'src/mixins/common'
 import { useMixinDebug } from 'src/mixins/debug'
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
 const loading = ref(false)
 const success = ref(false)
+const iframed = ref(false)
+const route = useRoute()
 const common = useMixinCommon()
 const emailError = ref({ error: false, msg: '' })
 const model = reactive({
@@ -193,4 +196,11 @@ const checkEmail = () => {
     }).catch(error => { useMixinDebug(error) })
   }
 }
+
+onMounted(() => {
+  // check for iframe
+  if (route.query.iframed) {
+    iframed.value = true
+  }
+})
 </script>

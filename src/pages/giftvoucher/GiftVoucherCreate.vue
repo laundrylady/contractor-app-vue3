@@ -4,7 +4,7 @@
       <q-page class="row justify-center items-center animated fadeIn" padding>
         <div class="col-xs-12 col-sm-10 col-md-5">
           <q-card>
-            <q-card-section class="q-pt-xs q-pb-xs">
+            <q-card-section class="q-pt-xs q-pb-xs" v-if="!iframed">
               <AppLogo />
             </q-card-section>
             <q-card-section>
@@ -63,9 +63,12 @@ import { api } from 'src/boot/axios'
 import AppLogo from 'src/components/AppLogo.vue'
 import { GiftVoucher } from 'src/components/models'
 import { useMixinDebug } from 'src/mixins/debug'
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
 const loading = ref(false)
+const iframed = ref(false)
+const route = useRoute()
 const model = reactive<GiftVoucher>({
   first_name: null,
   last_name: null,
@@ -115,4 +118,11 @@ const purchase = () => {
     loading.value = false
   })
 }
+
+onMounted(() => {
+  // check for iframe
+  if (route.query.iframed) {
+    iframed.value = true
+  }
+})
 </script>
