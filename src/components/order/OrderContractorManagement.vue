@@ -15,8 +15,8 @@
               }" size="48px" />
               <div class="q-ml-md">
                 <div class="text-primary">{{ d.user.fullname }}</div>
-                <q-radio v-model="tmpTimeSelection" :val="`${d.user.id}|${d.time}`"
-                  :label="`Pickup between ${hourBookingDisplay(d.time)}`" @update:model-value="emitUpdate" />
+                <q-radio v-model="tmpTimeSelection" :val="`${d.user.id}|${d.time}`" :label="hourBookingDisplay(d.time)"
+                  @update:model-value="emitUpdate" />
               </div>
             </div>
           </q-item-section>

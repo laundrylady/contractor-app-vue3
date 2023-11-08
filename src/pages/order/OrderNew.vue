@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      <q-page padding :class="{ 'q-pa-md': $q.screen.xs }" v-if="loaded">
+      <q-page :padding="!iframed" :class="{ 'q-pa-md': $q.screen.xs }" v-if="loaded">
         <div class="flex justify-center q-mt-xl" v-if="!$q.screen.xs && !iframed">
           <div class="order-new-step" :class="{ 'active': step === 1 || model.suburb_postcode_region_id }"
             @click="stepMove(1)">
@@ -30,17 +30,25 @@
           </div>
         </div>
         <div class="row q-mt-xl q-mb-lg" v-if="!iframed">
-          <div class="col-xs-12 col-sm-6 offset-sm-3 text-center">
+          <div class="col-xs-12 col-md-6 offset-md-3 text-center">
             <AppLogo />
           </div>
         </div>
-        <div class="row text-lg q-mb-lg">
-          <div class="col-xs-12 col-sm-6 offset-sm-3 text-center">
+        <div class="row text-lg q-mb-lg" v-if="!iframed">
+          <div class="col-xs-12 col-md-6 offset-md-3 text-center">
             Book your mobile Laundry service. Washing, Ironing, Pickup and Delivery.
           </div>
         </div>
         <div class="row q-col-gutter-md">
-          <div class="col-xs-12 col-sm-6 offset-sm-3">
+          <div class="col-xs-12 col-md-6 offset-md-3">
+            <q-card flat class="bg-page q-mb-md" v-if="step !== 6 && model.scheduled_pickup_date">
+              <q-card-section>
+                <OrderNewSummary :suburb_postcode_region_id="model.suburb_postcode_region_id"
+                  :contractor_user_id="model.contractor_user_id" :scheduled_pickup_date="model.scheduled_pickup_date"
+                  :scheduled_pickup_time="model.scheduled_pickup_time" :productcategories="model.productcategories"
+                  :categories="categories" v-if="categories && model.suburb_postcode_region_id" />
+              </q-card-section>
+            </q-card>
             <q-card flat class="bg-page">
               <q-card-section v-if="step === 1">
                 <p class="text-center text-bold">Select your pickup location:</p>
@@ -89,7 +97,7 @@
                 </div>
               </q-card-section>
               <q-card-section v-if="step === 4">
-                <p class="text-center text-bold">Select your Laundry Lad or Lad:</p>
+                <p class="text-center text-bold">Select your Laundry Lady or Lad:</p>
                 <q-card>
                   <q-card-section>
                     <OrderContractorManagement :scheduled_pickup_date="model.scheduled_pickup_date"
@@ -110,62 +118,58 @@
                 <p class="text-center text-bold">Enter your details:</p>
                 <q-card>
                   <q-card-section>
-                    <div class="text-h6">Your Details</div>
-                    <p>Text here</p>
-                    <div class="row q-col-gutter-md">
-                      <div class="col-xs-4">
+                    <div class="text-h6 q-mb-sm">Your Details</div>
+                    <div class="row q-col-gutter-md q-mb-sm">
+                      <div class="col-xs-12 col-sm-6">
                         <q-select v-model="model.team.type" :error="$v.team.type.$invalid" :label="$t('team.type')"
-                          :options="['Residential', 'Business', 'NDIS', 'Home Care', 'Aged Care', 'DVA', 'Sporting Group', 'Other']"
-                          outlined />
+                          :options="customerTypes" outlined />
                       </div>
                     </div>
                     <div class="row q-col-gutter-md"
                       v-if="['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1">
-                      <div class="col-xs-6">
+                      <div class="col-xs-12 col-sm-6">
                         <q-input v-model="model.team.name" :label="$t('team.teamName')" :error="$v.team.name.$invalid"
                           outlined />
                       </div>
-                      <div class="col-xs-6"
+                      <div class="col-xs-12 col-sm-6"
                         v-if="['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1">
                         <q-input v-model="model.team.abn" :label="$t('team.abn')" :error="$v.team.abn.$invalid"
                           outlined />
                       </div>
                     </div>
                     <div class="row q-col-gutter-md" v-if="model.team.type === 'NDIS'">
-                      <div class="col-xs-6">
+                      <div class="col-xs-12 col-sm-6">
                         <q-input v-model="model.team.ndis_number" :label="$t('team.ndisNumber')" outlined
                           :error="$v.team.ndis_number.$invalid"><template v-slot:prepend>
                             <img src="~assets/images/logos/ndis_heart.svg" style="height:32px" />
                           </template>
                         </q-input>
                       </div>
-                      <div class="col-xs-6">
+                      <div class="col-xs-12 col-sm-6">
                         <q-select v-model="model.team.ndis_type" :label="$t('team.ndisType')"
                           :error="$v.team.ndis_type.$invalid" outlined
                           :options="['Self managed', 'Plan managed', 'NDIA registered']" />
                       </div>
                     </div>
                     <div class="row q-col-gutter-md">
-                      <div class="col-xs-6">
+                      <div class="col-xs-12 col-sm-6">
                         <q-input v-model="model.team.first_name" :error="$v.team.first_name.$invalid"
                           label="Contact first name" outlined />
                       </div>
-                      <div class="col-xs-6">
+                      <div class="col-xs-12 col-sm-6">
                         <q-input v-model="model.team.last_name" :error="$v.team.last_name.$invalid"
                           label="Contact last name" outlined />
                       </div>
-                    </div>
-                    <div class="row q-col-gutter-md">
-                      <div class="col-xs-6">
+                      <div class="col-xs-12 col-sm-6">
                         <q-input v-model="model.team.email" :error="$v.team.email.$invalid" label="Your email address"
                           outlined />
                       </div>
-                      <div class="col-xs-6">
+                      <div class="col-xs-12 col-sm-6">
                         <q-input v-model="model.team.mobile" :error="$v.team.mobile.$invalid"
                           label="Your contact mobile number" outlined mask="#### ### ###" />
                       </div>
                     </div>
-                    <div class="text-h6">Pickup Address</div>
+                    <div class="text-h6 q-mt-sm">Pickup Address</div>
                     <p>Enter your pickup / delivery address.</p>
                     <AddressSearch :model="model" :filled="true"
                       :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
@@ -219,16 +223,6 @@
               </q-card-section>
             </q-card>
           </div>
-          <div class="col-xs-12 col-sm-3" v-if="step !== 6 && model.scheduled_pickup_date">
-            <q-card flat class="bg-page">
-              <q-card-section>
-                <OrderNewSummary :suburb_postcode_region_id="model.suburb_postcode_region_id"
-                  :contractor_user_id="model.contractor_user_id" :scheduled_pickup_date="model.scheduled_pickup_date"
-                  :scheduled_pickup_time="model.scheduled_pickup_time" :productcategories="model.productcategories"
-                  :categories="categories" v-if="categories && model.suburb_postcode_region_id" />
-              </q-card-section>
-            </q-card>
-          </div>
         </div>
       </q-page>
     </q-page-container>
@@ -247,7 +241,7 @@ import OrderNewSummary from 'src/components/order/OrderNewSummary.vue'
 import { useMixinDebug } from 'src/mixins/debug'
 import { categoryDisplay, confirmDelete } from 'src/mixins/help'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
-import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { inject, onBeforeUnmount, onMounted, reactive, ref, computed } from 'vue'
 import AppLogo from '../../components/AppLogo.vue'
 import { Order, QDateNavigation } from '../../components/models'
 import OrderContractorManagement from '../../components/order/OrderContractorManagement.vue'
@@ -291,6 +285,16 @@ const schema = {
     abn: null
   }
 }
+
+const customerTypes = computed(() => {
+  const ct = ['Residential', 'Business', 'Home Care', 'Aged Care', 'DVA', 'Sporting Group']
+  if (common?.value?.operating_country === 'aud') {
+    ct.push('NDIS')
+  }
+  ct.push('Other')
+  return ct
+})
+
 const model = reactive<Order>(JSON.parse(JSON.stringify(schema)))
 const bus = inject('bus') as EventBus
 const minDate = (date: string) => {
