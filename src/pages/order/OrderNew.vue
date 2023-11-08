@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      <q-page :padding="!iframed" :class="{ 'q-pa-md': $q.screen.xs }" v-if="loaded">
+      <q-page :padding="!iframed" :class="{ 'q-pa-md': $q.screen.xs && !iframed }" v-if="loaded">
         <div class="flex justify-center q-mt-xl" v-if="!$q.screen.xs && !iframed">
           <div class="order-new-step" :class="{ 'active': step === 1 || model.suburb_postcode_region_id }"
             @click="stepMove(1)">
