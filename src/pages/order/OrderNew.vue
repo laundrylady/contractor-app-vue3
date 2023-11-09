@@ -66,10 +66,6 @@
                 <p class="text-center text-bold">Choose the services you require:</p>
                 <div class="flex justify-center">
                   <div>
-                    <div class="q-mr-sm">
-                      <q-checkbox v-model="washingAndIroning" @update:model-value="toggleWashingAndIroning()"
-                        label="Washing & Ironing" />
-                    </div>
                     <div v-if="!washingAndIroning">
                       <div v-for="c in model.productcategories" :key="c.product_category_id" class="q-mr-sm">
                         <q-checkbox v-model="c.active" :label="categoryDisplay(c.product_category_id, categories)"
@@ -213,7 +209,15 @@
                     <div class="text-center"><q-icon name="o_check_circle" size="64px" color="green" /></div>
                     <div class="text-h5 text-center q-mt-sm">Booking Confirmed</div>
                     <p class="text-center">Great news, your booking has been confirmed!</p>
-                    <p class="text-center">Next steps....</p>
+                    <p>An email with all of the details is on its way. While you wait, check out our
+                      FAQs page for all the details to get ready for your service. <a
+                        href="https://thelaundrylady.co.nz/faqs/" target="_blank"
+                        class="link">https://thelaundrylady.co.nz/faqs/</a>
+                    </p>
+                    <OrderNewSummary :suburb_postcode_region_id="model.suburb_postcode_region_id"
+                      :contractor_user_id="model.contractor_user_id" :scheduled_pickup_date="model.scheduled_pickup_date"
+                      :scheduled_pickup_time="model.scheduled_pickup_time" :productcategories="model.productcategories"
+                      :categories="categories" v-if="categories && model.suburb_postcode_region_id" />
                   </q-card-section>
                 </q-card>
                 <div class="q-mt-xl text-center" v-if="!success">
@@ -287,12 +291,13 @@ const schema = {
 }
 
 const customerTypes = computed(() => {
-  const ct = ['Residential', 'Business', 'Home Care', 'Aged Care', 'DVA', 'Sporting Group']
   if (common?.value?.operating_country === 'aud') {
-    ct.push('NDIS')
+    return ['Residential', 'Business', 'NDIS', 'Home Care', 'Aged Care', 'Veteran Affairs', 'Sporting Group', 'Other']
   }
-  ct.push('Other')
-  return ct
+  if (common?.value?.operating_country === 'nzd') {
+    return ['Residential', 'Business', 'Disability Services', 'Home Care', 'Aged Care', 'Veteran Affairs', 'Sporting Group', 'Other']
+  }
+  return []
 })
 
 const model = reactive<Order>(JSON.parse(JSON.stringify(schema)))
@@ -326,15 +331,6 @@ const rules = {
 
 const $v = useVuelidate(rules, model)
 const $q = useQuasar()
-
-const toggleWashingAndIroning = () => {
-  model.productcategories.forEach(o => {
-    o.active = washingAndIroning.value
-  })
-  model.scheduled_pickup_date = null
-  model.scheduled_pickup_time = null
-  model.contractor_user_id = null
-}
 
 const stepMove = (nextStep: number) => {
   if (nextStep === 3) {

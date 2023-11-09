@@ -144,7 +144,7 @@ const sortByObject = productCategoryOrder
       [item]: index
     }
   }, {})
-const sendOnceTypes = ['NDIS', 'Home Care', 'Aged Care', 'DVA', 'Sporting Group']
+const sendOnceTypes = ['NDIS', 'Home Care', 'Aged Care', 'Veteran Affairs', 'Sporting Group']
 
 const canEdit = computed(() => {
   if (localModel.value.status === 'DRAFT') {

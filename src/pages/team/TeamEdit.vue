@@ -8,8 +8,7 @@
           <q-card-section>
             <div class="row q-col-gutter-md">
               <q-select v-model="localModel.type" :error="$v.type.$invalid" :label="$t('team.type')"
-                :options="['Residential', 'Business', 'NDIS', 'Aged Care', 'DVA', 'Sporting Group', 'Other']"
-                class="col-xs-12 col-sm-8" />
+                :options="customerTypes" class="col-xs-12 col-sm-8" />
               <q-select v-model="localModel.status" :error="$v.status.$invalid" label="Status" map-options emit-value
                 class="col-xs-12 col-sm-4"
                 :options="[{ value: 'active', label: 'Active' }, { value: 'blocked', label: 'Blocked' }, { value: 'archived', label: 'Archived' }]" />
@@ -184,6 +183,7 @@ import CountryField from 'src/components/form/CountryField.vue'
 import DateField from 'src/components/form/DateField.vue'
 import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
 import { TeamForm } from 'src/components/models'
+import { useMixinCommon } from 'src/mixins/common'
 import { useMixinDebug } from 'src/mixins/debug'
 import { doNotify } from 'src/mixins/help'
 import { computed, inject, ref } from 'vue'
@@ -193,12 +193,23 @@ interface Props {
 }
 const props = defineProps<Props>()
 
+const common = useMixinCommon()
 const localModel = computed(() => props.model)
 const loading = ref(false)
 const abnVerified = ref(false)
 const abnVerifyResult = ref()
 const $q = useQuasar()
 const bus = inject('bus') as EventBus
+
+const customerTypes = computed(() => {
+  if (common?.value?.operating_country === 'aud') {
+    return ['Residential', 'Business', 'NDIS', 'Home Care', 'Aged Care', 'Veteran Affairs', 'Sporting Group', 'Other']
+  }
+  if (common?.value?.operating_country === 'nzd') {
+    return ['Residential', 'Business', 'Disability Services', 'Home Care', 'Aged Care', 'Veteran Affairs', 'Sporting Group', 'Other']
+  }
+  return []
+})
 
 const rules = {
   type: { required },

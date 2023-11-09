@@ -29,7 +29,7 @@ const uploadConfig = {
   url: '/api/public/upload',
   headers: [{ name: 'X-XSRF-TOKEN', value: getCookie('XSRF-TOKEN') }],
   images: 'image/jpeg,image/png,image/webp',
-  documents: 'image/jpeg,.pdf',
+  documents: 'image/jpeg,image/gif,image/png,.pdf',
   fieldName: 'file',
   'max-file-size': 5000000
 }

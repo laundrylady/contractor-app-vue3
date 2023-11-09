@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf" v-if="model && model.first_name">
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn" padding>
-        <div class="col-xs-12 col-sm-10 col-md-5">
+        <div class="col-xs-12 col-sm-10 col-md-7 col-xl-5">
           <AppLogo />
           <q-card v-if="success" class="q-mt-md">
             <q-card-section class="text-left">
@@ -14,7 +14,8 @@
             </q-card-section>
           </q-card>
           <div v-if="!success">
-            <div class="text-h5">Contractor Application Form</div>
+            <div class="text-h5" v-if="common?.operating_country === 'aud'">Contractor Application Form</div>
+            <div class="text-h5" v-if="common?.operating_country === 'nzd'">Franchisee Application Form</div>
             <p>Please complete the form below to proceed to the next steps.</p>
             <q-stepper v-model="step" ref="stepper" color="primary" animated header-nav vertical v-if="!success">
               <q-step :name="1" title="Applicant Details" icon="account_circle" prefix="1" :error="!stepsValid.step1"
@@ -379,11 +380,11 @@
                 </div>
                 <div class="q-mb-sm">
                   <q-checkbox v-model="model.contractor_declaration_abn"
-                    label="I agree to register and maintain an ABN and for the Laundry Lady to create recepient created tax invoices for weekly commissions" />
+                    :label="common?.operating_country === 'aud' ? 'I agree to register and maintain an ABN and for the Laundry Lady to create recepient created tax invoices for weekly commissions' : 'I agree to register and maintain a NZBN, advise Laundry Lady of GST status, and for the Laundry Lady to create Buyer Created Tax Invoices for weekly commissions.'" />
                 </div>
                 <div class="q-mb-sm">
                   <q-checkbox v-model="model.contractor_declaration_pl"
-                    label="I agree to take out public liability coverage to $5million and keep the policy current at all times" />
+                    :label="common?.operating_country === 'aud' ? 'I agree to take out public liability coverage to $5 million and keep the policy current at all times' : 'I agree to take out public liability coverage to $2 million and keep the policy current at all times'" />
                 </div>
                 <div class="q-mb-sm">
                   <q-checkbox v-model="model.contractor_declaration_inform"
@@ -391,7 +392,7 @@
                 </div>
                 <div class="q-mb-sm">
                   <q-checkbox v-model="model.contractor_declaration_kit"
-                    label="I agree to purchase the Starter Kit for $399 including GST as detailed in the The Laundry Lady Contractor Package. An invoice will be sent after references are checked and confirmed." />
+                    :label="common?.operating_country === 'aud' ? 'I agree to purchase the Starter Kit for $399 including GST as detailed in the The Laundry Lady Contractor Package. An invoice will be sent after references are checked and confirmed.' : 'I agree to purchase the Starter Kit for $499 including GST as detailed in the The Laundry Lady Franchisee Package. An invoice will be sent after references are checked and confirmed.'" />
                 </div>
                 <div>
                   <q-checkbox v-model="model.contractor_declaration_information"

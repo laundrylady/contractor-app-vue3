@@ -40,7 +40,7 @@ const props = defineProps<Props>()
 
 const tmpUploader = ref()
 
-const needsExpiry = ['Certificate of Currency for Public Liability Insurance', 'NDIS Workers Clearance Certificate']
+const needsExpiry = ['']
 
 const schema = {
   type: props.type,

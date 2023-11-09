@@ -32,7 +32,8 @@
                   </div>
                   <q-select label="Are you applying as an individual or a company?" outlined
                     :options="[{ label: 'Individual/Sole Trader', value: 'individual' }, { label: 'Company', value: 'company' }]"
-                    map-options emit-value v-model="model.contractor_type" :error="$v.contractor_type.$invalid" />
+                    map-options emit-value v-model="model.contractor_type" :error="$v.contractor_type.$invalid"
+                    class="hidden" />
                   <q-input v-model="model.contractor_business_name" v-if="model.contractor_type === 'company'"
                     :error="$v.contractor_business_name.$invalid" outlined label="Company Name" />
                   <div class="text-h6 q-mt-sm">{{ model.contractor_type === 'company' ? 'Registered Office' : '' }}
@@ -46,7 +47,7 @@
                   <div class="row q-col-gutter-md q-mb-md">
                     <div class="col-xs-12 col-sm-6">
                       <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Suburb"
-                        :invalid="$v.suburb_postcode_region_id.$invalid" :outlined="true" />
+                        :invalid="$v.suburb_postcode_region_id.$invalid" :outlined="true" :clearable="true" />
                     </div>
                     <div class="col-xs-12 col-sm-6">
                       <CountryField v-model="model.country_id" label="Country" :invalid="$v.country_id.$invaluid"
@@ -147,7 +148,7 @@ const model = reactive({
   address2: null,
   suburb_postcode_region_id: null,
   country_id: common.value?.operating_country_id,
-  contractor_type: null,
+  contractor_type: 'individual',
   contractor_business_name: null,
   contractor_abn: null,
   contractor_car_licence: false,

@@ -109,7 +109,7 @@ export default {
     invoicePo: 'Purchase Order Number on Invoice',
     financial: 'Invoice Configuration',
     freeDelivery: 'Free Delivery',
-    dvaEmail: 'Enter the email for the DVA invoice recipient',
+    dvaEmail: 'Enter the email for the Veteran Affairs invoice recipient',
     gstEnabled: 'GST enabled'
   },
   document: {
