@@ -54,16 +54,18 @@
               </q-step>
               <q-step :name="2" title="Your Address Details" prefix="2" :error="!stepsValid.step2"
                 :done="stepsValid.step2" done-color="positive">
-                <p>Please enter your current home / business address</p>
+                <p class="q-mt-sm">Please enter your current home / business address</p>
                 <AddressSearch :model="model" :filled="true"
-                  :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
+                  :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', postcode: 'postcode', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
                   :placeholder="$t('address.search')" v-if="common?.operating_country === 'aud'" />
                 <q-input v-model="model.address1" :label="$t('address.line1')" bottom-slots outlined />
                 <q-input v-model="model.address2" :error="$v.address2.$invalid" :label="$t('address.line2')" outlined />
                 <div class="row q-col-gutter-md q-mb-md">
                   <PostcodeRegionField v-model="model.suburb_postcode_region_id"
-                    :invalid="$v.suburb_postcode_region_id.$invalid" :label="$t('address.suburb')"
-                    class="col-xs-12 col-sm-6" :outlined="true" />
+                    :invalid="$v.suburb_postcode_region_id.$invalid" :label="$t('address.suburb')" class="col-xs-12"
+                    :outlined="true" />
+                  <q-input v-model="model.postcode" :error="$v.postcode.$invalid" :label="$t('address.postcode')" outlined
+                    class="col-xs-12 col-sm-6" />
                   <CountryField v-model="model.country_id" :label="$t('address.country')"
                     :invalid="$v.country_id.$invalid" class="col-xs-12 col-sm-6" :outlined="true" />
                 </div>
@@ -148,7 +150,8 @@
                 :done="stepsValid.step5" done-color="positive">
                 <q-select v-model="model.contractor_type"
                   :options="[{ label: 'Individual/Sole Trader', value: 'individual' }, { label: 'Company', value: 'company' }]"
-                  label="Entity type" bottom-slots emit-value map-options outlined :error="$v.contractor_type.$invalid" />
+                  class="q-mt-sm" label="Entity type" bottom-slots emit-value map-options outlined
+                  :error="$v.contractor_type.$invalid" />
                 <div v-if="common?.operating_country === 'nzd'" class="q-mb-md">
                   <div v-if="model.contractor_type === 'company'">
                     <div class="text-bold text-grey">COMPANY DETAILS</div>
@@ -166,10 +169,14 @@
                   <q-input v-model="model.contractor_business_address2" :label="$t('address.line2')"
                     :error="$v.contractor_business_address2.$invalid" bottom-slots outlined />
                   <div class="row q-col-gutter-md q-mb-md">
-                    <div class="col-xs-12 col-sm-6">
+                    <div class="col-xs-12">
                       <PostcodeRegionField v-model="model.contractor_business_suburb_postcode_region_id"
                         :label="$t('address.suburb')" :invalid="$v.contractor_business_suburb_postcode_region_id.$invalid"
                         :outlined="true" />
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                      <q-input v-model="model.contractor_business_postcode" :label="$t('address.postcode')"
+                        :error="$v.contractor_business_postcode.$invalid" bottom-slots outlined />
                     </div>
                     <div class="col-xs-12 col-sm-6">
                       <CountryField v-model="model.contractor_business_country_id" :label="$t('address.country')"
@@ -476,6 +483,7 @@ const model = reactive<ContractorApplicationForm>({
   address1: null,
   address2: null,
   suburb_postcode_region_id: null,
+  postcode: null,
   country_id: 13,
   contractor_ec_first_name: null,
   contractor_ec_last_name: null,
@@ -515,6 +523,7 @@ const model = reactive<ContractorApplicationForm>({
   contractor_business_address1: null,
   contractor_business_address2: null,
   contractor_business_suburb_postcode_region_id: null,
+  contractor_business_postcode: null,
   contractor_business_country_id: common.value ? common.value.operating_country_id : null,
   contractor_business_contact: null,
   documents: [],
@@ -534,6 +543,7 @@ const rules = {
   contractor_start_date: { required },
   address2: { required },
   suburb_postcode_region_id: { required },
+  postcode: { required },
   country_id: { required },
   contractor_ec_first_name: { required },
   contractor_ec_last_name: { required },
@@ -571,6 +581,7 @@ const rules = {
   contractor_business_address_type: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
   contractor_business_address2: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
   contractor_business_suburb_postcode_region_id: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
+  contractor_business_postcode: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
   contractor_business_country_id: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
   contractor_business_contact: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') }
 }

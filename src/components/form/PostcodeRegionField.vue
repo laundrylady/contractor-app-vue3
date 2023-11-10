@@ -14,10 +14,10 @@
 </template>
 <script setup lang="ts">
 import { api } from 'src/boot/axios'
+import { useMixinCommon } from 'src/mixins/common'
 import { useMixinDebug } from 'src/mixins/debug'
 import { onMounted, ref, watch } from 'vue'
 import { PostcodeRegion, SelectOption } from '../models'
-import { useMixinCommon } from 'src/mixins/common'
 
 interface Props {
   modelValue?: number | number[] | null,
@@ -54,7 +54,7 @@ const filterPostcodes = (val: string, update: (fn: () => void) => void) => {
   loading.value = true
   api.get(`/public/postcoderegion/index?keyword=${val}${props.state ? `&state=${props.state}` : ''}`).then(response => {
     update(() => {
-      postcodes.value = response.data.map((o: PostcodeRegion) => { return { value: o.id, label: `${o.locality} (${common.value?.operating_country === 'aud' ? `${o.state} ` : ''}${o.postcode})` } })
+      postcodes.value = response.data.map((o: PostcodeRegion) => { return { value: o.id, label: `${o.locality} (${common.value?.operating_country === 'aud' ? o.state : o.region})` } })
       loading.value = false
     })
   }).catch(error => {
@@ -67,10 +67,10 @@ onMounted(() => {
   if (props.modelValue && ((Array.isArray(props.modelValue) && props.modelValue.length) || !Array.isArray(props.modelValue))) {
     api.get(`/public/postcoderegion/${props.modelValue}`).then(res => {
       if (Array.isArray(res.data)) {
-        postcodes.value = res.data.map((o: PostcodeRegion) => { return { value: o.id, label: `${o.locality} (${o.state} ${o.postcode})` } })
+        postcodes.value = res.data.map((o: PostcodeRegion) => { return { value: o.id, label: `${o.locality} (${common.value?.operating_country === 'aud' ? o.state : o.region})` } })
         loading.value = false
       } else {
-        postcodes.value = [{ value: res.data.id, label: `${res.data.locality} (${common.value?.operating_country === 'aud' ? `${res.data.state} ` : ''}${res.data.postcode})` }]
+        postcodes.value = [{ value: res.data.id, label: `${res.data.locality} (${common.value?.operating_country === 'aud' ? res.data.state : res.data.region})` }]
         loading.value = false
       }
     })
@@ -80,7 +80,7 @@ onMounted(() => {
 watch(() => props.modelValue, (newVal, oldVal) => {
   if (!props.nowatch && newVal && newVal !== oldVal && ((Array.isArray(newVal) && newVal.length) || !Array.isArray(newVal))) {
     api.get(`/public/postcoderegion/${newVal}`).then(res => {
-      postcodes.value = [{ value: res.data.id, label: `${res.data.locality} (${common.value?.operating_country === 'aud' ? `${res.data.state} ` : ''}${res.data.postcode})` }]
+      postcodes.value = [{ value: res.data.id, label: `${res.data.locality} (${common.value?.operating_country === 'aud' ? res.data.state : res.data.region})` }]
     }).catch(error => { useMixinDebug(error) })
   }
 })

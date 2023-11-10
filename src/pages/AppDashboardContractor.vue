@@ -19,8 +19,8 @@
         <div class="col-xs-12 col-sm-6">
           <q-card class="bg-seamless q-mb-lg">
             <q-card-section>
-              <div class="text-h6 q-mb-md">Pickups / Deliveries <q-btn icon="info" @click="showHelp = !showHelp" size="sm"
-                  round dense flat /></div>
+              <div class="text-h6 q-mb-md">Pickups <q-btn icon="info" @click="showHelp = !showHelp" size="sm" round dense
+                  flat /></div>
               <p v-if="showHelp">To reorder your bookings, click the <q-icon name="drag_indicator" /> button, drag the
                 bookings, then
                 click
@@ -68,6 +68,21 @@
               <div v-if="!dashboard.sentForPayment.length">No {{ $t('order.namePlural').toLowerCase() }} found.
               </div>
               <OrderListFormat :orders="dashboard.sentForPayment" :no-avatar="true" :booking-id="true" />
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <q-card class="bg-seamless q-mb-lg">
+            <q-card-section>
+              <div class="text-h6 q-mb-md">Deliveries <q-btn icon="info" @click="showHelp = !showHelp" size="sm" round
+                  dense flat /></div>
+              <p v-if="showHelp">To reorder your bookings, click the <q-icon name="drag_indicator" /> button, drag the
+                bookings, then
+                click
+                the <q-icon name="drag_indicator" /> button again to exit re-order mode.</p>
+              <div v-if="!dashboard.readyForDelivery.length">No {{ $t('order.namePlural').toLowerCase() }} found.
+              </div>
+              <OrderListFormat :orders="dashboard.readyForDelivery" :no-avatar="true" :optimal="true" :drag="true" />
             </q-card-section>
           </q-card>
         </div>

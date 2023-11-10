@@ -219,7 +219,7 @@ const optimalRoute = async () => {
   if (d) {
     destination = `${d.lat},${d.lng}`
   }
-  const waypoints = workingList.filter((o: Order) => o.suburbpostcoderegion && o.country).map((o: Order) => `${o.address2} ${o.suburbpostcoderegion.locality} ${o.suburbpostcoderegion.state} ${o.suburbpostcoderegion.postcode} ${o.country.name}`).join('|')
+  const waypoints = workingList.filter((o: Order) => o.suburbpostcoderegion && o.country).map((o: Order) => `${o.address2} ${o.suburbpostcoderegion.locality} ${o.suburbpostcoderegion.state} ${o.postcode} ${o.country.name}`).join('|')
   const url = `https://maps.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=driving&waypoints=${waypoints}&optimizeWaypointOrder=true`
   openURL(url)
 }

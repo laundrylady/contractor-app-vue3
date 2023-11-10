@@ -177,6 +177,8 @@
                       <PostcodeRegionField v-model="model.suburb_postcode_region_id"
                         :invalid="$v.suburb_postcode_region_id.$invalid" :label="$t('address.suburb')"
                         class="col-xs-12 col-sm-6" :outlined="true" />
+                      <q-input v-model="model.postcode" :error="$v.postcode.$invalid" :label="$t('address.postcode')"
+                        outlined class="col-xs-12 col-sm-6" />
                       <CountryField v-model="model.country_id" :label="$t('address.country')" class="col-xs-12 col-sm-6"
                         :outlined="true" :invalid="$v.country_id.$invalid" />
                     </div>
@@ -266,6 +268,7 @@ const schema = {
   address1: null,
   address2: null,
   suburb_postcode_region_id: null,
+  postcode: null,
   lat: null,
   lng: null,
   country_id: common.value?.operating_country_id,
@@ -309,6 +312,7 @@ const currentBookingDate = ref(moment())
 const noContractors = ref(false)
 const rules = {
   suburb_postcode_region_id: { required },
+  postcode: { required },
   address2: { required },
   country_id: { required },
   scheduled_pickup_date: { required },

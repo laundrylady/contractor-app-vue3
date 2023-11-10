@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <q-page padding>
-        <div class="container q-pt-lg">
+        <div class="q-pt-lg" :class="{ 'container': !iframed }">
           <div class="row q-col-gutter-xl">
             <div class="col-xs-12 col-sm-6">
               <q-card>
@@ -40,14 +40,18 @@
                     Address
                     Details</div>
                   <AddressSearch :model="model" :filled="true"
-                    :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
+                    :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', postcode: 'postcode', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
                     :placeholder="$t('address.search')" />
                   <q-input v-model="model.address1" :label="$t('address.line1')" bottom-slots outlined /> <q-input
                     v-model="model.address2" :error="$v.address2.$invalid" :label="$t('address.line2')" outlined />
                   <div class="row q-col-gutter-md q-mb-md">
-                    <div class="col-xs-12 col-sm-6">
+                    <div class="col-xs-12">
                       <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Suburb"
                         :invalid="$v.suburb_postcode_region_id.$invalid" :outlined="true" :clearable="true" />
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                      <q-input v-model="model.postcode" :error="$v.postcode.$invalid" :label="$t('address.postcode')"
+                        outlined />
                     </div>
                     <div class="col-xs-12 col-sm-6">
                       <CountryField v-model="model.country_id" label="Country" :invalid="$v.country_id.$invaluid"
@@ -147,6 +151,7 @@ const model = reactive({
   address1: null,
   address2: null,
   suburb_postcode_region_id: null,
+  postcode: null,
   country_id: common.value?.operating_country_id,
   contractor_type: 'individual',
   contractor_business_name: null,
@@ -167,6 +172,7 @@ const rules = {
   contractor_type: { required },
   address2: { required },
   suburb_postcode_region_id: { required },
+  postcode: { required },
   country_id: { required },
   contractor_referral_type: { required }
 }

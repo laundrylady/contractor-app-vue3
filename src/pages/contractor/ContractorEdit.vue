@@ -44,14 +44,16 @@
         <q-card>
           <q-card-section>
             <AddressSearch :model="localModel" :filled="true"
-              :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
+              :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', postcode: 'postcode', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
               :placeholder="$t('address.search')" />
             <q-input v-model="localModel.address1" :label="$t('address.line1')" bottom-slots outlined />
             <q-input v-model="localModel.address2" :error="$v.address2.$invalid" :label="$t('address.line2')" outlined />
             <div class="row q-col-gutter-md">
               <PostcodeRegionField v-model="localModel.suburb_postcode_region_id"
-                :invalid="$v.suburb_postcode_region_id.$invalid" :label="$t('address.suburb')" class="col-xs-12 col-sm-6"
+                :invalid="$v.suburb_postcode_region_id.$invalid" :label="$t('address.suburb')" class="col-xs-12"
                 :outlined="true" />
+              <q-input v-model="localModel.postcode" :error="$v.postcode.$invalid" :label="$t('address.postcode')"
+                outlined class="col-xs-12 col-sm-6" />
               <CountryField v-model="localModel.country_id" :label="$t('address.country')"
                 :invalid="$v.country_id.$invalid" class="col-xs-12 col-sm-6" :outlined="true" />
             </div>
@@ -155,6 +157,7 @@ const bus = inject('bus') as EventBus
 const rules = {
   address2: { required },
   suburb_postcode_region_id: { required },
+  postcode: { required },
   country_id: { required },
   mobile: { required },
   timezone: { required },

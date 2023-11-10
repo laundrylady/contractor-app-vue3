@@ -34,7 +34,8 @@ interface AddressFields {
   country_id: string,
   lat: string,
   lng: string,
-  suburb_postcode_region_id: string
+  suburb_postcode_region_id: string,
+  postcode: string
 }
 
 interface Props {

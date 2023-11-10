@@ -37,7 +37,7 @@
               <div v-if="localModel.address1">{{ localModel.address1 }}</div>
               <div>{{ localModel.address2 }}</div>
               <div v-if="localModel.suburbpostcoderegion">{{ localModel.suburbpostcoderegion.locality }} {{
-                localModel.suburbpostcoderegion.state }} {{ localModel.suburbpostcoderegion.postcode }}</div>
+                localModel.suburbpostcoderegion.state }} {{ localModel.postcode }}</div>
               <div class="row q-col-gutter-md q-mt-sm" v-if="localModel.team_id">
                 <div class="col-xs-12 col-sm-6">
                   <div class="text-bold text-grey">PICKUP DATE</div>
@@ -90,8 +90,8 @@
                 </div>
                 <div class="col-xs-12 col-sm-6">
                   <div class="text-bold text-grey">DELIVER BETWEEN</div>
-                  <div v-if="!changes.timeDelivery && localModel.scheduled_delivery_time">{{
-                    hourBookingDisplay(localModel.scheduled_delivery_time) }}<q-btn v-if="canEdit"
+                  <div v-if="!changes.timeDelivery"><span v-if="localModel.scheduled_delivery_time">{{
+                    hourBookingDisplay(localModel.scheduled_delivery_time) }}</span><q-btn v-if="canEdit"
                       @click="changes.timeDelivery = true" icon="edit" flat round size="sm" color="grey-7"
                       class="q-ml-xs" />
                     <div v-if="localModel.agreed_delivery_time">Agreed: {{
@@ -169,7 +169,7 @@
               </div>
               <q-input v-model="localModel.invoice.invoice_name" :label="$t('team.invoiceName')" bottom-slots />
               <AddressSearch :model="localModel.invoice"
-                :addressfields="{ address1: 'invoice_address1', address2: 'invoice_address2', suburb_postcode_region_id: 'invoice_address_suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'invoice_address_country_id' }"
+                :addressfields="{ address1: 'invoice_address1', address2: 'invoice_address2', suburb_postcode_region_id: 'invoice_address_suburb_postcode_region_id', postcode: 'invoice_address_postcode', lat: 'lat', lng: 'lng', country_id: 'invoice_address_country_id' }"
                 :placeholder="$t('address.search')" :filled="true" />
               <q-input v-model="localModel.invoice.invoice_address1" :label="$t('address.line1')" bottom-slots />
               <q-input v-model="localModel.invoice.invoice_address2" :label="$t('address.line2')" bottom-slots />
