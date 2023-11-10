@@ -272,8 +272,7 @@
                   </div>
                   <div class="col-xs-12 col-sm-6" v-if="common?.operating_country === 'nzd'">
                     <q-input v-model="model.contractor_bd_number" label="Account Number"
-                      :error="$v.contractor_bd_number.$invalid" type="number" outlined mask="##-####-#######-##"
-                      unmasked-value />
+                      :error="$v.contractor_bd_number.$invalid" outlined mask="##-####-#######-##" unmasked-value />
                   </div>
                   <div class="col-xs-12 col-sm-6" v-if="common?.operating_country === 'aud'">
                     <q-input v-model="model.contractor_bd_number" label="Account Number"
