@@ -630,7 +630,7 @@ const stepsValid = computed(() => {
     valid.step5 = false
   }
   // step 6
-  if (!model.contractor_bd_name || !model.contractor_bd_bank || !model.contractor_bd_bsb || !model.contractor_bd_number) {
+  if (!model.contractor_bd_name || !model.contractor_bd_bank || !model.contractor_bd_number) {
     valid.step6 = false
   }
   // step 7
