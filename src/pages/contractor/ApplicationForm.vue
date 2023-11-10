@@ -172,7 +172,7 @@
                     <div class="col-xs-12">
                       <PostcodeRegionField v-model="model.contractor_business_suburb_postcode_region_id"
                         :label="$t('address.suburb')" :invalid="$v.contractor_business_suburb_postcode_region_id.$invalid"
-                        :outlined="true" />
+                        :outlined="true" :clearable="true" />
                     </div>
                     <div class="col-xs-12 col-sm-6">
                       <q-input v-model="model.contractor_business_postcode" :label="$t('address.postcode')"
@@ -244,6 +244,9 @@
                   know
                   immediately. <a href="https://www.ird.govt.nz/gst/registering-for-gst/register-for-gst" target="_blank"
                     class="link">Click here for more information</a></p>
+                <q-input v-model="model.contractor_gst_number" label="GST Number"
+                  v-if="model.contractor_gst_registered && common?.operating_country === 'nzd'" outlined
+                  :error="$v.contractor_gst_number.$invalid" mask="###-###-###" unmasked-value />
                 <q-btn @click="step = 6" label="Next" color="primary" class="q-mt-lg" rounded />
               </q-step>
               <q-step :name="6" title="Your Commission Payments" prefix="6" :error="!stepsValid.step6"
@@ -263,11 +266,16 @@
                   </div>
                 </div>
                 <div class="row q-col-gutter-md">
-                  <div class="col-xs-12 col-sm-6">
+                  <div class="col-xs-12 col-sm-6" v-if="common?.operating_country === 'aud'">
                     <q-input v-model="model.contractor_bd_bsb" label="Branch / BSB Number"
                       :error="$v.contractor_bd_bsb.$invalid" type="number" outlined />
                   </div>
-                  <div class="col-xs-12 col-sm-6">
+                  <div class="col-xs-12 col-sm-6" v-if="common?.operating_country === 'nzd'">
+                    <q-input v-model="model.contractor_bd_number" label="Account Number"
+                      :error="$v.contractor_bd_number.$invalid" type="number" outlined mask="##-####-#######-##"
+                      unmasked-value />
+                  </div>
+                  <div class="col-xs-12 col-sm-6" v-if="common?.operating_country === 'aud'">
                     <q-input v-model="model.contractor_bd_number" label="Account Number"
                       :error="$v.contractor_bd_number.$invalid" type="number" outlined />
                   </div>
@@ -526,6 +534,7 @@ const model = reactive<ContractorApplicationForm>({
   contractor_business_postcode: null,
   contractor_business_country_id: common.value ? common.value.operating_country_id : null,
   contractor_business_contact: null,
+  contractor_gst_number: null,
   documents: [],
   avatar: null
 })
@@ -561,7 +570,7 @@ const rules = {
   contractor_gst_registered: { required },
   contractor_bd_name: { required },
   contractor_bd_bank: { required },
-  contractor_bd_bsb: { required },
+  contractor_bd_bsb: { requiredIf: requiredIf(() => common.value?.operating_country === 'aud') },
   contractor_bd_number: { required },
   contractor_clothing_rack: { checked: sameAs('Yes') },
   contractor_smartphone_type: { checked: sameAs('Yes') },
@@ -583,7 +592,8 @@ const rules = {
   contractor_business_suburb_postcode_region_id: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
   contractor_business_postcode: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
   contractor_business_country_id: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
-  contractor_business_contact: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') }
+  contractor_business_contact: { requiredIf: requiredIf(() => common.value?.operating_country === 'nzd') },
+  contractor_gst_number: { requiredIf: requiredIf(() => model.contractor_gst_registered && common.value?.operating_country === 'nzd') }
 }
 
 const $v = useVuelidate(rules, model, { $scope: false })
@@ -617,7 +627,7 @@ const stepsValid = computed(() => {
     valid.step4 = false
   }
   // step 5
-  if (!model.contractor_abn || (common.value && common.value.operating_country === 'aud' && !model.contractor_abn_verified) || !model.contractor_type || (common.value && common.value.operating_country === 'nzd' && model.contractor_type === 'company' && (!model.contractor_business_name || !model.contractor_guarantor_name || $v.value.contractor_guarantor_email.$invalid || !model.contractor_witness_name || $v.value.contractor_witness_email.$invalid)) || (common.value && common.value.operating_country === 'nzd' && (!model.contractor_business_address2 || !model.contractor_business_suburb_postcode_region_id || !model.contractor_business_country_id || !model.contractor_business_contact))) {
+  if (!model.contractor_abn || (common.value && common.value.operating_country === 'aud' && !model.contractor_abn_verified) || !model.contractor_type || (common.value && common.value.operating_country === 'nzd' && model.contractor_type === 'company' && (!model.contractor_business_name || !model.contractor_guarantor_name || $v.value.contractor_guarantor_email.$invalid || !model.contractor_witness_name || $v.value.contractor_witness_email.$invalid)) || (common.value && common.value.operating_country === 'nzd' && (!model.contractor_business_address2 || !model.contractor_business_suburb_postcode_region_id || !model.contractor_business_country_id || !model.contractor_business_contact)) || (common.value && common.value.operating_country === 'nzd' && model.contractor_gst_registered && !model.contractor_gst_number)) {
     valid.step5 = false
   }
   // step 6

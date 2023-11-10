@@ -835,5 +835,6 @@ export interface ContractorApplicationForm {
   contractor_business_suburb_postcode_region_id: number|null,
   contractor_business_postcode: string|null,
   contractor_business_country_id: number|null,
-  contractor_business_contact: string|null
+  contractor_business_contact: string|null,
+  contractor_gst_number: string|null
 }
