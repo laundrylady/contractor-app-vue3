@@ -194,7 +194,7 @@ const applyNow = () => {
 const checkEmail = () => {
   emailError.value = { error: false, msg: '' }
   if (model.email) {
-    api.post('/user/checkemail/0', { email: model.email }).then(response => {
+    api.post('/user/checkemail/0?an=true', { email: model.email }).then(response => {
       if (parseFloat(response.data.found[0].count) > 0) {
         emailError.value.error = true
         emailError.value.msg = 'That email address is already in use'
