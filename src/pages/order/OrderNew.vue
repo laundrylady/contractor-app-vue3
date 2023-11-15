@@ -66,7 +66,17 @@
                 <p class="text-center text-bold">Choose the services you require:</p>
                 <div class="flex justify-center">
                   <div>
-                    <div v-if="!washingAndIroning">
+                    <div>
+                      <q-checkbox v-model="washingAndIroning" @update:model-value="toggleWashingAndIroning()"
+                        label="Washing & Ironing" />
+                    </div>
+                    <div>
+                      <q-checkbox v-model="washingOnly" @update:model-value="toggleWashingOnly()" label="Washing" />
+                    </div>
+                    <div>
+                      <q-checkbox v-model="ironingOnly" @update:model-value="toggleIroningOnly()" label="Ironing" />
+                    </div>
+                    <div class="hidden">
                       <div v-for="c in model.productcategories" :key="c.product_category_id" class="q-mr-sm">
                         <q-checkbox v-model="c.active" :label="categoryDisplay(c.product_category_id, categories)"
                           @update:model-value="[model.scheduled_pickup_date = null, model.scheduled_pickup_time = null, model.contractor_user_id = null]" />
@@ -129,8 +139,8 @@
                       </div>
                       <div class="col-xs-12 col-sm-6"
                         v-if="['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1">
-                        <q-input v-model="model.team.abn" :label="$t('team.abn')" :error="$v.team.abn.$invalid"
-                          outlined />
+                        <q-input v-model="model.team.abn" :label="common?.operating_country === 'nzd' ? 'NZBN' : 'ABN'"
+                          :error="$v.team.abn.$invalid" outlined />
                       </div>
                     </div>
                     <div class="row q-col-gutter-md" v-if="model.team.type === 'NDIS'">
@@ -168,7 +178,7 @@
                     <div class="text-h6 q-mt-sm">Pickup Address</div>
                     <p>Enter your pickup / delivery address.</p>
                     <AddressSearch :model="model" :filled="true"
-                      :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
+                      :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id', postcode: 'postcode' }"
                       :placeholder="$t('address.search')" />
                     <q-input v-model="model.address1" :label="$t('address.line1')" outlined class="q-mb-md" />
                     <q-input v-model="model.address2" :error="$v.address2.$invalid" :label="$t('address.line2')"
@@ -256,6 +266,8 @@ import { useRoute } from 'vue-router'
 
 const step = ref(1)
 const washingAndIroning = ref(false)
+const washingOnly = ref(false)
+const ironingOnly = ref(false)
 const categories = ref()
 const availableDates = ref<string[]>([])
 const success = ref(false)
@@ -290,6 +302,40 @@ const schema = {
     ndis_number: null,
     ndis_type: null,
     abn: null
+  }
+}
+
+const toggleWashingAndIroning = () => {
+  ironingOnly.value = false
+  washingOnly.value = false
+  model.productcategories.forEach(o => {
+    o.active = true
+  })
+}
+
+const toggleWashingOnly = () => {
+  washingAndIroning.value = false
+  ironingOnly.value = false
+  const washingObj = model.productcategories.find(o => o.product_category_id === 1)
+  if (washingObj) {
+    washingObj.active = washingOnly.value
+  }
+  const ironingObj = model.productcategories.find(o => o.product_category_id === 2)
+  if (ironingObj) {
+    ironingObj.active = false
+  }
+}
+
+const toggleIroningOnly = () => {
+  washingAndIroning.value = false
+  washingOnly.value = false
+  const washingObj = model.productcategories.find(o => o.product_category_id === 1)
+  if (washingObj) {
+    washingObj.active = false
+  }
+  const ironingObj = model.productcategories.find(o => o.product_category_id === 2)
+  if (ironingObj) {
+    ironingObj.active = ironingOnly.value
   }
 }
 

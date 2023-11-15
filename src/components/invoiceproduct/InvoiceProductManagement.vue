@@ -68,17 +68,18 @@
         </div>
       </div>
     </div>
-    <div class="flex q-mt-sm items-center q-pb-xs">
-      <div v-if="localModel.sent_for_payment && localModel.status !== 'PAID'">
-        Sent for payment: {{ dateTimeTz(localModel.sent_for_payment) }}<br />Due: {{
-          localModel.due_date }}
-      </div>
-      <q-space />
-      <div>
-        <q-btn @click="doSendPaymentRequest('email')" icon="mail" title="Send Payment Request" flat v-if="canSend"
-          :disable="sendingPaymentRequest" round />
+    <div class="q-mt-sm items-center q-pb-xs">
+      <div class="flex">
+        <q-btn @click="doSendPaymentRequest('email')" icon="mail" label="Send Payment Request" flat v-if="canSend"
+          :disable="sendingPaymentRequest" rounded />
+        <q-space />
         <q-btn @click="doSendPaymentRequest('sms')" icon="chat" title="Send SMS Payment Request" flat v-if="canSend"
           :disable="sendingPaymentRequest" round />
+      </div>
+      <div v-if="localModel.sent_for_payment && localModel.status !== 'PAID'" class="text-grey">
+        <q-separator class="q-mt-sm q-mb-sm" />
+        Sent for payment: {{ dateTimeTz(localModel.sent_for_payment) }}<br />Due: {{
+          localModel.due_date }}
       </div>
     </div>
   </div>
@@ -90,9 +91,10 @@
           label="Enter any notes for the customer" class="q-mt-sm" />
       </q-card-section>
       <q-card-actions>
-        <q-btn flat color="secondary" label="Cancel" v-close-popup />
+        <q-btn flat color="secondary" label="Cancel" v-close-popup rounded />
         <q-space />
-        <q-btn @click="sendPaymentRequest()" color="primary" label="Send via email" :disable="sendingPaymentRequest" />
+        <q-btn @click="sendPaymentRequest()" color="primary" label="Send via email" rounded
+          :disable="sendingPaymentRequest" />
       </q-card-actions>
     </q-card></q-dialog>
 </template>

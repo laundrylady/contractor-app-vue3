@@ -11,8 +11,8 @@
       </div>
       <div class="q-mt-md" v-if="props.productcategories.filter(o => o.active).length">
         <q-icon name="local_laundry_service" size="24px" /> <span
-          v-for="c in props.productcategories.filter(o => o.active)" :key="c.product_category_id" class="q-mr-sm">
-          {{ categoryDisplay(c.product_category_id, props.categories) }}
+          v-for="(c, index) in props.productcategories.filter(o => o.active)" :key="c.product_category_id">
+          <span v-if="index > 0"> & </span>{{ categoryDisplay(c.product_category_id, props.categories) }}
         </span>
       </div>
       <div v-if="!localModel.contractor && props.scheduled_pickup_date && !props.scheduled_pickup_time" class="q-mt-md">
