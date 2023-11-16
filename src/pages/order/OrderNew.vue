@@ -168,7 +168,7 @@
                       </div>
                       <div class="col-xs-12 col-sm-6">
                         <q-input v-model="model.team.email" :error="$v.team.email.$invalid" label="Your email address"
-                          outlined />
+                          outlined autocapitalize="off" />
                       </div>
                       <div class="col-xs-12 col-sm-6">
                         <q-input v-model="model.team.mobile" :error="$v.team.mobile.$invalid"

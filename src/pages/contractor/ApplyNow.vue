@@ -16,19 +16,25 @@
                 <q-card-section class="text-left" v-if="!success">
                   <div class="text-h5">Apply Now</div>
                   <p>Fill out the form below and we'll send you an info pack all about joining the team.</p>
-                  <div class="row q-col-gutter-md">
-                    <q-input v-model="model.first_name" label="First Name" :error="$v.first_name.$invalid"
-                      class="col-xs-12 col-sm-6" autofocus outlined />
-                    <q-input v-model="model.last_name" label="Last Name" :error="$v.last_name.$invalid"
-                      class="col-xs-12 col-sm-6" outlined />
+                  <div class="row q-col-gutter-md" :class="{ 'q-mb-md': $q.screen.xs }">
+                    <div class="col-xs-12 col-sm-6">
+                      <q-input v-model="model.first_name" label="First Name" :error="$v.first_name.$invalid" autofocus
+                        outlined />
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                      <q-input v-model="model.last_name" label="Last Name" :error="$v.last_name.$invalid" outlined />
+                    </div>
                   </div>
-                  <div class="row q-col-gutter-md q-mb-md">
-                    <q-input v-model="model.email" label="Email" :error="$v.email.$invalid || emailError.error"
-                      @blur="checkEmail()" :error-message="emailError.msg || ''" :hint="emailError.msg || ''"
-                      class="col-xs-12 col-sm-6" outlined />
-                    <q-input v-model="model.mobile" label="Mobile Phone" :error="$v.mobile.$invalid"
-                      :mask="common?.operating_country === 'aud' ? '#### ### ###' : ''" unmasked-value
-                      class="col-xs-12 col-sm-6" outlined />
+                  <div class="row q-col-gutter-md">
+                    <div class="col-xs-12 col-sm-6">
+                      <q-input v-model="model.email" label="Email" :error="$v.email.$invalid || emailError.error"
+                        @blur="checkEmail()" :error-message="emailError.msg || ''" :hint="emailError.msg || ''" outlined
+                        autocapitalize="off" />
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                      <q-input v-model="model.mobile" label="Mobile Phone" :error="$v.mobile.$invalid"
+                        :mask="common?.operating_country === 'aud' ? '#### ### ###' : ''" unmasked-value outlined />
+                    </div>
                   </div>
                   <q-select label="Are you applying as an individual or a company?" outlined
                     :options="[{ label: 'Individual/Sole Trader', value: 'individual' }, { label: 'Company', value: 'company' }]"
