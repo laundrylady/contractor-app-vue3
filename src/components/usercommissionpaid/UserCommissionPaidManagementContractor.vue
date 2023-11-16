@@ -12,8 +12,6 @@
                 class="q-mr-xs" />
               Statement</a>
           </div>
-          <q-space />
-          <StatusTag :status="props.row.status" />
         </div>
       </q-td>
     </template>
@@ -25,7 +23,6 @@ import { api } from 'src/boot/axios'
 import { useMixinDebug } from 'src/mixins/debug'
 import { currencyFormat, dbDateDisplay, getRowsPerPage, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
 import { onMounted, ref } from 'vue'
-import StatusTag from '../StatusTag.vue'
 
 const data = ref()
 const loading = ref(false)

@@ -16,34 +16,34 @@
                 <q-radio v-model="model.send_to" val="purchaser" label="Send the gift voucher to my email address" />
                 <div class="text-grey">If you want to print the voucher or email it to the recipient yourself</div>
               </div>
-              <q-radio v-model="model.send_to" val="recipient"
-                label="Send the gift voucher to recipient's email address" />
+              <q-radio v-model="model.send_to" val="recipient" label="Send the gift voucher to recipient's email address"
+                outlined />
               <div class="bg-grey-1 q-pa-md q-mt-md">
-                <div class="text-bold">Gift voucher details</div>
+                <div class="text-bold q-mb-sm">Gift voucher details</div>
                 <q-input v-model="model.name_recipient" label="Recipient name" :error="$v.name_recipient.$invalid"
-                  :disable="!model.send_to" />
+                  :disable="!model.send_to" outlined />
                 <q-input v-model="model.email_recipient" label="Recipient email" :error="$v.email_recipient.$invalid"
-                  :disable="!model.send_to" />
+                  :disable="!model.send_to" outlined />
                 <q-input v-model="model.message_recipient" label="Personalised message" type="textarea" rows="3" outlined
                   :error="$v.message_recipient.$invalid" bottom-slots placeholder="Happy birthday, have a wonderful day!"
                   :disable="!model.send_to" />
                 <q-input v-model="model.from_recipient" label="Who is this gift from?" :error="$v.from_recipient.$invalid"
-                  :disable="!model.send_to" />
+                  :disable="!model.send_to" outlined />
               </div>
               <div class="bg-grey-1 q-pa-md q-mt-md">
-                <div class="text-bold">Purchaser details</div>
+                <div class="text-bold q-mb-sm">Purchaser details</div>
                 <div class="row q-col-gutter-md">
                   <div class="col-xs-6">
                     <q-input v-model="model.first_name" label="First name" :error="$v.first_name.$invalid"
-                      :disable="!model.send_to" />
+                      :disable="!model.send_to" outlined />
                   </div>
                   <div class="col-xs-6">
                     <q-input v-model="model.last_name" label="Last name" :error="$v.last_name.$invalid"
-                      :disable="!model.send_to" />
+                      :disable="!model.send_to" outlined />
                   </div>
                 </div>
-                <q-input v-model="model.email" label="Email address" :error="$v.email.$invalid"
-                  :disable="!model.send_to" />
+                <q-input v-model="model.email" label="Email address" :error="$v.email.$invalid" :disable="!model.send_to"
+                  outlined />
               </div>
             </q-card-section>
             <q-card-actions v-if="model.value">
