@@ -53,7 +53,8 @@
               <q-card-section v-if="step === 1">
                 <p class="text-center text-bold">Select your pickup location:</p>
                 <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Enter your pickup suburb" outlined
-                  :invalid="$v.suburb_postcode_region_id.$invalid" @update:model-value="checkContractors()" />
+                  :invalid="$v.suburb_postcode_region_id.$invalid" @update:model-value="checkContractors()"
+                  :clearable="true" />
                 <div class="text-lg text-center q-mt-lg" v-if="noContractors">Sorry, there is currently no availability in
                   this
                   area.</div>
@@ -94,7 +95,8 @@
                 <p class="text-center text-bold">Choose the desired pickup date:</p>
                 <div class="text-center">
                   <q-date v-model="model.scheduled_pickup_date" mask="DD/MM/YYYY" :options="minDate" class="q-mt-md"
-                    @navigation="handleScheduledPickupDateNav" />
+                    @navigation="handleScheduledPickupDateNav"
+                    @update:model-value="[model.scheduled_pickup_time = null, model.contractor_user_id = null]" />
                 </div>
                 <div class="q-mt-xl text-center">
                   <q-btn @click="stepMove(2)" color="primary" label="Previous" flat class="q-mr-sm" rounded />
@@ -116,8 +118,8 @@
                 </q-card>
                 <div class="q-mt-xl text-center">
                   <q-btn @click="stepMove(3)" color="primary" label="Previous" flat class="q-mr-sm" rounded />
-                  <q-btn @click="stepMove(5)" color="primary" label="Continue" :disable="!model.contractor_user_id"
-                    rounded />
+                  <q-btn @click="stepMove(5)" color="primary" label="Continue"
+                    :disable="!model.contractor_user_id || !model.scheduled_pickup_time" rounded />
                 </div>
               </q-card-section>
               <q-card-section v-if="step === 5">
@@ -311,6 +313,9 @@ const toggleWashingAndIroning = () => {
   model.productcategories.forEach(o => {
     o.active = true
   })
+  model.contractor_user_id = null
+  model.scheduled_pickup_date = null
+  model.scheduled_pickup_time = null
 }
 
 const toggleWashingOnly = () => {
@@ -324,6 +329,9 @@ const toggleWashingOnly = () => {
   if (ironingObj) {
     ironingObj.active = false
   }
+  model.contractor_user_id = null
+  model.scheduled_pickup_date = null
+  model.scheduled_pickup_time = null
 }
 
 const toggleIroningOnly = () => {
@@ -337,6 +345,9 @@ const toggleIroningOnly = () => {
   if (ironingObj) {
     ironingObj.active = ironingOnly.value
   }
+  model.contractor_user_id = null
+  model.scheduled_pickup_date = null
+  model.scheduled_pickup_time = null
 }
 
 const customerTypes = computed(() => {
@@ -390,9 +401,20 @@ const stepMove = (nextStep: number) => {
   }
 }
 
+const resetModel = () => {
+  Object.assign(model, JSON.parse(JSON.stringify(schema)))
+  washingAndIroning.value = false
+  washingOnly.value = false
+  ironingOnly.value = false
+  for (const c of categories.value) {
+    model.productcategories.push({ product_category_id: c.value, active: false })
+  }
+}
+
 const checkContractors = () => {
   if (!model.suburb_postcode_region_id) {
     noContractors.value = false
+    resetModel()
   } else {
     api.post('/public/order/findcontractorsinsuburbpostcoderegion', { suburb_postcode_region_id: model.suburb_postcode_region_id }).then(response => {
       noContractors.value = !response.data.found

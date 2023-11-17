@@ -69,6 +69,7 @@ const findAvailableContractors = () => {
       if (!response.data.find((o: ContractorTime) => o.key === tmpContractorUserId.value)) {
         emits('update:modelValue', null)
         tmpContractorUserId.value = null
+        tmpTimeSelection.value = null
       }
     }
   })
@@ -93,6 +94,7 @@ const reAssign = () => {
 
 onMounted(() => {
   tmpContractorUserId.value = null
+  tmpTimeSelection.value = null
   if (props.modelValue && props.scheduled_pickup_time) {
     loadingContractors.value = true
     api.get(`/public/user/contractor/details/${props.modelValue}`).then(response => {
@@ -121,6 +123,8 @@ onMounted(() => {
 watch(() => props.scheduled_pickup_date, (newVal) => {
   if (newVal) {
     findAvailableContractors()
+    tmpContractorUserId.value = null
+    tmpTimeSelection.value = null
   }
 })
 
