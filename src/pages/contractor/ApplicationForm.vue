@@ -221,7 +221,7 @@
                   at: <a href="https://www.nzbn.govt.nz/get-an-nzbn/" target="_blank" class="link">NZBN Registration</a>
                 </p>
                 <q-input v-model="model.contractor_abn" :label="common?.operating_country === 'aud' ? 'ABN' : 'NZBN'"
-                  bottom-slots :error="$v.contractor_abn.$invalid" type="number" outlined>
+                  bottom-slots :error="$v.contractor_abn.$invalid" type="number" outlined maxlength="20">
                   <template v-slot:append v-if="common?.operating_country === 'aud'">
                     <q-icon name="check" v-if="model.contractor_abn_verified" color="positive" />
                     <q-btn @click="verifyAbn()" label="Verify" color="primary" v-if="model.contractor_abn" flat rounded />
