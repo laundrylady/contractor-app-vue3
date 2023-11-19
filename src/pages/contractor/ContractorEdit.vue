@@ -18,7 +18,7 @@
               <div class="col-xs-4 col-md-3 col-lg-2 text-center">
                 <UserAvatar :user="localModel" size="55px" />
                 <div class="q-mt-xs text-center">
-                  <q-btn flat @click="showAvatarUpload = !showAvatarUpload" label="Update" />
+                  <q-btn flat @click="showAvatarUpload = !showAvatarUpload" label="Update" rounded />
                 </div>
               </div>
               <div class="col-xs-8 col-md-9 col-lg-10">
@@ -32,8 +32,19 @@
                 label="Upload image" auto-expand auto-upload :accept="uploadConfig.images"
                 :field-name="uploadConfig.fieldName" ref="avatarUploader" v-if="!loading" />
             </div>
+            <div class="row q-col-gutter-md q-mt-md">
+              <div class="col-xs-12 col-sm-6">
+                <q-input v-model="localModel.email" label="Email" :error="$v.email.$invalid || emailError.error"
+                  @blur="checkEmail()" :error-message="emailError.msg || ''" :hint="emailError.msg || ''" outlined
+                  autocapitalize="off" />
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <q-input v-model="localModel.mobile" label="Mobile Phone" :error="$v.mobile.$invalid"
+                  :mask="common?.operating_country === 'aud' ? '#### ### ###' : ''" unmasked-value outlined />
+              </div>
+            </div>
             <q-select v-model="localModel.timezone" label="Timezone" :options="getTimeZones()" map-options emit-value
-              :error="$v.timezone.$invalid" class="q-mt-md" outlined />
+              :error="$v.timezone.$invalid" outlined />
           </q-card-section>
           <q-card-actions align="right">
             <q-btn @click="save()" :label="$t('actions.update')" color="primary" :disabled="$v.$invalid" rounded />
@@ -129,7 +140,7 @@
 </template>
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { required, email } from '@vuelidate/validators'
 import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
 import AddressSearch from 'src/components/form/AddressSearch.vue'
@@ -139,6 +150,7 @@ import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
 import { ContractorForm } from 'src/components/models'
 import UserAvatar from 'src/components/UserAvatar.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
+import { useMixinCommon } from 'src/mixins/common'
 import { useMixinDebug } from 'src/mixins/debug'
 import { doNotify, getTimeZones, uploadConfig } from 'src/mixins/help'
 import { computed, inject, ref } from 'vue'
@@ -148,9 +160,11 @@ interface Props {
 }
 const props = defineProps<Props>()
 
+const common = useMixinCommon()
 const localModel = computed(() => props.model)
 const loading = ref(false)
 const showAvatarUpload = ref(false)
+const emailError = ref({ error: false, msg: '' })
 
 const bus = inject('bus') as EventBus
 
@@ -159,6 +173,7 @@ const rules = {
   suburb_postcode_region_id: { required },
   postcode: { required },
   country_id: { required },
+  email: { required, email },
   mobile: { required },
   timezone: { required },
   contractor_badge_name: { required },
@@ -190,6 +205,19 @@ const save = () => {
 const successUpload = (file: LooseObject) => {
   localModel.value.avatar = file.xhr.response
   save()
+}
+
+const checkEmail = () => {
+  emailError.value = { error: false, msg: '' }
+  if (localModel.value.email) {
+    api.post(`/user/checkemail/${localModel.value.id}`, { email: localModel.value.email }).then(response => {
+      if (parseFloat(response.data.found[0].count) > 0) {
+        emailError.value.error = true
+        emailError.value.msg = 'That email address is already in use'
+        localModel.value.email = null
+      }
+    }).catch(error => { useMixinDebug(error) })
+  }
 }
 
 </script>
