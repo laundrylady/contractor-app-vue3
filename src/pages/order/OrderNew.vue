@@ -132,6 +132,10 @@
                         <q-select v-model="model.team.type" :error="$v.team.type.$invalid" :label="$t('team.type')"
                           :options="customerTypes" outlined />
                       </div>
+                      <div class="col-xs-12 col-sm-6" v-if="model.team.type === 'Business'">
+                        <q-select v-model="model.team.payment_terms" :options="['Credit Card', 'Bank Transfer']"
+                          label="Payment via" outlined :error="$v.team.payment_terms.$invalid" />
+                      </div>
                     </div>
                     <div class="row q-col-gutter-md"
                       v-if="['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1">
@@ -218,6 +222,25 @@
                       class="q-mt-md" />
                     <q-select v-model="model.recurring" :label="$t('order.recurringFrequency')"
                       :options="['Week', 'Fortnite', 'Month']" v-if="model.recurring_order" outlined class="q-mt-sm" />
+                    <div>
+                      <q-toggle v-model="model.team.marketing_subscribed"
+                        label="I want to receive emails with the latest news and updates from The Laundry Lady" />
+                    </div>
+                    <div>
+                      <div>
+                        <q-toggle v-model="model.cancellation_terms" label="I agree to the Cancellation policy" />
+                      </div>
+                      <div>No cancellations or changes allowed within 3 hours of the appointment.
+                        Charges will be applied if clothes are not ready at pickup. By booking this appointment you agree
+                        to our Terms and Conditions which can be found online here:
+                        <a href="https://thelaundrylady.co.nz/terms-and-conditions/"
+                          v-if="common?.operating_country === 'nzd'" target="_blank"
+                          class="link">https://thelaundrylady.co.nz/terms-and-conditions/</a>
+                        <a href="https://thelaundrylady.com.au/terms-and-conditions/"
+                          v-if="common?.operating_country === 'aud'" target="_blank"
+                          class="link">https://thelaundrylady.com.au/terms-and-conditions/</a>
+                      </div>
+                    </div>
                   </q-card-section>
                   <q-card-section v-if="success">
                     <div class="text-center"><q-icon name="o_check_circle" size="64px" color="green" /></div>
@@ -236,7 +259,8 @@
                 </q-card>
                 <div class="q-mt-xl text-center" v-if="!success">
                   <q-btn @click="stepMove(5)" color="primary" label="Previous" flat class="q-mr-sm" rounded />
-                  <q-btn @click="save()" color="primary" label="Confirm booking" :disable="$v.$invalid" rounded />
+                  <q-btn @click="save()" color="primary" label="Confirm booking"
+                    :disable="$v.$invalid || !model.cancellation_terms" rounded />
                 </div>
               </q-card-section>
             </q-card>
@@ -292,6 +316,7 @@ const schema = {
   special_instructions: null,
   recurring_order: false,
   recurring: null,
+  cancellation_terms: false,
   productcategories: [],
   team: {
     id: null,
@@ -303,7 +328,9 @@ const schema = {
     mobile: null,
     ndis_number: null,
     ndis_type: null,
-    abn: null
+    abn: null,
+    marketing_subscribed: true,
+    payment_terms: 'Credit Card'
   }
 }
 
@@ -386,7 +413,8 @@ const rules = {
     mobile: { required },
     ndis_number: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
     ndis_type: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
-    abn: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1) }
+    abn: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1) },
+    payment_terms: { required }
   }
 }
 

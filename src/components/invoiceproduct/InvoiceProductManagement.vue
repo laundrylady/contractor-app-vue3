@@ -70,11 +70,11 @@
     </div>
     <div class="q-mt-sm items-center q-pb-xs">
       <div class="flex">
-        <q-btn @click="doSendPaymentRequest('email')" icon="mail" label="Send Payment Request" flat v-if="canSend"
-          :disable="sendingPaymentRequest" rounded />
-        <q-space />
         <q-btn @click="doSendPaymentRequest('sms')" icon="chat" title="Send SMS Payment Request" flat v-if="canSend"
           :disable="sendingPaymentRequest" round />
+        <q-space />
+        <q-btn @click="doSendPaymentRequest('email')" icon="mail" label="Send Payment Request" push color="primary"
+          v-if="canSend" :disable="sendingPaymentRequest" rounded />
       </div>
       <div v-if="localModel.sent_for_payment && localModel.status !== 'PAID'" class="text-grey">
         <q-separator class="q-mt-sm q-mb-sm" />
@@ -87,6 +87,17 @@
     <q-card class="modal">
       <q-toolbar class="bg-primary text-white"><q-toolbar-title>Send for payment</q-toolbar-title></q-toolbar>
       <q-card-section>
+        <p>Please confirm the scheduled delivery date & time below:</p>
+        <div class="row q-col-gutter-md">
+          <div class="col-xs-12 col-sm-6">
+            <date-field v-model="sendPaymentModal.scheduled_delivery_date" label="Scheduled delivery date"
+              :outlined="true" :invalid="!sendPaymentModal.scheduled_delivery_date" />
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <q-select v-model="sendPaymentModal.scheduled_delivery_time" label="Scheduled delivery time" :outlined="true"
+              :options="hourBookingOptions" :error="!sendPaymentModal.scheduled_delivery_time" map-options emit-value />
+          </div>
+        </div>
         <q-input v-model="sendPaymentModal.content" type="textarea" outlined rows="3"
           label="Enter any notes for the customer" class="q-mt-sm" />
       </q-card-section>
@@ -94,7 +105,7 @@
         <q-btn flat color="secondary" label="Cancel" v-close-popup rounded />
         <q-space />
         <q-btn @click="sendPaymentRequest()" color="primary" label="Send via email" rounded
-          :disable="sendingPaymentRequest" />
+          :disable="sendingPaymentRequest || !sendPaymentModal.scheduled_delivery_date || !sendPaymentModal.scheduled_delivery_time" />
       </q-card-actions>
     </q-card></q-dialog>
 </template>
@@ -105,8 +116,9 @@ import { api } from 'src/boot/axios'
 import { Invoice, InvoicePayment, InvoiceProduct, OrderProductCategory, Product, Team } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
-import { confirmDelete, currencyFormat, dateTimeTz, doNotify, groupBy } from 'src/mixins/help'
+import { confirmDelete, currencyFormat, dateTimeTz, doNotify, groupBy, hourBookingOptions } from 'src/mixins/help'
 import { computed, inject, onMounted, reactive, ref } from 'vue'
+import DateField from '../form/DateField.vue'
 
 interface Props {
   invoice: Invoice,
@@ -114,7 +126,12 @@ interface Props {
   categories: OrderProductCategory[]
 }
 
-const sendPaymentModal = ref({ show: false, content: null })
+const sendPaymentModal = ref({
+  show: false,
+  content: null,
+  scheduled_delivery_date: null,
+  scheduled_delivery_time: null
+})
 const props = defineProps<Props>()
 const emits = defineEmits(['update:products', 'update:order'])
 const localModel = computed(() => props.invoice)
@@ -323,11 +340,16 @@ const sendPaymentRequest = () => {
   const message = 'PLEASE NOTE: This will send the invoice for payment'
   confirmDelete(message).onOk(() => {
     sendingPaymentRequest.value = true
-    api.post(`/public/invoice/sendpaymentrequest/${localModel.value.id}`, { content: sendPaymentModal.value.content }).then(() => {
+    api.post(`/public/invoice/sendpaymentrequest/${localModel.value.id}`, sendPaymentModal.value).then(() => {
       doNotify('positive', 'Invoice sent for payment')
       sendingPaymentRequest.value = false
       emits('update:order')
-      sendPaymentModal.value = { show: false, content: null }
+      sendPaymentModal.value = {
+        show: false,
+        content: null,
+        scheduled_delivery_date: null,
+        scheduled_delivery_time: null
+      }
     }).catch(error => {
       sendingPaymentRequest.value = false
       useMixinDebug(error, bus)

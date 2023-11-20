@@ -94,8 +94,7 @@ const rules = {
 }
 
 const voucherOptions = [
-  { value: 55, label: '$55 gift voucher' },
-  { value: 70, label: '$70 gift voucher' },
+  { value: 60, label: '$60 gift voucher' },
   { value: 100, label: '$100 gift voucher' },
   { value: 150, label: '$150 gift voucher' },
   { value: 200, label: '$200 gift voucher' },

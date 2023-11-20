@@ -325,7 +325,8 @@ export interface Team {
   gst_enabled:boolean,
   payment_terms:string,
   onmyway_sms:boolean,
-  abn?:string
+  abn?:string,
+  marketing_subscribed:boolean
 }
 
 export interface TeamForm {
@@ -594,7 +595,8 @@ export interface Order {
   cancel_rebook?:boolean,
   cancel_by?:string|null,
   changes_reason?:string|null,
-  changes_notes?:string|null
+  changes_notes?:string|null,
+  cancellation_terms?:boolean
 }
 
 export interface OrderForm {
@@ -607,7 +609,8 @@ export interface OrderForm {
   scheduled_pickup_time:string|null,
   special_instructions:string|null,
   recurring_order:boolean,
-  recurring:string|null
+  recurring:string|null,
+  cancellation_terms:boolean
 }
 
 export interface NotificationTemplate {

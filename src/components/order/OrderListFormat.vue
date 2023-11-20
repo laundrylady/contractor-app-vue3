@@ -71,6 +71,8 @@
                 v-if="['confirmed', 'ready_for_delivery'].indexOf(o.status) !== -1" flat />
               <q-btn @click="completeOrder(o)" round dense icon="task_alt" class="q-ml-xs" title="Complete the booking"
                 v-if="o.status === 'ready_for_delivery'" flat />
+              <q-btn @click="markReadyForDelivery(o)" round dense icon="keyboard_double_arrow_down" class="q-ml-xs"
+                title="Move to Deliveries" v-if="o.status === 'awaiting_payment'" flat />
             </div>
           </div>
         </div>
@@ -100,8 +102,9 @@
                       }}</span><span v-if="element.agreed_pickup_time">{{ hourAgreedDisplay(element.agreed_pickup_time)
 }}</span>)</router-link>
                   <router-link :to="{ name: 'order-edit', params: { id: element.id } }" class="link"
-                    v-if="element.status === 'ready_for_delivery'"><span v-if="element.scheduled_delivery_date">{{
-                      displayDateDay(element.scheduled_delivery_date) }}</span> {{ element.scheduled_delivery_date }}
+                    v-if="element.status === 'ready_for_delivery' && element.scheduled_delivery_date && (element.agreed_pickup_time || element.scheduled_pickup_time)"><span
+                      v-if="element.scheduled_delivery_date">{{
+                        displayDateDay(element.scheduled_delivery_date) }}</span> {{ element.scheduled_delivery_date }}
                     (<span v-if="!element.agreed_delivery_time && element.scheduled_delivery_time">{{
                       hourBookingDisplay(element.scheduled_delivery_time)
                     }}</span><span v-if="element.agreed_delivery_time">{{
@@ -183,6 +186,16 @@ const onMyWay = async (o: Order) => {
     }).catch(error => {
       useMixinDebug(error)
       $q.loading.hide()
+    })
+  })
+}
+
+const markReadyForDelivery = async (o: Order) => {
+  confirmDelete('This will move the booking to deliveries').onOk(() => {
+    api.post(`/public/order/readyfordelivery/${o.id}`).then(() => {
+      bus.emit('orderLoadMore')
+    }).catch(error => {
+      useMixinDebug(error)
     })
   })
 }

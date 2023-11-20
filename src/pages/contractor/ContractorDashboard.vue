@@ -83,13 +83,24 @@
               </div>
               <div class="col-xs-6">
                 <div class="text-h6 text-center">
-                  {{ currencyFormat(dashboard.totalOrdersTotalOwing[0].sum) }}
+                  {{ currencyFormat(dashboard.totalOrdersTotalOwingGrand) }}
                 </div>
                 <div class="text-center">
-                  Owing
+                  <a class="link" @click="showUnpaids = !showUnpaids">Unpaids</a>
                 </div>
               </div>
             </div>
+          </q-card-section>
+          <q-card-section v-if="showUnpaids">
+            <q-list bordered separator>
+              <q-item v-for="u in dashboard.totalOrdersTotalOwingData" :key="u.id">
+                <q-item-section><strong>Booking #{{ u.order.display_id }}</strong><span v-if="u.team">{{ u.team.name
+                }}</span></q-item-section>
+                <q-item-section side><span class="text-negative">{{ currencyFormat(u.grand_total_price) }}</span>Due: {{
+                  u.due_date
+                }}</q-item-section>
+              </q-item>
+            </q-list>
           </q-card-section>
         </q-card>
       </div>
@@ -167,6 +178,7 @@ interface Props {
 const route = useRoute()
 // eslint-disable-next-line
 const props = defineProps<Props>()
+const showUnpaids = ref(false)
 
 const dashboard = ref()
 const recurringOrders = ref<Order[]>()
