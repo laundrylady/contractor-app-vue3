@@ -6,8 +6,8 @@
       <div>
         <span v-if="localModel.suburbpostcoderegion"><q-icon name="place" size="24px" /> {{
           localModel.suburbpostcoderegion.locality
-        }} {{
-  localModel.suburbpostcoderegion.state }}</span>
+        }}<span v-if="common?.operating_country !== 'nzd'"> {{
+  localModel.suburbpostcoderegion.state }}</span></span>
       </div>
       <div class="q-mt-md" v-if="props.productcategories.filter(o => o.active).length">
         <q-icon name="local_laundry_service" size="24px" /> <span
@@ -34,6 +34,7 @@ import { useMixinDebug } from 'src/mixins/debug'
 import { categoryDisplay, hourBookingDisplay } from 'src/mixins/help'
 import { ref, watch, onMounted } from 'vue'
 import { SelectOption } from '../models'
+import { useMixinCommon } from 'src/mixins/common'
 
 interface Props {
   suburb_postcode_region_id: number | null,
@@ -44,6 +45,7 @@ interface Props {
   categories: SelectOption[]
 }
 
+const common = useMixinCommon()
 const props = defineProps<Props>()
 const localModel = ref<LooseObject>({ suburbpostcoderegion: undefined, contractor: undefined })
 
