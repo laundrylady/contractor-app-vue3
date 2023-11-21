@@ -104,6 +104,28 @@ const cancelOrderReasons = [
   'Customer is moving'
 ]
 
+const changeOrderReasons = [
+  'Unavailable to complete booking',
+  'Customer did not show',
+  'Appointment made in error',
+  'Holiday closure',
+  'NDIS requested',
+  'Customer requested',
+  'Admin cancelled',
+  'Customer is moving'
+]
+
+const changeOrderReasonsDelivery = [
+  'Large Volume',
+  'Drying Time',
+  'Line Dry requested',
+  'Availability',
+  'At capacity',
+  'Holiday closure',
+  'Customer requested',
+  'Unpaid account'
+]
+
 const dayDisplay = (val:number) => {
   return dayOptions.find(o => o.value === val)?.label
 }
@@ -436,6 +458,8 @@ export {
   hourBookingOptions,
   globalStatusList,
   cancelOrderReasons,
+  changeOrderReasons,
+  changeOrderReasonsDelivery,
   doNotify,
   confirmDelete,
   getRowsPerPage,

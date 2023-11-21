@@ -154,9 +154,14 @@ const rules = {
 const $v = useVuelidate(rules, model)
 
 const cancelOrderReasons = [
-  'Unavailable to complete booking',
   'Appointment made in error',
-  'NDIS requested',
+  'Not available at this time ',
+  'Not needed',
+  'Holiday / Away',
+  'Business closure',
+  'Moving to another location',
+  'Not happy with service',
+  'Not happy with Laundry Lady or Lad',
   'Other'
 ]
 

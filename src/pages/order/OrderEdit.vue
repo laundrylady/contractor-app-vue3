@@ -75,23 +75,24 @@
                   </div>
                 </div>
               </div>
-              <div v-if="localModel.scheduled_delivery_date || localModel.status === 'ready_for_delivery'"
+              <div
+                v-if="localModel.scheduled_delivery_date || ['ready_for_delivery', 'awaiting_payment'].indexOf(localModel.status) !== -1"
                 class="row q-col-gutter-md q-mt-sm">
                 <div class="col-xs-12 col-sm-6">
                   <div class="text-bold text-grey">SCHEDULED DELIVERY DATE</div>
-                  <div v-if="!changes.dateDelivery">{{ localModel.scheduled_delivery_date }}<q-btn v-if="canEdit"
+                  <div v-if="!changes.dateDelivery">{{ localModel.scheduled_delivery_date }}<q-btn v-if="canEditDelivery"
                       @click="changes.dateDelivery = true" icon="edit" flat round size="sm" color="grey-7"
                       class="q-ml-xs" />
                   </div>
                   <div v-if="changes.dateDelivery">
                     <DateField v-model="changes.dateDelivery_model" label="Choose a delivery date" :outlined="true"
-                      :invalid="!changes.dateDelivery_model" :disable="!canEdit" />
+                      :invalid="!changes.dateDelivery_model" :disable="!canEditDelivery" />
                   </div>
                 </div>
                 <div class="col-xs-12 col-sm-6">
                   <div class="text-bold text-grey">DELIVER BETWEEN</div>
                   <div v-if="!changes.timeDelivery"><span v-if="localModel.scheduled_delivery_time">{{
-                    hourBookingDisplay(localModel.scheduled_delivery_time) }}</span><q-btn v-if="canEdit"
+                    hourBookingDisplay(localModel.scheduled_delivery_time) }}</span><q-btn v-if="canEditDelivery"
                       @click="changes.timeDelivery = true" icon="edit" flat round size="sm" color="grey-7"
                       class="q-ml-xs" />
                     <div v-if="localModel.agreed_delivery_time">Agreed: {{
@@ -101,14 +102,14 @@
                   <div v-if="changes.timeDelivery">
                     <q-select v-model="changes.timeDelivery_model" :label="$t('order.scheduledDeliveryTime')"
                       :invalid="!changes.timeDelivery_model" :options="hourBookingOptions" emit-value map-options
-                      :disable="!canEdit" outlined />
+                      :disable="!canEditDelivery" outlined />
                     <div v-if="(canEdit && changes.timeDelivery) || localModel.agreed_delivery_time">
                       <div class="text-bold text-grey q-mb-xs q-mt-md">AGREED DELIVERY TIME <a
                           @click="changes.agreed_timeDelivery_model = null" class="link"
                           v-if="changes.agreed_timeDelivery_model && changes.timeDelivery">[RESET]</a></div>
                       <div v-if="!changes.timeDelivery && localModel.agreed_delivery_time">{{
                         hourAgreedDisplay(localModel.agreed_delivery_time) }}<q-btn @click="changes.timeDelivery = true"
-                          icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" v-if="canEdit" /></div>
+                          icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" v-if="canEditDelivery" /></div>
                       <q-select v-model="changes.agreed_timeDelivery_model" :options="agreedTimeOptions"
                         label="Choose a time" outlined map-options emit-value />
                     </div>
@@ -263,9 +264,11 @@
     <q-card class="modal">
       <q-toolbar class="bg-primary text-white">
         <q-toolbar-title>Booking #{{ localModel.display_id }} - Changes</q-toolbar-title>
+        <q-space />
+        <q-btn round flat v-close-popup icon="close" />
       </q-toolbar>
       <q-card-section>
-        <div class="row q-col-gutter-md q-mb-md">
+        <div class="row q-col-gutter-md q-mb-md" v-if="!model.scheduled_delivery_date">
           <div class="col-xs-12 col-sm-6">
             <div class="text-grey text-bold">PICKUP DATE</div>
             <div>{{ changes.date_model }}</div>
@@ -276,7 +279,18 @@
             <div v-if="changes.agreed_time_model">{{ hourAgreedDisplay(changes.agreed_time_model) }}</div>
           </div>
         </div>
-        <q-select v-model="localModel.changes_reason" label="Reason for change" outlined :options="cancelOrderReasons"
+        <div class="row q-col-gutter-md q-mb-md" v-if="model.scheduled_delivery_date || model.scheduled_delivery_time">
+          <div class="col-xs-12 col-sm-6">
+            <div class="text-grey text-bold">DELIVERY DATE</div>
+            <div>{{ changes.dateDelivery_model }}</div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <div class="text-grey text-bold">DELIVERY TIME</div>
+            <div v-if="!changes.agreed_timeDelivery_model">{{ hourBookingDisplay(changes.timeDelivery_model) }}</div>
+            <div v-if="changes.agreed_timeDelivery_model">{{ hourAgreedDisplay(changes.agreed_timeDelivery_model) }}</div>
+          </div>
+        </div>
+        <q-select v-model="localModel.changes_reason" label="Reason for change" outlined :options="activeChangeReasons"
           bottom-slots />
         <q-input v-model="localModel.changes_notes" label="Extra notes for the customer" type="textarea" rows="3" outlined
           bottom-slots />
@@ -308,7 +322,7 @@ import GlobalNotes from 'src/components/note/GlobalNotes.vue'
 import GlobalNotifications from 'src/components/notification/GlobalNotifications.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
-import { agreedTimes, confirmDelete, currencyFormat, dateTimeTz, displayDateDay, doNotify, hourAgreedDisplay, hourBookingDisplay, hourBookingOptions, cancelOrderReasons } from 'src/mixins/help'
+import { agreedTimes, cancelOrderReasons, changeOrderReasons, changeOrderReasonsDelivery, confirmDelete, currencyFormat, dateTimeTz, displayDateDay, doNotify, hourAgreedDisplay, hourBookingDisplay, hourBookingOptions } from 'src/mixins/help'
 import { useMixinSecurity } from 'src/mixins/security'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
 import { computed, inject, onMounted, ref } from 'vue'
@@ -351,6 +365,8 @@ const changes: LooseObject = ref({
   agreed_timeDelivery_model: null
 })
 
+const activeChangeReasons = ref()
+
 const rules = {
   team_id: { required },
   scheduled_pickup_date: { required },
@@ -364,6 +380,13 @@ const $v = useVuelidate(rules, localModel, { $scope: false })
 
 const canEdit = computed(() => {
   if (['awaiting_payment', 'PAID', 'completed', 'cancelled'].indexOf(props.model.status) !== -1 && !props.model.recurring) {
+    return false
+  }
+  return true
+})
+
+const canEditDelivery = computed(() => {
+  if (['PAID', 'completed', 'cancelled'].indexOf(props.model.status) !== -1 && !props.model.recurring) {
     return false
   }
   return true
@@ -445,6 +468,14 @@ const save = () => {
     changes.value.dateDelivery_model !== localModel.value.scheduled_delivery_date ||
     changes.value.timeDelivery_model !== localModel.value.scheduled_delivery_time ||
     changes.value.agreed_timeDelivery_model !== localModel.value.agreed_delivery_time) {
+    // delivery change
+    if (changes.value.dateDelivery_model !== localModel.value.scheduled_delivery_date ||
+      changes.value.timeDelivery_model !== localModel.value.scheduled_delivery_time ||
+      changes.value.agreed_timeDelivery_model !== localModel.value.agreed_delivery_time) {
+      activeChangeReasons.value = changeOrderReasonsDelivery
+    } else {
+      activeChangeReasons.value = changeOrderReasons
+    }
     showChangesOrder.value = true
   } else {
     doSave()
