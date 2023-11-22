@@ -449,6 +449,14 @@ const agreedTimes = () => {
   return result
 }
 
+const nl2br = (str:string|null|undefined) => {
+  if (typeof str === 'undefined' || str === null) {
+    return ''
+  }
+  const breakTag = '<br />'
+  return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2')
+}
+
 export {
   rowsPerPageOptions,
   uploadConfig,
@@ -490,5 +498,6 @@ export {
   valOrNs,
   openMapLink,
   orderColor,
-  agreedTimes
+  agreedTimes,
+  nl2br
 }

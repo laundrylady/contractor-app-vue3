@@ -30,15 +30,20 @@
               <div class="flex items-start">
                 <div>
                   <div>
-                    <q-icon name="attach_money" v-if="teamHasOutstandings" title="Has outstandings"
+                    <q-icon name="attach_money" v-if="teamHasOutstandings" title="Has unpaids"
                       color="negative" /><router-link :to="{ name: 'orders', params: { team_id: model.team_id } }"
                       class="link">{{
-                        model.team.name }}</router-link> <q-icon name="event" /> {{ model.scheduled_pickup_date }}
+                        model.team.name }} <span
+                        v-if="model.team.name !== `${model.team.first_name} ${model.team.last_name}`">({{
+                          model.team.first_name }} {{
+    model.team.last_name }})</span></router-link> <q-icon name="event" /> {{
+    model.scheduled_pickup_date }}
                     <span v-if="model.scheduled_pickup_time">
-                      ({{
-                        hourBookingDisplay(model.scheduled_pickup_time) }})
+                      ({{ hourBookingDisplay(model.scheduled_pickup_time) }})
                     </span>
                   </div>
+                  <div><q-badge v-if="model.team.owing_no_booking || model.team.status === 'blocked'"
+                      label="Blocked from new bookings" /></div>
                   <div v-if="model.recurring_order && model.scheduled_pickup_time" class="q-mt-xs">
                     <q-badge class="q-pa-sm" color="secondary"><q-icon name="sync" class="q-mr-xs" />{{
                       `Every
@@ -110,35 +115,16 @@
                 hourBookingDisplay(model.scheduled_pickup_time) }})</span>
             </q-item-section>
           </q-item>
-          <q-item-label header>{{ $t('contractor.name') }}</q-item-label>
-          <q-item v-if="model.contractor">
-            <q-item-section side>
-              <q-icon name="engineering" />
-            </q-item-section>
-            <q-item-section>
-              {{
-                model.contractor.contractor_badge_name }}
-            </q-item-section>
-          </q-item>
-          <q-item v-if="model.contractor">
-            <q-item-section side>
-              <q-icon name="phone" />
-            </q-item-section>
-            <q-item-section>
-              <a :href="`tel:${model.contractor.mobile}`" class="link">{{ model.contractor.mobile }}</a>
-            </q-item-section>
-          </q-item>
-          <q-item v-if="!model.contractor">
-            <q-item-section side>
-              <q-icon name="warning" color="negative" />
-            </q-item-section>
-            <q-item-section class="text-negative">NO CONTRACTOR ASSIGNED</q-item-section></q-item>
         </q-list>
       </div>
     </q-drawer>
     <q-page-container>
       <q-page padding class="q-pa-md">
         <router-view :model="model" @update:order="getOrder" :futureRecurring="futureRecurring" />
+        <div class="q-mb-md q-mt-xl">
+          <div class="text-bold q-mb-xs">Internal Customer Notes</div>
+          <GlobalNotes notable_type="Team" :notable_id="model.team_id" :nobox="true" :alert="true" />
+        </div>
       </q-page>
     </q-page-container>
   </q-layout>
@@ -150,6 +136,7 @@ import PostcodeRegionDisplay from 'src/components/PostcodeRegionDisplay.vue'
 import StatusTag from 'src/components/StatusTag.vue'
 import MapWithMarker from 'src/components/maps/MapWithMarker.vue'
 import { Order } from 'src/components/models'
+import GlobalNotes from 'src/components/note/GlobalNotes.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 import { displayDateDay, fromNowTz, hourBookingDisplay } from 'src/mixins/help'

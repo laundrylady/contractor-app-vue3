@@ -36,7 +36,9 @@
                   }}</span><span v-if="o.agreed_delivery_time">{{ hourAgreedDisplay(o.agreed_delivery_time)
 }}</span>)</router-link>
               <div>
-                <div>{{ o.status === 'ready_for_delivery' ? 'Delivery' : 'Pickup' }} with {{ o.team.name }}</div>
+                <div>{{ o.status === 'ready_for_delivery' ? 'Delivery' : 'Pickup' }} with {{ o.team.name }} <span
+                    v-if="o.team.name !== `${o.team.first_name} ${o.team.last_name}`">({{ o.team.first_name }} {{
+                      o.team.last_name }})</span></div>
                 <OrderProductCategoryDisplay :o="o" />
                 <span v-if="o.team.suburbpostcoderegion">
                   <q-btn flat dense color="grey-9" v-if="o.suburbpostcoderegion && o.country">

@@ -326,7 +326,8 @@ export interface Team {
   payment_terms:string,
   onmyway_sms:boolean,
   abn?:string,
-  marketing_subscribed:boolean
+  marketing_subscribed:boolean,
+  owing_no_booking:boolean
 }
 
 export interface TeamForm {

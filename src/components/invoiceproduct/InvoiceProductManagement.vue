@@ -26,6 +26,29 @@
         </q-input>
       </div>
     </div>
+    <div v-if="localModel.id && canEdit" class="q-mt-md q-mb-sm">
+      <q-btn :label="!newProduct.product_id ? `Add a ${$t('product.name')}` : `${newProduct.name}`" outline no-caps
+        color="primary" icon="add_circle" :disable="loading" class="full-width" rounded>
+        <q-menu anchor="center middle" self="center middle" class="soft-shadow add-product-menu">
+          <div class="row">
+            <div class="col-xs-12" v-for="p in productListFiltered" :key="p.key">
+              <div class="text-h6 q-pa-sm bg-grey-2">
+                <q-icon :name="p.data[0].productcategory.icon" size="32px" />
+                {{ p.key }}
+              </div>
+              <q-list separator style="max-height:300px;overflow:auto;">
+                <q-item @click="selectProduct(d)" clickable v-for="d in p.data" :key="d.id" v-close-popup>
+                  <q-item-section>
+                    <div class="text-primary">{{ d.name }}</div>
+                    <div class="text-grey">{{ currencyFormat(d.unit_price) }} per {{ d.unit_measurement }}</div>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </div>
+          </div>
+        </q-menu>
+      </q-btn>
+    </div>
     <div v-if="localModel.id">
       <q-separator class="q-mb-sm" />
       <div class="text-right">
@@ -34,41 +57,16 @@
         <div class="text-h6">Total: {{ currencyFormat(localModel.grand_total_price) }}</div>
       </div>
     </div>
-    <div v-if="canEdit" class="q-mt-md">
-      <div class="row q-col-gutter-md items-center">
-        <div class="col-xs-12 col-sm-6">
-          <q-btn :label="!newProduct.product_id ? `Add a ${$t('product.name')}` : `${newProduct.name}`" outline no-caps
-            color="primary" icon="add_circle" :disable="loading" class="full-width" rounded>
-            <q-menu anchor="center middle" self="center middle" class="soft-shadow add-product-menu">
-              <div class="row">
-                <div class="col-xs-12" v-for="p in productListFiltered" :key="p.key">
-                  <div class="text-h6 q-pa-sm bg-grey-2">
-                    <q-icon :name="p.data[0].productcategory.icon" size="32px" />
-                    {{ p.key }}
-                  </div>
-                  <q-list separator style="max-height:300px;overflow:auto;">
-                    <q-item @click="selectProduct(d)" clickable v-for="d in p.data" :key="d.id" v-close-popup>
-                      <q-item-section>
-                        <div class="text-primary">{{ d.name }}</div>
-                        <div class="text-grey">{{ currencyFormat(d.unit_price) }} per {{ d.unit_measurement }}</div>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </div>
-              </div>
-            </q-menu>
-          </q-btn>
-        </div>
-        <div class="col-xs-12 col-sm-6" v-if="localModel.total_price > 0"> <q-input v-model="gfDcCode"
-            label="Gift voucher / Discount code" outlined dense>
-            <template v-slot:append>
-              <q-btn @click="checkGvDc()" label="Apply" color="primary" :disable="!gfDcCode" size="sm" rounded />
-            </template>
-          </q-input>
-        </div>
+    <div v-if="canEdit">
+      <div v-if="localModel.total_price > 0"> <q-input v-model="gfDcCode" label="Gift voucher / Discount code" outlined
+          dense>
+          <template v-slot:append>
+            <q-btn @click="checkGvDc()" label="Apply" color="primary" :disable="!gfDcCode" size="sm" rounded />
+          </template>
+        </q-input>
       </div>
     </div>
-    <div class="q-mt-sm items-center q-pb-xs">
+    <div class="q-mt-md items-center q-pb-md">
       <div class="flex">
         <q-btn @click="doSendPaymentRequest('sms')" icon="chat" title="Send SMS Payment Request" flat v-if="canSend"
           :disable="sendingPaymentRequest" round />
@@ -77,7 +75,7 @@
           v-if="canSend" :disable="sendingPaymentRequest" rounded />
       </div>
       <div v-if="localModel.sent_for_payment && localModel.status !== 'PAID'" class="text-grey">
-        <q-separator class="q-mt-sm q-mb-sm" />
+        <q-separator class="q-mt-md q-mb-sm" />
         Sent for payment: {{ dateTimeTz(localModel.sent_for_payment) }}<br />Due: {{
           localModel.due_date }}
       </div>
@@ -284,7 +282,10 @@ const plusQty = (product: InvoiceProduct) => {
   save()
 }
 
-const manualQty = () => {
+const manualQty = (qty: number | null | string) => {
+  if (!qty) {
+    return
+  }
   save()
 }
 
@@ -297,6 +298,7 @@ const save = () => {
     loading.value = false
     emits('update:products')
   }).catch(error => {
+    loading.value = false
     useMixinDebug(error)
   })
 }

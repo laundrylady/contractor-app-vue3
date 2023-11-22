@@ -178,7 +178,8 @@
                       </div>
                       <div class="col-xs-12 col-sm-6">
                         <q-input v-model="model.team.mobile" :error="$v.team.mobile.$invalid"
-                          label="Your contact mobile number" outlined mask="#### ### ###" />
+                          label="Your contact mobile number" outlined
+                          :mask="common?.operating_country === 'aud' ? '#### ### ###' : ''" maxlength="20" />
                       </div>
                     </div>
                     <div class="text-h6 q-mt-sm">Pickup Address</div>
@@ -206,9 +207,9 @@
                 </div>
               </q-card-section>
               <q-card-section v-if="step === 6">
-                <p class="text-center text-bold" v-if="!success && !error">Confirm your booking:</p>
+                <p class="text-center text-bold" v-if="!success && !error && !confirming">Confirm your booking:</p>
                 <q-card>
-                  <q-card-section v-if="!success && !error">
+                  <q-card-section v-if="!success && !error && !confirming">
                     <div class="text-bold">Your contact details</div>
                     <div>{{ model.team.email }}</div>
                     <div class="q-mb-md">{{ model.team.mobile }}</div>
@@ -227,10 +228,7 @@
                         label="I want to receive emails with the latest news and updates from The Laundry Lady" />
                     </div>
                     <div>
-                      <div>
-                        <q-toggle v-model="model.cancellation_terms" label="I agree to the Cancellation policy" />
-                      </div>
-                      <div>No cancellations or changes allowed within 3 hours of the appointment.
+                      <div class="q-mt-sm q-mb-xs">No cancellations or changes allowed within 3 hours of the appointment.
                         Charges will be applied if clothes are not ready at pickup. By booking this appointment you agree
                         to our Terms and Conditions which can be found online here:
                         <a href="https://thelaundrylady.co.nz/terms-and-conditions/"
@@ -240,6 +238,15 @@
                           v-if="common?.operating_country === 'aud'" target="_blank"
                           class="link">https://thelaundrylady.com.au/terms-and-conditions/</a>
                       </div>
+                      <div>
+                        <q-toggle v-model="model.cancellation_terms" label="I agree to the Cancellation policy" />
+                      </div>
+                    </div>
+                  </q-card-section>
+                  <q-card-section v-if="error">
+                    <p>The following problems were found when trying to submit the booking:</p>
+                    <div v-for="(e, index) in errors" :key="index">
+                      <div class="text-bold">{{ e.message }}</div>
                     </div>
                   </q-card-section>
                   <q-card-section v-if="success">
@@ -257,7 +264,7 @@
                       :categories="categories" v-if="categories && model.suburb_postcode_region_id" />
                   </q-card-section>
                 </q-card>
-                <div class="q-mt-xl text-center" v-if="!success">
+                <div class="q-mt-xl text-center" v-if="!success && !confirming">
                   <q-btn @click="stepMove(5)" color="primary" label="Previous" flat class="q-mr-sm" rounded />
                   <q-btn @click="save()" color="primary" label="Confirm booking"
                     :disable="$v.$invalid || !model.cancellation_terms" rounded />
@@ -289,6 +296,7 @@ import { Order, QDateNavigation } from '../../components/models'
 import OrderContractorManagement from '../../components/order/OrderContractorManagement.vue'
 import { useMixinCommon } from 'src/mixins/common'
 import { useRoute } from 'vue-router'
+import { LooseObject } from 'src/contracts/LooseObject'
 
 const step = ref(1)
 const washingAndIroning = ref(false)
@@ -298,6 +306,8 @@ const categories = ref()
 const availableDates = ref<string[]>([])
 const success = ref(false)
 const error = ref(false)
+const confirming = ref(false)
+const errors = ref<LooseObject[]>([])
 const common = useMixinCommon()
 const route = useRoute()
 const iframed = ref(false)
@@ -481,14 +491,17 @@ const updateScheduledPickupTime = (val: string | null) => {
 const save = () => {
   confirmDelete('This will confirm the booking').onOk(() => {
     $q.loading.show({ message: 'Confirming booking...' })
+    confirming.value = true
     success.value = false
     error.value = false
     api.post('/public/order/new', model).then(() => {
       success.value = true
+      confirming.value = false
       $q.loading.hide()
-    }).catch(error => {
-      useMixinDebug(error)
+    }).catch(responseError => {
+      confirming.value = false
       error.value = true
+      errors.value = responseError.response && responseError.response.data ? responseError.response.data.errors : [{ field: 'Unknown Error', message: 'Unknown error occured.' }]
       $q.loading.hide()
     })
   })

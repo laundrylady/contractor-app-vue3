@@ -1,5 +1,5 @@
 <template>
-  <div style="min-height:100px;">
+  <div>
     <div v-if="!loaded"><q-spinner /> Loading notes...</div>
     <q-card :class="{ 'no-shadow bg-transparent': nobox }">
       <q-toolbar class="bg-primary text-white" v-if="!nobox">
@@ -9,16 +9,16 @@
         <div v-if="!notes.length" class="q-mb-md">
           No notes found
         </div>
-        <div class="q-mb-lg">
+        <div class="q-mb-md">
           <q-input v-model="newNote.note" type="textarea" placeholder="Type a new note"
-            v-bind:class="{ 'm-t-lg': notes.length }" class="q-mb-sm" autogrow outlined>
+            v-bind:class="{ 'm-t-lg': notes.length }" class="q-mb-sm" autogrow outlined dense>
             <template v-slot:append>
-              <q-btn color="primary" @click="addNote()" :disabled="loading" label="Add" rounded />
+              <q-btn color="primary" @click="addNote()" :disabled="loading" label="Add" rounded size="sm" />
             </template>
           </q-input>
         </div>
-        <q-list class="q-mt-sm">
-          <q-item v-for="(n, index) in notes" :key="index">
+        <q-list separator dense>
+          <q-item v-for="(n, index) in notes" :key="index" :class="{ 'bg-red-1': n.alert }">
             <q-item-section avatar>
               <UserAvatar :user="n.user" />
             </q-item-section>
@@ -57,7 +57,9 @@ const notes = ref()
 const newNote = reactive({
   notable_type: props.notable_type,
   notable_id: props.notable_id.toString(),
-  note: null
+  note: null,
+  alert: false,
+  contractor_visible: false
 })
 
 const getNotes = () => {

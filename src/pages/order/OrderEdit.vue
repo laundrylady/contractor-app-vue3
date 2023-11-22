@@ -149,7 +149,7 @@
           </q-card-section>
           <div v-if="localModel.invoice">
             <q-tabs v-model="invoiceTab" align="left">
-              <q-tab name="products" :label="`Products (${localModel.invoice.products.length})`" />
+              <q-tab name="products" :label="`${$t('product.namePlural')} (${localModel.invoice.products.length})`" />
               <q-tab name="config" :label="$t('order.invoiceConfiguration')" v-if="user && user.role === 'customer'" />
               <q-tab name="payments" :label="`${$t('order.payments')} (${localModel.invoice.payments.length})`" />
               <q-tab name="notes" label="Notes" />

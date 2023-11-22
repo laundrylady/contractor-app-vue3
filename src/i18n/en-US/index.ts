@@ -121,10 +121,10 @@ export default {
     namePlural: 'Jobs'
   },
   product: {
-    name: 'Product',
-    namePlural: 'Products',
-    create: 'New Product',
-    edit: 'Edit Product',
+    name: 'Service',
+    namePlural: 'Services',
+    create: 'New Service',
+    edit: 'Edit Service',
     discount: {
       name: 'Discount Code',
       namePlural: 'Discount Codes',
@@ -132,10 +132,10 @@ export default {
     }
   },
   productCategory: {
-    name: 'Product Category',
-    namePlural: 'Product Categories',
-    create: 'New Product Category',
-    edit: 'Edit Product Category'
+    name: 'Service Category',
+    namePlural: 'Service Categories',
+    create: 'New Service Category',
+    edit: 'Edit Service Category'
   },
   order: {
     name: 'Booking',
