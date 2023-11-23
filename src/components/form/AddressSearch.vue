@@ -84,6 +84,7 @@ const handleChange = () => {
       props.addressfields.address1,
       props.addressfields.address2,
       props.addressfields.suburb_postcode_region_id,
+      props.addressfields.postcode,
       props.addressfields.lat,
       props.addressfields.lng,
       props.addressfields.country_id

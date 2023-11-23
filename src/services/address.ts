@@ -1,7 +1,7 @@
 import { AddressSearchItem, AddressSearchItemGoogle } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 
-const addressPopulate = (item:AddressSearchItem, model:LooseObject|undefined, address1:string, address2:string, suburbPostcodeRegionId:string, lat:string, lng:string, countryId:string) => {
+const addressPopulate = (item:AddressSearchItem, model:LooseObject|undefined, address1:string, address2:string, suburbPostcodeRegionId:string, postcode:string, lat:string, lng:string, countryId:string) => {
   if (!model) {
     return
   }
@@ -42,6 +42,11 @@ const addressPopulate = (item:AddressSearchItem, model:LooseObject|undefined, ad
   if (lng && item.longitude) {
     // eslint-disable-next-line
     model[lng] = parseFloat(item.longitude)
+  }
+  // postcode
+  if (postcode && item.postcode) {
+    // eslint-disable-next-line
+      model[postcode] = item.postcode
   }
   // suburb_postcode_region_id
   if (suburbPostcodeRegionId) {
