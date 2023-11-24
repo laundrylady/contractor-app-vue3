@@ -29,8 +29,9 @@
                   }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)
 }}</span>)</router-link>
               <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"
-                v-if="o.status === 'ready_for_delivery'"><span v-if="o.scheduled_delivery_date">{{
-                  displayDateDay(o.scheduled_delivery_date) }}</span> {{ o.scheduled_delivery_date }} (<span
+                v-if="o.status === 'ready_for_delivery' && o.scheduled_delivery_date"><span
+                  v-if="o.scheduled_delivery_date">{{
+                    displayDateDay(o.scheduled_delivery_date) }}</span> {{ o.scheduled_delivery_date }} (<span
                   v-if="!o.agreed_delivery_time && o.scheduled_delivery_time">{{
                     hourBookingDisplay(o.scheduled_delivery_time)
                   }}</span><span v-if="o.agreed_delivery_time">{{ hourAgreedDisplay(o.agreed_delivery_time)

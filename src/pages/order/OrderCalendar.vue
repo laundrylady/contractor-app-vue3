@@ -21,7 +21,10 @@
             <q-space v-if="!$q.screen.xs" />
             <q-select v-model="calendarView"
               :options="[{ label: 'Week', value: 'week' }, { label: 'Month', value: 'month' }, { label: 'Day', value: 'day' }]"
-              emit-value map-options dense filled label="View" class="q-mr-sm" />
+              emit-value map-options dense filled label="View" class="q-mr-sm" @update:model-value="getOrders()" />
+            <q-select v-model="pickupOrDelivery"
+              :options="[{ label: 'Pickups', value: 'pickups' }, { label: 'Deliveries', value: 'deliveries' }]" emit-value
+              map-options dense filled label="Mode" class="q-mr-sm" @update:model-value="getOrders()" />
             <q-space v-if="$q.screen.xs" />
             <q-btn @click="onPrev()" icon="chevron_left" color="secondary" flat dense round />
             <q-btn @click="onToday()" label="Today" color="secondary" flat rounded />
@@ -37,13 +40,13 @@
               <div @mouseenter="currentHover = scope.timestamp.date" style="height:100%;">
                 <div v-if="hasEvents(scope.timestamp)"
                   style="display: flex; justify-content: space-evenly; flex-wrap: wrap; align-items: center; font-weight: 400; font-size: 12px;">
-                  <template v-for="event in getEvents(scope.timestamp) " :key="event.id">
+                  <template v-for="(event, index) in getEvents(scope.timestamp) " :key="`${index}-${event.id}`">
                     <div class="full-width cursor-pointer" @click="orderNav(event.id)" style="font-size:11px;"
                       :class="eventColor(event)">
                       <q-separator dark />
-                      <div class="q-pa-sm ">
+                      <div class="q-pa-sm">
                         <div
-                          v-if="event.scheduled_pickup_time && (moment(scope.timestamp.date).isSame(moment(event.scheduled_pickup_date, 'DD/MM/YYYY')) || !event.scheduled_pickup_date)">
+                          v-if="pickupOrDelivery === 'pickups' && event.scheduled_pickup_time && (moment(scope.timestamp.date).isSame(moment(event.scheduled_pickup_date, 'DD/MM/YYYY')))">
                           <span v-if="!event.agreed_pickup_time">
                             {{ hourBookingDisplay(event.scheduled_pickup_time) }}
                           </span>
@@ -52,7 +55,7 @@
                           </span>
                         </div>
                         <div
-                          v-if="event.scheduled_delivery_time && (moment(scope.timestamp.date).isSame(moment(event.scheduled_delivery_date, 'DD/MM/YYYY')) && event.scheduled_pickup_date)">
+                          v-if="pickupOrDelivery === 'deliveries' && event.scheduled_delivery_time && (moment(scope.timestamp.date).isSame(moment(event.scheduled_delivery_date, 'DD/MM/YYYY')))">
                           <span v-if="!event.agreed_delivery_time">
                             {{ hourBookingDisplay(event.scheduled_delivery_time) }}
                           </span>
@@ -82,13 +85,13 @@
             transition-next="slide-left" transition-prev="slide-right" no-active-date :interval-start="6"
             :interval-count="18" :interval-height="65" :weekdays="[1, 2, 3, 4, 5, 6, 0]">
             <template #day-body="{ scope: { timestamp, timeStartPos, timeDurationHeight } }">
-              <template v-for="(event, index) in getWeekEvents(timestamp.date) " :key="event.id">
+              <template v-for="(event, index) in getWeekEvents(timestamp.date) " :key="`${index}-${event.id}`">
                 <div @click="orderNav(event.id)" class="order-event full-width" style="font-size:11px;"
                   :class="eventColor(event)" :style="badgeStyles(event, timeStartPos, timeDurationHeight, index)">
                   <q-separator dark />
                   <div class="q-pa-sm">
                     <div
-                      v-if="event.scheduled_pickup_time && (moment(timestamp.date).isSame(moment(event.scheduled_pickup_date, 'DD/MM/YYYY')) || !event.scheduled_pickup_date)">
+                      v-if="pickupOrDelivery === 'pickups' && event.scheduled_pickup_time && (moment(timestamp.date).isSame(moment(event.scheduled_pickup_date, 'DD/MM/YYYY')))">
                       <span v-if="!event.agreed_pickup_time">
                         {{ hourBookingDisplay(event.scheduled_pickup_time) }}
                       </span>
@@ -97,10 +100,9 @@
                       </span>
                     </div>
                     <div
-                      v-if="event.scheduled_delivery_time && (moment(timestamp.date).isSame(moment(event.scheduled_delivery_date, 'DD/MM/YYYY')) && event.scheduled_pickup_date)">
+                      v-if="pickupOrDelivery === 'deliveries' && event.scheduled_delivery_time && (moment(timestamp.date).isSame(moment(event.scheduled_delivery_date, 'DD/MM/YYYY')))">
                       <span v-if="!event.agreed_delivery_time">
-                        {{ hourBookingDisplay(event.scheduled_delivery_time) }}<q-icon name="local_shipping"
-                          class="q-ml-xs" />
+                        {{ hourBookingDisplay(event.scheduled_delivery_time) }}
                       </span>
                       <span v-if="event.agreed_delivery_time">
                         {{ hourAgreedDisplay(event.agreed_delivery_time) }}<q-icon name="local_shipping"
@@ -133,7 +135,7 @@
                   <q-separator dark />
                   <div class="q-pa-sm">
                     <div
-                      v-if="event.scheduled_pickup_time && (moment(timestamp.date).isSame(moment(event.scheduled_pickup_date, 'DD/MM/YYYY')) || !event.scheduled_pickup_date)">
+                      v-if="pickupOrDelivery === 'pickups' && event.scheduled_pickup_time && (moment(timestamp.date).isSame(moment(event.scheduled_pickup_date, 'DD/MM/YYYY')))">
                       <span v-if="!event.agreed_pickup_time">
                         {{ hourBookingDisplay(event.scheduled_pickup_time) }}
                       </span>
@@ -142,7 +144,7 @@
                       </span>
                     </div>
                     <div
-                      v-if="event.scheduled_delivery_time && (moment(timestamp.date).isSame(moment(event.scheduled_delivery_date, 'DD/MM/YYYY')) && event.scheduled_pickup_date)">
+                      v-if="pickupOrDelivery === 'deliveries' && event.scheduled_delivery_time && (moment(timestamp.date).isSame(moment(event.scheduled_delivery_date, 'DD/MM/YYYY')))">
                       <span v-if="!event.agreed_delivery_time">
                         {{ hourBookingDisplay(event.scheduled_delivery_time) }}<q-icon name="local_shipping"
                           class="q-ml-xs" />
@@ -187,6 +189,7 @@ const loading = ref(false)
 const currentHover = ref()
 const calendarView = ref('week')
 const router = useRouter()
+const pickupOrDelivery = ref('pickups')
 
 // calendar
 const selectedDate = ref(today())
@@ -206,7 +209,7 @@ const getOrders = () => {
     const unit = calendarView.value === 'week' ? 'week' : calendarView.value === 'day' ? 'day' : 'month'
     const start = moment(selectedDate.value).subtract(1, unit).startOf(unit).format('YYYY-MM-DD')
     const end = moment(selectedDate.value).add(1, unit).endOf(unit).format('YYYY-MM-DD')
-    api.post('/public/order/bookingcalendar', { start, end }).then(response => {
+    api.post(`/public/order/bookingcalendar/${pickupOrDelivery.value}`, { start, end }).then(response => {
       orders.value = response.data
       loading.value = false
     }).catch(error => {
@@ -247,18 +250,30 @@ const getEvents = (timestamp: LooseObject) => {
   if (!orders.value) {
     return []
   }
-  const events = orders.value.filter((o: Order) => moment(o.scheduled_pickup_date, 'DD/MM/YYYY').format('YYYY-MM-DD') === timestamp.date || moment(o.scheduled_delivery_date, 'DD/MM/YYYY').format('YYYY-MM-DD') === timestamp.date)
-  if (!events) return []
-  return sortOrdersByKey(events, 'sortTime', 'asc', 'number')
+  if (pickupOrDelivery.value === 'pickups') {
+    const events = orders.value.filter((o: Order) => moment(o.scheduled_pickup_date, 'DD/MM/YYYY').format('YYYY-MM-DD') === timestamp.date)
+    if (!events) return []
+    return sortOrdersByKey(events, 'sortTime', 'asc', 'number')
+  } else {
+    const events = orders.value.filter((o: Order) => moment(o.scheduled_delivery_date, 'DD/MM/YYYY').format('YYYY-MM-DD') === timestamp.date)
+    if (!events) return []
+    return sortOrdersByKey(events, 'sortTime', 'asc', 'number')
+  }
 }
 
 const hasEvents = (timestamp: LooseObject) => {
   if (!orders.value) {
     return false
   }
-  return orders.value.filter((o: Order) => {
-    return moment(o.scheduled_pickup_date, 'DD/MM/YYYY').format('YYYY-MM-DD') === timestamp.date || moment(o.scheduled_delivery_date, 'DD/MM/YYYY').format('YYYY-MM-DD') === timestamp.date
-  }).length > 0
+  if (pickupOrDelivery.value === 'pickups') {
+    return orders.value.filter((o: Order) => {
+      return moment(o.scheduled_pickup_date, 'DD/MM/YYYY').format('YYYY-MM-DD') === timestamp.date
+    }).length > 0
+  } else {
+    return orders.value.filter((o: Order) => {
+      return moment(o.scheduled_delivery_date, 'DD/MM/YYYY').format('YYYY-MM-DD') === timestamp.date
+    }).length > 0
+  }
 }
 
 const eventColor = (order: Order) => {
@@ -310,35 +325,38 @@ const eventsMap = computed(() => {
     return map
   }
   orders.value.forEach((order: Order) => {
-    const orderDate = moment(order.scheduled_pickup_date, 'DD/MM/YYYY').format('YYYY-MM-DD')
-    if (!map[orderDate]) {
-      map[orderDate] = []
-    }
-    let timeStart: string | number = parseFloat(order.scheduled_pickup_time ? order.scheduled_pickup_time.split('-')[0] : '9')
-    if (timeStart < 10) {
-      timeStart = `0${timeStart}`
-    }
-    order.time = `${timeStart}:00`
-    // set sort time
-    order.pickupSortTime = timeStart
-    if (!order.scheduled_delivery_date) {
-      order.sortTime = order.pickupSortTime
-    }
-    map[orderDate].push(order)
-    // delivery
-    if (order.scheduled_delivery_date) {
-      const deliveryDate = moment(order.scheduled_delivery_date, 'DD/MM/YYYY').format('YYYY-MM-DD')
-      if (!map[deliveryDate]) {
-        map[deliveryDate] = []
+    if (pickupOrDelivery.value === 'pickups') {
+      const orderDate = moment(order.scheduled_pickup_date, 'DD/MM/YYYY').format('YYYY-MM-DD')
+      if (!map[orderDate]) {
+        map[orderDate] = []
       }
-      let timeStart: string | number = parseFloat(order.scheduled_delivery_time ? order.scheduled_delivery_time.split('-')[0] : '9')
+      let timeStart: string | number = parseFloat(order.scheduled_pickup_time ? order.scheduled_pickup_time.split('-')[0] : '9')
       if (timeStart < 10) {
         timeStart = `0${timeStart}`
       }
       order.time = `${timeStart}:00`
-      order.deliverySortTime = timeStart
-      order.sortTime = moment().isSame(moment(order.scheduled_pickup_date, 'DD/MM/YYYY')) ? order.pickupSortTime : order.deliverySortTime
-      map[deliveryDate].push(order)
+      // set sort time
+      order.pickupSortTime = timeStart
+      if (!order.scheduled_delivery_date) {
+        order.sortTime = order.pickupSortTime
+      }
+      map[orderDate].push(order)
+    } else {
+      // delivery
+      if (order.scheduled_delivery_date) {
+        const deliveryDate = moment(order.scheduled_delivery_date, 'DD/MM/YYYY').format('YYYY-MM-DD')
+        if (!map[deliveryDate]) {
+          map[deliveryDate] = []
+        }
+        let timeStart: string | number = parseFloat(order.scheduled_delivery_time ? order.scheduled_delivery_time.split('-')[0] : '9')
+        if (timeStart < 10) {
+          timeStart = `0${timeStart}`
+        }
+        order.time = `${timeStart}:00`
+        order.deliverySortTime = timeStart
+        order.sortTime = moment().isSame(moment(order.scheduled_pickup_date, 'DD/MM/YYYY')) ? order.pickupSortTime : order.deliverySortTime
+        map[deliveryDate].push(order)
+      }
     }
   })
   return map
@@ -346,8 +364,11 @@ const eventsMap = computed(() => {
 
 const getWeekEvents = (dt: string) => {
   // get all events for the specified date
-  const events = eventsMap.value[dt] || []
-  return sortOrdersByKey(events, 'sortTime', 'asc', 'number')
+  const events = eventsMap.value[dt]
+  if (!events || !Array.isArray(events)) {
+    return []
+  }
+  return events
 }
 
 const orderNav = (id: string) => {

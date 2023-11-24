@@ -134,7 +134,7 @@ const serverPagination = ref({
   page: 1,
   rowsNumber: getRowsPerPage(),
   rowsPerPage: getRowsPerPage(),
-  sortBy: 'display_id',
+  sortBy: 'scheduled_pickup_date',
   descending: true
 })
 

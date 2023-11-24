@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" class="bg-page-background">
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn" padding>
         <div class="col-xs-12 col-sm-6 col-md-3">

@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf" container class="layout-height layout-container" v-if="model && model.id">
-    <q-header :class="{ 'bg-page text-black': !$q.dark.isActive, 'bg-dark': $q.dark.isActive }">
+    <q-header :class="{ 'bg-page-background text-black': !$q.dark.isActive, 'bg-dark': $q.dark.isActive }">
       <div class="q-pl-md q-pr-md q-pt-md">
         <div class="flex" v-if="!$q.screen.xs">
           <q-breadcrumbs class="q-mb-md">
@@ -12,7 +12,7 @@
             <q-breadcrumbs-el :label="`#${model.display_id.toString()}`" />
           </q-breadcrumbs>
         </div>
-        <div class="q-mb-xs page-title q-pa-md rounded-borders">
+        <div class="q-mb-xs bg-white q-pa-md rounded-borders">
           <div class="row items-center">
             <div class="col-xs-12 col-sm-8">
               <div class="flex items-center">
@@ -69,7 +69,7 @@
         </div>
       </div>
     </q-header>
-    <q-drawer v-model="drawer.left" :width="300" side="left" :class="{ 'bg-page': !$q.screen.xs }">
+    <q-drawer v-model="drawer.left" :width="300" side="left" :class="{ 'bg-page-background': !$q.screen.xs }">
       <div class="bg-white q-ma-sm rounded-borders">
         <div class="text-right q-pa-sm" v-if="$q.screen.lt.lg">
           <q-btn @click="drawer.left = false" icon="close" flat round dense v-close-popup />

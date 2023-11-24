@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh LpR fFf" v-if="user && user.id">
+  <q-layout view="lHh LpR fFf" v-if="user && user.id" class="bg-page-background">
     <q-header>
       <q-toolbar style="height:65px;">
         <router-link :to="{ name: 'appDashboard' }" class="link">

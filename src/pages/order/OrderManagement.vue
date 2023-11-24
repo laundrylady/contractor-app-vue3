@@ -12,13 +12,14 @@
         </div>
         <div class="row q-col-gutter-md q-mt-xs" v-if="showFilters">
           <div class="col-xs-6">
-            <DateField v-model="search.start" label="Start" :dense="true" :outlined="true" />
+            <DateField v-model="search.start" label="Start" :dense="true" :outlined="true" :clearable="true" />
           </div>
           <div class="col-xs-6">
-            <DateField v-model="search.end" label="End" :dense="true" :outlined="true" />
+            <DateField v-model="search.end" label="End" :dense="true" :outlined="true" :clearable="true" />
           </div>
           <div class="col-xs-9">
-            <TeamField v-model="search.team_id" :label="$t('team.name')" :dense="true" :outlined="true" status="active" />
+            <TeamField v-model="search.team_id" :label="$t('team.name')" :dense="true" :outlined="true" status="active"
+              :clearable="true" />
           </div>
           <div class="col-xs-3">
             <q-btn @click="request()" icon="search" color="primary" />
