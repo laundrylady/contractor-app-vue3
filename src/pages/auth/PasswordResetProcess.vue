@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf" class="bg-page-background">
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn q-pa-md">
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-xl-3">
           <div class="text-center q-mb-md" style="min-height:150px;">
             <AppLogo />
           </div>

@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf" class="bg-page-background">
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn q-pa-md" v-if="userStore && userStore.data">
-        <q-card class="col-xs-12 col-sm-6 col-md-4">
+        <q-card class="col-xs-12 col-sm-6 col-md-4 col-xl-3">
           <q-card-section class="text-center" style="min-height:165px;">
             <AppLogo />
           </q-card-section>
