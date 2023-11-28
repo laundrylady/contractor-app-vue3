@@ -9,7 +9,7 @@
         <q-space />
         <q-btn icon="event" :title="$t('order.namePlural')" :to="{ name: 'order-calendar' }" flat round class="q-mr-xs" />
         <q-btn icon="shopping_cart" title="Order supplies" flat round class="q-mr-xs"
-          @click="openURL('https://teamlaundrylady.co/account/login')" />
+          @click="openURL(common?.operating_country === 'aud' ? 'https://teamlaundrylady.co/account/login' : 'https://www.teamlaundrylady.co.nz/')" />
         <q-btn icon="logout" title="Sign Out" @click="logout()" flat round class="q-mr-xs" />
         <q-btn flat round @click="profile()">
           <q-avatar size="32px">
@@ -66,6 +66,7 @@ import HeaderSearch from 'src/components/HeaderSearch.vue'
 import MediaViewer from 'src/components/MediaViewer.vue'
 import ValidationsModal from 'src/components/form/ValidationsModal.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
+import { useMixinCommon } from 'src/mixins/common'
 import { useMixinSecurity } from 'src/mixins/security'
 import { getLocationPromise } from 'src/services/geolocation'
 import { socket } from 'src/services/socketio'
@@ -78,6 +79,7 @@ const router = useRouter()
 const isLocked = ref(false)
 const bus = inject('bus') as EventBus
 const geolocationEnabled = ref(true)
+const common = useMixinCommon()
 
 // check for lockout
 setInterval(() => {
