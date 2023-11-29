@@ -10,7 +10,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.8",
+    "@quasar/extras": "^1.16.9",
     "@sentry/tracing": "^7.44.2",
     "@sentry/vue": "^7.44.2",
     "@types/google.maps": "^3.52.0",
@@ -21,7 +21,7 @@
     "mitt": "^3.0.0",
     "moment-timezone": "^0.5.40",
     "pinia": "^2.0.11",
-    "quasar": "^2.14.0",
+    "quasar": "^2.14.1",
     "socket.io-client": "^4.6.1",
     "vue": "^3.0.0",
     "vue-google-charts": "^1.1.0",
