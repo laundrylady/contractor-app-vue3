@@ -80,7 +80,7 @@
             <div class="row q-col-gutter-md">
               <div class="col-xs-6">
                 <DateField v-model="localModel.contractor_insurance_expiry" :label="$t('contractor.insuranceExpiry')"
-                  :outlined="true" />
+                  :outlined="true" :disable="true" />
               </div>
               <div class="col-xs-6">
                 <q-input v-model="localModel.contractor_target" :label="$t('contractor.target')"

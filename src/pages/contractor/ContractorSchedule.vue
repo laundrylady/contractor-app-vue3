@@ -13,16 +13,19 @@
     <q-tabs v-model="currentTab" class="q-mb-md" :align="!$q.screen.xs ? 'left' : 'center'">
       <q-tab name="schedule" :label="$t('roster.name')" />
       <q-tab name="pickup" label="Pickup Locations" />
+      <q-tab name="roster" :label="$t('schedule.name')" />
     </q-tabs>
     <UserRosterScheduleManagement :user="model" v-if="currentTab === 'schedule'" />
+    <UserRosterManagement v-if="currentTab === 'roster'" />
     <UserPostcodeRegionGroupManagement :user="model" v-if="currentTab === 'pickup'" />
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
 import { User } from 'src/components/models'
 import UserPostcodeRegionGroupManagement from 'src/components/userpostcoderegiongroup/UserPostcodeRegionGroupManagement.vue'
+import UserRosterManagement from 'src/components/userroster/UserRosterManagement.vue'
 import UserRosterScheduleManagement from 'src/components/userrosterschedule/UserRosterScheduleManagement.vue'
+import { ref } from 'vue'
 
 interface Props {
   model: User
