@@ -3,6 +3,10 @@
     <q-linear-progress indeterminate v-if="loadingContractors" color="primary" />
     <div class="q-ml-sm q-mt-sm">Finding available ladies / lads...</div>
   </div>
+  <div v-if="contractors && !loadingContractors && !contractors.length" class="text-center">
+    No pickup timeslots are available for the selected day.<br />Please ensure you book at least 3 hours prior to the
+    required pickup time.
+  </div>
   <div v-if="contractors && !loadingContractors && contractors.length">
     <div v-for="c in contractors" :key="c.key">
       <p>Pickup slots available in the {{ c.key }}</p>

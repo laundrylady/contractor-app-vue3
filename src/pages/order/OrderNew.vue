@@ -465,7 +465,7 @@ const customerTypes = computed(() => {
 const model = reactive<Order>(JSON.parse(JSON.stringify(schema)))
 const bus = inject('bus') as EventBus
 const minDate = (date: string) => {
-  return date >= moment().add(1, 'day').format('YYYY/MM/DD') && availableDates.value.indexOf(date) !== -1
+  return date >= moment().format('YYYY/MM/DD') && availableDates.value.indexOf(date) !== -1
 }
 const currentBookingDate = ref(moment())
 const noContractors = ref(false)
