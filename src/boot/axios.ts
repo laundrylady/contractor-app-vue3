@@ -22,7 +22,7 @@ const api = axios.create({
     'X-Requested-With': 'XMLHttpRequest',
     'Cache-Control': 'no-cache',
     'If-Modified-Since': '0',
-    Tz: sessionStorage.getItem('timezone') || moment.tz.guess()
+    Tz: moment.tz.guess()
   }
 })
 const userStore = useUserStore()
