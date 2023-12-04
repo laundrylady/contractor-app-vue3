@@ -29,6 +29,13 @@
                 <span v-for="(p, index) in rr.postcoderegiongroup.postcoderegions" :key="p.id" style="font-size:13px;">
                   {{ p.locality }}{{ index + 1 !== rr.postcoderegiongroup.postcoderegions.length ? ', ' : '' }}</span>
               </div>
+              <div>
+                <q-btn @click="rr.showMap = !rr.showMap" label="View Map" rounded class="q-mb-md q-mt-sm" color="primary"
+                  flat no-caps />
+                <map-with-marker-multiple
+                  :lat-lng="rr.postcoderegiongroup.postcoderegions.map((o: any) => { return { lat: parseFloat(o.meta.pivot_lat), lng: parseFloat(o.meta.pivot_lng) } })"
+                  v-if="rr.showMap" />
+              </div>
             </q-item-section>
           </q-item>
         </q-list>
@@ -43,6 +50,7 @@ import { useMixinDebug } from 'src/mixins/debug'
 import { categoryIcon, dayDisplay, durationDisplay, groupBy, hourDisplay } from 'src/mixins/help'
 import { productCategoriesVisibleCapacity } from 'src/services/helpers'
 import { onMounted, ref } from 'vue'
+import MapWithMarkerMultiple from '../maps/MapWithMarkerMultiple.vue'
 
 const roster = ref()
 const categories = ref()

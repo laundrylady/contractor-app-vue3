@@ -7,6 +7,7 @@
         </router-link>
         <HeaderSearch class="q-ml-md" />
         <q-space />
+        <q-btn :to="{ name: 'orders' }" flat round icon="list_alt" class="q-mr-xs" title="All Bookings" />
         <q-btn icon="event" :title="$t('order.namePlural')" :to="{ name: 'order-calendar' }" flat round class="q-mr-xs" />
         <q-btn icon="shopping_cart" title="Order supplies" flat round class="q-mr-xs"
           @click="openURL(common?.operating_country === 'aud' ? 'https://teamlaundrylady.co/account/login' : 'https://www.teamlaundrylady.co.nz/')" />

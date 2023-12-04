@@ -15,6 +15,13 @@
               <div>
                 <PostcodeRegionDisplay :postcoderegions="d.postcoderegions" />
               </div>
+              <div class="q-mt-sm">
+                <q-btn @click="d.showMap = !d.showMap" label="View Map" rounded class="q-mb-md" color="primary" flat
+                  no-caps />
+                <map-with-marker-multiple
+                  :lat-lng="d.postcoderegions.map((o: any) => { return { lat: parseFloat(o.meta.pivot_lat), lng: parseFloat(o.meta.pivot_lng) } })"
+                  v-if="d.showMap" />
+              </div>
             </div>
           </q-item-section></q-item>
       </q-list>
@@ -28,6 +35,7 @@ import { useMixinDebug } from 'src/mixins/debug'
 import { onMounted, ref } from 'vue'
 import UserPostcodeRegionGroupCreate from './UserPostcodeRegionGroupCreate.vue'
 import UserPostcodeRegionGroupEdit from './UserPostcodeRegionGroupEdit.vue'
+import MapWithMarkerMultiple from '../maps/MapWithMarkerMultiple.vue'
 
 const data = ref()
 const loading = ref(false)
