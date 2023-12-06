@@ -1,11 +1,11 @@
 <template>
-  <q-layout view="lHh Lpr lFf" container class="layout-height" v-if="model && model.id">
+  <q-layout view="lHh Lpr lFf" container class="layout-height">
     <q-header :class="{ 'page-title text-black': !$q.dark.isActive, 'bg-dark': $q.dark.isActive }" bordered>
-      <ContractorNav :model="model" />
+      <ContractorNav />
     </q-header>
     <q-page-container>
       <q-page padding class="q-pt-md layout-container q-pa-md">
-        <router-view :model="model" />
+        <router-view :model="model" v-if="model && model.id" />
       </q-page>
     </q-page-container>
   </q-layout>

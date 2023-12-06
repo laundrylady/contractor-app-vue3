@@ -1,5 +1,5 @@
 <template>
-  <q-page padding v-if="user && user.id" :class="{ 'q-pa-md': $q.screen.xs }">
+  <q-page v-if="user && user.id">
     <app-dashboard-contractor v-if="user.role === 'contractor'" />
   </q-page>
 </template>

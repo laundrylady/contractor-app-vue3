@@ -7,15 +7,26 @@
         </router-link>
         <HeaderSearch class="q-ml-md" />
         <q-space />
-        <q-btn :to="{ name: 'orders' }" flat round icon="list_alt" class="q-mr-xs" title="All Bookings" />
+        <q-btn @click="openURL('https://support.teamlaundrylady.co/support/tickets/new')" icon="sym_o_help" flat round
+          class="q-mr-xs" title="Contact support" />
+        <q-btn :to="{ name: 'orders' }" flat round icon="format_list_bulleted" class="q-mr-xs" title="All Bookings" />
         <q-btn icon="event" :title="$t('order.namePlural')" :to="{ name: 'order-calendar' }" flat round class="q-mr-xs" />
         <q-btn icon="shopping_cart" title="Order supplies" flat round class="q-mr-xs"
           @click="openURL(common?.operating_country === 'aud' ? 'https://teamlaundrylady.co/account/login' : 'https://www.teamlaundrylady.co.nz/')" />
-        <q-btn icon="logout" title="Sign Out" @click="logout()" flat round class="q-mr-xs" />
         <q-btn flat round @click="profile()">
           <q-avatar size="32px">
             <q-img src="/api/user/useravatar?fetch=thumb" />
           </q-avatar>
+          <q-menu>
+            <q-list>
+              <q-item :to="{ name: 'contractor-edit' }" v-close-popup clickable>
+                <q-item-section>Settings</q-item-section>
+              </q-item>
+              <q-item @click="logout()" clickable v-close-popup>
+                <q-item-section>Sign Out</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
         </q-btn>
       </q-toolbar>
     </q-header>

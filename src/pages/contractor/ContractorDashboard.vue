@@ -13,7 +13,11 @@
       <div class="col-xs-12 col-sm-6">
         <q-card class="bg-accent fit" style="height:160px;">
           <q-card-section>
-            <div class="text-h6">Weekly Target</div>
+            <div class="flex">
+              <div class="text-h6">Weekly Target</div>
+              <q-space />
+              <q-btn icon="edit" flat round :to="{ name: 'contractor-edit' }" size="sm" />
+            </div>
             <div class="text-center" style="height:65px;">
               <q-circular-progress :value="dashboard.weeklyOrders.percentage" size="64px" color="primary"
                 track-color="pink-1" v-if="dashboard.weeklyOrders.percentage" />
@@ -158,8 +162,10 @@
       </div>
     </div>
     <div class="text-h6">Current {{ $t('schedule.name') }}</div>
-    <p>We are generating your schedule from the roster below. If you need to permenantly make a change to your
-      roster, <a href="mailto:support@thelaundrylady.com.au" class="link">click here to let us know!</a></p>
+    <p><a href="https://support.teamlaundrylady.co/support/tickets/new" class="link" target="_blank">Click here to let us
+        know if you need
+        to make a
+        change.</a></p>
     <q-card><user-roster-view :rosterUser="model" /></q-card>
   </div>
 </template>
