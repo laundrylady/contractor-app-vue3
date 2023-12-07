@@ -4,7 +4,7 @@ import { LooseObject } from 'src/contracts/LooseObject'
 
 interface ServerToClientEvents {
   connection: () => void,
-  newRelease: () => void,
+  newReleasePortal: () => void,
   hookContractor: (data:LooseObject)=> void
 }
 

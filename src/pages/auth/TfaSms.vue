@@ -8,7 +8,7 @@
           </q-card-section>
           <q-card-section>
             <h4 class="text-h5 q-mt-none q-mb-none">Account Protection</h4>
-            <div>Enter the security code that was sent to via SMS.</div>
+            <div>Enter the security code that was sent via SMS.</div>
           </q-card-section>
           <q-card-section>
             <div class="q-mb-md"><q-btn @click="sendSms" :label="sentSms ? 'Resend security code' : 'Send security code'"

@@ -14,7 +14,7 @@
             <q-card-section>
               <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOutTop" appear>
                 <div class="text-positive q-mb-md" v-if="success">
-                  <p class="text-bold q-mb-lg">Your password has been updated!</p>
+                  <p class="q-mb-lg">Your password has been updated!</p>
                   <q-btn :to="{ name: 'signIn' }" color="primary" label="Go To Sign In" class="full-width" />
                 </div>
               </transition>

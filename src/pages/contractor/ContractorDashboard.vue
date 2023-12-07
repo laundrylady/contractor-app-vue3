@@ -13,10 +13,26 @@
       <div class="col-xs-12 col-sm-6">
         <q-card class="bg-accent fit" style="height:160px;">
           <q-card-section>
-            <div class="flex">
+            <div class="flex items-center">
               <div class="text-h6">Weekly Target</div>
               <q-space />
-              <q-btn icon="edit" flat round :to="{ name: 'contractor-edit' }" size="sm" />
+              <q-btn icon="edit" flat round size="sm" @click="showWeeklyTargetInput = true" />
+              <q-dialog v-model="showWeeklyTargetInput">
+                <q-card class="modal-sm">
+                  <q-toolbar class="bg-primary text-white">
+                    <q-toolbar-title>Update Weekly Target</q-toolbar-title>
+                    <q-space />
+                    <q-btn v-close-popup icon="close" round dense flat />
+                  </q-toolbar>
+                  <q-card-section>
+                    <q-input v-model="weeklyTarget" autofocus outlined label="Enter a weekly target" />
+                  </q-card-section>
+                  <q-card-actions align="right">
+                    <q-btn label="Cancel" flat color="secondary" v-close-popup /> <q-btn @click="updateWeeklyTarget()"
+                      label="Update" color="primary" />
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
             </div>
             <div class="text-center" style="height:65px;">
               <q-circular-progress :value="dashboard.weeklyOrders.percentage" size="64px" color="primary"
@@ -170,12 +186,13 @@
   </div>
 </template>
 <script setup lang="ts">
+import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
 import { Order, User } from 'src/components/models'
 import UserRosterView from 'src/components/userroster/UserRosterView.vue'
 import { useMixinDebug } from 'src/mixins/debug'
 import { currencyFormat } from 'src/mixins/help'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, inject } from 'vue'
 import { useRoute } from 'vue-router'
 
 interface Props {
@@ -184,7 +201,10 @@ interface Props {
 const route = useRoute()
 // eslint-disable-next-line
 const props = defineProps<Props>()
+const bus = inject('bus') as EventBus
 const showUnpaids = ref(false)
+const weeklyTarget = ref()
+const showWeeklyTargetInput = ref(false)
 
 const dashboard = ref()
 const recurringOrders = ref<Order[]>()
@@ -203,6 +223,20 @@ const getRecurringOrders = () => {
   }).catch(error => {
     useMixinDebug(error)
   })
+}
+
+const updateWeeklyTarget = () => {
+  console.log(weeklyTarget.value)
+  if (weeklyTarget.value) {
+    api.put('/public/user/contractor/weeklytarget', { contractor_target: weeklyTarget.value }).then(() => {
+      bus.emit('getContractor')
+      getDashboard()
+      showWeeklyTargetInput.value = false
+      weeklyTarget.value = null
+    }).catch(error => {
+      useMixinDebug(error)
+    })
+  }
 }
 
 onMounted(() => {

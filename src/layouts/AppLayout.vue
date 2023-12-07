@@ -13,7 +13,7 @@
         <q-btn icon="event" :title="$t('order.namePlural')" :to="{ name: 'order-calendar' }" flat round class="q-mr-xs" />
         <q-btn icon="shopping_cart" title="Order supplies" flat round class="q-mr-xs"
           @click="openURL(common?.operating_country === 'aud' ? 'https://teamlaundrylady.co/account/login' : 'https://www.teamlaundrylady.co.nz/')" />
-        <q-btn flat round @click="profile()">
+        <q-btn flat round>
           <q-avatar size="32px">
             <q-img src="/api/user/useravatar?fetch=thumb" />
           </q-avatar>
@@ -83,11 +83,9 @@ import { useMixinSecurity } from 'src/mixins/security'
 import { getLocationPromise } from 'src/services/geolocation'
 import { socket } from 'src/services/socketio'
 import { inject, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
 
 const { user } = useMixinSecurity()
 const $q = useQuasar()
-const router = useRouter()
 const isLocked = ref(false)
 const bus = inject('bus') as EventBus
 const geolocationEnabled = ref(true)
@@ -97,12 +95,6 @@ const common = useMixinCommon()
 setInterval(() => {
   isLocked.value = !!(user.value && user.value.lastRequest && moment().diff(user.value.lastRequest, 'minutes') >= 120)
 }, 1000)
-
-const profile = () => {
-  if (user.value && user.value.role === 'contractor') {
-    router.push({ name: 'contractor-dashboard' })
-  }
-}
 
 const logout = () => {
   window.location.href = '/api/auth/logout?from=portal'
@@ -117,19 +109,21 @@ const checkGeolocation = async () => {
   }
 }
 
-socket.on('newRelease', () => {
+socket.on('newReleasePortal', () => {
   setTimeout(() => {
     $q.notify({
       icon: 'warning',
       message:
-        'A new version is available',
+        'A new version is available<br/>Please complete any work in progress and refresh',
       html: true,
       color: 'primary',
+      multiLine: true,
       timeout: 0,
       actions: [
         {
-          label: 'Refresh Now',
+          label: 'Refresh',
           color: 'white',
+          rounded: true,
           handler: () => {
             window.location.reload()
           }
