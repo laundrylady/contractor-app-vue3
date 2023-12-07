@@ -457,6 +457,18 @@ const nl2br = (str:string|null|undefined) => {
   return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2')
 }
 
+const arrayRange = (start:number, stop:number, step:number, ts = false) =>
+  Array.from(
+    { length: (stop - start) / step + 1 },
+    (value, index) => {
+      const val = start + index * step
+      if (ts) {
+        return val.toString()
+      }
+      return val
+    }
+  )
+
 export {
   rowsPerPageOptions,
   uploadConfig,
@@ -499,5 +511,6 @@ export {
   openMapLink,
   orderColor,
   agreedTimes,
-  nl2br
+  nl2br,
+  arrayRange
 }

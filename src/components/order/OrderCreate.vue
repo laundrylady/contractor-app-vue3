@@ -37,8 +37,35 @@
             :productcategories="model.productcategories.filter(o => o.active)" v-if="user.role === 'customer'" />
           <div class="q-mt-md">
             <q-toggle v-model="model.recurring_order" :label="$t('order.recurring')" />
-            <q-select v-model="model.recurring" :label="$t('order.recurringFrequency')"
-              :options="['Week', 'Fortnite', 'Month']" v-if="model.recurring_order" />
+            <div v-if="model.recurring_order" class="q-pa-md q-mt-sm" :class="{ 'bg-grey-1': !$q.dark.isActive }">
+              <div class="row q-col-gutter-md">
+                <div class="col-xs-12 col-sm-6">
+                  <q-select v-model="model.recurring" :label="$t('order.recurringFrequency')"
+                    :options="['Week', 'Month', 'Day']" bottom-slots :error="$v.recurring.$invalid" />
+                </div>
+                <div class="col-xs-12 col-sm-6" v-if="model.recurring">
+                  <q-select v-model="model.recurring_every" label="Repeat every"
+                    :options="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]"
+                    :error="$v.recurring_every.$invalid">
+                    <template v-slot:append>
+                      <q-badge :label="`${model.recurring}s`" color="grey" />
+                    </template>
+                  </q-select>
+                </div>
+                <div class="col-xs-12 col-sm-6" v-if="model.recurring">
+                  <q-select v-model="model.recurring_end_type" label="Ends" :options="['After', 'On', 'Never']"
+                    :error="$v.recurring_end_type.$invalid" @update:model-value="model.recurring_end = ''" />
+                </div>
+                <div class="col-xs-12 col-sm-6" v-if="model.recurring">
+                  <q-select v-model="model.recurring_end" v-if="model.recurring_end_type === 'After'"
+                    label="Choose the amount" :error="$v.recurring_end.$invalid" :options="recurringOccurenceOptions">
+                    <template v-slot:append><q-badge label="occurences" color="grey" /></template>
+                  </q-select>
+                  <DateField v-model="model.recurring_end" label="Choose an end date" :outlined="true"
+                    :invalid="$v.recurring_end.$invalid" v-if="model.recurring_end_type === 'On'" />
+                </div>
+              </div>
+            </div>
           </div>
           <q-input v-model="model.special_instructions" label="Special Instructions" autogrow outlined class="q-mt-md" />
         </div>
@@ -53,11 +80,11 @@
 </template>
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { required, requiredIf } from '@vuelidate/validators'
 import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
 import { useMixinDebug } from 'src/mixins/debug'
-import { categoryDisplay, doNotify, hourBookingOptions } from 'src/mixins/help'
+import { arrayRange, categoryDisplay, doNotify, hourBookingOptions } from 'src/mixins/help'
 import { useMixinSecurity } from 'src/mixins/security'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
 import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
@@ -71,6 +98,7 @@ const show = ref(false)
 const washingAndIroning = ref(false)
 const { user } = useMixinSecurity()
 const categories = ref()
+const recurringOccurenceOptions = arrayRange(1, 50, 1, true)
 const schema = {
   team_id: null,
   contractor_user_id: null,
@@ -80,6 +108,9 @@ const schema = {
   status: 'confirmed',
   recurring_order: false,
   recurring: null,
+  recurring_every: null,
+  recurring_end: null,
+  recurring_days: { days: [{ day: 0, active: false }, { day: 1, active: false }, { day: 2, active: false }, { day: 3, active: false }, { day: 4, active: false }, { day: 5, active: false }, { day: 6, active: false }] },
   products: [],
   productcategories: []
 }
@@ -91,7 +122,11 @@ const rules = {
   team_id: { required },
   scheduled_pickup_date: { required },
   scheduled_pickup_time: { required },
-  status: { required }
+  status: { required },
+  recurring: { requiredIf: requiredIf(() => model.recurring_order) },
+  recurring_every: { requiredIf: requiredIf(() => model.recurring_order) },
+  recurring_end_type: { requiredIf: requiredIf(() => model.recurring_order) },
+  recurring_end: { requiredIf: requiredIf(() => model.recurring_order && model.recurring_end_type !== 'Never') }
 }
 
 const $v = useVuelidate(rules, model)

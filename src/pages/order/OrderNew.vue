@@ -262,17 +262,15 @@
                       :categories="categories" v-if="categories && model.suburb_postcode_region_id" />
                     <q-input v-model="model.special_instructions" class="q-mt-lg" type="textarea"
                       label="Please enter any special instructions for this booking" outlined rows="3" />
-                    <q-toggle v-model="model.recurring_order" label="Would you like to make this a recurring booking?"
-                      class="q-mt-md" />
-                    <q-select v-model="model.recurring" :label="$t('order.recurringFrequency')"
-                      :options="['Week', 'Fortnite', 'Month']" v-if="model.recurring_order" outlined class="q-mt-sm" />
                     <div>
                       <q-toggle v-model="model.team.marketing_subscribed"
                         label="I want to receive emails with the latest news and updates from The Laundry Lady" />
                     </div>
                     <div>
-                      <div class="q-mt-sm q-mb-xs">No cancellations or changes allowed within 3 hours of the appointment.
-                        Charges will be applied if clothes are not ready at pickup. By booking this appointment you agree
+                      <div class="q-mt-sm q-mb-xs">No cancellations or changes allowed within 3 hours of the
+                        appointment.
+                        Charges will be applied if clothes are not ready at pickup. By booking this appointment you
+                        agree
                         to our Terms and Conditions which can be found online here:
                         <a href="https://thelaundrylady.co.nz/terms-and-conditions/"
                           v-if="common?.operating_country === 'nzd'" target="_blank"
@@ -372,7 +370,6 @@ const schema = {
   scheduled_pickup_time: null,
   special_instructions: null,
   recurring_order: false,
-  recurring: null,
   cancellation_terms: false,
   productcategories: [],
   team: {
@@ -478,7 +475,6 @@ const rules = {
   scheduled_pickup_time: { required },
   contractor_user_id: { required },
   productcategories: { required },
-  recurring: { requiredIf: requiredIf(() => model.recurring_order) },
   team: {
     name: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1) },
     first_name: { required },

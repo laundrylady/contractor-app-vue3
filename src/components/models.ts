@@ -565,6 +565,10 @@ export interface Order {
   status:string,
   recurring_order:boolean,
   recurring:string,
+  recurring_every:number,
+  recurring_end_type:string,
+  recurring_end:string,
+  recurring_days: LooseObject,
   recurring_parent_id:string|null,
   address1:string,
   address2:string,
@@ -611,6 +615,10 @@ export interface OrderForm {
   special_instructions:string|null,
   recurring_order:boolean,
   recurring:string|null,
+  recurring_every:number|null,
+  recurring_end_type:string|null,
+  recurring_end:string|null,
+  recurring_days: LooseObject,
   cancellation_terms:boolean
 }
 
