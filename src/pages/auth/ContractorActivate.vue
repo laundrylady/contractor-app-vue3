@@ -23,14 +23,7 @@
             </q-card-section>
             <q-card-section>
               <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOutTop" appear>
-                <div class="text-center" v-if="success">
-                  <div><q-icon name="check" size="64px" /></div>
-                  <p>Your password has been set and account enabled!</p>
-                  <q-btn :to="{ name: 'appDashboard' }" color="primary" label="Continue" />
-                </div>
-              </transition>
-              <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOutTop" appear>
-                <q-banner class="bg-negative text-white" v-if="error">Error reseting your password</q-banner>
+                <q-banner class="bg-negative text-white" v-if="error">Error setting your password</q-banner>
               </transition>
               <div v-if="!success">
                 <q-input v-model="model.password" label="Please enter a secure password"
@@ -76,8 +69,9 @@ import { useMixinDebug } from 'src/mixins/debug'
 import { authLogin } from 'src/services/auth'
 import { useUserStore } from 'src/stores/user'
 import { onMounted, reactive, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
+const router = useRouter()
 const userStore = useUserStore()
 const loading = ref(false)
 const error = ref(false)
@@ -123,8 +117,7 @@ const confirm = () => {
     api.get('/auth/check').then(res => {
       userStore.setUserData(res.data)
       authLogin()
-      success.value = true
-      loading.value = false
+      router.push({ name: 'tfaSms' })
     }).catch(es => {
       useMixinDebug(es)
     })

@@ -13,15 +13,16 @@
           <q-card-section>
             <div class="q-mb-md"><q-btn @click="sendSms" :label="sentSms ? 'Resend security code' : 'Send security code'"
                 :disable="sending" color="primary" rounded /></div>
-            <div v-if="error">
-              There was an error verifying the security code sent. Please try again.</div>
-            <q-input v-model="smsCode" label="Enter the security code" hint="Click the button to receive your code"
-              :error="sentSms && !smsCode" outlined bottom-slots>
+            <p v-if="error">
+              There was an error verifying the security code. Please try again.
+            </p>
+            <q-input v-model="smsCode" label="Enter the security code" :error="sentSms && !smsCode" outlined bottom-slots>
             </q-input>
           </q-card-section>
           <q-card-actions>
             <q-space />
-            <q-btn v-if="sentSms && smsCode" @click="checkSms()" label="Continue" color="primary" rounded />
+            <q-btn v-if="sentSms && smsCode" @click="checkSms()" label="Continue" color="primary" rounded
+              :disable="loading" :loading="loading" />
           </q-card-actions>
         </q-card>
       </q-page>
@@ -40,6 +41,7 @@ const userStore = useUserStore()
 const sentSms = ref(false)
 const smsCode = ref()
 const error = ref(false)
+const loading = ref(false)
 const router = useRouter()
 const sending = ref(false)
 
@@ -60,13 +62,15 @@ const sendSms = () => {
 const checkSms = () => {
   if (userStore.data) {
     error.value = false
+    loading.value = true
     api.post('/auth/tfa/sms/check', { code: smsCode.value })
       .then((response) => {
         userStore.setUserData(response.data)
         router.push({ name: 'appDashboard' })
       })
-      .catch((error) => {
+      .catch(() => {
         error.value = true
+        loading.value = false
         useMixinDebug(error)
       })
   }
