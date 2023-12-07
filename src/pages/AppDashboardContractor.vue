@@ -11,7 +11,7 @@
             <div class="text-h6">Hi {{ user.first_name }}</div>
             <q-space />
             <q-btn round icon="add" @click="newOrder()" color="primary" dense title="Add new Booking"
-              v-if="common?.operating_country === 'aud'" />
+              v-if="common?.operating_country === 'nzd'" />
           </div>
           <div v-if="dashboard">
             <div class="row q-col-gutter-md">
