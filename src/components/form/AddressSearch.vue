@@ -1,7 +1,7 @@
 <template>
   <q-select v-model="keyword" :options="addresses" @update:model-value="handleChange" use-input :placeholder="placeholder"
     @filter="searchAddress" hide-dropdown-icon input-debounce="200" autocomplete="search-filter" class="q-mb-sm" outlined
-    :filled="filled" dense :loading="loading" v-if="common?.operating_country === 'aud'">
+    :filled="filled" :loading="loading" v-if="common?.operating_country === 'aud'">
     <template v-slot:prepend>
       <q-icon name="search" />
     </template>
