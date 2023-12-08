@@ -62,7 +62,7 @@
             <div class="row q-col-gutter-md">
               <PostcodeRegionField v-model="localModel.suburb_postcode_region_id"
                 :invalid="$v.suburb_postcode_region_id.$invalid" :label="$t('address.suburb')" class="col-xs-12"
-                :outlined="true" />
+                :outlined="true" :clearable="true" />
               <q-input v-model="localModel.postcode" :error="$v.postcode.$invalid" :label="$t('address.postcode')"
                 outlined class="col-xs-12 col-sm-6" />
               <CountryField v-model="localModel.country_id" :label="$t('address.country')"

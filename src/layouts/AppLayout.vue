@@ -45,7 +45,7 @@
         <q-card-section class="text-center">
           <AppLogo />
           <p class="q-mt-md">Your session has timed out.</p>
-          <q-btn :to="{ name: 'signIn' }" color="primary" label="Sign In" rounded />
+          <q-btn @click="login()" color="primary" label="Sign In" rounded />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -79,6 +79,10 @@ setInterval(() => {
 
 const logout = () => {
   window.location.href = '/api/auth/logout?from=portal'
+}
+
+const login = () => {
+  document.location.reload()
 }
 
 const checkGeolocation = async () => {
