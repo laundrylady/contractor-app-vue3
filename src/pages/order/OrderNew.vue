@@ -262,12 +262,12 @@
                       :categories="categories" v-if="categories && model.suburb_postcode_region_id" />
                     <q-input v-model="model.special_instructions" class="q-mt-lg" type="textarea"
                       label="Please enter any special instructions for this booking" outlined rows="3" />
-                    <div class="q-mt-md">
+                    <div class="q-mt-md q-mb-md">
                       <q-toggle v-model="model.team.marketing_subscribed"
                         label="I want to receive emails with the latest news and updates from The Laundry Lady" />
                     </div>
                     <div>
-                      <div class="q-mt-sm q-mb-xs">No cancellations or changes allowed within 3 hours of the
+                      <div class="q-mb-xs">No cancellations or changes allowed within 3 hours of the
                         appointment.
                         Charges will be applied if clothes are not ready at pickup. By booking this appointment you
                         agree
