@@ -41,7 +41,8 @@
               <div class="row q-col-gutter-md">
                 <div class="col-xs-12 col-sm-6">
                   <q-select v-model="model.recurring" :label="$t('order.recurringFrequency')"
-                    :options="['Week', 'Month', 'Day']" bottom-slots :error="$v.recurring.$invalid" outlined />
+                    :options="['Week', 'Month', 'Day']" bottom-slots :error="$v.recurring.$invalid" outlined
+                    @update:model-value="model.recurring_end = ''" />
                 </div>
                 <div class="col-xs-12 col-sm-6" v-if="model.recurring">
                   <q-select v-model="model.recurring_every" label="Repeat every"
@@ -88,7 +89,7 @@ import { useMixinDebug } from 'src/mixins/debug'
 import { arrayRange, categoryDisplay, doNotify, hourBookingOptions } from 'src/mixins/help'
 import { useMixinSecurity } from 'src/mixins/security'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
-import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { inject, onBeforeUnmount, onMounted, reactive, ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import DateField from '../form/DateField.vue'
 import TeamField from '../form/TeamField.vue'
@@ -99,7 +100,6 @@ const show = ref(false)
 const washingAndIroning = ref(false)
 const { user } = useMixinSecurity()
 const categories = ref()
-const recurringOccurenceOptions = arrayRange(1, 50, 1, true)
 const schema = {
   team_id: null,
   contractor_user_id: null,
@@ -137,6 +137,19 @@ const toggleWashingAndIroning = () => {
     o.active = washingAndIroning.value
   })
 }
+
+const recurringOccurenceOptions = computed(() => {
+  if (model.recurring === 'Day') {
+    return arrayRange(1, 50, 1, true)
+  }
+  if (model.recurring === 'Week') {
+    return arrayRange(1, 12, 1, true)
+  }
+  if (model.recurring === 'Month') {
+    return arrayRange(1, 3, 1, true)
+  }
+  return arrayRange(1, 50, 1, true)
+})
 
 const save = () => {
   api.post('/public/order', model).then(() => {

@@ -127,7 +127,8 @@
                   <div class="row q-col-gutter-md">
                     <div class="col-xs-12 col-sm-6">
                       <q-select v-model="localModel.recurring" :label="$t('order.recurringFrequency')"
-                        :options="['Week', 'Month', 'Day']" bottom-slots :error="$v.recurring.$invalid" outlined />
+                        :options="['Week', 'Month', 'Day']" bottom-slots :error="$v.recurring.$invalid" outlined
+                        @update:model-value="localModel.recurring_end = ''" />
                     </div>
                     <div class="col-xs-12 col-sm-6" v-if="model.recurring">
                       <q-select v-model="localModel.recurring_every" label="Repeat every"
@@ -381,7 +382,6 @@ const showCancelOrder = ref(false)
 const loadingCancel = ref(false)
 const showChangesOrder = ref(false)
 const loadingChanges = ref(false)
-const recurringOccurenceOptions = arrayRange(1, 50, 1, true)
 
 const changes: LooseObject = ref({
   date: false,
@@ -426,6 +426,19 @@ const canEditDelivery = computed(() => {
     return false
   }
   return true
+})
+
+const recurringOccurenceOptions = computed(() => {
+  if (localModel.value && localModel.value.recurring === 'Day') {
+    return arrayRange(1, 50, 1, true)
+  }
+  if (localModel.value && localModel.value.recurring === 'Week') {
+    return arrayRange(1, 12, 1, true)
+  }
+  if (localModel.value && localModel.value.recurring === 'Month') {
+    return arrayRange(1, 3, 1, true)
+  }
+  return arrayRange(1, 50, 1, true)
 })
 
 const doSavePut = () => {
