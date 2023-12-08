@@ -262,7 +262,7 @@
                       :categories="categories" v-if="categories && model.suburb_postcode_region_id" />
                     <q-input v-model="model.special_instructions" class="q-mt-lg" type="textarea"
                       label="Please enter any special instructions for this booking" outlined rows="3" />
-                    <div class="q-mt-sm">
+                    <div class="q-mt-md">
                       <q-toggle v-model="model.team.marketing_subscribed"
                         label="I want to receive emails with the latest news and updates from The Laundry Lady" />
                     </div>
