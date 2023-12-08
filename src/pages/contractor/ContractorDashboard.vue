@@ -25,7 +25,7 @@
                     <q-btn v-close-popup icon="close" round dense flat />
                   </q-toolbar>
                   <q-card-section>
-                    <q-input v-model="weeklyTarget" autofocus outlined label="Enter a weekly target" />
+                    <q-input v-model="weeklyTarget" autofocus outlined label="Enter a weekly target" type="number" />
                   </q-card-section>
                   <q-card-actions align="right">
                     <q-btn label="Cancel" flat color="secondary" v-close-popup rounded /> <q-btn
