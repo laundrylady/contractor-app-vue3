@@ -93,6 +93,9 @@ const rules = {
 const $v = useVuelidate(rules, model)
 
 const passwordTest = () => {
+  if (!model || !model.password) {
+    return -1
+  }
   const pass = model.password ? (model.password as string) : undefined
   const tests = [/[0-9]/, /[a-z]/, /[A-Z]/, /[^A-Z-0-9]/i]
   if (pass === undefined) {

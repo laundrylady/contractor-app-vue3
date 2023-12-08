@@ -15,7 +15,7 @@
               <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOutTop" appear>
                 <div class="text-positive q-mb-md" v-if="success">
                   <p class="q-mb-lg">Your password has been updated!</p>
-                  <q-btn :to="{ name: 'signIn' }" color="primary" label="Go To Sign In" class="full-width" />
+                  <q-btn :to="{ name: 'signIn' }" color="primary" label="Go To Sign In" class="full-width" rounded />
                 </div>
               </transition>
               <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOutTop" appear>
@@ -83,6 +83,9 @@ const rules = {
 const $v = useVuelidate(rules, model)
 
 const passwordTest = () => {
+  if (!model || !model.password) {
+    return -1
+  }
   const pass = model.password ? (model.password as string) : undefined
   const tests = [/[0-9]/, /[a-z]/, /[A-Z]/, /[^A-Z-0-9]/i]
   if (pass === undefined) {
