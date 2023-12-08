@@ -28,8 +28,8 @@
                     <q-input v-model="weeklyTarget" autofocus outlined label="Enter a weekly target" />
                   </q-card-section>
                   <q-card-actions align="right">
-                    <q-btn label="Cancel" flat color="secondary" v-close-popup /> <q-btn @click="updateWeeklyTarget()"
-                      label="Update" color="primary" />
+                    <q-btn label="Cancel" flat color="secondary" v-close-popup rounded /> <q-btn
+                      @click="updateWeeklyTarget()" label="Update" color="primary" rounded />
                   </q-card-actions>
                 </q-card>
               </q-dialog>
