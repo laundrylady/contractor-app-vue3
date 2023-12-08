@@ -38,32 +38,13 @@
       </div>
       <router-view />
     </q-page-container>
-    <q-dialog v-model="isLocked" persistent>
-      <q-card style="min-width:30vw">
-        <q-card-section class="row">
-          <AppLogo />
-          <q-space />
-          <q-icon name="lock" size="24px" class="text-grey" />
-        </q-card-section>
-        <q-separator />
-        <q-card-section>
-          <p>Your session has timed out!</p>
-          <p>Please refresh the page.</p>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
     <MediaViewer />
     <ValidationsModal />
     <q-dialog v-model="isLocked" persistent>
-      <q-card class="modal">
-        <q-card-section class="row">
+      <q-card class="modal-sm">
+        <q-card-section class="text-center">
           <AppLogo />
-          <q-space />
-          <q-icon name="lock" size="24px" class="text-grey" />
-        </q-card-section>
-        <q-separator />
-        <q-card-section>
-          <p>Your session has timed out.</p>
+          <p class="q-mt-md">Your session has timed out.</p>
           <q-btn :to="{ name: 'signIn' }" color="primary" label="Sign In" rounded />
         </q-card-section>
       </q-card>
