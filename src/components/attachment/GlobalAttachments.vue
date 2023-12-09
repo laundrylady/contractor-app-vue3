@@ -241,7 +241,7 @@ const isImage = (filename: string) => {
 const addNew = () => {
   saving.value = true
   $q.loading.show({ message: 'Saving attachment...' })
-  api.post('/attachment', newModel).then(() => {
+  api.post('/public/attachment', newModel).then(() => {
     doNotify('positive', 'Attachment added')
     Object.assign(newModel, schema)
     getAttachments()
@@ -258,7 +258,7 @@ const addNew = () => {
 
 const deleteAttachment = (a: Attachment) => {
   confirmDelete('This will remove the attachment').onOk(() => {
-    api.delete(`/attachment/${a.id}`).then(() => {
+    api.delete(`/public/attachment/${a.id}`).then(() => {
       getAttachments()
       doNotify('positive', 'Attachment removed')
       emitGet()
@@ -285,7 +285,7 @@ const editAttachment = (a: Attachment) => {
 }
 
 const updateAttachment = (a: Attachment) => {
-  api.put(`/attachment/${a.id}`, a).then(() => {
+  api.put(`/public/attachment/${a.id}`, a).then(() => {
     edit.value = false
     showEdit.value = false
     getAttachments()
