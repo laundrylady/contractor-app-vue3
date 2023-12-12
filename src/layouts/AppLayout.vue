@@ -31,7 +31,7 @@
       </q-toolbar>
     </q-header>
     <q-page-container>
-      <q-ajax-bar position="top" color="primary" size="2px" />
+      <q-ajax-bar color="accent" size="3px" />
       <div v-if="!geolocationEnabled" class="text-center q-pa-md bg-accent">
         <q-icon name="warning" size="20px" /> Access to the location service has been disabled on this device. Some
         features won't work correctly until you enable access.
