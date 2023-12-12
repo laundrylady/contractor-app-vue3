@@ -35,13 +35,14 @@ const columns: QTableProps['columns'] = [{
   style: 'width:100px'
 }]
 
-const serverPagination = ref({
+const originalServerPagination = {
   page: 1,
   rowsNumber: getRowsPerPage(),
   rowsPerPage: getRowsPerPage(),
   sortBy: 'id',
   descending: true
-})
+}
+const serverPagination = ref(JSON.parse(JSON.stringify(originalServerPagination)))
 
 const request = (tableProps: Parameters<NonNullable<QTableProps['onRequest']>>[0] | null = null) => {
   let page: number
@@ -54,10 +55,10 @@ const request = (tableProps: Parameters<NonNullable<QTableProps['onRequest']>>[0
     sortBy = tableProps.pagination.sortBy
     descending = tableProps.pagination.descending
   } else {
-    page = serverPagination.value.page
-    rowsPerPage = serverPagination.value.rowsPerPage
-    sortBy = serverPagination.value.sortBy
-    descending = serverPagination.value.descending
+    page = originalServerPagination.page
+    rowsPerPage = originalServerPagination.rowsPerPage
+    sortBy = originalServerPagination.sortBy
+    descending = originalServerPagination.descending
   }
   loading.value = true
   api.post(`/public/usercommissionpaid/datatable/${page}`, {
