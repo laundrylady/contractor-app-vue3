@@ -45,11 +45,8 @@
                   <div><q-badge v-if="model.team.owing_no_booking || model.team.status === 'blocked'"
                       label="Blocked from new bookings" /></div>
                   <div v-if="model.recurring_order && model.scheduled_pickup_time" class="q-mt-xs">
-                    <q-badge class="q-pa-sm" color="secondary"><q-icon name="sync" class="q-mr-xs" />{{
-                      `Every
-                      ${model.recurring} on ${model.scheduled_pickup_date ? displayDateDay(model.scheduled_pickup_date) :
-                        ''} ${model.agreed_pickup_time ?
-                          model.agreed_pickup_time : hourBookingDisplay(model.scheduled_pickup_time)}` }}</q-badge>
+                    <q-badge class="q-pa-sm" color="secondary"><q-icon name="sync" class="q-mr-xs" />Recurring
+                    </q-badge>
                   </div>
                 </div>
               </div>
@@ -137,7 +134,7 @@ import { Order } from 'src/components/models'
 import GlobalNotes from 'src/components/note/GlobalNotes.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
-import { displayDateDay, fromNowTz, hourBookingDisplay } from 'src/mixins/help'
+import { fromNowTz, hourBookingDisplay } from 'src/mixins/help'
 import { inject, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 

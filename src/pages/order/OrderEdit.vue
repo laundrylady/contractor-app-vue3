@@ -26,18 +26,13 @@
                   </div>
                 </div>
                 <div class="col-xs-12 col-sm-6">
-                  <div class="text-bold text-grey q-mt-md">{{ $t('contractor.name').toUpperCase() }}</div>
-                  <div v-if="localModel.contractor">
-                    <UserAvatar :user="localModel.contractor" class="q-mr-xs" />
-                    {{ localModel.contractor.first_name }} {{ localModel.contractor.last_name }}
-                  </div>
+                  <div class="text-bold text-grey q-mt-md">PICKUP & DELIVERY</div>
+                  <div v-if="localModel.address1">{{ localModel.address1 }}</div>
+                  <div>{{ localModel.address2 }}</div>
+                  <div v-if="localModel.suburbpostcoderegion">{{ localModel.suburbpostcoderegion.locality }} {{
+                    localModel.suburbpostcoderegion.state }} {{ localModel.postcode }}</div>
                 </div>
               </div>
-              <div class="text-bold text-grey q-mt-md">PICKUP & DELIVERY</div>
-              <div v-if="localModel.address1">{{ localModel.address1 }}</div>
-              <div>{{ localModel.address2 }}</div>
-              <div v-if="localModel.suburbpostcoderegion">{{ localModel.suburbpostcoderegion.locality }} {{
-                localModel.suburbpostcoderegion.state }} {{ localModel.postcode }}</div>
               <div class="row q-col-gutter-md q-mt-sm" v-if="localModel.team_id">
                 <div class="col-xs-12 col-sm-6">
                   <div class="text-bold text-grey">PICKUP DATE</div>
@@ -342,7 +337,6 @@ import useVuelidate from '@vuelidate/core'
 import { required, requiredIf } from '@vuelidate/validators'
 import { Dialog, EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
-import UserAvatar from 'src/components/UserAvatar.vue'
 import AuditTimeline from 'src/components/audit/AuditTimeline.vue'
 import AddressSearch from 'src/components/form/AddressSearch.vue'
 import CountryField from 'src/components/form/CountryField.vue'
