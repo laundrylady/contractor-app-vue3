@@ -120,12 +120,12 @@
                 <div v-if="localModel.recurring_order" class="q-pa-md q-mt-sm"
                   :class="{ 'bg-grey-1': !$q.dark.isActive }">
                   <div class="row q-col-gutter-md">
-                    <div class="col-xs-12 col-sm-6">
+                    <div class="col-xs-12 col-sm-6 col-lg-3">
                       <q-select v-model="localModel.recurring" :label="$t('order.recurringFrequency')"
                         :options="['Week', 'Month', 'Day']" bottom-slots :error="$v.recurring.$invalid" outlined
                         @update:model-value="localModel.recurring_end = ''" />
                     </div>
-                    <div class="col-xs-12 col-sm-6" v-if="model.recurring">
+                    <div class="col-xs-12 col-sm-6 col-lg-4" v-if="model.recurring">
                       <q-select v-model="localModel.recurring_every" label="Repeat every"
                         :options="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]"
                         :error="$v.recurring_every.$invalid" outlined>
@@ -134,12 +134,19 @@
                         </template>
                       </q-select>
                     </div>
-                    <div class="col-xs-12 col-sm-6" v-if="model.recurring">
+                  </div>
+                  <div v-if="localModel.recurring === 'Week'" class="q-mb-lg">
+                    <p>If the booking needs to occur multiple times a week, choose the days below:</p>
+                    <q-btn v-for="d in localModel.recurring_days.days" :key="d.day" color="primary"
+                      @click="d.active = !d.active" :label="d.label" :flat="!d.active" class="q-mr-xs" size="sm" />
+                  </div>
+                  <div class="row q-col-gutter-md" v-if="model.recurring">
+                    <div class="col-xs-12 col-sm-6 col-lg-3">
                       <q-select v-model="localModel.recurring_end_type" label="Ends" :options="['After', 'On', 'Never']"
                         :error="$v.recurring_end_type.$invalid" @update:model-value="localModel.recurring_end = ''"
                         outlined />
                     </div>
-                    <div class="col-xs-12 col-sm-6" v-if="model.recurring">
+                    <div class="col-xs-12 col-sm-6 col-lg-4">
                       <q-select v-model="localModel.recurring_end" v-if="localModel.recurring_end_type === 'After'"
                         label="Choose the amount" :error="$v.recurring_end.$invalid" :options="recurringOccurenceOptions"
                         outlined>
