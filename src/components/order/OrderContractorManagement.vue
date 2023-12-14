@@ -15,10 +15,10 @@
           <q-item-section>
             <div class="flex no-wrap">
               <UserAvatar :user="{
-                id: d.user.id, first_name: d.user.first_name, last_name: d.user.last_name, fullname: d.user.fullname, avatar: d.user.avatar
+                id: d.user.id, first_name: d.user.contractor_badge_name, last_name: d.user.contractor_badge_name, fullname: d.user.contractor_badge_name, avatar: d.user.avatar
               }" size="48px" />
               <div class="q-ml-md">
-                <div class="text-primary">{{ d.user.fullname }}</div>
+                <div class="text-primary">{{ d.user.contractor_badge_name }}</div>
                 <q-radio v-model="tmpTimeSelection" :val="`${d.user.id}|${d.time}`" :label="hourBookingDisplay(d.time)"
                   @update:model-value="emitUpdate" />
               </div>

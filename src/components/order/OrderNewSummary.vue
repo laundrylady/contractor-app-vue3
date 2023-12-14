@@ -20,7 +20,7 @@
           props.scheduled_pickup_date }}
       </div>
       <div v-if="localModel.contractor && props.scheduled_pickup_date && props.scheduled_pickup_time" class="q-mt-md">
-        <q-icon name="account_circle" size="24px" /> Pickup with {{ localModel.contractor.first_name }} on {{
+        <q-icon name="account_circle" size="24px" /> Pickup with {{ localModel.contractor.contractor_badge_name }} on {{
           props.scheduled_pickup_date }} ({{ hourBookingDisplay(props.scheduled_pickup_time) }})
       </div>
     </q-card-section>

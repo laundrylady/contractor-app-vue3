@@ -36,7 +36,7 @@
                         model.team.name }} <span
                         v-if="model.team.name !== `${model.team.first_name} ${model.team.last_name}`">({{
                           model.team.first_name }} {{
-    model.team.last_name }})</span></router-link> <q-icon name="event" /> {{
+    model.team.last_name }})</span></router-link><br /><q-icon name="event" /> {{
     model.scheduled_pickup_date }}
                     <span v-if="model.scheduled_pickup_time">
                       ({{ hourBookingDisplay(model.scheduled_pickup_time) }})
@@ -89,6 +89,14 @@
             </q-item-section>
             <q-item-section>
               <a :href="`tel:${model.team.mobile}`" class="link">{{ model.team.mobile }}</a>
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section side>
+              <q-icon name="payments" />
+            </q-item-section>
+            <q-item-section>
+              {{ model.team.payment_terms }}
             </q-item-section>
           </q-item>
           <q-item-label header>{{ $t('team.pickupAddress') }}</q-item-label>
