@@ -37,7 +37,7 @@
                         v-if="model.team.name !== `${model.team.first_name} ${model.team.last_name}`">({{
                           model.team.first_name }} {{
     model.team.last_name }})</span></router-link><br /><q-icon name="event" /> {{
-    model.scheduled_pickup_date }}
+    model.scheduled_pickup_date ? displayDateOrder(model.scheduled_pickup_date) : '' }}
                     <span v-if="model.scheduled_pickup_time">
                       ({{ hourBookingDisplay(model.scheduled_pickup_time) }})
                     </span>
@@ -114,8 +114,9 @@
               <q-icon name="event" />
             </q-item-section>
             <q-item-section>
-              {{ model.scheduled_pickup_date }} <span v-if="model.scheduled_pickup_time">({{
-                hourBookingDisplay(model.scheduled_pickup_time) }})</span>
+              <div v-if="model.scheduled_pickup_date">{{ displayDateOrder(model.scheduled_pickup_date) }}</div> <span
+                v-if="model.scheduled_pickup_time">({{
+                  hourBookingDisplay(model.scheduled_pickup_time) }})</span>
             </q-item-section>
           </q-item>
         </q-list>
@@ -142,7 +143,7 @@ import { Order } from 'src/components/models'
 import GlobalNotes from 'src/components/note/GlobalNotes.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
-import { fromNowTz, hourBookingDisplay } from 'src/mixins/help'
+import { displayDateOrder, fromNowTz, hourBookingDisplay } from 'src/mixins/help'
 import { inject, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 

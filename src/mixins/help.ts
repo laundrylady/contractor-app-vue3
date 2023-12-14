@@ -240,6 +240,13 @@ const displayDateDay = (val:string) => {
   return moment(val, 'DD/MM/YYYY').format('ddd')
 }
 
+const displayDateOrder = (val:string) => {
+  if (!val) {
+    return val
+  }
+  return moment(val, 'DD/MM/YYYY').format('ddd Do MMM YYYY')
+}
+
 const dbDate = (val:string) => {
   if (!val) {
     return val
@@ -503,6 +510,7 @@ export {
   dbDateDisplay,
   dbDateDisplayDay,
   displayDateDay,
+  displayDateOrder,
   dbDate,
   currencyFormat,
   categoryDisplay,

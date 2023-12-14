@@ -11,7 +11,7 @@
     <template v-slot:body-cell-scheduled_pickup_date="props">
       <q-td :props="props">
         <router-link :to="{ name: 'order-edit', params: { id: props.row.id } }" class="link">{{
-          props.row.scheduled_pickup_date
+          displayDateOrder(props.row.scheduled_pickup_date)
         }} ({{ hourBookingDisplay(props.row.scheduled_pickup_time) }})
         </router-link>
       </q-td>
@@ -71,7 +71,7 @@ import { EventBus, QTableProps } from 'quasar'
 import { api } from 'src/boot/axios'
 import StatusTag from 'src/components/StatusTag.vue'
 import { useMixinDebug } from 'src/mixins/debug'
-import { confirmDelete, currencyFormat, getRowsPerPage, hourBookingDisplay, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
+import { confirmDelete, currencyFormat, displayDateOrder, getRowsPerPage, hourBookingDisplay, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
 import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 

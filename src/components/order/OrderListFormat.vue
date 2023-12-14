@@ -23,7 +23,7 @@
             <div>
               <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"
                 v-if="o.status !== 'ready_for_delivery'"><span v-if="o.scheduled_pickup_date">{{
-                  displayDateDay(o.scheduled_pickup_date) }}</span> {{ o.scheduled_pickup_date }} (<span
+                  displayDateOrder(o.scheduled_pickup_date) }}</span> (<span
                   v-if="!o.agreed_pickup_time && o.scheduled_pickup_time">{{
                     hourBookingDisplay(o.scheduled_pickup_time)
                   }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)
@@ -31,7 +31,7 @@
               <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"
                 v-if="o.status === 'ready_for_delivery' && o.scheduled_delivery_date"><span
                   v-if="o.scheduled_delivery_date">{{
-                    displayDateDay(o.scheduled_delivery_date) }}</span> {{ o.scheduled_delivery_date }} (<span
+                    displayDateOrder(o.scheduled_delivery_date) }}</span> (<span
                   v-if="!o.agreed_delivery_time && o.scheduled_delivery_time">{{
                     hourBookingDisplay(o.scheduled_delivery_time)
                   }}</span><span v-if="o.agreed_delivery_time">{{ hourAgreedDisplay(o.agreed_delivery_time)
@@ -99,7 +99,7 @@
                   <div v-if="bookingId"> Booking: #{{ element.display_id }}</div>
                   <router-link :to="{ name: 'order-edit', params: { id: element.id } }" class="link"
                     v-if="element.status !== 'ready_for_delivery'"><span v-if="element.scheduled_pickup_date">{{
-                      displayDateDay(element.scheduled_pickup_date) }}</span> {{ element.scheduled_pickup_date }} (<span
+                      displayDateOrder(element.scheduled_pickup_date) }}</span> (<span
                       v-if="!element.agreed_pickup_time && element.scheduled_pickup_time">{{
                         hourBookingDisplay(element.scheduled_pickup_time)
                       }}</span><span v-if="element.agreed_pickup_time">{{ hourAgreedDisplay(element.agreed_pickup_time)
@@ -107,7 +107,7 @@
                   <router-link :to="{ name: 'order-edit', params: { id: element.id } }" class="link"
                     v-if="element.status === 'ready_for_delivery' && element.scheduled_delivery_date && (element.agreed_pickup_time || element.scheduled_pickup_time)"><span
                       v-if="element.scheduled_delivery_date">{{
-                        displayDateDay(element.scheduled_delivery_date) }}</span> {{ element.scheduled_delivery_date }}
+                        displayDateOrder(element.scheduled_delivery_date) }}</span>
                     (<span v-if="!element.agreed_delivery_time && element.scheduled_delivery_time">{{
                       hourBookingDisplay(element.scheduled_delivery_time)
                     }}</span><span v-if="element.agreed_delivery_time">{{
@@ -145,7 +145,7 @@ import { api } from 'src/boot/axios'
 import { Order } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
-import { confirmDelete, currencyFormat, displayDateDay, hourAgreedDisplay, hourBookingDisplay, openMapLink, orderColor } from 'src/mixins/help'
+import { confirmDelete, currencyFormat, displayDateOrder, hourAgreedDisplay, hourBookingDisplay, openMapLink, orderColor } from 'src/mixins/help'
 import { getLocationPromise } from 'src/services/geolocation'
 import { computed, inject, ref } from 'vue'
 import draggable from 'vuedraggable'
