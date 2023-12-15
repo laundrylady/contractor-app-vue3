@@ -65,6 +65,7 @@ import { required } from '@vuelidate/validators'
 import moment from 'moment-timezone'
 import { api } from 'src/boot/axios'
 import AppLogo from 'src/components/AppLogo.vue'
+import { useMixinCommon } from 'src/mixins/common'
 import { useMixinDebug } from 'src/mixins/debug'
 import { authLogin } from 'src/services/auth'
 import { useUserStore } from 'src/stores/user'
@@ -79,6 +80,7 @@ const success = ref(false)
 const pwdToggle = reactive({ pwc: true, pw: true })
 const route = useRoute()
 const contractor = ref()
+const common = useMixinCommon()
 const model = reactive({
   code: route.params.code,
   password: undefined,
@@ -120,7 +122,7 @@ const confirm = () => {
     api.get('/auth/check').then(res => {
       userStore.setUserData(res.data)
       authLogin()
-      router.push({ name: 'tfaSms' })
+      router.push({ name: common.value?.operating_country === 'aud' ? 'tfaSms' : 'appDashboard' })
     }).catch(es => {
       useMixinDebug(es)
     })
