@@ -67,7 +67,7 @@ export default route(function (/* { store, ssrContext } */) {
       if (!to?.fullPath) {
         win.location.reload()
       } else {
-        win.location = to.fullPath
+        win.location = `/portal/${to.fullPath}`
       }
     }
   })
