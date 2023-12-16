@@ -60,5 +60,15 @@ export default route(function (/* { store, ssrContext } */) {
     next()
   })
 
+  Router.onError((error) => {
+    if (
+      error.message.includes('Failed to fetch dynamically imported module') ||
+      error.message.includes('Importing a module script failed')
+    ) {
+      console.log('Hash not found - reloading')
+      window.location.reload()
+    }
+  })
+
   return Router
 })
