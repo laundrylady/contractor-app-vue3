@@ -68,9 +68,11 @@ export default route(function (/* { store, ssrContext } */) {
       const urlParams = new URLSearchParams(win.location.search)
       if (!urlParams.get('release')) {
         if (!to?.fullPath) {
-          win.location.reload()
+          const url = new URL(win.location.href)
+          url.searchParams.set('release', new Date().toISOString())
+          win.location.assign(url.search)
         } else {
-          win.location = `/portal${to.fullPath}?release=${new Date().toISOString()}`
+          win.location.assign(`/portal${to.fullPath}?release=${new Date().toISOString()}`)
         }
       }
     }
