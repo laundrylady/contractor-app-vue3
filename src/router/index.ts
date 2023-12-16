@@ -60,13 +60,18 @@ export default route(function (/* { store, ssrContext } */) {
     next()
   })
 
-  Router.onError((error) => {
+  Router.onError((error, to) => {
     if (
       error.message.includes('Failed to fetch dynamically imported module') ||
       error.message.includes('Importing a module script failed')
     ) {
       console.log('File component hash not found - reloading')
-      window.location.reload()
+      const win:Window = window
+      if (!to?.fullPath) {
+        win.location.reload()
+      } else {
+        win.location = to.fullPath
+      }
     }
   })
 
