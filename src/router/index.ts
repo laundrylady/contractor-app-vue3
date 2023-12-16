@@ -63,7 +63,7 @@ export default route(function (/* { store, ssrContext } */) {
   // catch deployment hash errors
   Router.onError((error, to) => {
     if (error.message.includes('Failed to fetch dynamically imported module') || error.message.includes('Importing a module script failed')) {
-      console.log('Vue component hash not found: triggering reload')
+      console.log('Vue component not found: triggering reload')
       const win:Window = window
       const urlParams = new URLSearchParams(win.location.search)
       if (!urlParams.get('release')) {
