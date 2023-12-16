@@ -70,7 +70,7 @@ export default route(function (/* { store, ssrContext } */) {
         if (!to?.fullPath) {
           win.location.reload()
         } else {
-          win.location = `/portal/${to.fullPath}?release=${new Date().toISOString()}`
+          win.location = `/portal${to.fullPath}?release=${new Date().toISOString()}`
         }
       }
     }
