@@ -4,8 +4,9 @@
     <q-header :class="{ 'page-title text-black': !$q.dark.isActive, 'bg-dark': $q.dark.isActive }" bordered>
       <div :class="{ 'q-pl-md q-pr-md': $q.screen.xs }" class="layout-container q-pt-md q-pb-md">
         <div class="flex items-center">
-          <div class="text-h6">All {{ $t('order.namePlural') }}<div class="text-caption">Search your previous
-              {{ $t('order.name') }} history</div>
+          <div class="text-h6">{{ $t('order.namePlural') }}<div class="text-caption">Search your {{ $t('order.name') }}
+              history
+            </div>
           </div>
           <q-space />
           <q-btn icon="filter_alt" @click="toggleFilters()" flat round />
@@ -22,7 +23,6 @@
               :clearable="true" />
           </div>
           <div class="col-xs-12 text-right">
-            <q-toggle v-model="search.completed" label="Include completed / paid" class="q-mr-md" />
             <q-btn @click="request()" icon="search" color="primary" />
           </div>
         </div>
@@ -41,6 +41,9 @@
             </q-breadcrumbs>
           </div>
           <q-card>
+            <div class="text-right">
+              <q-toggle v-model="search.confirmed" label="Pickups Only" class="q-mr-md" @update:model-value="request()" />
+            </div>
             <div ref="topRef"></div>
             <q-table :rows="data" :columns="columns" row-key="id" :loading="loading" v-model:pagination="serverPagination"
               @request="request" class="orders-table" flat :rows-per-page-options="rowsPerPageOptions" wrap-cells
@@ -85,9 +88,9 @@ interface Search {
   team_id: null | number,
   start: null | string,
   end: null | string,
-  completed: boolean
+  confirmed: boolean
 }
-const search = reactive<Search>({ team_id: null, start: null, end: null, completed: false })
+const search = reactive<Search>({ team_id: null, start: null, end: null, confirmed: true })
 const columns: QTableProps['columns'] = [{
   name: 'display_id',
   label: i8n.t('order.name'),
@@ -131,7 +134,7 @@ const request = (props: Parameters<NonNullable<QTableProps['onRequest']>>[0] | n
     team_id: search.team_id,
     start: search.start,
     end: search.end,
-    completed: search.completed
+    confirmed: search.confirmed
   })
     .then((response) => {
       data.value = response.data.rows
