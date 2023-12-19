@@ -115,7 +115,7 @@
               <div v-for="c in localModel.productcategories" :key="c.id">
                 <q-checkbox v-model="c.meta.pivot_active" :label="c.name" v-if="c.meta" :disable="!canEdit" />
               </div>
-              <div v-if="!localModel.recurring_parent_id" class="q-mt-md">
+              <div v-if="!localModel.recurring_parent_id && common?.operating_country === 'nzd'" class="q-mt-md">
                 <q-toggle v-model="localModel.recurring_order" :label="$t('order.recurring')" />
                 <div v-if="localModel.recurring_order" class="q-pa-md q-mt-sm"
                   :class="{ 'bg-grey-1': !$q.dark.isActive }">
@@ -354,6 +354,7 @@ import { Order } from 'src/components/models'
 import GlobalNotes from 'src/components/note/GlobalNotes.vue'
 import GlobalNotifications from 'src/components/notification/GlobalNotifications.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
+import { useMixinCommon } from 'src/mixins/common'
 import { useMixinDebug } from 'src/mixins/debug'
 import { agreedTimes, arrayRange, cancelOrderReasons, changeOrderReasons, changeOrderReasonsDelivery, confirmDelete, currencyFormat, dateTimeTz, displayDateDay, doNotify, hourAgreedDisplay, hourBookingDisplay, hourBookingOptions } from 'src/mixins/help'
 import { useMixinSecurity } from 'src/mixins/security'
@@ -383,6 +384,7 @@ const showCancelOrder = ref(false)
 const loadingCancel = ref(false)
 const showChangesOrder = ref(false)
 const loadingChanges = ref(false)
+const common = useMixinCommon()
 
 const changes: LooseObject = ref({
   date: false,

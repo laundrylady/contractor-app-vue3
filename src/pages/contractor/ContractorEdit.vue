@@ -22,7 +22,9 @@
                 </div>
               </div>
               <div class="col-xs-8 col-md-9 col-lg-10">
-                <div class="text-h5">{{ localModel.fullname }}</div>
+                <div class="text-h5">{{ localModel.fullname }} <span
+                    v-if="localModel.fullname !== localModel.contractor_badge_name">({{ localModel.contractor_badge_name
+                    }})</span></div>
                 <div class="text-grey"><q-icon name="mail" /> {{ localModel.email }}</div>
                 <div class="text-grey"><q-icon name="phone" /> {{ localModel.mobile }}</div>
               </div>

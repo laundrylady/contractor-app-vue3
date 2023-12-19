@@ -13,5 +13,6 @@ export interface UserStore {
   role:string,
   mobile:string,
   first_name:string,
-  last_name:string
+  last_name:string,
+  contractor_badge_name:string
 }
