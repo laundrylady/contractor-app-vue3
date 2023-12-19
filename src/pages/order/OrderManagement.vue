@@ -17,11 +17,12 @@
           <div class="col-xs-6">
             <DateField v-model="search.end" label="End" :dense="true" :outlined="true" :clearable="true" />
           </div>
-          <div class="col-xs-9">
+          <div class="col-xs-12">
             <TeamField v-model="search.team_id" :label="$t('team.name')" :dense="true" :outlined="true" status="active"
               :clearable="true" />
           </div>
-          <div class="col-xs-3">
+          <div class="col-xs-12 text-right">
+            <q-toggle v-model="search.completed" label="Include completed / paid" class="q-mr-md" />
             <q-btn @click="request()" icon="search" color="primary" />
           </div>
         </div>
@@ -83,9 +84,10 @@ const topRef = ref<HTMLDivElement | null>(null)
 interface Search {
   team_id: null | number,
   start: null | string,
-  end: null | string
+  end: null | string,
+  completed: boolean
 }
-const search = reactive<Search>({ team_id: null, start: null, end: null })
+const search = reactive<Search>({ team_id: null, start: null, end: null, completed: false })
 const columns: QTableProps['columns'] = [{
   name: 'display_id',
   label: i8n.t('order.name'),
@@ -99,8 +101,8 @@ const originalServerPagination = {
   page: 1,
   rowsNumber: getRowsPerPage(),
   rowsPerPage: getRowsPerPage(),
-  sortBy: 'display_id',
-  descending: true
+  sortBy: 'scheduled_pickup_date',
+  descending: false
 }
 const serverPagination = ref(JSON.parse(JSON.stringify(originalServerPagination)))
 
@@ -128,7 +130,8 @@ const request = (props: Parameters<NonNullable<QTableProps['onRequest']>>[0] | n
     rowsPerPage,
     team_id: search.team_id,
     start: search.start,
-    end: search.end
+    end: search.end,
+    completed: search.completed
   })
     .then((response) => {
       data.value = response.data.rows
