@@ -10,7 +10,8 @@
           <div class="flex q-mb-md items-center">
             <div class="text-h6">Hi {{ user.contractor_badge_name }}</div>
             <q-space />
-            <q-btn round icon="add" @click="newOrder()" color="primary" dense title="Add new Booking" />
+            <q-btn round icon="add" @click="newOrder()" color="primary" dense title="Add new Booking"
+              v-if="common?.operating_country === 'nzd'" />
           </div>
           <div v-if="dashboard">
             <div class="row q-col-gutter-md">
@@ -99,6 +100,7 @@ import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
 import OrderCreate from 'src/components/order/OrderCreate.vue'
 import OrderListFormat from 'src/components/order/OrderListFormat.vue'
+import { useMixinCommon } from 'src/mixins/common'
 import { useMixinDebug } from 'src/mixins/debug'
 import { hourBookingDisplay } from 'src/mixins/help'
 import { useMixinSecurity } from 'src/mixins/security'
@@ -110,6 +112,7 @@ const dashboard = ref()
 const pickupTab = ref('today')
 const showHelp = ref(false)
 const bus = inject('bus') as EventBus
+const common = useMixinCommon()
 
 const getDashboard = () => {
   api.get('/public/user/contractor/dashboard?bare=true').then(response => {
