@@ -35,7 +35,7 @@
           <OrderContractorManagement :team_id="model.team_id" :scheduled_pickup_date="model.scheduled_pickup_date"
             :scheduled_pickup_time="model.scheduled_pickup_time" v-model="model.contractor_user_id" :reassign="true"
             :productcategories="model.productcategories.filter(o => o.active)" v-if="user.role === 'customer'" />
-          <div class="q-mt-md">
+          <div class="q-mt-md hidden">
             <q-toggle v-model="model.recurring_order" :label="$t('order.recurring')" />
             <div v-if="model.recurring_order" class="q-pa-md q-mt-sm" :class="{ 'bg-grey-1': !$q.dark.isActive }">
               <div class="row q-col-gutter-md">
