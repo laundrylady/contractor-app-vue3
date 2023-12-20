@@ -42,7 +42,7 @@
                       o.team.last_name }})</span></div>
                 <div class="flex items-center">
                   <OrderProductCategoryDisplay :o="o" />
-                  <q-badge :label="`DUE: ${o.invoice.due_date}`" v-if="o.invoice && o.invoice.due_date" />
+                  <q-badge :label="`DUE: ${displayDateDue(o.invoice.due_date)}`" v-if="o.invoice && o.invoice.due_date" />
                   <div v-if="o.team.suburbpostcoderegion">
                     <q-btn flat dense color="grey-9" v-if="o.suburbpostcoderegion && o.country">
                       <q-icon name="place" size="18px" class="q-mr-xs" /> {{ o.team.suburbpostcoderegion.locality }}
@@ -152,7 +152,7 @@ import { api } from 'src/boot/axios'
 import { Order } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
-import { confirmDelete, currencyFormat, displayDateOrder, hourAgreedDisplay, hourBookingDisplay, openMapLink, orderColor } from 'src/mixins/help'
+import { confirmDelete, currencyFormat, displayDateDue, displayDateOrder, hourAgreedDisplay, hourBookingDisplay, openMapLink, orderColor } from 'src/mixins/help'
 import { getLocationPromise } from 'src/services/geolocation'
 import { computed, inject, ref } from 'vue'
 import draggable from 'vuedraggable'

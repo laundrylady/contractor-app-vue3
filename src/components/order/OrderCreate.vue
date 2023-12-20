@@ -111,7 +111,17 @@ const schema = {
   recurring: null,
   recurring_every: null,
   recurring_end: null,
-  recurring_days: { days: [{ day: 0, active: false }, { day: 1, active: false }, { day: 2, active: false }, { day: 3, active: false }, { day: 4, active: false }, { day: 5, active: false }, { day: 6, active: false }] },
+  recurring_days: {
+    days: [
+      { day: 0, active: false, label: 'Sun' },
+      { day: 1, active: false, label: 'Mon' },
+      { day: 2, active: false, label: 'Tue' },
+      { day: 3, active: false, label: 'Wed' },
+      { day: 4, active: false, label: 'Thu' },
+      { day: 5, active: false, label: 'Fri' },
+      { day: 6, active: false, label: 'Sat' }
+    ]
+  },
   products: [],
   productcategories: []
 }
