@@ -86,9 +86,10 @@
                   </div>
                 </div>
                 <div class="text-center q-mt-xl">
-                  <q-btn @click="stepMove(1)" color="primary" label="Previous" flat class="q-mr-sm" rounded /><q-btn
-                    @click="stepMove(3)" color="primary" label="Continue"
-                    :disable="!model.productcategories.filter(o => o.active).length" rounded />
+                  <q-btn @click="stepMove(1)" color="primary" label="Previous" flat class="q-mr-sm" rounded
+                    :disable="loadingAvailableDates" /><q-btn @click="stepMove(3)" color="primary" label="Continue"
+                    :disable="!model.productcategories.filter(o => o.active).length || loadingAvailableDates" rounded
+                    :loading="loadingAvailableDates" />
                 </div>
               </q-card-section>
               <q-card-section v-if="step === 3">
@@ -347,6 +348,7 @@ const washingAndIroning = ref(false)
 const washingOnly = ref(false)
 const ironingOnly = ref(false)
 const categories = ref()
+const loadingAvailableDates = ref(false)
 const availableDates = ref<string[]>([])
 const success = ref(false)
 const error = ref(false)
@@ -533,6 +535,7 @@ const handleScheduledPickupDateNav = (view: QDateNavigation) => {
 
 const getAvailableContractorsDates = () => {
   availableDates.value = []
+  loadingAvailableDates.value = true
   api.post('/public/order/findcontractorsdates', {
     suburb_postcode_region_id: model.suburb_postcode_region_id,
     scheduled_pickup_date: currentBookingDate.value.format('DD/MM/YYYY'),
@@ -540,7 +543,9 @@ const getAvailableContractorsDates = () => {
   }).then(response => {
     availableDates.value = response.data
     step.value = 3
+    loadingAvailableDates.value = false
   }).catch(error => {
+    loadingAvailableDates.value = false
     useMixinDebug(error)
   })
 }
