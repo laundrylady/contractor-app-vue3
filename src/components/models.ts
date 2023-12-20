@@ -324,6 +324,7 @@ export interface Team {
   dva_email:string,
   gst_enabled:boolean,
   payment_terms:string,
+  payment_terms_days:number,
   onmyway_sms:boolean,
   abn?:string,
   marketing_subscribed:boolean,

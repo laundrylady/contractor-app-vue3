@@ -15,6 +15,7 @@
               <div class="q-pa-md bg-pink-1 q-mb-lg">
                 <div class="q-mb-sm">Create a strong password containing at least:</div>
                 <ul class="q-mb-none">
+                  <li>Minimum 6 characters</li>
                   <li>1 number</li>
                   <li>1 UPPERCASE character</li>
                   <li>1 special character (e.g. !,#,@)</li>

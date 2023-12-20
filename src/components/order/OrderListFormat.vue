@@ -27,7 +27,7 @@
                   v-if="!o.agreed_pickup_time && o.scheduled_pickup_time">{{
                     hourBookingDisplay(o.scheduled_pickup_time)
                   }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)
-}}</span>)</router-link>
+}}</span>) <q-icon name="sync" v-if="o.recurring_order" /></router-link>
               <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"
                 v-if="o.status === 'ready_for_delivery' && o.scheduled_delivery_date"><span
                   v-if="o.scheduled_delivery_date">{{
@@ -35,34 +35,38 @@
                   v-if="!o.agreed_delivery_time && o.scheduled_delivery_time">{{
                     hourBookingDisplay(o.scheduled_delivery_time)
                   }}</span><span v-if="o.agreed_delivery_time">{{ hourAgreedDisplay(o.agreed_delivery_time)
-}}</span>)</router-link>
+}}</span>) <q-icon name="sync" v-if="o.recurring_order" /></router-link>
               <div>
                 <div>{{ o.status === 'ready_for_delivery' ? 'Delivery' : 'Pickup' }} with {{ o.team.name }} <span
                     v-if="o.team.name !== `${o.team.first_name} ${o.team.last_name}`">({{ o.team.first_name }} {{
                       o.team.last_name }})</span></div>
-                <OrderProductCategoryDisplay :o="o" />
-                <span v-if="o.team.suburbpostcoderegion">
-                  <q-btn flat dense color="grey-9" v-if="o.suburbpostcoderegion && o.country">
-                    <q-icon name="place" size="18px" class="q-mr-xs" /> {{ o.team.suburbpostcoderegion.locality }}
-                    <q-menu>
-                      <q-list>
-                        <q-item
-                          @click="openMapLink(o.address2, o.suburbpostcoderegion.locality, o.suburbpostcoderegion.state, o.suburbpostcoderegion.postcode, o.country.name, 'google')"
-                          clickable>
-                          <q-item-section>
-                            Google Maps
-                          </q-item-section>
-                        </q-item>
-                        <q-item
-                          @click="openMapLink(o.address2, o.suburbpostcoderegion.locality, o.suburbpostcoderegion.state, o.suburbpostcoderegion.postcode, o.country.name, 'apple')"
-                          clickable>
-                          <q-item-section>
-                            Apple Maps
-                          </q-item-section>
-                        </q-item>
-                      </q-list>
-                    </q-menu>
-                  </q-btn></span>
+                <div class="flex items-center">
+                  <OrderProductCategoryDisplay :o="o" />
+                  <q-badge :label="`DUE: ${o.invoice.due_date}`" v-if="o.invoice && o.invoice.due_date" />
+                  <div v-if="o.team.suburbpostcoderegion">
+                    <q-btn flat dense color="grey-9" v-if="o.suburbpostcoderegion && o.country">
+                      <q-icon name="place" size="18px" class="q-mr-xs" /> {{ o.team.suburbpostcoderegion.locality }}
+                      <q-menu>
+                        <q-list>
+                          <q-item
+                            @click="openMapLink(o.address2, o.suburbpostcoderegion.locality, o.suburbpostcoderegion.state, o.suburbpostcoderegion.postcode, o.country.name, 'google')"
+                            clickable>
+                            <q-item-section>
+                              Google Maps
+                            </q-item-section>
+                          </q-item>
+                          <q-item
+                            @click="openMapLink(o.address2, o.suburbpostcoderegion.locality, o.suburbpostcoderegion.state, o.suburbpostcoderegion.postcode, o.country.name, 'apple')"
+                            clickable>
+                            <q-item-section>
+                              Apple Maps
+                            </q-item-section>
+                          </q-item>
+                        </q-list>
+                      </q-menu>
+                    </q-btn>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -117,10 +121,13 @@
                 <div>
                   <div>{{ element.status === 'ready_for_delivery' ? 'Delivery' : 'Pickup' }} with {{ element.team.name }}
                   </div>
-                  <OrderProductCategoryDisplay :o="element" />
-                  <span v-if="element.team.suburbpostcoderegion">{{
-                    element.team.suburbpostcoderegion.locality
-                  }} </span>
+                  <div class="flex">
+                    <q-badge label="DUE: 20/12" />
+                    <OrderProductCategoryDisplay :o="element" />
+                    <span v-if="element.team.suburbpostcoderegion">{{
+                      element.team.suburbpostcoderegion.locality
+                    }} </span>
+                  </div>
                 </div>
               </div>
               <q-space />

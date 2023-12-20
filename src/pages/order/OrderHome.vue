@@ -21,9 +21,8 @@
                 <div class="text-h5">
                   <span class="q-mr-sm">{{ $t('order.name') }} #{{ model.display_id }}</span>
                 </div>
-                <q-space />
-                <router-link :to="{ name: 'order-edit', params: { id: model.recurring_parent_id } }" class="link q-ml-sm"
-                  v-if="model.recurring_parent_id"><q-icon name="sync" /> Recurring</router-link>
+                <router-link :to="{ name: 'order-edit', params: { id: model.recurring_parent_id } }" class="link"
+                  v-if="model.recurring_parent_id"><q-icon name="sync" size="18px" /></router-link>
                 <q-space />
                 <StatusTag :status="model.status" v-if="$q.screen.xs" :small="true" />
               </div>
@@ -41,17 +40,20 @@
                     <span v-if="model.scheduled_pickup_time">
                       ({{ hourBookingDisplay(model.scheduled_pickup_time) }})
                     </span>
-                  </div>
-                  <div><q-badge v-if="model.team.owing_no_booking || model.team.status === 'blocked'"
-                      label="Blocked from new bookings" /></div>
-                  <div v-if="model.recurring_order && model.scheduled_pickup_time" class="q-mt-xs">
-                    <q-badge class="q-pa-sm" color="secondary"><q-icon name="sync" class="q-mr-xs" />Recurring
-                    </q-badge>
+                    <q-icon name="sync" v-if="model.recurring_order" size="18px" />
                   </div>
                 </div>
               </div>
+              <div v-if="model.team"><q-icon name="payments" /> {{ model.team.payment_terms }} - {{
+                model.team.payment_terms_days }} days <q-badge
+                  v-if="model.team.owing_no_booking || model.team.status === 'blocked'" label="Blocked from bookings"
+                  title="Blocked from bookings" /></div>
             </div>
             <div class="col-xs-2 col-sm-4 text-right" v-if="!$q.screen.xs">
+              <div v-if="model.recurring_order && model.scheduled_pickup_time" class="q-mb-xs">
+                <q-badge class="q-pa-sm" color="secondary"><q-icon name="sync" class="q-mr-xs" />Recurring
+                </q-badge>
+              </div>
               <StatusTag :status="model.status" /><span v-if="model.status === 'cancelled'"> by {{ model.cancel_by
               }}</span>
               <div v-if="model.cancel_reason" class="text-italic">{{ model.cancel_reason
@@ -96,7 +98,8 @@
               <q-icon name="payments" />
             </q-item-section>
             <q-item-section>
-              {{ model.team.payment_terms }}
+              {{ model.team.payment_terms }} - {{
+                model.team.payment_terms_days }} days
             </q-item-section>
           </q-item>
           <q-item-label header>{{ $t('team.pickupAddress') }}</q-item-label>
