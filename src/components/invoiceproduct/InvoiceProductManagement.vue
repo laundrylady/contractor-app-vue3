@@ -376,8 +376,9 @@ const sendPaymentRequestSms = () => {
 
 onMounted(() => {
   api.get('/public/product/index').then(response => {
+    response.data = response.data.filter((o: Product) => o.active)
     rawProductList.value = response.data
-    productList.value = groupBy(response.data.filter((o: Product) => props.categories.find(p => p.id === o.product_category_id) || o.productcategory.name === 'Delivery'), 'productcategory.name')
+    productList.value = groupBy(response.data.filter((o: Product) => props.categories.find(p => p.id === o.product_category_id) || ['Delivery', 'Other'].indexOf(o.productcategory.name) !== -1), 'productcategory.name')
   }).catch(error => {
     useMixinDebug(error)
   })

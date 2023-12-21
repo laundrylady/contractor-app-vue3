@@ -454,7 +454,8 @@ export interface Product {
   discount_usage_total: number,
   discount_usage_team: number,
   discount_start: string,
-  discount_end: string
+  discount_end: string,
+  active: boolean
 }
 
 export interface InvoiceProduct {
