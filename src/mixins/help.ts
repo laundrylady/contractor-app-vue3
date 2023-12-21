@@ -251,7 +251,7 @@ const displayDateDue = (val:string) => {
   if (!val) {
     return val
   }
-  return moment(val, 'DD/MM/YYYY').format('DD/MM')
+  return moment(val, 'DD/MM/YYYY').format('DD MMM')
 }
 
 const dbDate = (val:string) => {

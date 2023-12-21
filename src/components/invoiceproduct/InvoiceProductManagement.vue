@@ -105,7 +105,33 @@
         <q-btn @click="sendPaymentRequest()" color="primary" label="Send via email" rounded
           :disable="sendingPaymentRequest || !sendPaymentModal.scheduled_delivery_date || !sendPaymentModal.scheduled_delivery_time" />
       </q-card-actions>
-    </q-card></q-dialog>
+    </q-card>
+  </q-dialog>
+  <q-dialog v-model="sendPaymentModalSms.show">
+    <q-card class="modal">
+      <q-toolbar class="bg-primary text-white"><q-toolbar-title>Send for payment</q-toolbar-title></q-toolbar>
+      <q-card-section>
+        <p>Please confirm the scheduled delivery date & time below:</p>
+        <div class="row q-col-gutter-md">
+          <div class="col-xs-12 col-sm-6">
+            <date-field v-model="sendPaymentModalSms.scheduled_delivery_date" label="Scheduled delivery date"
+              :outlined="true" :invalid="!sendPaymentModalSms.scheduled_delivery_date" />
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <q-select v-model="sendPaymentModalSms.scheduled_delivery_time" label="Scheduled delivery time"
+              :outlined="true" :options="hourBookingOptions" :error="!sendPaymentModalSms.scheduled_delivery_time"
+              map-options emit-value />
+          </div>
+        </div>
+      </q-card-section>
+      <q-card-actions>
+        <q-btn flat color="secondary" label="Cancel" v-close-popup rounded />
+        <q-space />
+        <q-btn @click="sendPaymentRequestSms()" color="primary" label="Send via SMS" rounded
+          :disable="sendingPaymentRequest || !sendPaymentModalSms.scheduled_delivery_date || !sendPaymentModalSms.scheduled_delivery_time" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup lang="ts">
@@ -127,6 +153,11 @@ interface Props {
 const sendPaymentModal = ref({
   show: false,
   content: null,
+  scheduled_delivery_date: null,
+  scheduled_delivery_time: null
+})
+const sendPaymentModalSms = ref({
+  show: false,
   scheduled_delivery_date: null,
   scheduled_delivery_time: null
 })
@@ -331,7 +362,7 @@ const checkGvDc = () => {
 
 const doSendPaymentRequest = (type: string) => {
   if (type === 'sms') {
-    sendPaymentRequestSms()
+    sendPaymentModalSms.value.show = true
   } else {
     sendPaymentModal.value.content = null
     sendPaymentModal.value.show = true
@@ -363,9 +394,14 @@ const sendPaymentRequestSms = () => {
   const message = 'PLEASE NOTE: This will send the invoice for payment'
   confirmDelete(message).onOk(() => {
     sendingPaymentRequest.value = true
-    api.post(`/public/invoice/sendpaymentrequestsms/${localModel.value.id}`).then(() => {
+    api.post(`/public/invoice/sendpaymentrequestsms/${localModel.value.id}`, sendPaymentModalSms.value).then(() => {
       doNotify('positive', 'Invoice sent for payment')
       sendingPaymentRequest.value = false
+      sendPaymentModalSms.value = {
+        show: false,
+        scheduled_delivery_date: null,
+        scheduled_delivery_time: null
+      }
       emits('update:order')
     }).catch(error => {
       sendingPaymentRequest.value = false
