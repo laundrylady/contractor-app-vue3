@@ -68,6 +68,8 @@
     </div>
     <div class="q-mt-md items-center q-pb-md">
       <div class="flex">
+        <q-btn @click="openURL(`/api/public/invoice/pdf/${localModel.id}`)" icon="picture_as_pdf"
+          title="Download Invoice PDF" flat round class="q-mr-xs" />
         <q-btn @click="!hasPickupNoShow ? doSendPaymentRequest('sms') : sendPaymentRequestSms()" icon="chat"
           title="Send SMS Payment Request" flat v-if="canSend" :disable="sendingPaymentRequest" round />
         <q-space />
@@ -138,7 +140,7 @@
 </template>
 
 <script setup lang="ts">
-import { EventBus } from 'quasar'
+import { EventBus, openURL } from 'quasar'
 import { api } from 'src/boot/axios'
 import { Invoice, InvoicePayment, InvoiceProduct, OrderProductCategory, Product, Team } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
