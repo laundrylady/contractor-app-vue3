@@ -5,9 +5,8 @@
     <q-card-section>
       <div>
         <span v-if="localModel.suburbpostcoderegion"><q-icon name="place" size="24px" /> {{
-          localModel.suburbpostcoderegion.locality
-        }}<span v-if="common?.operating_country !== 'nzd'"> {{
-  localModel.suburbpostcoderegion.state }}</span></span>
+          localModel.suburbpostcoderegion.locality }} <span v-if="common?.operating_country !== 'nzd'"> {{
+    localModel.suburbpostcoderegion.state }}</span></span>
       </div>
       <div class="q-mt-md" v-if="props.productcategories.filter(o => o.active).length">
         <q-icon name="local_laundry_service" size="24px" /> <span

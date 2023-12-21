@@ -93,11 +93,15 @@
                 </div>
               </q-card-section>
               <q-card-section v-if="step === 3">
-                <p class="text-center text-bold">Choose the desired pickup date:</p>
+                <div class="text-center text-bold">Choose the desired pickup date:</div>
+                <div class="q-mt-sm text-center" style="height:14px;">
+                  <div v-if="loadingAvailableDates"><q-spinner /> Finding available dates</div>
+                </div>
                 <div class="text-center">
                   <q-date v-model="model.scheduled_pickup_date" mask="DD/MM/YYYY" :options="minDate" class="q-mt-md"
                     @navigation="handleScheduledPickupDateNav"
-                    @update:model-value="[model.scheduled_pickup_time = null, model.contractor_user_id = null]" />
+                    @update:model-value="[model.scheduled_pickup_time = null, model.contractor_user_id = null]"
+                    :disable="loadingAvailableDates" />
                 </div>
                 <div class="q-mt-xl text-center">
                   <q-btn @click="stepMove(2)" color="primary" label="Previous" flat class="q-mr-sm" rounded />
@@ -118,7 +122,8 @@
                   </q-card-section>
                 </q-card>
                 <div class="q-mt-xl text-center">
-                  <q-btn @click="stepMove(3)" color="primary" label="Previous" flat class="q-mr-sm" rounded />
+                  <q-btn @click="stepMove(3)" color="primary" label="Previous" flat class="q-mr-sm" rounded
+                    :loading="loadingAvailableDates" :disable="loadingAvailableDates" />
                   <q-btn @click="stepMove(5)" color="primary" label="Continue"
                     :disable="!model.contractor_user_id || !model.scheduled_pickup_time" rounded />
                 </div>
@@ -464,7 +469,8 @@ const customerTypes = computed(() => {
 const model = reactive<Order>(JSON.parse(JSON.stringify(schema)))
 const bus = inject('bus') as EventBus
 const minDate = (date: string) => {
-  return date >= moment().format('YYYY/MM/DD') && availableDates.value.indexOf(date) !== -1
+  console.log('Checking available dates')
+  return moment(date, 'YYYY/MM/DD').startOf('day').isSameOrAfter(moment().startOf('day')) && availableDates.value.indexOf(date) !== -1
 }
 const currentBookingDate = ref(moment())
 const noContractors = ref(false)
