@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="col-xs-5 col-sm-3"
-        v-if="nonEditableProducts.indexOf(p.product_id) === -1 && nonEditableProductCategories.indexOf(p.product.product_category_id) === -1">
+        v-if="nonEditableProducts.indexOf(p.product_id) === -1 && nonEditableProductCategories.indexOf(p.product.product_category_id) === -1 && p.name !== 'Pickup No Show'">
         <q-input v-model="p.qty" type="number" min="1" borderless :label="`${p.product.unit_measurement.toUpperCase()}S`"
           filled @update:model-value="manualQty" :debounce="500" :disable="loading || !canEdit" dense
           style="max-width:150px;">
@@ -412,7 +412,7 @@ const sendPaymentRequestSms = () => {
 
 onMounted(() => {
   api.get('/public/product/index').then(response => {
-    response.data = response.data.filter((o: Product) => o.active)
+    response.data = response.data.filter((o: Product) => o.active && o.name !== 'Pickup No Show')
     rawProductList.value = response.data
     productList.value = groupBy(response.data.filter((o: Product) => props.categories.find(p => p.id === o.product_category_id) || ['Delivery', 'Other'].indexOf(o.productcategory.name) !== -1), 'productcategory.name')
   }).catch(error => {

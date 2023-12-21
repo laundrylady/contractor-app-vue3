@@ -179,7 +179,12 @@
         <q-card>
           <q-card-section v-if="!localModel.invoice">
             <p>No invoice has been created for this {{ $t('order.name') }}.</p>
-            <q-btn label="Create invoice" @click="createInvoice()" color="primary" icon="add_circle" rounded />
+            <div class="flex">
+              <q-btn label="Create invoice" @click="createInvoice()" color="primary" icon="add_circle" rounded
+                :class="{ 'q-mb-lg': $q.screen.xs }" />
+              <q-space /><q-btn label="Create No Show invoice" @click="createInvoicePickupNoShow()" color="red"
+                icon="add_circle" rounded flat />
+            </div>
           </q-card-section>
           <div v-if="localModel.invoice">
             <q-tabs v-model="invoiceTab" align="left">
@@ -574,6 +579,16 @@ const updateOrder = () => {
 const createInvoice = () => {
   confirmDelete(`This will create an invoice for the ${i18n.t('order.name')}`).onOk(() => {
     api.post(`/public/invoice/createfromorder/${props.model.id}`).then(() => {
+      emits('update:order')
+    }).catch(error => {
+      useMixinDebug(error)
+    })
+  })
+}
+
+const createInvoicePickupNoShow = () => {
+  confirmDelete(`This will create a no show invoice for the ${i18n.t('order.name')}`).onOk(() => {
+    api.post(`/public/invoice/createfromorderpickupnoshow/${props.model.id}`).then(() => {
       emits('update:order')
     }).catch(error => {
       useMixinDebug(error)
