@@ -68,8 +68,8 @@
     </div>
     <div class="q-mt-md items-center q-pb-md">
       <div class="flex">
-        <q-btn @click="doSendPaymentRequest('sms')" icon="chat" title="Send SMS Payment Request" flat v-if="canSend"
-          :disable="sendingPaymentRequest" round />
+        <q-btn @click="!hasPickupNoShow ? doSendPaymentRequest('sms') : sendPaymentRequestSms()" icon="chat"
+          title="Send SMS Payment Request" flat v-if="canSend" :disable="sendingPaymentRequest" round />
         <q-space />
         <q-btn @click="doSendPaymentRequest('email')" icon="mail" label="Send Payment Request" push color="primary"
           v-if="canSend" :disable="sendingPaymentRequest" rounded />
@@ -85,15 +85,18 @@
     <q-card class="modal">
       <q-toolbar class="bg-primary text-white"><q-toolbar-title>Send for payment</q-toolbar-title></q-toolbar>
       <q-card-section>
-        <p>Please confirm the scheduled delivery date & time below:</p>
-        <div class="row q-col-gutter-md">
-          <div class="col-xs-12 col-sm-6">
-            <date-field v-model="sendPaymentModal.scheduled_delivery_date" label="Scheduled delivery date"
-              :outlined="true" :invalid="!sendPaymentModal.scheduled_delivery_date" />
-          </div>
-          <div class="col-xs-12 col-sm-6">
-            <q-select v-model="sendPaymentModal.scheduled_delivery_time" label="Scheduled delivery time" :outlined="true"
-              :options="hourBookingOptions" :error="!sendPaymentModal.scheduled_delivery_time" map-options emit-value />
+        <div v-if="!hasPickupNoShow">
+          <p>Please confirm the scheduled delivery date & time below:</p>
+          <div class="row q-col-gutter-md">
+            <div class="col-xs-12 col-sm-6">
+              <date-field v-model="sendPaymentModal.scheduled_delivery_date" label="Scheduled delivery date"
+                :outlined="true" :invalid="!hasPickupNoShow && !sendPaymentModal.scheduled_delivery_date" />
+            </div>
+            <div class="col-xs-12 col-sm-6">
+              <q-select v-model="sendPaymentModal.scheduled_delivery_time" label="Scheduled delivery time"
+                :outlined="true" :options="hourBookingOptions"
+                :error="!hasPickupNoShow && !sendPaymentModal.scheduled_delivery_time" map-options emit-value />
+            </div>
           </div>
         </div>
         <q-input v-model="sendPaymentModal.content" type="textarea" outlined rows="3"
@@ -103,7 +106,7 @@
         <q-btn flat color="secondary" label="Cancel" v-close-popup rounded />
         <q-space />
         <q-btn @click="sendPaymentRequest()" color="primary" label="Send via email" rounded
-          :disable="sendingPaymentRequest || !sendPaymentModal.scheduled_delivery_date || !sendPaymentModal.scheduled_delivery_time" />
+          :disable="sendingPaymentRequest || (!hasPickupNoShow && (!sendPaymentModal.scheduled_delivery_date || !sendPaymentModal.scheduled_delivery_time))" />
       </q-card-actions>
     </q-card>
   </q-dialog>
