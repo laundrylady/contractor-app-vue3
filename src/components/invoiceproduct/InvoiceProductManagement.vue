@@ -28,7 +28,7 @@
     </div>
     <div v-if="localModel.id && canEdit" class="q-mt-md q-mb-sm">
       <q-btn :label="!newProduct.product_id ? `Add a ${$t('product.name')}` : `${newProduct.name}`" outline no-caps
-        color="primary" icon="add_circle" :disable="loading" class="full-width" rounded>
+        color="primary" icon="add_circle" :disable="loading" class="full-width" rounded v-if="!hasPickupNoShow">
         <q-menu anchor="center middle" self="center middle" class="soft-shadow add-product-menu">
           <div class="row">
             <div class="col-xs-12" v-for="p in productListFiltered" :key="p.key">
@@ -193,6 +193,16 @@ const sortByObject = productCategoryOrder
     }
   }, {})
 const sendOnceTypes = ['NDIS', 'Home Care', 'Aged Care', 'Veteran Affairs', 'Sporting Group']
+
+const hasPickupNoShow = computed(() => {
+  if (!props.invoice || !props.invoice.products || !props.invoice.products.length) {
+    return false
+  }
+  if (props.invoice.products.find((o: InvoiceProduct) => o.name === 'Pickup No Show')) {
+    return true
+  }
+  return false
+})
 
 const canEdit = computed(() => {
   if (localModel.value.status === 'DRAFT') {
