@@ -22,14 +22,14 @@
             </div>
             <div>
               <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"
-                v-if="o.status !== 'ready_for_delivery'"><span v-if="o.scheduled_pickup_date">{{
+                v-if="o.status !== 'ready_for_delivery' && !forceDeliveryDate"><span v-if="o.scheduled_pickup_date">{{
                   displayDateOrder(o.scheduled_pickup_date) }}</span> (<span
                   v-if="!o.agreed_pickup_time && o.scheduled_pickup_time">{{
                     hourBookingDisplay(o.scheduled_pickup_time)
                   }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)
 }}</span>) <q-icon name="sync" v-if="o.recurring_order" /></router-link>
               <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"
-                v-if="o.status === 'ready_for_delivery' && o.scheduled_delivery_date"><span
+                v-if="(o.status === 'ready_for_delivery' || forceDeliveryDate) && o.scheduled_delivery_date"><span
                   v-if="o.scheduled_delivery_date">{{
                     displayDateOrder(o.scheduled_delivery_date) }}</span> (<span
                   v-if="!o.agreed_delivery_time && o.scheduled_delivery_time">{{
@@ -71,7 +71,7 @@
             </div>
           </div>
           <q-space />
-          <div class="q-ml-xs text-right" style="width:70px;">
+          <div class="q-ml-xs text-right" style="width:40px;">
             <div class="text-right">
               <q-btn @click="onMyWay(o)" color="grey-9" round dense icon="o_directions_car" class="q-ml-xs"
                 title="Notify the customer you are on your way"
@@ -169,7 +169,8 @@ interface Props {
   drag?: boolean,
   label?: string,
   optimal?: boolean,
-  nobackground?: boolean
+  nobackground?: boolean,
+  forceDeliveryDate?: boolean
 }
 const props = defineProps<Props>()
 const bus = inject('bus') as EventBus

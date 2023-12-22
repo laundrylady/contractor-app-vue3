@@ -87,6 +87,17 @@
                   </q-card-section>
                 </q-card>
               </div>
+              <div class="col-xs-12 col-sm-6">
+                <q-card class="bg-seamless q-mb-lg">
+                  <q-card-section>
+                    <div class="text-h6 q-mb-md">Completed Today</div>
+                    <div v-if="!dashboard.completedToday.length">No {{ $t('order.namePlural').toLowerCase() }} found.
+                    </div>
+                    <OrderListFormat :orders="dashboard.completedToday" :no-avatar="true" :optimal="true"
+                      :force-delivery-date="true" :drag="true" />
+                  </q-card-section>
+                </q-card>
+              </div>
             </div>
           </div>
         </div>
