@@ -516,6 +516,7 @@ const resetModel = () => {
   for (const c of categories.value) {
     model.productcategories.push({ product_category_id: c.value, active: false })
   }
+  availableDates.value = []
 }
 
 const checkContractors = () => {
@@ -528,6 +529,7 @@ const checkContractors = () => {
       if (noContractors.value) {
         model.suburb_postcode_region_id = null
       }
+      availableDates.value = []
     }).catch(error => {
       useMixinDebug(error)
     })
