@@ -7,20 +7,15 @@
       </q-toolbar>
       <q-separator />
       <q-card-section>
-        <div class="row q-col-gutter-md q-mb-lg">
-          <q-select v-model="newSchedule.user_postcoderegion_group_id" label="Select the pickup area"
-            :options="userpostcoderegiongroups" map-options emit-value :error="$v.user_postcoderegion_group_id.$invalid"
-            filled class="col-xs-12 col-sm-6" @update:model-value="checkMaxRoster()" />
+        <div class="row q-col-gutter-lg q-mb-lg">
           <div class="col-xs-12 col-sm-6">
-            <DateField v-model="newSchedule.day" label="Date" :invalid="$v.day.$invalid" :outlined="true"
-              @update:model-value="checkMaxRoster()" />
-          </div>
-        </div>
-        <div v-if="maxRoster" class="text-negative"><q-icon name="warning" /> You are only permitted 2 pickup slots in
-          each area per day. Please choose a different pickup area or day.</div>
-        <div v-if="!maxRoster">
-          <div class="row q-col-gutter-md ">
-            <div class="col-xs-12 col-sm-6">
+            <q-select v-model="newSchedule.user_postcoderegion_group_id" label="Select the pickup area"
+              :options="userpostcoderegiongroups" map-options emit-value :error="$v.user_postcoderegion_group_id.$invalid"
+              filled @update:model-value="checkMaxRoster()" />
+            <div class="q-mb-sm" v-if="$q.screen.xs">Picking up on:</div>
+            <q-date mask="DD/MM/YYYY" v-model="newSchedule.day" @update:model-value="checkMaxRoster()" v-if="$q.screen.xs"
+              class="q-mb-md" :options="validDate" />
+            <div v-if="!maxRoster">
               <div class="q-mb-sm">Picking up between:</div>
               <div class="row q-col-gutter-md">
                 <q-select v-model="newSchedule.start_time" outlined dense :options="hourOptions" map-options emit-value
@@ -29,9 +24,6 @@
                 <q-select v-model="newSchedule.end_time" outlined dense :options="endHourOptions(newSchedule.start_time)"
                   map-options emit-value label="End Time" options-cover class="col-xs-6" :error="$v.end_time.$invalid" />
               </div>
-
-            </div>
-            <div class="col-xs-12 col-sm-6">
               <div class="q-mb-sm">Capacity for this timeslot:</div>
               <div v-if="newSchedule.capacity.products" class="row q-col-gutter-md">
                 <div v-for="(c, cindex) in newSchedule.capacity.products" :key="cindex" class="col-xs-6">
@@ -40,20 +32,27 @@
                 </div>
               </div>
             </div>
+            <div v-if="maxRoster" class="text-negative"><q-icon name="warning" /> You are only permitted 2 pickup slots in
+              each area per day. Please choose a different pickup area or day.</div>
           </div>
-          <div v-if="errors">
-            <ul>
-              <li v-for="(e, index) in errors.errors" :key="index" class="text-negative">
-                {{ e.message }}</li>
-            </ul>
-          </div>
-          <div class="q-mt-lg text-right">
-            <q-btn v-close-popup :disable="loading" label="Cancel" color="secondary" flat rounded class="q-mr-xs" />
-            <q-btn @click="addSchedule()" :disable="$v.$invalid || loading" icon="add_circle" label="Add" color="primary"
-              :loading="loading" rounded />
+          <div class="col-xs-12 col-sm-6" v-if="!$q.screen.xs">
+            <div class="q-mb-sm">Picking up on:</div>
+            <q-date mask="DD/MM/YYYY" v-model="newSchedule.day" @update:model-value="checkMaxRoster()"
+              :options="validDate" />
           </div>
         </div>
       </q-card-section>
+      <q-card-section v-if="errors">
+        <ul>
+          <li v-for="(e, index) in errors.errors" :key="index" class="text-negative">
+            {{ e.message }}</li>
+        </ul>
+      </q-card-section>
+      <q-card-actions align="right" v-if="!maxRoster">
+        <q-btn v-close-popup :disable="loading" label="Cancel" color="secondary" flat rounded class="q-mr-xs" />
+        <q-btn @click="addSchedule()" :disable="$v.$invalid || loading" icon="add_circle" label="Add" color="primary"
+          :loading="loading" rounded />
+      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
@@ -68,7 +67,6 @@ import { useMixinDebug } from 'src/mixins/debug'
 import { categoryDisplay, hourOptions } from 'src/mixins/help'
 import { productCategoriesVisibleCapacity } from 'src/services/helpers'
 import { inject, onMounted, reactive, ref } from 'vue'
-import DateField from '../form/DateField.vue'
 import { UserPostcodeRegionGroup } from '../models'
 
 const bus = inject('bus') as EventBus
@@ -95,6 +93,10 @@ const rules = {
   user_postcoderegion_group_id: { required }
 }
 const $v = useVuelidate(rules, newSchedule, { $scope: false })
+
+const validDate = (date: string) => {
+  return moment(date, 'YYYY/MM/DD').startOf('day').isSameOrAfter(moment().startOf('day'))
+}
 
 const addSchedule = () => {
   errors.value = false
@@ -150,7 +152,7 @@ onMounted(async () => {
     })
     Object.assign(newSchedule, JSON.parse(JSON.stringify(schema)))
     for (const c of categories.value) {
-      newSchedule.capacity.products.push({ product_category_id: c.value, qty: 0 })
+      newSchedule.capacity.products.push({ product_category_id: c.value, qty: 2 })
     }
     newSchedule.day = moment().format('DD/MM/YYYY')
     show.value = true
