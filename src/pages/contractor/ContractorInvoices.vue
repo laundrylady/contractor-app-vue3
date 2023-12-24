@@ -15,13 +15,13 @@
         <q-route-tab :to="{ name: 'contractor-commission-paid' }" label="Commissions" />
         <q-route-tab :to="{ name: 'contractor-invoices' }" label="Invoices" />
       </q-tabs>
-      <UserCommissionPaidManagementContractor />
+      <InvoiceManagement />
     </q-card>
   </div>
 </template>
 <script setup lang="ts">
+import InvoiceManagement from 'src/components/invoice/InvoiceManagement.vue'
 import { User } from 'src/components/models'
-import UserCommissionPaidManagementContractor from 'src/components/usercommissionpaid/UserCommissionPaidManagementContractor.vue'
 
 interface Props {
   model: User

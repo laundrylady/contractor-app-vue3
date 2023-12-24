@@ -151,6 +151,12 @@ const routes: RouteRecordRaw[] = [
             path: '/contractor/commissions/paid',
             component: () => import('pages/contractor/ContractorCommissionsPaid.vue'),
             meta: { auth: true }
+          },
+          {
+            name: 'contractor-invoices',
+            path: '/contractor/invoices',
+            component: () => import('pages/contractor/ContractorInvoices.vue'),
+            meta: { auth: true }
           }
         ]
       },

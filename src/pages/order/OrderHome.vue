@@ -1,79 +1,9 @@
 <template>
   <q-layout view="lHh Lpr lFf" container class="layout-height layout-container" v-if="model && model.id">
-    <q-header :class="{ 'bg-page-background text-black': !$q.dark.isActive, 'bg-dark': $q.dark.isActive }">
-      <div class="q-pl-md q-pr-md q-pt-md">
-        <div class="flex" v-if="!$q.screen.xs">
-          <q-breadcrumbs class="q-mb-md">
-            <template v-slot:separator>
-              <q-icon size="1.5em" name="chevron_right" />
-            </template>
-            <q-breadcrumbs-el label="Home" icon="home" :to="{ name: 'appDashboard' }" />
-            <q-breadcrumbs-el :label="$t('order.namePlural')" :to="{ name: 'appDashboard' }" />
-            <q-breadcrumbs-el :label="`#${model.display_id.toString()}`" />
-          </q-breadcrumbs>
-        </div>
-        <div class="q-mb-xs bg-white q-pa-md rounded-borders">
-          <div class="row items-center">
-            <div class="col-xs-12 col-sm-8">
-              <div class="flex items-center">
-                <q-btn @click="drawer.left = !drawer.left" icon="menu" outline v-if="$q.screen.lt.lg" flat
-                  class="q-pl-sm q-pr-sm" />
-                <div class="text-h5">
-                  <span class="q-mr-sm">{{ $t('order.name') }} #{{ model.display_id }}</span>
-                </div>
-                <router-link :to="{ name: 'order-edit', params: { id: model.recurring_parent_id } }" class="link"
-                  v-if="model.recurring_parent_id"><q-icon name="sync" size="18px" /></router-link>
-                <q-space />
-                <StatusTag :status="model.status" v-if="$q.screen.xs" :small="true" />
-              </div>
-              <div class="flex items-start">
-                <div>
-                  <div>
-                    <q-icon name="attach_money" v-if="teamHasOutstandings" title="Has unpaids"
-                      color="negative" /><router-link :to="{ name: 'orders', params: { team_id: model.team_id } }"
-                      class="link">{{
-                        model.team.name }} <span
-                        v-if="model.team.name !== `${model.team.first_name} ${model.team.last_name}`">({{
-                          model.team.first_name }} {{
-    model.team.last_name }})</span></router-link><br /><q-icon name="event" /> {{
-    model.scheduled_pickup_date ? displayDateOrder(model.scheduled_pickup_date) : '' }}
-                    <span v-if="model.scheduled_pickup_time">
-                      ({{ hourBookingDisplay(model.scheduled_pickup_time) }})
-                    </span>
-                    <q-icon name="sync" v-if="model.recurring_order" size="18px" />
-                  </div>
-                </div>
-              </div>
-              <div v-if="model.team"><q-icon name="payments" /> {{ model.team.payment_terms }} - {{
-                model.team.payment_terms_days }} days <q-badge
-                  v-if="model.team.owing_no_booking || model.team.status === 'blocked'" label="Blocked from bookings"
-                  title="Blocked from bookings" /></div>
-            </div>
-            <div class="col-xs-2 col-sm-4 text-right" v-if="!$q.screen.xs">
-              <div v-if="model.recurring_order && model.scheduled_pickup_time" class="q-mb-xs">
-                <q-badge class="q-pa-sm" color="secondary"><q-icon name="sync" class="q-mr-xs" />Recurring
-                </q-badge>
-              </div>
-              <StatusTag :status="model.status" /><span v-if="model.status === 'cancelled'"> by {{ model.cancel_by
-              }}</span>
-              <div v-if="model.cancel_reason" class="text-italic">{{ model.cancel_reason
-              }}</div>
-              <div>
-                Updated <strong>{{ fromNowTz(model.updated_at) }}</strong>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </q-header>
     <q-drawer v-model="drawer.left" :width="300" side="left" :class="{ 'bg-page-background': !$q.screen.xs }">
       <div class="bg-white q-ma-sm rounded-borders">
         <div class="text-right q-pa-sm" v-if="$q.screen.lt.lg">
           <q-btn @click="drawer.left = false" icon="close" flat round dense v-close-popup />
-        </div>
-        <div class="q-pa-sm">
-          <MapWithMarker :lat-lng="{ lat: parseFloat(model.lat), lng: parseFloat(model.lng) }"
-            v-if="model.lat && model.lng" />
         </div>
         <q-list dense class="q-mt-md q-ml-sm q-mr-sm q-pb-md">
           <q-item-label header>{{ $t('team.name') }}</q-item-label>
@@ -123,10 +53,78 @@
             </q-item-section>
           </q-item>
         </q-list>
+        <div class="q-pa-sm">
+          <MapWithMarker :lat-lng="{ lat: parseFloat(model.lat), lng: parseFloat(model.lng) }"
+            v-if="model.lat && model.lng" />
+        </div>
       </div>
     </q-drawer>
     <q-page-container>
       <q-page padding class="q-pa-md">
+        <div class="q-mb-md">
+          <div class="flex" v-if="!$q.screen.xs">
+            <q-breadcrumbs class="q-mb-md">
+              <template v-slot:separator>
+                <q-icon size="1.5em" name="chevron_right" />
+              </template>
+              <q-breadcrumbs-el label="Home" icon="home" :to="{ name: 'appDashboard' }" />
+              <q-breadcrumbs-el :label="$t('order.namePlural')" :to="{ name: 'appDashboard' }" />
+              <q-breadcrumbs-el :label="`#${model.display_id.toString()}`" />
+            </q-breadcrumbs>
+          </div>
+          <div class="q-mb-xs bg-white q-pa-md rounded-borders">
+            <div class="row items-center">
+              <div class="col-xs-12 col-sm-8">
+                <div class="flex items-center">
+                  <q-btn @click="drawer.left = !drawer.left" icon="menu" outline v-if="$q.screen.lt.lg" flat
+                    class="q-pl-sm q-pr-sm" />
+                  <div class="text-h5">
+                    <span class="q-mr-sm">{{ $t('order.name') }} #{{ model.display_id }}</span>
+                  </div>
+                  <router-link :to="{ name: 'order-edit', params: { id: model.recurring_parent_id } }" class="link"
+                    v-if="model.recurring_parent_id"><q-icon name="sync" size="18px" /></router-link>
+                  <q-space />
+                  <StatusTag :status="model.status" v-if="$q.screen.xs" :small="true" />
+                </div>
+                <div class="flex items-start">
+                  <div>
+                    <div>
+                      <q-icon name="attach_money" v-if="teamHasOutstandings" title="Has unpaids"
+                        color="negative" /><router-link :to="{ name: 'orders', params: { team_id: model.team_id } }"
+                        class="link">{{
+                          model.team.name }} <span
+                          v-if="model.team.name !== `${model.team.first_name} ${model.team.last_name}`">({{
+                            model.team.first_name }} {{
+    model.team.last_name }})</span></router-link><br /><q-icon name="event" /> {{
+    model.scheduled_pickup_date ? displayDateOrder(model.scheduled_pickup_date) : '' }}
+                      <span v-if="model.scheduled_pickup_time">
+                        ({{ hourBookingDisplay(model.scheduled_pickup_time) }})
+                      </span>
+                      <q-icon name="sync" v-if="model.recurring_order" size="18px" />
+                    </div>
+                  </div>
+                </div>
+                <div v-if="model.team"><q-icon name="payments" /> {{ model.team.payment_terms }} - {{
+                  model.team.payment_terms_days }} days <q-badge
+                    v-if="model.team.owing_no_booking || model.team.status === 'blocked'" label="Blocked from bookings"
+                    title="Blocked from bookings" /></div>
+              </div>
+              <div class="col-xs-2 col-sm-4 text-right" v-if="!$q.screen.xs">
+                <div v-if="model.recurring_order && model.scheduled_pickup_time" class="q-mb-xs">
+                  <q-badge class="q-pa-sm" color="secondary"><q-icon name="sync" class="q-mr-xs" />Recurring
+                  </q-badge>
+                </div>
+                <StatusTag :status="model.status" /><span v-if="model.status === 'cancelled'"> by {{ model.cancel_by
+                }}</span>
+                <div v-if="model.cancel_reason" class="text-italic">{{ model.cancel_reason
+                }}</div>
+                <div>
+                  Updated <strong>{{ fromNowTz(model.updated_at) }}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <router-view :model="model" @update:order="getOrder" :futureRecurring="futureRecurring" />
         <div class="q-mb-md q-mt-xl">
           <div class="text-bold q-mb-xs">Internal Customer Notes</div>

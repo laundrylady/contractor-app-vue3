@@ -1,7 +1,8 @@
 <template>
-  <q-badge :color="statusColor" :class="{ 'q-pa-xs': small, 'q-pa-sm': !small }"><q-icon name="check" class="q-mr-xs"
-      v-if="status === 'PAID'" />
+  <q-badge :color="statusColor" :class="{ 'q-pa-xs': small, 'q-pa-sm': !small }" v-if="!textOnly"><q-icon name="check"
+      class="q-mr-xs" v-if="status === 'PAID'" />
     {{ statusText }}</q-badge>
+  <span v-if="textOnly">{{ statusText }}</span>
 </template>
 
 <script setup lang="ts">
@@ -10,7 +11,8 @@ import { computed } from 'vue'
 interface Props {
   status?: string,
   small?: boolean,
-  white?: boolean
+  white?: boolean,
+  textOnly?: boolean
 }
 const props = defineProps<Props>()
 
