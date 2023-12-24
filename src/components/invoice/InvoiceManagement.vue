@@ -31,7 +31,7 @@
       <template v-slot:item="props">
         <q-card class="col-xs-12">
           <q-card-section class="flex">
-            <div>{{ props.row.display_id }} | <router-link
+            <div>#{{ props.row.display_id }} | <router-link
                 :to="{ name: 'order-edit', params: { id: props.row.order.id } }" class="link" v-if="props.row.order">{{
                   $t('order.name') }} #{{ props.row.order.display_id }}</router-link>
               <div v-if="props.row.team">
