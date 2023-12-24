@@ -11,7 +11,7 @@
       </q-breadcrumbs>
     </div>
     <q-card>
-      <q-tabs align="left">
+      <q-tabs align="left" class="q-mb-sm">
         <q-route-tab :to="{ name: 'contractor-commission-paid' }" label="Commissions" />
         <q-route-tab :to="{ name: 'contractor-invoices' }" label="Invoices" />
       </q-tabs>
