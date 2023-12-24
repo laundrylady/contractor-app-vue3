@@ -47,6 +47,11 @@
           </q-card-section>
         </q-card>
       </template>
+      <template v-slot:body-cell-display_id="props">
+        <q-td :props="props">
+          #{{ props.row.display_id }}
+        </q-td>
+      </template>
       <template v-slot:body-cell-user_id="props">
         <q-td :props="props">
           <UserAvatar :user="props.row.user" class="q-mr-sm" />
