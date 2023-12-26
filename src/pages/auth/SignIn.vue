@@ -1,4 +1,5 @@
 <template>
+  <ValidationsModal />
   <q-layout view="lHh Lpr lFf" class="bg-page-background">
     <q-page-container>
       <q-page class="row justify-center items-center animated fadeIn" padding :class="{ 'q-pa-md': $q.screen.xs }">
@@ -41,12 +42,14 @@
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
 import { email, required } from '@vuelidate/validators'
+import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
 import AppLogo from 'src/components/AppLogo.vue'
+import ValidationsModal from 'src/components/form/ValidationsModal.vue'
 import { useMixinDebug } from 'src/mixins/debug'
 import { authLogin } from 'src/services/auth'
 import { useUserStore } from 'src/stores/user'
-import { reactive, ref } from 'vue'
+import { inject, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -60,6 +63,7 @@ const rules = {
 }
 
 const $v = useVuelidate(rules, login)
+const bus = inject('bus') as EventBus
 
 const loading = ref(false)
 const isPwd = ref(true)
@@ -81,9 +85,10 @@ const signIn = () => {
         })
       })
       .catch((response) => {
-        useMixinDebug(response)
+        useMixinDebug(response, bus)
         loading.value = false
         error.value = true
+        return false
       })
   }
 }

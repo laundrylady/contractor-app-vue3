@@ -5,7 +5,7 @@
         <div class="text-right q-pa-sm" v-if="$q.screen.lt.lg">
           <q-btn @click="drawer.left = false" icon="close" flat round dense v-close-popup />
         </div>
-        <q-list dense class="q-mt-md q-ml-sm q-mr-sm q-pb-md">
+        <q-list dense class="q-ml-sm q-mr-sm q-pb-md">
           <q-item-label header>{{ $t('team.name') }}</q-item-label>
           <q-item>
             <q-item-section side>
@@ -77,7 +77,7 @@
               <div class="col-xs-12 col-sm-8">
                 <div class="flex items-center">
                   <q-btn @click="drawer.left = !drawer.left" icon="menu" outline v-if="$q.screen.lt.lg" flat
-                    class="q-pl-sm q-pr-sm" />
+                    class="q-pl-none q-pr-sm" />
                   <div class="text-h5">
                     <span class="q-mr-sm">{{ $t('order.name') }} #{{ model.display_id }}</span>
                   </div>

@@ -127,7 +127,9 @@ onMounted(async () => {
   })
   socket.on('hookContractor', (data: LooseObject) => {
     console.log('hookContractor', data)
-    bus.emit(data.emit, data)
+    if (data && data.emit) {
+      bus.emit(data.emit, data)
+    }
   })
   await checkGeolocation()
 })

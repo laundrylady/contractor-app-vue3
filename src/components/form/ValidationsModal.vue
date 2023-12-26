@@ -18,6 +18,9 @@
           </div>
         </div>
       </q-card-section>
+      <q-card-actions v-if="validations && validations.length && validations[0].field === 'Security Token'"
+        align="center">
+        <q-btn @click="reload()" label="Refresh" color="primary" /></q-card-actions>
     </q-card>
   </q-dialog>
 </template>
@@ -33,4 +36,8 @@ bus.on('showValidationsModal', data => {
   validations.value = data
   showModal.value = true
 })
+
+const reload = () => {
+  window.location.reload()
+}
 </script>

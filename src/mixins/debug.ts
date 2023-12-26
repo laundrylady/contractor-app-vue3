@@ -12,6 +12,13 @@ const useMixinDebug = (error:LooseObject, bus:EventBus|undefined = undefined) =>
     document.location = '/portal/auth/signin'
     return
   }
+  // CSRF
+  if (error.response && error.response.status && error.response.status === 403) {
+    if (error.response.data && error.response.data.code === 'E_BAD_CSRF_TOKEN' && bus) {
+      bus.emit('showValidationsModal', [{ field: 'Security Token', message: 'Your form session has expired. Click refresh to obtain a new security token and try again.' }])
+    }
+    return
+  }
   if (error.response && error.response.status === 422 && bus) {
     bus.emit('showValidationsModal', error.response.data.errors)
   }
