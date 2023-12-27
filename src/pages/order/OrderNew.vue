@@ -469,8 +469,7 @@ const customerTypes = computed(() => {
 const model = reactive<Order>(JSON.parse(JSON.stringify(schema)))
 const bus = inject('bus') as EventBus
 const minDate = (date: string) => {
-  console.log('Checking available dates')
-  return moment(date, 'YYYY/MM/DD').startOf('day').isSameOrAfter(moment().startOf('day')) && availableDates.value.indexOf(date) !== -1
+  return availableDates.value.indexOf(date) !== -1
 }
 const currentBookingDate = ref(moment())
 const noContractors = ref(false)
@@ -537,7 +536,8 @@ const checkContractors = () => {
 }
 
 const handleScheduledPickupDateNav = (view: QDateNavigation) => {
-  currentBookingDate.value = moment(`${view.year}-${view.month}-01`)
+  console.log(`Handling ${view.year}-${view.month}`)
+  currentBookingDate.value = moment(`${view.year}-${view.month}-01`, 'YYYY-M-D')
   getAvailableContractorsDates()
 }
 
