@@ -7,7 +7,7 @@
           <div>
             <span class="text-grey q-mr-sm">{{ currencyFormat(p.price) }}</span>
             <a @click="removeProduct(index)" class="link text-caption"
-              v-if="nonEditableProducts.indexOf(p.product_id) === -1 && nonEditableProductCategories.indexOf(p.product.product_category_id) === -1 && canEdit">Remove</a>
+              v-if="nonEditableProducts.indexOf(p.product_id) === -1 && nonEditableProductCategories.indexOf(p.product.product_category_id) === -1 && canEdit && p.product_id !== 26">Remove</a>
           </div>
         </div>
       </div>
@@ -170,7 +170,7 @@ const props = defineProps<Props>()
 const emits = defineEmits(['update:products', 'update:order'])
 const localModel = computed(() => props.invoice)
 const productList = ref()
-const nonEditableProducts = ref([26, 35, 36])
+const nonEditableProducts = ref([35, 36])
 const nonEditableProductCategories = ref([6])
 const rawProductList = ref()
 const gfDcCode = ref()
