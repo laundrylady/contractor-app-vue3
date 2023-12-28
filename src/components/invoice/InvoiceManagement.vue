@@ -60,11 +60,6 @@
       </template>
       <template v-slot:body-cell-total_price="props">
         <q-td :props="props">
-          {{ currencyFormat(props.row.total_price) }}
-        </q-td>
-      </template>
-      <template v-slot:body-cell-grand_total_price="props">
-        <q-td :props="props">
           {{ currencyFormat(props.row.grand_total_price) }}
         </q-td>
       </template>
@@ -148,10 +143,10 @@ const columns: QTableProps['columns'] = [{
   field: 'team_id',
   sortable: true
 }, {
-  name: 'grand_total_price',
+  name: 'total_price',
   label: 'Total',
   align: 'left',
-  field: 'grand_total_price',
+  field: 'total_price',
   sortable: true
 }, {
   name: 'status',

@@ -27,7 +27,7 @@
               map-options dense filled label="Mode" class="q-mr-sm" @update:model-value="getOrders()" />
             <q-space v-if="$q.screen.xs" />
             <q-btn @click="onPrev()" icon="chevron_left" color="secondary" flat dense round />
-            <q-btn @click="onToday()" label="Today" color="secondary" flat rounded />
+            <q-btn @click="onToday()" label="Today" color="secondary" flat rounded dense />
             <q-btn @click="onNext()" icon="chevron_right" color="secondary" flat dense round />
           </div>
         </div>
