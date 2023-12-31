@@ -69,7 +69,7 @@
                           </div>
                           <div class="text-grey text-bold q-mt-md">SCHEDULED PICKUP DATE</div>
                           <q-date v-model="model.scheduled_pickup_date" mask="DD/MM/YYYY" :options="minDate"
-                            class="q-mt-md" @navigation="handleScheduledPickupDateNav" />
+                            class="q-mt-md" @navigation="handleScheduledPickupDateNav" :disable="loadingAvailableDates" />
                         </div>
                         <div class="col-xs-12 col-sm-7">
                           <div class="text-grey text-bold q-mb-md">SCHEDULED PICKUP TIME</div>
@@ -136,10 +136,11 @@ const modelOriginal = ref()
 const categories = ref()
 const route = useRoute()
 const availableDates = ref()
+const loadingAvailableDates = ref(false)
 const currentBookingDate = ref()
 const washingAndIroning = ref(false)
 const minDate = (date: string) => {
-  return date >= moment().add(1, 'day').format('YYYY/MM/DD') && availableDates.value.indexOf(date) !== -1
+  return availableDates.value.indexOf(date) !== -1
 }
 const showChange = ref(false)
 const showChangeSuccess = ref(false)
@@ -172,15 +173,17 @@ const handleScheduledPickupDateNav = (view: QDateNavigation) => {
 
 const getAvailableContractorsDates = () => {
   availableDates.value = []
+  loadingAvailableDates.value = true
   api.post('/public/order/findcontractorsdates', {
     suburb_postcode_region_id: modelOriginal.value.suburb_postcode_region_id,
     scheduled_pickup_date: currentBookingDate.value.format('DD/MM/YYYY'),
-    productcategories: modelOriginal.value.productcategories,
-    contractor_user_id: modelOriginal.value.contractor_user_id
+    productcategories: modelOriginal.value.productcategories
   }).then(response => {
     // ensure selected date is included
     availableDates.value = [moment(modelOriginal.value.scheduled_pickup_date, 'DD/MM/YYYY').format('YYYY-MM-DD')].concat(response.data)
+    loadingAvailableDates.value = false
   }).catch(error => {
+    loadingAvailableDates.value = false
     useMixinDebug(error)
   })
 }
