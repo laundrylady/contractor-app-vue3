@@ -40,10 +40,12 @@
               <q-breadcrumbs-el :label="$t('order.namePlural')" />
             </q-breadcrumbs>
           </div>
+          <div class="q-mb-sm">
+            <q-select v-model="search.status" dense outlined @update:model-value="request()" label="Booking Status"
+              :options="[{ value: 'confirmed', label: 'Confirmed' }, { value: 'in_progress', label: 'In Progress' }, { value: 'AUTHORIZED', label: 'Awaiting Payment' }, { value: 'ready_for_delivery', label: 'Ready for Delivery' }, { value: 'completed', label: 'Completed' }]"
+              map-options emit-value />
+          </div>
           <q-card>
-            <div class="text-right">
-              <q-toggle v-model="search.confirmed" label="Pickups Only" class="q-mr-md" @update:model-value="request()" />
-            </div>
             <div ref="topRef"></div>
             <q-table :rows="data" :columns="columns" row-key="id" :loading="loading" v-model:pagination="serverPagination"
               @request="request" class="orders-table" flat :rows-per-page-options="rowsPerPageOptions" wrap-cells
@@ -88,9 +90,9 @@ interface Search {
   team_id: null | number,
   start: null | string,
   end: null | string,
-  confirmed: boolean
+  status: string
 }
-const search = reactive<Search>({ team_id: null, start: null, end: null, confirmed: true })
+const search = reactive<Search>({ team_id: null, start: null, end: null, status: 'confirmed' })
 const columns: QTableProps['columns'] = [{
   name: 'display_id',
   label: i8n.t('order.name'),
@@ -134,7 +136,7 @@ const request = (props: Parameters<NonNullable<QTableProps['onRequest']>>[0] | n
     team_id: search.team_id,
     start: search.start,
     end: search.end,
-    confirmed: search.confirmed
+    status: search.status
   })
     .then((response) => {
       data.value = response.data.rows
