@@ -92,7 +92,7 @@ const addNote = () => {
       doNotify('positive', 'Note saved')
       Object.assign(newNote, {
         notable_type: props.notable_type,
-        notable_id: props.notable_id,
+        notable_id: props.notable_id.toString(),
         note: null
       })
     }).catch((response) => {
