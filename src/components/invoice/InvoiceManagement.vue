@@ -1,26 +1,28 @@
 <template>
-  <div class="row q-col-gutter-sm q-mt-sm q-mb-sm q-ml-sm q-mr-sm">
-    <div class="col-xs-6 col-lg-2">
-      <DateFieldSlim v-model="search.start" label="Start" outlined dense class="full-width" :clearable="true" />
+  <div class="row q-col-gutter-sm q-mt-sm q-mb-sm" :class="{ 'q-ml-sm q-mr-sm': !props.team_id }">
+    <div class="col-xs-12">
+      <div class="flex">
+        <q-select v-model="search.status" outlined dense
+          :options="[{ value: 'DRAFT', label: 'Draft' }, { value: 'AUTHORISED', label: 'Awaiting Payment' }, { value: 'PAID', label: 'Paid' }]"
+          label="Status" emit-value map-options clearable class="col-grow" @update:model-value="request()" />
+        <q-btn icon="filter_alt" @click="showFilters = !showFilters" flat round class=" q-ml-xs" />
+      </div>
     </div>
-    <div class="col-xs-6 col-lg-2">
-      <DateFieldSlim v-model="search.end" label="End" outlined dense class="full-width" :clearable="true" />
+    <div class="col-xs-6 col-lg-2" v-if="showFilters">
+      <DateFieldSlim v-model="search.start" label="Start" outlined dense class="full-width" :clearable="true"
+        @update:model-value="request()" />
     </div>
-    <div class="col-xs-12 col-lg-3">
-      <q-select v-model="search.status" outlined dense
-        :options="[{ value: 'DRAFT', label: 'Draft' }, { value: 'AUTHORISED', label: 'Awaiting Payment' }, { value: 'PAID', label: 'Paid' }]"
-        label="Status" emit-value map-options clearable />
+    <div class="col-xs-6 col-lg-2" v-if="showFilters">
+      <DateFieldSlim v-model="search.end" label="End" outlined dense class="full-width" :clearable="true"
+        @update:model-value="request()" />
     </div>
-    <div class="col-xs-10 col-lg-3">
-      <q-input v-model="search.keyword" :debounce="500" :placeholder="`Search ${$t('invoice.namePlural').toLowerCase()}`"
-        filled dense>
+    <div class="col-xs-12" v-if="showFilters">
+      <q-input v-model="search.keyword" :debounce="800" :placeholder="`Search ${$t('invoice.namePlural').toLowerCase()}`"
+        filled dense @update:model-value="request()">
         <template v-slot:prepend>
           <q-icon name="search" />
         </template>
       </q-input>
-    </div>
-    <div class="col-xs-2 col-lg-1">
-      <q-btn @click="request()" icon="search" color="primary" class="q-ml-sm" round />
     </div>
   </div>
   <q-card>
@@ -31,16 +33,19 @@
       <template v-slot:item="props">
         <q-card class="col-xs-12">
           <q-card-section class="flex">
-            <div>#{{ props.row.display_id }} | <router-link
-                :to="{ name: 'order-edit', params: { id: props.row.order.id } }" class="link" v-if="props.row.order">{{
-                  $t('order.name') }} #{{ props.row.order.display_id }}</router-link>
-              <div v-if="props.row.team">
-                {{ props.row.team.name }}
+            <div>#{{ props.row.display_id }} | {{ props.row.invoice_date }}
+              <div>
+                <router-link :to="{ name: 'order-edit', params: { id: props.row.order.id } }" class="link"
+                  v-if="props.row.order">{{
+                    $t('order.name') }} #{{ props.row.order.display_id }}</router-link>
+                |
+                <router-link :to="{ name: 'team-dashboard', params: { id: props.row.team_id } }" class="link"
+                  v-if="props.row.team">{{ props.row.team.name }}</router-link>
               </div>
               <StatusTag :status="props.row.status" v-if="props.row.status !== 'AUTHORISED'" :text-only="true" />
               <StatusTag status="Awaiting Payment" v-if="props.row.status === 'AUTHORISED'" :text-only="true" />
-              <q-btn flat @click="openURL(`/api/public/invoice/pdf/${props.row.id} `)" icon="print" title="Print Invoice"
-                round size="sm" />
+              <q-btn flat @click="openURL(`/api/public/invoice/pdf/${props.row.id} `)" icon="picture_as_pdf"
+                title="Print Invoice" round size="sm" />
             </div>
             <q-space />
             <div class="text-bold text-h6">{{ currencyFormat(props.row.grand_total_price) }}</div>
@@ -65,9 +70,10 @@
       </template>
       <template v-slot:body-cell-team_id="props">
         <q-td :props="props">
-          <span v-if="props.row.team">
+          <router-link :to="{ name: 'team-dashboard', params: { id: props.row.team_id } }" class="link"
+            v-if="props.row.team">
             {{ props.row.team.name }}
-          </span>
+          </router-link>
         </q-td>
       </template>
       <template v-slot:body-cell-order_id="props">
@@ -75,7 +81,7 @@
           <router-link :to="{ name: 'order-edit', params: { id: props.row.order.id } }" class="link"
             v-if="props.row.order">{{ $t('order.name') }} #{{ props.row.order.display_id }}</router-link>
           <a v-if="props.row.giftvoucher" class="link"
-            @click="openURL(`/api/public/giftvoucher/pdf/${props.row.giftvoucher.id}`)">Gift Voucher</a>
+            @click="openURL(`/ api / public / giftvoucher / pdf / ${props.row.giftvoucher.id} `)">Gift Voucher</a>
         </q-td>
       </template>
       <template v-slot:body-cell-status="props">
@@ -93,8 +99,8 @@
       </template>
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">
-          <q-btn flat @click="openURL(`/api/public/invoice/pdf/${props.row.id} `)" icon="print" title="Print Invoice"
-            round />
+          <q-btn flat @click="openURL(`/ api / public / invoice / pdf / ${props.row.id} `)" icon="picture_as_pdf"
+            title="Print Invoice" round />
         </q-td>
       </template>
     </q-table>
@@ -111,11 +117,17 @@ import { currencyFormat, getRowsPerPage, rowsPerPageOptions, setRowsPerPage } fr
 import { onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+interface Props {
+  team_id?: number
+}
+const props = defineProps<Props>()
+
+const showFilters = ref(false)
 const i8n = useI18n()
 const data = ref()
 const loading = ref(false)
 const topRef = ref<HTMLDivElement | null>(null)
-const search = reactive({ keyword: null, start: null, end: null, status: null })
+const search = reactive({ keyword: null, start: null, end: null, status: null, team_id: null })
 const columns: QTableProps['columns'] = [{
   name: 'invoice_date',
   label: i8n.t('invoice.invoiceDate'),
@@ -197,7 +209,8 @@ const request = (props: Parameters<NonNullable<QTableProps['onRequest']>>[0] | n
     keyword: search.keyword,
     start: search.start,
     end: search.end,
-    status: search.status
+    status: search.status,
+    team_id: search.team_id
   })
     .then((response) => {
       data.value = response.data.rows
@@ -217,6 +230,11 @@ const request = (props: Parameters<NonNullable<QTableProps['onRequest']>>[0] | n
 }
 
 onMounted(() => {
+  if (props.team_id) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    search.team_id = props.team_id
+  }
   request()
 })
 </script>

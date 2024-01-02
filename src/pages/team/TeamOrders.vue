@@ -1,7 +1,5 @@
 <template>
   <div v-if="model.id">
-    <div class="text-h5">Booking History</div>
-    <p>Below is the complete booking history.</p>
     <OrderManagementTeamContractor :team_id="model.id" />
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <q-card>
     <q-list>
-      <q-expansion-item group="orderEdit" :label="$t('order.details')" header-class="text-h6 bg-grey-3"
+      <q-expansion-item group="orderEdit" :label="$t('order.details')" header-class="text-h6 bg-grey-1"
         caption="Update the booking details" @click="bookingTab = 'details'"
         :default-opened="localModel.status === 'cancelled'">
         <q-card>
@@ -174,7 +174,7 @@
       </q-expansion-item>
       <q-expansion-item group="orderEdit"
         :label="`${$t('order.invoice')}${localModel.invoice ? ` - #${localModel.invoice.display_id}` : ''}`"
-        caption=" Create, update and delete products" header-class="text-h6 bg-grey-3" default-opened
+        caption=" Create, update and delete products" header-class="text-h6 bg-grey-1" default-opened
         @click="invoiceTab = 'products'" v-if="localModel.status !== 'cancelled'">
         <q-card>
           <q-card-section v-if="!localModel.invoice">

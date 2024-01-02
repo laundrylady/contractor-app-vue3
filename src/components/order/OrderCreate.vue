@@ -10,28 +10,33 @@
       <q-card-section>
         <div class="row q-col-gutter-md q-mb-md">
           <TeamField v-model="model.team_id" :label="$t('team.name')" status="active" class="col-xs-12"
-            :error="$v.team_id.$invalid" />
+            :error="$v.team_id.$invalid" :clearable="true" @update:model-value="handleTeamChange()" />
         </div>
-        <div class="row q-col-gutter-md" v-if="model.team_id">
-          <DateField v-model="model.scheduled_pickup_date" :label="$t('order.scheduledPickupDate')"
-            :invalid="$v.scheduled_pickup_date.$invalid" class="col-xs-12 col-sm-6" />
-          <q-select v-model="model.scheduled_pickup_time" :label="$t('order.scheduledPickupTime')"
-            :invalid="$v.scheduled_pickup_time" :options="hourBookingOptions" emit-value map-options
-            class="col-xs-12 col-sm-6" />
-        </div>
-        <div v-if="model.team_id && model.scheduled_pickup_date && model.scheduled_pickup_time" class="q-mt-md">
-          <div class="text-h6">Products</div>
-          <span class="q-mr-sm">
-            <q-checkbox v-model="washingAndIroning" @update:model-value="toggleWashingAndIroning()"
-              label="Washing & Ironing" /></span>
-          <span v-if="!washingAndIroning">
-            <span v-for="c in model.productcategories" :key="c.product_category_id" class="q-mr-sm">
-              <q-checkbox v-model="c.active" :label="categoryDisplay(c.product_category_id, categories)" />
+        <div v-if="addressError"><q-icon name="warning" /> The selected customer has an incomplete or invalid address.
+          <router-link :to="{ name: 'team-dashboard', params: { id: model.team_id } }" class="link">Click here to update the
+            customer record.</router-link></div>
+        <div v-if="!addressError">
+          <div class="row q-col-gutter-md" v-if="model.team_id">
+            <DateField v-model="model.scheduled_pickup_date" :label="$t('order.scheduledPickupDate')"
+              :invalid="$v.scheduled_pickup_date.$invalid" class="col-xs-12 col-sm-6" />
+            <q-select v-model="model.scheduled_pickup_time" :label="$t('order.scheduledPickupTime')"
+              :invalid="$v.scheduled_pickup_time" :options="hourBookingOptions" emit-value map-options
+              class="col-xs-12 col-sm-6" />
+          </div>
+          <div v-if="model.team_id && model.scheduled_pickup_date && model.scheduled_pickup_time" class="q-mt-md">
+            <div class="text-h6">Products</div>
+            <span class="q-mr-sm">
+              <q-checkbox v-model="washingAndIroning" @update:model-value="toggleWashingAndIroning()"
+                label="Washing & Ironing" /></span>
+            <span v-if="!washingAndIroning">
+              <span v-for="c in model.productcategories" :key="c.product_category_id" class="q-mr-sm">
+                <q-checkbox v-model="c.active" :label="categoryDisplay(c.product_category_id, categories)" />
+              </span>
             </span>
-          </span>
+          </div>
         </div>
         <div
-          v-if="model.team_id && model.scheduled_pickup_date && model.scheduled_pickup_time && model.productcategories && model.productcategories.filter(o => o.active).length">
+          v-if="!addressError && model.team_id && model.scheduled_pickup_date && model.scheduled_pickup_time && model.productcategories && model.productcategories.filter(o => o.active).length">
           <OrderContractorManagement :team_id="model.team_id" :scheduled_pickup_date="model.scheduled_pickup_date"
             :scheduled_pickup_time="model.scheduled_pickup_time" v-model="model.contractor_user_id" :reassign="true"
             :productcategories="model.productcategories.filter(o => o.active)" v-if="user.role === 'customer'" />
@@ -100,6 +105,7 @@ const show = ref(false)
 const washingAndIroning = ref(false)
 const { user } = useMixinSecurity()
 const categories = ref()
+const addressError = ref(false)
 const schema = {
   team_id: null,
   contractor_user_id: null,
@@ -170,6 +176,20 @@ const save = () => {
   }).catch(error => {
     useMixinDebug(error)
   })
+}
+
+const handleTeamChange = () => {
+  if (model.team_id) {
+    api.get(`/public/team/${model.team_id}`).then(response => {
+      if (!response.data.address2 || !response.data.suburb_postcode_region_id) {
+        addressError.value = true
+      } else {
+        addressError.value = false
+      }
+    }).catch(error => {
+      useMixinDebug(error)
+    })
+  }
 }
 
 onMounted(async () => {

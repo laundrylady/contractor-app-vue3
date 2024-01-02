@@ -180,27 +180,9 @@ const routes: RouteRecordRaw[] = [
             meta: { auth: true }
           },
           {
-            name: 'team-edit',
-            path: '/customer/edit/:id',
-            component: () => import('pages/team/TeamEdit.vue'),
-            meta: { auth: true }
-          },
-          {
-            name: 'team-documents',
-            path: '/customer/documents/:id',
-            component: () => import('pages/team/TeamDocuments.vue'),
-            meta: { auth: true }
-          },
-          {
-            name: 'team-sms',
-            path: '/customer/sms/:id',
-            component: () => import('pages/team/TeamSms.vue'),
-            meta: { auth: true }
-          },
-          {
-            name: 'team-notifications',
-            path: '/customer/notifications/:id',
-            component: () => import('pages/team/TeamNotifications.vue'),
+            name: 'team-invoices',
+            path: '/customer/invoices/:id',
+            component: () => import('pages/team/TeamInvoices.vue'),
             meta: { auth: true }
           },
           {

@@ -90,7 +90,7 @@
                   <div>
                     <div>
                       <q-icon name="attach_money" v-if="teamHasOutstandings" title="Has unpaids"
-                        color="negative" /><router-link :to="{ name: 'orders', params: { team_id: model.team_id } }"
+                        color="negative" /><router-link :to="{ name: 'team-dashboard', params: { id: model.team_id } }"
                         class="link">{{
                           model.team.name }} <span
                           v-if="model.team.name !== `${model.team.first_name} ${model.team.last_name}`">({{
