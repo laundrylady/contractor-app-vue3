@@ -66,7 +66,8 @@
                   <div><q-icon name="place" @click="drawer.left = true" v-if="$q.screen.xs" />
                     <span v-if="model.address1">{{ model.address1 }}</span> {{ model.address2 }}
                   </div>
-                  <div> <q-icon name="payments" /> {{ model.payment_terms }} - {{
+                  <div><q-icon name="phone" /> {{ model.mobile }}</div>
+                  <div><q-icon name="payments" /> {{ model.payment_terms }} - {{
                     model.payment_terms_days }} days</div>
                 </div>
               </div>
