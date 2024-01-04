@@ -42,6 +42,7 @@
   </q-card>
 </template>
 <script setup lang="ts">
+import moment from 'moment-timezone'
 import { EventBus, QTableProps } from 'quasar'
 import { api } from 'src/boot/axios'
 import DateField from 'src/components/form/DateField.vue'
@@ -60,7 +61,7 @@ const bus = inject('bus') as EventBus
 const i8n = useI18n()
 const data = ref()
 const loading = ref(false)
-const showFilters = ref(false)
+const showFilters = ref(true)
 const topRef = ref<HTMLDivElement | null>(null)
 // search interface
 interface Search {
@@ -69,7 +70,12 @@ interface Search {
   end: null | string,
   status: string
 }
-const search = reactive<Search>({ team_id: null, start: null, end: null, status: 'confirmed' })
+const search = reactive<Search>({
+  team_id: null,
+  start: moment().startOf('isoWeek').format('DD/MM/YYYY'),
+  end: moment().endOf('isoWeek').format('DD/MM/YYYY'),
+  status: ''
+})
 const columns: QTableProps['columns'] = [{
   name: 'display_id',
   label: i8n.t('order.name'),

@@ -6,7 +6,7 @@
         :default-opened="localModel.status === 'cancelled'">
         <q-card>
           <q-card-section>
-            <q-tabs v-model="bookingTab" align="left" class="q-mb-md">
+            <q-tabs v-model="bookingTab" align="left" class="q-mb-md" v-if="localModel.contractor_user_id === user?.id">
               <q-tab name="details" label="Details" />
               <q-tab name="notes" label="Notes" />
             </q-tabs>
@@ -116,19 +116,22 @@
                 <q-checkbox v-model="c.meta.pivot_active" :label="c.name" v-if="c.meta" :disable="!canEdit" />
               </div>
               <div v-if="!localModel.recurring_parent_id" class="q-mt-md">
-                <q-toggle v-model="localModel.recurring_order" :label="$t('order.recurring')" />
+                <q-toggle v-model="localModel.recurring_order" :label="$t('order.recurring')"
+                  :disable="user?.id !== localModel.contractor_user_id" />
                 <div v-if="localModel.recurring_order" class="q-pa-md q-mt-sm"
                   :class="{ 'bg-grey-1': !$q.dark.isActive }">
                   <div class="row q-col-gutter-md">
                     <div class="col-xs-12 col-sm-6 col-lg-3">
                       <q-select v-model="localModel.recurring" :label="$t('order.recurringFrequency')"
                         :options="['Week', 'Month', 'Day']" bottom-slots :error="$v.recurring.$invalid" outlined
-                        @update:model-value="localModel.recurring_end = ''" />
+                        @update:model-value="localModel.recurring_end = ''"
+                        :disable="user?.id !== localModel.contractor_user_id" />
                     </div>
                     <div class="col-xs-12 col-sm-6 col-lg-4" v-if="model.recurring">
                       <q-select v-model="localModel.recurring_every" label="Repeat every"
                         :options="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]"
-                        :error="$v.recurring_every.$invalid" outlined>
+                        :error="$v.recurring_every.$invalid" outlined
+                        :disable="user?.id !== localModel.contractor_user_id">
                         <template v-slot:append>
                           <q-badge :label="`${localModel.recurring}s`" color="grey" />
                         </template>
@@ -138,18 +141,19 @@
                   <div v-if="localModel.recurring === 'Week'" class="q-mb-lg">
                     <p>If the booking needs to occur multiple times a week, choose the days below:</p>
                     <q-btn v-for="d in localModel.recurring_days.days" :key="d.day" color="primary"
-                      @click="d.active = !d.active" :label="d.label" :flat="!d.active" class="q-mr-xs" size="sm" />
+                      @click="d.active = !d.active" :label="d.label" :flat="!d.active" class="q-mr-xs" size="sm"
+                      :disable="user?.id !== localModel.contractor_user_id" />
                   </div>
                   <div class="row q-col-gutter-md" v-if="model.recurring">
                     <div class="col-xs-12 col-sm-6 col-lg-3">
                       <q-select v-model="localModel.recurring_end_type" label="Ends" :options="['After', 'On', 'Never']"
                         :error="$v.recurring_end_type.$invalid" @update:model-value="localModel.recurring_end = ''"
-                        outlined />
+                        outlined :disable="user?.id !== localModel.contractor_user_id" />
                     </div>
                     <div class="col-xs-12 col-sm-6 col-lg-4">
                       <q-select v-model="localModel.recurring_end" v-if="localModel.recurring_end_type === 'After'"
                         label="Choose the amount" :error="$v.recurring_end.$invalid" :options="recurringOccurenceOptions"
-                        outlined>
+                        outlined :disable="user?.id !== localModel.contractor_user_id">
                         <template v-slot:append><q-badge label="occurences" color="grey" /></template>
                       </q-select>
                       <DateField v-model="localModel.recurring_end" label="Choose an end date" :outlined="true"
@@ -163,12 +167,12 @@
           </q-card-section>
           <q-card-actions v-if="bookingTab === 'details'">
             <q-btn @click="showCancelOrder = true" color="red" :label="$t('order.cancel')" rounded flat
-              v-if="localModel.status !== 'cancelled' && (!localModel.invoice || (localModel.invoice && localModel.invoice.status !== 'PAID'))" />
+              v-if="localModel.status !== 'cancelled' && (!localModel.invoice || (localModel.invoice && localModel.invoice.status !== 'PAID')) && user?.id === localModel.contractor_user_id" />
             <q-space />
             <q-btn :label="$t('actions.cancel')" flat color="secondary" @click="resetChangeModel()" rounded
               v-if="changes.time || changes.date || changes.timeDelivery || changes.dateDelivery || changes.contractor" />
-            <q-btn :disable="loading || $v.$invalid" :label="$t('actions.update')" color="primary" @click="save()"
-              rounded />
+            <q-btn :disable="loading || $v.$invalid" :label="$t('actions.update')" color="primary" @click="save()" rounded
+              v-if="user?.id === localModel.contractor_user_id" />
           </q-card-actions>
         </q-card>
       </q-expansion-item>
@@ -179,7 +183,7 @@
         <q-card>
           <q-card-section v-if="!localModel.invoice">
             <p>No invoice has been created for this {{ $t('order.name') }}.</p>
-            <div class="flex">
+            <div class="flex" v-if="localModel.contractor_user_id === user?.id">
               <q-btn label="Create invoice" @click="createInvoice()" color="primary" icon="add_circle" rounded
                 :class="{ 'q-mb-lg': $q.screen.xs }" />
               <q-space /><q-btn label="Create No Show invoice" @click="createInvoicePickupNoShow()" color="red"
@@ -191,14 +195,14 @@
               <q-tab name="products" :label="`${$t('product.namePlural')} (${localModel.invoice.products.length})`" />
               <q-tab name="config" :label="$t('order.invoiceConfiguration')" v-if="user && user.role === 'customer'" />
               <q-tab name="payments" :label="`${$t('order.payments')} (${localModel.invoice.payments.length})`" />
-              <q-tab name="notes" label="Notes" />
+              <q-tab name="notes" label="Notes" v-if="localModel.contractor_user_id === user?.id" />
             </q-tabs>
             <div v-if="invoiceTab === 'notes'" class="q-pa-md">
               <GlobalNotes notable_type="Invoice" :notable_id="localModel.invoice.id" :nobox="true" />
             </div>
             <InvoiceProductManagement :invoice="localModel.invoice" @update:products="updateProducts"
               :team="localModel.team" @update:order="updateOrder" :categories="localModel.productcategories"
-              v-if="invoiceTab === 'products'" />
+              v-if="invoiceTab === 'products'" :order="localModel" />
             <q-card-section v-if="invoiceTab === 'config'">
               <div class="row q-col-gutter-md q-mb-sm">
                 <div class="col-xs-12 col-sm-6">
@@ -421,6 +425,9 @@ const loading = ref(false)
 const $v = useVuelidate(rules, localModel, { $scope: false })
 
 const canEdit = computed(() => {
+  if (user.value?.id !== props.model.contractor_user_id) {
+    return false
+  }
   if (['awaiting_payment', 'PAID', 'completed', 'cancelled'].indexOf(props.model.status) !== -1 && !props.model.recurring) {
     return false
   }

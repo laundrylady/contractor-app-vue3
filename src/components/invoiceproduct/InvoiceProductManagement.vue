@@ -142,17 +142,19 @@
 <script setup lang="ts">
 import { EventBus, openURL } from 'quasar'
 import { api } from 'src/boot/axios'
-import { Invoice, InvoicePayment, InvoiceProduct, OrderProductCategory, Product, Team } from 'src/components/models'
+import { Invoice, InvoicePayment, InvoiceProduct, Order, OrderProductCategory, Product, Team } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 import { confirmDelete, currencyFormat, dateTimeTz, doNotify, groupBy, hourBookingOptions } from 'src/mixins/help'
 import { computed, inject, onMounted, reactive, ref } from 'vue'
 import DateField from '../form/DateField.vue'
+import { useMixinSecurity } from 'src/mixins/security'
 
 interface Props {
   invoice: Invoice,
   team: Team,
-  categories: OrderProductCategory[]
+  categories: OrderProductCategory[],
+  order: Order
 }
 
 const sendPaymentModal = ref({
@@ -176,6 +178,7 @@ const rawProductList = ref()
 const gfDcCode = ref()
 const sendingPaymentRequest = ref(false)
 const bus = inject('bus') as EventBus
+const { user } = useMixinSecurity()
 const schema = {
   order_id: null,
   name: null,
@@ -210,6 +213,9 @@ const hasPickupNoShow = computed(() => {
 })
 
 const canEdit = computed(() => {
+  if (props.order.contractor_user_id !== user.value?.id) {
+    return false
+  }
   if (localModel.value.status === 'DRAFT') {
     return true
   }

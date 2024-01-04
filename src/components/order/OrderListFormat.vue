@@ -16,7 +16,7 @@
       <q-item-section>
         <div class="flex no-wrap">
           <div>
-            <div v-if="bookingId"> Booking: #{{ o.display_id }} <span class="q-ml-sm" v-if="status">
+            <div v-if="bookingId">Booking: #{{ o.display_id }} <span class="q-ml-sm" v-if="status">
                 <StatusTag :status="o.status" :small="true" />
               </span>
             </div>
@@ -42,6 +42,7 @@
                       o.team.last_name }})</span></div>
                 <div class="flex items-center">
                   <OrderProductCategoryDisplay :o="o" />
+                  <span v-if="bookingId" class="q-mr-sm q-ml-xs">{{ o.contractor.contractor_badge_name }}</span>
                   <q-badge :label="`DUE: ${displayDateDue(o.invoice.due_date)}`" v-if="o.invoice && o.invoice.due_date" />
                   <div v-if="o.team.suburbpostcoderegion">
                     <q-btn flat dense color="grey-9" v-if="o.suburbpostcoderegion && o.country">
@@ -72,7 +73,7 @@
           </div>
           <q-space />
           <div class="q-ml-xs text-right" style="width:40px;">
-            <div class="text-right">
+            <div class="text-right" v-if="o.contractor_user_id === user?.id">
               <q-btn @click="onMyWay(o)" color="grey-9" round dense icon="o_directions_car" class="q-ml-xs"
                 title="Notify the customer you are on your way"
                 v-if="['confirmed', 'ready_for_delivery'].indexOf(o.status) !== -1" flat />
@@ -159,6 +160,7 @@ import draggable from 'vuedraggable'
 import StatusTag from '../StatusTag.vue'
 import UserAvatar from '../UserAvatar.vue'
 import OrderProductCategoryDisplay from './OrderProductCategoryDisplay.vue'
+import { useMixinSecurity } from 'src/mixins/security'
 
 interface Props {
   orders: Order[],
@@ -175,6 +177,7 @@ interface Props {
 const props = defineProps<Props>()
 const bus = inject('bus') as EventBus
 const $q = useQuasar()
+const { user } = useMixinSecurity()
 
 const list = computed(() => props.orders)
 const reorder = ref(false)

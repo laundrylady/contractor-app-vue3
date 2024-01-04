@@ -1,7 +1,7 @@
 <template>
   <div v-if="model.id" class="q-mt-md">
     <GlobalNotes :notable_id="model.id" notable_type="Team" :nobox="true" />
-    <q-list class="q-mb-lg">
+    <q-list class="q-mt-lg">
       <q-expansion-item label="Customer Details" header-class="bg-grey-1 text-h6" group="customerDetails">
         <q-card>
           <q-card-section>
