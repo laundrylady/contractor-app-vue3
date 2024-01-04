@@ -13,8 +13,10 @@
             :error="$v.team_id.$invalid" :clearable="true" @update:model-value="handleTeamChange()" />
         </div>
         <div v-if="addressError"><q-icon name="warning" /> The selected customer has an incomplete or invalid address.
-          <router-link :to="{ name: 'team-dashboard', params: { id: model.team_id } }" class="link">Click here to update the
-            customer record.</router-link></div>
+          <router-link :to="{ name: 'team-dashboard', params: { id: model.team_id } }" class="link">Click here to update
+            the
+            customer record.</router-link>
+        </div>
         <div v-if="!addressError">
           <div class="row q-col-gutter-md" v-if="model.team_id">
             <DateField v-model="model.scheduled_pickup_date" :label="$t('order.scheduledPickupDate')"
@@ -40,7 +42,7 @@
           <OrderContractorManagement :team_id="model.team_id" :scheduled_pickup_date="model.scheduled_pickup_date"
             :scheduled_pickup_time="model.scheduled_pickup_time" v-model="model.contractor_user_id" :reassign="true"
             :productcategories="model.productcategories.filter(o => o.active)" v-if="user.role === 'customer'" />
-          <div class="q-mt-md hidden">
+          <div class="q-mt-md">
             <q-toggle v-model="model.recurring_order" :label="$t('order.recurring')" />
             <div v-if="model.recurring_order" class="q-pa-md q-mt-sm" :class="{ 'bg-grey-1': !$q.dark.isActive }">
               <div class="row q-col-gutter-md">
@@ -58,6 +60,13 @@
                     </template>
                   </q-select>
                 </div>
+              </div>
+              <div v-if="model.recurring === 'Week'" class="q-mb-lg">
+                <p>If the booking needs to occur multiple times a week, choose the days below:</p>
+                <q-btn v-for="d in model.recurring_days.days" :key="d.day" color="primary" @click="d.active = !d.active"
+                  :label="d.label" :flat="!d.active" class="q-mr-xs" size="sm" />
+              </div>
+              <div class="row q-col-gutter-md">
                 <div class="col-xs-12 col-sm-6" v-if="model.recurring">
                   <q-select v-model="model.recurring_end_type" label="Ends" :options="['After', 'On', 'Never']"
                     :error="$v.recurring_end_type.$invalid" @update:model-value="model.recurring_end = ''" outlined />
@@ -80,7 +89,7 @@
       <q-card-actions align="right">
         <q-btn v-close-popup label="Cancel" flat color="secondary" rounded />
         <q-btn :disable="loading || $v.$invalid || !model.productcategories.filter(o => o.active).length" label="Save"
-          color="primary" @click="save()" rounded />
+          color="primary" @click="save()" rounded :loading="loading" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -168,6 +177,7 @@ const recurringOccurenceOptions = computed(() => {
 })
 
 const save = () => {
+  loading.value = true
   api.post('/public/order', model).then(() => {
     doNotify('positive', `${i8n.t('order.name')} created`)
     bus.emit('orderLoadMore')
@@ -175,6 +185,7 @@ const save = () => {
     loading.value = false
   }).catch(error => {
     useMixinDebug(error)
+    loading.value = false
   })
 }
 
