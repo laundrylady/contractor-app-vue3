@@ -16,25 +16,17 @@
       <q-item-section>
         <div class="flex no-wrap">
           <div>
-            <div v-if="bookingId">Booking: #{{ o.display_id }} <span class="q-ml-sm" v-if="status">
+            <div>Booking: #{{ o.display_id }} <span class="q-ml-sm" v-if="status">
                 <StatusTag :status="o.status" :small="true" />
               </span>
             </div>
             <div>
-              <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"
-                v-if="o.status !== 'ready_for_delivery' && !forceDeliveryDate"><span v-if="o.scheduled_pickup_date">{{
-                  displayDateOrder(o.scheduled_pickup_date) }}</span> (<span
+              <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"><span
+                  v-if="o.scheduled_pickup_date">{{
+                    displayDateOrder(o.scheduled_pickup_date) }}</span> (<span
                   v-if="!o.agreed_pickup_time && o.scheduled_pickup_time">{{
                     hourBookingDisplay(o.scheduled_pickup_time)
                   }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)
-}}</span>) <q-icon name="sync" v-if="o.recurring_order" /></router-link>
-              <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"
-                v-if="(o.status === 'ready_for_delivery' || forceDeliveryDate) && o.scheduled_delivery_date"><span
-                  v-if="o.scheduled_delivery_date">{{
-                    displayDateOrder(o.scheduled_delivery_date) }}</span> (<span
-                  v-if="!o.agreed_delivery_time && o.scheduled_delivery_time">{{
-                    hourBookingDisplay(o.scheduled_delivery_time)
-                  }}</span><span v-if="o.agreed_delivery_time">{{ hourAgreedDisplay(o.agreed_delivery_time)
 }}</span>) <q-icon name="sync" v-if="o.recurring_order" /></router-link>
               <div>
                 <div>{{ o.status === 'ready_for_delivery' ? 'Delivery' : 'Pickup' }} with {{ o.team.name }} <span
@@ -101,22 +93,13 @@
             <div class="flex no-wrap">
               <div>
                 <div>
-                  <div v-if="bookingId"> Booking: #{{ element.display_id }}</div>
-                  <router-link :to="{ name: 'order-edit', params: { id: element.id } }" class="link"
-                    v-if="element.status !== 'ready_for_delivery'"><span v-if="element.scheduled_pickup_date">{{
-                      displayDateOrder(element.scheduled_pickup_date) }}</span> (<span
+                  <div> Booking: #{{ element.display_id }}</div>
+                  <router-link :to="{ name: 'order-edit', params: { id: element.id } }" class="link"><span
+                      v-if="element.scheduled_pickup_date">{{
+                        displayDateOrder(element.scheduled_pickup_date) }}</span> (<span
                       v-if="!element.agreed_pickup_time && element.scheduled_pickup_time">{{
                         hourBookingDisplay(element.scheduled_pickup_time)
                       }}</span><span v-if="element.agreed_pickup_time">{{ hourAgreedDisplay(element.agreed_pickup_time)
-}}</span>)</router-link>
-                  <router-link :to="{ name: 'order-edit', params: { id: element.id } }" class="link"
-                    v-if="element.status === 'ready_for_delivery' && element.scheduled_delivery_date && (element.agreed_pickup_time || element.scheduled_pickup_time)"><span
-                      v-if="element.scheduled_delivery_date">{{
-                        displayDateOrder(element.scheduled_delivery_date) }}</span>
-                    (<span v-if="!element.agreed_delivery_time && element.scheduled_delivery_time">{{
-                      hourBookingDisplay(element.scheduled_delivery_time)
-                    }}</span><span v-if="element.agreed_delivery_time">{{
-  hourAgreedDisplay(element.agreed_delivery_time)
 }}</span>)</router-link>
                 </div>
                 <div>

@@ -2,11 +2,10 @@
   <q-layout view="lHh Lpr lFf" container class="layout-height layout-container" v-if="model && model.id">
     <q-drawer v-model="drawer.left" :width="300" side="left" :class="{ 'bg-page-background': !$q.screen.xs }">
       <div class="bg-white q-ma-sm rounded-borders">
-        <div class="text-right q-pa-sm" v-if="$q.screen.lt.lg">
-          <q-btn @click="drawer.left = false" icon="close" flat round dense v-close-popup />
-        </div>
         <q-list dense class="q-ml-sm q-mr-sm q-pb-md">
-          <q-item-label header>{{ $t('team.name') }}</q-item-label>
+          <q-item-label header class="flex items-center">{{ $t('team.name') }}<q-space /> <q-btn
+              @click="drawer.left = false" icon="close" flat round dense v-close-popup
+              v-if="$q.screen.lt.lg" /></q-item-label>
           <q-item>
             <q-item-section side>
               <q-icon name="account_circle" />
@@ -128,7 +127,7 @@
         <router-view :model="model" @update:order="getOrder" :futureRecurring="futureRecurring" />
         <div class="q-mb-md q-mt-xl">
           <div class="text-bold q-mb-xs">Internal Customer Notes</div>
-          <GlobalNotes notable_type="Team" :notable_id="model.team_id" :nobox="true" :alert="true" />
+          <GlobalNotes notable_type="Team" :notable_id="model.team_id" :nobox="true" />
         </div>
       </q-page>
     </q-page-container>

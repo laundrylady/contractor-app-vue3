@@ -28,6 +28,14 @@
           </q-item>
           <q-item>
             <q-item-section side>
+              <q-icon name="mail" />
+            </q-item-section>
+            <q-item-section>
+              <a :href="`mailto:${model.email}`" class="link">{{ model.email }}</a>
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section side>
               <q-icon name="place" />
             </q-item-section>
             <q-item-section>
@@ -56,7 +64,8 @@
               <div class="flex items-center">
                 <div>
                   <div class="text-h5 items-center">
-                    {{ model.name }}
+                    <q-btn @click="drawer.left = !drawer.left" icon="menu" outline v-if="$q.screen.lt.lg" flat
+                      class="q-pl-none q-pr-sm" />{{ model.name }}
                   </div>
                   <div><span v-if="`${model.first_name} ${model.last_name}` !== model.name">{{
                     model.first_name }} {{
@@ -67,6 +76,7 @@
                     <span v-if="model.address1">{{ model.address1 }}</span> {{ model.address2 }}
                   </div>
                   <div><q-icon name="phone" /> {{ model.mobile }}</div>
+                  <div><q-icon name="mail" /> {{ model.email }}</div>
                   <div><q-icon name="payments" /> {{ model.payment_terms }} - {{
                     model.payment_terms_days }} days</div>
                 </div>
