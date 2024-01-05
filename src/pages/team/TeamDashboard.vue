@@ -11,30 +11,27 @@
             </p>
             <p v-if="!isEditLocked">Once you've finished updating the customer details, click "UPDATE" to save
               the changes.</p>
-            <div class="row q-col-gutter-md">
-              <div class="col-xs-12 col-sm-6">
+            <div class="row q-col-gutter-sm">
+              <div class="col-xs-12">
                 <q-select v-model="localModel.type" :label="$t('team.type')" :options="customerTypes" map-options
                   emit-value outlined disable bottom-slots />
               </div>
-            </div>
-            <div class="row q-col-gutter-md">
-              <div class="col-xs-6">
+              <div class="col-xs-12 col-sm-6">
                 <q-input v-model="localModel.first_name" :error="$v.first_name.$invalid" label="Contact First Name"
                   outlined :disable="isEditLocked" />
               </div>
-              <div class="col-xs-6">
+              <div class="col-xs-12 col-sm-6">
                 <q-input v-model="localModel.last_name" :error="$v.last_name.$invalid" label="Contact Last Name" outlined
                   :disable="isEditLocked" />
               </div>
-            </div>
-            <div class="row q-col-gutter-md">
               <div class="col-xs-12 col-sm-6">
                 <q-input v-model="localModel.mobile" :error="$v.mobile.$invalid" label="Mobile" outlined
                   :disable="isEditLocked" :mask="common?.operating_country === 'aud' ? '#### ### ###' : ''"
                   unmasked-value />
               </div>
-            </div>
-            <div class="row q-col-gutter-md">
+              <div class="col-xs-12 col-sm-6">
+                <q-input v-model="localModel.email" label="Email" outlined disable bottom-slots />
+              </div>
               <div class="col-xs-12">
                 <q-input v-model="localModel.name" :error="$v.name.$invalid" label="Customer Name" outlined
                   :disable="isEditLocked" />
@@ -46,6 +43,41 @@
             <q-btn @click="save()" :disable="$v.$invalid || loading" :label="$t('actions.update')" color="primary" rounded
               :loading="loading" />
           </q-card-actions>
+        </q-card>
+      </q-expansion-item>
+      <q-expansion-item :label="$t('team.ndis')" header-class="bg-grey-1 text-h6" v-if="localModel.type === 'NDIS'">
+        <q-card>
+          <q-card-section>
+            <div class="row q-col-gutter-sm">
+              <div class="col-xs-12 col-sm-6">
+                <q-input v-model="localModel.ndis_number" disable :label="$t('team.ndisNumber')" outlined
+                  bottom-slots><template v-slot:prepend>
+                    <img src="~assets/images/logos/ndis_heart.svg" style="height:32px" />
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <q-select v-model="localModel.ndis_type" :label="$t('team.ndisType')" outlined bottom-slots
+                  :options="['Self managed', 'Plan managed', 'NDIA registered']" disable />
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <q-input v-model="localModel.ndis_plan_manager_email" :label="$t('team.ndisPlanManagerEmail')"
+                  bottom-slots disable outlined />
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <q-input v-model="localModel.ndis_support_coordinator_email"
+                  :label="$t('team.ndisSupportCoordinatorEmail')" bottom-slots disable outlined />
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <DateField v-model="localModel.ndis_plan_start" :label="$t('team.ndisPlanStart')" outlined :disable="true"
+                  bottom-slots />
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <DateField v-model="localModel.ndis_plan_end" :label="$t('team.ndisPlanEnd')" outlined :disable="true"
+                  bottom-slots />
+              </div>
+            </div>
+          </q-card-section>
         </q-card>
       </q-expansion-item>
       <q-expansion-item label="Pickup Address" header-class="bg-grey-1 text-h6" group="customerDetails">
@@ -103,6 +135,7 @@ import { useMixinCommon } from 'src/mixins/common'
 import AddressSearch from 'src/components/form/AddressSearch.vue'
 import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
 import CountryField from 'src/components/form/CountryField.vue'
+import DateField from 'src/components/form/DateField.vue'
 
 interface Props {
   model: Team

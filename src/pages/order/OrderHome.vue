@@ -24,6 +24,14 @@
           </q-item>
           <q-item>
             <q-item-section side>
+              <q-icon name="mail" />
+            </q-item-section>
+            <q-item-section>
+              <a :href="`mailto:${model.team.email}`" class="link text-wrap">{{ model.team.email }}</a>
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section side>
               <q-icon name="payments" />
             </q-item-section>
             <q-item-section>

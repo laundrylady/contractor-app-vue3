@@ -44,11 +44,13 @@
               </div>
               <StatusTag :status="props.row.status" v-if="props.row.status !== 'AUTHORISED'" :text-only="true" />
               <StatusTag status="Awaiting Payment" v-if="props.row.status === 'AUTHORISED'" :text-only="true" />
-              <q-btn flat @click="openURL(`/api/public/invoice/pdf/${props.row.id} `)" icon="picture_as_pdf"
-                title="Print Invoice" round size="sm" />
             </div>
             <q-space />
-            <div class="text-bold text-h6">{{ currencyFormat(props.row.grand_total_price) }}</div>
+            <div class="text-right">
+              <div class="text-bold text-h6">{{ currencyFormat(props.row.grand_total_price) }}</div>
+              <q-btn flat @click="openURL(`/api/public/invoice/pdf/${props.row.id} `)" icon="picture_as_pdf"
+                title="Print Invoice" round />
+            </div>
           </q-card-section>
         </q-card>
       </template>

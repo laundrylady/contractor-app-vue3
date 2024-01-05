@@ -31,10 +31,9 @@
       @request="request" class="orders-table" flat :rows-per-page-options="rowsPerPageOptions" wrap-cells hide-header
       grid>
       <template v-slot:item="props">
-        <div :class="orderColor(props.row)" class="col-xs-12">
-          <div class="q-pa-md">
-            <OrderListFormat :orders="[props.row]" :no-avatar="true" :dense="true" :status="true" :booking-id="true"
-              :nobackground="true" />
+        <div class="col-xs-12">
+          <div class="q-pl-xs q-pr-xs">
+            <OrderListFormat :orders="[props.row]" :no-avatar="true" :status="true" :booking-id="true" />
           </div>
         </div>
       </template>
@@ -49,7 +48,7 @@ import DateField from 'src/components/form/DateField.vue'
 import OrderCreate from 'src/components/order/OrderCreate.vue'
 import OrderListFormat from 'src/components/order/OrderListFormat.vue'
 import { useMixinDebug } from 'src/mixins/debug'
-import { getRowsPerPage, orderColor, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
+import { getRowsPerPage, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
 import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 

@@ -62,22 +62,30 @@
           <div class="row items-center q-mb-sm">
             <div class="col-xs-12 col-sm-8">
               <div class="flex items-center">
-                <div>
-                  <div class="text-h5 items-center">
-                    <q-btn @click="drawer.left = !drawer.left" icon="menu" outline v-if="$q.screen.lt.lg" flat
-                      class="q-pl-none q-pr-sm" />{{ model.name }}
+                <div class="full-width">
+                  <div class="text-h5 items-center flex full-width">
+                    <div>
+                      {{ model.name }}
+                    </div>
+                    <q-space />
+                    <div>
+                      <q-badge :label="model.type" />
+                    </div>
                   </div>
-                  <div><span v-if="`${model.first_name} ${model.last_name}` !== model.name">{{
-                    model.first_name }} {{
-    model.last_name }} - </span>{{
-    model.type }}
+                  <div class="q-mb-xs"><span v-if="`${model.first_name} ${model.last_name}` !== model.name"><q-icon
+                        name="account_circle" /> {{
+                          model.first_name }} {{
+    model.last_name }}</span>
                   </div>
-                  <div><q-icon name="place" @click="drawer.left = true" v-if="$q.screen.xs" />
-                    <span v-if="model.address1">{{ model.address1 }}</span> {{ model.address2 }}
+                  <div class="q-mb-xs"><q-icon name="place" /> <span v-if="model.address1">{{ model.address1 }}</span> {{
+                    model.address2 }} <span v-if="model.suburbpostcoderegion">{{ model.suburbpostcoderegion.locality
+  }}</span>
+                    <span v-if="common?.operating_country === 'aud' && model.suburbpostcoderegion" class="q-ml-xs">{{
+                      model.suburbpostcoderegion.state }}</span>
                   </div>
-                  <div><q-icon name="phone" /> {{ model.mobile }}</div>
-                  <div><q-icon name="mail" /> {{ model.email }}</div>
-                  <div><q-icon name="payments" /> {{ model.payment_terms }} - {{
+                  <div class="q-mb-xs"><q-icon name="phone" /> {{ model.mobile }}</div>
+                  <div class="text-wrap q-mb-xs"><q-icon name="mail" /> {{ model.email }}</div>
+                  <div class="q-mb-xs"><q-icon name="payments" /> {{ model.payment_terms }} - {{
                     model.payment_terms_days }} days</div>
                 </div>
               </div>
@@ -108,9 +116,11 @@ import { dateTimeTz } from 'src/mixins/help'
 import { inject, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import TeamNav from './TeamNav.vue'
+import { useMixinCommon } from 'src/mixins/common'
 
 const route = useRoute()
 const $q = useQuasar()
+const common = useMixinCommon()
 const bus = inject('bus') as EventBus
 const drawer = reactive({ left: !$q.screen.xs, right: true })
 const model = ref<Team>()

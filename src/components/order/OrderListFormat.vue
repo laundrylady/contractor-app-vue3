@@ -8,8 +8,8 @@
         title="Optimal Route" round dense />
     </div>
   </div>
-  <q-list separator :dense="dense" v-if="!reorder">
-    <q-item v-for="o in list" :key="o.id" :style="dense ? 'padding:0' : ''" :class="orderColor(o)">
+  <q-list :dense="dense" v-if="!reorder">
+    <q-item v-for="o in list" :key="o.id" :style="dense ? 'padding:0' : ''" :class="orderColor(o)" class="q-mb-xs">
       <q-item-section avatar v-if="!noAvatar && o.contractor">
         <UserAvatar :user="o.contractor" />
       </q-item-section>

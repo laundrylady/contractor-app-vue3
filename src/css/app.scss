@@ -245,3 +245,43 @@ input[type="number"]::-webkit-inner-spin-button {
     max-width: 100% !important;
   }
 }
+
+.q-item.bg-purple-2 {
+  background: white !important;
+  border-left: 6px solid $purple-4;
+  border-right: 1px solid $grey-4;
+  border-top: 1px solid $grey-4;
+  border-bottom: 1px solid $grey-4;
+}
+
+.q-item.bg-blue-2 {
+  background: white !important;
+  border-left: 6px solid $blue-4;
+  border-right: 1px solid $grey-4;
+  border-top: 1px solid $grey-4;
+  border-bottom: 1px solid $grey-4;
+}
+
+.q-item.bg-green-2 {
+  background: white !important;
+  border-left: 6px solid $green-4;
+  border-right: 1px solid $grey-4;
+  border-top: 1px solid $grey-4;
+  border-bottom: 1px solid $grey-4;
+}
+
+.q-item.bg-yellow-2 {
+  background: white !important;
+  border-left: 6px solid $yellow-4;
+  border-right: 1px solid $grey-4;
+  border-top: 1px solid $grey-4;
+  border-bottom: 1px solid $grey-4;
+}
+
+.q-item.bg-red {
+  background: white !important;
+  border-left: 6px solid red;
+  border-right: 1px solid $grey-4;
+  border-top: 1px solid $grey-4;
+  border-bottom: 1px solid $grey-4;
+}
