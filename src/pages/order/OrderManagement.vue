@@ -8,23 +8,6 @@
               history
             </div>
           </div>
-          <q-space />
-          <q-btn icon="filter_alt" @click="toggleFilters()" flat round />
-        </div>
-        <div class="row q-col-gutter-md q-mt-xs" v-if="showFilters">
-          <div class="col-xs-6">
-            <DateField v-model="search.start" label="Start" :dense="true" :outlined="true" :clearable="true" />
-          </div>
-          <div class="col-xs-6">
-            <DateField v-model="search.end" label="End" :dense="true" :outlined="true" :clearable="true" />
-          </div>
-          <div class="col-xs-12">
-            <TeamField v-model="search.team_id" :label="$t('team.name')" :dense="true" :outlined="true" status="active"
-              :clearable="true" />
-          </div>
-          <div class="col-xs-12 text-right">
-            <q-btn @click="request()" icon="search" color="primary" />
-          </div>
         </div>
       </div>
     </q-header>
@@ -40,13 +23,31 @@
               <q-breadcrumbs-el :label="$t('order.namePlural')" />
             </q-breadcrumbs>
           </div>
-          <div class="q-mb-sm">
+          <div class="flex q-mt-md">
             <q-select v-model="search.status" dense outlined @update:model-value="request()" label="Booking Status"
               :options="[{ value: 'confirmed', label: 'Confirmed' }, { value: 'in_progress', label: 'In Progress' }, { value: 'AUTHORIZED', label: 'Awaiting Payment' }, { value: 'ready_for_delivery', label: 'Ready for Delivery' }, { value: 'completed', label: 'Completed' }]"
-              map-options emit-value />
+              map-options emit-value class="col-grow" />
+            <div class="col-shrink">
+              <q-toggle v-model="search.recurring" label="Recurring" @update:model-value="toggleRecurring()" />
+            </div>
+            <q-btn icon="filter_alt" @click="toggleFilters()" flat round class="q-ml-xs" />
+          </div>
+          <div class="row q-col-gutter-md q-mt-xs q-mb-md" v-if="showFilters">
+            <div class="col-xs-12 col-lg-6">
+              <TeamField v-model="search.team_id" :label="$t('team.name')" :dense="true" :outlined="true" status="active"
+                :clearable="true" />
+            </div>
+            <div class="col-xs-6 col-lg-3">
+              <DateField v-model="search.start" label="Start" :dense="true" :outlined="true" :clearable="true"
+                @update:model-value="request()" />
+            </div>
+            <div class="col-xs-6 col-lg-3">
+              <DateField v-model="search.end" label="End" :dense="true" :outlined="true" :clearable="true"
+                @update:model-value="request()" />
+            </div>
           </div>
           <q-card>
-            <div ref="topRef"></div>
+            <div ref="topRef" class="q-mt-sm"></div>
             <q-table :rows="data" :columns="columns" row-key="id" :loading="loading" v-model:pagination="serverPagination"
               @request="request" class="orders-table" flat :rows-per-page-options="rowsPerPageOptions" wrap-cells
               hide-header grid>
@@ -76,22 +77,24 @@ import { getRowsPerPage, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/h
 import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import moment from 'moment-timezone'
 
 const bus = inject('bus') as EventBus
 const route = useRoute()
 const i8n = useI18n()
 const data = ref()
 const loading = ref(false)
-const showFilters = ref(false)
+const showFilters = ref(true)
 const topRef = ref<HTMLDivElement | null>(null)
 // search interface
 interface Search {
   team_id: null | number,
   start: null | string,
   end: null | string,
-  status: string
+  status: string,
+  recurring: boolean
 }
-const search = reactive<Search>({ team_id: null, start: null, end: null, status: 'confirmed' })
+const search = reactive<Search>({ team_id: null, start: null, end: null, status: 'confirmed', recurring: false })
 const columns: QTableProps['columns'] = [{
   name: 'display_id',
   label: i8n.t('order.name'),
@@ -135,7 +138,8 @@ const request = (props: Parameters<NonNullable<QTableProps['onRequest']>>[0] | n
     team_id: search.team_id,
     start: search.start,
     end: search.end,
-    status: search.status
+    status: search.status,
+    recurring: search.recurring
   })
     .then((response) => {
       data.value = response.data.rows
@@ -156,6 +160,18 @@ const request = (props: Parameters<NonNullable<QTableProps['onRequest']>>[0] | n
 
 const toggleFilters = () => {
   showFilters.value = !showFilters.value
+}
+
+const toggleRecurring = () => {
+  if (search.recurring) {
+    search.status = ''
+    search.start = null
+    search.end = null
+  } else {
+    search.start = moment().startOf('isoWeek').format('DD/MM/YYYY')
+    search.end = moment().endOf('isoWeek').format('DD/MM/YYYY')
+  }
+  request()
 }
 
 onMounted(() => {

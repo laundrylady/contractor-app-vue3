@@ -27,7 +27,7 @@
               <q-icon name="mail" />
             </q-item-section>
             <q-item-section>
-              <a :href="`mailto:${model.team.email}`" class="link text-wrap">{{ model.team.email }}</a>
+              <a :href="`mailto:${model.team.email}`" class="link">{{ model.team.mobile }}</a>
             </q-item-section>
           </q-item>
           <q-item>
@@ -80,7 +80,7 @@
             </q-breadcrumbs>
           </div>
           <div class="q-mb-xs bg-white q-pa-md rounded-borders">
-            <div class="row items-center">
+            <div class="row">
               <div class="col-xs-12 col-sm-8">
                 <div class="flex items-center">
                   <q-btn @click="drawer.left = !drawer.left" icon="menu" outline v-if="$q.screen.lt.lg" flat
@@ -88,8 +88,6 @@
                   <div class="text-h5">
                     <span class="q-mr-sm">{{ $t('order.name') }} #{{ model.display_id }}</span>
                   </div>
-                  <router-link :to="{ name: 'order-edit', params: { id: model.recurring_parent_id } }" class="link"
-                    v-if="model.recurring_parent_id"><q-icon name="sync" size="18px" /></router-link>
                   <q-space />
                   <StatusTag :status="model.status" v-if="$q.screen.xs" :small="true" />
                 </div>
@@ -107,7 +105,6 @@
                       <span v-if="model.scheduled_pickup_time">
                         ({{ hourBookingDisplay(model.scheduled_pickup_time) }})
                       </span>
-                      <q-icon name="sync" v-if="model.recurring_order" size="18px" />
                     </div>
                   </div>
                 </div>
@@ -115,12 +112,13 @@
                   model.team.payment_terms_days }} days <q-badge
                     v-if="model.team.owing_no_booking || model.team.status === 'blocked'" label="Blocked from bookings"
                     title="Blocked from bookings" /></div>
+                <div class="q-mt-xs">
+                  <q-btn color="secondary" v-if="model.recurring_order || model.recurring_parent_id" size="sm"
+                    @click="recurringNav()"><q-icon name="sync" class="q-mr-xs" />Recurring
+                  </q-btn>
+                </div>
               </div>
               <div class="col-xs-2 col-sm-4 text-right" v-if="!$q.screen.xs">
-                <div v-if="model.recurring_order && model.scheduled_pickup_time" class="q-mb-xs">
-                  <q-badge class="q-pa-sm" color="secondary"><q-icon name="sync" class="q-mr-xs" />Recurring
-                  </q-badge>
-                </div>
                 <StatusTag :status="model.status" /><span v-if="model.status === 'cancelled'"> by {{ model.cancel_by
                 }}</span>
                 <div v-if="model.cancel_reason" class="text-italic">{{ model.cancel_reason
@@ -194,6 +192,10 @@ const getOrder = async (data: LooseObject = {}) => {
   }).catch((response) => {
     useMixinDebug(response)
   })
+}
+
+const recurringNav = () => {
+  bus.emit('showOrderDetails')
 }
 
 onMounted(async () => {

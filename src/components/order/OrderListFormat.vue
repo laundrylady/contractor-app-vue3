@@ -9,7 +9,8 @@
     </div>
   </div>
   <q-list :dense="dense" v-if="!reorder">
-    <q-item v-for="o in list" :key="o.id" :style="dense ? 'padding:0' : ''" :class="orderColor(o)" class="q-mb-xs">
+    <q-item v-for="o in list" :key="o.id" :style="dense ? 'padding:0' : ''" :class="orderColor(o)" class="q-mb-xs"
+      style="padding-left:10px;padding-right:10px;">
       <q-item-section avatar v-if="!noAvatar && o.contractor">
         <UserAvatar :user="o.contractor" />
       </q-item-section>

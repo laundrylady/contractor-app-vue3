@@ -3,7 +3,7 @@
     <q-list>
       <q-expansion-item group="orderEdit" :label="$t('order.details')" header-class="text-h6 bg-grey-1"
         caption="Update the booking details" @click="bookingTab = 'details'"
-        :default-opened="localModel.status === 'cancelled'">
+        :default-opened="localModel.status === 'cancelled'" ref="orderDetailsRef">
         <q-card>
           <q-card-section>
             <q-tabs v-model="bookingTab" align="left" class="q-mb-md" v-if="localModel.contractor_user_id === user?.id">
@@ -114,6 +114,52 @@
               <div class="text-bold text-grey q-mt-md">PRODUCTS</div>
               <div v-for="c in localModel.productcategories" :key="c.id">
                 <q-checkbox v-model="c.meta.pivot_active" :label="c.name" v-if="c.meta" :disable="!canEdit" />
+              </div>
+              <div v-if="localModel.recurring_parent_id && recurringModel" class="q-mt-md">
+                <div v-if="recurringModel.recurring_order" class="q-pa-md q-mt-sm"
+                  :class="{ 'bg-grey-1': !$q.dark.isActive }">
+                  <div class="q-mb-md"><q-icon name="info" /> The following settings are enabled on the master recurring
+                    booking.<br /><router-link
+                      :to="{ name: 'order-edit', params: { id: localModel.recurring_parent_id } }" class="link">Click here
+                      to make a
+                      change to the recurring schedule.</router-link></div>
+                  <div class="row q-col-gutter-md">
+                    <div class="col-xs-12 col-sm-6 col-lg-3">
+                      <q-select v-model="recurringModel.recurring" :label="$t('order.recurringFrequency')"
+                        :options="['Week', 'Month', 'Day']" bottom-slots outlined disable />
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-4" v-if="recurringModel.recurring">
+                      <q-select v-model="recurringModel.recurring_every" label="Repeat every"
+                        :options="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]"
+                        outlined disable bottom-slots>
+                        <template v-slot:append>
+                          <q-badge :label="`${localModel.recurring}s`" color="grey" />
+                        </template>
+                      </q-select>
+                    </div>
+                  </div>
+                  <div v-if="recurringModel.recurring === 'Week'" class="q-mb-lg">
+                    <p>If the booking needs to occur multiple times a week, choose the days below:</p>
+                    <q-btn v-for="d in recurringModel.recurring_days.days" :key="d.day" color="primary"
+                      @click="d.active = !d.active" :label="d.label" :flat="!d.active" class="q-mr-xs" size="sm"
+                      disable />
+                  </div>
+                  <div class="row q-col-gutter-md" v-if="recurringModel.recurring">
+                    <div class="col-xs-12 col-sm-6 col-lg-3">
+                      <q-select v-model="recurringModel.recurring_end_type" label="Ends"
+                        :options="['After', 'On', 'Never']" outlined disable />
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-4">
+                      <q-select v-model="recurringModel.recurring_end"
+                        v-if="recurringModel.recurring_end_type === 'After'" label="Choose the amount"
+                        :options="recurringOccurenceOptions" outlined disable>
+                        <template v-slot:append><q-badge label="occurences" color="grey" /></template>
+                      </q-select>
+                      <DateField v-model="recurringModel.recurring_end" label="Choose an end date" :outlined="true"
+                        :disable="true" v-if="recurringModel.recurring_end_type === 'On'" />
+                    </div>
+                  </div>
+                </div>
               </div>
               <div v-if="!localModel.recurring_parent_id" class="q-mt-md">
                 <q-toggle v-model="localModel.recurring_order" :label="$t('order.recurring')"
@@ -392,6 +438,8 @@ const showCancelOrder = ref(false)
 const loadingCancel = ref(false)
 const showChangesOrder = ref(false)
 const loadingChanges = ref(false)
+const orderDetailsRef = ref()
+const recurringModel = ref()
 
 const changes: LooseObject = ref({
   date: false,
@@ -637,5 +685,18 @@ onMounted(async () => {
   changes.value.timeDelivery_model = JSON.parse(JSON.stringify(localModel.value.scheduled_delivery_time))
   changes.value.agreed_timeDelivery_model = JSON.parse(JSON.stringify(localModel.value.agreed_delivery_time))
   agreedTimeOptions.value = agreedTimes()
+  if (localModel.value.recurring_parent_id) {
+    api.get(`/public/order/recurringparent/${localModel.value.recurring_parent_id}`).then(response => {
+      recurringModel.value = response.data
+    }).catch(error => {
+      useMixinDebug(error)
+    })
+  }
+  // showing order details
+  bus.on('showOrderDetails', () => {
+    if (orderDetailsRef.value) {
+      orderDetailsRef.value.show()
+    }
+  })
 })
 </script>

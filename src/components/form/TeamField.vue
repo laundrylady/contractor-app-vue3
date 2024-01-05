@@ -4,9 +4,6 @@
     hide-dropdown-icon input-debounce="350" autocomplete="team-filter" :outlined="outlined" :disable="disabled"
     ref="qSelectTeam" :borderless="borderless" :dense="dense" class="q-pb-none" :filled="filled" :loading="loading"
     :multiple="multiple" :placeholder="placeholder">
-    <template v-slot:prepend>
-      <q-icon name="group" color="info" />
-    </template>
     <template v-slot:loading>
       <q-spinner v-if="loading" />
     </template>

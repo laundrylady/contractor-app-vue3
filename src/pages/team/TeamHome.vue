@@ -59,18 +59,16 @@
           </div>
         </div>
         <div class="q-mb-xs bg-white q-pa-md rounded-borders">
-          <div class="row items-center q-mb-sm">
+          <div class="row q-mb-sm">
             <div class="col-xs-12 col-sm-8">
-              <div class="flex items-center">
+              <div class="flex">
                 <div class="full-width">
                   <div class="text-h5 items-center flex full-width">
                     <div>
                       {{ model.name }}
                     </div>
-                    <q-space />
-                    <div>
-                      <q-badge :label="model.type" />
-                    </div>
+                    <q-space v-if="$q.screen.xs" />
+                    <q-badge :label="model.type" color="grey-7" class="q-mr-sm q-pa-sm" v-if="$q.screen.xs" />
                   </div>
                   <div class="q-mb-xs"><span v-if="`${model.first_name} ${model.last_name}` !== model.name"><q-icon
                         name="account_circle" /> {{
@@ -92,9 +90,12 @@
             </div>
             <div class="col-xs-2 col-sm-4 text-right" v-if="!$q.screen.xs">
               <div class="q-mb-xs">
+                <q-badge :label="model.type" color="grey-7" class="q-mr-sm q-pa-sm" />
+                <StatusTag :status="model.status" />
+              </div>
+              <div class="q-mb-xs">
                 Updated: <strong>{{ dateTimeTz(model.updated_at) }}</strong>
               </div>
-              <StatusTag :status="model.status" />
             </div>
           </div>
           <TeamNav :model="model" />

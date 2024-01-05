@@ -13,6 +13,9 @@
     <q-select v-model="search.status" dense outlined @update:model-value="request()" label="Booking Status"
       :options="[{ value: 'confirmed', label: 'Confirmed' }, { value: 'in_progress', label: 'In Progress' }, { value: 'AUTHORIZED', label: 'Awaiting Payment' }, { value: 'ready_for_delivery', label: 'Ready for Delivery' }, { value: 'completed', label: 'Completed' }]"
       map-options emit-value class="col-grow" />
+    <div class="col-shrink">
+      <q-toggle v-model="search.recurring" label="Recurring" @update:model-value="toggleRecurring()" />
+    </div>
     <q-btn icon="filter_alt" @click="toggleFilters()" flat round class="q-ml-xs" />
   </div>
   <div class="row q-col-gutter-md q-mt-xs q-mb-md" v-if="showFilters">
@@ -67,13 +70,15 @@ interface Search {
   team_id: null | number,
   start: null | string,
   end: null | string,
-  status: string
+  status: string,
+  recurring: boolean
 }
 const search = reactive<Search>({
   team_id: null,
   start: moment().startOf('isoWeek').format('DD/MM/YYYY'),
   end: moment().endOf('isoWeek').format('DD/MM/YYYY'),
-  status: ''
+  status: '',
+  recurring: false
 })
 const columns: QTableProps['columns'] = [{
   name: 'display_id',
@@ -118,7 +123,8 @@ const request = (props: Parameters<NonNullable<QTableProps['onRequest']>>[0] | n
     team_id: search.team_id,
     start: search.start,
     end: search.end,
-    status: search.status
+    status: search.status,
+    recurring: search.recurring
   })
     .then((response) => {
       data.value = response.data.rows
@@ -139,6 +145,18 @@ const request = (props: Parameters<NonNullable<QTableProps['onRequest']>>[0] | n
 
 const toggleFilters = () => {
   showFilters.value = !showFilters.value
+}
+
+const toggleRecurring = () => {
+  if (search.recurring) {
+    search.status = ''
+    search.start = null
+    search.end = null
+  } else {
+    search.start = moment().startOf('isoWeek').format('DD/MM/YYYY')
+    search.end = moment().endOf('isoWeek').format('DD/MM/YYYY')
+  }
+  request()
 }
 
 onMounted(() => {
