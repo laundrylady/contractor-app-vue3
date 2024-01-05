@@ -11,6 +11,7 @@
             </p>
             <p v-if="!isEditLocked">Once you've finished updating the customer details, click "UPDATE" to save
               the changes.</p>
+            <FormValidationInclude :errors="$v" v-if="!isEditLocked" />
             <div class="row q-col-gutter-sm">
               <div class="col-xs-12">
                 <q-select v-model="localModel.type" :label="$t('team.type')" :options="customerTypes" map-options
@@ -90,6 +91,7 @@
             <p v-if="!isEditLocked">Once you've finished updating the customer pickup address, click "UPDATE" to
               save
               the changes.</p>
+            <FormValidationInclude :errors="$v" v-if="!isEditLocked" />
             <AddressSearch :model="localModel" :filled="true"
               :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id', postcode: 'postcode' }"
               :placeholder="$t('address.search')" v-if="!isEditLocked" />
@@ -104,7 +106,8 @@
                   :clearable="true" />
               </div>
               <div class="col-xs-12 col-sm-6">
-                <q-input v-model="localModel.postcode" :label="$t('address.postcode')" :disable="isEditLocked" outlined />
+                <q-input v-model="localModel.postcode" :label="$t('address.postcode')" :disable="isEditLocked" outlined
+                  :error="$v.postcode.$invalid" />
               </div>
             </div>
             <CountryField v-model="localModel.country_id" :label="$t('address.country')" :outlined="true"
@@ -136,6 +139,7 @@ import AddressSearch from 'src/components/form/AddressSearch.vue'
 import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
 import CountryField from 'src/components/form/CountryField.vue'
 import DateField from 'src/components/form/DateField.vue'
+import FormValidationInclude from 'src/components/form/FormValidationInclude.vue'
 
 interface Props {
   model: Team
@@ -164,6 +168,7 @@ const rules = {
   mobile: { required },
   address2: { required },
   suburb_postcode_region_id: { required },
+  postcode: { required },
   country_id: { required }
 }
 
