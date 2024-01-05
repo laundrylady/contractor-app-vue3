@@ -27,7 +27,7 @@
               <q-icon name="mail" />
             </q-item-section>
             <q-item-section>
-              <a :href="`mailto:${model.team.email}`" class="link">{{ model.team.mobile }}</a>
+              <a :href="`mailto:${model.team.email}`" class="link text-wrap">{{ model.team.email }}</a>
             </q-item-section>
           </q-item>
           <q-item>
@@ -85,19 +85,18 @@
                 <div class="flex items-center">
                   <q-btn @click="drawer.left = !drawer.left" icon="menu" outline v-if="$q.screen.lt.lg" flat
                     class="q-pl-none q-pr-sm" />
-                  <div class="text-h5">
+                  <div class="text-h6">
                     <span class="q-mr-sm">{{ $t('order.name') }} #{{ model.display_id }}</span>
                   </div>
-                  <q-space />
-                  <StatusTag :status="model.status" v-if="$q.screen.xs" :small="true" />
+                  <q-btn color="secondary" v-if="model.recurring_order || model.recurring_parent_id" size="sm"
+                    @click="recurringNav()"><q-icon name="sync" class="q-mr-xs" />Recurring
+                  </q-btn>
                 </div>
                 <div class="flex items-start">
                   <div>
                     <div>
-                      <q-icon name="attach_money" v-if="teamHasOutstandings" title="Has unpaids"
-                        color="negative" /><router-link :to="{ name: 'team-dashboard', params: { id: model.team_id } }"
-                        class="link">{{
-                          model.team.name }} <span
+                      <router-link :to="{ name: 'team-dashboard', params: { id: model.team_id } }" class="link text-h5">{{
+                        model.team.name }} <span
                           v-if="model.team.name !== `${model.team.first_name} ${model.team.last_name}`">({{
                             model.team.first_name }} {{
     model.team.last_name }})</span></router-link><br /><q-icon name="event" /> {{
@@ -113,18 +112,16 @@
                     v-if="model.team.owing_no_booking || model.team.status === 'blocked'" label="Blocked from bookings"
                     title="Blocked from bookings" /></div>
                 <div class="q-mt-xs">
-                  <q-btn color="secondary" v-if="model.recurring_order || model.recurring_parent_id" size="sm"
-                    @click="recurringNav()"><q-icon name="sync" class="q-mr-xs" />Recurring
-                  </q-btn>
+                  <StatusTag :status="model.status" />
                 </div>
               </div>
               <div class="col-xs-2 col-sm-4 text-right" v-if="!$q.screen.xs">
-                <StatusTag :status="model.status" /><span v-if="model.status === 'cancelled'"> by {{ model.cancel_by
+                <span v-if="model.status === 'cancelled'"> by {{ model.cancel_by
                 }}</span>
                 <div v-if="model.cancel_reason" class="text-italic">{{ model.cancel_reason
                 }}</div>
                 <div>
-                  Updated <strong>{{ fromNowTz(model.updated_at) }}</strong>
+                  Updated {{ fromNowTz(model.updated_at) }}
                 </div>
               </div>
             </div>
@@ -151,9 +148,10 @@ import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 import { displayDateOrder, fromNowTz, hourBookingDisplay } from 'src/mixins/help'
 import { inject, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
 const $q = useQuasar()
 const bus = inject('bus') as EventBus
 const drawer = reactive({ left: $q.screen.gt.md, right: true })
@@ -195,7 +193,11 @@ const getOrder = async (data: LooseObject = {}) => {
 }
 
 const recurringNav = () => {
-  bus.emit('showOrderDetails')
+  if (model.value?.recurring_order) {
+    bus.emit('showOrderDetails')
+  } else {
+    router.push({ name: 'order-edit', params: { id: model.value?.recurring_parent_id, tab: 'details' } })
+  }
 }
 
 onMounted(async () => {
@@ -214,6 +216,11 @@ onBeforeUnmount(() => {
 })
 
 watch(() => route.params.id, (newVal) => {
-  if (newVal && route.name === 'order-edit') { getOrder() }
+  if (newVal && route.name === 'order-edit') {
+    getOrder()
+    if (route.params.tab) {
+      bus.emit('showOrderDetails')
+    }
+  }
 })
 </script>

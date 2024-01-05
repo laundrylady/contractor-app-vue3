@@ -220,7 +220,7 @@ const routes: RouteRecordRaw[] = [
         children: [
           {
             name: 'order-edit',
-            path: '/booking/edit/:id',
+            path: '/booking/edit/:id/:tab?',
             component: () => import('pages/order/OrderEdit.vue'),
             meta: { auth: true }
           }

@@ -2,7 +2,7 @@
   <div v-if="model.id" class="q-mt-md">
     <GlobalNotes :notable_id="model.id" notable_type="Team" :nobox="true" />
     <q-list class="q-mt-lg">
-      <q-expansion-item label="Customer Details" header-class="bg-grey-1 text-h6" group="customerDetails">
+      <q-expansion-item label="Customer Details" header-class="bg-grey-2 text-h6" group="customerDetails">
         <q-card>
           <q-card-section>
             <p v-if="isEditLocked"><a @click="isEditLocked = false" class="link">Click
@@ -46,7 +46,7 @@
           </q-card-actions>
         </q-card>
       </q-expansion-item>
-      <q-expansion-item :label="$t('team.ndis')" header-class="bg-grey-1 text-h6" v-if="localModel.type === 'NDIS'">
+      <q-expansion-item :label="$t('team.ndis')" header-class="bg-grey-3 text-h6" v-if="localModel.type === 'NDIS'">
         <q-card>
           <q-card-section>
             <div class="row q-col-gutter-sm">
@@ -81,7 +81,7 @@
           </q-card-section>
         </q-card>
       </q-expansion-item>
-      <q-expansion-item label="Pickup Address" header-class="bg-grey-1 text-h6" group="customerDetails">
+      <q-expansion-item label="Pickup Address" header-class="bg-grey-2 text-h6" group="customerDetails">
         <q-card>
           <q-card-section>
             <p v-if="isEditLocked"><a @click="isEditLocked = false" class="link">Click
