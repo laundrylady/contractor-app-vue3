@@ -17,7 +17,7 @@
           <q-space />
         </div>
         <div class="col-xs-12 col-md-4">
-          <div class="flex">
+          <div class="flex items-center">
             <q-space v-if="!$q.screen.xs" />
             <q-select v-model="calendarView"
               :options="[{ label: 'Week', value: 'week' }, { label: 'Month', value: 'month' }, { label: 'Day', value: 'day' }]"
