@@ -66,6 +66,11 @@
         </q-input>
       </div>
     </div>
+    <q-input v-model="localModel.invoice_po" :label="$t('team.invoicePo')" outlined dense class="q-mt-md">
+      <template v-slot:append>
+        <q-btn @click="save()" label="Save" color="primary" size="sm" rounded />
+      </template>
+    </q-input>
     <div class="q-mt-md items-center q-pb-md">
       <div class="flex">
         <q-btn @click="openURL(`/api/public/invoice/pdf/${localModel.id}`)" icon="picture_as_pdf"
