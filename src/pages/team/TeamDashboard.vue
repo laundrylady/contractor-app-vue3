@@ -81,7 +81,9 @@
           </q-card-section>
         </q-card>
       </q-expansion-item>
-      <q-expansion-item label="Pickup Address" header-class="bg-grey-2 text-h6" group="customerDetails">
+      <q-expansion-item label="Pickup Address" header-class="bg-grey-2 text-h6" group="customerDetails"
+        :class="{ 'text-negative': !model.postcode || !model.address2 || !model.suburb_postcode_region_id }"
+        :icon="(!model.postcode || !model.address2 || !model.suburb_postcode_region_id) ? 'warning' : ''">
         <q-card>
           <q-card-section>
             <p v-if="isEditLocked"><a @click="isEditLocked = false" class="link">Click

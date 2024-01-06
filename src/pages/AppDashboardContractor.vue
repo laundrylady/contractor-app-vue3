@@ -6,7 +6,6 @@
     <q-page-container>
       <q-page padding class="q-pt-md layout-container q-pa-md">
         <div v-if="user && user.id" class="layout-container">
-          <OrderCreate />
           <div class="flex q-mb-md items-center">
             <div class="text-h6">Hi {{ user.contractor_badge_name }}</div>
             <q-space />
@@ -108,7 +107,6 @@
 <script setup lang="ts">
 import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
-import OrderCreate from 'src/components/order/OrderCreate.vue'
 import OrderListFormat from 'src/components/order/OrderListFormat.vue'
 import { useMixinDebug } from 'src/mixins/debug'
 import { hourBookingDisplay } from 'src/mixins/help'
@@ -131,7 +129,7 @@ const getDashboard = () => {
 }
 
 const newOrder = () => {
-  bus.emit('newOrder')
+  bus.emit('newOrder', {})
 }
 
 onMounted(() => {

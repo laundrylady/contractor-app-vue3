@@ -1,5 +1,4 @@
 <template>
-  <OrderCreate />
   <div class="flex items-center q-mb-md" style="padding-top:11px;" v-if="!$q.screen.xs">
     <q-breadcrumbs>
       <template v-slot:separator>
@@ -48,7 +47,6 @@ import moment from 'moment-timezone'
 import { EventBus, QTableProps } from 'quasar'
 import { api } from 'src/boot/axios'
 import DateField from 'src/components/form/DateField.vue'
-import OrderCreate from 'src/components/order/OrderCreate.vue'
 import OrderListFormat from 'src/components/order/OrderListFormat.vue'
 import { useMixinDebug } from 'src/mixins/debug'
 import { getRowsPerPage, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'

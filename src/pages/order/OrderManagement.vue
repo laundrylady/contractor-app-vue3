@@ -1,5 +1,4 @@
 <template>
-  <OrderCreate />
   <q-layout view="lHh LpR fFf" container class="layout-height">
     <q-header :class="{ 'page-title text-black': !$q.dark.isActive, 'bg-dark': $q.dark.isActive }" bordered>
       <div :class="{ 'q-pl-md q-pr-md': $q.screen.xs }" class="layout-container q-pt-md q-pb-md">
@@ -66,18 +65,17 @@
   </q-layout>
 </template>
 <script setup lang="ts">
+import moment from 'moment-timezone'
 import { EventBus, QTableProps } from 'quasar'
 import { api } from 'src/boot/axios'
 import DateField from 'src/components/form/DateField.vue'
 import TeamField from 'src/components/form/TeamField.vue'
-import OrderCreate from 'src/components/order/OrderCreate.vue'
 import OrderListFormat from 'src/components/order/OrderListFormat.vue'
 import { useMixinDebug } from 'src/mixins/debug'
 import { getRowsPerPage, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
 import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import moment from 'moment-timezone'
 
 const bus = inject('bus') as EventBus
 const route = useRoute()

@@ -40,6 +40,7 @@
     </q-page-container>
     <MediaViewer />
     <ValidationsModal />
+    <OrderCreate />
     <q-dialog v-model="isLocked" persistent>
       <q-card class="modal-sm">
         <q-card-section class="text-center">
@@ -58,6 +59,7 @@ import AppLogo from 'src/components/AppLogo.vue'
 import HeaderSearch from 'src/components/HeaderSearch.vue'
 import MediaViewer from 'src/components/MediaViewer.vue'
 import ValidationsModal from 'src/components/form/ValidationsModal.vue'
+import OrderCreate from 'src/components/order/OrderCreate.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinCommon } from 'src/mixins/common'
 import { useMixinSecurity } from 'src/mixins/security'

@@ -69,6 +69,9 @@
                     </div>
                     <q-space v-if="$q.screen.xs" />
                     <q-badge :label="model.type" color="grey-7" class="q-mr-sm q-pa-sm" v-if="$q.screen.xs" />
+                    <q-btn
+                      v-if="model.address2 && model.suburb_postcode_region_id && model.postcode && model.lat && model.lng"
+                      @click="newOrder()" round color="primary" icon="add" />
                   </div>
                   <div class="q-mb-xs"><span v-if="`${model.first_name} ${model.last_name}` !== model.name"><q-icon
                         name="account_circle" /> {{
@@ -133,6 +136,10 @@ const getTeam = async () => {
   }).catch((response) => {
     useMixinDebug(response)
   })
+}
+
+const newOrder = () => {
+  bus.emit('newOrder', { team_id: model.value?.id })
 }
 
 onMounted(async () => {

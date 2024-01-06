@@ -10,7 +10,7 @@
       <q-card-section>
         <div class="row q-col-gutter-md q-mb-md">
           <TeamField v-model="model.team_id" :label="$t('team.name')" status="active" class="col-xs-12"
-            :error="$v.team_id.$invalid" :clearable="true" @update:model-value="handleTeamChange()" />
+            :error="$v.team_id.$invalid" :clearable="true" @update:model-value="handleTeamChange()" :outlined="true" />
         </div>
         <div v-if="addressError"><q-icon name="warning" /> The selected customer has an incomplete or invalid address.
           <router-link :to="{ name: 'team-dashboard', params: { id: model.team_id } }" class="link">Click here to update
@@ -20,10 +20,10 @@
         <div v-if="!addressError">
           <div class="row q-col-gutter-md" v-if="model.team_id">
             <DateField v-model="model.scheduled_pickup_date" :label="$t('order.scheduledPickupDate')"
-              :invalid="$v.scheduled_pickup_date.$invalid" class="col-xs-12 col-sm-6" />
+              :invalid="$v.scheduled_pickup_date.$invalid" class="col-xs-12 col-sm-6" :outlined="true" />
             <q-select v-model="model.scheduled_pickup_time" :label="$t('order.scheduledPickupTime')"
               :invalid="$v.scheduled_pickup_time" :options="hourBookingOptions" emit-value map-options
-              class="col-xs-12 col-sm-6" />
+              class="col-xs-12 col-sm-6" outlined />
           </div>
           <div v-if="model.team_id && model.scheduled_pickup_date && model.scheduled_pickup_time" class="q-mt-md">
             <div class="text-h6">Products</div>
@@ -99,11 +99,12 @@ import useVuelidate from '@vuelidate/core'
 import { required, requiredIf } from '@vuelidate/validators'
 import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
+import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 import { arrayRange, categoryDisplay, doNotify, hourBookingOptions } from 'src/mixins/help'
 import { useMixinSecurity } from 'src/mixins/security'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
-import { inject, onBeforeUnmount, onMounted, reactive, ref, computed } from 'vue'
+import { computed, inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import DateField from '../form/DateField.vue'
 import TeamField from '../form/TeamField.vue'
@@ -204,11 +205,15 @@ const handleTeamChange = () => {
 }
 
 onMounted(async () => {
-  bus.on('newOrder', async () => {
+  bus.on('newOrder', async (data: LooseObject) => {
     Object.assign(model, JSON.parse(JSON.stringify(schema)))
     categories.value = await productCategoriesVisibleBooking()
     for (const c of categories.value) {
       model.productcategories.push({ product_category_id: c.value, active: false })
+    }
+    if (data.team_id) {
+      model.team_id = data.team_id
+      handleTeamChange()
     }
     show.value = true
     washingAndIroning.value = false
