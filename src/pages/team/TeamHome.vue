@@ -70,7 +70,7 @@
                     <q-space v-if="$q.screen.xs" />
                     <q-badge :label="model.type" color="grey-7" class="q-mr-sm q-pa-sm" v-if="$q.screen.xs" />
                     <q-btn
-                      v-if="model.address2 && model.suburb_postcode_region_id && model.postcode && model.lat && model.lng"
+                      v-if="model.address2 && model.suburb_postcode_region_id && model.postcode && model.lat && model.lng && $q.screen.xs"
                       @click="newOrder()" round color="primary" icon="add" />
                   </div>
                   <div class="q-mb-xs"><span v-if="`${model.first_name} ${model.last_name}` !== model.name"><q-icon
@@ -95,6 +95,9 @@
               <div class="q-mb-xs">
                 <q-badge :label="model.type" color="grey-7" class="q-mr-sm q-pa-sm" />
                 <StatusTag :status="model.status" />
+                <q-btn
+                  v-if="model.address2 && model.suburb_postcode_region_id && model.postcode && model.lat && model.lng && !$q.screen.xs"
+                  @click="newOrder()" round color="primary" icon="add" class="q-ml-sm" />
               </div>
               <div class="q-mb-xs">
                 Updated: <strong>{{ dateTimeTz(model.updated_at) }}</strong>
