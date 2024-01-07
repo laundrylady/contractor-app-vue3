@@ -17,7 +17,7 @@
       <q-item-section>
         <div class="flex no-wrap">
           <div>
-            <div>Booking: #{{ o.display_id }} <span class="q-ml-sm" v-if="status">
+            <div class="text-black">Booking: #{{ o.display_id }} <span class="q-ml-sm" v-if="status">
                 <StatusTag :status="o.status" :small="true" />
               </span>
             </div>
@@ -30,10 +30,11 @@
                   }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)
 }}</span>) <q-icon name="sync" v-if="o.recurring_order" /></router-link>
               <div>
-                <div>{{ o.status === 'ready_for_delivery' ? 'Delivery' : 'Pickup' }} with {{ o.team.name }} <span
-                    v-if="o.team.name !== `${o.team.first_name} ${o.team.last_name}`">({{ o.team.first_name }} {{
-                      o.team.last_name }})</span></div>
-                <div class="flex items-center">
+                <div class="text-black">{{ o.status === 'ready_for_delivery' ? 'Delivery' : 'Pickup' }} with {{
+                  o.team.name }} <span v-if="o.team.name !== `${o.team.first_name} ${o.team.last_name}`">({{
+    o.team.first_name }} {{
+    o.team.last_name }})</span></div>
+                <div class="flex items-center text-black">
                   <OrderProductCategoryDisplay :o="o" />
                   <span v-if="bookingId" class="q-mr-sm q-ml-xs">{{ o.contractor.contractor_badge_name }}</span>
                   <q-badge :label="`DUE: ${displayDateDue(o.invoice.due_date)}`" v-if="o.invoice && o.invoice.due_date" />
