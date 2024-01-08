@@ -35,7 +35,7 @@ const statusColor = computed(() => {
   if (props.status === 'confirmed') {
     return 'info'
   }
-  if (['DELETED', 'cancelled', 'VOID'].indexOf(props.status) !== -1) {
+  if (['DELETED', 'cancelled', 'VOIDED'].indexOf(props.status) !== -1) {
     return 'red'
   }
   return 'positive'
