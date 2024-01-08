@@ -32,7 +32,7 @@
           </div>
         </div>
       </div>
-      <div v-if="!loading" style="overflow:auto;" class="q-pa-sm">
+      <div v-if="!loading" style="overflow:auto;" class="q-pa-sm q-pb-xl">
         <q-card style="min-width:1000px;max-width:100%;" v-if="calendarView === 'month'">
           <q-calendar-month ref="calendarRef" v-model="selectedDate" :weekdays="[1, 2, 3, 4, 5, 6, 0]" hoverable bordered
             month-label-size="md" date-align="right">

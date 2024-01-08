@@ -11,7 +11,7 @@
       </div>
     </q-header>
     <q-page-container>
-      <q-page padding :class="{ 'q-pa-md': $q.screen.xs }">
+      <q-page padding :class="{ 'q-pa-md': $q.screen.xs }" class="q-pb-xl">
         <div class="layout-container">
           <div class="flex items-center q-mb-md" style="padding-top:11px;" v-if="!$q.screen.xs">
             <q-breadcrumbs>

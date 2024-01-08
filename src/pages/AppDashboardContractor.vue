@@ -4,7 +4,7 @@
       <ContractorNav />
     </q-header>
     <q-page-container>
-      <q-page padding class="q-pt-md layout-container q-pa-md">
+      <q-page padding class="q-pt-md layout-container q-pa-md q-pb-xl">
         <div v-if="user && user.id" class="layout-container">
           <div class="flex q-mb-md items-center">
             <div class="text-h6">Hi {{ user.contractor_badge_name }}</div>
@@ -100,7 +100,6 @@
             </div>
           </div>
         </div>
-        <div style="height:24px;"></div>
       </q-page>
     </q-page-container>
   </q-layout>

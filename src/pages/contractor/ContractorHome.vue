@@ -4,7 +4,7 @@
       <ContractorNav />
     </q-header>
     <q-page-container>
-      <q-page padding class="q-pt-md layout-container q-pa-md">
+      <q-page padding class="q-pt-md layout-container q-pa-md q-pb-xl">
         <router-view :model="model" v-if="model && model.id" />
       </q-page>
     </q-page-container>

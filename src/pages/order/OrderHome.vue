@@ -67,7 +67,7 @@
       </div>
     </q-drawer>
     <q-page-container>
-      <q-page padding class="q-pa-md">
+      <q-page padding class="q-pa-md q-pb-xl">
         <div class="q-mb-md">
           <div class="flex" v-if="!$q.screen.xs">
             <q-breadcrumbs class="q-mb-md">
