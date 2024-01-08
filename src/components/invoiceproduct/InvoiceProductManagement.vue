@@ -53,8 +53,13 @@
       <q-separator class="q-mb-sm" />
       <div class="text-right">
         <div>Subtotal: {{ currencyFormat(localModel.grand_total_price) }}</div>
-        <div>Total GST: {{ currencyFormat(localModel.total_price_gst) }}</div>
-        <div class="text-h6">Total: {{ currencyFormat(localModel.grand_total_price) }}</div>
+        <div>
+          Total GST: {{ currencyFormat(localModel.total_price_gst) }}
+        </div>
+        <div> <span v-if="localModel.sent_for_payment && localModel.status !== 'PAID' && localModel.due_date"
+            class="text-grey q-mr-sm">
+            Due: {{ localModel.due_date }}</span><span class="text-h6">Total: {{
+              currencyFormat(localModel.grand_total_price) }}</span></div>
       </div>
     </div>
     <div v-if="canEdit">
@@ -81,10 +86,18 @@
         <q-btn @click="doSendPaymentRequest('email')" icon="mail" label="Send Payment Request" push color="primary"
           v-if="canSend" :disable="sendingPaymentRequest" rounded />
       </div>
-      <div v-if="localModel.sent_for_payment && localModel.status !== 'PAID'" class="text-grey">
+      <div v-if="notificationHistory && notificationHistory.length">
         <q-separator class="q-mt-md q-mb-sm" />
-        Sent for payment: {{ dateTimeTz(localModel.sent_for_payment) }}<br />Due: {{
-          localModel.due_date }}
+        <div v-for="n in notificationHistory" :key="n.id" class="text-grey">
+          <span v-if="n.subject === 'Invoice Ready For Payment'">Sent for payment </span>
+          <span v-if="n.subject && n.subject.match('Reminder')">Payment reminder </span>
+          <span v-if="n.subject && !n.subject.match('Reminder') && n.subject !== 'Invoice Ready For Payment'">Invoice
+            emailed
+          </span> to <span class="text-wrap">{{ n.to }}</span>
+          <div>
+            {{ dateTimeTz(n.created_at) }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -107,7 +120,7 @@
           </div>
         </div>
         <q-input v-model="sendPaymentModal.content" type="textarea" outlined rows="3"
-          label="Enter any notes for the customer" class="q-mt-sm" />
+          label="Enter any notes for the customer" class="q-mt-md" />
       </q-card-section>
       <q-card-actions>
         <q-btn flat color="secondary" label="Cancel" v-close-popup rounded />
@@ -147,7 +160,7 @@
 <script setup lang="ts">
 import { EventBus, openURL } from 'quasar'
 import { api } from 'src/boot/axios'
-import { Invoice, InvoicePayment, InvoiceProduct, Order, OrderProductCategory, Product, Team } from 'src/components/models'
+import { Invoice, InvoicePayment, InvoiceProduct, Order, OrderProductCategory, Product, Team, Notification } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 import { confirmDelete, currencyFormat, dateTimeTz, doNotify, groupBy, hourBookingOptions } from 'src/mixins/help'
@@ -162,16 +175,18 @@ interface Props {
   order: Order
 }
 
+const notificationHistory = ref<Notification[]>([])
+
 const sendPaymentModal = ref({
   show: false,
   content: null,
-  scheduled_delivery_date: null,
-  scheduled_delivery_time: null
+  scheduled_delivery_date: '',
+  scheduled_delivery_time: ''
 })
 const sendPaymentModalSms = ref({
   show: false,
-  scheduled_delivery_date: null,
-  scheduled_delivery_time: null
+  scheduled_delivery_date: '',
+  scheduled_delivery_time: ''
 })
 const props = defineProps<Props>()
 const emits = defineEmits(['update:products', 'update:order'])
@@ -388,8 +403,22 @@ const checkGvDc = () => {
 
 const doSendPaymentRequest = (type: string) => {
   if (type === 'sms') {
+    // check if delivery date already specified
+    if (props.order.scheduled_delivery_date) {
+      sendPaymentModalSms.value.scheduled_delivery_date = props.order.scheduled_delivery_date
+    }
+    if (props.order.scheduled_delivery_time) {
+      sendPaymentModalSms.value.scheduled_delivery_time = props.order.scheduled_delivery_time
+    }
     sendPaymentModalSms.value.show = true
   } else {
+    // check if delivery date already specified
+    if (props.order.scheduled_delivery_date) {
+      sendPaymentModal.value.scheduled_delivery_date = props.order.scheduled_delivery_date
+    }
+    if (props.order.scheduled_delivery_time) {
+      sendPaymentModal.value.scheduled_delivery_time = props.order.scheduled_delivery_time
+    }
     sendPaymentModal.value.content = null
     sendPaymentModal.value.show = true
   }
@@ -406,9 +435,10 @@ const sendPaymentRequest = () => {
       sendPaymentModal.value = {
         show: false,
         content: null,
-        scheduled_delivery_date: null,
-        scheduled_delivery_time: null
+        scheduled_delivery_date: '',
+        scheduled_delivery_time: ''
       }
+      getNotificationHistory()
     }).catch(error => {
       sendingPaymentRequest.value = false
       useMixinDebug(error, bus)
@@ -425,14 +455,22 @@ const sendPaymentRequestSms = () => {
       sendingPaymentRequest.value = false
       sendPaymentModalSms.value = {
         show: false,
-        scheduled_delivery_date: null,
-        scheduled_delivery_time: null
+        scheduled_delivery_date: '',
+        scheduled_delivery_time: ''
       }
       emits('update:order')
     }).catch(error => {
       sendingPaymentRequest.value = false
       useMixinDebug(error, bus)
     })
+  })
+}
+
+const getNotificationHistory = () => {
+  api.post(`/public/notification/index/Invoice/${localModel.value.id}`).then(response => {
+    notificationHistory.value = response.data
+  }).catch(error => {
+    useMixinDebug(error)
   })
 }
 
@@ -444,6 +482,7 @@ onMounted(() => {
   }).catch(error => {
     useMixinDebug(error)
   })
+  getNotificationHistory()
 })
 
 </script>
