@@ -87,7 +87,7 @@
                 </q-card>
               </div>
               <div class="col-xs-12 col-sm-6">
-                <q-card class="bg-seamless q-mb-lg">
+                <q-card class="bg-seamless">
                   <q-card-section>
                     <div class="text-h6 q-mb-md">Completed Today</div>
                     <div v-if="!dashboard.completedToday.length">No {{ $t('order.namePlural').toLowerCase() }} found.
@@ -100,6 +100,7 @@
             </div>
           </div>
         </div>
+        <div style="height:24px;"></div>
       </q-page>
     </q-page-container>
   </q-layout>
