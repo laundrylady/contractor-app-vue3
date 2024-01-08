@@ -32,9 +32,10 @@
     </q-header>
     <q-page-container>
       <q-ajax-bar color="accent" size="3px" />
-      <div v-if="!geolocationEnabled" class="text-center q-pa-md bg-accent">
+      <div v-if="!geolocationEnabled && !hideGeolocationMessage" class="text-center q-pa-md bg-accent">
         <q-icon name="warning" size="20px" /> Access to the location service has been disabled on this device. Some
-        features won't work correctly until you enable access.
+        features won't work correctly until you enable access. <a @click="dismissGeolocationEnabled()"
+          class="link">DISMISS</a>
       </div>
       <router-view />
     </q-page-container>
@@ -72,6 +73,7 @@ const $q = useQuasar()
 const isLocked = ref(false)
 const bus = inject('bus') as EventBus
 const geolocationEnabled = ref(true)
+const hideGeolocationMessage = ref(!!localStorage.getItem('hideGeolocationMessage'))
 const common = useMixinCommon()
 
 // check for lockout
@@ -89,11 +91,16 @@ const login = () => {
 
 const checkGeolocation = async () => {
   const currentLoc = await getLocationPromise()
-  if (!currentLoc.lat || !currentLoc.lng) {
+  if ((!currentLoc.lat || !currentLoc.lng)) {
     geolocationEnabled.value = false
   } else {
     geolocationEnabled.value = true
   }
+}
+
+const dismissGeolocationEnabled = () => {
+  localStorage.setItem('hideGeolocationMessage', '1')
+  hideGeolocationMessage.value = true
 }
 
 socket.on('newReleasePortal', () => {
