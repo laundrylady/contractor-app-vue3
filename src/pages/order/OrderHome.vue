@@ -157,7 +157,6 @@ const bus = inject('bus') as EventBus
 const drawer = reactive({ left: $q.screen.gt.md, right: true })
 const futureRecurring = ref<Order[]>()
 const model = ref<Order>()
-const teamHasOutstandings = ref(false)
 
 const getOrder = async (data: LooseObject = {}) => {
   api.get(`/public/order/${route.params.id}`).then((response) => {
@@ -171,13 +170,6 @@ const getOrder = async (data: LooseObject = {}) => {
       model.value.status = response.data.status
     } else {
       model.value = response.data
-      if (model.value) {
-        api.get(`/public/team/hasoutstandings/${model.value.team_id}`).then(res => {
-          teamHasOutstandings.value = res.data.has
-        }).catch(error => {
-          useMixinDebug(error)
-        })
-      }
     }
     document.title = `Booking #${response.data.display_id}`
     if (model.value?.recurring_order) {
