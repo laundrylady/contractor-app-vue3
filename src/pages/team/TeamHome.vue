@@ -133,7 +133,7 @@ const drawer = reactive({ left: !$q.screen.xs, right: true })
 const model = ref<Team>()
 
 const getTeam = async () => {
-  api.get(`/public/team/${route.params.id}?feed=true`).then((response) => {
+  api.get(`/public/team/${route.params.id}`).then((response) => {
     model.value = response.data
     document.title = response.data.name
   }).catch((response) => {
