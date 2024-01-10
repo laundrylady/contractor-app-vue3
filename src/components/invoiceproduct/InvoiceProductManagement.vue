@@ -89,7 +89,7 @@
       <div v-if="notificationHistory && notificationHistory.length">
         <q-separator class="q-mt-md q-mb-sm" />
         <div v-for="n in notificationHistory" :key="n.id" class="text-grey">
-          {{ dateTimeTz(n.created_at) }}
+          {{ dateTimeTz(n.created_at) }} -
           <span v-if="n.subject === 'Invoice Ready For Payment'">Sent for payment </span>
           <span v-if="n.subject && n.subject.match('Reminder')">Payment reminder </span>
           <span v-if="n.subject && !n.subject.match('Reminder') && n.subject !== 'Invoice Ready For Payment'">Invoice
