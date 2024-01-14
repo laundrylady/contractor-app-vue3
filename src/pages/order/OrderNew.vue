@@ -55,10 +55,25 @@
                 <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Enter your pickup suburb" outlined
                   :invalid="$v.suburb_postcode_region_id.$invalid" @update:model-value="checkContractors()"
                   :clearable="true" />
-                <div class="text-lg text-center q-mt-lg" v-if="noContractors">Sorry, there is currently no availability in
-                  this
-                  area.</div>
-                <div class="text-center q-mt-xl">
+                <div class="text-center q-mt-lg" v-if="noContractors">
+                  <div v-if="!registerInterest.success">
+                    <strong>We currently don't service the selected location.</strong>
+                    <div class="q-mb-md">Register your interest
+                      below:</div>
+                    <q-input v-model="registerInterest.email" label="Enter your email address" outlined>
+                      <template v-slot:append>
+                        <q-btn @click="registerInterestFunc()" label="Register" color="primary"
+                          :disable="!registerInterest.email" />
+                      </template>
+                    </q-input>
+                  </div>
+                  <div v-if="registerInterest.success" class="q-mt-md">
+                    Thank you for your interest. We'll be in contact as soon as the selected area opens up.
+                    <div class="q-mt-md"><q-btn @click="resetRegisterInterest()" label="Search for a different location"
+                        color="primary" outline rounded /></div>
+                  </div>
+                </div>
+                <div class="text-center q-mt-xl" v-if="!registerInterest.suburb_postcode_region_id">
                   <q-btn @click="stepMove(2)" color="primary" label="Continue" rounded
                     :disable="!model.suburb_postcode_region_id" />
                 </div>
@@ -473,6 +488,16 @@ const minDate = (date: string) => {
 }
 const currentBookingDate = ref(moment())
 const noContractors = ref(false)
+interface RegisterInterest {
+  suburb_postcode_region_id: null | number,
+  email: null | string,
+  success: boolean
+}
+const registerInterest = reactive<RegisterInterest>({
+  suburb_postcode_region_id: null,
+  email: null,
+  success: false
+})
 const rules = {
   suburb_postcode_region_id: { required },
   postcode: { required },
@@ -523,10 +548,12 @@ const checkContractors = () => {
     noContractors.value = false
     resetModel()
   } else {
+    Object.assign(registerInterest, { suburb_postcode_region_id: null, email: null, success: false })
     api.post('/public/order/findcontractorsinsuburbpostcoderegion', { suburb_postcode_region_id: model.suburb_postcode_region_id }).then(response => {
       noContractors.value = !response.data.found
       if (noContractors.value) {
-        model.suburb_postcode_region_id = null
+        registerInterest.suburb_postcode_region_id = model.suburb_postcode_region_id
+        registerInterest.email = null
       }
       availableDates.value = []
     }).catch(error => {
@@ -579,6 +606,22 @@ const save = () => {
       $q.loading.hide()
     })
   })
+}
+
+const registerInterestFunc = () => {
+  if (registerInterest.email && registerInterest.suburb_postcode_region_id) {
+    api.post('/public/postcoderegioninterest/register', registerInterest).then(() => {
+      registerInterest.success = true
+    }).catch(error => {
+      useMixinDebug(error)
+    })
+  }
+}
+
+const resetRegisterInterest = () => {
+  noContractors.value = false
+  Object.assign(registerInterest, { suburb_postcode_region_id: null, email: null, success: false })
+  model.suburb_postcode_region_id = null
 }
 
 onMounted(async () => {

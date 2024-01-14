@@ -13,7 +13,7 @@ export default boot(({ app, router }) => {
       integrations: [
         new BrowserTracing({
           routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-          tracePropagationTargets: ['localhost', 'sandbox.thelaundrylady.au', 'app.thelaundrylady.au', /^\//]
+          tracePropagationTargets: ['localhost', 'sandbox.thelaundrylady.au', 'app.thelaundrylady.au', 'app.thelaundrylady.nz', /^\//]
         })
       ],
       // Set tracesSampleRate to 1.0 to capture 100%
