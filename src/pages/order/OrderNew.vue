@@ -57,7 +57,8 @@
                   :clearable="true" />
                 <div class="text-center q-mt-lg" v-if="noContractors">
                   <div v-if="!registerInterest.success">
-                    <strong>We currently don't service the selected location.</strong>
+                    <strong>We currently don't have availability in your area, register your interest below and we will
+                      let you know as soon as we do</strong>
                     <div class="q-mb-md">Register your interest
                       below:</div>
                     <q-input v-model="registerInterest.email" label="Enter your email address" outlined>
