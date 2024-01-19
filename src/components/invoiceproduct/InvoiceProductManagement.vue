@@ -1,6 +1,7 @@
 <template>
   <div class="q-pl-sm q-pr-sm">
-    <div class="row q-pt-md q-pb-md q-col-gutter-xs" v-for="(p, index) in localModel.products" :key="index"
+    <div class="row q-pt-md q-pb-md q-col-gutter-xs"
+      v-for="(p, index) in localModel.products.filter(o => o.name !== 'Service Fee')" :key="index"
       :class="{ 'bg-grey-1': index % 2 !== 0 }">
       <div class="col-xs-7 col-sm-9">
         <div>{{ p.name }}
@@ -53,6 +54,7 @@
       <q-separator class="q-mb-sm" />
       <div class="text-right">
         <div>Subtotal: {{ currencyFormat(localModel.grand_total_price) }}</div>
+        <div v-if="serviceFee">Service Fee: {{ currencyFormat(serviceFee.price) }}</div>
         <div>
           Total GST: {{ currencyFormat(localModel.total_price_gst) }}
         </div>
@@ -277,6 +279,13 @@ const productListFiltered = computed(() => {
     return productListTmp.filter((o: LooseObject) => o.data.length).sort((a: LooseObject, b: LooseObject) => sortByObject[a.key] - sortByObject[b.key])
   }
   return []
+})
+
+const serviceFee = computed(() => {
+  if (!localModel.value.products || !localModel.value.products.length) {
+    return false
+  }
+  return localModel.value.products.find(o => o.name === 'Service Fee')
 })
 
 const addProduct = () => {
