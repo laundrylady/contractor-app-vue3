@@ -3,7 +3,6 @@
     <q-card class="modal" v-if="user">
       <q-toolbar class="bg-primary text-white">
         <q-toolbar-title>{{ $t('order.create') }}</q-toolbar-title>
-        <q-space />
         <q-btn v-close-popup icon="close" flat round dense />
       </q-toolbar>
       <q-separator />

@@ -7,6 +7,14 @@
     <template v-slot:loading>
       <q-spinner v-if="loading" />
     </template>
+    <template v-slot:option="scope">
+      <q-item v-bind="scope.itemProps">
+        <q-item-section>
+          <q-item-label>{{ scope.opt.label }}</q-item-label>
+          <q-item-label caption v-if="scope.opt.label !== scope.opt.subLabel">{{ scope.opt.subLabel }}</q-item-label>
+        </q-item-section>
+      </q-item>
+    </template>
   </q-select>
 </template>
 <script setup lang="ts">
@@ -47,7 +55,7 @@ const filterTeams = (val: string, update: (fn: () => void) => void) => {
   loading.value = true
   api.post(`/public/team/index?status=${props.status}`, { keyword: val }).then(response => {
     update(() => {
-      teams.value = response.data.map((o: Team) => { return { value: o.id, label: o.name } })
+      teams.value = response.data.map((o: Team) => { return { value: o.id, label: o.name, subLabel: `${o.first_name} ${o.last_name}` } })
       loading.value = false
     })
   }).catch(error => {
