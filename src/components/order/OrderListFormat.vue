@@ -36,7 +36,8 @@
     o.team.last_name }})</span></div>
                 <div class="flex items-center text-black">
                   <OrderProductCategoryDisplay :o="o" />
-                  <span v-if="bookingId" class="q-mr-sm q-ml-xs">{{ o.contractor.contractor_badge_name }}</span>
+                  <span v-if="bookingId && o.contractor" class="q-mr-sm q-ml-xs">{{ o.contractor.contractor_badge_name
+                  }}</span>
                   <q-badge :label="`DUE: ${displayDateDue(o.invoice.due_date)}`" v-if="o.invoice && o.invoice.due_date" />
                   <div v-if="o.team.suburbpostcoderegion">
                     <q-btn flat dense color="grey-9" v-if="o.suburbpostcoderegion && o.country">
