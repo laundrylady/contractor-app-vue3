@@ -48,8 +48,8 @@
             <q-space />
             <div class="text-right">
               <div class="text-bold text-h6">{{ currencyFormat(props.row.grand_total_price) }}</div>
-              <q-btn flat @click="openURL(`/api/public/invoice/pdf/${props.row.id} `)" icon="picture_as_pdf"
-                title="Print Invoice" round />
+              <q-btn flat @click="openURL(`/invoice/print/${props.row.id} `)" icon="picture_as_pdf" title="Print Invoice"
+                round />
             </div>
           </q-card-section>
         </q-card>
@@ -101,8 +101,8 @@
       </template>
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">
-          <q-btn flat @click="openURL(`/ api / public / invoice / pdf / ${props.row.id} `)" icon="picture_as_pdf"
-            title="Print Invoice" round />
+          <q-btn flat @click="openURL(`/invoice/print/${props.row.id} `)" icon="picture_as_pdf" title="Print Invoice"
+            round />
         </q-td>
       </template>
     </q-table>
