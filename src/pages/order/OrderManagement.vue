@@ -24,7 +24,7 @@
           </div>
           <div class="flex q-mt-md">
             <q-select v-model="search.status" dense outlined @update:model-value="request()" label="Booking Status"
-              :options="[{ value: 'confirmed', label: 'Confirmed' }, { value: 'in_progress', label: 'In Progress' }, { value: 'AUTHORIZED', label: 'Awaiting Payment' }, { value: 'ready_for_delivery', label: 'Ready for Delivery' }, { value: 'completed', label: 'Completed' }]"
+              :options="[{ value: 'confirmed', label: 'Confirmed' }, { value: 'in_progress', label: 'In Progress' }, { value: 'AUTHORIZED', label: 'Awaiting Payment' }, { value: 'ready_for_delivery', label: 'Ready for Delivery' }, { value: 'completed', label: 'Completed' }, { value: 'cancelled', label: 'Cancelled' }]"
               map-options emit-value class="col-grow" />
             <div class="col-shrink">
               <q-toggle v-model="search.recurring" label="Recurring" @update:model-value="toggleRecurring()" />
@@ -34,7 +34,7 @@
           <div class="row q-col-gutter-md q-mt-xs q-mb-md" v-if="showFilters">
             <div class="col-xs-12 col-lg-6">
               <TeamField v-model="search.team_id" :label="$t('team.name')" :dense="true" :outlined="true" status="active"
-                :clearable="true" />
+                :clearable="true" @update:model-value="request()" />
             </div>
             <div class="col-xs-6 col-lg-3">
               <DateField v-model="search.start" label="Start" :dense="true" :outlined="true" :clearable="true"
@@ -65,7 +65,6 @@
   </q-layout>
 </template>
 <script setup lang="ts">
-import moment from 'moment-timezone'
 import { EventBus, QTableProps } from 'quasar'
 import { api } from 'src/boot/axios'
 import DateField from 'src/components/form/DateField.vue'
@@ -165,9 +164,6 @@ const toggleRecurring = () => {
     search.status = ''
     search.start = null
     search.end = null
-  } else {
-    search.start = moment().startOf('isoWeek').format('DD/MM/YYYY')
-    search.end = moment().endOf('isoWeek').format('DD/MM/YYYY')
   }
   request()
 }

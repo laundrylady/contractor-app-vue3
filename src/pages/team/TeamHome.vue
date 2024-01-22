@@ -129,7 +129,7 @@ const route = useRoute()
 const $q = useQuasar()
 const common = useMixinCommon()
 const bus = inject('bus') as EventBus
-const drawer = reactive({ left: !$q.screen.xs, right: true })
+const drawer = reactive({ left: $q.screen.gt.md, right: true })
 const model = ref<Team>()
 
 const getTeam = async () => {

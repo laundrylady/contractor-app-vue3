@@ -340,7 +340,14 @@
           :options="cancelOrderReasons" bottom-slots />
         <q-input v-model="localModel.cancel_notes" label="Extra notes for the customer" type="textarea" rows="3" outlined
           bottom-slots />
-        <q-checkbox v-model="localModel.cancel_rebook" label="Booking needs rescheduling" /> </q-card-section>
+        <div>
+          <q-checkbox v-model="localModel.cancel_rebook" label="Booking needs rescheduling" />
+        </div>
+        <div v-if="localModel.recurring_order">
+          <q-checkbox v-model="localModel.cancel_recurring" label="Cancel all future recurring bookings" />
+        </div>
+      </q-card-section>
+
       <q-card-actions>
         <q-btn v-close-popup flat color="secondary" label="Close" rounded />
         <q-space />
@@ -593,47 +600,21 @@ const save = () => {
 }
 
 const cancelOrder = () => {
-  if (localModel.value.recurring_order) {
-    Dialog.create({
-      title: 'Recurring Booking',
-      message: 'This is a recurring booking and has future bookings attached. Do you want to cancel all future bookings also?',
-      ok: { color: 'primary', rounded: true, label: 'Yes' },
-      cancel: { color: 'secondary', flat: true, rounded: true, label: 'No' }
-    }).onOk(() => {
-      localModel.value.recurring_order = false
-      loadingCancel.value = true
-      api.put(`/public/order/cancel/${props.model.id}`, localModel.value).then(() => {
-        emits('update:order')
-        bus.emit('getDashboardStats')
-        showCancelOrder.value = false
-        loadingCancel.value = false
-      }).catch(error => {
-        useMixinDebug(error)
-      })
-    }).onCancel(() => {
-      loadingCancel.value = true
-      api.put(`/public/order/cancel/${props.model.id}`, localModel.value).then(() => {
-        emits('update:order')
-        bus.emit('getDashboardStats')
-        showCancelOrder.value = false
-        loadingCancel.value = false
-      }).catch(error => {
-        useMixinDebug(error)
-      })
-    })
-  } else {
-    confirmDelete('This will cancel the order').onOk(() => {
-      loadingCancel.value = true
-      api.put(`/public/order/cancel/${props.model.id}`, localModel.value).then(() => {
-        emits('update:order')
-        bus.emit('getDashboardStats')
-        showCancelOrder.value = false
-        loadingCancel.value = false
-      }).catch(error => {
-        useMixinDebug(error)
-      })
-    })
+  let message = 'This will cancel the order'
+  if (localModel.value.cancel_recurring) {
+    message = 'This will cancel this booking and all future recurring bookings'
   }
+  confirmDelete(message).onOk(() => {
+    loadingCancel.value = true
+    api.put(`/public/order/cancel/${props.model.id}`, localModel.value).then(() => {
+      emits('update:order')
+      bus.emit('getDashboardStats')
+      showCancelOrder.value = false
+      loadingCancel.value = false
+    }).catch(error => {
+      useMixinDebug(error)
+    })
+  })
 }
 
 const saveInvoice = () => {

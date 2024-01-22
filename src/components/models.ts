@@ -604,7 +604,8 @@ export interface Order {
   cancel_by?:string|null,
   changes_reason?:string|null,
   changes_notes?:string|null,
-  cancellation_terms?:boolean
+  cancellation_terms?:boolean,
+  cancel_recurring?:boolean,
 }
 
 export interface OrderForm {

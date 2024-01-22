@@ -10,7 +10,7 @@
   </div>
   <div class="flex q-mt-md">
     <q-select v-model="search.status" dense outlined @update:model-value="request()" label="Booking Status"
-      :options="[{ value: 'confirmed', label: 'Confirmed' }, { value: 'in_progress', label: 'In Progress' }, { value: 'AUTHORIZED', label: 'Awaiting Payment' }, { value: 'ready_for_delivery', label: 'Ready for Delivery' }, { value: 'completed', label: 'Completed' }]"
+      :options="[{ value: 'confirmed', label: 'Confirmed' }, { value: 'in_progress', label: 'In Progress' }, { value: 'AUTHORIZED', label: 'Awaiting Payment' }, { value: 'ready_for_delivery', label: 'Ready for Delivery' }, { value: 'completed', label: 'Completed' }, { value: 'cancelled', label: 'Cancelled' }]"
       map-options emit-value class="col-grow" />
     <div class="col-shrink">
       <q-toggle v-model="search.recurring" label="Recurring" @update:model-value="toggleRecurring()" />
@@ -43,7 +43,6 @@
   </q-card>
 </template>
 <script setup lang="ts">
-import moment from 'moment-timezone'
 import { EventBus, QTableProps } from 'quasar'
 import { api } from 'src/boot/axios'
 import DateField from 'src/components/form/DateField.vue'
@@ -73,9 +72,9 @@ interface Search {
 }
 const search = reactive<Search>({
   team_id: null,
-  start: moment().startOf('isoWeek').format('DD/MM/YYYY'),
-  end: moment().endOf('isoWeek').format('DD/MM/YYYY'),
-  status: '',
+  start: null,
+  end: null,
+  status: 'confirmed',
   recurring: false
 })
 const columns: QTableProps['columns'] = [{
@@ -150,9 +149,6 @@ const toggleRecurring = () => {
     search.status = ''
     search.start = null
     search.end = null
-  } else {
-    search.start = moment().startOf('isoWeek').format('DD/MM/YYYY')
-    search.end = moment().endOf('isoWeek').format('DD/MM/YYYY')
   }
   request()
 }
