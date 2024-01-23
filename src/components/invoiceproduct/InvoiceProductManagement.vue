@@ -93,8 +93,8 @@
         <div v-for="n in notificationHistory" :key="n.id" class="text-grey">
           {{ dateTimeTz(n.created_at) }} -
           <span v-if="n.subject === 'Invoice Ready For Payment'">Sent for payment </span>
-          <span v-if="n.subject && n.subject.match('Reminder')">Payment reminder </span>
-          <span v-if="n.subject && !n.subject.match('Reminder') && n.subject !== 'Invoice Ready For Payment'">Invoice
+          <span v-if="n.subject && n.subject.match('reminder')">Payment reminder </span>
+          <span v-if="n.subject && !n.subject.match('reminder') && n.subject !== 'Invoice Ready For Payment'">Invoice
             emailed
           </span> to <span class="text-wrap">{{ n.to }}<span v-if="n.cc && n.cc.length"><span v-for="(c, index) in n.cc"
                 :key="`${c}-${index}`">, {{ c }}</span></span></span>
