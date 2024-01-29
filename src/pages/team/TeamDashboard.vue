@@ -34,6 +34,8 @@
               <div class="col-xs-12 col-sm-6">
                 <q-input v-model="localModel.other_phone" :error="$v.other_phone.$invalid"
                   label="Alternate contact number" outlined :disable="isEditLocked" unmasked-value />
+              </div>
+              <div class="col-xs-12 col-sm-6">
                 <q-input v-model="localModel.email" label="Email" outlined bottom-slots :error="$v.email.$invalid"
                   @blur="checkEmail()" :disable="isEditLocked" />
               </div>
@@ -183,10 +185,10 @@
         <q-toolbar-title>Email Found</q-toolbar-title>
         <q-btn v-close-popup icon="close" flat round dense />
       </q-toolbar>
-      <q-card-section>A customer with that email address already exists.
-        <router-link :to="{ name: 'team-dashboard', params: { id: emailError.id } }" class="link">Click here to view
+      <q-card-section>A customer with that email address already exists.<br />
+        <a @click="teamEmailNavigate()" class="link">Click here to view
           customer: {{ emailError.name
-          }}</router-link>
+          }}</a>
       </q-card-section>
     </q-card></q-dialog>
 </template>
@@ -207,6 +209,7 @@ import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
 import CountryField from 'src/components/form/CountryField.vue'
 import DateField from 'src/components/form/DateField.vue'
 import FormValidationInclude from 'src/components/form/FormValidationInclude.vue'
+import { useRouter } from 'vue-router'
 
 interface Props {
   model: Team
@@ -219,6 +222,7 @@ const isEditLocked = ref(true)
 const bus = inject('bus') as EventBus
 const common = useMixinCommon()
 const originalModel = ref()
+const router = useRouter()
 
 const customerTypes = computed(() => {
   if (common?.value?.operating_country === 'aud') {
@@ -267,6 +271,11 @@ const checkEmail = () => {
     emailError.value.show = true
     localModel.value.email = ''
   })
+}
+
+const teamEmailNavigate = () => {
+  isEditLocked.value = true
+  router.push({ name: 'team-dashboard', params: { id: emailError.value.id } })
 }
 
 const cancelEdit = () => {
