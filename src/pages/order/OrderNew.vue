@@ -197,11 +197,13 @@
                         <div class="col-xs-12 col-sm-6">
                           <q-input v-model="model.team.mobile" :error="$v.team.mobile.$invalid"
                             :label="common?.operating_country === 'aud' ? 'Your Australian mobile number' : 'Your contact mobile'"
-                            outlined :mask="common?.operating_country === 'aud' ? '#### ### ###' : ''" maxlength="20" />
+                            outlined :mask="common?.operating_country === 'aud' ? '#### ### ###' : ''" maxlength="20"
+                            error-message="Use the alternate contact number field if you do not have an Australian mobile number"
+                            hint="Use the alternate contact number field if you do not have an Australian mobile number" />
                         </div>
                         <div class="col-xs-12 col-sm-6">
                           <q-input v-model="model.team.other_phone" :error="$v.team.other_phone.$invalid"
-                            label="Alternative contact mobile number" outlined />
+                            label="Alternate contact number" outlined />
                         </div>
                       </div>
                       <div v-if="model.team.type === 'NDIS'">

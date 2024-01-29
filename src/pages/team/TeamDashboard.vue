@@ -33,7 +33,7 @@
               </div>
               <div class="col-xs-12 col-sm-6">
                 <q-input v-model="localModel.other_phone" :error="$v.other_phone.$invalid"
-                  label="Alternative contact number" outlined :disable="isEditLocked" unmasked-value />
+                  label="Alternate contact number" outlined :disable="isEditLocked" unmasked-value />
                 <q-input v-model="localModel.email" label="Email" outlined bottom-slots :error="$v.email.$invalid"
                   @blur="checkEmail()" :disable="isEditLocked" />
               </div>
