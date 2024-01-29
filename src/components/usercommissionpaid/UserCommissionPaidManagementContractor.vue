@@ -1,4 +1,10 @@
 <template>
+  <div class="text-right q-pr-md q-mb-sm">
+    <q-btn
+      @click="openURL('https://teamlaundrylady.co/a/docs/payments-and-commissions/when-and-how-you-will-receive-your-payments')"
+      icon="question_mark" round color="primary" size="sm"
+      title="Click here for more information regarding commission payments" />
+  </div>
   <q-table :rows="data" :columns="columns" row-key="id" :loading="loading" v-model:pagination="serverPagination"
     @request="request" :rows-per-page-options="rowsPerPageOptions" hide-header flat>
     <template v-slot:body-cell-commission_paid_date="props">
@@ -7,10 +13,10 @@
           <div>
             <div class="text-h6">{{ currencyFormat(props.row.commission_paid_amount_grand) }}</div>
             <div>Week: {{ dbDateDisplay(props.row.start) }} -> {{ dbDateDisplay(props.row.end) }}</div>
-            <a class="link items-center flex"
-              @click="openURL(`/api/public/usercommissionpaid/statement/${props.row.id}`)"><q-icon name="print"
-                class="q-mr-xs" />
+            <a class="link items-center flex" @click="openURL(`/api/public/usercommissionpaid/statement/${props.row.id}`)"
+              v-if="parseFloat(props.row.commission_paid_amount_grand) > 0"><q-icon name="print" class="q-mr-xs" />
               Statement</a>
+            <div v-if="parseFloat(props.row.commission_paid_amount_grand) === 0">No payments received</div>
           </div>
         </div>
       </q-td>

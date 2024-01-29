@@ -263,7 +263,12 @@ const canSend = computed(() => {
   if (localModel.value.status === 'PAID') {
     return false
   }
+  // customer check
   if (sendOnceTypes.indexOf(props.team.type) !== -1 && localModel.value.sent_for_payment) {
+    return false
+  }
+  // products check
+  if (!serviceFeeOther.value) {
     return false
   }
   return true

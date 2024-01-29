@@ -23,7 +23,8 @@
               <q-icon name="phone" />
             </q-item-section>
             <q-item-section>
-              <a :href="`tel:${model.mobile}`" class="link">{{ model.mobile }}</a>
+              <a :href="`tel:${model.mobile || model.other_phone}`" class="link">{{ model.mobile || model.other_phone
+              }}</a>
             </q-item-section>
           </q-item>
           <q-item>
@@ -63,7 +64,7 @@
             <div class="col-xs-12 col-sm-8">
               <div class="flex">
                 <div class="full-width">
-                  <div class="text-h5 items-center flex full-width">
+                  <div class="text-h5 items-center flex full-width no-wrap">
                     <div>
                       {{ model.name }}
                     </div>
@@ -84,10 +85,13 @@
                     <span v-if="common?.operating_country === 'aud' && model.suburbpostcoderegion" class="q-ml-xs">{{
                       model.suburbpostcoderegion.state }}</span>
                   </div>
-                  <div class="q-mb-xs"><q-icon name="phone" /> {{ model.mobile }}</div>
+                  <div class="q-mb-xs"><q-icon name="phone" /> {{ model.mobile || model.other_phone }}</div>
                   <div class="text-wrap q-mb-xs"><q-icon name="mail" /> {{ model.email }}</div>
-                  <div class="q-mb-xs"><q-icon name="payments" /> {{ model.payment_terms }} - {{
-                    model.payment_terms_days }} days</div>
+                  <div class="q-mb-xs"><q-icon name="payments" /> <span v-if="!model.statement">{{ model.payment_terms }}
+                      -
+                      {{
+                        model.payment_terms_days }} days</span> <span v-if="model.statement">Statement - {{
+    model.statement_frequency }}</span></div>
                 </div>
               </div>
             </div>

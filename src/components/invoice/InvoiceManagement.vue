@@ -32,7 +32,7 @@
       :rows-per-page-options="rowsPerPageOptions" :grid="$q.screen.xs">
       <template v-slot:item="props">
         <q-card class="col-xs-12">
-          <q-card-section class="flex">
+          <q-card-section class="flex no-wrap">
             <div>#{{ props.row.display_id }} | {{ props.row.invoice_date }}
               <div>
                 <router-link :to="{ name: 'order-edit', params: { id: props.row.order.id } }" class="link"
@@ -43,6 +43,8 @@
                   v-if="props.row.team">{{ props.row.team.name }}</router-link>
               </div>
               <StatusTag :status="props.row.status" v-if="props.row.status !== 'AUTHORISED'" :text-only="true" />
+              <span v-if="props.row.status === 'PAID'"> - {{ dbDateDisplay(props.row.paid_date) }}
+              </span>
               <StatusTag status="Awaiting Payment" v-if="props.row.status === 'AUTHORISED'" :text-only="true" />
             </div>
             <q-space />
@@ -115,7 +117,7 @@ import StatusTag from 'src/components/StatusTag.vue'
 import UserAvatar from 'src/components/UserAvatar.vue'
 import DateFieldSlim from 'src/components/form/DateFieldSlim.vue'
 import { useMixinDebug } from 'src/mixins/debug'
-import { currencyFormat, getRowsPerPage, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
+import { currencyFormat, dbDateDisplay, getRowsPerPage, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
 import { onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 

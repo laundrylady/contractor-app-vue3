@@ -19,7 +19,8 @@
               <q-icon name="phone" />
             </q-item-section>
             <q-item-section>
-              <a :href="`tel:${model.team.mobile}`" class="link">{{ model.team.mobile }}</a>
+              <a :href="`tel:${model.team.mobile || model.team.other_phone}`" class="link">{{ model.team.mobile ||
+                model.team.other_phone }}</a>
             </q-item-section>
           </q-item>
           <q-item>
@@ -107,8 +108,10 @@
                     </div>
                   </div>
                 </div>
-                <div v-if="model.team"><q-icon name="payments" /> {{ model.team.payment_terms }} - {{
-                  model.team.payment_terms_days }} days <q-badge
+                <div v-if="model.team"><q-icon name="payments" /> <span v-if="!model.team.statement">{{
+                  model.team.payment_terms }} - {{
+    model.team.payment_terms_days }} days</span><span v-if="model.team.statement">Statement - {{
+    model.team.statement_frequency }}</span> <q-badge
                     v-if="model.team.owing_no_booking || model.team.status === 'blocked'" label="Blocked from bookings"
                     title="Blocked from bookings" /></div>
                 <div class="q-mt-xs">

@@ -78,7 +78,7 @@ const common = useMixinCommon()
 
 // check for lockout
 setInterval(() => {
-  isLocked.value = !!(user.value && user.value.lastRequest && moment().diff(user.value.lastRequest, 'minutes') >= 120)
+  isLocked.value = !!(user.value && user.value.lastRequest && moment().diff(user.value.lastRequest, 'minutes') >= 18720)
 }, 1000)
 
 const logout = () => {

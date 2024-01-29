@@ -8,8 +8,8 @@
       <q-card-section>
         <div class="q-pa-md bg-grey-2 rounded-borders q-mb-md flex items-center" v-if="validations.length">
           <div>
-            <div class="text-medium">Please correct the following issues:</div>
-            <ul style="list-style: none;">
+            <div class="text-medium text-bold">Please correct the following issues:</div>
+            <ul style="list-style: none;" class="q-pl-none">
               <li v-for="(v, index) in validations" :key="index">
                 Field: {{ v.field }}
                 <div>Error: {{ v.message }}</div>

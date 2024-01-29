@@ -62,14 +62,12 @@ import { email, required } from '@vuelidate/validators'
 import { api } from 'src/boot/axios'
 import AppLogo from 'src/components/AppLogo.vue'
 import { GiftVoucher } from 'src/components/models'
-import { useMixinCommon } from 'src/mixins/common'
 import { useMixinDebug } from 'src/mixins/debug'
-import { reactive, ref, onMounted } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const loading = ref(false)
 const iframed = ref(false)
-const common = useMixinCommon()
 const route = useRoute()
 const model = reactive<GiftVoucher>({
   first_name: null,
@@ -95,19 +93,7 @@ const rules = {
   send_to: { required }
 }
 
-const voucherOptions = common.value?.operating_country === 'aud' ? [
-  { value: 55, label: '$55 gift voucher' },
-  { value: 70, label: '$70 gift voucher' },
-  { value: 100, label: '$100 gift voucher' },
-  { value: 150, label: '$150 gift voucher' },
-  { value: 200, label: '$200 gift voucher' },
-  { value: 250, label: '$250 gift voucher' },
-  { value: 300, label: '$300 gift voucher' },
-  { value: 400, label: '$400 gift voucher' },
-  { value: 500, label: '$500 gift voucher' },
-  { value: 700, label: '$700 gift voucher' },
-  { value: 1000, label: '$1000 gift voucher' }
-] : [
+const voucherOptions = [
   { value: 60, label: '$60 gift voucher' },
   { value: 100, label: '$100 gift voucher' },
   { value: 150, label: '$150 gift voucher' },

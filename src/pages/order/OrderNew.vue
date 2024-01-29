@@ -196,8 +196,12 @@
                         </div>
                         <div class="col-xs-12 col-sm-6">
                           <q-input v-model="model.team.mobile" :error="$v.team.mobile.$invalid"
-                            label="Your contact mobile number" outlined
-                            :mask="common?.operating_country === 'aud' ? '#### ### ###' : ''" maxlength="20" />
+                            :label="common?.operating_country === 'aud' ? 'Your Australian mobile number' : 'Your contact mobile'"
+                            outlined :mask="common?.operating_country === 'aud' ? '#### ### ###' : ''" maxlength="20" />
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                          <q-input v-model="model.team.other_phone" :error="$v.team.other_phone.$invalid"
+                            label="Alternative contact mobile number" outlined />
                         </div>
                       </div>
                       <div v-if="model.team.type === 'NDIS'">
@@ -350,19 +354,19 @@ import { EventBus, useQuasar } from 'quasar'
 import { api } from 'src/boot/axios'
 import AddressSearch from 'src/components/form/AddressSearch.vue'
 import CountryField from 'src/components/form/CountryField.vue'
+import DateFieldVue from 'src/components/form/DateField.vue'
 import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
 import OrderNewSummary from 'src/components/order/OrderNewSummary.vue'
+import { LooseObject } from 'src/contracts/LooseObject'
+import { useMixinCommon } from 'src/mixins/common'
 import { useMixinDebug } from 'src/mixins/debug'
 import { categoryDisplay, confirmDelete } from 'src/mixins/help'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
-import { inject, onBeforeUnmount, onMounted, reactive, ref, computed } from 'vue'
+import { computed, inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import AppLogo from '../../components/AppLogo.vue'
 import { Order, QDateNavigation } from '../../components/models'
 import OrderContractorManagement from '../../components/order/OrderContractorManagement.vue'
-import { useMixinCommon } from 'src/mixins/common'
-import { useRoute } from 'vue-router'
-import { LooseObject } from 'src/contracts/LooseObject'
-import DateFieldVue from 'src/components/form/DateField.vue'
 
 const step = ref(1)
 const washingAndIroning = ref(false)
@@ -403,6 +407,7 @@ const schema = {
     type: null,
     email: null,
     mobile: null,
+    other_phone: null,
     // NDIS
     ndis_number: null,
     ndis_type: null,
@@ -514,7 +519,8 @@ const rules = {
     last_name: { required },
     type: { required },
     email: { required, email },
-    mobile: { required },
+    mobile: { requiredIf: requiredIf(() => !model.team.other_phone) },
+    other_phone: { requiredIf: requiredIf(() => !model.team.mobile) },
     ndis_number: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
     ndis_type: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
     abn: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1) },
