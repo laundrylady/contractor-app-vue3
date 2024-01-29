@@ -43,7 +43,7 @@
                   v-if="props.row.team">{{ props.row.team.name }}</router-link>
               </div>
               <StatusTag :status="props.row.status" v-if="props.row.status !== 'AUTHORISED'" :text-only="true" />
-              <span v-if="props.row.status === 'PAID'"> - {{ dbDateDisplay(props.row.paid_date) }}
+              <span v-if="props.row.status === 'PAID' && props.row.paid_date"> - {{ dbDateDisplay(props.row.paid_date) }}
               </span>
               <StatusTag status="Awaiting Payment" v-if="props.row.status === 'AUTHORISED'" :text-only="true" />
             </div>
@@ -94,6 +94,9 @@
             <div>
               <StatusTag :status="props.row.status" v-if="props.row.status !== 'AUTHORISED'" />
               <StatusTag status="Awaiting Payment" v-if="props.row.status === 'AUTHORISED'" />
+              <span v-if="props.row.status === 'PAID' && props.row.paid_date" class="q-ml-sm">{{
+                dbDateDisplay(props.row.paid_date) }}
+              </span>
             </div>
             <div v-if="props.row.meta.refunds > 0" class="q-ml-sm" title="Has Refunds"><q-icon name="sync"
                 color="negative" size="22px" />
