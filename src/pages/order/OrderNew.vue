@@ -154,10 +154,6 @@
                         <q-select v-model="model.team.type" :error="$v.team.type.$invalid" :label="$t('team.type')"
                           :options="customerTypes" outlined />
                       </div>
-                      <div class="col-xs-12 col-sm-6" v-if="model.team.type === 'Business'">
-                        <q-select v-model="model.team.payment_terms" :options="['Credit Card', 'Bank Transfer']"
-                          label="Payment via" outlined :error="$v.team.payment_terms.$invalid" />
-                      </div>
                     </div>
                     <div v-if="model.team.type === 'NDIS'" class="bg-primary text-white q-pa-md q-mb-lg">
                       To claim laundry services under NDIS you MUST have item number
@@ -422,8 +418,7 @@ const schema = {
     ndis_funds: false,
     ndis_payment: 'self',
     abn: null,
-    marketing_subscribed: true,
-    payment_terms: 'Credit Card'
+    marketing_subscribed: true
   }
 }
 
@@ -525,8 +520,7 @@ const rules = {
     other_phone: { requiredIf: requiredIf(() => !model.team.mobile) },
     ndis_number: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
     ndis_type: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
-    abn: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1) },
-    payment_terms: { required }
+    abn: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1) }
   }
 }
 
