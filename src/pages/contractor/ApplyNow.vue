@@ -192,14 +192,6 @@ const applyNow = () => {
   success.value = false
   api.post('/auth/contractor/applynow', model).then(() => {
     success.value = true
-    // FB Meta Pixel
-    try {
-      // eslint-disable-next-line
-      // @ts-ignore
-      window.fbq('track', 'PageView')
-    } catch (error) {
-      console.log(error)
-    }
   }).catch(error => {
     useMixinDebug(error)
   })
@@ -232,6 +224,9 @@ onMounted(() => {
     // eslint-disable-next-line
     // @ts-ignore
     window.fbq('init', fbmpid)
+    // eslint-disable-next-line
+    // @ts-ignore
+    window.fbq('track', 'PageView')
   } catch (error) {
     console.log(error)
   }

@@ -602,14 +602,6 @@ const save = () => {
       success.value = true
       confirming.value = false
       $q.loading.hide()
-      // FB Meta Pixel
-      try {
-        // eslint-disable-next-line
-        // @ts-ignore
-        window.fbq('track', 'PageView')
-      } catch (error) {
-        console.log(error)
-      }
     }).catch(responseError => {
       confirming.value = false
       error.value = true
@@ -661,6 +653,9 @@ onMounted(async () => {
     // eslint-disable-next-line
     // @ts-ignore
     window.fbq('init', fbmpid)
+    // eslint-disable-next-line
+    // @ts-ignore
+    window.fbq('track', 'PageView')
   } catch (error) {
     console.log(error)
   }
