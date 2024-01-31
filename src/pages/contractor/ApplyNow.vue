@@ -192,6 +192,14 @@ const applyNow = () => {
   success.value = false
   api.post('/auth/contractor/applynow', model).then(() => {
     success.value = true
+    // FB Meta Pixel
+    try {
+      // eslint-disable-next-line
+      // @ts-ignore
+      window.fbq('track', 'PageView')
+    } catch (error) {
+      console.log(error)
+    }
   }).catch(error => {
     useMixinDebug(error)
   })
@@ -214,6 +222,18 @@ onMounted(() => {
   // check for iframe
   if (route.query.iframed) {
     iframed.value = true
+  }
+  // FB Meta Pixel
+  try {
+    let fbmpid = '1797469603884044'
+    if (window.location.hostname.match('.nz')) {
+      fbmpid = '1885184374985412'
+    }
+    // eslint-disable-next-line
+    // @ts-ignore
+    window.fbq('init', fbmpid)
+  } catch (error) {
+    console.log(error)
   }
 })
 </script>
