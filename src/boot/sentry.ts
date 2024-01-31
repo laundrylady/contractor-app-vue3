@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/vue'
-
 import { boot } from 'quasar/wrappers'
 
 // "async" is optional;
