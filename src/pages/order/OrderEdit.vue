@@ -343,7 +343,7 @@
         <div>
           <q-checkbox v-model="localModel.cancel_rebook" label="Booking needs rescheduling" />
         </div>
-        <div v-if="localModel.recurring_order">
+        <div v-if="localModel.recurring_order || localModel.recurring_parent_id">
           <q-checkbox v-model="localModel.cancel_recurring" label="Cancel all future recurring bookings" />
         </div>
       </q-card-section>
