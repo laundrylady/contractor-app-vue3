@@ -46,6 +46,7 @@
               <span v-if="props.row.status === 'PAID' && props.row.paid_date"> - {{ dbDateDisplay(props.row.paid_date) }}
               </span>
               <StatusTag status="Awaiting Payment" v-if="props.row.status === 'AUTHORISED'" :text-only="true" />
+              <div class="text-red" v-if="props.row.owing > 0">Owing: {{ currencyFormat(props.row.owing) }}</div>
             </div>
             <q-space />
             <div class="text-right">
@@ -70,6 +71,11 @@
       <template v-slot:body-cell-total_price="props">
         <q-td :props="props">
           {{ currencyFormat(props.row.grand_total_price) }}
+        </q-td>
+      </template>
+      <template v-slot:body-cell-owing="props">
+        <q-td :props="props">
+          <span :class="{ 'text-red': props.row.owing > 0 }">{{ currencyFormat(props.row.owing) }}</span>
         </q-td>
       </template>
       <template v-slot:body-cell-team_id="props">
@@ -167,6 +173,12 @@ const columns: QTableProps['columns'] = [{
   align: 'left',
   field: 'total_price',
   sortable: true
+}, {
+  name: 'owing',
+  label: 'Owing',
+  align: 'left',
+  field: 'owing',
+  sortable: false
 }, {
   name: 'status',
   label: 'Status',

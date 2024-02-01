@@ -18,7 +18,7 @@ export default boot(({ app, router }) => {
       // of transactions for performance monitoring.
       // We recommend adjusting this value in production
       tracesSampleRate: 0,
-      ignoreErrors: ['TypeError: Failed to fetch dynamically imported module']
+      ignoreErrors: ['Failed to fetch dynamically imported module']
     })
   }
 })
