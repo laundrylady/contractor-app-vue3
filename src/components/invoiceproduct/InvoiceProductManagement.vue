@@ -417,10 +417,10 @@ const checkGvDc = () => {
   if (gfDcCode.value) {
     loading.value = true
     api.post('/public/invoice/giftvoucherdiscountcoupon', { code: gfDcCode.value, invoice_id: localModel.value.id }).then(response => {
-      if (response.data.result.giftVoucher) {
+      if (response.data.result && response.data.result.giftVoucher) {
         doNotify('positive', 'Gift voucher payment applied')
         emits('update:order')
-      } else if (response.data.result.discountCode) {
+      } else if (response.data.result && response.data.result.discountCode) {
         if (!response.data.error) {
           doNotify('positive', 'Discount applied')
           emits('update:order')
