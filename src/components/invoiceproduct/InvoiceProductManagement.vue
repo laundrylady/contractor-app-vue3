@@ -75,7 +75,7 @@
     </div>
     <q-input v-model="localModel.invoice_po" :label="$t('team.invoicePo')" outlined dense class="q-mt-md">
       <template v-slot:append>
-        <q-btn @click="save()" label="Save" color="primary" size="sm" rounded />
+        <q-btn @click="saveDetail()" label="Save" color="primary" size="sm" rounded />
       </template>
     </q-input>
     <div class="q-mt-md items-center q-pb-md">
@@ -92,9 +92,9 @@
         <q-separator class="q-mt-md q-mb-sm" />
         <div v-for="n in notificationHistory" :key="n.id" class="text-grey">
           {{ dateTimeTz(n.created_at) }} -
-          <span v-if="n.subject === 'Invoice Ready For Payment'">Sent for payment </span>
+          <span v-if="n.subject && n.subject.match('Ready For Payment')">Sent for payment </span>
           <span v-if="n.subject && n.subject.match('reminder')">Payment reminder </span>
-          <span v-if="n.subject && !n.subject.match('reminder') && n.subject !== 'Invoice Ready For Payment'">Invoice
+          <span v-if="n.subject && !n.subject.match('reminder') && !n.subject.match('Ready For Payment')">Invoice
             emailed
           </span> to <span class="text-wrap">{{ n.to }}<span v-if="n.cc && n.cc.length"><span v-for="(c, index) in n.cc"
                 :key="`${c}-${index}`">, {{ c }}</span></span></span>
@@ -385,12 +385,26 @@ const manualQty = (qty: number | null | string) => {
   save()
 }
 
+const saveDetail = () => {
+  if (!localModel.value.id) {
+    return true
+  }
+  loading.value = true
+  api.put(`/public/invoice/${localModel.value.id}`, localModel.value).then(() => {
+    loading.value = false
+    emits('update:products')
+  }).catch(error => {
+    loading.value = false
+    useMixinDebug(error)
+  })
+}
+
 const save = () => {
   if (!localModel.value.id) {
     return true
   }
   loading.value = true
-  api.put(`/public/invoice/${localModel.value.id}?cp=true`, localModel.value).then(() => {
+  api.put(`/public/invoice/products/${localModel.value.id}?cp=true`, localModel.value).then(() => {
     loading.value = false
     emits('update:products')
   }).catch(error => {
@@ -403,10 +417,10 @@ const checkGvDc = () => {
   if (gfDcCode.value) {
     loading.value = true
     api.post('/public/invoice/giftvoucherdiscountcoupon', { code: gfDcCode.value, invoice_id: localModel.value.id }).then(response => {
-      if (response.data.giftVoucher) {
+      if (response.data.result.giftVoucher) {
         doNotify('positive', 'Gift voucher payment applied')
         emits('update:order')
-      } else if (response.data.discountCode) {
+      } else if (response.data.result.discountCode) {
         if (!response.data.error) {
           doNotify('positive', 'Discount applied')
           emits('update:order')
