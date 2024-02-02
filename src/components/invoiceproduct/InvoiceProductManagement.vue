@@ -7,8 +7,8 @@
         <div>{{ p.name }}
           <div>
             <span class="text-grey q-mr-sm">{{ currencyFormat(p.price) }}</span>
-            <a @click="removeProduct(index)" class="link text-caption"
-              v-if="nonEditableProducts.indexOf(p.product_id) === -1 && nonEditableProductCategories.indexOf(p.product.product_category_id) === -1 && canEdit && p.product_id !== 26">Remove</a>
+            <a @click="removeProduct(p.id)" class="link text-caption"
+              v-if="p.id && nonEditableProducts.indexOf(p.product_id) === -1 && nonEditableProductCategories.indexOf(p.product.product_category_id) === -1 && canEdit && p.product_id !== 26">Remove</a>
           </div>
         </div>
       </div>
@@ -329,8 +329,11 @@ const addProduct = () => {
 
 const removeProduct = (index: number) => {
   confirmDelete('This will remove the product from the order permenantly').onOk(() => {
-    localModel.value.products.splice(index, 1)
-    save()
+    const pindex = localModel.value.products.findIndex(o => o.id === index)
+    if (pindex) {
+      localModel.value.products.splice(pindex, 1)
+      save()
+    }
   })
 }
 
