@@ -1,8 +1,8 @@
 <template>
   <div class="q-pl-sm q-pr-sm">
     <div class="row q-pt-md q-pb-md q-col-gutter-xs"
-      v-for="(p, index) in localModel.products.filter(o => o.name !== 'Service Fee')" :key="index"
-      :class="{ 'bg-grey-1': index % 2 !== 0 }">
+      v-for="(p, index) in localModel.products.filter(o => o.name !== 'Service Fee' && o.name !== 'Rounding')"
+      :key="index" :class="{ 'bg-grey-1': index % 2 !== 0 }">
       <div class="col-xs-7 col-sm-9">
         <div>{{ p.name }}
           <div>
