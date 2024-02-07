@@ -74,7 +74,7 @@
                   <q-card-section>
                     <div class="text-h6 q-mb-md flex">Deliveries <q-btn icon="info" @click="showHelp = !showHelp"
                         size="sm" round dense flat /><q-space /><q-btn @click="completeOrderBulk()" label="Complete All"
-                        color="primary" rounded outline v-if="dashboard.readyForDelivery.length" />
+                        color="primary" rounded outline v-if="dashboard.readyForDelivery.length" icon="task_alt" />
                     </div>
                     <p v-if="showHelp">To reorder your bookings, click the <q-icon name="drag_indicator" /> button, drag
                       the
