@@ -158,7 +158,8 @@ export interface User {
   selected?:boolean,
   contractor_gst_registered:boolean,
   current_team_id?:number,
-  import_data_locked: boolean
+  import_data_locked: boolean,
+  updated_at?: string
 }
 
 export interface UserStatusHistory {

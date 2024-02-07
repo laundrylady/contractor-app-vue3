@@ -15,7 +15,7 @@
           @click="openURL(common?.operating_country === 'aud' ? 'https://teamlaundrylady.co/account/login' : 'https://www.teamlaundrylady.co.nz/')" />
         <q-btn flat round>
           <q-avatar size="32px">
-            <q-img src="/api/user/useravatar?fetch=thumb" />
+            <q-img :src="`/api/user/useravatar?fetch=thumb&cb=${user.updated_at || new Date().getTime()}`" />
           </q-avatar>
           <q-menu>
             <q-list>

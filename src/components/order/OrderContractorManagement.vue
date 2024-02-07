@@ -15,7 +15,7 @@
           <q-item-section>
             <div class="flex no-wrap">
               <UserAvatar :user="{
-                id: d.user.id, first_name: d.user.contractor_badge_name, last_name: d.user.contractor_badge_name, fullname: d.user.contractor_badge_name, avatar: d.user.avatar
+                id: d.user.id, first_name: d.user.contractor_badge_name, last_name: d.user.contractor_badge_name, fullname: d.user.contractor_badge_name, avatar: d.user.avatar, updated_at: d.user.updated_at
               }" size="48px" />
               <div class="q-ml-md">
                 <div class="text-primary">{{ d.user.contractor_badge_name }}</div>
