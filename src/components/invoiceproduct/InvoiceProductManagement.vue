@@ -52,16 +52,21 @@
     </div>
     <div v-if="localModel.id">
       <q-separator class="q-mb-sm" />
-      <div class="text-right">
-        <div>Subtotal: {{ currencyFormat(serviceFeeOther ? localModel.grand_total_price : 0) }}</div>
-        <div v-if="serviceFee && serviceFeeOther">Service Fee: {{ currencyFormat(serviceFee.price) }}</div>
-        <div>
-          Total GST: {{ currencyFormat(serviceFeeOther ? localModel.total_price_gst : 0) }}
+      <div class="flex items-start">
+        <q-btn @click="clearProducts()" label="RESET Services" color="negative" flat
+          v-if="localModel.products && localModel.products.filter(o => o.name !== 'Service Fee').length && canEdit"
+          rounded title="Remove all services" />
+        <div class="text-right col-grow">
+          <div>Subtotal: {{ currencyFormat(serviceFeeOther ? localModel.grand_total_price : 0) }}</div>
+          <div v-if="serviceFee && serviceFeeOther">Service Fee: {{ currencyFormat(serviceFee.price) }}</div>
+          <div>
+            Total GST: {{ currencyFormat(serviceFeeOther ? localModel.total_price_gst : 0) }}
+          </div>
+          <div> <span v-if="localModel.sent_for_payment && localModel.status !== 'PAID' && localModel.due_date"
+              class="text-grey q-mr-sm">
+              Due: {{ localModel.due_date }}</span><span class="text-h6">Total: {{
+                currencyFormat(serviceFeeOther ? localModel.grand_total_price : 0) }}</span></div>
         </div>
-        <div> <span v-if="localModel.sent_for_payment && localModel.status !== 'PAID' && localModel.due_date"
-            class="text-grey q-mr-sm">
-            Due: {{ localModel.due_date }}</span><span class="text-h6">Total: {{
-              currencyFormat(serviceFeeOther ? localModel.grand_total_price : 0) }}</span></div>
       </div>
     </div>
     <div v-if="canEdit">
@@ -334,6 +339,16 @@ const removeProduct = (index: number) => {
       localModel.value.products.splice(pindex, 1)
       save()
     }
+  })
+}
+
+const clearProducts = () => {
+  confirmDelete('This will clear all services from the invoice').onOk(() => {
+    api.put(`/public/invoice/clearproducts/${localModel.value.id}`).then(() => {
+      emits('update:order')
+    }).catch(error => {
+      useMixinDebug(error)
+    })
   })
 }
 
