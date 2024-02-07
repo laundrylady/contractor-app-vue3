@@ -20,6 +20,7 @@
             <div class="text-black">Booking: #{{ o.display_id }} <span class="q-ml-sm" v-if="status">
                 <StatusTag :status="o.status" :small="true" />
               </span>
+              <StatusTag status="PAID" small v-if="o.invoice && o.invoice.status === 'PAID'" />
             </div>
             <div>
               <router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link"><span

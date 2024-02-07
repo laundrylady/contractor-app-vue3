@@ -1,6 +1,5 @@
 <template>
-  <q-badge :color="statusColor" :class="{ 'q-pa-xs': small, 'q-pa-sm': !small }" v-if="!textOnly"><q-icon name="check"
-      class="q-mr-xs" v-if="status === 'PAID'" />
+  <q-badge :color="statusColor" :class="{ 'q-pa-xs': small, 'q-pa-sm': !small }" v-if="!textOnly">
     {{ statusText }}</q-badge>
   <span v-if="textOnly">{{ statusText }}</span>
 </template>

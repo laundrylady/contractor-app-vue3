@@ -94,7 +94,6 @@
                         label="Reason for cancellation" :error="$v.cancel_reason.$invalid" />
                       <q-input v-model="model.cancel_notes" label="Notes about the cancellation" type="textarea" rows="3"
                         outlined bottom-slots />
-                      <q-checkbox v-model="model.cancel_rebook" label="Booking needs rescheduling" />
                     </div>
                   </q-card-section>
                   <q-card-actions align="right">

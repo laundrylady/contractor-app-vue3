@@ -72,8 +72,10 @@
               <div class="col-xs-12 col-sm-6">
                 <q-card class="bg-seamless q-mb-lg">
                   <q-card-section>
-                    <div class="text-h6 q-mb-md">Deliveries <q-btn icon="info" @click="showHelp = !showHelp" size="sm"
-                        round dense flat /></div>
+                    <div class="text-h6 q-mb-md flex">Deliveries <q-btn icon="info" @click="showHelp = !showHelp"
+                        size="sm" round dense flat /><q-space /><q-btn @click="completeOrderBulk()" label="Complete All"
+                        color="primary" rounded outline v-if="dashboard.readyForDelivery.length" />
+                    </div>
                     <p v-if="showHelp">To reorder your bookings, click the <q-icon name="drag_indicator" /> button, drag
                       the
                       bookings, then
@@ -105,11 +107,11 @@
   </q-layout>
 </template>
 <script setup lang="ts">
-import { EventBus } from 'quasar'
+import { EventBus, useQuasar } from 'quasar'
 import { api } from 'src/boot/axios'
 import OrderListFormat from 'src/components/order/OrderListFormat.vue'
 import { useMixinDebug } from 'src/mixins/debug'
-import { hourBookingDisplay } from 'src/mixins/help'
+import { confirmDelete, hourBookingDisplay } from 'src/mixins/help'
 import { useMixinSecurity } from 'src/mixins/security'
 import { inject, onBeforeUnmount, onMounted, ref } from 'vue'
 import ContractorNav from './contractor/ContractorNav.vue'
@@ -119,6 +121,7 @@ const dashboard = ref()
 const pickupTab = ref('today')
 const showHelp = ref(false)
 const bus = inject('bus') as EventBus
+const $q = useQuasar()
 
 const getDashboard = () => {
   api.get('/public/user/contractor/dashboard?bare=true').then(response => {
@@ -130,6 +133,19 @@ const getDashboard = () => {
 
 const newOrder = () => {
   bus.emit('newOrder', {})
+}
+
+const completeOrderBulk = () => {
+  confirmDelete('This will mark all deliveries as completed. PLEASE NOTE: This will not send a notification to the customer informing them you are on your way. Use the car icon for this purpose').onOk(() => {
+    $q.loading.show({ message: 'Marking bookings as complete' })
+    api.post('/public/order/completebulk').then(() => {
+      getDashboard()
+      $q.loading.hide()
+    }).catch(error => {
+      $q.loading.hide()
+      useMixinDebug(error)
+    })
+  })
 }
 
 onMounted(() => {

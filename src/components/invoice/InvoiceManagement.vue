@@ -42,8 +42,9 @@
                 <router-link :to="{ name: 'team-dashboard', params: { id: props.row.team_id } }" class="link"
                   v-if="props.row.team">{{ props.row.team.name }}</router-link>
               </div>
-              <StatusTag :status="props.row.status" v-if="props.row.status !== 'AUTHORISED'" :text-only="true" />
-              <span v-if="props.row.status === 'PAID' && props.row.paid_date"> - {{ dbDateDisplay(props.row.paid_date) }}
+              <StatusTag :status="props.row.status" v-if="props.row.status === 'PAID'" small />
+              <span v-if="props.row.status === 'PAID' && props.row.paid_date" class="q-ml-sm">{{
+                dbDateDisplay(props.row.paid_date) }}
               </span>
               <StatusTag status="Awaiting Payment" v-if="props.row.status === 'AUTHORISED'" :text-only="true" />
               <div class="text-red" v-if="props.row.owing > 0">Owing: {{ currencyFormat(props.row.owing) }}</div>

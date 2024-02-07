@@ -330,7 +330,7 @@ const addProduct = () => {
 const removeProduct = (index: number) => {
   confirmDelete('This will remove the product from the order permenantly').onOk(() => {
     const pindex = localModel.value.products.findIndex(o => o.id === index)
-    if (pindex) {
+    if (pindex || pindex === 0) {
       localModel.value.products.splice(pindex, 1)
       save()
     }

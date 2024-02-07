@@ -108,13 +108,16 @@
                     </div>
                   </div>
                 </div>
-                <div v-if="model.team"><q-icon name="payments" /> <span v-if="!model.team.statement">{{
-                  model.team.payment_terms }} - {{
+                <div v-if="model.team"><q-icon name="payments" /> <span
+                    v-if="!model.invoice || model.invoice.status !== 'PAID'"><span v-if="!model.team.statement">{{
+                      model.team.payment_terms }} - {{
     model.team.payment_terms_days }} days</span><span v-if="model.team.statement">Statement - {{
-    model.team.statement_frequency }}</span> <q-badge
+    model.team.statement_frequency }}</span></span>
+                  <StatusTag v-if="model.invoice && model.invoice.status === 'PAID'" status="PAID" small /> <q-badge
                     v-if="model.team.owing_no_booking || model.team.status === 'blocked'" label="Blocked from bookings"
-                    title="Blocked from bookings" /></div>
-                <div class="q-mt-xs">
+                    title="Blocked from bookings" />
+                </div>
+                <div class="q-mt-sm">
                   <StatusTag :status="model.status" />
                 </div>
               </div>
