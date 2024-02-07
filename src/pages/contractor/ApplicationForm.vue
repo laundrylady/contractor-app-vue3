@@ -353,12 +353,19 @@
                     :accept="uploadConfig.documents" :field-name="uploadConfig.fieldName" class="q-mb-sm"
                     ref="tmpUploader" :max-file-size="uploadConfig['max-file-size']" />
                   <p class="text-caption">Accepted file types: jpg, gif, png, pdf, Max. file size: 5 MB</p>
+                  <q-list v-if="model.avatar" bordered>
+                    <q-item>
+                      <q-item-section side><q-icon name="image" /></q-item-section>
+                      <q-item-section>{{ model.avatar }}</q-item-section>
+                    </q-item>
+                  </q-list>
                 </div>
                 <q-btn @click="step = 8" label="Next" color="primary" class="q-mt-lg" rounded />
               </q-step>
               <q-step :name="8" title="Requirements Checklist" prefix="8" :error="!stepsValid.step8"
                 :done="stepsValid.step8" done-color="positive">
                 <div class="text-bold q-mb-sm q-mt-sm">Your Equipment</div>
+                <p>Please confirm all of the below:</p>
                 <div>
                   <q-checkbox v-model="model.contractor_clothing_rack"
                     label="Car with clothing rack or clothing bar secured" true-value="Yes" false-value="No" />
@@ -669,7 +676,7 @@ const stepsValid = computed(() => {
     valid.step7 = false
   }
   // step 8
-  if (model.contractor_clothing_rack === 'No' && model.contractor_smartphone_type === 'No' && model.contractor_computer_type === 'No' && model.contractor_ironing_steam_station === 'No' && model.contractor_washing_machine_dryer === 'No') {
+  if (model.contractor_clothing_rack === 'No' || model.contractor_smartphone_type === 'No' || model.contractor_computer_type === 'No' || model.contractor_ironing_steam_station === 'No' || model.contractor_washing_machine_dryer === 'No') {
     valid.step8 = false
   }
   // step 9
