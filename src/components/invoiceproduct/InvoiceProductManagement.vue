@@ -58,7 +58,7 @@
           rounded title="Remove all services" />
         <div class="text-right col-grow">
           <div>Subtotal: {{ currencyFormat(serviceFeeOther ? serviceFee ? localModel.total_price - serviceFee.price
-            : 0 :
+            : localModel.total_price :
             0) }}</div>
           <div v-if="serviceFee && serviceFeeOther">Service Fee: {{ currencyFormat(serviceFee.price) }}</div>
           <div>
