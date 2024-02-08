@@ -105,6 +105,7 @@ const cancelOrderReasons = [
 ]
 
 const changeOrderReasons = [
+  'Booking change',
   'Unavailable to complete booking',
   'Customer did not show',
   'Appointment made in error',

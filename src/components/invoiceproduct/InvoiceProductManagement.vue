@@ -57,7 +57,9 @@
           v-if="localModel.products && localModel.products.filter(o => o.name !== 'Service Fee').length && canEdit"
           rounded title="Remove all services" />
         <div class="text-right col-grow">
-          <div>Subtotal: {{ currencyFormat(serviceFeeOther ? localModel.grand_total_price : 0) }}</div>
+          <div>Subtotal: {{ currencyFormat(serviceFeeOther ? serviceFee ? localModel.total_price - serviceFee.price
+            : 0 :
+            0) }}</div>
           <div v-if="serviceFee && serviceFeeOther">Service Fee: {{ currencyFormat(serviceFee.price) }}</div>
           <div>
             Total GST: {{ currencyFormat(serviceFeeOther ? localModel.total_price_gst : 0) }}
