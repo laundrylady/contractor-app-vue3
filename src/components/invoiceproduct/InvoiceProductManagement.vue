@@ -68,6 +68,9 @@
               class="text-grey q-mr-sm">
               Due: {{ localModel.due_date }}</span><span class="text-h6">Total: {{
                 currencyFormat(serviceFeeOther ? localModel.grand_total_price : 0) }}</span></div>
+          <div v-if="localModel.status === 'AUTHORISED' && owing.owing > 0" class="text-red q-mb-xs">
+            Amount Due: {{ currencyFormat(owing.owing) }}
+          </div>
         </div>
       </div>
     </div>
@@ -201,7 +204,7 @@ const props = defineProps<Props>()
 const emits = defineEmits(['update:products', 'update:order'])
 const localModel = computed(() => props.invoice)
 const productList = ref()
-const nonEditableProducts = ref([35, 36])
+const nonEditableProducts = ref([35, 36, 26])
 const nonEditableProductCategories = ref([6])
 const rawProductList = ref()
 const gfDcCode = ref()
@@ -220,6 +223,7 @@ const schema = {
   tax: false
 }
 const loading = ref(false)
+const owing = ref({ owing: 0, paid: 0 })
 const newProduct = reactive<InvoiceProduct>(JSON.parse(JSON.stringify(schema)))
 const productCategoryOrder = ['Washing', 'Ironing', 'Other', 'Delivery']
 const sortByObject = productCategoryOrder
@@ -424,6 +428,7 @@ const save = () => {
   api.put(`/public/invoice/products/${localModel.value.id}?cp=true`, localModel.value).then(() => {
     loading.value = false
     emits('update:products')
+    getOwing()
   }).catch(error => {
     loading.value = false
     useMixinDebug(error)
@@ -529,6 +534,14 @@ const getNotificationHistory = () => {
   })
 }
 
+const getOwing = () => {
+  api.get(`/public/invoice/owing/${localModel.value.id}`).then(response => {
+    owing.value = response.data
+  }).catch(error => {
+    useMixinDebug(error)
+  })
+}
+
 onMounted(() => {
   api.get('/public/product/index').then(response => {
     response.data = response.data.filter((o: Product) => o.active && o.name !== 'Pickup No Show')
@@ -537,6 +550,9 @@ onMounted(() => {
   }).catch(error => {
     useMixinDebug(error)
   })
+  if (localModel.value.status === 'AUTHORISED') {
+    getOwing()
+  }
   getNotificationHistory()
 })
 
