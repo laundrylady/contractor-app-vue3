@@ -187,7 +187,9 @@
                       01_021_0120_1_1 0 - Linen Service
                       listed in your current NDIS plan. If this line item is not listed you will not be eligible to
                       claim under NDIS. Do you wish to proceed?
-                      <q-toggle v-model="agreeNdis" label="I wish to proceed" color="white" />
+                      <div class="q-mt-xs">
+                        <q-toggle v-model="agreeNdis" label="I wish to proceed" color="white" />
+                      </div>
                     </div>
                     <div v-if="model.team.type !== 'NDIS' || (model.team.type === 'NDIS' && agreeNdis)">
                       <div class="row q-col-gutter-md"
