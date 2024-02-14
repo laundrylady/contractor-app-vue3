@@ -105,6 +105,7 @@ export default {
     ndisPlanStart: 'Plan start date',
     ndisPlanEnd: 'Plan end date',
     ndisPayment: 'Invoicing',
+    ndisDob: 'Participant Date of Birth',
     invoiceName: 'Name on Invoice',
     invoicePo: 'Purchase Order Number on Invoice',
     financial: 'Invoice Configuration',

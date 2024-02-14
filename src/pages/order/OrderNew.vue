@@ -39,7 +39,7 @@
             Book your mobile Laundry service. Washing, Ironing, Pickup and Delivery.
           </div>
         </div>
-        <div class="row q-col-gutter-md">
+        <div class=" row q-col-gutter-md">
           <div class="col-xs-12 col-md-6 offset-md-3">
             <q-card flat class="bg-page q-mb-md" v-if="step !== 6 && model.scheduled_pickup_date">
               <q-card-section>
@@ -51,30 +51,57 @@
             </q-card>
             <q-card flat class="bg-page">
               <q-card-section v-if="step === 1">
-                <p class="text-center text-bold">Select your pickup location:</p>
-                <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Enter your pickup suburb" outlined
-                  :invalid="$v.suburb_postcode_region_id.$invalid" @update:model-value="checkContractors()"
-                  :clearable="true" />
-                <div class="text-center q-mt-lg" v-if="noContractors">
-                  <div v-if="!registerInterest.success">
-                    <strong>We currently don't have availability in your area, register your interest below and we will
-                      let you know as soon as we do</strong>
-                    <div class="q-mb-md">Register your interest
-                      below:</div>
-                    <q-input v-model="registerInterest.email" label="Enter your email address" outlined>
-                      <template v-slot:append>
-                        <q-btn @click="registerInterestFunc()" label="Register" color="primary"
-                          :disable="!registerInterest.email" />
-                      </template>
-                    </q-input>
-                  </div>
-                  <div v-if="registerInterest.success" class="q-mt-md">
-                    Thank you for your interest. We'll be in contact as soon as the selected area opens up.
-                    <div class="q-mt-md"><q-btn @click="resetRegisterInterest()" label="Search for a different location"
-                        color="primary" outline rounded /></div>
+                <div class="q-mb-lg flex justify-center" v-if="tokenTeams && tokenTeams.length > 1">
+                  <q-select v-model="tokenTeamsSelect" label="Select the customer record"
+                    :options="tokenTeams.map((o: Team) => { return { label: o.name, value: o.id } })" outlined
+                    style="width:400px;" @update:model-value="selectTokenTeam(tokenTeamsSelect)" map-options emit-value />
+                </div>
+                <div class="q-mb-lg flex justify-center" v-if="tokenError">
+                  <div>
+                    <div class="text-red q-mb-md" v-if="!tokenError.emailSent">There was an issue with the customer token:
+                      {{ tokenError.message }}
+                    </div>
+                    <p v-if="!tokenError.resend">Please contact us to obtain a new booking link.</p>
+                    <div v-if="tokenError.resend">
+                      <p v-if="!tokenError.emailSent">Confirm your email address below to obtain a new booking link:</p>
+                      <q-input v-model="tokenError.email" label="Enter your email address" outlined
+                        v-if="!tokenError.emailSent">
+                        <template v-slot:append>
+                          <q-btn @click="tokenErrorEmailSend()" :disable="!tokenError.email" color="primary"
+                            label="Confirm" />
+                        </template>
+                      </q-input>
+                      <div v-if="tokenError.emailSent"><q-icon name="mail" /> We've sent a booking link to the confirmed
+                        email address. Please check your email and close this window.</div>
+                    </div>
                   </div>
                 </div>
-                <div class="text-center q-mt-xl" v-if="!registerInterest.suburb_postcode_region_id">
+                <div v-if="!tokenError && !tokenTeams">
+                  <p class="text-center text-bold">Select your pickup location:</p>
+                  <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Enter your pickup suburb" outlined
+                    :invalid="$v.suburb_postcode_region_id.$invalid" @update:model-value="checkContractors()"
+                    :clearable="true" />
+                  <div class="text-center q-mt-lg" v-if="noContractors">
+                    <div v-if="!registerInterest.success">
+                      <strong>We currently don't have availability in your area, register your interest below and we will
+                        let you know as soon as we do</strong>
+                      <div class="q-mb-md">Register your interest
+                        below:</div>
+                      <q-input v-model="registerInterest.email" label="Enter your email address" outlined>
+                        <template v-slot:append>
+                          <q-btn @click="registerInterestFunc()" label="Register" color="primary"
+                            :disable="!registerInterest.email" />
+                        </template>
+                      </q-input>
+                    </div>
+                    <div v-if="registerInterest.success" class="q-mt-md">
+                      Thank you for your interest. We'll be in contact as soon as the selected area opens up.
+                      <div class="q-mt-md"><q-btn @click="resetRegisterInterest()" label="Search for a different location"
+                          color="primary" outline rounded /></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center q-mt-xl" v-if="!registerInterest.suburb_postcode_region_id && !tokenError">
                   <q-btn @click="stepMove(2)" color="primary" label="Continue" rounded
                     :disable="!model.suburb_postcode_region_id" />
                 </div>
@@ -216,6 +243,10 @@
                               :error="$v.team.ndis_type.$invalid" outlined
                               :options="['Self managed', 'Plan managed', 'NDIA registered']" />
                           </div>
+                        </div>
+                        <div class="row q-col-gutter-md q-mb-md">
+                          <DateFieldVue v-model="model.team.ndis_dob" :label="$t('team.ndisDob')" :outlined="true"
+                            class="col-xs-12 col-sm-6" :invalid="$v.team.ndis_dob.$invalid" />
                         </div>
                         <div class="row q-col-gutter-md">
                           <q-input v-model="model.team.ndis_plan_manager_email" :label="$t('team.ndisPlanManagerEmail')"
@@ -363,7 +394,7 @@ import { productCategoriesVisibleBooking } from 'src/services/helpers'
 import { computed, inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import AppLogo from '../../components/AppLogo.vue'
-import { Order, QDateNavigation } from '../../components/models'
+import { Order, QDateNavigation, Team } from '../../components/models'
 import OrderContractorManagement from '../../components/order/OrderContractorManagement.vue'
 
 const step = ref(1)
@@ -382,6 +413,9 @@ const route = useRoute()
 const iframed = ref(false)
 const loaded = ref(false)
 const agreeNdis = ref(false)
+const tokenTeams = ref()
+const tokenTeamsSelect = ref()
+const tokenError = ref()
 const schema = {
   address1: null,
   address2: null,
@@ -417,6 +451,7 @@ const schema = {
     ndis_funds_inform: false,
     ndis_funds: false,
     ndis_payment: 'self',
+    ndis_dob: null,
     abn: null,
     marketing_subscribed: true
   }
@@ -520,6 +555,7 @@ const rules = {
     other_phone: { requiredIf: requiredIf(() => !model.team.mobile) },
     ndis_number: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
     ndis_type: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
+    ndis_dob: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
     abn: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1) }
   }
 }
@@ -627,6 +663,29 @@ const resetRegisterInterest = () => {
   model.suburb_postcode_region_id = null
 }
 
+const selectTokenTeam = (id: number) => {
+  const team = tokenTeams.value.find((o: Team) => o.id === id)
+  if (team) {
+    model.team = team
+    model.suburb_postcode_region_id = team.suburb_postcode_region_id
+    model.address1 = team.address1
+    model.address2 = team.address2
+    model.postcode = team.postcode
+    step.value = 2
+  }
+}
+
+const tokenErrorEmailSend = () => {
+  if (!tokenError.value.email) {
+    return false
+  }
+  api.post('/public/team/sendbookinglink', { email: tokenError.value.email }).then(() => {
+    tokenError.value.emailSent = true
+  }).catch(error => {
+    useMixinDebug(error)
+  })
+}
+
 onMounted(async () => {
   Object.assign(model, JSON.parse(JSON.stringify(schema)))
   categories.value = await productCategoriesVisibleBooking()
@@ -643,7 +702,22 @@ onMounted(async () => {
   if (route.query.iframed) {
     iframed.value = true
   }
-  loaded.value = true
+  if (route.query.t) {
+    api.post('/public/team/findbytoken', { token: route.query.t }).then((response: LooseObject) => {
+      tokenTeams.value = response.data.teams
+      if (response.data.teams && response.data.teams.length === 1) {
+        selectTokenTeam(response.data.teams[0].id)
+      }
+      loaded.value = true
+    }).catch(error => {
+      if (error.response && error.response.data) {
+        tokenError.value = { message: error.response.data.error, resend: error.response.data.resend, email: null, emailSent: false }
+      }
+      loaded.value = true
+    })
+  } else {
+    loaded.value = true
+  }
   // FB Meta Pixel
   try {
     let fbmpid = '1797469603884044'
