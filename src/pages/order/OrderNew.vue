@@ -271,7 +271,7 @@
                           <q-toggle v-model="model.team.ndis_funds"
                             label="Yes I (the client) have sufficient funds available under the Linen code to pay for my services and I agree to inform Laundry Lady if funds run out" />
                         </div>
-                        <div>
+                        <div class="q-mb-sm">
                           <q-toggle v-model="model.team.ndis_funds_inform"
                             label="Yes I (the client) agree to inform Laundry Lady if there are any changes to my plan that will affect claiming under this code" />
                         </div>
