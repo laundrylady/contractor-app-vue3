@@ -207,7 +207,7 @@ const schema = {
 
 const $q = useQuasar()
 const attachments = ref()
-const newModel = reactive(schema)
+const newModel = reactive(JSON.parse(JSON.stringify(schema)))
 const rules = {
   type: { required },
   file_file_name: { required }
@@ -243,7 +243,7 @@ const addNew = () => {
   $q.loading.show({ message: 'Saving attachment...' })
   api.post('/public/attachment', newModel).then(() => {
     doNotify('positive', 'Attachment added')
-    Object.assign(newModel, schema)
+    Object.assign(newModel, JSON.parse(JSON.stringify(schema)))
     getAttachments()
     saving.value = false
     showNew.value = false
