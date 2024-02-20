@@ -197,7 +197,7 @@
 import { Team } from 'src/components/models'
 import GlobalNotes from 'src/components/note/GlobalNotes.vue'
 import { computed, inject, onMounted, ref } from 'vue'
-import { required, requiredIf } from '@vuelidate/validators'
+import { required, requiredIf, email } from '@vuelidate/validators'
 import { api } from 'src/boot/axios'
 import { doNotify } from 'src/mixins/help'
 import { EventBus } from 'quasar'
@@ -238,7 +238,7 @@ const rules = {
   name: { required },
   first_name: { required },
   last_name: { required },
-  email: { required },
+  email: { required, email },
   mobile: { requiredIf: requiredIf(() => !localModel.value.other_phone) },
   other_phone: { requiredIf: requiredIf(() => !localModel.value.mobile) },
   address2: { required },
