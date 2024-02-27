@@ -395,6 +395,38 @@ export interface TeamForm {
   gst_enabled:boolean
 }
 
+export interface TeamNDISForm {
+  id:number,
+  type: string,
+  status:string,
+  name: string,
+  first_name: string,
+  last_name: string,
+  email: string,
+  mobile: string,
+  ndis: boolean,
+  ndis_number: string,
+  ndis_type: string,
+  other_phone: string,
+  address1: string,
+  address2: string,
+  suburb_postcode_region_id: number,
+  postcode: string,
+  country_id: number,
+  lat: string,
+  lng: string,
+  ndis_plan_manager_email:string,
+  ndis_support_coordinator_email:string,
+  ndis_plan_start:string,
+  ndis_plan_end:string,
+  ndis_line_item:boolean,
+  ndis_funds:boolean,
+  ndis_funds_inform:boolean,
+  ndis_payment:string,
+  ndis_signing_name:string,
+  ndis_dob:string
+}
+
 export interface TeamInvite {
   id:number,
   team_id:number,
