@@ -252,10 +252,11 @@
                         </div>
                         <div class="row q-col-gutter-md">
                           <q-input v-model="model.team.ndis_plan_manager_email" :label="$t('team.ndisPlanManagerEmail')"
-                            bottom-slots class="col-xs-12 col-sm-6" outlined />
+                            bottom-slots class="col-xs-12 col-sm-6" outlined
+                            :error="$v.team.ndis_plan_manager_email.$invalid" />
                           <q-input v-model="model.team.ndis_support_coordinator_email"
                             :label="$t('team.ndisSupportCoordinatorEmail')" class="col-xs-12 col-sm-6" bottom-slots
-                            outlined />
+                            outlined :error="$v.team.ndis_support_coordinator_email.$invalid" />
                         </div>
                         <div class="row q-col-gutter-md">
                           <DateFieldVue v-model="model.team.ndis_plan_start" :label="$t('team.ndisPlanStart')"
@@ -558,7 +559,9 @@ const rules = {
     ndis_number: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
     ndis_type: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
     ndis_dob: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
-    abn: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1) }
+    abn: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1) },
+    ndis_plan_manager_email: { email },
+    ndis_support_coordinator_email: { email }
   }
 }
 
