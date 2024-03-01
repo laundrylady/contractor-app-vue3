@@ -94,6 +94,8 @@
           round class="q-mr-xs" />
         <q-btn @click="!hasPickupNoShow ? doSendPaymentRequest('sms') : sendPaymentRequestSms()" icon="chat"
           title="Send SMS Payment Request" flat v-if="canSend" :disable="sendingPaymentRequest" round />
+        <q-btn @click="deleteInvoice()" v-if="canEdit && localModel.status === 'DRAFT'" label="Delete Invoice" flat
+          color="red" class="q-mr-xs" rounded />
         <q-space />
         <q-btn @click="doSendPaymentRequest('email')" icon="mail" label="Send Payment Request" push color="primary"
           v-if="canSend" :disable="sendingPaymentRequest" rounded />
@@ -539,6 +541,16 @@ const getOwing = () => {
     owing.value = response.data
   }).catch(error => {
     useMixinDebug(error)
+  })
+}
+
+const deleteInvoice = () => {
+  confirmDelete('This will delete the invoice').onOk(() => {
+    api.delete(`/public/invoice/${localModel.value.id}`).then(() => {
+      emits('update:order')
+    }).catch(error => {
+      useMixinDebug(error)
+    })
   })
 }
 
