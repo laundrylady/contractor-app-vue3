@@ -358,7 +358,7 @@
           </div>
         </div>
       </q-page>
-      <div v-if="!iframed">
+      <div v-if="!iframed && loaded">
         <FooterComponent :booking="false" :apply="true" />
       </div>
     </q-page-container>
