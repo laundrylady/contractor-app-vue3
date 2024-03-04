@@ -1,5 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf" v-if="loaded">
+    <HeaderComponent />
     <q-page-container>
       <q-page padding :class="{ 'q-pa-md': $q.screen.xs }">
         <div class="flex justify-center q-mt-xl">
@@ -48,8 +49,8 @@
                       hint="Use the alternate contact number field if you do not have an Australian mobile number" />
                   </div>
                   <div class="col-xs-12 col-sm-6">
-                    <q-input v-model="model.other_phone" :error="$v.other_phone.$invalid" label="Alternate contact number"
-                      outlined />
+                    <q-input v-model="model.other_phone" :error="$v.other_phone.$invalid"
+                      label="Alternate contact number" outlined />
                   </div>
                 </div>
                 <div class="row q-col-gutter-md">
@@ -72,8 +73,8 @@
                 <div class="row q-col-gutter-md">
                   <q-input v-model="model.ndis_plan_manager_email" :label="$t('team.ndisPlanManagerEmail')" bottom-slots
                     class="col-xs-12 col-sm-6" outlined :error="$v.ndis_plan_manager_email.$invalid" />
-                  <q-input v-model="model.ndis_support_coordinator_email" :label="$t('team.ndisSupportCoordinatorEmail')"
-                    class="col-xs-12 col-sm-6" bottom-slots outlined
+                  <q-input v-model="model.ndis_support_coordinator_email"
+                    :label="$t('team.ndisSupportCoordinatorEmail')" class="col-xs-12 col-sm-6" bottom-slots outlined
                     :error="$v.ndis_support_coordinator_email.$invalid" />
                 </div>
                 <div class="row q-col-gutter-md">
@@ -109,8 +110,8 @@
                   <PostcodeRegionField v-model="model.suburb_postcode_region_id"
                     :invalid="$v.suburb_postcode_region_id.$invalid" :label="$t('address.suburb')"
                     class="col-xs-12 col-sm-6" :outlined="true" />
-                  <q-input v-model="model.postcode" :error="$v.postcode.$invalid" :label="$t('address.postcode')" outlined
-                    class="col-xs-12 col-sm-6" />
+                  <q-input v-model="model.postcode" :error="$v.postcode.$invalid" :label="$t('address.postcode')"
+                    outlined class="col-xs-12 col-sm-6" />
                   <CountryField v-model="model.country_id" :label="$t('address.country')" class="col-xs-12 col-sm-6"
                     :outlined="true" :invalid="$v.country_id.$invalid" />
                 </div>
@@ -123,9 +124,13 @@
           </div>
         </div>
       </q-page>
+      <div class="q-mt-xl">
+        <FooterComponent :booking="true" :apply="true" />
+      </div>
     </q-page-container>
   </q-layout>
 </template>
+
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
 import { email, required, requiredIf } from '@vuelidate/validators'
@@ -142,6 +147,8 @@ import { confirmDelete } from 'src/mixins/help'
 import { inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { TeamNDISForm } from '../../components/models'
+import HeaderComponent from 'src/components/header/HeaderComponent.vue'
+import FooterComponent from 'src/components/footer/FooterComponent.vue'
 
 const route = useRoute()
 const success = ref(false)

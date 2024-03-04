@@ -1,34 +1,8 @@
 <template>
   <q-layout view="lHh Lpr lFf">
+    <HeaderComponent v-if="!iframed" />
     <q-page-container>
       <q-page :padding="!iframed" :class="{ 'q-pa-md': $q.screen.xs && !iframed }" v-if="loaded">
-        <div class="flex justify-center q-mt-xl" v-if="!$q.screen.xs && !iframed">
-          <div class="order-new-step" :class="{ 'active': step === 1 || model.suburb_postcode_region_id }"
-            @click="stepMove(1)">
-            Select your suburb
-          </div>
-          <div class="flex items-end"><img src="~assets/images/illustrations/bot_arrow.png" /></div>
-          <div class="order-new-step"
-            :class="{ 'active': step === 2 || model.productcategories.filter(o => o.active).length }">
-            Select your service
-          </div>
-          <div class="flex items-start"><img src="~assets/images/illustrations/top_arrow.png" /></div>
-          <div class="order-new-step" :class="{ 'active': step === 3 || model.scheduled_pickup_date }">
-            Select pickup date
-          </div>
-          <div class="flex items-end"><img src="~assets/images/illustrations/bot_arrow.png" /></div>
-          <div class="order-new-step" :class="{ 'active': step === 4 || model.contractor_user_id }">
-            Select your Laundry Lady or Lad
-          </div>
-          <div class="flex items-start"><img src="~assets/images/illustrations/top_arrow.png" /></div>
-          <div class="order-new-step" :class="{ 'active': step === 5 || !$v.$invalid }">
-            Enter your details
-          </div>
-          <div class="flex items-end"><img src="~assets/images/illustrations/bot_arrow.png" /></div>
-          <div class="order-new-step" :class="{ 'active': step === 6 }">
-            Confirm booking
-          </div>
-        </div>
         <div class="row q-mt-xl q-mb-lg" v-if="!iframed">
           <div class="col-xs-12 col-md-6 offset-md-3 text-center">
             <AppLogo />
@@ -54,11 +28,13 @@
                 <div class="q-mb-lg flex justify-center" v-if="tokenTeams && tokenTeams.length > 1">
                   <q-select v-model="tokenTeamsSelect" label="Select the customer record"
                     :options="tokenTeams.map((o: Team) => { return { label: o.name, value: o.id } })" outlined
-                    style="width:400px;" @update:model-value="selectTokenTeam(tokenTeamsSelect)" map-options emit-value />
+                    style="width:400px;" @update:model-value="selectTokenTeam(tokenTeamsSelect)" map-options
+                    emit-value />
                 </div>
                 <div class="q-mb-lg flex justify-center" v-if="tokenError">
                   <div>
-                    <div class="text-red q-mb-md" v-if="!tokenError.emailSent">There was an issue with the customer token:
+                    <div class="text-red q-mb-md" v-if="!tokenError.emailSent">There was an issue with the customer
+                      token:
                       {{ tokenError.message }}
                     </div>
                     <p v-if="!tokenError.resend">Please contact us to obtain a new booking link.</p>
@@ -78,16 +54,18 @@
                 </div>
                 <div v-if="!tokenError && !tokenTeams">
                   <p class="text-center text-bold">Select your pickup location:</p>
-                  <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Enter your pickup suburb" outlined
-                    :invalid="$v.suburb_postcode_region_id.$invalid" @update:model-value="checkContractors()"
+                  <PostcodeRegionField v-model="model.suburb_postcode_region_id" label="Enter your pickup suburb"
+                    outlined :invalid="$v.suburb_postcode_region_id.$invalid" @update:model-value="checkContractors()"
                     :clearable="true" />
                   <div class="text-center q-mt-lg" v-if="noContractors">
                     <div v-if="!registerInterest.success">
-                      <strong>We currently don't have availability in your area, register your interest below and we will
+                      <strong>We currently don't have availability in your area, register your interest below and we
+                        will
                         let you know as soon as we do</strong>
                       <div class="q-mb-md">Register your interest
                         below:</div>
                       <q-input v-model="registerInterest.email" label="Enter your email address" outlined>
+
                         <template v-slot:append>
                           <q-btn @click="registerInterestFunc()" label="Register" color="primary"
                             :disable="!registerInterest.email" />
@@ -96,8 +74,8 @@
                     </div>
                     <div v-if="registerInterest.success" class="q-mt-md">
                       Thank you for your interest. We'll be in contact as soon as the selected area opens up.
-                      <div class="q-mt-md"><q-btn @click="resetRegisterInterest()" label="Search for a different location"
-                          color="primary" outline rounded /></div>
+                      <div class="q-mt-md"><q-btn @click="resetRegisterInterest()"
+                          label="Search for a different location" color="primary" outline rounded /></div>
                     </div>
                   </div>
                 </div>
@@ -200,8 +178,9 @@
                         </div>
                         <div class="col-xs-12 col-sm-6"
                           v-if="['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1">
-                          <q-input v-model="model.team.abn" :label="common?.operating_country === 'nzd' ? 'NZBN' : 'ABN'"
-                            :error="$v.team.abn.$invalid" outlined />
+                          <q-input v-model="model.team.abn"
+                            :label="common?.operating_country === 'nzd' ? 'NZBN' : 'ABN'" :error="$v.team.abn.$invalid"
+                            outlined />
                         </div>
                       </div>
                       <div class="row q-col-gutter-md">
@@ -235,7 +214,9 @@
                         <div class="row q-col-gutter-md">
                           <div class="col-xs-12 col-sm-6">
                             <q-input v-model="model.team.ndis_number" :label="$t('team.ndisNumber')" outlined
-                              :error="$v.team.ndis_number.$invalid"><template v-slot:prepend>
+                              :error="$v.team.ndis_number.$invalid">
+
+                              <template v-slot:prepend>
                                 <img src="~assets/images/logos/ndis_heart.svg" style="height:32px" />
                               </template>
                             </q-input>
@@ -295,8 +276,8 @@
                           class="col-xs-12 col-sm-6" :outlined="true" />
                         <q-input v-model="model.postcode" :error="$v.postcode.$invalid" :label="$t('address.postcode')"
                           outlined class="col-xs-12 col-sm-6" />
-                        <CountryField v-model="model.country_id" :label="$t('address.country')" class="col-xs-12 col-sm-6"
-                          :outlined="true" :invalid="$v.country_id.$invalid" />
+                        <CountryField v-model="model.country_id" :label="$t('address.country')"
+                          class="col-xs-12 col-sm-6" :outlined="true" :invalid="$v.country_id.$invalid" />
                       </div>
                     </div>
                   </q-card-section>
@@ -315,7 +296,8 @@
                     <div>{{ model.team.email }}</div>
                     <div class="q-mb-md">{{ model.team.mobile }}</div>
                     <OrderNewSummary :suburb_postcode_region_id="model.suburb_postcode_region_id"
-                      :contractor_user_id="model.contractor_user_id" :scheduled_pickup_date="model.scheduled_pickup_date"
+                      :contractor_user_id="model.contractor_user_id"
+                      :scheduled_pickup_date="model.scheduled_pickup_date"
                       :scheduled_pickup_time="model.scheduled_pickup_time" :productcategories="model.productcategories"
                       :categories="categories" v-if="categories && model.suburb_postcode_region_id" />
                     <q-input v-model="model.special_instructions" class="q-mt-lg" type="textarea"
@@ -360,7 +342,8 @@
                         v-if="common?.operating_country === 'aud'">https://thelaundrylady.com.au/faqs/</a>
                     </p>
                     <OrderNewSummary :suburb_postcode_region_id="model.suburb_postcode_region_id"
-                      :contractor_user_id="model.contractor_user_id" :scheduled_pickup_date="model.scheduled_pickup_date"
+                      :contractor_user_id="model.contractor_user_id"
+                      :scheduled_pickup_date="model.scheduled_pickup_date"
                       :scheduled_pickup_time="model.scheduled_pickup_time" :productcategories="model.productcategories"
                       :categories="categories" v-if="categories && model.suburb_postcode_region_id" />
                   </q-card-section>
@@ -375,9 +358,13 @@
           </div>
         </div>
       </q-page>
+      <div v-if="!iframed">
+        <FooterComponent :booking="false" :apply="true" />
+      </div>
     </q-page-container>
   </q-layout>
 </template>
+
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
 import { email, required, requiredIf } from '@vuelidate/validators'
@@ -399,6 +386,8 @@ import { useRoute } from 'vue-router'
 import AppLogo from '../../components/AppLogo.vue'
 import { Order, QDateNavigation, Team } from '../../components/models'
 import OrderContractorManagement from '../../components/order/OrderContractorManagement.vue'
+import FooterComponent from 'src/components/footer/FooterComponent.vue'
+import HeaderComponent from 'src/components/header/HeaderComponent.vue'
 
 const step = ref(1)
 const washingAndIroning = ref(false)

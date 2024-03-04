@@ -1,8 +1,9 @@
 <template>
   <q-layout view="lHh Lpr lFf">
+    <HeaderComponent v-if="!iframed" />
     <q-page-container>
       <q-page padding>
-        <div class="q-pt-lg" :class="{ 'container': !iframed }">
+        <div class="q-pt-xl" :class="{ 'container': !iframed }">
           <div class="row q-col-gutter-xl">
             <div class="col-xs-12 col-sm-6">
               <q-card>
@@ -103,7 +104,8 @@
                 <li>have a current public liability insurance policy</li>
                 <li>have an ABN</li>
                 <li>have a steam station iron, washing machine and dryer or be willing to purchase these.</li>
-                <li>available for morning or afternoon pickups and deliveries (school hours is fine and you can select the
+                <li>available for morning or afternoon pickups and deliveries (school hours is fine and you can select
+                  the
                   days and timeslots)</li>
               </ul>
               <q-carousel animated v-model="carousel.info" infinite class="q-mt-lg">
@@ -118,25 +120,31 @@
               </q-carousel>
               <div class="row justify-center q-mt-lg">
                 <q-btn-toggle v-model="carousel.info" flat no-caps :options="[
-                  { label: 'Does it suit busy mum/dad life?', value: 'busy' },
-                  { label: 'What do you love about being a Laundry Lad?', value: 'love' }]" />
+      { label: 'Does it suit busy mum/dad life?', value: 'busy' },
+      { label: 'What do you love about being a Laundry Lad?', value: 'love' }]" />
               </div>
             </div>
           </div>
         </div>
       </q-page>
+      <div v-if="!iframed" class="q-mt-xl">
+        <FooterComponent :booking="true" :apply="false" />
+      </div>
     </q-page-container>
   </q-layout>
 </template>
+
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
 import { email, required, requiredIf } from '@vuelidate/validators'
 import moment from 'moment-timezone'
 import { api } from 'src/boot/axios'
 import AppLogo from 'src/components/AppLogo.vue'
+import FooterComponent from 'src/components/footer/FooterComponent.vue'
 import AddressSearch from 'src/components/form/AddressSearch.vue'
 import CountryField from 'src/components/form/CountryField.vue'
 import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
+import HeaderComponent from 'src/components/header/HeaderComponent.vue'
 import { useMixinCommon } from 'src/mixins/common'
 import { useMixinDebug } from 'src/mixins/debug'
 import { reactive, ref, onMounted } from 'vue'
