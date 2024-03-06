@@ -162,7 +162,7 @@
                     </div>
                     <div v-if="model.team.type === 'NDIS'" class="bg-primary text-white q-pa-md q-mb-lg">
                       To claim laundry services under NDIS you MUST have item number
-                      01_021_0120_1_1 0 - Linen Service
+                      01_021_0120_1_1 - Linen Service
                       listed in your current NDIS plan. If this line item is not listed you will not be eligible to
                       claim under NDIS. Do you wish to proceed?
                       <div class="q-mt-xs">

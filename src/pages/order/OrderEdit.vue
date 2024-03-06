@@ -17,12 +17,13 @@
               <div class="row q-col-gutter-md">
                 <div class="col-xs-12 col-sm-6" v-if="localModel.team.name">
                   <div class="text-bold text-grey q-mt-md">{{ $t('team.name').toUpperCase() }}</div>
-                  <div>{{ localModel.team.name }} <q-badge :label="localModel.team.type" color="grey-7" class="q-ml-sm" />
+                  <div>{{ localModel.team.name }} <q-badge :label="localModel.team.type" color="grey-7"
+                      class="q-ml-sm" />
                   </div>
                   <div>
                     <div></div>
                     <div>{{ localModel.team.payment_terms === 'Credit Card' ? 'Credit Card' : 'Account'
-                    }}</div>
+                      }}</div>
                   </div>
                 </div>
                 <div class="col-xs-12 col-sm-6">
@@ -30,7 +31,7 @@
                   <div v-if="localModel.address1">{{ localModel.address1 }}</div>
                   <div>{{ localModel.address2 }}</div>
                   <div v-if="localModel.suburbpostcoderegion">{{ localModel.suburbpostcoderegion.locality }} {{
-                    localModel.suburbpostcoderegion.state }} {{ localModel.postcode }}</div>
+        localModel.suburbpostcoderegion.state }} {{ localModel.postcode }}</div>
                 </div>
               </div>
               <div class="row q-col-gutter-md q-mt-sm" v-if="localModel.team_id">
@@ -47,10 +48,10 @@
                 <div class="col-xs-12 col-sm-6">
                   <div class="text-bold text-grey">PICKUP BETWEEN</div>
                   <div v-if="!changes.time && localModel.scheduled_pickup_time">{{
-                    hourBookingDisplay(localModel.scheduled_pickup_time) }}<q-btn v-if="canEdit"
+        hourBookingDisplay(localModel.scheduled_pickup_time) }}<q-btn v-if="canEdit"
                       @click="changes.time = true" icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" />
                     <div v-if="localModel.agreed_pickup_time">Agreed: {{
-                      hourAgreedDisplay(localModel.agreed_pickup_time) }}
+        hourAgreedDisplay(localModel.agreed_pickup_time) }}
                     </div>
                   </div>
                   <div v-if="changes.time">
@@ -62,8 +63,8 @@
                           @click="changes.agreed_time_model = null" class="link"
                           v-if="changes.agreed_time_model && changes.time">[RESET]</a></div>
                       <div v-if="!changes.time && localModel.agreed_pickup_time">{{
-                        hourAgreedDisplay(localModel.agreed_pickup_time) }}<q-btn @click="changes.time = true" icon="edit"
-                          flat round size="sm" color="grey-7" class="q-ml-xs" v-if="canEdit" /></div>
+        hourAgreedDisplay(localModel.agreed_pickup_time) }}<q-btn @click="changes.time = true"
+                          icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" v-if="canEdit" /></div>
                       <q-select v-model="changes.agreed_time_model" :options="agreedTimeOptions" label="Choose a time"
                         outlined map-options emit-value />
                     </div>
@@ -75,9 +76,9 @@
                 class="row q-col-gutter-md q-mt-sm">
                 <div class="col-xs-12 col-sm-6">
                   <div class="text-bold text-grey">SCHEDULED DELIVERY DATE</div>
-                  <div v-if="!changes.dateDelivery">{{ localModel.scheduled_delivery_date }}<q-btn v-if="canEditDelivery"
-                      @click="changes.dateDelivery = true" icon="edit" flat round size="sm" color="grey-7"
-                      class="q-ml-xs" />
+                  <div v-if="!changes.dateDelivery">{{ localModel.scheduled_delivery_date }}<q-btn
+                      v-if="canEditDelivery" @click="changes.dateDelivery = true" icon="edit" flat round size="sm"
+                      color="grey-7" class="q-ml-xs" />
                   </div>
                   <div v-if="changes.dateDelivery">
                     <DateField v-model="changes.dateDelivery_model" label="Choose a delivery date" :outlined="true"
@@ -87,11 +88,11 @@
                 <div class="col-xs-12 col-sm-6">
                   <div class="text-bold text-grey">DELIVER BETWEEN</div>
                   <div v-if="!changes.timeDelivery"><span v-if="localModel.scheduled_delivery_time">{{
-                    hourBookingDisplay(localModel.scheduled_delivery_time) }}</span><q-btn v-if="canEditDelivery"
+        hourBookingDisplay(localModel.scheduled_delivery_time) }}</span><q-btn v-if="canEditDelivery"
                       @click="changes.timeDelivery = true" icon="edit" flat round size="sm" color="grey-7"
                       class="q-ml-xs" />
                     <div v-if="localModel.agreed_delivery_time">Agreed: {{
-                      hourAgreedDisplay(localModel.agreed_delivery_time) }}
+        hourAgreedDisplay(localModel.agreed_delivery_time) }}
                     </div>
                   </div>
                   <div v-if="changes.timeDelivery">
@@ -103,15 +104,16 @@
                           @click="changes.agreed_timeDelivery_model = null" class="link"
                           v-if="changes.agreed_timeDelivery_model && changes.timeDelivery">[RESET]</a></div>
                       <div v-if="!changes.timeDelivery && localModel.agreed_delivery_time">{{
-                        hourAgreedDisplay(localModel.agreed_delivery_time) }}<q-btn @click="changes.timeDelivery = true"
-                          icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" v-if="canEditDelivery" /></div>
+        hourAgreedDisplay(localModel.agreed_delivery_time) }}<q-btn @click="changes.timeDelivery = true"
+                          icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" v-if="canEditDelivery" />
+                      </div>
                       <q-select v-model="changes.agreed_timeDelivery_model" :options="agreedTimeOptions"
                         label="Choose a time" outlined map-options emit-value />
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="text-bold text-grey q-mt-md">PRODUCTS</div>
+              <div class="text-bold text-grey q-mt-md">SERVICES</div>
               <div v-for="c in localModel.productcategories" :key="c.id">
                 <q-checkbox v-model="c.meta.pivot_active" :label="c.name" v-if="c.meta" :disable="!canEdit" />
               </div>
@@ -120,7 +122,8 @@
                   :class="{ 'bg-grey-1': !$q.dark.isActive }">
                   <div class="q-mb-md"><q-icon name="info" /> The following settings are enabled on the master recurring
                     booking.<br /><router-link
-                      :to="{ name: 'order-edit', params: { id: localModel.recurring_parent_id } }" class="link">Click here
+                      :to="{ name: 'order-edit', params: { id: localModel.recurring_parent_id } }" class="link">Click
+                      here
                       to make a
                       change to the recurring schedule.</router-link></div>
                   <div class="row q-col-gutter-md">
@@ -153,6 +156,7 @@
                       <q-select v-model="recurringModel.recurring_end"
                         v-if="recurringModel.recurring_end_type === 'After'" label="Choose the amount"
                         :options="recurringOccurenceOptions" outlined disable>
+
                         <template v-slot:append><q-badge label="occurences" color="grey" /></template>
                       </q-select>
                       <DateField v-model="recurringModel.recurring_end" label="Choose an end date" :outlined="true"
@@ -178,6 +182,7 @@
                         :options="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]"
                         :error="$v.recurring_every.$invalid" outlined
                         :disable="user?.id !== localModel.contractor_user_id">
+
                         <template v-slot:append>
                           <q-badge :label="`${localModel.recurring}s`" color="grey" />
                         </template>
@@ -198,8 +203,10 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-lg-4">
                       <q-select v-model="localModel.recurring_end" v-if="localModel.recurring_end_type === 'After'"
-                        label="Choose the amount" :error="$v.recurring_end.$invalid" :options="recurringOccurenceOptions"
-                        outlined :disable="user?.id !== localModel.contractor_user_id">
+                        label="Choose the amount" :error="$v.recurring_end.$invalid"
+                        :options="recurringOccurenceOptions" outlined
+                        :disable="user?.id !== localModel.contractor_user_id">
+
                         <template v-slot:append><q-badge label="occurences" color="grey" /></template>
                       </q-select>
                       <DateField v-model="localModel.recurring_end" label="Choose an end date" :outlined="true"
@@ -217,8 +224,8 @@
             <q-space />
             <q-btn :label="$t('actions.cancel')" flat color="secondary" @click="resetChangeModel()" rounded
               v-if="changes.time || changes.date || changes.timeDelivery || changes.dateDelivery || changes.contractor" />
-            <q-btn :disable="loading || $v.$invalid" :label="$t('actions.update')" color="primary" @click="save()" rounded
-              v-if="user?.id === localModel.contractor_user_id" />
+            <q-btn :disable="loading || $v.$invalid || !hasProductCategories" :label="$t('actions.update')"
+              color="primary" @click="save()" rounded v-if="user?.id === localModel.contractor_user_id" />
           </q-card-actions>
         </q-card>
       </q-expansion-item>
@@ -254,8 +261,8 @@
                 <div class="col-xs-12 col-sm-6">
                   <DateField v-model="localModel.invoice.invoice_date" :label="$t('invoice.invoiceDate')" />
                 </div>
-                <q-input v-model="localModel.invoice.invoice_po" :label="$t('team.invoicePo')" class="col-xs-12 col-sm-6"
-                  bottom-slots />
+                <q-input v-model="localModel.invoice.invoice_po" :label="$t('team.invoicePo')"
+                  class="col-xs-12 col-sm-6" bottom-slots />
               </div>
               <q-input v-model="localModel.invoice.invoice_name" :label="$t('team.invoiceName')" bottom-slots />
               <AddressSearch :model="localModel.invoice"
@@ -306,25 +313,25 @@
         <div>
           <div><router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link">
               <span v-if="o.scheduled_pickup_date">{{
-                displayDateDay(o.scheduled_pickup_date) }}</span> {{ o.scheduled_pickup_date }} (<span
+        displayDateDay(o.scheduled_pickup_date) }}</span> {{ o.scheduled_pickup_date }} (<span
                 v-if="!o.agreed_pickup_time && o.scheduled_pickup_time">{{
-                  hourBookingDisplay(o.scheduled_pickup_time)
-                }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)
-}}</span>)</router-link>
+        hourBookingDisplay(o.scheduled_pickup_time)
+      }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)
+                }}</span>)</router-link>
           </div>
           <q-space />
           <div class="text-grey-7 text-caption">
             <q-icon name="settings" color="grey-7" /> <span v-if="o.productcategories"><span
                 v-for="(c, index) in o.productcategories" :key="c.id">{{
-                  c.name }}<span v-if="index + 1 !== o.productcategories.length" class="q-ml-xs q-mr-xs">&</span>
+        c.name }}<span v-if="index + 1 !== o.productcategories.length" class="q-ml-xs q-mr-xs">&</span>
               </span> pickup with {{ o.team.name }}</span>
           </div>
           <div class="text-grey-7"><q-icon name="place" color="grey-7" /> <span class="q-mr-sm"
               v-if="o.team.suburbpostcoderegion">{{
-                o.team.suburbpostcoderegion.locality
-              }} {{
-  o.team.suburbpostcoderegion.state
-}}</span>
+        o.team.suburbpostcoderegion.locality
+      }} {{
+          o.team.suburbpostcoderegion.state
+        }}</span>
           </div>
         </div>
       </q-item>
@@ -338,8 +345,8 @@
       <q-card-section>
         <q-select v-model="localModel.cancel_reason" label="Reason for cancellation" outlined
           :options="cancelOrderReasons" bottom-slots />
-        <q-input v-model="localModel.cancel_notes" label="Extra notes for the customer" type="textarea" rows="3" outlined
-          bottom-slots />
+        <q-input v-model="localModel.cancel_notes" label="Extra notes for the customer" type="textarea" rows="3"
+          outlined bottom-slots />
         <div>
           <q-checkbox v-model="localModel.cancel_rebook" label="Booking needs rescheduling" />
         </div>
@@ -383,13 +390,17 @@
           <div class="col-xs-12 col-sm-6">
             <div class="text-grey text-bold">DELIVERY TIME</div>
             <div v-if="!changes.agreed_timeDelivery_model">{{ hourBookingDisplay(changes.timeDelivery_model) }}</div>
-            <div v-if="changes.agreed_timeDelivery_model">{{ hourAgreedDisplay(changes.agreed_timeDelivery_model) }}</div>
+            <div v-if="changes.agreed_timeDelivery_model">{{ hourAgreedDisplay(changes.agreed_timeDelivery_model) }}
+            </div>
           </div>
         </div>
         <q-select v-model="localModel.changes_reason" label="Reason for change" outlined :options="activeChangeReasons"
           bottom-slots />
-        <q-input v-model="localModel.changes_notes" label="Extra notes for the customer" type="textarea" rows="3" outlined
-          bottom-slots />
+        <q-input v-model="localModel.changes_notes" label="Extra notes for the customer" type="textarea" rows="3"
+          outlined bottom-slots />
+        <div v-if="localModel.recurring_parent_id">
+          <q-checkbox v-model="recurringChildChange" label="Update all future bookings" />
+        </div>
       </q-card-section>
       <q-card-actions>
         <q-btn v-close-popup flat color="secondary" label="Close" rounded />
@@ -401,10 +412,11 @@
     </q-card>
   </q-dialog>
 </template>
+
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
 import { required, requiredIf } from '@vuelidate/validators'
-import { Dialog, EventBus } from 'quasar'
+import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
 import AuditTimeline from 'src/components/audit/AuditTimeline.vue'
 import AddressSearch from 'src/components/form/AddressSearch.vue'
@@ -422,7 +434,6 @@ import { useMixinSecurity } from 'src/mixins/security'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
 import { computed, inject, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 
 interface Props {
   model: Order,
@@ -430,7 +441,6 @@ interface Props {
   futureRecurring?: Order[]
 }
 const props = defineProps<Props>()
-const router = useRouter()
 const emits = defineEmits(['update:order'])
 const bus = inject('bus') as EventBus
 const i18n = useI18n()
@@ -447,6 +457,7 @@ const showChangesOrder = ref(false)
 const loadingChanges = ref(false)
 const orderDetailsRef = ref()
 const recurringModel = ref()
+const recurringChildChange = ref(false)
 
 const changes: LooseObject = ref({
   date: false,
@@ -496,6 +507,15 @@ const canEditDelivery = computed(() => {
   return true
 })
 
+const hasProductCategories = computed(() => {
+  if (!localModel.value.productcategories) {
+    return false
+  }
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return localModel.value.productcategories.filter(o => o.meta.pivot_active).length > 0
+})
+
 const recurringOccurenceOptions = computed(() => {
   if (localModel.value && localModel.value.recurring === 'Day') {
     return arrayRange(1, 50, 1, true)
@@ -527,7 +547,7 @@ const doSavePut = () => {
     localModel.value.scheduled_delivery_time = changes.value.timeDelivery_model
   }
   localModel.value.agreed_delivery_time = changes.value.agreed_timeDelivery_model
-  api.put(`/public/order/${props.model.id}`, localModel.value).then(() => {
+  api.put(`/public/order/${props.model.id}?recurringChildChange=${recurringChildChange.value}`, localModel.value).then(() => {
     doNotify('positive', 'Saved')
     emits('update:order')
     bus.emit('getDashboardStats')
@@ -543,6 +563,11 @@ const doSavePut = () => {
     changes.value.dateDelivery = false
     changes.value.timeDelivery = false
     changes.value.contractor = false
+    changes.value.productcategories = JSON.stringify(localModel.value.productcategories.map(o => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      return { id: o.id, active: o.meta.pivot_active }
+    }))
     showChangesOrder.value = false
   }).catch(error => {
     loading.value = false
@@ -551,29 +576,7 @@ const doSavePut = () => {
 }
 
 const doSave = () => {
-  if (localModel.value.recurring_parent_id) {
-    Dialog.create({
-      title: 'Recurring Booking',
-      message: 'This will only update the details of this booking. To make changes to all future recurring bookings, click "Edit Master Booking"',
-      ok: {
-        color: 'primary',
-        rounded: true,
-        label: 'Update'
-      },
-      cancel: {
-        color: 'secondary',
-        flat: true,
-        rounded: true,
-        label: 'Edit Master Booking'
-      }
-    }).onOk(() => {
-      doSavePut()
-    }).onCancel(() => {
-      router.push({ name: 'order-edit', params: { id: localModel.value.recurring_parent_id } })
-    })
-  } else {
-    doSavePut()
-  }
+  doSavePut()
 }
 
 const save = () => {
@@ -584,7 +587,12 @@ const save = () => {
     changes.value.agreed_time_model !== localModel.value.agreed_pickup_time ||
     changes.value.dateDelivery_model !== localModel.value.scheduled_delivery_date ||
     changes.value.timeDelivery_model !== localModel.value.scheduled_delivery_time ||
-    changes.value.agreed_timeDelivery_model !== localModel.value.agreed_delivery_time) {
+    changes.value.agreed_timeDelivery_model !== localModel.value.agreed_delivery_time ||
+    changes.value.productcategories !== JSON.stringify(localModel.value.productcategories.map(o => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      return { id: o.id, active: o.meta.pivot_active }
+    }))) {
     // delivery change
     if (changes.value.dateDelivery_model !== localModel.value.scheduled_delivery_date ||
       changes.value.timeDelivery_model !== localModel.value.scheduled_delivery_time ||
@@ -695,6 +703,11 @@ onMounted(async () => {
   changes.value.dateDelivery_model = JSON.parse(JSON.stringify(localModel.value.scheduled_delivery_date))
   changes.value.timeDelivery_model = JSON.parse(JSON.stringify(localModel.value.scheduled_delivery_time))
   changes.value.agreed_timeDelivery_model = JSON.parse(JSON.stringify(localModel.value.agreed_delivery_time))
+  changes.value.productcategories = JSON.stringify(localModel.value.productcategories.map(o => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return { id: o.id, active: o.meta.pivot_active }
+  }))
   agreedTimeOptions.value = agreedTimes()
   if (localModel.value.recurring_parent_id) {
     api.get(`/public/order/recurringparent/${localModel.value.recurring_parent_id}`).then(response => {

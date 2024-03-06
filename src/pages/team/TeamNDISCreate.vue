@@ -11,6 +11,12 @@
               <img src="~assets/images/logos/ndis_heart.svg" style="max-height:100px;" />
             </div>
             <q-card>
+              <q-card-section v-if="error">
+                <p>Sorry but that link has expired.</p>
+                <p>Please <a href="https://thelaundrylady.com.au/contact/" class="link">contact us</a>
+                  to obtain a new
+                  link.</p>
+              </q-card-section>
               <q-card-section v-if="success">
                 <div class="text-center q-mb-md"><q-icon name="o_check_circle" size="64px" color="green" /></div>
                 <div class="text-h5 text-center q-mb-sm">Details Submitted</div>
@@ -19,6 +25,7 @@
                 <p>You may safely close this window.</p>
               </q-card-section>
               <q-card-section v-if="!error && !success">
+                <p class="q-mb-none">Register your NDIS details with us to get started!</p>
                 <p>Please ensure all details are accurate and up to date:</p>
                 <q-input v-model="model.name" :error="$v.name.$invalid" label="Participant name" outlined />
                 <div class="row q-col-gutter-md">
@@ -34,7 +41,7 @@
                 <div class="row q-col-gutter-md">
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.email" :error="$v.email.$invalid" label="Your email address" outlined
-                      autocapitalize="off" disable />
+                      autocapitalize="off" />
                   </div>
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.mobile" :error="$v.mobile.$invalid"
@@ -51,7 +58,7 @@
                 <div class="row q-col-gutter-md">
                   <div class="col-xs-12 col-sm-6">
                     <q-input v-model="model.ndis_number" :label="$t('team.ndisNumber')" outlined
-                      :error="$v.ndis_number.$invalid"><template v-slot:prepend>
+                      :error="$v.ndis_number.$invalid" @blur="checkNDISNumber()"><template v-slot:prepend>
                         <img src="~assets/images/logos/ndis_heart.svg" style="height:32px" />
                       </template>
                     </q-input>
@@ -140,12 +147,11 @@ import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
 import HeaderComponent from 'src/components/header/HeaderComponent.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinCommon } from 'src/mixins/common'
-import { confirmDelete } from 'src/mixins/help'
+import { confirmDelete, doNotify } from 'src/mixins/help'
 import { onMounted, reactive, ref } from 'vue'
-import { useRoute } from 'vue-router'
 import { TeamNDISForm } from '../../components/models'
+import { useMixinDebug } from 'src/mixins/debug'
 
-const route = useRoute()
 const success = ref(false)
 const error = ref(false)
 const loading = ref(false)
@@ -198,12 +204,25 @@ const rules = {
 const $v = useVuelidate(rules, model)
 const $q = useQuasar()
 
+const checkNDISNumber = () => {
+  if (model.ndis_number) {
+    api.post('/public/team/ndis/checknumber', { ndis_number: model.ndis_number }).then(response => {
+      if (response.data.found) {
+        doNotify('negative', 'That NDIS number is already in use')
+        model.ndis_number = ''
+      }
+    }).catch(error => {
+      useMixinDebug(error)
+    })
+  }
+}
+
 const save = () => {
   confirmDelete('This submit the details to The Laundry Lady').onOk(() => {
     loading.value = true
     success.value = false
     error.value = false
-    api.put(`/public/team/ndis/update/${route.params.token}`, model).then(() => {
+    api.post('/public/team/ndis/create', model).then(() => {
       success.value = true
       loading.value = false
       $q.loading.hide()
@@ -218,12 +237,6 @@ const save = () => {
 onMounted(async () => {
   // fetch data
   error.value = false
-  api.get(`/public/team/ndis/update/${route.params.token}`).then(response => {
-    Object.assign(model, response.data)
-    loaded.value = true
-  }).catch(() => {
-    loaded.value = true
-    error.value = true
-  })
+  loaded.value = true
 })
 </script>

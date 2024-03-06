@@ -88,6 +88,11 @@ const routes: RouteRecordRaw[] = [
     path: '/ndis/update/:token',
     component: () => import('src/pages/team/TeamNDISUpdate.vue')
   },
+  {
+    name: 'ndis-register',
+    path: '/ndis/register',
+    component: () => import('src/pages/team/TeamNDISCreate.vue')
+  },
   // TFA SETUP
   {
     name: 'tfaSetup',

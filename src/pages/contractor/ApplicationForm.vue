@@ -64,8 +64,8 @@
                   <PostcodeRegionField v-model="model.suburb_postcode_region_id"
                     :invalid="$v.suburb_postcode_region_id.$invalid" :label="$t('address.suburb')" class="col-xs-12"
                     :outlined="true" />
-                  <q-input v-model="model.postcode" :error="$v.postcode.$invalid" :label="$t('address.postcode')" outlined
-                    class="col-xs-12 col-sm-6" />
+                  <q-input v-model="model.postcode" :error="$v.postcode.$invalid" :label="$t('address.postcode')"
+                    outlined class="col-xs-12 col-sm-6" />
                   <CountryField v-model="model.country_id" :label="$t('address.country')"
                     :invalid="$v.country_id.$invalid" class="col-xs-12 col-sm-6" :outlined="true" />
                 </div>
@@ -101,7 +101,8 @@
                 <p class="q-mt-sm">Please include contact details of 2 referees. These can be personal or work referees.
                   By
                   including their
-                  details you agree to us contacting them for a reference check. Your formal offer will not be made until
+                  details you agree to us contacting them for a reference check. Your formal offer will not be made
+                  until
                   we
                   have completed a satisfactory reference check.</p>
                 <div class="row q-col-gutter-md">
@@ -171,8 +172,9 @@
                   <div class="row q-col-gutter-md q-mb-md">
                     <div class="col-xs-12">
                       <PostcodeRegionField v-model="model.contractor_business_suburb_postcode_region_id"
-                        :label="$t('address.suburb')" :invalid="$v.contractor_business_suburb_postcode_region_id.$invalid"
-                        :outlined="true" :clearable="true" />
+                        :label="$t('address.suburb')"
+                        :invalid="$v.contractor_business_suburb_postcode_region_id.$invalid" :outlined="true"
+                        :clearable="true" />
                     </div>
                     <div class="col-xs-12 col-sm-6">
                       <q-input v-model="model.contractor_business_postcode" :label="$t('address.postcode')"
@@ -212,10 +214,12 @@
                     </div>
                   </div>
                 </div>
-                <p class="q-mt-sm" v-if="common?.operating_country === 'aud'">If you do not have an ABN, you can register
+                <p class="q-mt-sm" v-if="common?.operating_country === 'aud'">If you do not have an ABN, you can
+                  register
                   at: <a href="https://www.abr.gov.au/" target="_blank" class="link">Australian Government Australian
                     Business Register</a></p>
-                <p class="q-mt-sm" v-if="common?.operating_country === 'nzd'">If you do not have a NZ Business Number, you
+                <p class="q-mt-sm" v-if="common?.operating_country === 'nzd'">If you do not have a NZ Business Number,
+                  you
                   can
                   register
                   at: <a href="https://www.nzbn.govt.nz/get-an-nzbn/" target="_blank" class="link">NZBN Registration</a>
@@ -224,7 +228,8 @@
                   bottom-slots :error="$v.contractor_abn.$invalid" type="number" outlined maxlength="20">
                   <template v-slot:append v-if="common?.operating_country === 'aud'">
                     <q-icon name="check" v-if="model.contractor_abn_verified" color="positive" />
-                    <q-btn @click="verifyAbn()" label="Verify" color="primary" v-if="model.contractor_abn" flat rounded />
+                    <q-btn @click="verifyAbn()" label="Verify" color="primary" v-if="model.contractor_abn" flat
+                      rounded />
                   </template>
                 </q-input>
                 <div class="text-bold">Are you registered for GST?</div>
@@ -236,14 +241,15 @@
                   more information. If your GST status changes while you are working with The Laundry Lady please let us
                   know
                   immediately. <a href="https://www.ato.gov.au/Business/GST/Registering-for-GST/" target="_blank"
-                    class="link">Click here for ATO Registering for GST</a></p>
+                    class="link">Click
+                    here for ATO Registering for GST</a></p>
                 <p v-if="common?.operating_country === 'nzd'">If you are unsure if you need to register for GST talk to
                   your
                   accountant or check out the IRD site for
                   more information. If your GST status changes while you are working with The Laundry Lady please let us
                   know
-                  immediately. <a href="https://www.ird.govt.nz/gst/registering-for-gst/register-for-gst" target="_blank"
-                    class="link">Click here for more information</a></p>
+                  immediately. <a href="https://www.ird.govt.nz/gst/registering-for-gst/register-for-gst"
+                    target="_blank" class="link">Click here for more information</a></p>
                 <q-input v-model="model.contractor_gst_number" label="GST Number"
                   v-if="model.contractor_gst_registered && common?.operating_country === 'nzd'" outlined
                   :error="$v.contractor_gst_number.$invalid" mask="###-###-###" unmasked-value />
@@ -305,14 +311,17 @@
                   </div>
                   <div class="text-h6 q-mb-xs q-mt-md">Copy of Certificate of Currency for Public Liability Insuranced
                   </div>
-                  <p>You must have public liability insurance to the coverage of ${{ common?.operating_country === 'aud' ?
-                    5 : 2 }}
+                  <p>You must have public liability insurance to the coverage of ${{ common?.operating_country === 'aud'
+    ?
+    5 : 2 }}
                     million and maintain a current
                     certificate of insurance at all times while carrying out services for the Laundry Lady. The
                     certificate
-                    should name all applicants including any family members who may help you with deliveries from time to
+                    should name all applicants including any family members who may help you with deliveries from time
+                    to
                     time. You will need to send us an updated certificate of insurance every year. We have a partnership
-                    with Bizcover to offer you the best rates through our group buying power, and make it easier for us to
+                    with Bizcover to offer you the best rates through our group buying power, and make it easier for us
+                    to
                     track your certificate of currency. To apply for your Bizcover Public Liability Insurance under the
                     Laundry Lady partnership go to:</p>
                   <TmpAttachments type="Certificate of Currency for Public Liability Insurance"
@@ -321,7 +330,8 @@
                     <div class="text-h6 q-mb-xs q-mt-md">NDIS Workers Clearance Certificate</div>
                     <p>Please upload your NDIS Workers Clearance Certificate or email confirmation of your application
                       (save
-                      your screenshot as one of the allowed file extensions). See below for instructions on how to obtain
+                      your screenshot as one of the allowed file extensions). See below for instructions on how to
+                      obtain
                       your
                       NDIS Workers Clearance. Use appropriate state/territory link (listed below) for your location.</p>
                     <p><a
@@ -346,7 +356,8 @@
                   <div class="text-h6 q-mb-xs q-mt-md">Photo of yourself</div>
                   <p>Upload a head and shoulders photo of yourself in front of a white background. We will use this on
                     your
-                    public profile on our website that customers will see when booking. If you are a team (eg husband and
+                    public profile on our website that customers will see when booking. If you are a team (eg husband
+                    and
                     wife) please provide a photo of both of you together in front of a white background.</p>
                   <q-uploader color="primary" :url="uploadConfig.url" :headers="uploadConfig.headers"
                     @uploaded="successUpload" label="Upload document" auto-expand auto-upload
@@ -413,7 +424,7 @@
                 </div>
                 <div class="q-mb-sm">
                   <q-checkbox v-model="model.contractor_declaration_kit"
-                    :label="common?.operating_country === 'aud' ? 'I agree to purchase the Starter Kit for $399 including GST as detailed in the The Laundry Lady Contractor Package. An invoice will be sent after references are checked and confirmed.' : 'I agree to purchase the Starter Kit for $499 including GST as detailed in the The Laundry Lady Franchisee Package. An invoice will be sent after references are checked and confirmed.'" />
+                    :label="common?.operating_country === 'aud' ? 'I agree to purchase the Starter Kit for $499 including GST as detailed in the The Laundry Lady Contractor Package.' : 'I agree to purchase the Starter Kit for $499 including GST as detailed in the The Laundry Lady Franchisee Package.'" />
                 </div>
                 <div>
                   <q-checkbox v-model="model.contractor_declaration_information"
@@ -438,7 +449,7 @@
                   </div>
                 </div>
                 <q-btn @click="update()"
-                  :disable="loading || $v.$invalid || (common?.operating_country === 'aud' && !model.contractor_abn_verified)"
+                  :disable="loading || $v.$invalid || (common?.operating_country === 'aud' && !model.contractor_abn_verified) "
                   label="Submit" color="primary" class="q-mt-lg" rounded />
               </q-step>
             </q-stepper>
@@ -448,6 +459,7 @@
     </q-page-container>
   </q-layout>
 </template>
+
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
 import { email, required, requiredIf, sameAs } from '@vuelidate/validators'
