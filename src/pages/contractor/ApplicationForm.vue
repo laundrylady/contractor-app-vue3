@@ -344,7 +344,12 @@
                         href="https://www.myaccount.act.gov.au/WWVPNDIS/s/wwvp-ndis-new-application-v2" target="_blank"
                         class="link q-ml-sm">ACT</a><a
                         href="https://online.transport.wa.gov.au/tso/selfservice/public/ndis_wsu_apply_entry.jsf#/embd/preliminary-questions"
-                        target="_blank" class="link q-ml-sm">Western Australia</a></p>
+                        target="_blank" class="link q-ml-sm">Western Australia</a><a
+                        href="https://pfes.nt.gov.au/NDISCheck" target="_blank" class="link q-ml-sm">Northern
+                        Territory</a><a href="https://www.service.nsw.gov.au/transaction/ndiswc-apply" target="_blank"
+                        class="link q-ml-sm">New South Wales</a><a
+                        href="https://cbos.tas.gov.au/topics/licensing-and-registration/work-with-vulnerable-people/rwvp-ndis-worker-screening"
+                        target="_blank" class="link q-ml-sm">Tasmania</a></p>
                     <TmpAttachments type="NDIS Workers Clearance Certificate" :documents="model.documents"
                       @attachment:add="addDocument" @attachment:remove="removeDocument" />
                     <p class="q-mt-sm">You will need the Laundry Lady employer ID below to complete your application.
