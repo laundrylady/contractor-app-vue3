@@ -682,6 +682,11 @@ const resetChangeModel = () => {
   changes.value.dateDelivery_model = JSON.parse(JSON.stringify(localModel.value.scheduled_delivery_date))
   changes.value.timeDelivery_model = JSON.parse(JSON.stringify(localModel.value.scheduled_delivery_time))
   changes.value.agreed_timeDelivery_model = JSON.parse(JSON.stringify(localModel.value.agreed_delivery_time))
+  changes.value.productcategories = JSON.stringify(localModel.value.productcategories.map(o => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return { id: o.id, active: o.meta.pivot_active }
+  }))
 }
 
 onMounted(async () => {
