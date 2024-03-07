@@ -338,7 +338,7 @@
                       FAQs page for all the details to get ready for your service. <a
                         href="https://thelaundrylady.co.nz/faqs/" target="_blank" class="link"
                         v-if="common?.operating_country === 'nzd'">https://thelaundrylady.co.nz/faqs/</a>
-                      <a href="https://thelaundrylady.co.nz/faqs/" target="_blank" class="link"
+                      <a href="https://thelaundrylady.com.au/faqs/" target="_blank" class="link"
                         v-if="common?.operating_country === 'aud'">https://thelaundrylady.com.au/faqs/</a>
                     </p>
                     <OrderNewSummary :suburb_postcode_region_id="model.suburb_postcode_region_id"
