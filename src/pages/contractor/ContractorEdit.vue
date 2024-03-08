@@ -30,8 +30,8 @@
               </div>
             </div>
             <div v-if="showAvatarUpload" class="q-mt-md">
-              <q-uploader color="grey-7" :url="uploadConfig.url" :headers="uploadConfig.headers" @uploaded="successUpload"
-                label="Upload image" auto-expand auto-upload :accept="uploadConfig.images"
+              <q-uploader color="grey-7" :url="uploadConfig.url" :headers="uploadConfig.headers"
+                @uploaded="successUpload" label="Upload image" auto-expand auto-upload :accept="uploadConfig.images"
                 :field-name="uploadConfig.fieldName" ref="avatarUploader" v-if="!loading" />
             </div>
             <div class="row q-col-gutter-md q-mt-md">
@@ -60,7 +60,8 @@
               :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', postcode: 'postcode', lat: 'lat', lng: 'lng', country_id: 'country_id' }"
               :placeholder="$t('address.search')" />
             <q-input v-model="localModel.address1" :label="$t('address.line1')" bottom-slots outlined />
-            <q-input v-model="localModel.address2" :error="$v.address2.$invalid" :label="$t('address.line2')" outlined />
+            <q-input v-model="localModel.address2" :error="$v.address2.$invalid" :label="$t('address.line2')"
+              outlined />
             <div class="row q-col-gutter-md">
               <PostcodeRegionField v-model="localModel.suburb_postcode_region_id"
                 :invalid="$v.suburb_postcode_region_id.$invalid" :label="$t('address.suburb')" class="col-xs-12"
@@ -106,7 +107,7 @@
             </div>
             <div class="row q-col-gutter-md">
               <q-input v-model="localModel.contractor_bd_bsb" :label="$t('contractor.bd.bsb')" class="col-xs-6"
-                :error="$v.contractor_bd_bsb.$invalid" :outlined="true" />
+                :error="$v.contractor_bd_bsb.$invalid" :outlined="true" v-if="common?.operating_country === 'aud'" />
               <q-input v-model="localModel.contractor_bd_number" :label="$t('contractor.bd.number')" class="col-xs-6"
                 :error="$v.contractor_bd_number.$invalid" :outlined="true" />
             </div>
@@ -122,8 +123,8 @@
             <div class="row q-col-gutter-md">
               <q-input v-model="localModel.contractor_ec_first_name" :label="$t('contractor.ec.firstName')"
                 class="col-xs-6" :error="$v.contractor_ec_first_name.$invalid" outlined />
-              <q-input v-model="localModel.contractor_ec_last_name" :label="$t('contractor.ec.lastName')" class="col-xs-6"
-                :error="$v.contractor_ec_last_name.$invalid" outlined />
+              <q-input v-model="localModel.contractor_ec_last_name" :label="$t('contractor.ec.lastName')"
+                class="col-xs-6" :error="$v.contractor_ec_last_name.$invalid" outlined />
             </div>
             <div class="row q-col-gutter-md">
               <q-input v-model="localModel.contractor_ec_phone" :label="$t('contractor.ec.phone')" class="col-xs-6"
@@ -142,7 +143,7 @@
 </template>
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core'
-import { required, email } from '@vuelidate/validators'
+import { required, email, requiredIf } from '@vuelidate/validators'
 import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
 import AddressSearch from 'src/components/form/AddressSearch.vue'
@@ -181,7 +182,7 @@ const rules = {
   contractor_badge_name: { required },
   contractor_bd_name: { required },
   contractor_bd_bank: { required },
-  contractor_bd_bsb: { required },
+  contractor_bd_bsb: { requiredIf: requiredIf(() => common?.value?.operating_country === 'aud') },
   contractor_bd_number: { required },
   contractor_ec_first_name: { required },
   contractor_ec_last_name: { required },
