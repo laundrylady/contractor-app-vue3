@@ -76,7 +76,7 @@
                   <DateFieldVue v-model="model.ndis_plan_start" :label="$t('team.ndisPlanStart')" :outlined="true"
                     class="col-xs-12 col-sm-6" :invalid="$v.ndis_plan_start.$invalid" />
                   <DateFieldVue v-model="model.ndis_plan_end" :label="$t('team.ndisPlanEnd')" :outlined="true"
-                    class="col-xs-12 col-sm-6" :invalid="$v.ndis_plan_end.$invalid" />
+                    class="col-xs-12 col-sm-6" :invalid="$v.ndis_plan_end.$invalid || !ndisPlanEndDateValid" />
                 </div>
                 <div class="q-mt-md">
                   <q-toggle v-model="model.ndis_line_item"
@@ -112,8 +112,8 @@
                 </div>
               </q-card-section>
               <q-card-actions align="right" v-if="!error && !success">
-                <q-btn @click="save()" color="primary" label="Submit" rounded :disable="$v.$invalid || loading"
-                  :loading="loading" />
+                <q-btn @click="save()" color="primary" label="Submit" rounded
+                  :disable="$v.$invalid || loading || !ndisPlanEndDateValid" :loading="loading" />
               </q-card-actions>
             </q-card>
           </div>
@@ -141,9 +141,10 @@ import HeaderComponent from 'src/components/header/HeaderComponent.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinCommon } from 'src/mixins/common'
 import { confirmDelete } from 'src/mixins/help'
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { TeamNDISForm } from '../../components/models'
+import moment from 'moment-timezone'
 
 const route = useRoute()
 const success = ref(false)
@@ -214,6 +215,21 @@ const save = () => {
     })
   })
 }
+
+const ndisPlanEndDateValid = computed(() => {
+  if (!model.ndis_plan_start) {
+    return true
+  }
+  if (!model.ndis_plan_end) {
+    return false
+  }
+  const start = moment(model.ndis_plan_start, 'DD/MM/YYYY')
+  const end = moment(model.ndis_plan_end, 'DD/MM/YYYY')
+  if (end.isBefore(moment()) || end.isBefore(start)) {
+    return false
+  }
+  return true
+})
 
 onMounted(async () => {
   // fetch data

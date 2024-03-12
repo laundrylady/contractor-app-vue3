@@ -12,10 +12,9 @@
             </div>
             <q-card>
               <q-card-section v-if="error">
-                <p>Sorry but that link has expired.</p>
+                <p>Sorry there was an error with your submission.</p>
                 <p>Please <a href="https://thelaundrylady.com.au/contact/" class="link">contact us</a>
-                  to obtain a new
-                  link.</p>
+                  for support.</p>
               </q-card-section>
               <q-card-section v-if="success">
                 <div class="text-center q-mb-md"><q-icon name="o_check_circle" size="64px" color="green" /></div>
@@ -83,7 +82,7 @@
                   <DateFieldVue v-model="model.ndis_plan_start" :label="$t('team.ndisPlanStart')" :outlined="true"
                     class="col-xs-12 col-sm-6" :invalid="$v.ndis_plan_start.$invalid" />
                   <DateFieldVue v-model="model.ndis_plan_end" :label="$t('team.ndisPlanEnd')" :outlined="true"
-                    class="col-xs-12 col-sm-6" :invalid="$v.ndis_plan_end.$invalid" />
+                    class="col-xs-12 col-sm-6" :invalid="$v.ndis_plan_end.$invalid || !ndisPlanEndDateValid" />
                 </div>
                 <div class="q-mt-md">
                   <q-toggle v-model="model.ndis_line_item"
@@ -119,8 +118,8 @@
                 </div>
               </q-card-section>
               <q-card-actions align="right" v-if="!error && !success">
-                <q-btn @click="save()" color="primary" label="Submit" rounded :disable="$v.$invalid || loading"
-                  :loading="loading" />
+                <q-btn @click="save()" color="primary" label="Submit" rounded
+                  :disable="$v.$invalid || loading || !ndisPlanEndDateValid" :loading="loading" />
               </q-card-actions>
             </q-card>
           </div>
@@ -148,9 +147,10 @@ import HeaderComponent from 'src/components/header/HeaderComponent.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinCommon } from 'src/mixins/common'
 import { confirmDelete, doNotify } from 'src/mixins/help'
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { TeamNDISForm } from '../../components/models'
 import { useMixinDebug } from 'src/mixins/debug'
+import moment from 'moment-timezone'
 
 const success = ref(false)
 const error = ref(false)
@@ -233,6 +233,21 @@ const save = () => {
     })
   })
 }
+
+const ndisPlanEndDateValid = computed(() => {
+  if (!model.ndis_plan_start) {
+    return true
+  }
+  if (!model.ndis_plan_end) {
+    return false
+  }
+  const start = moment(model.ndis_plan_start, 'DD/MM/YYYY')
+  const end = moment(model.ndis_plan_end, 'DD/MM/YYYY')
+  if (end.isBefore(moment()) || end.isBefore(start)) {
+    return false
+  }
+  return true
+})
 
 onMounted(async () => {
   // fetch data
