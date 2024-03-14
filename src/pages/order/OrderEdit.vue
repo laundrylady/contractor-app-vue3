@@ -347,9 +347,6 @@
           :options="cancelOrderReasons" bottom-slots />
         <q-input v-model="localModel.cancel_notes" label="Extra notes for the customer" type="textarea" rows="3"
           outlined bottom-slots />
-        <div>
-          <q-checkbox v-model="localModel.cancel_rebook" label="Booking needs rescheduling" />
-        </div>
         <div v-if="localModel.recurring_order || localModel.recurring_parent_id">
           <q-checkbox v-model="localModel.cancel_recurring" label="Cancel all future recurring bookings" />
         </div>
