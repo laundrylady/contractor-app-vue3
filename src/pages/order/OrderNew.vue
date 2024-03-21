@@ -402,7 +402,7 @@ const confirming = ref(false)
 const errors = ref<LooseObject[]>([])
 const common = useMixinCommon()
 const route = useRoute()
-const iframed = ref(false)
+const iframed = ref(true)
 const loaded = ref(false)
 const agreeNdis = ref(false)
 const tokenTeams = ref()
@@ -693,8 +693,8 @@ onMounted(async () => {
     model.suburb_postcode_region_id = parseFloat(route.query.location.toString())
   }
   // check for iframe
-  if (route.query.iframed) {
-    iframed.value = true
+  if (!route.query.iframed) {
+    iframed.value = false
   }
   if (route.query.t) {
     api.post('/public/team/findbytoken', { token: route.query.t }).then((response: LooseObject) => {

@@ -152,7 +152,7 @@ import { useRoute } from 'vue-router'
 
 const loading = ref(false)
 const success = ref(false)
-const iframed = ref(false)
+const iframed = ref(true)
 const route = useRoute()
 const common = useMixinCommon()
 const emailError = ref({ error: false, msg: '' })
@@ -220,8 +220,8 @@ const checkEmail = () => {
 
 onMounted(() => {
   // check for iframe
-  if (route.query.iframed) {
-    iframed.value = true
+  if (!route.query.iframed) {
+    iframed.value = false
   }
   // FB Meta Pixel
   try {
