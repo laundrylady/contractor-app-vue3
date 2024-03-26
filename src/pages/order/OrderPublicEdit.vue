@@ -12,7 +12,8 @@
             <div class="col-xs-12 col-sm-6 offset-sm-3">
               <div class="text-center text-h4 q-mb-xl">Booking #{{ model.display_id }}</div>
               <div v-if="!modelOriginal.scheduled_pickup_date" class="bg-red text-white q-pa-md">
-                There is an issue with this booking preventing you from making changes. Please contact us to make changes
+                There is an issue with this booking preventing you from making changes. Please contact us to make
+                changes
                 to this booking.</div>
               <div v-if="modelOriginal.scheduled_pickup_date">
                 <q-card>
@@ -21,19 +22,19 @@
                     <q-card>
                       <q-card-section>
                         <div class="q-mb-sm"><q-icon name="account_circle" size="24px" /> {{
-                          modelOriginal.team }}</div>
+        modelOriginal.team }}</div>
                         <div class="q-mb-sm">
                           <span v-if="modelOriginal.suburb"><q-icon name="place" size="24px" /> {{
-                            modelOriginal.suburb }}</span>
+        modelOriginal.suburb }}</span>
                         </div>
                         <div
                           v-if="modelOriginal.contractor && modelOriginal.scheduled_pickup_date && modelOriginal.scheduled_pickup_time">
                           <q-icon name="person" size="24px" v-if="!$q.screen.xs" /> Pickup with {{
-                            modelOriginal.contractor.first_name }}
+        modelOriginal.contractor.first_name }}
                           on {{
-                            modelOriginal.scheduled_pickup_date }} <br v-if="$q.screen.xs" /> ({{
-    hourBookingDisplay(modelOriginal.scheduled_pickup_time)
-  }})
+        modelOriginal.scheduled_pickup_date }} <br v-if="$q.screen.xs" /> ({{
+        hourBookingDisplay(modelOriginal.scheduled_pickup_time)
+      }})
                         </div>
                       </q-card-section>
                     </q-card>
@@ -44,9 +45,10 @@
                       <q-icon name="check" /> Your {{ $t('order.name') }} has been cancelled.
                     </div>
                     <div class="q-mt-lg text-center" v-if="!showChange && !showCancel">
-                      <q-btn @click="showChangeFunc()" label="Make a change to this booking" rounded flat color="primary"
-                        icon="edit" />
-                      <q-btn @click="showCancelFunc()" label="Cancel this booking" rounded flat color="red" />
+                      <q-btn @click="showChangeFunc()" label="Make a change to this booking" rounded flat
+                        color="primary" icon="edit" v-if="canChange" />
+                      <q-btn @click="showCancelFunc()" label="Cancel this booking" rounded flat color="red"
+                        v-if="canCancel" />
                     </div>
                     <div v-if="showChange && !showChangeSuccess" class="q-mt-xl">
                       <div class="row q-col-gutter-md">
@@ -69,7 +71,8 @@
                           </div>
                           <div class="text-grey text-bold q-mt-md">SCHEDULED PICKUP DATE</div>
                           <q-date v-model="model.scheduled_pickup_date" mask="DD/MM/YYYY" :options="minDate"
-                            class="q-mt-md" @navigation="handleScheduledPickupDateNav" :disable="loadingAvailableDates" />
+                            class="q-mt-md" @navigation="handleScheduledPickupDateNav"
+                            :disable="loadingAvailableDates" />
                         </div>
                         <div class="col-xs-12 col-sm-7">
                           <div class="text-grey text-bold q-mb-md">SCHEDULED PICKUP TIME</div>
@@ -92,13 +95,14 @@
                     <div v-if="showCancel && !showCancelSuccess" class="q-mt-xl">
                       <q-select v-model="model.cancel_reason" :options="cancelOrderReasons" outlined
                         label="Reason for cancellation" :error="$v.cancel_reason.$invalid" />
-                      <q-input v-model="model.cancel_notes" label="Notes about the cancellation" type="textarea" rows="3"
-                        outlined bottom-slots />
+                      <q-input v-model="model.cancel_notes" label="Notes about the cancellation" type="textarea"
+                        rows="3" outlined bottom-slots />
                     </div>
                   </q-card-section>
                   <q-card-actions align="right">
                     <div v-if="showChange && !showChangeSuccess">
-                      <q-btn @click="showChange = false" label="Cancel" color="secondary" flat rounded class="q-mr-sm" />
+                      <q-btn @click="showChange = false" label="Cancel" color="secondary" flat rounded
+                        class="q-mr-sm" />
                       <q-btn @click="updateOrder()" :disable="$v.$invalid" label="Update Booking" color="primary"
                         rounded />
                     </div>
@@ -194,6 +198,10 @@ const getOrder = () => {
     modelOriginal.value = JSON.parse(JSON.stringify(response.data))
     currentBookingDate.value = moment(response.data.scheduled_pickup_date, 'DD/MM/YYYY')
     getAvailableContractorsDates()
+    setInterval(() => { canChangeFunc() }, 60000)
+    setInterval(() => { canCancelFunc() }, 60000)
+    canChangeFunc()
+    canCancelFunc()
   }).catch(error => {
     useMixinDebug(error)
   })
@@ -244,6 +252,56 @@ const cancelOrder = () => {
       useMixinDebug(error)
     })
   })
+}
+
+const canChange = ref(false)
+const canChangeFunc = () => {
+  if (!model.value.scheduled_pickup_date || !model.value.scheduled_pickup_time) {
+    canChange.value = true
+    return true
+  }
+  if (model.value.scheduled_pickup_date !== moment().format('DD/MM/YYYY')) {
+    canChange.value = true
+    return true
+  }
+  const pickupTime = parseFloat(model.value.scheduled_pickup_time.split('-'))
+  const timeNow = parseFloat(moment().format('H'))
+  if (!isNaN(pickupTime) && !isNaN(timeNow)) {
+    const diff = pickupTime - timeNow
+    if (diff <= 3) {
+      canChange.value = false
+      return false
+    } else {
+      canChange.value = true
+      return true
+    }
+  }
+  canChange.value = false
+}
+
+const canCancel = ref(false)
+const canCancelFunc = () => {
+  if (!model.value.scheduled_pickup_date || !model.value.scheduled_pickup_time) {
+    canCancel.value = true
+    return false
+  }
+  if (model.value.scheduled_pickup_date !== moment().format('DD/MM/YYYY')) {
+    canCancel.value = true
+    return true
+  }
+  const pickupTime = parseFloat(model.value.scheduled_pickup_time.split('-'))
+  const timeNow = parseFloat(moment().format('H'))
+  if (!isNaN(pickupTime) && !isNaN(timeNow)) {
+    const diff = pickupTime - timeNow
+    if (diff <= 3) {
+      canCancel.value = false
+      return false
+    } else {
+      canCancel.value = true
+      return true
+    }
+  }
+  canCancel.value = false
 }
 
 onMounted(async () => {
