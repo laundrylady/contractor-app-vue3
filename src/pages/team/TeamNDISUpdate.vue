@@ -200,7 +200,7 @@ const $v = useVuelidate(rules, model)
 const $q = useQuasar()
 
 const save = () => {
-  confirmDelete('This submit the details to The Laundry Lady').onOk(() => {
+  confirmDelete('This will submit the details to The Laundry Lady').onOk(() => {
     loading.value = true
     success.value = false
     error.value = false
