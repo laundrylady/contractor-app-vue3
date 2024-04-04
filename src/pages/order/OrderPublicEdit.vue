@@ -49,6 +49,11 @@
                         color="primary" icon="edit" v-if="canChange" />
                       <q-btn @click="showCancelFunc()" label="Cancel this booking" rounded flat color="red"
                         v-if="canCancel" />
+                      <div v-if="!canCancel && !canChange">
+                        *This Booking is within the 3 hour notification period of the agreed pickup time.
+                        <div v-if="model.contractor">Please contact
+                          {{ model.contractor.contractor_badge_name }} on {{ model.contractor.mobile }}</div>
+                      </div>
                     </div>
                     <div v-if="showChange && !showChangeSuccess" class="q-mt-xl">
                       <div class="row q-col-gutter-md">
