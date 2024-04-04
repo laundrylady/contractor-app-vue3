@@ -151,12 +151,14 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { TeamNDISForm } from '../../components/models'
 import { useMixinDebug } from 'src/mixins/debug'
 import moment from 'moment-timezone'
+import { useRouter } from 'vue-router'
 
 const success = ref(false)
 const error = ref(false)
 const loading = ref(false)
 const errors = ref<LooseObject[]>([])
 const common = useMixinCommon()
+const router = useRouter()
 const loaded = ref(false)
 const schema = {
   id: null,
@@ -252,6 +254,10 @@ const ndisPlanEndDateValid = computed(() => {
 onMounted(async () => {
   // fetch data
   error.value = false
-  loaded.value = true
+  if (common.value?.operating_country !== 'aud') {
+    router.push({ name: 'error404' })
+  } else {
+    loaded.value = true
+  }
 })
 </script>

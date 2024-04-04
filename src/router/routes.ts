@@ -242,6 +242,7 @@ const routes: RouteRecordRaw[] = [
   // Always leave this as last one,
   // but you can also remove it
   {
+    name: 'error404',
     path: '/error404',
     component: () => import('pages/ErrorNotFound.vue')
   },
