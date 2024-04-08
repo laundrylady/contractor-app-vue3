@@ -85,16 +85,16 @@
                     class="col-xs-12 col-sm-6" :invalid="$v.ndis_plan_end.$invalid || !ndisPlanEndDateValid"
                     :fdc="true" />
                 </div>
-                <div class="q-mt-md">
-                  <q-toggle v-model="model.ndis_line_item"
+                <div class="q-mt-lg q-mb-sm">
+                  <q-checkbox v-model="model.ndis_line_item"
                     label="Yes I (the client) have item number 01_021_0120_1_1 – Linen Service stated in my current NDIS plan" />
                 </div>
-                <div>
-                  <q-toggle v-model="model.ndis_funds"
+                <div class="q-mb-sm">
+                  <q-checkbox v-model="model.ndis_funds"
                     label="Yes I (the client) have sufficient funds available under the Linen code to pay for my services and I agree to inform Laundry Lady if funds run out" />
                 </div>
-                <div class="q-mb-sm">
-                  <q-toggle v-model="model.ndis_funds_inform"
+                <div class="q-mb-md">
+                  <q-checkbox v-model="model.ndis_funds_inform"
                     label="Yes I (the client) agree to inform Laundry Lady if there are any changes to my plan that will affect claiming under this code" />
                 </div>
                 <q-radio v-model="model.ndis_payment" val="self"
@@ -201,7 +201,10 @@ const rules = {
   ndis_plan_start: { required },
   ndis_plan_end: { required },
   ndis_plan_manager_email: { email },
-  ndis_support_coordinator_email: { email }
+  ndis_support_coordinator_email: { email },
+  ndis_line_item: { checked: (value: boolean) => value === true },
+  ndis_funds: { checked: (value: boolean) => value === true },
+  ndis_funds_inform: { checked: (value: boolean) => value === true }
 }
 
 const $v = useVuelidate(rules, model)
