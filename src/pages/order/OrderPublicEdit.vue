@@ -22,19 +22,19 @@
                     <q-card>
                       <q-card-section>
                         <div class="q-mb-sm"><q-icon name="account_circle" size="24px" /> {{
-        modelOriginal.team }}</div>
+                          modelOriginal.team }}</div>
                         <div class="q-mb-sm">
                           <span v-if="modelOriginal.suburb"><q-icon name="place" size="24px" /> {{
-        modelOriginal.suburb }}</span>
+                            modelOriginal.suburb }}</span>
                         </div>
                         <div
                           v-if="modelOriginal.contractor && modelOriginal.scheduled_pickup_date && modelOriginal.scheduled_pickup_time">
                           <q-icon name="person" size="24px" v-if="!$q.screen.xs" /> Pickup with {{
-        modelOriginal.contractor.first_name }}
+                            modelOriginal.contractor.first_name }}
                           on {{
-        modelOriginal.scheduled_pickup_date }} <br v-if="$q.screen.xs" /> ({{
-        hourBookingDisplay(modelOriginal.scheduled_pickup_time)
-      }})
+                            modelOriginal.scheduled_pickup_date }} <br v-if="$q.screen.xs" /> ({{
+                            hourBookingDisplay(modelOriginal.scheduled_pickup_time)
+                          }})
                         </div>
                       </q-card-section>
                     </q-card>
@@ -78,6 +78,13 @@
                           <q-date v-model="model.scheduled_pickup_date" mask="DD/MM/YYYY" :options="minDate"
                             class="q-mt-md" @navigation="handleScheduledPickupDateNav"
                             :disable="loadingAvailableDates" />
+                          <div v-if="model.recurringInfo && model.recurringInfo.recurring" class="q-mt-md">*This is a
+                            recurring
+                            booking every {{ model.recurringInfo.recurring_every > 1 ?
+                              model.recurringInfo.recurring_every : '' }} {{
+                              model.recurringInfo.recurring.toLowerCase() }}{{ model.recurringInfo.recurring_every > 1 ?
+                              's' : '' }}. Please contact
+                            your Laundry Lady/Lad to make any changes to the schedule.</div>
                         </div>
                         <div class="col-xs-12 col-sm-7">
                           <div class="text-grey text-bold q-mb-md">SCHEDULED PICKUP TIME</div>

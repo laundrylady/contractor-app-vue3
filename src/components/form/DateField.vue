@@ -4,7 +4,8 @@
     <template v-slot:append>
       <q-icon name="event" class="cursor-pointer">
         <q-popup-proxy cover transition-show="scale" transition-hide="scale" ref="qDateProxy">
-          <q-date :model-value="modelValue" @update:model-value="fromCalendar" mask="DD/MM/YYYY" color="secondary">
+          <q-date :model-value="modelValue" @update:model-value="fromCalendar" mask="DD/MM/YYYY" color="secondary"
+            :options="minDate">
             <div class="row items-center justify-end">
               <q-btn v-close-popup label="Close" color="primary" flat />
             </div>
@@ -34,7 +35,8 @@ interface Props {
   outlined?: boolean,
   hint?: string,
   year?: number,
-  filled?: boolean
+  filled?: boolean,
+  max?: string
 }
 
 const $q = useQuasar()
@@ -42,6 +44,22 @@ const props = defineProps<Props>()
 const emits = defineEmits(['update:modelValue'])
 const hintCurrent = ref()
 const qDateProxy = ref<QPopupProxy>()
+
+const minDate = (date: string) => {
+  const compareDate = moment(date, 'YYYY/MM/DD')
+  let can = true
+  if (props.fdc) {
+    if (compareDate.isBefore(moment())) {
+      can = false
+    }
+  }
+  if (props.max) {
+    if (compareDate.isAfter(moment(props.max))) {
+      can = false
+    }
+  }
+  return can
+}
 
 const fromCalendar = (val: string) => {
   if (qDateProxy.value) {

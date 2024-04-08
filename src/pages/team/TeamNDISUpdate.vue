@@ -76,7 +76,8 @@
                   <DateFieldVue v-model="model.ndis_plan_start" :label="$t('team.ndisPlanStart')" :outlined="true"
                     class="col-xs-12 col-sm-6" :invalid="$v.ndis_plan_start.$invalid" />
                   <DateFieldVue v-model="model.ndis_plan_end" :label="$t('team.ndisPlanEnd')" :outlined="true"
-                    class="col-xs-12 col-sm-6" :invalid="$v.ndis_plan_end.$invalid || !ndisPlanEndDateValid" />
+                    class="col-xs-12 col-sm-6" :invalid="$v.ndis_plan_end.$invalid || !ndisPlanEndDateValid"
+                    :fdc="true" />
                 </div>
                 <div class="q-mt-md">
                   <q-toggle v-model="model.ndis_line_item"
