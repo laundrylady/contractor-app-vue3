@@ -87,20 +87,23 @@
                 </div>
                 <div class="q-mt-lg q-mb-sm">
                   <q-checkbox v-model="model.ndis_line_item"
-                    label="Yes I (the client) have item number 01_021_0120_1_1 – Linen Service stated in my current NDIS plan" />
+                    label="Yes I (the client) have item number 01_021_0120_1_1 – Linen Service stated in my current NDIS plan."
+                    :color="$v.ndis_line_item.$invalid ? 'negative' : 'primary'" keep-color />
                 </div>
                 <div class="q-mb-sm">
                   <q-checkbox v-model="model.ndis_funds"
-                    label="Yes I (the client) have sufficient funds available under the Linen code to pay for my services and I agree to inform Laundry Lady if funds run out" />
+                    label="Yes I (the client) have sufficient funds available under the Linen code to pay for my services and I agree to inform Laundry Lady if funds run out."
+                    :color="$v.ndis_funds.$invalid ? 'negative' : 'primary'" keep-color />
                 </div>
                 <div class="q-mb-md">
                   <q-checkbox v-model="model.ndis_funds_inform"
-                    label="Yes I (the client) agree to inform Laundry Lady if there are any changes to my plan that will affect claiming under this code" />
+                    label="Yes I (the client) agree to inform Laundry Lady if there are any changes to my plan that will affect claiming under this code."
+                    :color="$v.ndis_funds_inform.$invalid ? 'negative' : 'primary'" keep-color />
                 </div>
                 <q-radio v-model="model.ndis_payment" val="self"
-                  label="I (the client) will pay for services myself and will be responsible for claiming under the NDIS (self-managed)" />
+                  label="I (the client) will pay for services myself and will be responsible for claiming under the NDIS (self-managed)." />
                 <q-radio v-model="model.ndis_payment" val="plan"
-                  label="The invoice should be sent to my plan manager for payment" />
+                  label="The invoice should be sent to my plan manager for payment." />
                 <div class="text-h6 q-mt-sm">Pickup Address</div>
                 <p>Enter your pickup / delivery address.</p>
                 <AddressSearch :model="model" :filled="true"
