@@ -307,15 +307,14 @@
                       <div v-if="model.recurring_order" class="q-pa-md q-mt-sm q-mb-md rounded-borders"
                         :class="{ 'bg-grey-1': !$q.dark.isActive }" style="border: 1px solid #efefef">
                         <div class="row q-col-gutter-md">
-                          <div class="col-xs-12 col-sm-6">
+                          <div class="col-xs-12 col-sm-6 col-lg-5">
                             <q-select v-model="model.recurring" :label="$t('order.recurringFrequency')"
                               :options="['Week', 'Month', 'Day']" bottom-slots :error="$v.recurring.$invalid"
-                              @update:model-value="model.recurring_end = ''" />
+                              @update:model-value="model.recurring_end = ''" outlined />
                           </div>
-                          <div class="col-xs-12 col-sm-6" v-if="model.recurring">
-                            <q-select v-model="model.recurring_every" label="Repeat every"
-                              :options="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]"
-                              :error="$v.recurring_every.$invalid" options-cover>
+                          <div class="col-xs-12 col-sm-6 col-lg-5" v-if="model.recurring">
+                            <q-select v-model="model.recurring_every" label="Repeat every" :options="[1, 2, 3, 4, 5, 6]"
+                              :error="$v.recurring_every.$invalid" outlined>
                               <template v-slot:append>
                                 <q-badge :label="`${model.recurring}s`" color="grey" />
                               </template>
@@ -329,15 +328,15 @@
                             size="sm" />
                         </div>
                         <div class="row q-col-gutter-md">
-                          <div class="col-xs-12 col-sm-6" v-if="model.recurring">
+                          <div class="col-xs-12 col-sm-6 col-lg-5" v-if="model.recurring">
                             <q-select v-model="model.recurring_end_type" label="Ends"
                               :options="['After', 'On', 'Never']" :error="$v.recurring_end_type.$invalid"
-                              @update:model-value="model.recurring_end = ''" />
+                              @update:model-value="model.recurring_end = ''" outlined />
                           </div>
-                          <div class="col-xs-12 col-sm-6" v-if="model.recurring">
+                          <div class="col-xs-12 col-sm-6 col-lg-5" v-if="model.recurring">
                             <q-select v-model="model.recurring_end" v-if="model.recurring_end_type === 'After'"
                               label="Choose the amount" :error="$v.recurring_end.$invalid"
-                              :options="recurringOccurenceOptions">
+                              :options="recurringOccurenceOptions" outlined>
                               <template v-slot:append><q-badge label="occurences" color="grey" /></template>
                             </q-select>
                             <DateFieldVue v-model="model.recurring_end" label="Choose an end date" :outlined="true"
