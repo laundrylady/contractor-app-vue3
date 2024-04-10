@@ -300,53 +300,28 @@
                       :scheduled_pickup_date="model.scheduled_pickup_date"
                       :scheduled_pickup_time="model.scheduled_pickup_time" :productcategories="model.productcategories"
                       :categories="categories" v-if="categories && model.suburb_postcode_region_id" />
-                    <q-input v-model="model.special_instructions" class="q-mt-lg" type="textarea"
-                      label="Please enter any special instructions for this booking" outlined rows="3" />
-                    <div class="q-mt-md">
-                      <q-toggle v-model="model.recurring_order" :label="$t('order.recurring')" />
-                      <div v-if="model.recurring_order" class="q-pa-md q-mt-sm q-mb-md rounded-borders"
-                        :class="{ 'bg-grey-1': !$q.dark.isActive }" style="border: 1px solid #efefef">
+                    <div class="q-mt-lg">
+                      <div class="q-mb-xs">Would you like to set this as a recurring booking?</div>
+                      <!-- @vue-ignore -->
+                      <q-radio v-model="model.recurring_order" :val="true" label="Yes" />
+                      <!-- @vue-ignore -->
+                      <q-radio v-model="model.recurring_order" :val="false" label="No" class="q-ml-sm" />
+                      <div v-if="model.recurring_order" class="q-mt-sm">
                         <div class="row q-col-gutter-md">
-                          <div class="col-xs-12 col-sm-6 col-lg-5">
-                            <q-select v-model="model.recurring" :label="$t('order.recurringFrequency')"
-                              :options="['Week', 'Month', 'Day']" bottom-slots :error="$v.recurring.$invalid"
+                          <div class="col-xs-12 col-sm-6">
+                            <q-select v-model="model.recurring" label="Frequency"
+                              :options="['Weekly', 'Fortnightly', 'Other']" bottom-slots :error="$v.recurring.$invalid"
                               @update:model-value="model.recurring_end = ''" outlined />
                           </div>
-                          <div class="col-xs-12 col-sm-6 col-lg-5" v-if="model.recurring">
-                            <q-select v-model="model.recurring_every" label="Repeat every" :options="[1, 2, 3, 4, 5, 6]"
-                              :error="$v.recurring_every.$invalid" outlined>
-                              <template v-slot:append>
-                                <q-badge :label="`${model.recurring}s`" color="grey" />
-                              </template>
-                            </q-select>
-                          </div>
                         </div>
-                        <div v-if="model.recurring === 'Week'" class="q-mb-md">
-                          <p>If the booking needs to occur multiple times a week, choose the days below:</p>
-                          <q-btn v-for="d in model.recurring_days.days" :key="d.day" color="primary"
-                            @click="d.active = !d.active" :label="d.label" :flat="!d.active" class="q-mr-xs"
-                            size="sm" />
-                        </div>
-                        <div class="row q-col-gutter-md">
-                          <div class="col-xs-12 col-sm-6 col-lg-5" v-if="model.recurring">
-                            <q-select v-model="model.recurring_end_type" label="Ends"
-                              :options="['After', 'On', 'Never']" :error="$v.recurring_end_type.$invalid"
-                              @update:model-value="model.recurring_end = ''" outlined />
-                          </div>
-                          <div class="col-xs-12 col-sm-6 col-lg-5" v-if="model.recurring">
-                            <q-select v-model="model.recurring_end" v-if="model.recurring_end_type === 'After'"
-                              label="Choose the amount" :error="$v.recurring_end.$invalid"
-                              :options="recurringOccurenceOptions" outlined>
-                              <template v-slot:append><q-badge label="occurences" color="grey" /></template>
-                            </q-select>
-                            <DateFieldVue v-model="model.recurring_end" label="Choose an end date" :outlined="true"
-                              :invalid="$v.recurring_end.$invalid" v-if="model.recurring_end_type === 'On'" :fdc="true"
-                              :max="moment().add(3, 'months').format('YYYY-MM-DD')" />
-                          </div>
-                        </div>
+                        <q-input v-model="model.recurring_notes" v-if="model.recurring === 'Other'"
+                          label="Please enter any notes about the recurring booking"
+                          :error="$v.recurring_notes.$invalid" type="textarea" rows="3" outlined />
                       </div>
                     </div>
-                    <div class="q-mb-md">
+                    <q-input v-model="model.special_instructions" class="q-mt-lg" type="textarea"
+                      label="Please enter any special instructions for this booking" outlined rows="3" />
+                    <div class="q-mb-md q-mt-sm">
                       <q-toggle v-model="model.team.marketing_subscribed"
                         label="I want to receive emails with the latest news and updates from The Laundry Lady" />
                     </div>
@@ -415,23 +390,23 @@ import { email, required, requiredIf } from '@vuelidate/validators'
 import moment from 'moment-timezone'
 import { EventBus, useQuasar } from 'quasar'
 import { api } from 'src/boot/axios'
+import FooterComponent from 'src/components/footer/FooterComponent.vue'
 import AddressSearch from 'src/components/form/AddressSearch.vue'
 import CountryField from 'src/components/form/CountryField.vue'
 import DateFieldVue from 'src/components/form/DateField.vue'
 import PostcodeRegionField from 'src/components/form/PostcodeRegionField.vue'
+import HeaderComponent from 'src/components/header/HeaderComponent.vue'
 import OrderNewSummary from 'src/components/order/OrderNewSummary.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinCommon } from 'src/mixins/common'
 import { useMixinDebug } from 'src/mixins/debug'
-import { arrayRange, categoryDisplay, confirmDelete } from 'src/mixins/help'
+import { categoryDisplay, confirmDelete } from 'src/mixins/help'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
 import { computed, inject, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import AppLogo from '../../components/AppLogo.vue'
 import { Order, QDateNavigation, Team } from '../../components/models'
 import OrderContractorManagement from '../../components/order/OrderContractorManagement.vue'
-import FooterComponent from 'src/components/footer/FooterComponent.vue'
-import HeaderComponent from 'src/components/header/HeaderComponent.vue'
 
 const step = ref(1)
 const washingAndIroning = ref(false)
@@ -464,7 +439,7 @@ const schema = {
   scheduled_pickup_date: null,
   scheduled_pickup_time: null,
   special_instructions: null,
-  recurring_order: false,
+  recurring_order: null,
   recurring: null,
   recurring_every: null,
   recurring_end: null,
@@ -479,6 +454,7 @@ const schema = {
       { day: 6, active: false, label: 'Sat' }
     ]
   },
+  recurring_notes: null,
   cancellation_terms: false,
   productcategories: [],
   team: {
@@ -506,19 +482,6 @@ const schema = {
     marketing_subscribed: true
   }
 }
-
-const recurringOccurenceOptions = computed(() => {
-  if (model.recurring === 'Day') {
-    return arrayRange(1, 50, 1, true)
-  }
-  if (model.recurring === 'Week') {
-    return arrayRange(1, 12, 1, true)
-  }
-  if (model.recurring === 'Month') {
-    return arrayRange(1, 3, 1, true)
-  }
-  return arrayRange(1, 50, 1, true)
-})
 
 const ndisOk = computed(() => {
   if (model.team.type === 'NDIS') {
@@ -608,10 +571,9 @@ const rules = {
   scheduled_pickup_time: { required },
   contractor_user_id: { required },
   productcategories: { required },
+  recurring_order: { requiredIf: requiredIf(() => step.value === 6) },
   recurring: { requiredIf: requiredIf(() => model.recurring_order) },
-  recurring_every: { requiredIf: requiredIf(() => model.recurring_order) },
-  recurring_end_type: { requiredIf: requiredIf(() => model.recurring_order) },
-  recurring_end: { requiredIf: requiredIf(() => model.recurring_order && model.recurring_end_type !== 'Never') },
+  recurring_notes: { requiredIf: requiredIf(() => model.recurring_order && model.recurring === 'Other') },
   team: {
     name: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1) },
     first_name: { required },

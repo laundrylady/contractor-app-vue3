@@ -1,4 +1,3 @@
-
 <template>
   <p class="text-bold">Booking Summary</p>
   <q-card>
@@ -6,7 +5,7 @@
       <div>
         <span v-if="localModel.suburbpostcoderegion"><q-icon name="place" size="24px" /> {{
           localModel.suburbpostcoderegion.locality }} <span v-if="common?.operating_country !== 'nzd'"> {{
-    localModel.suburbpostcoderegion.state }}</span></span>
+            localModel.suburbpostcoderegion.state }}</span></span>
       </div>
       <div class="q-mt-md" v-if="props.productcategories.filter(o => o.active).length">
         <q-icon name="local_laundry_service" size="24px" /> <span
@@ -16,11 +15,11 @@
       </div>
       <div v-if="!localModel.contractor && props.scheduled_pickup_date && !props.scheduled_pickup_time" class="q-mt-md">
         <q-icon name="event" size="24px" /> {{
-          props.scheduled_pickup_date }}
+          displayDateOrder(props.scheduled_pickup_date) }}
       </div>
       <div v-if="localModel.contractor && props.scheduled_pickup_date && props.scheduled_pickup_time" class="q-mt-md">
         <q-icon name="account_circle" size="24px" /> Pickup with {{ localModel.contractor.contractor_badge_name }} on {{
-          props.scheduled_pickup_date }} ({{ hourBookingDisplay(props.scheduled_pickup_time) }})
+          displayDateOrder(props.scheduled_pickup_date) }} ({{ hourBookingDisplay(props.scheduled_pickup_time) }})
       </div>
     </q-card-section>
   </q-card>
@@ -30,7 +29,7 @@
 import { api } from 'src/boot/axios'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
-import { categoryDisplay, hourBookingDisplay } from 'src/mixins/help'
+import { categoryDisplay, hourBookingDisplay, displayDateOrder } from 'src/mixins/help'
 import { ref, watch, onMounted } from 'vue'
 import { SelectOption } from '../models'
 import { useMixinCommon } from 'src/mixins/common'

@@ -608,6 +608,7 @@ export interface Order {
   recurring_end:string,
   recurring_days: LooseObject,
   recurring_parent_id:string|null,
+  recurring_notes:string|null,
   address1:string,
   address2:string,
   suburb_postcode_region_id:number|null,
