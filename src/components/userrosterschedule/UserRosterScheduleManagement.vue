@@ -12,12 +12,13 @@
       <div class="col-xs-12 col-sm-6 text-h7">{{ selectedMonth }}</div>
       <q-space v-if="!$q.screen.xs" />
       <div calss="col-xs-6 col-sm-3">
-        <q-select v-model="calendarView" :options="[{ label: 'Week', value: 'week' }, { label: 'Month', value: 'month' }]"
-          emit-value map-options dense filled label="View" class="q-mr-sm" />
+        <q-select v-model="calendarView"
+          :options="[{ label: 'Week', value: 'week' }, { label: 'Month', value: 'month' }]" emit-value map-options dense
+          filled label="View" class="q-mr-sm" />
       </div>
       <q-space v-if="$q.screen.xs" />
       <div calss="col-xs-6 col-sm-3">
-        <q-btn @click="onPrev()" icon="chevron_left" color="secondary" flat dense round />
+        <q-btn @click="onPrev()" icon="chevron_left" color="secondary" flat dense round v-if="canPrev" />
         <q-btn @click="onToday()" label="Today" color="secondary" flat rounded />
         <q-btn @click="onNext()" icon="chevron_right" color="secondary" flat dense round />
       </div>
@@ -99,6 +100,13 @@ const calendarRef = ref<QCalendar>()
 
 const selectedMonth = computed(() => {
   return moment(selectedDate.value).format('MMMM YYYY')
+})
+
+const canPrev = computed(() => {
+  if (moment(selectedDate.value, 'YYYY-MM-DD').startOf('month').isAfter(moment().subtract(1, 'months').startOf('month'))) {
+    return true
+  }
+  return false
 })
 
 const onToday = () => {
