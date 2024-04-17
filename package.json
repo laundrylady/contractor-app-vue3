@@ -10,6 +10,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@gtm-support/vue-gtm": "^2.2.0",
     "@quasar/extras": "^1.16.9",
     "@sentry/tracing": "^7.44.2",
     "@sentry/vue": "^7.44.2",
