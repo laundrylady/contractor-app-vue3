@@ -61,16 +61,10 @@
                           <p class="text-leftt text-bold text-grey">CHOOSE THE SERVICES YOU REQUIRE:</p>
                           <div class="flex">
                             <div>
-                              <div class="q-mr-sm">
-                                <q-checkbox v-model="washingAndIroning" @update:model-value="toggleWashingAndIroning()"
-                                  label="Washing & Ironing" />
-                              </div>
-                              <div v-if="!washingAndIroning">
-                                <div v-for="c in model.productcategories" :key="c.product_category_id" class="q-mr-sm">
-                                  <q-checkbox v-model="c.active"
-                                    :label="categoryDisplay(c.product_category_id, categories)"
-                                    @update:model-value="[model.scheduled_pickup_date = null, model.scheduled_pickup_time = null, model.contractor_user_id = null]" />
-                                </div>
+                              <div v-for="c in model.productcategories" :key="c.product_category_id" class="q-mr-sm">
+                                <q-checkbox v-model="c.active"
+                                  :label="categoryDisplay(c.product_category_id, categories)"
+                                  @update:model-value="[model.scheduled_pickup_date = null, model.scheduled_pickup_time = null, model.contractor_user_id = null]" />
                               </div>
                             </div>
                           </div>
@@ -137,6 +131,7 @@ import useVuelidate from '@vuelidate/core'
 import { required, requiredIf } from '@vuelidate/validators'
 import moment from 'moment-timezone'
 import { api } from 'src/boot/axios'
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import { OrderProductCategory, QDateNavigation } from 'src/components/models'
 import OrderContractorManagement from 'src/components/order/OrderContractorManagement.vue'
 import { useMixinDebug } from 'src/mixins/debug'
@@ -153,7 +148,6 @@ const route = useRoute()
 const availableDates = ref()
 const loadingAvailableDates = ref(false)
 const currentBookingDate = ref()
-const washingAndIroning = ref(false)
 const minDate = (date: string) => {
   return availableDates.value.indexOf(date) !== -1
 }
@@ -206,7 +200,6 @@ const getAvailableContractorsDates = () => {
 const getOrder = () => {
   api.get(`/public/b/${route.params.id}`).then(response => {
     model.value = response.data
-    washingAndIroning.value = model.value.productcategories.length === 2
     modelOriginal.value = JSON.parse(JSON.stringify(response.data))
     currentBookingDate.value = moment(response.data.scheduled_pickup_date, 'DD/MM/YYYY')
     getAvailableContractorsDates()
@@ -232,15 +225,6 @@ const showCancelFunc = () => {
   model.value.cancel_reason = null
   model.value.cancel_notes = null
   showCancel.value = true
-}
-
-const toggleWashingAndIroning = () => {
-  model.value.productcategories.forEach((o: OrderProductCategory) => {
-    o.active = washingAndIroning.value
-  })
-  model.value.scheduled_pickup_date = null
-  model.value.scheduled_pickup_time = null
-  model.value.contractor_user_id = null
 }
 
 const updateScheduledPickupTime = (val: string | null) => {
