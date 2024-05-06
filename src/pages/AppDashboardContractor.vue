@@ -16,15 +16,18 @@
               <div class="col-xs-12 col-sm-6">
                 <q-card class="bg-seamless q-mb-lg">
                   <q-card-section>
-                    <div class="text-h6 q-mb-md">Pickups <q-btn icon="info" @click="showHelp = !showHelp" size="sm" round
-                        dense flat /></div>
+                    <div class="text-h6 q-mb-md">Pickups <q-btn icon="info" @click="showHelp = !showHelp" size="sm"
+                        round dense flat /></div>
                     <p v-if="showHelp">To reorder your bookings, click the <q-icon name="drag_indicator" /> button, drag
                       the
                       bookings, then
                       click
                       the <q-icon name="drag_indicator" /> button again to exit re-order mode.</p>
                     <q-tabs v-model="pickupTab" class="q-mb-md" :align="!$q.screen.xs ? 'left' : 'center'">
-                      <q-tab name="today" :label="`Today (${dashboard.pickupsToday.length})`" />
+                      <q-tab name="today" :label="`Today (${dashboard.pickupsToday.reduce(
+                        (accumulator: number, currentValue: any) => accumulator + currentValue.data.length,
+                        0,
+                      )})`" />
                       <q-tab name="week" :label="`Upcoming (${dashboard.pickupsWeek.length})`" />
                       <q-tab name="missed" :label="`Missed (${dashboard.pickupsMissed.length})`" />
                     </q-tabs>
@@ -59,7 +62,7 @@
                   </q-card-section>
                 </q-card>
               </div>
-              <div class="col-xs-12 col-sm-6">
+              <div class="col-xs-12 col-sm-6" v-if="dashboard.sentForPayment">
                 <q-card class="bg-seamless q-mb-lg">
                   <q-card-section>
                     <div class="text-h6 q-mb-md">Awaiting Payment ({{ dashboard.sentForPayment.length }})</div>
