@@ -1,3 +1,3 @@
-LaundyLady Portal
+LaundyLady Contractor App
 
 Quasar V2
