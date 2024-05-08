@@ -58,7 +58,7 @@ interface Props {
 const props = defineProps<Props>()
 const bus = inject('bus') as EventBus
 const i8n = useI18n()
-const data = ref()
+const data = ref([])
 const loading = ref(false)
 const showFilters = ref(true)
 const topRef = ref<HTMLDivElement | null>(null)

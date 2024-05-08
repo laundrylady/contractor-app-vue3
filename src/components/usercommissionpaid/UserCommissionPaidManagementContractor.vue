@@ -13,7 +13,8 @@
           <div>
             <div class="text-h6">{{ currencyFormat(props.row.commission_paid_amount_grand) }}</div>
             <div>Week: {{ dbDateDisplay(props.row.start) }} -> {{ dbDateDisplay(props.row.end) }}</div>
-            <a class="link items-center flex" @click="openURL(`/api/public/usercommissionpaid/statement/${props.row.id}`)"
+            <a class="link items-center flex"
+              @click="openURL(`/api/public/usercommissionpaid/statement/${props.row.id}`)"
               v-if="parseFloat(props.row.commission_paid_amount_grand) > 0"><q-icon name="print" class="q-mr-xs" />
               Statement</a>
             <div v-if="parseFloat(props.row.commission_paid_amount_grand) === 0">No payments received</div>
@@ -30,7 +31,7 @@ import { useMixinDebug } from 'src/mixins/debug'
 import { currencyFormat, dbDateDisplay, getRowsPerPage, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
 import { onMounted, ref } from 'vue'
 
-const data = ref()
+const data = ref([])
 const loading = ref(false)
 const columns: QTableProps['columns'] = [{
   name: 'commission_paid_date',

@@ -33,8 +33,8 @@
           </div>
           <div class="row q-col-gutter-md q-mt-xs q-mb-md" v-if="showFilters">
             <div class="col-xs-12 col-lg-6">
-              <TeamField v-model="search.team_id" :label="$t('team.name')" :dense="true" :outlined="true" status="active"
-                :clearable="true" @update:model-value="request()" />
+              <TeamField v-model="search.team_id" :label="$t('team.name')" :dense="true" :outlined="true"
+                status="active" :clearable="true" @update:model-value="request()" />
             </div>
             <div class="col-xs-6 col-lg-3">
               <DateField v-model="search.start" label="Start" :dense="true" :outlined="true" :clearable="true"
@@ -47,9 +47,9 @@
           </div>
           <q-card>
             <div ref="topRef" class="q-mt-sm"></div>
-            <q-table :rows="data" :columns="columns" row-key="id" :loading="loading" v-model:pagination="serverPagination"
-              @request="request" class="orders-table" flat :rows-per-page-options="rowsPerPageOptions" wrap-cells
-              hide-header grid>
+            <q-table :rows="data" :columns="columns" row-key="id" :loading="loading"
+              v-model:pagination="serverPagination" @request="request" class="orders-table" flat
+              :rows-per-page-options="rowsPerPageOptions" wrap-cells hide-header grid>
               <template v-slot:item="props">
                 <div class="col-xs-12">
                   <div class="q-pl-xs q-pr-xs">
@@ -79,7 +79,7 @@ import { useRoute } from 'vue-router'
 const bus = inject('bus') as EventBus
 const route = useRoute()
 const i8n = useI18n()
-const data = ref()
+const data = ref([])
 const loading = ref(false)
 const showFilters = ref(true)
 const topRef = ref<HTMLDivElement | null>(null)

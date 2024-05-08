@@ -17,8 +17,8 @@
         @update:model-value="request()" />
     </div>
     <div class="col-xs-12" v-if="showFilters">
-      <q-input v-model="search.keyword" :debounce="800" :placeholder="`Search ${$t('invoice.namePlural').toLowerCase()}`"
-        filled dense @update:model-value="request()">
+      <q-input v-model="search.keyword" :debounce="800"
+        :placeholder="`Search ${$t('invoice.namePlural').toLowerCase()}`" filled dense @update:model-value="request()">
         <template v-slot:prepend>
           <q-icon name="search" />
         </template>
@@ -28,7 +28,7 @@
   <q-card>
     <div ref="topRef"></div>
     <q-table :rows="data" :columns="columns" row-key="id" :filter="search.keyword" :loading="loading"
-      v-model:pagination="serverPagination" @request="request" class="no-shadow"
+      v-model:pagination="serverPagination" @request="request" flat wrap-cells
       :rows-per-page-options="rowsPerPageOptions" :grid="$q.screen.xs">
       <template v-slot:item="props">
         <q-card class="col-xs-12">
@@ -52,8 +52,8 @@
             <q-space />
             <div class="text-right">
               <div class="text-bold text-h6">{{ currencyFormat(props.row.grand_total_price) }}</div>
-              <q-btn flat @click="openURL(`/invoice/print/${props.row.id} `)" icon="picture_as_pdf" title="Print Invoice"
-                round />
+              <q-btn flat @click="openURL(`/invoice/print/${props.row.id} `)" icon="picture_as_pdf"
+                title="Print Invoice" round />
             </div>
           </q-card-section>
         </q-card>
@@ -138,7 +138,7 @@ const props = defineProps<Props>()
 
 const showFilters = ref(false)
 const i8n = useI18n()
-const data = ref()
+const data = ref([])
 const loading = ref(false)
 const topRef = ref<HTMLDivElement | null>(null)
 const search = reactive({ keyword: null, start: null, end: null, status: null, team_id: null })
@@ -186,7 +186,7 @@ const columns: QTableProps['columns'] = [{
   align: 'left',
   field: 'status',
   sortable: true,
-  style: 'width:110px;'
+  style: 'width:190px;'
 }, {
   label: '',
   name: 'actions',
