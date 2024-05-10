@@ -8,26 +8,27 @@
           <div>
             <span class="text-grey q-mr-sm">{{ currencyFormat(p.price) }}</span>
             <a @click="removeProduct(p.id)" class="link text-caption"
-              v-if="p.id && nonEditableProducts.indexOf(p.product_id) === -1 && nonEditableProductCategories.indexOf(p.product.product_category_id) === -1 && canEdit && p.product_id !== 26">Remove</a>
+              v-if="p.id && nonEditableProducts.indexOf(p.product_id) === -1 && canEdit && p.product_id !== 26">Remove</a>
           </div>
         </div>
       </div>
       <div class="col-xs-5 col-sm-3"
-        v-if="nonEditableProducts.indexOf(p.product_id) === -1 && nonEditableProductCategories.indexOf(p.product.product_category_id) === -1 && p.name !== 'Pickup No Show'">
-        <q-input v-model="p.qty" type="number" min="1" borderless :label="`${p.product.unit_measurement.toUpperCase()}S`"
-          filled @update:model-value="manualQty" :debounce="500" :disable="loading || !canEdit" dense
-          style="max-width:150px;">
+        v-if="nonEditableProducts.indexOf(p.product_id) === -1 && nonEditableProductCategories.indexOf(p.product.product_category_id) === -1 && p.name !== 'Pickup No Show' && !hasDiscountCode">
+        <q-input v-model="p.qty" type="number" min="1" borderless
+          :label="`${p.product.unit_measurement.toUpperCase()}S`" filled @update:model-value="manualQty" :debounce="500"
+          :disable="loading || !canEdit" dense style="max-width:150px;">
           <template v-slot:prepend v-if="canEdit">
-            <q-btn @click="minusQty(p)" color="primary" icon="remove" dense size="sm" :disable="loading || !canEdit" round
-              style="margin-right:1px;" />
+            <q-btn @click="minusQty(p)" color="primary" icon="remove" dense size="sm" :disable="loading || !canEdit"
+              round style="margin-right:1px;" />
           </template>
           <template v-slot:append v-if="canEdit">
-            <q-btn @click="plusQty(p)" color="primary" icon="add" dense size="sm" :disable="loading || !canEdit" round />
+            <q-btn @click="plusQty(p)" color="primary" icon="add" dense size="sm" :disable="loading || !canEdit"
+              round />
           </template>
         </q-input>
       </div>
     </div>
-    <div v-if="localModel.id && canEdit" class="q-mt-md q-mb-sm">
+    <div v-if="localModel.id && canEdit && !hasDiscountCode" class="q-mt-md q-mb-sm">
       <q-btn :label="!newProduct.product_id ? `Add a ${$t('product.name')}` : `${newProduct.name}`" outline no-caps
         color="primary" icon="add_circle" :disable="loading" class="full-width" rounded v-if="!hasPickupNoShow">
         <q-menu anchor="center middle" self="center middle" class="soft-shadow add-product-menu">
@@ -57,9 +58,11 @@
           v-if="localModel.products && localModel.products.filter(o => o.name !== 'Service Fee').length && canEdit"
           rounded title="Remove all services" />
         <div class="text-right col-grow">
-          <div>Subtotal: {{ currencyFormat(serviceFeeOther ? serviceFee ? localModel.total_price - serviceFee.price
+          <div>Subtotal: <span v-if="localModel.grand_total_price !== 0">{{ currencyFormat(serviceFeeOther ? serviceFee
+            ?
+            localModel.total_price - serviceFee.price
             : localModel.total_price :
-            0) }}</div>
+              0) }}</span><span v-if="localModel.grand_total_price === 0">$0.00</span></div>
           <div v-if="serviceFee && serviceFeeOther">Service Fee: {{ currencyFormat(serviceFee.price) }}</div>
           <div>
             Total GST: {{ currencyFormat(serviceFeeOther ? localModel.total_price_gst : 0) }}
@@ -90,8 +93,8 @@
     </q-input>
     <div class="q-mt-md items-center q-pb-md">
       <div class="flex">
-        <q-btn @click="openURL(`/invoice/print/${localModel.id}`)" icon="picture_as_pdf" title="Download Invoice PDF" flat
-          round class="q-mr-xs" />
+        <q-btn @click="openURL(`/invoice/print/${localModel.id}`)" icon="picture_as_pdf" title="Download Invoice PDF"
+          flat round class="q-mr-xs" />
         <q-btn @click="!hasPickupNoShow ? doSendPaymentRequest('sms') : sendPaymentRequestSms()" icon="chat"
           title="Send SMS Payment Request" flat v-if="canSend" :disable="sendingPaymentRequest" round />
         <q-btn @click="deleteInvoice()" v-if="canEdit && localModel.status === 'DRAFT'" label="Delete Invoice" flat
@@ -174,13 +177,13 @@
 <script setup lang="ts">
 import { EventBus, openURL } from 'quasar'
 import { api } from 'src/boot/axios'
-import { Invoice, InvoicePayment, InvoiceProduct, Order, OrderProductCategory, Product, Team, Notification } from 'src/components/models'
+import { Invoice, InvoicePayment, InvoiceProduct, Notification, Order, OrderProductCategory, Product, Team } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 import { confirmDelete, currencyFormat, dateTimeTz, doNotify, groupBy, hourBookingOptions } from 'src/mixins/help'
+import { useMixinSecurity } from 'src/mixins/security'
 import { computed, inject, onMounted, reactive, ref } from 'vue'
 import DateField from '../form/DateField.vue'
-import { useMixinSecurity } from 'src/mixins/security'
 
 interface Props {
   invoice: Invoice,
@@ -247,6 +250,16 @@ const hasPickupNoShow = computed(() => {
   return false
 })
 
+const hasDiscountCode = computed(() => {
+  if (!props.invoice || !props.invoice.products || !props.invoice.products.length) {
+    return false
+  }
+  if (props.invoice.products.find((o: InvoiceProduct) => o.product.product_category_id === 6)) {
+    return true
+  }
+  return false
+})
+
 const canEdit = computed(() => {
   if (props.order.contractor_user_id !== user.value?.id) {
     return false
@@ -269,7 +282,7 @@ const canEdit = computed(() => {
 })
 
 const canSend = computed(() => {
-  if (localModel.value.total_price <= 0) {
+  if (localModel.value.grand_total_price === 0 && !hasDiscountCode.value) {
     return false
   }
   // paid check
@@ -354,6 +367,7 @@ const clearProducts = () => {
   confirmDelete('This will clear all services from the invoice').onOk(() => {
     api.put(`/public/invoice/clearproducts/${localModel.value.id}`).then(() => {
       emits('update:order')
+      owing.value.owing = 0
     }).catch(error => {
       useMixinDebug(error)
     })
@@ -447,6 +461,7 @@ const checkGvDc = () => {
       } else if (response.data.result && response.data.result.discountCode) {
         if (!response.data.error) {
           doNotify('positive', 'Discount applied')
+          owing.value.owing = response.data.owing
           emits('update:order')
         } else {
           doNotify('negative', response.data.error)
