@@ -18,8 +18,16 @@
         </div>
         <div v-if="!addressError">
           <div class="row q-col-gutter-md" v-if="model.team_id">
-            <DateField v-model="model.scheduled_pickup_date" :label="$t('order.scheduledPickupDate')"
-              :invalid="$v.scheduled_pickup_date.$invalid" class="col-xs-12 col-sm-6" :outlined="true" />
+            <div class="col-xs-12 col-sm-6">
+              <DateField v-model="model.scheduled_pickup_date" :label="$t('order.scheduledPickupDate')"
+                :invalid="$v.scheduled_pickup_date.$invalid" :outlined="true" @update:model-value="capacityStats" />
+              <div v-if="capacityStatsResult" class="q-mt-sm bg-yellow-1 q-pa-sm">
+                <div class="q-mb-xs"><strong>Capacity</strong></div>
+                <div v-for="c in capacityStatsResult" :key="c.name">
+                  ({{ c.oc }}/{{ c.cc }}) {{ c.name }}: {{ c.per }}%
+                </div>
+              </div>
+            </div>
             <q-select v-model="model.scheduled_pickup_time" :label="$t('order.scheduledPickupTime')"
               :invalid="$v.scheduled_pickup_time" :options="hourBookingOptions" emit-value map-options
               class="col-xs-12 col-sm-6" outlined />
@@ -82,7 +90,8 @@
               </div>
             </div>
           </div>
-          <q-input v-model="model.special_instructions" label="Special Instructions" autogrow outlined class="q-mt-md" />
+          <q-input v-model="model.special_instructions" label="Special Instructions" autogrow outlined
+            class="q-mt-md" />
         </div>
       </q-card-section>
       <q-card-actions align="right">
@@ -115,6 +124,8 @@ const washingAndIroning = ref(false)
 const { user } = useMixinSecurity()
 const categories = ref()
 const addressError = ref(false)
+const capacityStatsResult = ref()
+const capacityStatsDate = ref()
 const schema = {
   team_id: null,
   contractor_user_id: null,
@@ -197,6 +208,21 @@ const handleTeamChange = () => {
       } else {
         addressError.value = false
       }
+    }).catch(error => {
+      useMixinDebug(error)
+    })
+  }
+}
+
+const capacityStats = (newDate: string) => {
+  if (capacityStatsDate.value && capacityStatsDate.value === newDate) {
+    return
+  }
+  capacityStatsResult.value = {}
+  if (model.scheduled_pickup_date) {
+    api.put('/public/order/capacitystats', { scheduled_pickup_date: model.scheduled_pickup_date }).then(response => {
+      capacityStatsResult.value = response.data
+      capacityStatsDate.value = newDate
     }).catch(error => {
       useMixinDebug(error)
     })
