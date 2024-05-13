@@ -14,15 +14,16 @@
       </div>
       <div class="col-xs-5 col-sm-3"
         v-if="nonEditableProducts.indexOf(p.product_id) === -1 && nonEditableProductCategories.indexOf(p.product.product_category_id) === -1 && p.name !== 'Pickup No Show'">
-        <q-input v-model="p.qty" type="number" min="1" borderless :label="`${p.product.unit_measurement.toUpperCase()}S`"
-          filled @update:model-value="manualQty" :debounce="500" :disable="loading || !canEdit" dense
-          style="max-width:150px;">
+        <q-input v-model="p.qty" type="number" min="1" borderless
+          :label="`${p.product.unit_measurement.toUpperCase()}S`" filled @update:model-value="manualQty" :debounce="500"
+          :disable="loading || !canEdit" dense style="max-width:150px;">
           <template v-slot:prepend v-if="canEdit">
-            <q-btn @click="minusQty(p)" color="primary" icon="remove" dense size="sm" :disable="loading || !canEdit" round
-              style="margin-right:1px;" />
+            <q-btn @click="minusQty(p)" color="primary" icon="remove" dense size="sm" :disable="loading || !canEdit"
+              round style="margin-right:1px;" />
           </template>
           <template v-slot:append v-if="canEdit">
-            <q-btn @click="plusQty(p)" color="primary" icon="add" dense size="sm" :disable="loading || !canEdit" round />
+            <q-btn @click="plusQty(p)" color="primary" icon="add" dense size="sm" :disable="loading || !canEdit"
+              round />
           </template>
         </q-input>
       </div>
@@ -75,12 +76,8 @@
       </div>
     </div>
     <div v-if="canEdit">
-      <div v-if="localModel.total_price > 0"> <q-input v-model="gfDcCode" label="Gift voucher / Discount code" outlined
-          dense>
-          <template v-slot:append>
-            <q-btn @click="checkGvDc()" label="Apply" color="primary" :disable="!gfDcCode" size="sm" rounded />
-          </template>
-        </q-input>
+      <div v-if="localModel.total_price > 0 && localModel.status !== 'PAID'">Payment link: <a
+          :href="`/payments/session/${localModel.id}`" class="link">Click here to make a payment</a>
       </div>
     </div>
     <q-input v-model="localModel.invoice_po" :label="$t('team.invoicePo')" outlined dense class="q-mt-md">
@@ -90,8 +87,8 @@
     </q-input>
     <div class="q-mt-md items-center q-pb-md">
       <div class="flex">
-        <q-btn @click="openURL(`/invoice/print/${localModel.id}`)" icon="picture_as_pdf" title="Download Invoice PDF" flat
-          round class="q-mr-xs" />
+        <q-btn @click="openURL(`/invoice/print/${localModel.id}`)" icon="picture_as_pdf" title="Download Invoice PDF"
+          flat round class="q-mr-xs" />
         <q-btn @click="!hasPickupNoShow ? doSendPaymentRequest('sms') : sendPaymentRequestSms()" icon="chat"
           title="Send SMS Payment Request" flat v-if="canSend" :disable="sendingPaymentRequest" round />
         <q-btn @click="deleteInvoice()" v-if="canEdit && localModel.status === 'DRAFT'" label="Delete Invoice" flat
@@ -209,7 +206,6 @@ const productList = ref()
 const nonEditableProducts = ref([35, 36, 26])
 const nonEditableProductCategories = ref([6])
 const rawProductList = ref()
-const gfDcCode = ref()
 const sendingPaymentRequest = ref(false)
 const bus = inject('bus') as EventBus
 const { user } = useMixinSecurity()
@@ -435,32 +431,6 @@ const save = () => {
     loading.value = false
     useMixinDebug(error)
   })
-}
-
-const checkGvDc = () => {
-  if (gfDcCode.value) {
-    loading.value = true
-    api.post('/public/invoice/giftvoucherdiscountcoupon', { code: gfDcCode.value, invoice_id: localModel.value.id }).then(response => {
-      if (response.data.result && response.data.result.giftVoucher) {
-        doNotify('positive', 'Gift voucher payment applied')
-        emits('update:order')
-      } else if (response.data.result && response.data.result.discountCode) {
-        if (!response.data.error) {
-          doNotify('positive', 'Discount applied')
-          emits('update:order')
-        } else {
-          doNotify('negative', response.data.error)
-        }
-      } else {
-        doNotify('negative', 'No discount code or gift voucher found for that code')
-      }
-      gfDcCode.value = null
-      loading.value = false
-    }).catch(error => {
-      loading.value = false
-      useMixinDebug(error)
-    })
-  }
 }
 
 const doSendPaymentRequest = (type: string) => {
