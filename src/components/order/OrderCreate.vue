@@ -21,7 +21,7 @@
             <div class="col-xs-12 col-sm-6">
               <DateField v-model="model.scheduled_pickup_date" :label="$t('order.scheduledPickupDate')"
                 :invalid="$v.scheduled_pickup_date.$invalid" :outlined="true" @update:model-value="capacityStats" />
-              <div v-if="capacityStatsResult" class="q-mt-sm bg-yellow-1 q-pa-sm">
+              <div v-if="capacityStatsResult && model.scheduled_pickup_date" class="q-mt-sm bg-yellow-1 q-pa-sm">
                 <div class="q-mb-xs"><strong>Capacity</strong></div>
                 <div v-for="c in capacityStatsResult" :key="c.name">
                   ({{ c.oc }}/{{ c.cc }}) {{ c.name }}: {{ c.per }}%
