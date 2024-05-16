@@ -28,6 +28,10 @@
         </q-input>
       </div>
     </div>
+    <div v-if="localModel.id && !canSend && localModel.status !== 'PAID'" class="bg-yellow-1 q-pa-sm">
+      This invoice has been sent for payment and can now not be edited due to the customer type. please contact Support
+      for
+      any changes.</div>
     <div v-if="localModel.id && canEdit" class="q-mt-md q-mb-sm">
       <q-btn :label="!newProduct.product_id ? `Add a ${$t('product.name')}` : `${newProduct.name}`" outline no-caps
         color="primary" icon="add_circle" :disable="loading" class="full-width" rounded v-if="!hasPickupNoShow">
@@ -250,6 +254,9 @@ const canEdit = computed(() => {
   if (localModel.value.status === 'DRAFT') {
     return true
   }
+  if (['Residential', 'Business'].indexOf(props.team.type) === -1 && localModel.value.status !== 'DRAFT') {
+    return false
+  }
   if (localModel.value.status === 'AUTHORISED') {
     // check if total payments > 0
     const totalPaymentAmount = localModel.value.payments.reduce((current: number, obj: InvoicePayment) => {
@@ -457,7 +464,10 @@ const doSendPaymentRequest = (type: string) => {
 }
 
 const sendPaymentRequest = () => {
-  const message = 'PLEASE NOTE: This will send the invoice for payment'
+  let message = 'PLEASE NOTE: This will send the invoice for payment'
+  if (localModel.value.sent_for_payment) {
+    message = 'Warning: As this invoice has already been sent for payment, please contact the customer to inform them of these changes.'
+  }
   confirmDelete(message).onOk(() => {
     sendingPaymentRequest.value = true
     api.post(`/public/invoice/sendpaymentrequest/${localModel.value.id}`, sendPaymentModal.value).then(() => {
