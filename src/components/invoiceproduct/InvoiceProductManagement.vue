@@ -84,8 +84,11 @@
       </div>
     </div>
     <div v-if="canEdit">
-      <div v-if="localModel.total_price > 0 && localModel.status !== 'PAID'">Payment link: <a
-          :href="`/payments/session/${localModel.id}`" class="link">Click here to make a payment</a>
+      <div v-if="localModel.total_price > 0 && localModel.status !== 'PAID'">
+        Payment link: <a :href="`/payments/session/${localModel.id}`" class="link">Click here to view the online
+          payment
+          link.</a> <q-btn flat round @click="copyPaymentLinkUrl()" color="grey" icon="content_copy" size="sm"
+          title="Copy to clipboard" />
       </div>
     </div>
     <q-input v-model="localModel.invoice_po" :label="$t('team.invoicePo')" outlined dense class="q-mt-md">
@@ -177,15 +180,15 @@
 </template>
 
 <script setup lang="ts">
-import { EventBus, openURL } from 'quasar'
+import { EventBus, copyToClipboard, openURL } from 'quasar'
 import { api } from 'src/boot/axios'
-import { Invoice, InvoicePayment, InvoiceProduct, Order, OrderProductCategory, Product, Team, Notification } from 'src/components/models'
+import { Invoice, InvoicePayment, InvoiceProduct, Notification, Order, OrderProductCategory, Product, Team } from 'src/components/models'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 import { confirmDelete, currencyFormat, dateTimeTz, doNotify, groupBy, hourBookingOptions } from 'src/mixins/help'
+import { useMixinSecurity } from 'src/mixins/security'
 import { computed, inject, onMounted, reactive, ref } from 'vue'
 import DateField from '../form/DateField.vue'
-import { useMixinSecurity } from 'src/mixins/security'
 
 interface Props {
   invoice: Invoice,
@@ -319,6 +322,13 @@ const serviceFeeOther = computed(() => {
   }
   return !!localModel.value.products.find(o => o.name !== 'Service Fee')
 })
+
+const copyPaymentLinkUrl = () => {
+  if (localModel.value && localModel.value.id) {
+    copyToClipboard(`https://${location.hostname}/payments/session/${localModel.value.id}`)
+    doNotify('positive', 'Payment link copied to clipboard')
+  }
+}
 
 const addProduct = () => {
   const delivery = localModel.value.products.findIndex((o: InvoiceProduct) => o.product_id === 26)
@@ -470,7 +480,7 @@ const doSendPaymentRequest = (type: string) => {
 const sendPaymentRequest = () => {
   let message = 'PLEASE NOTE: This will send the invoice for payment'
   if (localModel.value.sent_for_payment) {
-    message = 'Warning: As this invoice has already been sent for payment, please contact the customer to inform them of these changes.'
+    message = 'Warning: As this invoice has already been sent for payment, please contact the customer to inform them of any changes.'
   }
   confirmDelete(message).onOk(() => {
     sendingPaymentRequest.value = true
