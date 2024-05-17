@@ -28,10 +28,14 @@
         </q-input>
       </div>
     </div>
-    <div v-if="localModel.id && !canSend && localModel.status !== 'PAID'" class="bg-yellow-1 q-pa-sm">
-      This invoice has been sent for payment and can now not be edited due to the customer type. please contact Support
-      for
-      any changes.</div>
+    <div v-if="localModel.id && !canSend && localModel.status !== 'PAID' && localModel.sent_for_payment"
+      class="bg-yellow-1 q-pa-sm">
+      <q-icon name="warning" size="16px" /> This invoice has been issued for payment and cannot be edited due to the
+      customer type.
+      Please contact Support for
+      any
+      required changes.
+    </div>
     <div v-if="localModel.id && canEdit" class="q-mt-md q-mb-sm">
       <q-btn :label="!newProduct.product_id ? `Add a ${$t('product.name')}` : `${newProduct.name}`" outline no-caps
         color="primary" icon="add_circle" :disable="loading" class="full-width" rounded v-if="!hasPickupNoShow">
