@@ -355,10 +355,13 @@
                     <p class="text-center">Great news, your booking has been confirmed!</p>
                     <p>An email with all of the details is on its way. While you wait, check out our
                       FAQs page for all the details to get ready for your service. <a
-                        href="https://thelaundrylady.co.nz/faqs/" target="_blank" class="link"
-                        v-if="common?.operating_country === 'nzd'">https://thelaundrylady.co.nz/faqs/</a>
-                      <a href="https://thelaundrylady.com.au/faqs/" target="_blank" class="link"
-                        v-if="common?.operating_country === 'aud'">https://thelaundrylady.com.au/faqs/</a>
+                        :href="preparingForPickupUrl || 'https://thelaundrylady.co.nz/faqs/'" target="_blank"
+                        class="link" v-if="common?.operating_country === 'nzd'">{{ preparingForPickupUrl ||
+                          'https://thelaundrylady.co.nz/faqs/'
+                        }}</a>
+                      <a :href="preparingForPickupUrl || 'https://thelaundrylady.com.au/faqs/'" target="_blank"
+                        class="link"
+                        v-if="common?.operating_country === 'aud'">{{ preparingForPickupUrl || 'https://thelaundrylady.com.au/faqs/' }}</a>
                     </p>
                     <OrderNewSummary :suburb_postcode_region_id="model.suburb_postcode_region_id"
                       :contractor_user_id="model.contractor_user_id"
@@ -427,6 +430,7 @@ const agreeNdis = ref(false)
 const tokenTeams = ref()
 const tokenTeamsSelect = ref()
 const tokenError = ref()
+const preparingForPickupUrl = ref()
 const schema = {
   address1: null,
   address2: null,
@@ -665,7 +669,10 @@ const save = () => {
     confirming.value = true
     success.value = false
     error.value = false
-    api.post('/public/order/new', model).then(() => {
+    api.post('/public/order/new', model).then((response) => {
+      if (response.data.preparingForPickupUrl) {
+        preparingForPickupUrl.value = response.data.preparingForPickupUrl
+      }
       success.value = true
       confirming.value = false
       $q.loading.hide()

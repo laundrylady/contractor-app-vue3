@@ -120,8 +120,8 @@
               </q-carousel>
               <div class="row justify-center q-mt-lg">
                 <q-btn-toggle v-model="carousel.info" flat no-caps :options="[
-      { label: 'Does it suit busy mum/dad life?', value: 'busy' },
-      { label: 'What do you love about being a Laundry Lad?', value: 'love' }]" />
+                  { label: 'Does it suit busy mum/dad life?', value: 'busy' },
+                  { label: 'What do you love about being a Laundry Lad?', value: 'love' }]" />
               </div>
             </div>
           </div>
@@ -198,7 +198,11 @@ const $v = useVuelidate(rules, model)
 const applyNow = () => {
   loading.value = true
   success.value = false
-  api.post('/auth/contractor/applynow', model).then(() => {
+  api.post('/auth/contractor/applynow', model).then((response) => {
+    if (response.data.redirectUrl) {
+      document.location.href = response.data.redirectUrl
+      return
+    }
     success.value = true
   }).catch(error => {
     useMixinDebug(error)
