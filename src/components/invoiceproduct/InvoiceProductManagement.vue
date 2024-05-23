@@ -85,7 +85,9 @@
     </div>
     <div v-if="canEdit">
       <div v-if="localModel.total_price > 0 && localModel.status !== 'PAID'">
-        Payment link: <a :href="`/payments/session/${localModel.id}`" class="link">Click here to view the online
+        Payment link: <a :href="`/payments/session/${localModel.id}`" class="link" target="_blank">Click here to view
+          the
+          online
           payment
           link.</a> <q-btn flat round @click="copyPaymentLinkUrl()" color="grey" icon="content_copy" size="sm"
           title="Copy to clipboard" />
@@ -503,7 +505,10 @@ const sendPaymentRequest = () => {
 }
 
 const sendPaymentRequestSms = () => {
-  const message = 'PLEASE NOTE: This will send the invoice for payment'
+  let message = 'PLEASE NOTE: This will send the invoice for payment'
+  if (localModel.value.sent_for_payment) {
+    message = 'Warning: As this invoice has already been sent for payment, please contact the customer to inform them of any changes.'
+  }
   confirmDelete(message).onOk(() => {
     sendingPaymentRequest.value = true
     api.post(`/public/invoice/sendpaymentrequestsms/${localModel.value.id}`, sendPaymentModalSms.value).then(() => {
