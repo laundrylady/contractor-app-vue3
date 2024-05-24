@@ -39,12 +39,7 @@
                 track-color="pink-1" v-if="dashboard.weeklyOrders.percentage" />
             </div>
             <div class="text-center q-mt-sm">
-              {{ currencyFormat(dashboard.weeklyOrders.sum) }} / {{ currencyFormat(model.contractor_target) }} <span
-                v-if="dashboard.weeklyOrders.diff === 0">~</span><q-icon name="arrow_downward" color="negative"
-                v-if="dashboard.weeklyOrders.diff < 0" /><q-icon name="arrow_upward" color="positive"
-                v-if="dashboard.weeklyOrders.diff > 0" /> <span v-if="dashboard.weeklyOrders.diff !== 0"
-                :class="{ 'text-positive': dashboard.weeklyOrders.diff > 0, 'text-negative': dashboard.weeklyOrders.diff < 0 }">{{
-                  dashboard.weeklyOrders.diff }}%</span> </div>
+              {{ currencyFormat(dashboard.weeklyOrders.sum) }} / {{ currencyFormat(model.contractor_target) }} </div>
           </q-card-section>
         </q-card>
       </div>
@@ -115,7 +110,7 @@
             <q-list bordered separator>
               <q-item v-for="u in dashboard.totalOrdersTotalOwingData" :key="u.id">
                 <q-item-section><strong>Booking #{{ u.order.display_id }}</strong><span v-if="u.team">{{ u.team.name
-                }}</span></q-item-section>
+                    }}</span></q-item-section>
                 <q-item-section side><span class="text-negative">{{ currencyFormat(u.grand_total_price) }}</span>Due: {{
                   u.due_date
                 }}</q-item-section>
@@ -178,7 +173,8 @@
       </div>
     </div>
     <div class="text-h6">Current {{ $t('schedule.name') }}</div>
-    <p><a href="https://support.teamlaundrylady.co/support/tickets/new" class="link" target="_blank">Click here to let us
+    <p><a href="https://support.teamlaundrylady.co/support/tickets/new" class="link" target="_blank">Click here to let
+        us
         know if you need
         to make a
         change.</a></p>

@@ -35,7 +35,7 @@
                       <div v-if="!dashboard.pickupsToday.length">No {{ $t('order.namePlural').toLowerCase() }} found.
                       </div>
                       <div v-for="k in dashboard.pickupsToday" :key="k.key" class="q-mb-sm">
-                        <OrderListFormat :orders="k.data" :no-avatar="true" :drag="true"
+                        <OrderListFormat :orders="k.data" :no-avatar="true" :drag="false"
                           :label="hourBookingDisplay(k.key)" :optimal="true" />
                       </div>
                     </div>
