@@ -16,13 +16,7 @@
               <div class="col-xs-12 col-sm-6">
                 <q-card class="bg-seamless q-mb-lg">
                   <q-card-section>
-                    <div class="text-h6 q-mb-md">Pickups <q-btn icon="info" @click="showHelp = !showHelp" size="sm"
-                        round dense flat /></div>
-                    <p v-if="showHelp">To reorder your bookings, click the <q-icon name="drag_indicator" /> button, drag
-                      the
-                      bookings, then
-                      click
-                      the <q-icon name="drag_indicator" /> button again to exit re-order mode.</p>
+                    <div class="text-h6 q-mb-md">Pickups</div>
                     <q-tabs v-model="pickupTab" class="q-mb-md" :align="!$q.screen.xs ? 'left' : 'center'">
                       <q-tab name="today" :label="`Today (${dashboard.pickupsToday.reduce(
                         (accumulator: number, currentValue: any) => accumulator + currentValue.data.length,
@@ -42,12 +36,14 @@
                     <div v-if="pickupTab === 'week'">
                       <div v-if="!dashboard.pickupsWeek.length">No {{ $t('order.namePlural').toLowerCase() }} found.
                       </div>
-                      <OrderListFormat :orders="dashboard.pickupsWeek" :no-avatar="true" :drag="true" :optimal="true" />
+                      <OrderListFormat :orders="dashboard.pickupsWeek" :no-avatar="true" :drag="false"
+                        :optimal="true" />
                     </div>
                     <div v-if="pickupTab === 'missed'">
                       <div v-if="!dashboard.pickupsMissed.length">No {{ $t('order.namePlural').toLowerCase() }} found.
                       </div>
-                      <OrderListFormat :orders="dashboard.pickupsMissed" :no-avatar="true" :optimal="true" />
+                      <OrderListFormat :orders="dashboard.pickupsMissed" :no-avatar="true" :optimal="true"
+                        :drag="false" />
                     </div>
                   </q-card-section>
                 </q-card>
