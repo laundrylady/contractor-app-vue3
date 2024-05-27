@@ -360,8 +360,9 @@
                           'https://thelaundrylady.co.nz/faqs/'
                         }}</a>
                       <a :href="preparingForPickupUrl || 'https://thelaundrylady.com.au/faqs/'" target="_blank"
-                        class="link"
-                        v-if="common?.operating_country === 'aud'">{{ preparingForPickupUrl || 'https://thelaundrylady.com.au/faqs/' }}</a>
+                        class="link" v-if="common?.operating_country === 'aud'">{{ preparingForPickupUrl ||
+                          'https://thelaundrylady.com.au/faqs/'
+                        }}</a>
                     </p>
                     <OrderNewSummary :suburb_postcode_region_id="model.suburb_postcode_region_id"
                       :contractor_user_id="model.contractor_user_id"
@@ -672,6 +673,8 @@ const save = () => {
     api.post('/public/order/new', model).then((response) => {
       if (response.data.preparingForPickupUrl) {
         preparingForPickupUrl.value = response.data.preparingForPickupUrl
+        document.location.href = preparingForPickupUrl.value
+        return true
       }
       success.value = true
       confirming.value = false
