@@ -108,22 +108,26 @@
                 <p>Enter your pickup / delivery address.</p>
                 <AddressSearch :model="model" :filled="true"
                   :addressfields="{ address1: 'address1', address2: 'address2', suburb_postcode_region_id: 'suburb_postcode_region_id', lat: 'lat', lng: 'lng', country_id: 'country_id', postcode: 'postcode' }"
-                  :placeholder="$t('address.search')" />
+                  :placeholder="$t('address.search')" @update:modelValue="checkSuburb()" />
                 <q-input v-model="model.address1" :label="$t('address.line1')" outlined class="q-mb-md" />
                 <q-input v-model="model.address2" :error="$v.address2.$invalid" :label="$t('address.line2')" outlined />
                 <div class="row q-col-gutter-md">
                   <PostcodeRegionField v-model="model.suburb_postcode_region_id"
                     :invalid="$v.suburb_postcode_region_id.$invalid" :label="$t('address.suburb')"
-                    class="col-xs-12 col-sm-6" :outlined="true" />
+                    class="col-xs-12 col-sm-6" :outlined="true" @update:modelValue="checkSuburb()" clearable />
                   <q-input v-model="model.postcode" :error="$v.postcode.$invalid" :label="$t('address.postcode')"
                     outlined class="col-xs-12 col-sm-6" />
                   <CountryField v-model="model.country_id" :label="$t('address.country')" class="col-xs-12 col-sm-6"
                     :outlined="true" :invalid="$v.country_id.$invalid" />
                 </div>
+                <div class="bg-primary text-white q-pa-md q-mt-md" v-if="noSuburb"><q-icon name="warning" /> We
+                  currently don't have
+                  availability in your area
+                </div>
               </q-card-section>
               <q-card-actions align="right" v-if="!error && !success">
                 <q-btn @click="save()" color="primary" label="Submit" rounded
-                  :disable="$v.$invalid || loading || !ndisPlanEndDateValid" :loading="loading" />
+                  :disable="$v.$invalid || loading || !ndisPlanEndDateValid || noSuburb" :loading="loading" />
               </q-card-actions>
             </q-card>
           </div>
@@ -161,6 +165,7 @@ const success = ref(false)
 const error = ref(false)
 const loading = ref(false)
 const errors = ref<LooseObject[]>([])
+const noSuburb = ref(false)
 const common = useMixinCommon()
 const router = useRouter()
 const loaded = ref(false)
@@ -257,6 +262,20 @@ const ndisPlanEndDateValid = computed(() => {
   }
   return true
 })
+
+const checkSuburb = () => {
+  if (model.suburb_postcode_region_id) {
+    api.post('/public/order/findcontractorsinsuburbpostcoderegion', { suburb_postcode_region_id: model.suburb_postcode_region_id }).then(response => {
+      if (!response.data.found) {
+        noSuburb.value = true
+      } else {
+        noSuburb.value = false
+      }
+    }).catch(error => {
+      console.log(error)
+    })
+  }
+}
 
 onMounted(async () => {
   // fetch data
