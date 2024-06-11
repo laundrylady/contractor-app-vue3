@@ -98,7 +98,7 @@ const checkDate = () => {
               validDate = false
               $q.dialog({
                 title: 'Invalid date',
-                message: `Please enter a date on or after ${props.after}`
+                message: 'Plan end date can not be in the past.'
               })
             }
           }

@@ -1,9 +1,9 @@
 <template>
   <q-select :label="label" :model-value="modelValue" @update:model-value="handleChange" :options="postcodes"
-    @filter="filterPostcodes" use-input emit-value map-options :dark="dark" :color="dark ? 'white' : ''" :error="invalid"
-    hide-dropdown-icon input-debounce="350" autocomplete="postcode-filter" :outlined="outlined" :disable="disabled"
-    ref="qSelectPostcodeRegion" :borderless="borderless" :dense="dense" class="q-pb-none" :filled="filled"
-    :loading="loading" :multiple="multiple" :placeholder="placeholder">
+    @filter="filterPostcodes" use-input emit-value map-options :dark="dark" :color="dark ? 'white' : ''"
+    :error="invalid" hide-dropdown-icon input-debounce="350" autocomplete="postcode-filter" :outlined="outlined"
+    :disable="disabled" ref="qSelectPostcodeRegion" :borderless="borderless" :dense="dense" class="q-pb-none"
+    :filled="filled" :loading="loading" :multiple="multiple" :placeholder="placeholder">
     <template v-slot:prepend>
       <q-icon name="place" color="info" />
     </template>
@@ -54,7 +54,7 @@ const filterPostcodes = (val: string, update: (fn: () => void) => void) => {
   loading.value = true
   api.get(`/public/postcoderegion/index?keyword=${val}${props.state ? `&state=${props.state}` : ''}`).then(response => {
     update(() => {
-      postcodes.value = response.data.map((o: PostcodeRegion) => { return { value: o.id, label: `${o.locality}${common.value?.operating_country === 'aud' ? ` (${o.state})` : ''}` } })
+      postcodes.value = response.data.map((o: PostcodeRegion) => { return { value: o.id, label: `${o.locality}${common.value?.operating_country === 'aud' ? ` (${o.state})` : ` (${o.region})`}` } })
       loading.value = false
     })
   }).catch(error => {
@@ -67,10 +67,10 @@ onMounted(() => {
   if (props.modelValue && ((Array.isArray(props.modelValue) && props.modelValue.length) || !Array.isArray(props.modelValue))) {
     api.get(`/public/postcoderegion/${props.modelValue}`).then(res => {
       if (Array.isArray(res.data)) {
-        postcodes.value = res.data.map((o: PostcodeRegion) => { return { value: o.id, label: `${o.locality}${common.value?.operating_country === 'aud' ? ` (${o.state})` : ''}` } })
+        postcodes.value = res.data.map((o: PostcodeRegion) => { return { value: o.id, label: `${o.locality}${common.value?.operating_country === 'aud' ? ` (${o.state})` : ` (${o.region})`}` } })
         loading.value = false
       } else {
-        postcodes.value = [{ value: res.data.id, label: `${res.data.locality}${common.value?.operating_country === 'aud' ? ` (${res.data.state})` : ''}` }]
+        postcodes.value = [{ value: res.data.id, label: `${res.data.locality}${common.value?.operating_country === 'aud' ? ` (${res.data.state})` : ` (${res.data.region})`}` }]
         loading.value = false
       }
     })
@@ -80,7 +80,7 @@ onMounted(() => {
 watch(() => props.modelValue, (newVal, oldVal) => {
   if (!props.nowatch && newVal && newVal !== oldVal && ((Array.isArray(newVal) && newVal.length) || !Array.isArray(newVal))) {
     api.get(`/public/postcoderegion/${newVal}`).then(res => {
-      postcodes.value = [{ value: res.data.id, label: `${res.data.locality}${common.value?.operating_country === 'aud' ? ` (${res.data.state})` : ''}` }]
+      postcodes.value = [{ value: res.data.id, label: `${res.data.locality}${common.value?.operating_country === 'aud' ? ` (${res.data.state})` : ` (${res.data.region})`}` }]
     }).catch(error => { useMixinDebug(error) })
   }
 })

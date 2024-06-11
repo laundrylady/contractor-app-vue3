@@ -224,6 +224,7 @@ const showCancelFunc = () => {
   showChange.value = false
   model.value.cancel_reason = null
   model.value.cancel_notes = null
+  model.value.contractor_user_id = modelOriginal.value.contractor_user_id
   showCancel.value = true
 }
 

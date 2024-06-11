@@ -91,7 +91,8 @@
                     </div>
                     <div class="col-xs-12 col-sm-6">
                       <q-select v-model="model.ndis_type" :label="$t('team.ndisType')" :error="$v.ndis_type.$invalid"
-                        outlined :options="['Self managed', 'Plan managed', 'NDIA registered']" />
+                        outlined :options="['Self managed', 'Plan managed', 'NDIA registered']"
+                        @update:modelValue="checkNdisPlanType()" />
                     </div>
                   </div>
                   <div class="row q-col-gutter-md q-mb-md">
@@ -217,7 +218,7 @@ const rules = {
   ndis_dob: { required },
   ndis_plan_start: { required },
   ndis_plan_end: { required },
-  ndis_plan_manager_email: { email },
+  ndis_plan_manager_email: { email, requiredIf: requiredIf(() => model.ndis_type === 'Plan managed') },
   ndis_support_coordinator_email: { email },
   ndis_line_item: { checked: (value: boolean) => value === true },
   ndis_funds: { checked: (value: boolean) => value === true },
@@ -272,6 +273,14 @@ const ndisPlanEndDateValid = computed(() => {
   }
   return true
 })
+
+const checkNdisPlanType = () => {
+  if (model.ndis_type === 'Plan managed') {
+    model.ndis_payment = 'plan'
+  } else {
+    model.ndis_payment = 'self'
+  }
+}
 
 const checkSuburb = () => {
   if (model.suburb_postcode_region_id) {

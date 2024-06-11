@@ -183,6 +183,8 @@
                             outlined />
                         </div>
                       </div>
+                      <q-input v-model="model.team.name" :error="$v.team.name.$invalid" label="Participant Name"
+                        outlined v-if="model.team.type === 'NDIS'" />
                       <div class="row q-col-gutter-md">
                         <div class="col-xs-12 col-sm-6">
                           <q-input v-model="model.team.first_name" :error="$v.team.first_name.$invalid"
@@ -224,7 +226,8 @@
                           <div class="col-xs-12 col-sm-6">
                             <q-select v-model="model.team.ndis_type" :label="$t('team.ndisType')"
                               :error="$v.team.ndis_type.$invalid" outlined
-                              :options="['Self managed', 'Plan managed', 'NDIA registered']" />
+                              :options="['Self managed', 'Plan managed', 'NDIA registered']"
+                              @update:modelValue="checkNdisPlanType()" />
                           </div>
                         </div>
                         <div class="row q-col-gutter-md q-mb-md">
@@ -580,7 +583,7 @@ const rules = {
   recurring: { requiredIf: requiredIf(() => model.recurring_order) },
   recurring_notes: { requiredIf: requiredIf(() => model.recurring_order && model.recurring === 'Other') },
   team: {
-    name: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1) },
+    name: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group', 'NDIS'].indexOf(model.team.type || '') !== -1) },
     first_name: { required },
     last_name: { required },
     type: { required },
@@ -591,7 +594,7 @@ const rules = {
     ndis_type: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
     ndis_dob: { requiredIf: requiredIf(() => model.team.type === 'NDIS') },
     abn: { requiredIf: requiredIf(() => ['Business', 'Aged Care', 'Sporting Group'].indexOf(model.team.type || '') !== -1) },
-    ndis_plan_manager_email: { email },
+    ndis_plan_manager_email: { email, requiredIf: requiredIf(() => model.team.type === 'NDIS' && model.team.ndis_type === 'Plan managed') },
     ndis_support_coordinator_email: { email }
   }
 }
@@ -725,6 +728,14 @@ const tokenErrorEmailSend = () => {
   }).catch(error => {
     useMixinDebug(error)
   })
+}
+
+const checkNdisPlanType = () => {
+  if (model.team.ndis_type === 'Plan managed') {
+    model.team.ndis_payment = 'plan'
+  } else {
+    model.team.ndis_payment = 'self'
+  }
 }
 
 onMounted(async () => {
