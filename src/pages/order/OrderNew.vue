@@ -304,7 +304,10 @@
                       :scheduled_pickup_time="model.scheduled_pickup_time" :productcategories="model.productcategories"
                       :categories="categories" v-if="categories && model.suburb_postcode_region_id" />
                     <div class="q-mt-lg">
-                      <div class="q-mb-xs">Would you like to set this as a recurring booking?</div>
+                      <div class="q-mb-xs" :class="{ 'text-red': model.recurring_order === null }">Would you like to set
+                        this as a
+                        recurring
+                        booking?</div>
                       <!-- @vue-ignore -->
                       <q-radio v-model="model.recurring_order" :val="true" label="Yes" />
                       <!-- @vue-ignore -->
