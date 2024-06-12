@@ -38,7 +38,7 @@
               <q-circular-progress :value="dashboard.weeklyOrders.percentage" size="64px" color="primary"
                 track-color="pink-1" v-if="dashboard.weeklyOrders.percentage" />
             </div>
-            <div class="text-center q-mt-sm">
+            <div class="text-center text-h6 q-mt-sm">
               {{ currencyFormat(dashboard.weeklyOrders.sum) }} / {{ currencyFormat(model.contractor_target) }} </div>
           </q-card-section>
         </q-card>
