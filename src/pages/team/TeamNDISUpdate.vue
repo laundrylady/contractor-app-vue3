@@ -63,7 +63,7 @@
                 </div>
                 <div class="row q-col-gutter-md q-mb-md">
                   <DateFieldVue v-model="model.ndis_dob" :label="$t('team.ndisDob')" :outlined="true"
-                    class="col-xs-12 col-sm-6" :invalid="$v.ndis_dob.$invalid" />
+                    class="col-xs-12 col-sm-6" :invalid="$v.ndis_dob.$invalid" same-previous="true" />
                 </div>
                 <div class="row q-col-gutter-md">
                   <q-input v-model="model.ndis_plan_manager_email" :label="$t('team.ndisPlanManagerEmail')" bottom-slots
