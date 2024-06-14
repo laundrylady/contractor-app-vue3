@@ -113,7 +113,7 @@
                     }}</span></q-item-section>
                 <q-item-section side><span class="text-negative">{{ currencyFormat(u.grand_total_price) }}</span>Due: {{
                   u.due_date
-                }}</q-item-section>
+                  }}</q-item-section>
               </q-item>
             </q-list>
           </q-card-section>
@@ -179,12 +179,14 @@
         to make a
         change.</a></p>
     <q-card><user-roster-view :rosterUser="model" /></q-card>
+    <PowersensorStats />
   </div>
 </template>
 <script setup lang="ts">
 import { EventBus } from 'quasar'
 import { api } from 'src/boot/axios'
 import { Order, User } from 'src/components/models'
+import PowersensorStats from 'src/components/powersensor/PowersensorStats.vue'
 import UserRosterView from 'src/components/userroster/UserRosterView.vue'
 import { useMixinDebug } from 'src/mixins/debug'
 import { currencyFormat } from 'src/mixins/help'
