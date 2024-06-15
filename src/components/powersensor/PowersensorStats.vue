@@ -1,9 +1,10 @@
 <template>
   <q-card class="q-mt-md">
     <q-card-section>
-      <div class="flex q-mb-lg">
+      <div class="flex q-mb-lg" :class="{ 'no-wrap': !$q.screen.xs }">
         <div class="col-shrink">
           <div class="text-h6">Powersensor Usage</div>
+          <div>Support text blurb</div>
         </div>
         <q-space />
         <div class="col-shrink">
@@ -26,20 +27,39 @@
           </div>
         </div>
       </div>
-      <div v-if="!loading && (!data || !data.power_data)">No Powersensor data found.</div>
-      <div class="row q-col-gutter-md" v-if="data && data.power_data">
-        <div class="col-xs-12 col-md-3" v-for="d in data.power_data.deviceData" :key="d.id">
-          <div class="text-h6 text-center">{{ d.value.toFixed(2) }} kw</div>
-          <div class="text-center">{{ d.label }}</div>
+      <div v-if="!loading && (!data || !data.visible.length)">No Powersensor data found.</div>
+      <div v-if="data && data.visible.length" class="row q-col-gutter-md items-center">
+        <div class="col-xs-12 col-md-3 text-center">
+          <div class="text-h4 text-bold">{{ data.totals.visible.toFixed(2) }} kw</div>
+          Total Device Usage
+          <div v-if="!$q.screen.xs && data.hiddenDevices.length" class="q-mt-xs">
+            <q-btn @click="showHidden = !showHidden" label="Show hidden devices" color="grey" flat rounded size="sm" />
+          </div>
         </div>
-        <div class="col-xs-12 col-md-3">
-          <div class="text-h6 text-center">{{ data.power_data.solar.toFixed(2) }} kw</div>
-          <div class="text-center">Solar generation</div>
+        <div class="col-xs-12 col-md-9">
+          <div class="row q-col-gutter-md">
+            <div class="col-xs-12 col-md-3" v-for="d in data.visible" :key="d.id">
+              <div class="text-center"><q-knob :modelValue="d.per" color="green" track-color="green-1" show-value
+                  size="55px" />
+              </div>
+              <div class="text-h6 text-center">{{ d.value.toFixed(2) }} kw</div>
+              <div class="text-center">{{ d.label }}</div>
+              <div class="text-center q-mt-xs"><q-btn @click="hideDevice(d.id)" color="grey" flat size="sm" rounded
+                  label="Hide" />
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-xs-12 col-md-3">
-          <div class="text-h6 text-center">{{ data.power_data.household.toFixed(2) }} kw</div>
-          <div class="text-center">Household Total</div>
-        </div>
+      </div>
+      <div v-if="showHidden && data.hiddenDevices.length" class="q-mt-md">
+        <q-list bordered separator>
+          <q-item-label header>HIDDEN DEVICES</q-item-label>
+          <q-item v-for="h in data.hiddenDevices" :key="h.id">
+            <q-item-section>{{ h.name }}</q-item-section>
+            <q-item-section side><q-btn @click="unHideDevice(h.id)" color="grey" label="Unhide" flat
+                rounded /></q-item-section>
+          </q-item>
+        </q-list>
       </div>
     </q-card-section>
   </q-card>
@@ -55,6 +75,7 @@ import { onMounted, ref } from 'vue'
 const loading = ref(false)
 const data = ref()
 const search = ref({ start: moment().startOf('isoWeek').format('DD/MM/YYYY'), end: moment().endOf('isoWeek').format('DD/MM/YYYY') })
+const showHidden = ref(false)
 
 const getData = () => {
   loading.value = true
@@ -65,6 +86,18 @@ const getData = () => {
     useMixinDebug(error)
   })
   loading.value = false
+}
+
+const hideDevice = (id: string) => {
+  api.post('/public/powersensordevicehidden/add', { id }).then(() => {
+    getData()
+  }).catch(error => { useMixinDebug(error) })
+}
+
+const unHideDevice = (id: string) => {
+  api.delete(`/public/powersensordevicehidden/${id}`).then(() => {
+    getData()
+  }).catch(error => { useMixinDebug(error) })
 }
 
 const weekNav = (dir: string) => {
