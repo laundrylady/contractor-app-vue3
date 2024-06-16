@@ -1,10 +1,28 @@
 <template>
+  <q-dialog v-model="showDownloadModal">
+    <q-card class="modal">
+      <q-toolbar class="bg-primary text-white">
+        <q-toolbar-title>
+          Powersensor Financial Year Data
+        </q-toolbar-title>
+        <q-btn round dense v-close-popup icon="close" flat />
+      </q-toolbar>
+      <q-card-section>
+        <q-list separator>
+          <q-item @click="downloadFyData(y.value)" clickable v-for="y in data.fy" :key="y" v-close-popup>
+            <q-item-section>{{ y.label }} Financial Year</q-item-section>
+          </q-item>
+        </q-list>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
   <q-card class="q-mt-md">
     <q-card-section>
       <div class="flex q-mb-lg" :class="{ 'no-wrap': !$q.screen.xs }">
         <div class="col-shrink">
           <div class="text-h6">Powersensor Usage</div>
-          <div>Support text blurb</div>
+          <div :class="{ 'q-mb-md': $q.screen.xs }"><a @click="showDownloadModal = true" class="link">Click here</a> to
+            download FY power usage data.</div>
         </div>
         <q-space />
         <div class="col-shrink">
@@ -30,7 +48,7 @@
       <div v-if="!loading && (!data || !data.visible.length)">No Powersensor data found.</div>
       <div v-if="data && data.visible.length" class="row q-col-gutter-md items-center">
         <div class="col-xs-12 col-md-3 text-center">
-          <div class="text-h4 text-bold">{{ data.totals.visible.toFixed(2) }} kw</div>
+          <div class="text-h4 text-bold">{{ data.totals.visible.toFixed(4) }} kw</div>
           Total Device Usage
           <div v-if="!$q.screen.xs && data.hiddenDevices.length" class="q-mt-xs">
             <q-btn @click="showHidden = !showHidden" label="Show hidden devices" color="grey" flat rounded size="sm" />
@@ -42,7 +60,7 @@
               <div class="text-center"><q-knob :modelValue="d.per" color="green" track-color="green-1" show-value
                   size="55px" />
               </div>
-              <div class="text-h6 text-center">{{ d.value.toFixed(2) }} kw</div>
+              <div class="text-h6 text-center">{{ d.value.toFixed(4) }} kw</div>
               <div class="text-center">{{ d.label }}</div>
               <div class="text-center q-mt-xs"><q-btn @click="hideDevice(d.id)" color="grey" flat size="sm" rounded
                   label="Hide" />
@@ -76,6 +94,7 @@ const loading = ref(false)
 const data = ref()
 const search = ref({ start: moment().startOf('isoWeek').format('DD/MM/YYYY'), end: moment().endOf('isoWeek').format('DD/MM/YYYY') })
 const showHidden = ref(false)
+const showDownloadModal = ref(false)
 
 const getData = () => {
   loading.value = true
@@ -98,6 +117,10 @@ const unHideDevice = (id: string) => {
   api.delete(`/public/powersensordevicehidden/${id}`).then(() => {
     getData()
   }).catch(error => { useMixinDebug(error) })
+}
+
+const downloadFyData = (year: number) => {
+  document.location.href = `/api/public/powersensor/usagefy/${year}`
 }
 
 const weekNav = (dir: string) => {
