@@ -5,8 +5,6 @@
       <div class="text-h6 q-mt-md" style="opacity:.4">
         We couldn't find the page or resource you're looking for.
       </div>
-
-      <q-btn class="q-mt-xl" color="primary" rounded to="/" label="Go Home" no-caps />
     </div>
   </div>
 </template>

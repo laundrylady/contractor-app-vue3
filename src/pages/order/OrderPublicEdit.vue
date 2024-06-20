@@ -44,7 +44,17 @@
                     <div v-if="showCancelSuccess" class="bg-green text-white q-pa-md q-mt-md">
                       <q-icon name="check" /> Your {{ $t('order.name') }} has been cancelled.
                     </div>
-                    <div class="q-mt-lg text-center" v-if="!showChange && !showCancel">
+                    <div v-if="model.status === 'completed'" class="text-green q-mt-md"><q-icon name="check_circle"
+                        size="20px" />
+                      This booking has been completed
+                    </div>
+                    <div v-if="!model.canEdit" class="q-mt-md">If you require further assistance for your booking please
+                      contact our <a
+                        :href="`mailto:${common.operating_country === 'aud'
+                          ? 'support@thelaundrylady.com.au' : 'support@thelaundrylady.co.nz'}?subject=Booking ${model.display_id}`"
+                        class="link" v-if="common">Support Team</a>
+                    </div>
+                    <div class="q-mt-lg text-center" v-if="!showChange && !showCancel && model.canEdit">
                       <q-btn @click="showChangeFunc()" label="Make a change to this booking" rounded flat
                         color="primary" icon="edit" v-if="canChange" />
                       <q-btn @click="showCancelFunc()" label="Cancel this booking" rounded flat color="red"
@@ -140,7 +150,9 @@ import { productCategoriesVisibleBooking } from 'src/services/helpers'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import AppLogo from '../../components/AppLogo.vue'
+import { useMixinCommon } from 'src/mixins/common'
 
+const common = useMixinCommon()
 const model = ref()
 const modelOriginal = ref()
 const categories = ref()
