@@ -16,7 +16,7 @@
       </q-card-section>
     </q-card>
   </q-dialog>
-  <q-card class="q-mt-md">
+  <q-card class="q-mt-lg">
     <q-card-section>
       <div class="flex q-mb-lg" :class="{ 'no-wrap': !$q.screen.xs }">
         <div class="col-shrink">
@@ -50,6 +50,7 @@
         <div class="col-xs-12 col-md-3 text-center">
           <div class="text-h4 text-bold">{{ data.totals.visible.toFixed(4) }} kw</div>
           Total Device Usage
+          <div class="text-caption">*approx cost {{ currencyFormat(data.totals.visible_cost) }}</div>
           <div v-if="!$q.screen.xs && data.hiddenDevices.length" class="q-mt-xs">
             <q-btn @click="showHidden = !showHidden" label="Show hidden devices" color="grey" flat rounded size="sm" />
           </div>
@@ -88,6 +89,7 @@ import moment from 'moment-timezone'
 import { api } from 'src/boot/axios'
 import DateField from 'src/components/form/DateField.vue'
 import { useMixinDebug } from 'src/mixins/debug'
+import { currencyFormat } from 'src/mixins/help'
 import { onMounted, ref } from 'vue'
 
 const loading = ref(false)
