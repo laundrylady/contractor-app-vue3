@@ -83,6 +83,8 @@
                       show-value track-color="grey-3" v-if="c.per">
                       <small>{{ c.oc }}/{{ c.cc }}</small>
                     </q-circular-progress>
+                    <q-circular-progress :value="0" size="64px" color="secondary" show-value track-color="grey-3"
+                      v-if="!c.per"></q-circular-progress>
                   </div>
                   {{ c.name }}
                 </div>
@@ -152,27 +154,27 @@
       <div class="col-xs-12 col-sm-6">
         <q-card class="fit">
           <q-card-section>
-            <div class="text-h6 q-mb-md">{{ $t('team.namePlural') }} Rebooked</div>
-            <div class="text-center">
-              <q-circular-progress :value="parseFloat(dashboard.retainedRebooked.rebookedPercentage)" size="64px"
-                color="positive" show-value track-color="grey-3" v-if="dashboard.retainedRebooked.rebookedPercentage">
-                {{ dashboard.retainedRebooked.rebooked }}</q-circular-progress>
-              <div class="q-mt-sm">Rebooked ({{ dashboard.retainedRebooked.rebookedPercentage }}%)</div>
-            </div>
-          </q-card-section>
-        </q-card>
-      </div>
-      <div class="col-xs-12 col-sm-6">
-        <q-card class="fit">
-          <q-card-section>
-            <div class="text-h6 q-mb-md">{{ $t('team.namePlural') }} Retained</div>
-            <div class="text-center">
-              <q-circular-progress :value="parseFloat(dashboard.retainedRebooked.retainedPercentage)" size="64px"
-                color="positive" show-value track-color="grey-3"
-                v-if="dashboard.retainedRebooked.retainedPercentage >= 0">
-                {{ dashboard.retainedRebooked.retained }}</q-circular-progress>
-              <div class="q-mt-sm">
-                Retained ({{ dashboard.retainedRebooked.retainedPercentage }}%)
+            <div class="text-h6 q-mb-md">{{ $t('team.namePlural') }}</div>
+            <div class="row q-col-gutter-md">
+              <div class="col-xs-6">
+                <div class="text-center">
+                  <q-circular-progress :value="parseFloat(dashboard.retainedRebooked.rebookedPercentage)" size="64px"
+                    color="positive" show-value track-color="grey-3"
+                    v-if="dashboard.retainedRebooked.rebookedPercentage">
+                    {{ dashboard.retainedRebooked.rebooked }}</q-circular-progress>
+                  <div class="q-mt-sm">Rebooked ({{ dashboard.retainedRebooked.rebookedPercentage }}%)</div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="text-center">
+                  <q-circular-progress :value="parseFloat(dashboard.retainedRebooked.retainedPercentage)" size="64px"
+                    color="positive" show-value track-color="grey-3"
+                    v-if="dashboard.retainedRebooked.retainedPercentage >= 0">
+                    {{ dashboard.retainedRebooked.retained }}</q-circular-progress>
+                  <div class="q-mt-sm">
+                    Retained ({{ dashboard.retainedRebooked.retainedPercentage }}%)
+                  </div>
+                </div>
               </div>
             </div>
           </q-card-section>
