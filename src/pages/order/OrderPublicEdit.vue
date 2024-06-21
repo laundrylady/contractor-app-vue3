@@ -1,5 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
+    <HeaderComponent />
     <q-page-container>
       <q-page padding :class="{ 'q-pa-md': $q.screen.xs }">
         <div class="row q-mt-xl q-mb-lg">
@@ -133,6 +134,9 @@
           </div>
         </div>
       </q-page>
+      <div v-if="model && model.id">
+        <FooterComponent :booking="false" :apply="true" />
+      </div>
     </q-page-container>
   </q-layout>
 </template>
@@ -151,6 +155,8 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import AppLogo from '../../components/AppLogo.vue'
 import { useMixinCommon } from 'src/mixins/common'
+import HeaderComponent from 'src/components/header/HeaderComponent.vue'
+import FooterComponent from 'src/components/footer/FooterComponent.vue'
 
 const common = useMixinCommon()
 const model = ref()

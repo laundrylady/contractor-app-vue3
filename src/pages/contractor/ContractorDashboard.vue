@@ -179,6 +179,7 @@
         </q-card>
       </div>
     </div>
+    <PowersensorStats />
     <div class="text-h6">Current {{ $t('schedule.name') }}</div>
     <p><a href="https://support.teamlaundrylady.co/support/tickets/new" class="link" target="_blank">Click here to let
         us
@@ -186,7 +187,6 @@
         to make a
         change.</a></p>
     <q-card><user-roster-view :rosterUser="model" /></q-card>
-    <PowersensorStats />
   </div>
 </template>
 <script setup lang="ts">

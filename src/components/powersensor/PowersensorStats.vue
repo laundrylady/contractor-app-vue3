@@ -48,9 +48,9 @@
       <div v-if="!loading && (!data || !data.visible.length)">No Powersensor data found.</div>
       <div v-if="data && data.visible.length" class="row q-col-gutter-md items-center">
         <div class="col-xs-12 col-md-3 text-center">
-          <div class="text-h4 text-bold">{{ data.totals.visible.toFixed(4) }} kw</div>
-          Total Device Usage
-          <div class="text-caption">*approx cost {{ currencyFormat(data.totals.visible_cost) }}</div>
+          <div class="text-h4 text-bold">{{ currencyFormat(data.totals.visible_cost) }}</div>
+          *Approx cost
+          <div class="text-caption">{{ data.totals.visible.toFixed(4) }} kw</div>
           <div v-if="!$q.screen.xs && data.hiddenDevices.length" class="q-mt-xs">
             <q-btn @click="showHidden = !showHidden" label="Show hidden devices" color="grey" flat rounded size="sm" />
           </div>
@@ -59,9 +59,9 @@
           <div class="row q-col-gutter-md">
             <div class="col-xs-12 col-md-3" v-for="d in data.visible" :key="d.id">
               <div class="text-center"><q-knob :modelValue="d.per" color="green" track-color="green-1" show-value
-                  size="55px" />
+                  size="55px" readonly>{{ d.per.toFixed(0) }}%</q-knob>
               </div>
-              <div class="text-h6 text-center">{{ d.value.toFixed(4) }} kw</div>
+              <div class="text-h6 text-center q-mt-xs">{{ currencyFormat(d.cost) }}</div>
               <div class="text-center">{{ d.label }}</div>
               <div class="text-center q-mt-xs"><q-btn @click="hideDevice(d.id)" color="grey" flat size="sm" rounded
                   label="Hide" />
