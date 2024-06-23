@@ -14,7 +14,7 @@
       Loading profile
     </div>
   </div>
-  <div v-if="!loading">
+  <div v-if="!loading && dashboard">
     <div class="row q-col-gutter-md q-mb-lg">
       <div class="col-xs-12 col-sm-6">
         <q-card class="bg-accent fit" style="height:160px;">
