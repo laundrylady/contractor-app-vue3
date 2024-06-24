@@ -105,7 +105,7 @@
                 dbDateDisplay(props.row.paid_date) }}
               </span>
             </div>
-            <div v-if="props.row.meta.refunds > 0" class="q-ml-sm" title="Has Refunds"><q-icon name="sync"
+            <div v-if="props.row.refunds > 0" class="q-ml-sm" title="Has Refunds"><q-icon name="sync"
                 color="negative" size="22px" />
             </div>
           </div>
