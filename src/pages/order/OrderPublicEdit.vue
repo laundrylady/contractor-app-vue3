@@ -49,6 +49,10 @@
                         size="20px" />
                       This booking has been completed
                     </div>
+                    <div v-if="model.status === 'cancelled'" class="text-primary q-mt-md"><q-icon name="close"
+                        size="20px" />
+                      This booking has been cancelled: {{ model.cancel_reason }}
+                    </div>
                     <div v-if="!model.canEdit" class="q-mt-md">If you require further assistance for your booking please
                       contact our <a
                         :href="`mailto:${common.operating_country === 'aud'
