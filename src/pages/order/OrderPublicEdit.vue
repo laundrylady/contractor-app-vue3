@@ -118,6 +118,8 @@
                         label="Reason for cancellation" :error="$v.cancel_reason.$invalid" />
                       <q-input v-model="model.cancel_notes" label="Notes about the cancellation" type="textarea"
                         rows="3" outlined bottom-slots />
+                      <q-toggle v-model="model.cancel_recurring" v-if="model.recurringInfo.recurring_order"
+                        label="Cancel all future bookings" />
                     </div>
                   </q-card-section>
                   <q-card-actions align="right">
@@ -264,7 +266,11 @@ const updateOrder = () => {
 }
 
 const cancelOrder = () => {
-  confirmDelete('This will cancel the booking').onOk(() => {
+  let message = 'This will cancel the booking'
+  if (model.value.cancel_recurring) {
+    message = 'This will cancel the booking and all future recurring bookings'
+  }
+  confirmDelete(message).onOk(() => {
     api.put(`/public/b/cancel/${model.value.id}`, model.value).then(() => {
       showCancelSuccess.value = true
     }).catch(error => {
