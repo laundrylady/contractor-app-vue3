@@ -37,6 +37,9 @@ const statusColor = computed(() => {
   if (['DELETED', 'cancelled', 'VOIDED'].indexOf(props.status) !== -1) {
     return 'red'
   }
+  if (props.status === 'rescheduled') {
+    return 'warning'
+  }
   return 'positive'
 })
 
@@ -74,6 +77,9 @@ const statusText = computed(() => {
   }
   if (props.status.toLowerCase() === 'completed') {
     label = 'Completed'
+  }
+  if (props.status.toLowerCase() === 'rescheduled') {
+    label = 'Rescheduled'
   }
   return label
 })
