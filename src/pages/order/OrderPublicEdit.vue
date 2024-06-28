@@ -54,10 +54,8 @@
                       This booking has been cancelled: {{ model.cancel_reason }}
                     </div>
                     <div v-if="!model.canEdit" class="q-mt-md">If you require further assistance for your booking please
-                      contact our <a
-                        :href="`mailto:${common.operating_country === 'aud'
-                          ? 'support@thelaundrylady.com.au' : 'support@thelaundrylady.co.nz'}?subject=Booking ${model.display_id}`"
-                        class="link" v-if="common">Support Team</a>
+                      contact our <a :href="model.support_url || 'mailto:support@thelaundrylady.com.au'" class="link"
+                        v-if="common">Support Team</a>
                     </div>
                     <div class="q-mt-lg text-center" v-if="!showChange && !showCancel && model.canEdit">
                       <q-btn @click="showChangeFunc()" label="Make a change to this booking" rounded flat

@@ -1,9 +1,12 @@
 <template>
   <div class="text-right q-pr-md q-mb-sm">
+    <q-btn @click="statementAll()" label="Download all" icon="cloud_download" color="primary" :disable="loadingAll"
+      :loading="loadingAll" class="q-mr-sm" rounded />
     <q-btn
       @click="openURL('https://teamlaundrylady.co/a/docs/payments-and-commissions/when-and-how-you-will-receive-your-payments')"
       icon="question_mark" round color="primary" size="sm"
       title="Click here for more information regarding commission payments" />
+    <div v-if="loadingAll" class="q-mt-sm">Building statements... This may take a while</div>
   </div>
   <q-table :rows="data" :columns="columns" row-key="id" :loading="loading" v-model:pagination="serverPagination"
     @request="request" :rows-per-page-options="rowsPerPageOptions" hide-header flat>
@@ -25,14 +28,18 @@
   </q-table>
 </template>
 <script setup lang="ts">
-import { QTableProps, openURL } from 'quasar'
+import { EventBus, QTableProps, openURL } from 'quasar'
 import { api } from 'src/boot/axios'
+import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
 import { currencyFormat, dbDateDisplay, getRowsPerPage, rowsPerPageOptions, setRowsPerPage } from 'src/mixins/help'
-import { onMounted, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 
+const bus = inject('bus') as EventBus
 const data = ref([])
 const loading = ref(false)
+const loadingAll = ref(false)
+const statementAllRef = ref({ start: null, end: null })
 const columns: QTableProps['columns'] = [{
   name: 'commission_paid_date',
   sortable: true,
@@ -88,7 +95,17 @@ const request = (tableProps: Parameters<NonNullable<QTableProps['onRequest']>>[0
     })
 }
 
+const statementAll = () => {
+  loadingAll.value = true
+  api.post('/public/usercommissionpaid/statementall', statementAllRef.value).catch(error => { useMixinDebug(error) })
+}
+
 onMounted(() => {
   request()
+  bus.on('statementAll', (data: LooseObject) => {
+    console.log(data)
+    loadingAll.value = false
+    document.location.assign(`/api/public/usercommissionpaid/statementall/${data.data.fileName}`)
+  })
 })
 </script>
