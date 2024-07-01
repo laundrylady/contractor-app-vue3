@@ -31,7 +31,7 @@
                   <div v-if="localModel.address1">{{ localModel.address1 }}</div>
                   <div>{{ localModel.address2 }}</div>
                   <div v-if="localModel.suburbpostcoderegion">{{ localModel.suburbpostcoderegion.locality }} {{
-        localModel.suburbpostcoderegion.state }} {{ localModel.postcode }}</div>
+                    localModel.suburbpostcoderegion.state }} {{ localModel.postcode }}</div>
                 </div>
               </div>
               <div class="row q-col-gutter-md q-mt-sm" v-if="localModel.team_id">
@@ -48,10 +48,10 @@
                 <div class="col-xs-12 col-sm-6">
                   <div class="text-bold text-grey">PICKUP BETWEEN</div>
                   <div v-if="!changes.time && localModel.scheduled_pickup_time">{{
-        hourBookingDisplay(localModel.scheduled_pickup_time) }}<q-btn v-if="canEdit"
+                    hourBookingDisplay(localModel.scheduled_pickup_time) }}<q-btn v-if="canEdit"
                       @click="changes.time = true" icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" />
                     <div v-if="localModel.agreed_pickup_time">Agreed: {{
-        hourAgreedDisplay(localModel.agreed_pickup_time) }}
+                      hourAgreedDisplay(localModel.agreed_pickup_time) }}
                     </div>
                   </div>
                   <div v-if="changes.time">
@@ -63,7 +63,7 @@
                           @click="changes.agreed_time_model = null" class="link"
                           v-if="changes.agreed_time_model && changes.time">[RESET]</a></div>
                       <div v-if="!changes.time && localModel.agreed_pickup_time">{{
-        hourAgreedDisplay(localModel.agreed_pickup_time) }}<q-btn @click="changes.time = true"
+                        hourAgreedDisplay(localModel.agreed_pickup_time) }}<q-btn @click="changes.time = true"
                           icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" v-if="canEdit" /></div>
                       <q-select v-model="changes.agreed_time_model" :options="agreedTimeOptions" label="Choose a time"
                         outlined map-options emit-value />
@@ -88,11 +88,11 @@
                 <div class="col-xs-12 col-sm-6">
                   <div class="text-bold text-grey">DELIVER BETWEEN</div>
                   <div v-if="!changes.timeDelivery"><span v-if="localModel.scheduled_delivery_time">{{
-        hourBookingDisplay(localModel.scheduled_delivery_time) }}</span><q-btn v-if="canEditDelivery"
+                    hourBookingDisplay(localModel.scheduled_delivery_time) }}</span><q-btn v-if="canEditDelivery"
                       @click="changes.timeDelivery = true" icon="edit" flat round size="sm" color="grey-7"
                       class="q-ml-xs" />
                     <div v-if="localModel.agreed_delivery_time">Agreed: {{
-        hourAgreedDisplay(localModel.agreed_delivery_time) }}
+                      hourAgreedDisplay(localModel.agreed_delivery_time) }}
                     </div>
                   </div>
                   <div v-if="changes.timeDelivery">
@@ -104,7 +104,7 @@
                           @click="changes.agreed_timeDelivery_model = null" class="link"
                           v-if="changes.agreed_timeDelivery_model && changes.timeDelivery">[RESET]</a></div>
                       <div v-if="!changes.timeDelivery && localModel.agreed_delivery_time">{{
-        hourAgreedDisplay(localModel.agreed_delivery_time) }}<q-btn @click="changes.timeDelivery = true"
+                        hourAgreedDisplay(localModel.agreed_delivery_time) }}<q-btn @click="changes.timeDelivery = true"
                           icon="edit" flat round size="sm" color="grey-7" class="q-ml-xs" v-if="canEditDelivery" />
                       </div>
                       <q-select v-model="changes.agreed_timeDelivery_model" :options="agreedTimeOptions"
@@ -116,6 +116,11 @@
               <div class="text-bold text-grey q-mt-md">SERVICES</div>
               <div v-for="c in localModel.productcategories" :key="c.id">
                 <q-checkbox v-model="c.meta.pivot_active" :label="c.name" v-if="c.meta" :disable="!canEdit" />
+              </div>
+              <div v-if="localModel.recurring_notes" class="q-mt-md q-pa-md" style="border:1px solid #cccccc">
+                <div class="q-mb-sm"><q-icon name="warning" /> Recurring notes:
+                </div>
+                {{ nl2br(localModel.recurring_notes) }}
               </div>
               <div v-if="localModel.recurring_parent_id && recurringModel" class="q-mt-md">
                 <div v-if="recurringModel.recurring_order" class="q-pa-md q-mt-sm"
@@ -313,25 +318,25 @@
         <div>
           <div><router-link :to="{ name: 'order-edit', params: { id: o.id } }" class="link">
               <span v-if="o.scheduled_pickup_date">{{
-        displayDateDay(o.scheduled_pickup_date) }}</span> {{ o.scheduled_pickup_date }} (<span
+                displayDateDay(o.scheduled_pickup_date) }}</span> {{ o.scheduled_pickup_date }} (<span
                 v-if="!o.agreed_pickup_time && o.scheduled_pickup_time">{{
-        hourBookingDisplay(o.scheduled_pickup_time)
-      }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)
+                  hourBookingDisplay(o.scheduled_pickup_time)
+                }}</span><span v-if="o.agreed_pickup_time">{{ hourAgreedDisplay(o.agreed_pickup_time)
                 }}</span>)</router-link>
           </div>
           <q-space />
           <div class="text-grey-7 text-caption">
             <q-icon name="settings" color="grey-7" /> <span v-if="o.productcategories"><span
                 v-for="(c, index) in o.productcategories" :key="c.id">{{
-        c.name }}<span v-if="index + 1 !== o.productcategories.length" class="q-ml-xs q-mr-xs">&</span>
+                  c.name }}<span v-if="index + 1 !== o.productcategories.length" class="q-ml-xs q-mr-xs">&</span>
               </span> pickup with {{ o.team.name }}</span>
           </div>
           <div class="text-grey-7"><q-icon name="place" color="grey-7" /> <span class="q-mr-sm"
               v-if="o.team.suburbpostcoderegion">{{
-        o.team.suburbpostcoderegion.locality
-      }} {{
-          o.team.suburbpostcoderegion.state
-        }}</span>
+                o.team.suburbpostcoderegion.locality
+              }} {{
+                o.team.suburbpostcoderegion.state
+              }}</span>
           </div>
         </div>
       </q-item>
@@ -426,7 +431,7 @@ import GlobalNotes from 'src/components/note/GlobalNotes.vue'
 import GlobalNotifications from 'src/components/notification/GlobalNotifications.vue'
 import { LooseObject } from 'src/contracts/LooseObject'
 import { useMixinDebug } from 'src/mixins/debug'
-import { agreedTimes, arrayRange, cancelOrderReasons, changeOrderReasons, changeOrderReasonsDelivery, confirmDelete, currencyFormat, dateTimeTz, displayDateDay, doNotify, hourAgreedDisplay, hourBookingDisplay, hourBookingOptions } from 'src/mixins/help'
+import { agreedTimes, arrayRange, cancelOrderReasons, changeOrderReasons, changeOrderReasonsDelivery, confirmDelete, currencyFormat, dateTimeTz, displayDateDay, doNotify, hourAgreedDisplay, hourBookingDisplay, hourBookingOptions, nl2br } from 'src/mixins/help'
 import { useMixinSecurity } from 'src/mixins/security'
 import { productCategoriesVisibleBooking } from 'src/services/helpers'
 import { computed, inject, onMounted, ref } from 'vue'
